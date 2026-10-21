@@ -164,6 +164,11 @@ export const nextAppBar = defineSlotRecipe({
       width: "100%",
       display: "flex",
       alignItems: "flex-end",
+
+      height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
+      paddingLeft: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+      paddingRight: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-right))`,
+      paddingTop: "var(--seed-safe-area-top)",
     },
     background: {
       position: "absolute",
@@ -187,6 +192,10 @@ export const nextAppBar = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
 
+      width: iconButtonVars.base.enabled.root.size,
+      height: iconButtonVars.base.enabled.root.size,
+      ...onlyIcon({ size: iconButtonVars.base.enabled.icon.size }),
+
       border: "none",
       fontFamily: "inherit",
       padding: 0,
@@ -207,31 +216,8 @@ export const nextAppBar = defineSlotRecipe({
   },
   variants: {
     theme: {
-      cupertino: {
-        root: {
-          height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingLeft: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-left))`,
-          paddingRight: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-right))`,
-          paddingTop: "var(--seed-safe-area-top)",
-        },
-        iconButton: {
-          width: iconButtonVars.base.enabled.root.size,
-          height: iconButtonVars.base.enabled.root.size,
-          ...onlyIcon({ size: iconButtonVars.base.enabled.icon.size }),
-        },
-      },
+      cupertino: {},
       android: {
-        root: {
-          height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingLeft: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-left))`,
-          paddingRight: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-right))`,
-          paddingTop: "var(--seed-safe-area-top)",
-        },
-        iconButton: {
-          width: iconButtonVars.base.enabled.root.size,
-          height: iconButtonVars.base.enabled.root.size,
-          ...onlyIcon({ size: iconButtonVars.base.enabled.icon.size }),
-        },
         left: {
           paddingRight: vars.themeAndroid.enabled.main.paddingLeft,
         },

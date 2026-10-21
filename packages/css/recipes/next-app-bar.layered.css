@@ -2,8 +2,12 @@
   .seed-next-app-bar__root {
     z-index: 1;
     box-sizing: border-box;
-    align-items: flex-end;
     width: 100%;
+    height: calc(56px + var(--seed-safe-area-top));
+    padding-left: calc(var(--seed-dimension-x1_5) + var(--seed-safe-area-left));
+    padding-right: calc(var(--seed-dimension-x1_5) + var(--seed-safe-area-right));
+    padding-top: var(--seed-safe-area-top);
+    align-items: flex-end;
     display: flex;
     position: absolute;
     top: 0;
@@ -30,8 +34,11 @@
   }
 
   .seed-next-app-bar__iconButton {
+    --seed-icon-size: 24px;
     background-color: var(--seed-color-bg-transparent);
     border-radius: var(--seed-radius-r2);
+    width: 44px;
+    height: 44px;
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
@@ -51,32 +58,6 @@
   .seed-next-app-bar__iconButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-transparent-pressed);
     scale: var(--seed-feedback-scale);
-  }
-
-  .seed-next-app-bar__root--theme_cupertino {
-    height: calc(56px + var(--seed-safe-area-top));
-    padding-left: calc(var(--seed-dimension-x1_5) + var(--seed-safe-area-left));
-    padding-right: calc(var(--seed-dimension-x1_5) + var(--seed-safe-area-right));
-    padding-top: var(--seed-safe-area-top);
-  }
-
-  .seed-next-app-bar__iconButton--theme_cupertino {
-    --seed-icon-size: 24px;
-    width: 44px;
-    height: 44px;
-  }
-
-  .seed-next-app-bar__root--theme_android {
-    height: calc(56px + var(--seed-safe-area-top));
-    padding-left: calc(var(--seed-dimension-x1_5) + var(--seed-safe-area-left));
-    padding-right: calc(var(--seed-dimension-x1_5) + var(--seed-safe-area-right));
-    padding-top: var(--seed-safe-area-top);
-  }
-
-  .seed-next-app-bar__iconButton--theme_android {
-    --seed-icon-size: 24px;
-    width: 44px;
-    height: 44px;
   }
 
   .seed-next-app-bar__left--theme_android {

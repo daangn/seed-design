@@ -6,6 +6,10 @@
     width: 100%;
     display: flex;
     align-items: flex-end;
+    height: calc(56px + var(--seed-safe-area-top));
+    padding-left: calc(var(--seed-dimension-x1_5) + var(--seed-safe-area-left));
+    padding-right: calc(var(--seed-dimension-x1_5) + var(--seed-safe-area-right));
+    padding-top: var(--seed-safe-area-top);
 }
 .seed-next-app-bar__background {
     position: absolute;
@@ -28,6 +32,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 44px;
+    height: 44px;
+    --seed-icon-size: 24px;
     border: none;
     font-family: inherit;
     padding: 0;
@@ -44,28 +51,6 @@
 .seed-next-app-bar__iconButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-transparent-pressed);
     scale: var(--seed-feedback-scale);
-}
-.seed-next-app-bar__root--theme_cupertino {
-    height: calc(56px + var(--seed-safe-area-top));
-    padding-left: calc(var(--seed-dimension-x1_5) + var(--seed-safe-area-left));
-    padding-right: calc(var(--seed-dimension-x1_5) + var(--seed-safe-area-right));
-    padding-top: var(--seed-safe-area-top);
-}
-.seed-next-app-bar__iconButton--theme_cupertino {
-    width: 44px;
-    height: 44px;
-    --seed-icon-size: 24px;
-}
-.seed-next-app-bar__root--theme_android {
-    height: calc(56px + var(--seed-safe-area-top));
-    padding-left: calc(var(--seed-dimension-x1_5) + var(--seed-safe-area-left));
-    padding-right: calc(var(--seed-dimension-x1_5) + var(--seed-safe-area-right));
-    padding-top: var(--seed-safe-area-top);
-}
-.seed-next-app-bar__iconButton--theme_android {
-    width: 44px;
-    height: 44px;
-    --seed-icon-size: 24px;
 }
 .seed-next-app-bar__left--theme_android {
     padding-right: var(--seed-dimension-x1_5);
