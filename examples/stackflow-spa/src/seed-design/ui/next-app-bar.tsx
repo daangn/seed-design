@@ -1,4 +1,4 @@
-import { IconChevronLeftLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
+import { IconChevronLeftLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
 import { NextAppBar as SeedNextAppBar } from "@seed-design/stackflow";
 import { useActions, useActivity } from "@stackflow/react";
