@@ -9,12 +9,9 @@ import {
   NextAppBarLeft,
   NextAppBarMain,
   NextAppBarRight,
+  type NextAppBarProps,
 } from "seed-design/ui/next-app-bar";
-import {
-  NextAppScreen,
-  NextAppScreenContent,
-  type NextAppScreenProps,
-} from "seed-design/ui/next-app-screen";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -25,7 +22,7 @@ declare module "@stackflow/config" {
 const ActivityAppScreenIntersectionObserver: StaticActivityComponentType<
   "ActivityAppScreenIntersectionObserver"
 > = () => {
-  const [tone, setTone] = useState<NextAppScreenProps["tone"]>("transparent");
+  const [tone, setTone] = useState<NextAppBarProps["tone"]>("transparent");
   const whiteImageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -57,8 +54,8 @@ const ActivityAppScreenIntersectionObserver: StaticActivityComponentType<
   }, []);
 
   return (
-    <NextAppScreen theme="cupertino" contentOffsetTop="none" tone={tone}>
-      <NextAppBar>
+    <NextAppScreen theme="cupertino" contentOffsetTop="none">
+      <NextAppBar tone={tone}>
         <NextAppBarLeft>
           <NextAppBarCloseButton aria-label="Close" />
         </NextAppBarLeft>

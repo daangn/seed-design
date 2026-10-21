@@ -28,9 +28,7 @@ const defaultVariant = {
   "theme": "cupertino",
   "transitionStyle": "horizontalSlide",
   "contentOffsetTop": "appBar",
-  "contentOffsetBottom": "safeArea",
-  "tone": "layer",
-  "gradient": true
+  "contentOffsetBottom": "safeArea"
 };
 
 const compoundVariants = [];
@@ -53,14 +51,6 @@ export const nextAppScreenVariantMap = {
   "contentOffsetBottom": [
     "none",
     "safeArea"
-  ],
-  "tone": [
-    "layer",
-    "transparent"
-  ],
-  "gradient": [
-    true,
-    false
   ]
 };
 

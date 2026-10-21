@@ -15,14 +15,6 @@ declare interface NextAppScreenVariant {
   * @default "safeArea"
   */
   contentOffsetBottom: "none" | "safeArea";
-/**
-  * @default "layer"
-  */
-  tone: "layer" | "transparent";
-/**
-  * @default true
-  */
-  gradient: boolean;
 }
 
 declare type NextAppScreenVariantMap = {
