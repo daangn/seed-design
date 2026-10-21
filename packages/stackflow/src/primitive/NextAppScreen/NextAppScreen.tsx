@@ -19,9 +19,6 @@ export const NextAppScreenRoot = forwardRef<HTMLDivElement, NextAppScreenRootPro
     const {
       transitionStyle,
       swipeBackArea,
-      swipeBackDisplacementRatioThreshold,
-      swipeBackVelocityThreshold,
-      swipeBackCommitRatio,
       onSwipeBackEnd,
       onSwipeBackMove,
       onSwipeBackStart,
@@ -30,9 +27,6 @@ export const NextAppScreenRoot = forwardRef<HTMLDivElement, NextAppScreenRootPro
     const api = useNextAppScreen({
       transitionStyle,
       swipeBackArea,
-      swipeBackDisplacementRatioThreshold,
-      swipeBackVelocityThreshold,
-      swipeBackCommitRatio,
       onSwipeBackEnd,
       onSwipeBackMove,
       onSwipeBackStart,

@@ -7,8 +7,11 @@ import { playSwipeRelease, readSwipeDisplacement } from "./animation";
 import { useNextScreenRegistry } from "./registry";
 import type { NextAppScreenTransitionStyle, NextScreenState, NextSwipeBackArea } from "./types";
 
-const DEFAULT_DISPLACEMENT_RATIO_THRESHOLD = 0.4;
-const DEFAULT_VELOCITY_THRESHOLD = 1;
+/** Release past this displacement ratio completes the swipe. */
+const DISPLACEMENT_RATIO_THRESHOLD = 0.4;
+
+/** Release faster than this (px/ms) completes the swipe. */
+const VELOCITY_THRESHOLD = 1;
 
 /** Full mode: distance the finger must travel before the gesture is claimed. */
 const CLAIM_SLOP_PX = 10;
@@ -107,41 +110,11 @@ export interface UseNextSwipeBackProps {
    */
   swipeBackArea?: NextSwipeBackArea;
 
-  /**
-   * The threshold to determine whether the swipe back is intentional, by displacement ratio.
-   * @default 0.4
-   */
-  swipeBackDisplacementRatioThreshold?: number;
-
-  /**
-   * The threshold to determine whether the swipe back is intentional, by velocity (px/ms).
-   * @default 1
-   */
-  swipeBackVelocityThreshold?: number;
-
-  /**
-   * When set, the gesture completes the moment the drag crosses this ratio,
-   * without waiting for the finger to lift.
-   *
-   * Separate from `swipeBackDisplacementRatioThreshold`, which is only ever
-   * read on release: this one takes the decision away from the user, so it
-   * wants a value far enough along that the swipe is unmistakable. Velocity
-   * has no say in it — a flick still has to be released to count.
-   *
-   * Past the commit there is no taking it back. The finger stays down but is
-   * no longer tracked, so the drag can no longer be pulled back to cancel, and
-   * the touchend that eventually arrives does nothing.
-   *
-   * Unset, the gesture is decided on release.
-   */
-  swipeBackCommitRatio?: number;
-
   onSwipeBackStart?: () => void;
   onSwipeBackMove?: (props: { displacement: number; displacementRatio: number }) => void;
 
   /**
-   * Called once the gesture is decided — when the finger lifts, or, where
-   * `swipeBackCommitRatio` is set, the moment the drag crosses it.
+   * Called once the gesture is decided, when the finger lifts.
    * `swiped: true` means the screen has visually completed the swipe — the
    * component itself never pops.
    *
@@ -214,17 +187,7 @@ function applyDisplacement(targets: SwipeTargets, displacement: number, ratio: n
 }
 
 export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
-  const {
-    swipeBackArea = "edge",
-    swipeBackDisplacementRatioThreshold = DEFAULT_DISPLACEMENT_RATIO_THRESHOLD,
-    swipeBackVelocityThreshold = DEFAULT_VELOCITY_THRESHOLD,
-    swipeBackCommitRatio,
-    transitionStyle,
-    rootRef,
-    layerRef,
-    dimRef,
-    screenState,
-  } = args;
+  const { swipeBackArea = "edge", transitionStyle, rootRef, layerRef, dimRef, screenState } = args;
 
   const onSwipeStart = useCallbackRef(args.onSwipeBackStart);
   const onSwipeMove = useCallbackRef(args.onSwipeBackMove);
@@ -352,12 +315,7 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
     onSwipeStart();
   }
 
-  /**
-   * Decide the gesture and play its release. Moving the phase to `releasing`
-   * up front is what makes a mid-drag commit safe: the finger is still down,
-   * and every move that follows — plus the touchend that eventually arrives —
-   * finds the gesture already over and returns.
-   */
+  /** Decide the gesture and play its release. */
   function releaseGesture(context: GestureContext, swiped: boolean) {
     cancelPendingMove();
     phaseRef.current = "releasing";
@@ -517,12 +475,6 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
 
       applyDisplacement(currentContext.targets, displacement, displacementRatio);
       onSwipeMove({ displacement, displacementRatio });
-
-      // Ordered after the move so the last `onSwipeBackMove` a consumer hears
-      // is the position the release departs from.
-      if (swipeBackCommitRatio !== undefined && displacementRatio > swipeBackCommitRatio) {
-        releaseGesture(currentContext, true);
-      }
     });
   }
 
@@ -538,8 +490,8 @@ export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
 
     releaseGesture(
       context,
-      context.displacementRatio > swipeBackDisplacementRatioThreshold ||
-        context.velocity > swipeBackVelocityThreshold,
+      context.displacementRatio > DISPLACEMENT_RATIO_THRESHOLD ||
+        context.velocity > VELOCITY_THRESHOLD,
     );
   }
 

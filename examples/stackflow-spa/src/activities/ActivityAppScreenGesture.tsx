@@ -46,15 +46,14 @@ import { useSwipeBackSnackbar } from "../hooks/useSwipeBackSnackbar";
 
 /**
  * 스와이프백과 부딪히는 케이스들을 한 화면에 모은다. 이 케이스들은 임의의
- * `swipeBackArea` / `swipeBackCommitRatio` 조합 아래에서 돌아가야 하므로, 두 값을
- * activity params 로 받는다. 조합을 바꾸는 컨트롤은 `ActivityAppScreen` 에
- * 있으며, 거기서 현재 설정 그대로 이 화면을 push 한다.
+ * `swipeBackArea` 아래에서 돌아가야 하므로, 그 값을 activity params 로 받는다.
+ * 값을 바꾸는 컨트롤은 `ActivityAppScreen` 에 있으며, 거기서 현재 설정 그대로
+ * 이 화면을 push 한다.
  */
 declare module "@stackflow/config" {
   interface Register {
     ActivityAppScreenGesture: {
       swipeBackArea?: NonNullable<NextAppScreenProps["swipeBackArea"]>;
-      swipeBackCommitRatio?: string;
       "bottom-sheet"?: "open";
     };
   }
@@ -107,16 +106,8 @@ const ActivityAppScreenGesture: StaticActivityComponentType<"ActivityAppScreenGe
   const stepSheet = useStepOverlay({ key: "bottom-sheet" });
   const stepLayerIndex = useActivityZIndexBase({ activityOffset: 1 });
 
-  // URL 을 거쳐 문자열로 들어오므로, 숫자로 읽히지 않으면 prop 자체를 넘기지 않는다.
-  const swipeBackCommitRatio = Number(params.swipeBackCommitRatio);
-  const hasCommitRatio = Number.isFinite(swipeBackCommitRatio) && swipeBackCommitRatio > 0;
-
   return (
-    <NextAppScreen
-      swipeBackArea={params.swipeBackArea}
-      {...(hasCommitRatio && { swipeBackCommitRatio })}
-      {...swipeBackHandlers}
-    >
+    <NextAppScreen swipeBackArea={params.swipeBackArea} {...swipeBackHandlers}>
       <NextAppBar>
         <NextAppBarLeft>
           <NextAppBarBackButton />
@@ -129,12 +120,8 @@ const ActivityAppScreenGesture: StaticActivityComponentType<"ActivityAppScreenGe
             <Text textStyle="articleBody">
               swipeBackArea: {params.swipeBackArea ?? "미지정 (앱 전역 설정)"}
             </Text>
-            <Text textStyle="articleBody">
-              swipeBackCommitRatio:{" "}
-              {hasCommitRatio ? swipeBackCommitRatio : "미지정 (손을 떼는 시점에 판정)"}
-            </Text>
             <Text textStyle="t6Regular" color="fg.neutralMuted">
-              두 값은 params 로만 받습니다. 다른 조합으로 확인하려면 NextAppScreen 화면의 스와이프백
+              이 값은 params 로만 받습니다. 다른 값으로 확인하려면 NextAppScreen 화면의 스와이프백
               컨트롤을 바꾼 뒤 거기서 다시 여세요.
             </Text>
           </Case>
