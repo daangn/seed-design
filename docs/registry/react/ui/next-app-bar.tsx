@@ -87,7 +87,6 @@ export const NextAppBarBackButton = forwardRef<HTMLButtonElement, NextAppBarIcon
       <SeedNextAppBar.IconButton
         ref={ref}
         aria-label="뒤로"
-        type="button"
         onClick={handleOnClick}
         {...otherProps}
       >
@@ -120,7 +119,6 @@ export const NextAppBarCloseButton = forwardRef<HTMLButtonElement, NextAppBarIco
       <NextAppBarIconButton
         ref={ref}
         aria-label="닫기"
-        type="button"
         onClick={handleOnClick}
         {...otherProps}
       >
