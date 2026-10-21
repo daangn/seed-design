@@ -31,7 +31,6 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const layerRef = useRef<HTMLDivElement>(null);
   const dimRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   // Register this screen (style + elements) into the per-stack registry.
   // Runs in a layout effect and cleans up symmetrically, so it is re-entrant
@@ -70,7 +69,6 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
     rootRef,
     layerRef,
     dimRef,
-    contentRef,
     screenState,
   });
 
@@ -80,7 +78,6 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
     rootRef,
     layerRef,
     dimRef,
-    contentRef,
   });
 
   const zIndexBase = useActivityZIndexBase();
@@ -105,7 +102,6 @@ export function useNextAppScreen(props: UseNextAppScreenProps) {
         root: rootRef,
         layer: layerRef,
         dim: dimRef,
-        content: contentRef,
       },
       rootProps: elementProps({
         "data-part": nextAppScreenAnatomy.root,

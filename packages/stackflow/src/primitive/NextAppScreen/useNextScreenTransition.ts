@@ -9,7 +9,6 @@ export interface UseNextScreenTransitionArgs {
   rootRef: React.RefObject<HTMLElement | null>;
   layerRef: React.RefObject<HTMLElement | null>;
   dimRef: React.RefObject<HTMLElement | null>;
-  contentRef: React.RefObject<HTMLElement | null>;
 }
 
 /**
@@ -27,7 +26,6 @@ export function useNextScreenTransition({
   rootRef,
   layerRef,
   dimRef,
-  contentRef,
 }: UseNextScreenTransitionArgs) {
   const runningRef = useRef(NO_ANIMATIONS);
 
@@ -52,13 +50,13 @@ export function useNextScreenTransition({
     // style reports, and cancelling drops it back to the declared position.
     const previous = runningRef.current;
     const animations = playScreenMotion(
-      { layer: layerRef.current, dim: dimRef.current, content: contentRef.current },
+      { layer: layerRef.current, dim: dimRef.current },
       motion,
       previous,
     );
     cancelAll(allAnimations(previous));
     runningRef.current = animations;
-  }, [screenState, transitionStyle, rootRef, layerRef, dimRef, contentRef]);
+  }, [screenState, transitionStyle, rootRef, layerRef, dimRef]);
 
   // Never leave an animation running against a torn-down screen.
   useEffect(() => () => cancelAll(allAnimations(runningRef.current)), []);
