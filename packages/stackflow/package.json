@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "@seed-design/css": "3.2.1",
+    "@seed-design/react": "3.2.1",
     "@stackflow/core": "^1.2.0",
     "@stackflow/react": "^1.5.1",
     "@types/react": "^19.2.2",
