@@ -57,14 +57,13 @@ describe("transitionStyle 결정", () => {
     expect(getScreen(container, "a").dataset["screenTransitionStyle"]).toBe("horizontalSlide");
   });
 
-  it("tone/gradient variant가 NextAppBar background slot 클래스에 반영된다", async () => {
+  it("NextAppBar의 tone/gradient variant가 background slot 클래스에 반영된다", async () => {
     const { container } = renderStack({
       activities: {
         Transparent: makeActivity({
           testId: "transparent",
           withAppBar: true,
-          tone: "transparent",
-          gradient: true,
+          appBarProps: { tone: "transparent", gradient: true },
         }),
       },
       initialActivity: "Transparent",
@@ -81,8 +80,7 @@ describe("transitionStyle 결정", () => {
         Plain: makeActivity({
           testId: "plain",
           withAppBar: true,
-          tone: "transparent",
-          gradient: false,
+          appBarProps: { tone: "transparent", gradient: false },
         }),
       },
       initialActivity: "Plain",

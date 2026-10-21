@@ -69,8 +69,8 @@ const ActivityDemoArticleDetail: ActivityComponentType<"ActivityDemoArticleDetai
   if (!article) return null;
 
   return (
-    <NextAppScreen contentOffsetTop="none" tone={tone}>
-      <NextAppBar>
+    <NextAppScreen contentOffsetTop="none">
+      <NextAppBar tone={tone}>
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
