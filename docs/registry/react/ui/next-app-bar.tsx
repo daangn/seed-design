@@ -1,7 +1,7 @@
 "use client";
 
 import { IconChevronLeftLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
-import { Icon, VStack } from "@seed-design/react";
+import { Icon } from "@seed-design/react";
 import { NextAppBar as SeedNextAppBar } from "@seed-design/stackflow";
 import { useActions, useActivity } from "@stackflow/react";
 import type * as React from "react";
@@ -29,10 +29,8 @@ export interface NextAppBarMainProps
 export const NextAppBarMain = forwardRef<HTMLDivElement, NextAppBarMainProps>(
   ({ title, subtitle, ...otherProps }, ref) => (
     <SeedNextAppBar.Main layout={subtitle ? "withSubtitle" : "titleOnly"} {...otherProps} ref={ref}>
-      <VStack overflowX="auto">
-        <SeedNextAppBar.Title>{title}</SeedNextAppBar.Title>
-        {subtitle ? <SeedNextAppBar.Subtitle>{subtitle}</SeedNextAppBar.Subtitle> : null}
-      </VStack>
+      <SeedNextAppBar.Title>{title}</SeedNextAppBar.Title>
+      {subtitle ? <SeedNextAppBar.Subtitle>{subtitle}</SeedNextAppBar.Subtitle> : null}
     </SeedNextAppBar.Main>
   ),
 );
