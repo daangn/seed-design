@@ -15,7 +15,7 @@ export interface SeedPluginOptions {
    * pick it per platform rather than per screen. A screen's own
    * `swipeBackArea` still wins.
    *
-   * @default "full"
+   * @default "edge"
    */
   swipeBackArea?: NextSwipeBackArea;
 

@@ -110,7 +110,7 @@ export interface UseNextSwipeBackProps {
    * picked up, the style decides what it looks like. Whichever style the screen
    * runs, the drag scrubs that style's own exit.
    *
-   * @default "full"
+   * @default "edge"
    */
   swipeBackArea?: NextSwipeBackArea;
 
@@ -191,7 +191,7 @@ function applyDisplacement(targets: SwipeTargets, displacement: number, ratio: n
 }
 
 export function useNextSwipeBack(args: UseNextSwipeBackArgs) {
-  const { swipeBackArea = "full", transitionStyle, rootRef, layerRef, dimRef, screenState } = args;
+  const { swipeBackArea = "edge", transitionStyle, rootRef, layerRef, dimRef, screenState } = args;
 
   const onSwipeStart = useCallbackRef(args.onSwipeBackStart);
   const onSwipeMove = useCallbackRef(args.onSwipeBackMove);
