@@ -20,8 +20,9 @@ related: ["lynx-headless-tree-parity"]
 - 상황(DES-2636): `@seed-design/lynx-react-field`만 import하는 임시 consumer를 `packages/lynx-react-headless/field`와 `packages/lynx-react`에서 typecheck했다. `<view accessibility-label=… bindtap=…/>`가 두 위치 모두 `SVGProps<SVGViewElement>` TS2322로 실패했고, `IntrinsicElements["view"]` 객체 spread도 `style` 타입 불일치로 실패했다. intrinsic 요소를 빼고 공개 API(`Field.Root`·파트·`useFieldContext({ strict })`)만 쓴 consumer는 오류 없이 통과했다.
 - 근거: `tsc --explainFiles`에서 `@types/react@19.2.7`이 `@lynx-js/react@0.117.0`의 `types/react.docs.d.ts`·`runtime/lib/hooks/react.d.ts`에서 import된다. `packages/lynx-react/src/components`의 literal `bindtap=`은 테스트의 SEED 컴포넌트 prop이거나 spread가 있는 요소에만 있다.
 - 피할 패턴: 임시 consumer의 TS2322를 headless 타입 결함으로 보고 공개 타입을 넓히거나 cast를 추가하는 것. tsconfig를 이번 작업에서 바꾸는 것(루트 규칙상 사용자 확인 대상).
-- 위험: 존재하지 않는 API 결함을 고치느라 공개 타입을 오염시키고, 형제 headless 티켓마다 같은 조사를 반복한다.
+- 위험: 존재하지 않는 API 결함을 고치느라 공개 타입을 오염시키고, 여러 Lynx 패키지에서 같은 조사를 반복한다.
 
 ## 변경 이력
 
 - 2026-10-01: DES-2636 Field headless 분리의 독립 consumer 검증에서 기록했다.
+- 2026-10-22: Lynx 1.0 dev 병합 후 브랜치 전제·낡은 참조를 정리했다. 실행 재검증은 하지 않았다. 분리 티켓 시기의 위험 문구를 일반화했다.

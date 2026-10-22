@@ -20,8 +20,8 @@ verified_at: "2026-09-29"
 
 - DES-2635에서 Lynx Checkbox의 checkmark `pressed` variant와 ghost overlay 눌림 시작 스냅샷을 제거하고 `background`(선택 전 색)·`selectedBackground`(선택 후 색) overlay를 checkbox root의 `:active` 상태 selector로 켰다.
 - iOS PlayLynx(`com.karrot.playlynx`, iOS 26.6, SDK 1.4.0)의 `lynx-spa` production bundle로 `lynx/checkbox/brand`에서 확인했다: ghost checked는 carrot-200, ghost unchecked는 회색 overlay, square checked는 brand pressed, square unchecked는 transparent pressed 색으로 눌렸고 놓은 뒤 선택이 바뀌었다. `lynx/checkbox/disabled`는 누르는 동안과 놓은 뒤 화면 차이가 없었다. Lynx는 `:active` 조상 뒤의 복합 class 후손 selector를 적용했다.
-- 같은 스냅샷 패턴이 `packages/lynx-react/src/components/SegmentedControl/SegmentedControl.tsx`의 `pressSelectionRef`에 남아 있다(2026-09-29 기준). 이 작업에서는 바꾸지 않았다.
 
 ## 변경 이력
 
 - 2026-09-29: DES-2635 Checkbox Headless 분리·Recipe `:active` 전환에서 처음 기록했다.
+- 2026-10-22: Lynx 1.0 dev 병합 후 브랜치 전제·낡은 참조를 정리했다. 실행 재검증은 하지 않았다. `pressSelectionRef`가 #2364(`ac073875b`)에서 사라져 SegmentedControl 잔존 문장을 지웠다.

@@ -24,9 +24,10 @@ verified_at: "2026-10-13"
 - 상황: `@seed-design/lynx-react-popover`의 `PopoverContent`는 `bindlayoutchange` 크기를 `intrinsicSize`에 반영하고, RAF마다 `computePosition`으로 위치를 다시 계산한다. 같은 피드백은 headless 분리 전 `HelpBubble`(`fa699aa11`, dev의 `@seed-design/lynx-react` 0.10.0)에도 있었다.
 - 확인 환경: PlayLynx 0.4.6, Android API 36 에뮬레이터(1080×2400, 420dpi, pixelRatio 2.625), 배포 `00d25d57`과 로컬 development bundle.
   - 수정 전: `lynx/help-bubble/close-on-interact-outside`의 콘텐츠 높이가 매 프레임 38.095(100px)와 37.714(99px)를 오갔다. 그에 따라 `top`도 451.99와 452.19를 오갔다. 초당 pipeline 200회 안팎, `NoPatch!` 160회 안팎이 발생했고 화면에 "CallLepusMethod called too frequently" toast가 떴다. 같은 반복이 `anchor`·`close-button`·`line-breaks`·`portalled`·`width` 예제에도 있었다.
-  - 수정 후(`34bc10934`): `PopoverPositioner`의 `left`·`top`을 기기 픽셀에 맞추자 높이가 38.095로 고정됐다. HelpBubble 예제 13개 모두 pipeline이 0이었다. 30초 대기 뒤에도 0이었고, 바깥 탭 닫기와 트리거로 다시 열기도 동작했다.
+  - 수정 후(`4b07f90ac`, `fix(lynx-react-popover): snap layer offsets to device pixels`): `PopoverPositioner`의 `left`·`top`을 기기 픽셀에 맞추자 높이가 38.095로 고정됐다. HelpBubble 예제 13개 모두 pipeline이 0이었다. 30초 대기 뒤에도 0이었고, 바깥 탭 닫기와 트리거로 다시 열기도 동작했다.
 - iOS와 Android 실기기에서는 이번 수정을 확인하지 않았다. 수정 전 배포본에서도 iOS 시뮬레이터(iOS 26.5)는 같은 예제의 트리거와 말풍선을 표시했지만, iOS의 반복 여부는 계측하지 않았다.
 
 ## 변경 이력
 
 - 2026-10-13: HelpBubble Android 빈 화면·입력 멈춤 조사에서 확인한 원인과 수정을 기록했다.
+- 2026-10-22: Lynx 1.0 dev 병합 후 브랜치 전제·낡은 참조를 정리했다. 실행 재검증은 하지 않았다. 도달할 수 없는 rebase 전 SHA `34bc10934`를 dev의 `4b07f90ac`로 바꿨다.

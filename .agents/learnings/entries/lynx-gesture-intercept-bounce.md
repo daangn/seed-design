@@ -12,7 +12,7 @@ verified_at: "2026-10-06"
 ## 교훈과 다음 행동
 
 - `interceptGesture(true)`로 native 스크롤을 가로채도 iOS scroll-view 경계의 bounce 변위는 따로 더해질 수 있다. 당김 변위를 MT transform이 소유하면 scroll host의 `bounces`를 `false`로 고정한다.
-- 고정하면 아래쪽 경계의 iOS bounce도 사라진다. 공개 props에서 `bounces`를 빼고 JSDoc과 문서에 차이를 적는다. React PullToRefresh도 Root의 `overscroll-behavior-y: none`으로 양 끝 overscroll을 막는다.
+- 고정하면 아래쪽 경계의 iOS bounce도 사라진다. MT가 당김 변위를 소유하면 scroll host의 `bounces` 기본값을 `false`로 두고, JSDoc과 문서에 아래쪽 bounce도 꺼진다고 적는다. native props로 덮는 것은 허용하되 그 경우 초과 이동이 다시 생길 수 있다[추론]. React PullToRefresh도 Root의 `overscroll-behavior-y: none`으로 양 끝 overscroll을 막는다.
 - 판정할 때는 같은 입력에서 MT가 계산한 마지막 변위와 화면 속 같은 항목의 이동량을 함께 기록한다. 둘이 다르면 bounce나 바깥 scroller 같은 다른 변위 소유자가 있다.
 - upstream lynx-ui FeedList의 hook refresh도 위쪽 bounce를 직접 소유할 때 List의 `bounces`를 끈다(`packages/lynx-ui-feed-list/src/index.tsx`의 `bounces={!enableBounce && !enableHookRefresh && bounces}`).
 - 당김 중 같은 scroll-view의 `enable-scroll`을 바꾸지 않는다. 진행 중 제스처가 바로 끝나 당김이 전혀 동작하지 않았다. 당김 중 native 스크롤이 위쪽 경계를 벗어나면 `main-thread:bindscroll`에서 수락한 drag일 때만 `element.invoke("scrollTo", { offset: 0, index: 0, smooth: false })`로 되돌린다.
@@ -27,3 +27,4 @@ verified_at: "2026-10-06"
 
 - 2026-10-06: DES-2708에서 기록했다.
 - 2026-10-07: DES-2708에서 제스처 중 `enable-scroll` 변경 회귀와 `scrollTo(0)` 대안을 추가했다.
+- 2026-10-22: Lynx 1.0 dev 병합 후 브랜치 전제·낡은 참조를 정리했다. 실행 재검증은 하지 않았다. #2474(`b1a262d77`)에서 `bounces`를 native props로 덮을 수 있게 바뀐 `PullToRefresh.tsx`에 맞춰, 공개 props에서 빼라는 지침을 기본값과 문서화 지침으로 고쳤다.

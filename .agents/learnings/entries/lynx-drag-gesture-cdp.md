@@ -22,7 +22,7 @@ T mousePressed 627; for y in 600 540 460 380 330; do T mouseMoved "$y"; done; T 
 
 - 이동 중간 상태가 필요하면 `mouseReleased` 전에 screenshot을 찍는다. 결과는 snapshot의 대상 좌표 변화나 `onSnapChange`·`onOpenChange`가 바꾼 화면 텍스트로 판정한다.
 - touch cancel은 만들 수 없다. PlayLynx는 `Input.dispatchTouchEvent`에 `Not implemented`를 반환하고 `Input.emulateTouchFromMouseEvent`에는 cancel 종류가 없다. `catchtouchcancel` 경로는 단위 테스트로 확인하고 기기 결과는 `환경 차단`으로 보고한다.
-- lynx-ui-sheet의 기본 dismiss threshold는 0.15다. 시트 높이의 15%를 넘는 짧은 아래 drag도 닫힘으로 끝난다. "원래 snap으로 돌아옴"을 확인하려면 이동 거리를 그보다 작게 잡는다.
+- BottomSheet 내부 엔진(`packages/lynx-react-headless/bottom-sheet/src/engine/SheetContent/index.tsx`)의 기본 `dismissThreshold`는 0.15다. 시트 높이의 15%를 넘는 짧은 아래 drag도 닫힘으로 끝난다. "원래 snap으로 돌아옴"을 확인하려면 이동 거리를 그보다 작게 잡는다.
 - CDP touch는 Lynx touch 이벤트 전파(`bind`·`catch`)를 거친다. 자식의 `main-thread:catchtouch*`가 부모 시트의 drag를 막는지는 자식 위 drag와 부모 위 drag를 대조해 판정할 수 있다.
 - `agent-lynx cdp` 호출 사이 간격이 길어 손을 뗄 때 속도가 0에 가까우므로 빠른 fling은 이 입력으로 판정하지 않는다.
 - CDP touch로 native `<scroll-view>`가 스크롤되는지는 확인하지 못했다. 아래 임시 예제 한 곳의 관찰일 뿐 일반 한계로 단정하지 않는다. 바깥 native 스크롤과의 중재(`consume-slide-event`)를 CDP touch로 판정하려면 콘텐츠가 viewport보다 큰 `<scroll-view>`에서 drag가 실제로 스크롤되는지 먼저 확인하고, 스크롤되지 않으면 실제 터치로 확인한다.
@@ -60,3 +60,4 @@ T mousePressed 627; for y in 600 540 460 380 330; do T mouseMoved "$y"; done; T 
 - 2026-10-02: native `<scroll-view>` 관찰에 기록하지 않은 조건을 밝히고, 결론을 해당 임시 예제의 관찰로 좁혔다(PR #2390 리뷰).
 - 2026-10-06: DES-2647 reorderable AttachmentDisplay 검증에서 long-press로 시작하는 drag의 입력 방법과, 가로 스크롤 가능한 목록에서 drag를 시작하지 못한 범위를 추가했다.
 - 2026-10-07: DES-2708 PullToRefresh 검증에서 iOS CDP drag의 부분 스크롤, Device Hub 실제 마우스 drag 경로와 함정, 놓기 전 캡처 방법을 추가했다.
+- 2026-10-22: Lynx 1.0 dev 병합 후 브랜치 전제·낡은 참조를 정리했다. 실행 재검증은 하지 않았다. #2494의 엔진 내부화에 맞춰 dismiss threshold의 출처를 고쳤다.

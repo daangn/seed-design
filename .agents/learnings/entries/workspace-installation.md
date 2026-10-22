@@ -23,7 +23,7 @@ status: active
 - 상황(DES-2677): 기존 worktree에서 루트 `node_modules/.bin`은 15개였지만 최근 추가된 `packages/lynx-react-headless/callout`에는 `node_modules`가 없어 `bun --filter @seed-design/lynx-react-callout test`가 `vitest: command not found`(exit 127)로 실패했다. `bun install --frozen-lockfile --ignore-scripts`는 `no changes`로 끝나 상태를 바꾸지 않았고, `bun install` 뒤 `bun.lock` diff 없이 패키지 bin이 생겨 테스트가 통과했다.
 - 피할 패턴: 설치 여부를 확인하지 않고 검증·추출 명령부터 실행하거나 배정하는 것. pull·rebase 뒤 lockfile이 바뀌었는데 설치를 건너뛰는 것. 설치 실패를 패키지 코드 오류로 해석하는 것.
 - 위험: 환경 문제를 코드 결함으로 오판하고, 병렬 작업자가 같은 실패를 각자 조사한다.
-- 상황(DES-2622): `refactor-lynx-components` `849fe58e0` worktree에서 `bun install`이 `@seed-design/lynx-css@0.12.1`(`packages/utils/lynx-react-scale-feedback` devDependency, 3일 안에 배포)을 받지 못해 멈췄다. `--frozen-lockfile --minimum-release-age=0`은 `lockfile had changes`로 실패했고, `bun install --minimum-release-age=0`은 그 패키지의 중첩 항목 2줄만 `bun.lock`에 추가하고 설치를 마쳤다.
+- 상황(DES-2622): Lynx 1.0 작업 브랜치(`refactor-lynx-components`, 현재 삭제) worktree에서 `bun install`이 `@seed-design/lynx-css@0.12.1`(`packages/utils/lynx-react-scale-feedback` devDependency, 3일 안에 배포)을 받지 못해 멈췄다. `--frozen-lockfile --minimum-release-age=0`은 `lockfile had changes`로 실패했고, `bun install --minimum-release-age=0`은 그 패키지의 중첩 항목 2줄만 `bun.lock`에 추가하고 설치를 마쳤다.
 
 ## 변경 이력
 
@@ -31,3 +31,4 @@ status: active
 - 2026-09-28: description의 증상·적용 범위를 보강하고 개인 실행 환경에 따른 소요 시간 보장을 제거했다. 실행 재검증은 하지 않았다.
 - 2026-09-29: 루트 bin이 있어도 새 workspace 패키지의 bin이 없는 DES-2677 사례와 패키지 단위 확인 절차를 추가했다.
 - 2026-10-01: DES-2622에서 최근 배포한 자체 패키지 버전이 `minimumReleaseAge`에 걸린 설치 실패와 대응을 추가했다.
+- 2026-10-22: Lynx 1.0 dev 병합 후 브랜치 전제·낡은 참조를 정리했다. 실행 재검증은 하지 않았다. 도달할 수 없는 SHA `849fe58e0`을 지웠다.

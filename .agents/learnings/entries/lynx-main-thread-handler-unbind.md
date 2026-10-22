@@ -31,9 +31,10 @@ related: ["lynx-headless-tree-parity", "lynx-test-event-bubbling"]
 - 원천: `@lynx-js/react` 0.117.0 `runtime/lib/snapshot/workletEvent.js`의 `updateWorkletEvent`는 `rawValue ?? {}`에 `_workletType`을 붙여 `__AddEvent(element, eventType, eventName, { type: "worklet", value })`를 호출한다. spread에서 key가 빠질 때도 `runtime/lib/snapshot/spread.js`가 같은 함수를 `undefined` 값으로 부른다. lynx-stack main(`4f63dfd`)의 `packages/react/runtime/src/snapshot/snapshot/workletEvent.ts`도 같다.
 - native: lynx develop(`8688964`) `core/renderer/dom/fiber/fiber_element.cc`의 `FiberAddEvent`는 object callback이면 `SetWorkletEventHandler`로 등록한다. 빈 callback일 때만 `RemoveEvent`로 지운다.
 - 재현: `@seed-design/lynx-react-loop-scroll` 첫 구현이 `disabled`일 때 `main-thread:catchtouch*`에 `undefined`를 넘기자, dual-thread Vitest에서 touch 이벤트를 보낼 때마다 `MainThreadFunction: Invalid function object: {"_workletType":"main-thread"}`가 찍혔다. handler를 항상 bound하고 내부에서 반환하도록 바꾼 뒤 경고가 사라졌다.
-- `packages/lynx-react-headless/sortable/src/Sortable.tsx`도 `sortingDisabled`일 때 `main-thread:global-bind*`에 `undefined`를 넘긴다. 같은 경고가 날 수 있지만 bind라 전파에는 영향이 없다. 기기에서 확인하지 않았다.
+- `packages/lynx-react-headless/sortable/src/Sortable.tsx`도 #2474에서 handler를 항상 연결하고 내부에서 `sortingDisabled`로 막는 방식으로 바뀌었다.
 
 ## 변경 이력
 
 - 2026-10-01: loop-scroll headless 패키지 구현 중 원천과 테스트 재현으로 기록했다.
 - 2026-10-02: 재mount 대안에 `key` 조건과 미확인 범위를 밝혔다(PR #2390 리뷰).
+- 2026-10-22: Lynx 1.0 dev 병합 후 브랜치 전제·낡은 참조를 정리했다. 실행 재검증은 하지 않았다. #2474 뒤 Sortable이 handler 내부 gate로 바뀐 사실에 맞춰 사례 문장을 고쳤다.
