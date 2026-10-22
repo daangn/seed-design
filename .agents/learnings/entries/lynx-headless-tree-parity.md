@@ -1,6 +1,6 @@
 ---
 id: lynx-headless-tree-parity
-description: Lynx styled 컴포넌트를 headless hook으로 분리하면서 Provider·context·native 이벤트 전달을 바꾸거나, 스타일 없는 headless Root에 눌림 상태를 연결할 때 읽는다. 공개 API·화면이 같아도 생길 수 있는 할당 증가·이중 이벤트 바인딩·disabled 누락과, 같은 요소의 `bindtouch*`·`main-thread:bindtouch*`·`capture-bind*`가 테스트 환경과 native에서 다르게 공존하는 규칙, element tree 전후 비교·dual-thread 테스트·기기 성능 검증을 다룬다. parity 테스트가 `preact`의 `process` export 오류로 로드되지 않거나 inline CSS 변수가 빈 값으로 직렬화될 때도 읽는다.
+description: Lynx styled↔headless 경계나 Provider·context·native 이벤트 전달을 바꾸는 리팩터링을 하거나, 스타일 없는 headless Root에 눌림 상태를 연결할 때 읽는다. 공개 API·화면이 같아도 생길 수 있는 할당 증가·이중 이벤트 바인딩·disabled 누락과, 같은 요소의 `bindtouch*`·`main-thread:bindtouch*`·`capture-bind*`가 테스트 환경과 native에서 다르게 공존하는 규칙, element tree 전후 비교·dual-thread 테스트·기기 성능 검증을 다룬다. parity 테스트가 `preact`의 `process` export 오류로 로드되지 않거나 inline CSS 변수가 빈 값으로 직렬화될 때도 읽는다.
 scope: ["packages/lynx-react/**", "packages/lynx-react-headless/**"]
 status: active
 related: ["isolated-regression-baselines"]
@@ -10,14 +10,14 @@ related: ["isolated-regression-baselines"]
 
 ## 교훈과 다음 행동
 
-- hook이 memo된 객체를 반환하게 한다. styled 층은 기존 context 값을 `{ ...api, variantProps }`로 확장해 Provider 수를 유지한다. hook prop 중 기존에 native로 바인딩하지 않던 key는 분해해서 원래 경로로만 넘긴다. `main-thread:*` 핸들러의 disabled gate는 `packages/lynx-react-headless/toggle/src/Toggle.tsx`처럼 명시한다.
+- hook이 memo된 객체를 반환하게 한다. styled 층은 기존 context 값을 `{ ...api, variantProps }`로 확장해 Provider 수를 유지한다. hook prop 중 기존에 native로 바인딩하지 않던 key는 분해해서 원래 경로로만 넘긴다. `main-thread:*` 핸들러의 disabled gate는 `packages/lynx-react-headless/toggle/src/useToggle.ts`·`use-press-tap/src/usePressTap.ts`처럼 명시한다.
 - 같은 요소의 같은 이벤트 이름에 대해 native는 Background handler 하나와 Main Thread handler 하나를 따로 보관한다. `bindtouchstart`와 `main-thread:bindtouchstart`는 둘 다 실행된다. 반면 `@lynx-js/react/testing-library`는 `bindEvent:touchstart` key 하나에 둘을 덮어쓰므로 dual-thread 테스트에서만 한쪽이 사라진다. 테스트 실패만으로 native 결함을 보고하지 말고 기기에서 확인한다.
-  - headless Root가 소비자 `main-thread:bindtouch*`를 실행한 뒤 `runOnBackground(press)()`로 넘기는 합성은 테스트 환경에서 눌림 상태를 유지하고 native에서도 무해하므로 유지한다. 컴포넌트마다 `runOnBackground(press)()` 합성을 복사하지 않는다 → 소비자 handler를 `usePressTap`의 `mainThreadOnTouchStart`·`mainThreadOnTouchEnd`·`mainThreadOnTouchCancel`에 넘기고, 훅이 반환한 `main-thread:bindtouch*`를 view에 펼친다. 공개 훅(`useAccordionTrigger` 등)도 이 세 prop을 받아 `usePressTap`에 전달한다. 예: `packages/lynx-react-headless/accordion/src/useAccordionTrigger.ts`, `toggle/src/useToggle.ts`.
+  - headless Root가 소비자 `main-thread:bindtouch*`를 실행한 뒤 `runOnBackground(press)()`로 넘기는 합성은 테스트 환경에서 눌림 상태를 유지하고 native에서도 무해하므로 유지한다. 컴포넌트마다 `runOnBackground(press)()` 합성을 복사하지 않는다 → 소비자 handler를 `usePressTap`의 `mainThreadOnTouchStart`·`mainThreadOnTouchEnd`·`mainThreadOnTouchCancel`에 넘기고, 훅이 반환한 `main-thread:bindtouch*`를 view에 펼친다. 공개 훅(`useCollapsibleTrigger` 등)도 이 세 prop을 받아 `usePressTap`에 전달한다. 예: `packages/lynx-react-headless/collapsible/src/useCollapsibleTrigger.ts`, `toggle/src/useToggle.ts`.
   - phase는 별도 칸을 만들지 않는다. `main-thread:capture-bindtouchstart`와 `main-thread:bindtouchstart`는 같은 Main Thread 칸을 두고 경쟁해 하나만 실행된다. Scale Feedback 같은 내부 Main Thread handler를 capture로 옮겨 소비자 handler와 분리하려 하지 않는다 → 같은 key로 두고 `mergeProps`로 합성한다.
   - 값이 없을 수 있는 Main Thread handler를 `main-thread:bindtap={handlers["main-thread:bindtap"]}`처럼 항상 적지 않는다 → testing-library에서는 `undefined`가 같은 key의 `bindtap`을 지워 탭이 전달되지 않는다. handler가 있을 때만 key를 넣는다(`{...(handler ? { "main-thread:bindtap": handler } : {})}`).
 - 다음 순서로 검증한다.
   - 리팩터링 전 임시 테스트(`<Component>.parity.test.tsx`)로 공개 API만 import해 조합·상태별 element tree를 JSON으로 저장한다. 대상은 태그, 정렬된 className, inline style, 속성, 이벤트 핸들러 key 집합이다.
-  - parity 테스트는 대상 컴포넌트 파일이나 `<Component>.namespace.ts`를 import한다. `src/components/index.ts`(`..`)를 import하면 lynx-ui-sheet까지 불러와 `The requested module 'preact' does not provide an export named 'process'`로 suite가 로드되지 않는다.
+  - parity 테스트는 대상 컴포넌트 파일이나 `<Component>.namespace.ts`를 import한다. `src/components/index.ts`(`..`)를 import하면 BottomSheet 내부 엔진(`packages/lynx-react-headless/bottom-sheet/src/engine/SheetRoot/index.tsx`)이 import하는 `@lynx-js/motion/mini`까지 불러와 `The requested module 'preact' does not provide an export named 'process'`로 suite가 로드되지 않는다.
   - 이벤트 핸들러 key는 DOM attribute에 나타나지 않는다 → `@lynx-js/react/testing-library`가 element에 붙이는 `eventMap` 속성의 key를 정렬해 직렬화한다(`"eventMap" in element`로 좁혀 읽는다).
   - tap으로 action이 경계에 닿아 Scale Feedback의 `disabled`가 바뀌면 Background만 켠 render에서 `runOnMainThread can only be used on the background thread`가 날 수 있다. 장면별 조작을 `try/catch`로 감싸 오류 문구를 콜백 로그에 남기고 다음 장면을 이어 수집한다. 전후 로그에 같은 오류가 남는지까지 비교한다.
   - 테스트 환경의 jsdom은 inline style의 CSS custom property(예: `--fab-label-width`)를 버린다. `style.cssText`·`getPropertyValue`가 모두 빈 값이므로 parity로 CSS 변수 회귀를 판정하지 않는다 → 기기에서 `agent-lynx cdp --method DOM.getDocument`의 `style` attribute로 값을 확인한다.
@@ -57,3 +57,4 @@ related: ["isolated-regression-baselines"]
 - 2026-09-29: 합성 위치를 `usePressTap` 옵션으로 옮긴 결과와 Accordion·Toggle 재현 근거를 반영했다.
 - 2026-10-01: DES-2639에서 이벤트 key 직렬화 위치와 장면별 Main Thread 오류 처리 방법을 추가했다.
 - 2026-10-01: DES-2622에서 값이 없는 Main Thread prop이 테스트에서 Background handler를 지우는 사례를 추가했다.
+- 2026-10-22: Headless 분리가 끝나 적용 범위를 styled↔headless 경계·Provider·이벤트 전달 리팩터링 일반으로 넓히고, 사라진 `useAccordionTrigger`·`Toggle.tsx` 참조를 `useCollapsibleTrigger`·`useToggle.ts`·`usePressTap.ts`로 고쳤다. `preact` `process` 오류는 `packages/lynx-react`에서 `..`를 import하는 임시 테스트를 `bun run test`로 실행해 재현했고(같은 오류, 프레임은 `bottom-sheet/lib/engine/SheetRoot/index.jsx`의 `@lynx-js/motion/mini` import), #2494로 사라진 lynx-ui-sheet 대신 실제 모듈로 원인을 고쳤다. 나머지 내용은 실행 재검증하지 않았다.

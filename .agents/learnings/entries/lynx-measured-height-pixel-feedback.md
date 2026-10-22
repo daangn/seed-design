@@ -19,7 +19,7 @@ verified_at: "2026-10-14"
 
 ## 발생 근거와 적용 조건
 
-- 상황: `@seed-design/lynx-react-collapsible`의 `useCollapsible`이 `contentInner`의 `bindlayoutchange` 높이를 `contentProps.style.height`로 반환한다. styled `AccordionContent`는 recipe의 `height` transition을 함께 쓴다. `origin/dev`의 `@seed-design/lynx-react` Accordion도 같은 측정 구조다(확인은 `major` 브랜치에서만 했다).
+- 상황: `@seed-design/lynx-react-collapsible`의 `useCollapsible`이 `contentInner`의 `bindlayoutchange` 높이를 `contentProps.style.height`로 반환한다. styled `AccordionContent`는 recipe의 `height` transition을 함께 쓴다.
 - 확인 환경: Galaxy A24(SM-A245N, Android 15, 450dpi, pixelRatio 2.8125), Lynx Go, docs production bundle의 `lynx/accordion/custom-content`(세로 가운데 정렬 예제). 첫 항목 "배송 안내"를 `adb shell input tap`으로 열었다.
   - 수정 전: 5초 동안 `rLynxChange` 2575회, `OnPipelineStart` 1286회, 경고 toast 발생. layoutchange `height`가 185.956과 185.600(523·522 기기 픽셀)을 오갔고 `top`이 412에서 327까지 5초에 걸쳐 내려갔다.
   - 수정 후: 같은 조작에서 `rLynxChange` 35회, 경고 없음, 열림이 약 0.3초에 끝났다. 닫기·다시 열기·두 번째 항목 열기도 경고가 없었다.
@@ -28,3 +28,4 @@ verified_at: "2026-10-14"
 ## 변경 이력
 
 - 2026-10-14: Accordion 열림 버벅임·`CallLepusMethod` 경고 조사에서 원인과 수정을 기록했다.
+- 2026-10-22: Lynx 1.0 dev 병합 후 브랜치 전제·낡은 참조를 정리했다. 실행 재검증은 하지 않았다. `major` 브랜치 시기를 전제한 dev 비교 문장을 지웠다.

@@ -2,7 +2,7 @@
 id: lynx-split-base-branch
 description: Lynx 1.0(DES-2608 하위) 컴포넌트의 공개 Headless 분리 티켓을 시작·제출하거나, 선례 Headless 패키지가 현재 checkout에 없거나, 기준 브랜치 이동으로 PR이 충돌하거나 rebase가 다른 lane 커밋까지 재생할 때 읽는다. 선례가 있는 원격 브랜치로 작업 기준·PR base를 정하는 방법, `--onto`로 자체 커밋만 옮기고 이름을 바꾼 파일과 충돌한 기준 쪽 변경을 이식하는 방법, 학습 기록 커밋을 기능 PR과 분리하는 방법, base 변경과 force push 순서를 다룬다. dev 대상 일반 기능 작업에는 적용하지 않는다.
 scope: ["packages/lynx-react/**", "packages/lynx-react-headless/**", "docs/examples/lynx/**", "examples/lynx-spa/**"]
-status: active
+status: retired
 related: ["workspace-installation", "verify-baseline-test-failures"]
 ---
 
@@ -10,6 +10,7 @@ related: ["workspace-installation", "verify-baseline-test-failures"]
 
 ## 교훈과 다음 행동
 
+- 폐기: `refactor-lynx-components`는 #2394로 `major`에 병합된 뒤 2026-10-15 dev에 선형 rebase되었고(`2d2f4dfe6..e056828c1`), 1.0.0 릴리스(#2484) 뒤 삭제되었다. Lynx 작업도 이제 dev 기준이라 아래 기준 브랜치 확인 절차는 적용할 작업이 없다. 일반 절차인 `--onto` 이동은 `skills/seed-change/references/submit.md`, 학습 기록 커밋 분리는 `.agents/learnings/AGENTS.md`「기록과 정리」가 맡는다.
 - 작업 시작과 제출 직전에 선례 PR의 현재 위치를 확인하고, 작업 브랜치 기준과 PR base를 그 브랜치에 맞춘다.
   - `gh pr list --state all --search '<선례 컴포넌트> headless' --json number,title,baseRefName,state`
   - `git branch -a --contains <선례 sha>` → `git show origin/<branch>:<경로>`로 선례 파일을 읽는다.
@@ -41,3 +42,4 @@ related: ["workspace-installation", "verify-baseline-test-failures"]
 - 2026-09-28: DES-2613의 기준 이동 사례를 근거로 `--onto` 이동과 rename 충돌 이식 절차를 보강했다.
 - 2026-09-29: DES-2618에서 dev에만 있는 최신 학습 항목을 놓친 사례로 조회 절차를 추가했다.
 - 2026-09-29: DES-2620에서 같은 누락이 반복된 근거를 추가했다.
+- 2026-10-22: `refactor-lynx-components`가 dev에 rebase된 뒤 삭제되어 기준 브랜치 확인 절차가 더는 쓰이지 않으므로 `retired`로 바꿨다. 일반화할 수 있는 절차는 `seed-change` submit 참조와 learnings 규칙에 이미 있다.

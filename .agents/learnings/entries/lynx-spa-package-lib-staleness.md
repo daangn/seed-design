@@ -13,7 +13,7 @@ verified_at: "2026-10-06"
 
 - lynx-spa는 `@seed-design/lynx-react`를 `packages/lynx-react/lib`로 해석한다. `bun run dev`의 `prepare-workspace.ts`가 서버 시작 때만 lib를 만든다 → 서버 실행 중 `src`를 고치면 `docs/examples/lynx/**` 변경만 hot reload되고 컴포넌트는 이전 구현으로 남는다.
 - 컴포넌트를 고친 뒤에는 자신이 띄운 서버를 멈추고 다시 시작해 lib를 만든다. 서버 로그의 `@seed-design/lynx-react` build `changes:`에 고친 파일이 있는지 확인한다. 포트가 바뀌면 소유한 Card를 새 URL의 `Page.reload`로 다시 연다.
-- headless 패키지(`packages/lynx-react-headless/*`)를 고쳤으면 서버를 멈춘 상태에서 그 패키지를 `bun --filter <패키지 이름> build`로 빌드한 뒤 다시 시작한다. `prepare-workspace.ts`는 `ultra --filter @seed-design/lynx-react`로 lynx-react만 빌드하고, 재시작만으로는 headless `lib`가 바뀌지 않는다. 고친 코드의 고유 식별자가 해당 패키지 `lib`와 서버가 주는 `main.lynx.bundle`에 들어 있는지 `grep`으로 확인한다.
+- headless 패키지(`packages/lynx-react-headless/*`)를 고쳤으면 서버를 멈춘 상태에서 그 패키지를 `bun --filter <패키지 이름> build`로 빌드한 뒤 다시 시작한다. `docs/scripts/lynx-examples/prepare-workspace.ts`(`ultra -r --build --filter @seed-design/lynx-react build`)는 `@seed-design/lynx-react`만 빌드한다. filter에 `+`가 없어 headless 등 의존 workspace lib는 빌드하지 않는다. 그래서 재시작만으로는 headless `lib`가 바뀌지 않는다. 고친 코드의 고유 식별자가 해당 패키지 `lib`와 서버가 주는 `main.lynx.bundle`에 들어 있는지 `grep`으로 확인한다.
 - 서버를 띄운 채 별도로 lib를 빌드하지 않는다 → 중간 빌드 실패가 PlayLynx 종료로 이어질 수 있다(`playlynx-simulator-overlay-check`).
 - 변경 결과를 판정하기 전에 `agent-lynx snapshot`으로 바뀐 구조(예: 제거한 요소의 개수)가 실제 tree에 반영됐는지 확인한다. 화면이 그럴듯하다는 것만으로 판정하지 않는다.
 
@@ -28,3 +28,4 @@ verified_at: "2026-10-06"
 
 - 2026-10-01: DES-2631 기기 검증 중 확인한 결과로 작성했다.
 - 2026-10-06: headless 패키지 원천은 서버 재시작으로 다시 빌드되지 않는 조건과 확인 방법을 추가했다(KeyboardAvoidingScrollView 기기 검증에서 재현).
+- 2026-10-22: Lynx 1.0 dev 병합 후 브랜치 전제·낡은 참조를 정리했다. 실행 재검증은 하지 않았다. `prepare-workspace.ts` 설명을 실제 명령으로 맞췄다.

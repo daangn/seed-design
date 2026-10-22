@@ -1,6 +1,6 @@
 ---
 id: lynx-example-display-flex
-description: Lynx 문서 예제(`docs/examples/lynx/**`)를 inline style·preview.css·headless 컴포넌트로 작성하거나, `examples/lynx-spa` native 화면에서 요소가 세로로 쌓이거나 align-items·justify-content·flexDirection이 무시될 때 읽는다. native·Web preview의 기본 display(linear)와 예제에서 flex 속성을 쓰는 방법, 예제 배치를 호스트가 맡는 구조를 다룬다. SEED Recipe className이 display를 정하는 styled 컴포넌트 자체에는 적용하지 않는다.
+description: Lynx 문서 예제(`docs/examples/lynx/**`)를 inline style·preview.css로 작성하거나, `examples/lynx-spa` native 화면에서 요소가 세로로 쌓이거나 align-items·justify-content·flexDirection이 무시될 때 읽는다. native·Web preview의 기본 display(linear)와 예제에서 flex 속성을 쓰는 방법, 예제 배치를 호스트가 맡는 구조를 다룬다. SEED Recipe className이 display를 정하는 styled 컴포넌트 자체에는 적용하지 않는다.
 scope: ["docs/examples/lynx/**", "examples/lynx-spa/**"]
 status: active
 related: ["iphone-lan-asset-prefix"]
@@ -28,3 +28,4 @@ verified_at: "2026-10-07"
 - 2026-09-29: DES-2614 AppBar headless 예제 수정에서 처음 기록했다.
 - 2026-09-29: #2308 리뷰에 따라 scroll-view 설명을 `getExampleLayout`의 `"scroll"` 예제로 좁혔다. 코드 경로만 확인했고 기기 재검증은 하지 않았다.
 - 2026-10-07: Web preview 기본 display 설명을 실제 측정값(linear)으로 고치고, 예제 배치를 호스트가 맡는 구조로 다음 행동을 바꿨다.
+- 2026-10-22: Lynx 1.0 dev 병합 후 브랜치 전제·낡은 참조를 정리했다. 실행 재검증은 하지 않았다. 예제에서 headless 직접 조립을 금지한 `docs/examples/lynx/AGENTS.md`에 맞춰 description에서 headless 컴포넌트를 뺐다.

@@ -19,12 +19,13 @@ related: ["lynx-headless-tree-parity"]
 
 ## 발생 근거와 적용 조건
 
-- 상황(DES-2652): `refactor-lynx-components` `4e0909074`의 `HelpBubbleContent`는 `<view ref={handleRef} ... {...nativeProps}>`의 ref callback에서 `setContentNode(node)`를 호출했다. `@lynx-js/react` 0.117.0 테스트 환경에서 `defaultOpen`으로 렌더링하자 `render()`가 반환하지 않고 heap OOM으로 종료됐다.
+- 상황(DES-2652): Headless 분리 전(Lynx 1.0 작업 브랜치)의 `HelpBubbleContent`는 `<view ref={handleRef} ... {...nativeProps}>`의 ref callback에서 `setContentNode(node)`를 호출했다. `@lynx-js/react` 0.117.0 테스트 환경에서 `defaultOpen`으로 렌더링하자 `render()`가 반환하지 않고 heap OOM으로 종료됐다.
 - 확인: Content에 호출 횟수를 세는 forwarded ref를 넘기자 `null` 없이 새 객체로 200회 넘게 호출됐다. `setContentNode((previous) => previous ?? node)`로 임시 변경하자 호출이 두 번으로 끝나고 렌더가 완료됐다. Content를 빼면 재현되지 않았다.
-- 조치: `@seed-design/lynx-react-popover`의 `PopoverContent`는 node를 ref에 두고, node가 붙거나 떨어질 때만 측정 version을 올린다.
+- 조치: `@seed-design/lynx-react-popover`의 `PopoverContent`는 node를 ref에 두고, node가 붙거나 떨어질 때만 측정 version을 올린다(`packages/lynx-react-headless/popover/src/Popover.tsx`의 `contentNodeRef`, `handleRef`).
 - 적용 조건: 테스트 환경에서 재현했다. 기기에서 같은 반복이 일어나는지는 확인하지 않았다. 기기에서 화면이 멈추지 않는다는 이유로 이 패턴을 안전하다고 판단하지 않는다.
 - 위험: 열린 상태의 테스트를 작성할 수 없어 회귀 기준을 만들지 못하고, 기기에서는 렌더가 반복되며 측정이 계속 무효화될 수 있다.
 
 ## 변경 이력
 
 - 2026-09-30: DES-2652 HelpBubble Headless 분리 중 변경 전 기준을 수집하다 발견한 원인과 조치를 기록했다.
+- 2026-10-22: Lynx 1.0 dev 병합 후 브랜치 전제·낡은 참조를 정리했다. 실행 재검증은 하지 않았다. 도달할 수 없는 SHA `4e0909074`를 지우고 현재 구현 위치를 적었다.
