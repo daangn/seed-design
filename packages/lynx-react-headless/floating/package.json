@@ -35,7 +35,7 @@
   "devDependencies": {
     "@lynx-js/react": "^0.117.0",
     "@lynx-js/types": "^3.7.0",
-    "vitest": "^3.2.4"
+    "vitest": "^5.0.0"
   },
   "publishConfig": { "access": "public" },
   "license": "Apache-2.0"
