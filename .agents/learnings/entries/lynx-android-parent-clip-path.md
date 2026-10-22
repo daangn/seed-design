@@ -4,7 +4,7 @@ description: Lynx Recipe·styled 컴포넌트에서 부모 view의 `clip-path`�
 scope: ["packages/lynx-css/**", "packages/lynx-qvism-preset/**", "packages/lynx-react/**"]
 status: active
 related: ["lynx-view-default-overflow-clip", "lynx-z-index-stacking-context"]
-verified_at: "2026-10-21"
+verified_at: "2026-10-22"
 ---
 
 # Android에서 부모 clip-path는 transform이 걸린 자식을 자르지 않을 수 있다
@@ -13,6 +13,7 @@ verified_at: "2026-10-21"
 
 - 자식을 회전시키고 부모의 `clip-path: inset(...)`로 잘라 내는 구조는 Android에서 쓰지 않는다. 부모 영역을 실제 크기의 박스(예: 폭 50%, `overflow: hidden`)로 만들고, 자식은 음수 `left`로 원래 좌표에 둔다. Lynx view는 기본적으로 자기 경계에서 자식을 자르므로 이 방식은 두 플랫폼에서 같게 보인다.
 - 요소 자신에게 건 `clip-path`(자식 없는 반원 등)는 Android에서도 적용됐다. 의심되면 부모 clip과 자기 clip을 분리한 probe로 확인한다.
+- 회전하는 두 조각을 경계에서 맞붙이면 antialias된 가장자리로 바탕이 실선처럼 비친다. 경계가 반 픽셀에 놓이는 크기(size 40, 2.625x에서 105px)에서 두드러진다. 조각을 겹쳐 그리고, 그릴 영역이 없는 조각은 `opacity: 0`으로 숨긴다.
 - 확인은 jsdom이나 iOS로 대신하지 않는다. `docs/examples/lynx/<component>/zz-probe-*.tsx`에 기존 구조와 대안을 정적 rotate·animation으로 나란히 두고 Android에서 screenshot으로 비교한 뒤 probe를 지운다.
 
 ## 발생 근거와 적용 조건
@@ -23,4 +24,5 @@ verified_at: "2026-10-21"
 
 ## 변경 이력
 
+- 2026-10-22: 경계 실선을 녹화 프레임의 링 중심선 밝기로 세어 확인했다. 반원을 겹치고 빈 반원을 숨긴 뒤 Android 720프레임에서 0개였고, iOS PlayLynx에서도 보이지 않았다.
 - 2026-10-21: Android ProgressCircle cap 미표시 제보를 조사하며 에뮬레이터 A/B probe와 수정 전후 녹화로 확인해 기록했다.
