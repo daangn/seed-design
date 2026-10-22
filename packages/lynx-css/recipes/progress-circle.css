@@ -64,7 +64,9 @@
 }
 
 /* Android는 clip-path를 가진 부모가 transform 애니메이션 중인 자식을 자르지 않는다.
-   반쪽 영역은 폭 50% 박스의 overflow로 자르고, 반원은 그 안에서 링 크기로 둔다. */
+   첫 반원은 폭 50% 박스의 overflow로 자르고, 반원은 그 안에서 링 크기로 둔다.
+   두 번째 반원은 링 전체 크기로 두고 원호가 180°를 넘을 때만 첫 반원 위에 겹쳐 그린다.
+   두 반원이 맞닿는 경계는 antialias로 실선이 비친다. */
 .seed-progress-circle__half {
   position: absolute;
   top: 0;
@@ -79,6 +81,7 @@
 
 .seed-progress-circle__half--second {
   left: 0;
+  width: 100%;
 }
 
 .seed-progress-circle__semicircle--first,
@@ -96,6 +99,7 @@
 
 .seed-progress-circle__semicircle--second {
   left: 0;
+  width: 100%;
   clip-path: inset(0 0 0 50%);
 }
 

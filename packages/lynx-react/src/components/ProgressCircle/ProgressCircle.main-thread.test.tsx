@@ -145,8 +145,17 @@ describe("ProgressCircle MT 진행률", () => {
       });
       expect(animation.keyframes).toHaveLength(121);
       for (const keyframe of animation.keyframes ?? []) {
-        expect(Object.keys(keyframe)).toEqual(["transform"]);
+        expect(keyframe).toHaveProperty("transform");
+        expect(["transform", "opacity"]).toEqual(expect.arrayContaining(Object.keys(keyframe)));
       }
+    }
+    // 그릴 원호가 없는 반원은 경계가 실선으로 비치지 않게 숨긴다.
+    const [, firstHalfAnimation, secondHalfAnimation] = nativeAnimations;
+    for (const keyframe of firstHalfAnimation?.keyframes ?? []) {
+      if (keyframe.transform === "rotate(0deg)") expect(keyframe.opacity).toBe(0);
+    }
+    for (const keyframe of secondHalfAnimation?.keyframes ?? []) {
+      expect(keyframe.opacity).toBe(keyframe.transform === "rotate(0deg)" ? 0 : 1);
     }
     const initial = get(".seed-progress-circle__semicircle--first").style.transform;
     const firstAnimation = nativeAnimations[0];

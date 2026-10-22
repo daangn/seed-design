@@ -151,18 +151,26 @@ const TRANSITION_DURATION = 300;
 
 // clip-path는 보간되지 않으므로 고정 반원 두 개와 cap을 회전한다.
 // 10ms 간격의 기존 곡선을 한 번만 샘플링하고 프레임 간 보간은 엔진에 맡긴다.
+// 회전하지 않은 반원의 경계는 antialias로 실선이 비치므로 그릴 원호가 없을 때 숨긴다.
+// 2° 미만의 원호는 cap이 덮는다.
 const INDETERMINATE_KEYFRAMES = (() => {
   const container: { transform: string }[] = [];
-  const firstHalf: { transform: string }[] = [];
-  const secondHalf: { transform: string }[] = [];
+  const firstHalf: { transform: string; opacity: number }[] = [];
+  const secondHalf: { transform: string; opacity: number }[] = [];
   const head: { transform: string }[] = [];
   const intervals = INDETERMINATE_DURATION / 10;
   for (let i = 0; i <= intervals; i++) {
     const phase = INDETERMINATE_INITIAL_PHASE + i / intervals;
     const state = bgSampleIndeterminate(phase % 1);
     container.push({ transform: `rotate(${state.containerDeg + Math.floor(phase) * 720}deg)` });
-    firstHalf.push({ transform: `rotate(${Math.min(180, state.arcLength)}deg)` });
-    secondHalf.push({ transform: `rotate(${Math.max(0, state.arcLength - 180)}deg)` });
+    firstHalf.push({
+      transform: `rotate(${Math.min(180, state.arcLength)}deg)`,
+      opacity: state.arcLength >= 2 ? 1 : 0,
+    });
+    secondHalf.push({
+      transform: `rotate(${Math.max(0, state.arcLength - 180)}deg)`,
+      opacity: state.arcLength > 180 ? 1 : 0,
+    });
     head.push({ transform: `rotate(${state.arcLength}deg)` });
   }
   return { container, firstHalf, secondHalf, head };
