@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/lynx-react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -39,13 +39,13 @@
   "peerDependencies": {
     "@lynx-js/react": ">=0.117.0",
     "@lynx-js/types": ">=3.9.0",
-    "@seed-design/lynx-css": "^1.0.0"
+    "@seed-design/lynx-css": "^1.0.1"
   },
   "devDependencies": {
     "@lynx-js/lynx-ui-dialog": "^3.133.1",
     "@lynx-js/react": "^0.117.0",
     "@lynx-js/types": "^3.9.0",
-    "@seed-design/lynx-css": "1.0.0",
+    "@seed-design/lynx-css": "1.0.1",
     "@seed-design/lynx-vitest-config": "0.0.0",
     "@testing-library/jest-dom": "^6.9.1",
     "jsdom": "^29.0.2",
@@ -65,7 +65,7 @@
     "@seed-design/lynx-react-action-button": "^1.0.0",
     "@seed-design/lynx-react-app-bar": "^1.0.0",
     "@seed-design/lynx-react-attachment-display": "^1.0.0",
-    "@seed-design/lynx-react-bottom-sheet": "^1.0.0",
+    "@seed-design/lynx-react-bottom-sheet": "^1.0.1",
     "@seed-design/lynx-react-callout": "^1.0.0",
     "@seed-design/lynx-react-checkbox": "^1.0.0",
     "@seed-design/lynx-react-collapsible": "^1.0.0",

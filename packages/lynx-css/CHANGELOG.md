@@ -1,5 +1,12 @@
 # @seed-design/lynx-css
 
+## 1.0.1
+
+### Patch Changes
+
+- bf95a13: `Chip`, `ChipTabs`, `ReactionButton`, `Badge`의 outline 테두리가 번져 보이는 문제를 수정합니다. 테두리를 실제 border로 그리고 padding을 보정해 기존 크기를 유지합니다.
+- 4879cff: Android에서 indeterminate `ProgressCircle`의 원호가 항상 반 바퀴 이상으로 그려지고 양 끝의 둥근 cap이 보이지 않던 문제를 수정합니다.
+
 ## 1.0.0
 
 ### Major Changes
