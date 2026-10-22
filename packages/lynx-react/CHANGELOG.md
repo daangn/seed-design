@@ -1,5 +1,16 @@
 # @seed-design/lynx-react
 
+## 1.0.1
+
+### Patch Changes
+
+- f5092ee: BottomSheet의 높이가 바뀔 때 배경이 깜빡이던 문제를 수정합니다. 리사이즈 중 닫거나 드래그해도 현재 배경 농도에서 자연스럽게 이어집니다.
+- Updated dependencies [bf95a13]
+- Updated dependencies [7540d3c]
+- Updated dependencies [4879cff]
+  - @seed-design/lynx-css@1.0.1
+  - @seed-design/lynx-react-bottom-sheet@1.0.1
+
 ## 1.0.0
 
 ### Major Changes
