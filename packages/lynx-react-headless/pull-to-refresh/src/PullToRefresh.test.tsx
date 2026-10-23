@@ -147,10 +147,10 @@ function touch(selector: string, name: string, eventType: string) {
 function displacement() {
   return Number(/translateY\(([^p]+)px\)/.exec(get(".content").style.transform)?.[1] ?? 0);
 }
-function scroll(scrollTop: number) {
+function scroll(scrollTop: number, eventName = "scroll") {
   const content = get(".content");
-  const payload = { eventType: "bindEvent", eventName: "scroll", detail: { scrollTop } };
-  const event = createEvent("bindEvent:scroll", content, payload);
+  const payload = { eventType: "bindEvent", eventName, detail: { scrollTop } };
+  const event = createEvent(`bindEvent:${eventName}`, content, payload);
   Object.assign(event, payload);
   content.dispatchEvent(event);
 }
@@ -540,5 +540,13 @@ describe("PullToRefresh ListContent", () => {
       inner: false,
     });
     expect(displacement()).toBe(0);
+  });
+
+  it("throttle로 scroll 이벤트가 맨 위 값을 빠뜨려도 scrolltoupper로 당김을 받아들인다", async () => {
+    await mount({ listContentProps: {} });
+    scroll(307);
+    scroll(0, "scrolltoupper");
+    pull(150);
+    expect(displacement()).toBe(30);
   });
 });

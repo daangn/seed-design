@@ -44,10 +44,11 @@ export interface PullToRefreshIndicatorRenderProps {
   mainThreadProgress: MainThreadRef<MainThreadProgress>;
 }
 
-/** scroll-view와 list가 공통으로 보내는 `detail.scrollTop`만 사용합니다. */
+/** scroll-view와 list의 scroll 계열 이벤트가 공통으로 보내는 `detail.scrollTop`만 사용합니다. */
 type ScrollEvent =
   | Parameters<NonNullable<IntrinsicElements["scroll-view"]["bindscroll"]>>[0]
-  | Parameters<NonNullable<IntrinsicElements["list"]["bindscroll"]>>[0];
+  | Parameters<NonNullable<IntrinsicElements["list"]["bindscroll"]>>[0]
+  | Parameters<NonNullable<IntrinsicElements["list"]["bindscrolltoupper"]>>[0];
 type LayoutEvent = Parameters<
   NonNullable<IntrinsicElements["view"]["main-thread:bindlayoutchange"]>
 >[0];
