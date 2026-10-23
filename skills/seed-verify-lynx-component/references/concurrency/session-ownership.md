@@ -32,7 +32,8 @@ $CARD release --client "$CLIENT_ID"
 
 - 잠금 경로는 `/tmp/agent-lynx-client-<encodeURIComponent(CLIENT_ID)>.lifecycle.lock`이다. 같은 client를 쓰는 모든 worktree가 같은 경로를 쓰고, atomic `mkdir` 성공만 획득으로 인정한다.
 - owner는 기본으로 현재 worktree 경로(`git rev-parse --show-toplevel`)다. 한 worktree에서 여러 에이전트가 온라인 검증을 나눠 맡으면 각자 `--owner <작업 ID>`를 모든 명령에 같은 값으로 넘긴다.
-- 잠금은 heartbeat가 있는 임대다. `acquire`·`open`·`exec`·`renew`가 heartbeat를 갱신하고, 마지막 갱신 뒤 TTL(기본 600초, `acquire --ttl <초>`)이 지나면 만료로 본다. 짧은 CLI 호출의 PID로 생존을 판단하지 않는다.
+- 잠금은 heartbeat가 있는 임대다. `acquire`·`open`·`renew`가 heartbeat를 갱신하고, `exec`는 명령이 끝날 때까지 TTL의 1/3마다 갱신한다. 마지막 갱신 뒤 TTL(기본 600초, `acquire --ttl <초>`)이 지나면 만료로 본다. 짧은 CLI 호출의 PID로 생존을 판단하지 않는다.
+- 잠금 기록을 바꾸는 명령(`renew`·`open`·`release`·회수)은 잠금 안의 `mutex`로 직렬화한다. 그래서 회수 중에는 기존 owner의 `renew`·`release`가 기다렸다가 거부되고, `release`가 Card를 닫는 동안에는 회수가 시작되지 않는다. 실행 중인 스크립트 프로세스가 죽어 남긴 `mutex`는 다음 명령이 PID로 확인해 치운다.
 - 만료된 잠금은 다음 `acquire`가 회수한다. 회수자 하나만 기록된 Card를 정리하고 잠금을 넘겨받는다. 정리 기준은 `release`와 같다: 기록한 session만 닫고, 확정할 수 없으면 회수하지 않는다.
 - `version` 필드가 없는 이전 규약의 잠금은 자동 회수하지 않는다. 이전 문서를 따르는 다른 worktree의 에이전트가 아직 쓰고 있을 수 있다.
 - 잠금 정보는 `$CARD status --client "$CLIENT_ID"`로 본다. `heldByMe`·`stale`·기록(state, baseline, sessionId, error)을 준다.
@@ -70,7 +71,7 @@ $CARD open "$BUNDLE_URL" --client "$CLIENT_ID"
 
 ## 4. 같은 session에서 검증하고 reload
 
-session 대상 명령은 `exec`로 실행한다. `--` 뒤의 `agent-lynx` 인자에 스크립트가 소유 `--client`·`--session`을 붙이고 heartbeat를 갱신한다. CDP, evaluate, snapshot·tap·fill·clear·scroll·wait·get, screenshot, console·sources·inspect, ReactLynx, session 범위 memory·trace가 모두 해당한다.
+session 대상 명령은 `exec`로 실행한다. `--` 뒤의 `agent-lynx` 인자에 스크립트가 소유 `--client`·`--session`을 붙인다. 실행 전에 host의 `debugRouterId`가 기록과 같은지 확인하고, 실행하는 동안 heartbeat를 갱신한다. CDP, evaluate, snapshot·tap·fill·clear·scroll·wait·get, screenshot, console·sources·inspect, ReactLynx, session 범위 memory·trace가 모두 해당한다.
 
 ```bash
 $CARD exec --client "$CLIENT_ID" -- snapshot
@@ -82,7 +83,7 @@ $CARD exec --client "$CLIENT_ID" -- cdp --method Page.reload '{}'
 $CARD exec --client-scope --client "$CLIENT_ID" -- app --method App.openPage '{}'
 ```
 
-- `exec`는 잠금 owner가 바뀌었으면 실행하지 않는다. 그 결과를 받으면 조작을 멈추고 `status`로 현재 소유자를 확인한다.
+- `exec`는 잠금 owner가 바뀌었거나 host가 바뀌었으면 실행하지 않고, 실행 중 소유권을 잃으면 명령을 멈춘다. 그 결과를 받으면 조작을 멈추고 `status`로 현재 소유자를 확인한다.
 - 장치와 무관한 작업(빌드·분석)으로 TTL보다 오래 걸릴 것 같으면 그 전에 `$CARD renew --client "$CLIENT_ID"`를 실행한다. 다만 Card를 연 채 headless lib를 다시 빌드하면 PlayLynx 연결이 끊길 수 있다 → 재빌드 전에 `release`한다.
 - MCP처럼 `exec`를 거칠 수 없는 경로는 `opened` 결과의 같은 ID를 명시하고, 사용 중에 `renew`한다. latest session 자동 선택에 기대지 않는다.
 - 전역 `Memory.getAllMemoryUsage`의 `--session -1`은 명시적인 전역 대상이다 → `exec --client-scope -- … --session -1`로 넘기고, 결과의 session을 정리 대상으로 삼지 않는다.
@@ -104,7 +105,7 @@ $CARD release --client "$CLIENT_ID"
 
 정리는 검증의 마지막 필수 단계다. 명령이나 검증이 실패해도 실행한다.
 
-- 스크립트는 host의 `debugRouterId`가 기록과 같은지 확인하고 소유 session만 닫는다. open 뒤 session을 확정하지 못한 기록이면 같은 baseline·URL 기준으로 다시 찾아, 하나면 닫고 없으면 Card가 없다고 본다.
+- 스크립트는 host의 `debugRouterId`가 기록과 같은지 확인하고 소유 session만 닫는다. open 뒤 session을 확정하지 못한 기록이면 같은 baseline·URL 기준으로 다시 찾아, 하나면 닫는다. 하나도 없으면 해제하지 않는다. ATS 오류처럼 session 없는 오류 Card가 남았을 수 있고 목록으로는 증명할 수 없기 때문이다 → 기기 화면에서 Card가 없음을 확인하거나 사람에게 정리를 요청한 뒤 `release --confirmed-no-card`로 해제한다.
 - 닫기는 PlayLynx에서 확인한 임시 경로 `lynx.getNativeApp().nativeModuleProxy.NavigationModule.close()`를 소유 session의 `evaluate`로 실행한다. `App.closePage`는 PlayLynx가 `not implemented`를 반환한다. 다른 host나 버전에서는 이 경로가 실패할 수 있다.
 - 완료 조건은 성공한 목록 조회에서 소유 session ID가 사라진 것이다. 스크립트가 최대 30초 동안 다시 조회한다. 목록 조회 실패·client 소실은 빈 목록으로 보지 않는다.
 - 제거를 확인하면 잠금을 지우고 `released`와 닫은 `closedSessionId`를 준다. 이미 사라진 session은 정리된 것으로 본다.
@@ -117,10 +118,11 @@ $CARD release --client "$CLIENT_ID"
 
 - 다른 owner가 잠금을 유지함: 그 client의 온라인 검증을 `환경 차단`으로 보고한다. 출력의 `holder`(owner·state·heartbeatAt)를 함께 적는다.
 - 이전 규약의 잠금: 기록의 owner·작업에 확인하거나 사람에게 정리를 요청한다. 회수하지 않는다.
-- open 뒤 session을 확정하지 못함: 다시 open하지 않고 `release`를 실행한다. `release`도 후보가 여럿이라 막히면 baseline·후보 목록을 보고하고 잠금을 유지한다.
+- open 뒤 session을 확정하지 못함: 다시 open하지 않고 `release`를 실행한다. `release`도 후보가 여럿이라 막히면 baseline·후보 목록을 보고하고 잠금을 유지한다. 후보가 없어 막히면 기기 화면에서 Card가 없음을 확인한 뒤 `release --confirmed-no-card`를 실행하고, 확인할 수 없으면 사람에게 정리를 요청한다. 만료 뒤 회수자도 같은 사유로 막히며, 같은 확인 뒤 `acquire --confirmed-no-card`로 회수한다.
 - session이 목록에서 사라지지 않음(종료 실패): 추가 open을 멈추고 client·session·잠금 경로·종료 결과를 보고한다. 사람이 Card를 닫은 뒤 `release`를 다시 실행한다. 보고 없이 떠나도 TTL 뒤 다음 `acquire`가 같은 기준으로 다시 정리를 시도하며, 그때도 남아 있으면 그 작업이 같은 사유로 막힌다.
 - host가 목록에 없거나 바뀜: app 재시작으로 같은 client ID가 다른 host를 가리킬 수 있다. 남은 Card를 확인할 수 없으므로 사람에게 확인을 요청한다.
 - 이 owner의 잠금이 아님: 만료로 다른 owner가 회수했을 수 있다. 조작을 멈추고 `status`를 확인한다.
+- 다른 명령이 잠금 기록을 쓰는 중: 회수나 다른 명령의 Card 정리가 180초 넘게 이어진 경우다. 잠시 뒤 다시 실행한다.
 
 ## 잠금의 효력
 
