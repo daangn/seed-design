@@ -57,18 +57,33 @@ function Protected() {
     </view>
   );
 }
-type SceneProps = PullToRefreshRootProps & { contentProps?: PullToRefresh.ContentProps };
+type SceneProps = PullToRefreshRootProps & {
+  contentProps?: PullToRefresh.ContentProps;
+  listContentProps?: PullToRefresh.ListContentProps;
+};
 
-function Scene({ contentProps, ...props }: SceneProps) {
+function Scene({ contentProps, listContentProps, ...props }: SceneProps) {
   return (
     <PullToRefresh.Root className="root" {...props}>
       <PullToRefresh.Indicator className="indicator">
         {() => <text>진행률</text>}
       </PullToRefresh.Indicator>
-      <PullToRefresh.Content className="content" {...contentProps}>
-        <State />
-        <Protected />
-      </PullToRefresh.Content>
+      {listContentProps ? (
+        <>
+          {/* 테스트 환경은 list-item을 렌더하지 않아 관찰 요소를 list 밖에 둡니다. */}
+          <State />
+          <PullToRefresh.ListContent className="content" {...listContentProps}>
+            <list-item item-key="item">
+              <text>항목</text>
+            </list-item>
+          </PullToRefresh.ListContent>
+        </>
+      ) : (
+        <PullToRefresh.Content className="content" {...contentProps}>
+          <State />
+          <Protected />
+        </PullToRefresh.Content>
+      )}
     </PullToRefresh.Root>
   );
 }
@@ -131,6 +146,13 @@ function touch(selector: string, name: string, eventType: string) {
 }
 function displacement() {
   return Number(/translateY\(([^p]+)px\)/.exec(get(".content").style.transform)?.[1] ?? 0);
+}
+function scroll(scrollTop: number) {
+  const content = get(".content");
+  const payload = { eventType: "bindEvent", eventName: "scroll", detail: { scrollTop } };
+  const event = createEvent("bindEvent:scroll", content, payload);
+  Object.assign(event, payload);
+  content.dispatchEvent(event);
 }
 function pull(y = 250) {
   gesture("onBegin", 100);
@@ -428,6 +450,89 @@ describe("PullToRefresh MT", () => {
     content.dispatchEvent(top);
     touch(".root", "touchstart", "bindEvent");
     touch(".protected", "touchstart", "bindEvent");
+    consume.mockClear();
+    pull();
+    expect(consume).toHaveBeenLastCalledWith(null, expect.any(Number), {
+      consume: false,
+      inner: false,
+    });
+    expect(displacement()).toBe(0);
+  });
+});
+
+describe("PullToRefresh ListContent", () => {
+  it("list-container·세로·bounces 없음과 초기 transform을 기본으로 둔다", async () => {
+    await mount({ listContentProps: {} });
+    const content = get(".content");
+    expect(content.tagName.toLowerCase()).toBe("list");
+    expect(content).toHaveAttribute("custom-list-name", "list-container");
+    expect(content).toHaveAttribute("scroll-orientation", "vertical");
+    expect(content).toHaveAttribute("bounces", "false");
+    expect(content.style.transform).toBe("translateY(0px)");
+  });
+
+  it("list 구현과 bounces 기본값은 사용자 props로 덮는다", async () => {
+    await mount({ listContentProps: { "custom-list-name": "list", bounces: true } });
+    expect(get(".content")).toHaveAttribute("custom-list-name", "list");
+    expect(get(".content")).toHaveAttribute("bounces", "true");
+  });
+
+  it("받아들인 당김의 경계 이탈은 scrollToPosition으로 되돌리고 사용자 scroll handler도 호출한다", async () => {
+    await mount({
+      listContentProps: {
+        "main-thread:bindscroll": (event) => {
+          "main thread";
+          (globalThis as { userScrollTop?: number }).userScrollTop = event.detail.scrollTop;
+        },
+      },
+    });
+    const native = registerGesture();
+    native("onBegin", 100);
+    native("onUpdate", 110);
+    scroll(12);
+    expect(invokeUiMethod).toHaveBeenCalledWith(
+      expect.anything(),
+      "scrollToPosition",
+      { index: 0, offset: 0, smooth: false },
+      expect.any(Function),
+    );
+    expect(invokeUiMethod).not.toHaveBeenCalledWith(
+      expect.anything(),
+      "scrollTo",
+      expect.anything(),
+      expect.any(Function),
+    );
+    expect((globalThis as { userScrollTop?: number }).userScrollTop).toBe(12);
+    native("onUpdate", 120);
+    expect(displacement()).toBeGreaterThan(0);
+  });
+
+  it("상태가 바뀌어 다시 렌더해도 당김 변위를 유지하고 loading 뒤 복귀한다", async () => {
+    let resolve: () => void = () => {};
+    const pending = new Promise<void>((r) => {
+      resolve = r;
+    });
+    await mount({ listContentProps: {}, onPtrRefresh: () => pending });
+    pull(150);
+    await flush();
+    expect(get(".state")).toHaveTextContent("pulling");
+    expect(displacement()).toBe(30);
+    gesture("onUpdate", 250);
+    gesture("onEnd", 250);
+    await flush();
+    await frame(300);
+    expect(get(".state")).toHaveTextContent("loading");
+    expect(displacement()).toBe(88);
+    resolve();
+    await flush();
+    await frame(300);
+    expect(displacement()).toBe(0);
+    expect(get(".state")).toHaveTextContent("idle");
+  });
+
+  it("스크롤된 list에서 시작한 당김은 native 중재를 해제한다", async () => {
+    await mount({ listContentProps: {} });
+    scroll(20);
     consume.mockClear();
     pull();
     expect(consume).toHaveBeenLastCalledWith(null, expect.any(Number), {
