@@ -60,7 +60,7 @@ ListContent는 세로 `<list>`입니다. children은 `<list-item>`으로 구성�
 
 - `custom-list-name`의 기본값은 `"list-container"`입니다. iOS의 기본 list 구현은 당김 제스처가 native 스크롤을 막지 못해 당기는 중 list가 함께 스크롤될 수 있습니다. 다른 값으로 바꾸면 iOS에서 이 문제가 다시 생길 수 있습니다.
 - Content와 같이 `bounces`의 기본값은 `false`이며 iOS 아래쪽 경계의 bounce도 꺼집니다.
-- 최상단 판정은 list의 scroll 이벤트가 보내는 `scrollTop`을 따릅니다. scroll 이벤트가 늦게 오면 빠르게 최상단까지 스크롤한 직후의 당김이 시작되지 않을 수 있습니다. 이때는 손을 뗀 뒤 다시 당기세요. `scroll-event-throttle`을 낮춰도 iOS list-container에서는 적용이 보장되지 않습니다.
+- 최상단 판정은 list의 `scroll` 이벤트가 보내는 `scrollTop`을 따르고 `scrolltoupper` 이벤트로 보완합니다. list의 `scroll` 이벤트는 간격을 두고 보내져 최상단에 닿은 마지막 값이 빠질 수 있습니다. 두 이벤트가 모두 늦게 오면 빠르게 최상단까지 스크롤한 직후의 당김이 시작되지 않을 수 있습니다. `scroll-event-throttle`을 낮춰도 iOS list-container에서는 적용이 보장되지 않습니다.
 
 ## Examples
 

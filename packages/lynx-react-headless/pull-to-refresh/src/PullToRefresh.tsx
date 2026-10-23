@@ -19,6 +19,7 @@ type ScrollProps = IntrinsicElements["scroll-view"];
 type ListProps = IntrinsicElements["list"];
 type ScrollViewScrollEvent = Parameters<NonNullable<ScrollProps["bindscroll"]>>[0];
 type ListScrollEvent = Parameters<NonNullable<ListProps["bindscroll"]>>[0];
+type ListScrollToUpperEvent = Parameters<NonNullable<ListProps["bindscrolltoupper"]>>[0];
 
 /** @platform Lynx Root는 clip 컨테이너이며 Content가 세로 scroll host입니다. asChild는 지원하지 않습니다. */
 export interface PullToRefreshRootProps
@@ -49,9 +50,8 @@ export interface PullToRefreshContentProps extends Omit<ScrollProps, "ref" | "ch
  * native 스크롤에 연결하지 않아, 당김 중 list가 함께 스크롤될 수 있습니다. 사용자 native props로 변경할 수 있습니다.
  * native bounces의 기본값은 false이며 iOS 아래쪽 경계의 bounce도 꺼집니다.
  * 당김 중 native 스크롤이 경계를 벗어나면 `scrollToPosition`으로 첫 항목에 되돌립니다.
- * 맨 위 판정은 scroll 이벤트의 `scrollTop`을 따릅니다. list의 scroll 이벤트가 늦게 오면 빠르게 맨 위로 스크롤한 직후의
- * 당김이 거부될 수 있으며, 이때는 손을 뗀 뒤 다시 당겨야 합니다. `scroll-event-throttle`은 iOS list-container에서
- * 적용이 보장되지 않아 이 지연의 해결책이 아닙니다.
+ * 맨 위 판정은 scroll 이벤트의 `scrollTop`을 따르고 scrolltoupper 이벤트로 보완합니다. list의 scroll 이벤트는 throttle되어
+ * 맨 위에 닿은 마지막 이벤트가 빠질 수 있습니다. 두 이벤트가 모두 늦게 오면 빠르게 맨 위로 스크롤한 직후의 당김이 거부될 수 있습니다.
  */
 export interface PullToRefreshListContentProps extends Omit<ListProps, "ref" | "children"> {
   children?: ReactNode;
@@ -59,6 +59,8 @@ export interface PullToRefreshListContentProps extends Omit<ListProps, "ref" | "
   "custom-list-name"?: string;
   /** 내부 MT scroll handler와 합성합니다. 설치된 Lynx 타입에 이 native key가 없어 직접 선언합니다. */
   "main-thread:bindscroll"?: (event: ListScrollEvent) => void;
+  /** 내부 MT 맨 위 판정 handler와 합성합니다. */
+  "main-thread:bindscrolltoupper"?: (event: ListScrollToUpperEvent) => void;
 }
 
 function geometry(style: ViewProps["style"], defaults: CSSProperties): CSSProperties | string {
@@ -230,6 +232,7 @@ export const PullToRefreshListContent: ForwardRefExoticComponent<
     style,
     "main-thread:ref": userMainThreadRef,
     "main-thread:bindscroll": userScroll,
+    "main-thread:bindscrolltoupper": userScrollToUpper,
     ...nativeProps
   } = props;
   const { gesture, contentRef, handleListScroll } = usePullToRefreshContext();
@@ -245,6 +248,8 @@ export const PullToRefreshListContent: ForwardRefExoticComponent<
     ...(ref ? { ref } : {}),
     "main-thread:ref": composeMainThreadRefs(contentRef, userMainThreadRef),
     "main-thread:bindscroll": composeMainThreadHandlers(handleListScroll, userScroll),
+    // scroll 이벤트는 throttle로 맨 위에 닿은 마지막 값이 빠질 수 있어 scrolltoupper로 보완합니다.
+    "main-thread:bindscrolltoupper": composeMainThreadHandlers(handleListScroll, userScrollToUpper),
   };
   return <list {...contentProps}>{children}</list>;
 });
