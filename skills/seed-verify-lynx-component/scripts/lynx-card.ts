@@ -467,6 +467,15 @@ async function open(options: Options) {
  * 소유권을 잃으면 명령을 멈춘다.
  */
 async function exec(options: Options): Promise<number> {
+  // Card를 만드는 명령은 소유 기록 없이 Card를 늘리므로 open 명령으로만 실행한다.
+  if (
+    options.passthrough[0] === "open" ||
+    options.passthrough.some((argument) => argument.includes("App.openPage"))
+  ) {
+    throw new Blocked("exec로 Card를 만들 수 없다. Card는 lynx-card.ts open으로만 연다.", {
+      args: options.passthrough,
+    });
+  }
   const record = await withOwner(options, async (held) => {
     if (!options.clientScope && (held.state !== "open" || held.sessionId === undefined)) {
       throw new Blocked("열린 소유 session이 없다. open을 먼저 한다.", { record: held });

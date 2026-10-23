@@ -79,10 +79,11 @@ $CARD exec --client "$CLIENT_ID" -- cdp --method DOM.getDocument
 $CARD exec --client "$CLIENT_ID" -- evaluate 'JSON.stringify(lynx.__globalProps)'
 # 같은 Card의 bundle을 다시 검증한다.
 $CARD exec --client "$CLIENT_ID" -- cdp --method Page.reload '{}'
-# client 범위 명령(app·recorder·trace 등)은 --client만 붙인다.
-$CARD exec --client-scope --client "$CLIENT_ID" -- app --method App.openPage '{}'
+# client 범위 명령(app·recorder·trace·global-switch 등)은 --client만 붙인다.
+$CARD exec --client-scope --client "$CLIENT_ID" -- global-switch list
 ```
 
+- Card를 만드는 명령(`open`, `App.openPage`)은 `exec`가 거부한다. 소유 기록 없이 Card가 늘어나 정리 대상에서 빠지기 때문이다 → Card는 3단계 `open`으로만 연다. OS 딥 링크·MCP로도 Card를 따로 열지 않는다.
 - `exec`는 잠금 owner가 바뀌었거나 host가 바뀌었으면 실행하지 않고, 실행 중 소유권을 잃으면 명령을 멈춘다. 그 결과를 받으면 조작을 멈추고 `status`로 현재 소유자를 확인한다.
 - 장치와 무관한 작업(빌드·분석)으로 TTL보다 오래 걸릴 것 같으면 그 전에 `$CARD renew --client "$CLIENT_ID"`를 실행한다. 다만 Card를 연 채 headless lib를 다시 빌드하면 PlayLynx 연결이 끊길 수 있다 → 재빌드 전에 `release`한다.
 - MCP처럼 `exec`를 거칠 수 없는 경로는 `opened` 결과의 같은 ID를 명시하고, 사용 중에 `renew`한다. latest session 자동 선택에 기대지 않는다.
