@@ -32,6 +32,7 @@ function useTabsState(props: UseTabsStateProps) {
   const [listEl, listRef] = useState<HTMLElement | null>(null);
   const [selectedTriggerEl, setSelectedTriggerEl] = useState<HTMLElement | null>(null);
   const selectedTriggerSize = useSize(selectedTriggerEl);
+  const [selectedTriggerLeft, setSelectedTriggerLeft] = useState<number>();
 
   const enabledValues = useMemo(() => (listEl ? dom.getEnabledValues(listEl) : []), [listEl]);
   const contentIndex = value ? enabledValues.indexOf(value) : -1;
@@ -44,8 +45,26 @@ function useTabsState(props: UseTabsStateProps) {
   //       to allow users to customize the scroll behavior.
   useEffect(() => {
     if (selectedTriggerEl && listEl) {
-      scrollTabIntoView(selectedTriggerEl, listEl, { scrollPadding: 16 });
+      scrollTabIntoView(selectedTriggerEl, listEl);
     }
+  }, [selectedTriggerEl, listEl]);
+
+  // A change in the list's padding moves the selected trigger without resizing it. A list that
+  // grows into the safe area adds the same amount as padding, so only its border box changes;
+  // moving an inset from one side to the other changes neither box, but fires `resize`.
+  useEffect(() => {
+    if (!selectedTriggerEl || !listEl) return;
+
+    const measure = () => setSelectedTriggerLeft(selectedTriggerEl.offsetLeft);
+    const observer = new ResizeObserver(measure);
+    observer.observe(listEl, { box: "border-box" });
+    observer.observe(selectedTriggerEl);
+    window.addEventListener("resize", measure);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
   }, [selectedTriggerEl, listEl]);
 
   const focusTriggerByValue = useCallback(
@@ -303,12 +322,15 @@ function useTabsState(props: UseTabsStateProps) {
     [],
   );
 
+  // Reads `offsetLeft` during render so a newly selected trigger is placed before its observer
+  // reports; `selectedTriggerLeft` only marks when the selected trigger has moved since.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: selectedTriggerLeft invalidates the memo
   const triggerRect = useMemo(
     () => ({
       width: selectedTriggerSize?.width ?? selectedTriggerEl?.offsetWidth ?? 0,
       left: selectedTriggerEl?.offsetLeft ?? 0,
     }),
-    [selectedTriggerSize, selectedTriggerEl],
+    [selectedTriggerSize, selectedTriggerEl, selectedTriggerLeft],
   );
 
   const isSSR = useIsSSR();

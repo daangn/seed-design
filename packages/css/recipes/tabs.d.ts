@@ -15,6 +15,10 @@ declare interface TabsVariant {
   * @default false
   */
   stickyList: boolean;
+/**
+  * @default false
+  */
+  extendSafeAreaX: boolean;
 }
 
 declare type TabsVariantMap = {

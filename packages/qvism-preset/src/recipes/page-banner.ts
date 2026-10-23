@@ -162,6 +162,7 @@ const pageBanner = defineSlotRecipe({
   defaultVariants: {
     tone: "neutral",
     variant: "weak",
+    extendSafeAreaX: false,
   },
   variants: {
     variant: {
@@ -175,6 +176,19 @@ const pageBanner = defineSlotRecipe({
       warning: {},
       critical: {},
       magic: {},
+    },
+    extendSafeAreaX: {
+      true: {
+        root: {
+          // `width: 100%` alone would keep the parent's width and only shift the banner left
+          width: "calc(100% + var(--seed-safe-area-left) + var(--seed-safe-area-right))",
+          marginLeft: "calc(var(--seed-safe-area-left) * -1)",
+          marginRight: "calc(var(--seed-safe-area-right) * -1)",
+          paddingLeft: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-right))`,
+        },
+      },
+      false: {},
     },
   },
   compoundVariants: [
