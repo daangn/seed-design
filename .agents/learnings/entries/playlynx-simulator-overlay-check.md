@@ -12,7 +12,7 @@ verified_at: "2026-09-30"
 ## 교훈과 다음 행동
 
 - portless가 넘기는 `PORTLESS_URL`(`http://<name>.test`)은 `lynx.config.ts`의 기본 `dev.assetPrefix`가 된다. PlayLynx는 이 http 도메인을 ATS로 막고 Lynx session 없는 오류 Card를 남긴다 → 시뮬레이터 검증은 `portless run --name <name> sh -c 'ASSET_PREFIX="http://127.0.0.1:$PORT" exec bun run dev'`로 띄우고 `http://127.0.0.1:<PORT>/main.lynx.bundle?example=…`을 연다.
-- 오류 Card에는 Lynx session이 없어 `NavigationModule.close()`로 닫을 수 없다 → open 전에 URL 조건을 맞춘다. 이미 생겼으면 잠금을 유지하고 사용자에게 Card 정리를 요청한다.
+- 오류 Card에는 Lynx session이 없어 `NavigationModule.close()`로 닫을 수 없고, `lynx-card.ts`도 목록에서 보지 못해 `open`이 session을 확정하지 못했다고 끝나며 `release`는 Card가 없다고 본다 → open 전에 URL 조건을 맞춘다. 이미 생겼으면 잠금을 유지한 채 사용자에게 Card 정리를 요청하고, 정리된 뒤 `release`한다.
 - 개발 서버가 떠 있는 동안 `bun lynx-headless:build`로 lib를 다시 만들면 중간 빌드가 `Module not found`로 실패하고, 그 결과를 받은 PlayLynx가 종료될 수 있다 → lib 재빌드 전에 소유 Card를 닫거나, 재빌드 뒤 서버 로그의 `ready`를 확인하고 PlayLynx 상태를 다시 확인한다.
 - `container`를 지정한 overlay 레이어에는 `agent-lynx tap`과 `Input.emulateTouchFromMouseEvent`가 전달되지 않았고 `Input.dispatchTouchEvent`는 `Not implemented`였다 → overlay 모드의 drag·snap·backdrop 닫힘은 Simulator 창이나 기기의 실제 터치로 확인하고, 자동 검증은 DOM(`DOM.getDocument`)의 `<overlay>` 속성(`visible`)과 레이어 style까지만 주장한다.
 - overlay 모드 화면을 `agent-lynx screenshot --fullscreen`으로 증명하지 않는다. `--fullscreen`은 소유 session이 아니라 기기 앞에 있는 Card를 찍으므로, 다른 에이전트의 Card가 앞에 있으면 그 화면이 찍힌다. 기본 캡처(LynxView)에 Lynx view 밖 `<overlay>`가 담기는지는 확인하지 않았다 → overlay의 시각 확인은 소유 Card를 앞에 둔 기기 화면에서 직접 하고, 자동 증거는 DOM으로 남긴다.
@@ -29,3 +29,4 @@ verified_at: "2026-09-30"
 
 - 2026-09-30: DES-2680 검증 중 확인한 ATS·재빌드 종료·overlay 입력 범위를 기록했다.
 - 2026-10-02: DES-2656 실기기 확인으로 overlay 모드 screenshot 범위를 추가하고, 스크린샷 레이아웃 주장을 DOM 근거로 좁혔다.
+- 2026-10-23: 잠금 절차를 `lynx-card.ts`로 옮기면서 오류 Card의 정리 순서를 스크립트 결과 기준으로 바꿨다. 기기 재검증은 하지 않았다.
