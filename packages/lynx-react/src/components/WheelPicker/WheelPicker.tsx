@@ -84,8 +84,9 @@ export const WheelPickerRoot = React.forwardRef<NodesRef, WheelPickerRootProps>(
   } = otherProps;
   const size = variantProps.size ?? "medium";
   const disabled = variantProps.disabled ?? false;
-  const sizeVars = size === "small" ? vars.sizeSmall.enabled : vars.sizeMedium.enabled;
-  const itemSize = itemSizeProp ?? Number.parseFloat(sizeVars.item.height);
+  const itemHeight =
+    size === "small" ? vars.sizeSmall.enabled.item.height : vars.sizeMedium.enabled.item.height;
+  const itemSize = itemSizeProp ?? Number.parseFloat(itemHeight);
   const viewportSize = itemSize * visibleItemCount;
   const fogSize =
     scrollFogSize ??

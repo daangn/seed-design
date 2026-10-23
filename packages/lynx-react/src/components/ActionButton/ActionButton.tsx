@@ -17,7 +17,6 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { toArray } from "../../utils/children";
-import { capitalize, resolveRecipeToken } from "../../utils/resolve-recipe-token";
 import { useStyleProps, type MarginBleedStyleProps, type StyleProps } from "../../utils/styled";
 import {
   ProgressCircleRange,
@@ -50,16 +49,18 @@ interface ActionButtonRootOwnProps extends LynxHostProps<"view"> {}
 
 interface ActionButtonRootProps extends ActionButtonVariantProps, ActionButtonRootOwnProps {}
 
+const progressCircleSizeByButtonSize = {
+  xsmall: actionButtonVars.sizeXsmall.enabled.progressCircle.size,
+  small: actionButtonVars.sizeSmall.enabled.progressCircle.size,
+  medium: actionButtonVars.sizeMedium.enabled.progressCircle.size,
+  large: actionButtonVars.sizeLarge.enabled.progressCircle.size,
+} satisfies Record<NonNullable<ActionButtonVariantProps["size"]>, string>;
+
 function resolveProgressCircleSize(
   actionButtonSize: ActionButtonVariantProps["size"],
 ): ProgressCircleRootProps["size"] {
   const size = actionButtonSize ?? "medium";
-  const token = resolveRecipeToken(actionButtonVars, [
-    `size${capitalize(size)}`,
-    "enabled",
-    "progressCircle",
-    "size",
-  ]);
+  const token = progressCircleSizeByButtonSize[size];
   const normalized = token?.endsWith("px") ? token.slice(0, -2) : token;
 
   return progressCircleVariantMap.size.find((size) => size === normalized) ?? "16";

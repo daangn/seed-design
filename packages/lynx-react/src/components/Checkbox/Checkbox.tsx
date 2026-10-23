@@ -93,81 +93,83 @@ export interface CheckboxRootProps
     >,
     LynxHostProps<"view"> {}
 
-export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props, ref) => {
-  const {
-    children,
-    className,
-    bindtap,
-    "accessibility-label": accessibilityLabel,
-    "main-thread:bindtap": mainThreadBindtap,
-    checked,
-    defaultChecked,
-    indeterminate,
-    disabled = false,
-    onCheckedChange,
-    ...restProps
-  } = props;
-  const [{ checkbox: checkboxVariantProps, checkmark: checkmarkVariantProps }, nativeProps] =
-    splitMultipleVariantsProps(restProps, { checkbox, checkmark });
-  const insideAccessibilityElement = useInsideAccessibilityElement();
-  const resolvedAccessibilityLabel = accessibilityLabel ?? getAccessibleText(children);
+export const CheckboxRoot = /* @__PURE__ */ React.forwardRef<unknown, CheckboxRootProps>(
+  (props, ref) => {
+    const {
+      children,
+      className,
+      bindtap,
+      "accessibility-label": accessibilityLabel,
+      "main-thread:bindtap": mainThreadBindtap,
+      checked,
+      defaultChecked,
+      indeterminate,
+      disabled = false,
+      onCheckedChange,
+      ...restProps
+    } = props;
+    const [{ checkbox: checkboxVariantProps, checkmark: checkmarkVariantProps }, nativeProps] =
+      splitMultipleVariantsProps(restProps, { checkbox, checkmark });
+    const insideAccessibilityElement = useInsideAccessibilityElement();
+    const resolvedAccessibilityLabel = accessibilityLabel ?? getAccessibleText(children);
 
-  const api = useCheckbox({
-    checked,
-    defaultChecked,
-    onCheckedChange,
-    indeterminate,
-    disabled,
-    bindtap,
-    "main-thread:bindtap": mainThreadBindtap,
-  });
-  // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
-  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
-  const accessibilityElement =
-    nativeProps["accessibility-element"] ?? rootProps["accessibility-element"];
-  if (
-    process.env.NODE_ENV !== "production" &&
-    !insideAccessibilityElement &&
-    accessibilityElement === true &&
-    !resolvedAccessibilityLabel
-  ) {
-    console.warn("CheckboxRoot: `accessibility-label` is required when children have no text.");
-  }
-  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled,
-    onTouchStart: bindtouchstart,
-    onTouchEnd: bindtouchend,
-    onTouchCancel: bindtouchcancel,
-  });
+    const api = useCheckbox({
+      checked,
+      defaultChecked,
+      onCheckedChange,
+      indeterminate,
+      disabled,
+      bindtap,
+      "main-thread:bindtap": mainThreadBindtap,
+    });
+    // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
+    const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
+    const accessibilityElement =
+      nativeProps["accessibility-element"] ?? rootProps["accessibility-element"];
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !insideAccessibilityElement &&
+      accessibilityElement === true &&
+      !resolvedAccessibilityLabel
+    ) {
+      console.warn("CheckboxRoot: `accessibility-label` is required when children have no text.");
+    }
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+      disabled,
+      onTouchStart: bindtouchstart,
+      onTouchEnd: bindtouchend,
+      onTouchCancel: bindtouchcancel,
+    });
 
-  const rootClassName = checkbox({ ...checkboxVariantProps, disabled }).root;
+    const rootClassName = checkbox({ ...checkboxVariantProps, disabled }).root;
 
-  const contextValue = React.useMemo<StyledCheckboxContextValue>(
-    () => ({ ...api, checkboxVariantProps, checkmarkVariantProps, scaleFeedbackTargetProps }),
-    [api, checkboxVariantProps, checkmarkVariantProps, scaleFeedbackTargetProps],
-  );
+    const contextValue = React.useMemo<StyledCheckboxContextValue>(
+      () => ({ ...api, checkboxVariantProps, checkmarkVariantProps, scaleFeedbackTargetProps }),
+      [api, checkboxVariantProps, checkmarkVariantProps, scaleFeedbackTargetProps],
+    );
 
-  return (
-    <CheckboxProvider value={contextValue}>
-      <view
-        {...mergeProps(
-          ref ? { ref: ref as LynxViewRef } : {},
-          scaleFeedbackTriggerProps,
-          rootProps,
-          { flatten: false, "accessibility-label": resolvedAccessibilityLabel },
-          nativeProps,
-        )}
-        className={clsx(rootClassName, className)}
-      >
-        {accessibilityElement ? (
-          <AccessibilityElementScope>{children}</AccessibilityElementScope>
-        ) : (
-          children
-        )}
-      </view>
-    </CheckboxProvider>
-  );
-});
+    return (
+      <CheckboxProvider value={contextValue}>
+        <view
+          {...mergeProps(
+            ref ? { ref: ref as LynxViewRef } : {},
+            scaleFeedbackTriggerProps,
+            rootProps,
+            { flatten: false, "accessibility-label": resolvedAccessibilityLabel },
+            nativeProps,
+          )}
+          className={clsx(rootClassName, className)}
+        >
+          {accessibilityElement ? (
+            <AccessibilityElementScope>{children}</AccessibilityElementScope>
+          ) : (
+            children
+          )}
+        </view>
+      </CheckboxProvider>
+    );
+  },
+);
 CheckboxRoot.displayName = "CheckboxRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -176,52 +178,54 @@ export interface CheckboxControlProps
   extends Pick<CheckmarkVariantProps, "tone" | "variant" | "size">,
     LynxHostProps<"view"> {}
 
-export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((props, ref) => {
-  const [variantProps, restProps] = checkmark.splitVariantProps(props);
-  const { children, className, ...nativeProps } = restProps;
-  // Headless Root(예: List.CheckboxItem) 아래에서도 상태를 표시한다. styled Root의 variant
-  // 기본값과 scale target은 있을 때만 쓴다.
-  const context = useCheckboxContext();
-  const styledContext = isStyledCheckboxContext(context) ? context : null;
-  const hasScaledContent = React.useContext(ScaleFeedbackContentContext);
-  const checkmarkVariantProps: CheckmarkVariantProps = {
-    ...styledContext?.checkmarkVariantProps,
-    ...variantProps,
-    checked: context.checked,
-    disabled: context.disabled,
-    indeterminate: context.indeterminate,
-  };
-  const classes = checkmark(checkmarkVariantProps);
-  const checkboxControlClassName = styledContext
-    ? checkbox({
-        ...styledContext.checkboxVariantProps,
-        disabled: context.disabled,
-      }).control
-    : undefined;
-  // Lynx는 opaque color와 transparent black 사이의 background-color를 보간할 때
-  // 중간 RGB가 검게 탁해진다. ghost는 선택 전·후 눌림 색을 고정한 두 overlay의
-  // opacity만 전환한다(`:active` selector는 checkbox recipe에 있다).
-  const isGhost = checkmarkVariantProps.variant === "ghost";
+export const CheckboxControl = /* @__PURE__ */ React.forwardRef<unknown, CheckboxControlProps>(
+  (props, ref) => {
+    const [variantProps, restProps] = checkmark.splitVariantProps(props);
+    const { children, className, ...nativeProps } = restProps;
+    // Headless Root(예: List.CheckboxItem) 아래에서도 상태를 표시한다. styled Root의 variant
+    // 기본값과 scale target은 있을 때만 쓴다.
+    const context = useCheckboxContext();
+    const styledContext = isStyledCheckboxContext(context) ? context : null;
+    const hasScaledContent = React.useContext(ScaleFeedbackContentContext);
+    const checkmarkVariantProps: CheckmarkVariantProps = {
+      ...styledContext?.checkmarkVariantProps,
+      ...variantProps,
+      checked: context.checked,
+      disabled: context.disabled,
+      indeterminate: context.indeterminate,
+    };
+    const classes = checkmark(checkmarkVariantProps);
+    const checkboxControlClassName = styledContext
+      ? checkbox({
+          ...styledContext.checkboxVariantProps,
+          disabled: context.disabled,
+        }).control
+      : undefined;
+    // Lynx는 opaque color와 transparent black 사이의 background-color를 보간할 때
+    // 중간 RGB가 검게 탁해진다. ghost는 선택 전·후 눌림 색을 고정한 두 overlay의
+    // opacity만 전환한다(`:active` selector는 checkbox recipe에 있다).
+    const isGhost = checkmarkVariantProps.variant === "ghost";
 
-  return (
-    <CheckmarkControlContext.Provider
-      value={{ iconClassName: classes.icon, checkmarkVariantProps }}
-    >
-      <HeadlessCheckboxControl
-        {...mergeProps(
-          ref ? { ref: ref as LynxViewRef } : {},
-          !hasScaledContent ? (styledContext?.scaleFeedbackTargetProps ?? {}) : {},
-          nativeProps,
-        )}
-        className={clsx(checkboxControlClassName, classes.root, className)}
+    return (
+      <CheckmarkControlContext.Provider
+        value={{ iconClassName: classes.icon, checkmarkVariantProps }}
       >
-        {isGhost ? <view className={classes.background} /> : null}
-        {isGhost ? <view className={classes.selectedBackground} /> : null}
-        {children}
-      </HeadlessCheckboxControl>
-    </CheckmarkControlContext.Provider>
-  );
-});
+        <HeadlessCheckboxControl
+          {...mergeProps(
+            ref ? { ref: ref as LynxViewRef } : {},
+            !hasScaledContent ? (styledContext?.scaleFeedbackTargetProps ?? {}) : {},
+            nativeProps,
+          )}
+          className={clsx(checkboxControlClassName, classes.root, className)}
+        >
+          {isGhost ? <view className={classes.background} /> : null}
+          {isGhost ? <view className={classes.selectedBackground} /> : null}
+          {children}
+        </HeadlessCheckboxControl>
+      </CheckmarkControlContext.Provider>
+    );
+  },
+);
 CheckboxControl.displayName = "CheckboxControl";
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -285,45 +289,53 @@ CheckboxIndicator.displayName = "CheckboxIndicator";
 
 export interface CheckboxLabelProps extends LynxHostProps<"text"> {}
 
-export const CheckboxLabel = React.forwardRef<unknown, CheckboxLabelProps>((props, ref) => {
-  const { children, className, ...nativeProps } = props;
-  const context = useStyledCheckboxContext("CheckboxLabel");
-  const labelAccessibilityProps = useLabelTextAccessibilityProps();
-  const labelClassName = checkbox({
-    ...context.checkboxVariantProps,
-    disabled: context.disabled,
-  }).label;
+export const CheckboxLabel = /* @__PURE__ */ React.forwardRef<unknown, CheckboxLabelProps>(
+  (props, ref) => {
+    const { children, className, ...nativeProps } = props;
+    const context = useStyledCheckboxContext("CheckboxLabel");
+    const labelAccessibilityProps = useLabelTextAccessibilityProps();
+    const labelClassName = checkbox({
+      ...context.checkboxVariantProps,
+      disabled: context.disabled,
+    }).label;
 
-  return (
-    <text
-      {...mergeProps(labelAccessibilityProps, ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
-      className={clsx(labelClassName, className)}
-    >
-      {children}
-    </text>
-  );
-});
+    return (
+      <text
+        {...mergeProps(
+          labelAccessibilityProps,
+          ref ? { ref: ref as LynxTextRef } : {},
+          nativeProps,
+        )}
+        className={clsx(labelClassName, className)}
+      >
+        {children}
+      </text>
+    );
+  },
+);
 CheckboxLabel.displayName = "CheckboxLabel";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface CheckboxGroupProps extends LynxHostProps<"view"> {}
 
-export const CheckboxGroup = React.forwardRef<unknown, CheckboxGroupProps>((props, ref) => {
-  const { children, className, ...nativeProps } = props;
-  const classes = checkboxGroup();
+export const CheckboxGroup = /* @__PURE__ */ React.forwardRef<unknown, CheckboxGroupProps>(
+  (props, ref) => {
+    const { children, className, ...nativeProps } = props;
+    const classes = checkboxGroup();
 
-  return (
-    <view
-      {...mergeProps(
-        { "accessibility-element": false },
-        ref ? { ref: ref as LynxViewRef } : {},
-        nativeProps,
-      )}
-      className={clsx(classes.root, className)}
-    >
-      {children}
-    </view>
-  );
-});
+    return (
+      <view
+        {...mergeProps(
+          { "accessibility-element": false },
+          ref ? { ref: ref as LynxViewRef } : {},
+          nativeProps,
+        )}
+        className={clsx(classes.root, className)}
+      >
+        {children}
+      </view>
+    );
+  },
+);
 CheckboxGroup.displayName = "CheckboxGroup";

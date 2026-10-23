@@ -70,8 +70,8 @@ export function createSlotRecipeContext<
     },
   ) => ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>>;
 } {
-  const ClassNamesContext = createContext<Classnames | null>(null);
-  const PropsContext = createContext<Props | null>(null);
+  const ClassNamesContext = /* @__PURE__ */ createContext<Classnames | null>(null);
+  const PropsContext = /* @__PURE__ */ createContext<Props | null>(null);
 
   const ClassNamesProvider = ({ children, value }: { children: ReactNode; value: Classnames }) => {
     return <ClassNamesContext.Provider value={value}>{children}</ClassNamesContext.Provider>;
@@ -139,7 +139,7 @@ export function createSlotRecipeContext<
     assertNotIntrinsicComponent(Component, "withProvider");
     const { defaultProps } = options ?? {};
 
-    const StyledComponent = forwardRef<any, any>((innerProps, ref) => {
+    const StyledComponent = /* @__PURE__ */ forwardRef<any, any>((innerProps, ref) => {
       const props: any = mergeProps(defaultProps ?? {}, useProps() ?? {}, innerProps);
 
       restoreDefaultProps(props, defaultProps);
@@ -176,7 +176,7 @@ export function createSlotRecipeContext<
     assertNotIntrinsicComponent(Component, "withContext");
     const { defaultProps } = options ?? {};
 
-    const StyledComponent = forwardRef<any, any>((innerProps, ref) => {
+    const StyledComponent = /* @__PURE__ */ forwardRef<any, any>((innerProps, ref) => {
       const props: any = mergeProps(defaultProps ?? {}, innerProps);
 
       restoreDefaultProps(props, defaultProps);

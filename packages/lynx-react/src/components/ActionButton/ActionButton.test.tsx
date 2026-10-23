@@ -101,6 +101,23 @@ describe("ActionButton", () => {
     expect(label).toHaveAttribute("accessibility-elements-hidden", "true");
   });
 
+  it.each([
+    ["xsmall", "14"],
+    ["small", "14"],
+    ["medium", "16"],
+    ["large", "18"],
+  ] as const)("uses the loading indicator size for %s buttons", (size, indicatorSize) => {
+    render(
+      <ActionButton size={size} loading>
+        Submit
+      </ActionButton>,
+    );
+
+    expect(getRenderedRoot().querySelector(".seed-progress-circle__root")).toHaveClass(
+      `seed-progress-circle__root--size_${indicatorSize}`,
+    );
+  });
+
   it("applies action button slot classes to child icon slots", () => {
     render(
       <ActionButton variant="brandSolid">

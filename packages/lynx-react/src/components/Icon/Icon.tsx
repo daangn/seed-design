@@ -23,14 +23,16 @@ interface IconSlotContextValue {
   deps?: DependencyList;
 }
 
-const IconSlotContext = React.createContext<IconSlotContextValue | null>(null);
+const IconSlotContext = /* @__PURE__ */ React.createContext<IconSlotContextValue | null>(null);
 
 interface IconRequiredContextValue {
   register: () => void;
   unregister: () => void;
 }
 
-const IconRequiredContext = React.createContext<IconRequiredContextValue | null>(null);
+const IconRequiredContext = /* @__PURE__ */ React.createContext<IconRequiredContextValue | null>(
+  null,
+);
 
 export function IconRequired({
   children,
@@ -164,7 +166,7 @@ function getStyleColor(style: CSSProperties | undefined): CSSProperties["color"]
   return style?.color;
 }
 
-const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) => {
+const IconSlotBase = /* @__PURE__ */ React.forwardRef<unknown, IconSlotBaseProps>((props, ref) => {
   const {
     icon,
     slot,
@@ -250,13 +252,13 @@ function createIconComponent<Props extends PrefixIconProps>(
   return Component;
 }
 
-export const Icon = createIconComponent<IconProps>("Icon", "icon", "seed-icon");
-export const PrefixIcon = createIconComponent<PrefixIconProps>(
+export const Icon = /* @__PURE__ */ createIconComponent<IconProps>("Icon", "icon", "seed-icon");
+export const PrefixIcon = /* @__PURE__ */ createIconComponent<PrefixIconProps>(
   "PrefixIcon",
   "prefixIcon",
   "seed-prefix-icon",
 );
-export const SuffixIcon = createIconComponent<SuffixIconProps>(
+export const SuffixIcon = /* @__PURE__ */ createIconComponent<SuffixIconProps>(
   "SuffixIcon",
   "suffixIcon",
   "seed-suffix-icon",
@@ -270,35 +272,44 @@ export interface InternalIconProps extends Omit<LynxHostProps<"view">, "children
   disableDefaultResize?: boolean;
 }
 
-export const InternalIcon = React.forwardRef<unknown, InternalIconProps>((props, ref) => {
-  const { icon, deps = [], className, style, disableDefaultResize = false, ...nativeProps } = props;
-  const sourceRef = useMainThreadRef<MainThread.Element>(null);
-  const styleColor = getStyleColor(style);
-  const iconColor = useIconColor([className, styleColor, ...(deps ?? [])], { sourceRef });
+export const InternalIcon = /* @__PURE__ */ React.forwardRef<unknown, InternalIconProps>(
+  (props, ref) => {
+    const {
+      icon,
+      deps = [],
+      className,
+      style,
+      disableDefaultResize = false,
+      ...nativeProps
+    } = props;
+    const sourceRef = useMainThreadRef<MainThread.Element>(null);
+    const styleColor = getStyleColor(style);
+    const iconColor = useIconColor([className, styleColor, ...(deps ?? [])], { sourceRef });
 
-  if (!isValidElement<LynxIconElementProps>(icon)) return null;
+    if (!isValidElement<LynxIconElementProps>(icon)) return null;
 
-  return (
-    <view
-      {...mergeProps(
-        { "main-thread:ref": sourceRef },
-        ref ? { ref: ref as LynxViewRef } : {},
-        nativeProps,
-      )}
-      className={className}
-      style={style}
-    >
-      {cloneElement(icon, {
-        ...iconColor,
-        ...(disableDefaultResize ? { "disable-default-resize": true } : {}),
-        className: icon.props.className,
-        style: {
-          ...icon.props.style,
-          width: "100%",
-          height: "100%",
-        },
-      })}
-    </view>
-  );
-});
+    return (
+      <view
+        {...mergeProps(
+          { "main-thread:ref": sourceRef },
+          ref ? { ref: ref as LynxViewRef } : {},
+          nativeProps,
+        )}
+        className={className}
+        style={style}
+      >
+        {cloneElement(icon, {
+          ...iconColor,
+          ...(disableDefaultResize ? { "disable-default-resize": true } : {}),
+          className: icon.props.className,
+          style: {
+            ...icon.props.style,
+            width: "100%",
+            height: "100%",
+          },
+        })}
+      </view>
+    );
+  },
+);
 InternalIcon.displayName = "InternalIcon";

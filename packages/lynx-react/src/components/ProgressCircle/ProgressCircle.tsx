@@ -151,7 +151,7 @@ const TRANSITION_DURATION = 300;
 
 // clip-path는 보간되지 않으므로 고정 반원 두 개와 cap을 회전한다.
 // 10ms 간격의 기존 곡선을 한 번만 샘플링하고 프레임 간 보간은 엔진에 맡긴다.
-const INDETERMINATE_KEYFRAMES = (() => {
+const INDETERMINATE_KEYFRAMES = /* @__PURE__ */ (() => {
   const container: { transform: string }[] = [];
   const firstHalf: { transform: string }[] = [];
   const secondHalf: { transform: string }[] = [];
@@ -200,41 +200,43 @@ export type RootProps = ProgressCircleRootProps;
  * Indeterminate는 반원·cap의 transform을 엔진에서 보간하고,
  * determinate는 Main Thread에서 pie sector를 갱신한다.
  */
-export const ProgressCircleRoot = forwardRef<unknown, ProgressCircleRootProps>((props, ref) => {
-  const [variantProps, otherProps] = progressCircle.splitVariantProps(props);
-  const {
-    children,
-    className,
-    style,
-    minValue,
-    maxValue,
-    value,
-    mainThreadProgress,
-    ...nativeProps
-  } = otherProps;
-  const size = variantProps.size ?? "40";
-  const tone = variantProps.tone ?? "neutral";
-  const numSize = Number(size);
+export const ProgressCircleRoot = /* @__PURE__ */ forwardRef<unknown, ProgressCircleRootProps>(
+  (props, ref) => {
+    const [variantProps, otherProps] = progressCircle.splitVariantProps(props);
+    const {
+      children,
+      className,
+      style,
+      minValue,
+      maxValue,
+      value,
+      mainThreadProgress,
+      ...nativeProps
+    } = otherProps;
+    const size = variantProps.size ?? "40";
+    const tone = variantProps.tone ?? "neutral";
+    const numSize = Number(size);
 
-  const api = useProgress({ value, minValue, maxValue });
-  const classes = useMemo(() => progressCircle({ tone, size }), [tone, size]);
-  const contextValue = useMemo<StyledProgressCircleContextValue>(
-    () => ({ ...api, numSize, classes, mainThreadProgress }),
-    [api, numSize, classes, mainThreadProgress],
-  );
+    const api = useProgress({ value, minValue, maxValue });
+    const classes = useMemo(() => progressCircle({ tone, size }), [tone, size]);
+    const contextValue = useMemo<StyledProgressCircleContextValue>(
+      () => ({ ...api, numSize, classes, mainThreadProgress }),
+      [api, numSize, classes, mainThreadProgress],
+    );
 
-  return (
-    <ProgressCircleProvider value={contextValue}>
-      <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, api.rootProps, nativeProps)}
-        className={clsx(classes.root, className)}
-        style={{ width: `${numSize}px`, height: `${numSize}px`, ...style }}
-      >
-        {children}
-      </view>
-    </ProgressCircleProvider>
-  );
-});
+    return (
+      <ProgressCircleProvider value={contextValue}>
+        <view
+          {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, api.rootProps, nativeProps)}
+          className={clsx(classes.root, className)}
+          style={{ width: `${numSize}px`, height: `${numSize}px`, ...style }}
+        >
+          {children}
+        </view>
+      </ProgressCircleProvider>
+    );
+  },
+);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -243,47 +245,51 @@ export interface ProgressCircleTrackProps extends LynxHostProps<"view"> {}
 /**
  * 진행률과 관계없이 전체 링을 tone의 트랙 색으로 그린다. Range보다 먼저 렌더링한다.
  */
-export const ProgressCircleTrack = forwardRef<unknown, ProgressCircleTrackProps>((props, ref) => {
-  const { children, className, ...nativeProps } = props;
-  const { classes } = useStyledProgressCircleContext("ProgressCircleTrack");
+export const ProgressCircleTrack = /* @__PURE__ */ forwardRef<unknown, ProgressCircleTrackProps>(
+  (props, ref) => {
+    const { children, className, ...nativeProps } = props;
+    const { classes } = useStyledProgressCircleContext("ProgressCircleTrack");
 
-  return (
-    <HeadlessProgressCircleTrack
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-      className={clsx(classes.track, className)}
-    >
-      {children}
-    </HeadlessProgressCircleTrack>
-  );
-});
+    return (
+      <HeadlessProgressCircleTrack
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        className={clsx(classes.track, className)}
+      >
+        {children}
+      </HeadlessProgressCircleTrack>
+    );
+  },
+);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ProgressCircleRangeProps extends LynxHostProps<"view"> {}
 
-export const ProgressCircleRange = forwardRef<unknown, ProgressCircleRangeProps>((props, ref) => {
-  const { numSize, indeterminate, percent, classes, minValue, maxValue, mainThreadProgress } =
-    useStyledProgressCircleContext("ProgressCircleRange");
+export const ProgressCircleRange = /* @__PURE__ */ forwardRef<unknown, ProgressCircleRangeProps>(
+  (props, ref) => {
+    const { numSize, indeterminate, percent, classes, minValue, maxValue, mainThreadProgress } =
+      useStyledProgressCircleContext("ProgressCircleRange");
 
-  if (indeterminate) {
+    if (indeterminate) {
+      return (
+        <IndeterminateRange numSize={numSize} classes={classes} hostProps={props} hostRef={ref} />
+      );
+    }
+
     return (
-      <IndeterminateRange numSize={numSize} classes={classes} hostProps={props} hostRef={ref} />
+      <DeterminateRange
+        numSize={numSize}
+        progress={percent / 100}
+        classes={classes}
+        minValue={minValue}
+        maxValue={maxValue}
+        mainThreadProgress={mainThreadProgress}
+        hostProps={props}
+        hostRef={ref}
+      />
     );
-  }
-
-  return (
-    <DeterminateRange
-      numSize={numSize}
-      progress={percent / 100}
-      classes={classes}
-      minValue={minValue}
-      maxValue={maxValue}
-      mainThreadProgress={mainThreadProgress}
-      hostProps={props}
-      hostRef={ref}
-    />
-  );
-});
+  },
+);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
