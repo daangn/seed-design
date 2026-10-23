@@ -22,7 +22,10 @@ export const { Stack, actions, stepActions } = stackflow({
   plugins: [
     basicRendererPlugin(),
     basicUIPlugin({ theme }),
-    seedPlugin({ theme }),
+    seedPlugin({
+      theme,
+      ...(theme === "cupertino" && { swipeBackArea: "full" as const, clipRadius: 55 }),
+    }),
     iframeSyncPlugin(),
     historySyncPlugin({
       config,
@@ -38,9 +41,8 @@ export const { Stack, actions, stepActions } = stackflow({
 
     ActivityAccordion: lazy(() => import("../activities/ActivityAccordion")),
     ActivityActionButton: lazy(() => import("../activities/ActivityActionButton")),
-    ActivityAppBarSlot: lazy(() => import("../activities/ActivityAppBarSlot")),
     ActivityAlertDialog: lazy(() => import("../activities/ActivityAlertDialog")),
-    ActivityAnimateFalseTest: lazy(() => import("../activities/ActivityAnimateFalseTest")),
+    ActivityLegacyAnimateFalseTest: lazy(() => import("../activities/ActivityLegacyAnimateFalseTest")),
     ActivityAlertDialogActivity: lazy(() => import("../activities/ActivityAlertDialogActivity")),
     ActivityAlertDialogStep: lazy(() => import("../activities/ActivityAlertDialogStep")),
     ActivityAnimatedTabs: lazy(() => import("../activities/ActivityAnimatedTabs")),
@@ -75,10 +77,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ),
     ActivityFontMultiplierLayout: lazy(() => import("../activities/ActivityFontMultiplierLayout")),
     ActivityHelpBubble: lazy(() => import("../activities/ActivityHelpBubble")),
-    ActivityIacvtLeak: lazy(() => import("../activities/ActivityIacvtLeak")),
-    ActivityIacvtSidePanel: lazy(() => import("../activities/ActivityIacvtSidePanel")),
-    ActivityIacvtOverlay: lazy(() => import("../activities/ActivityIacvtOverlay")),
-    ActivityIacvtMargin: lazy(() => import("../activities/ActivityIacvtMargin")),
+    ActivityIacvt: lazy(() => import("../activities/ActivityIacvt")),
     ActivityIacvtExperiment: lazy(() => import("../activities/ActivityIacvtExperiment")),
     ActivityLayerBar: lazy(() => import("../activities/ActivityLayerBar")),
     ActivityListButtonItem: lazy(() => import("../activities/ActivityListButtonItem")),
@@ -131,17 +130,25 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityForm: lazy(() => import("../activities/ActivityForm")),
     ActivityCategorySheet: lazy(() => import("../activities/ActivityCategorySheet")),
     ActivityToggleButton: lazy(() => import("../activities/ActivityToggleButton")),
-    ActivityTransitionStyle: lazy(() => import("../activities/ActivityTransitionStyle")),
     ActivityTransparentBar: lazy(() => import("../activities/ActivityTransparentBar")),
     ActivityTypographyScale: lazy(() => import("../activities/ActivityTypographyScale")),
 
+    ActivityLegacyAppScreen: lazy(() => import("../activities/ActivityLegacyAppScreen")),
+    ActivityAppScreen: lazy(() => import("../activities/ActivityAppScreen")),
+    ActivityAppScreenGesture: lazy(() => import("../activities/ActivityAppScreenGesture")),
     ActivityAppScreenPreview: lazy(() => import("../activities/ActivityAppScreenPreview")),
-    ActivityAppScreenTransparent: lazy(() => import("../activities/ActivityAppScreenTransparent")),
+    ActivityAppScreenTransparent: lazy(
+      () => import("../activities/ActivityAppScreenTransparent"),
+    ),
+    ActivityLegacyAppScreenIntersectionObserver: lazy(
+      () => import("../activities/ActivityLegacyAppScreenIntersectionObserver"),
+    ),
     ActivityAppScreenIntersectionObserver: lazy(
       () => import("../activities/ActivityAppScreenIntersectionObserver"),
     ),
-    ActivityAppScreenAppBarCustomization: lazy(
-      () => import("../activities/ActivityAppScreenAppBarCustomization"),
+    ActivityAnimateFalseTest: lazy(() => import("../activities/ActivityAnimateFalseTest")),
+    ActivityLegacyAppScreenAppBarCustomization: lazy(
+      () => import("../activities/ActivityLegacyAppScreenAppBarCustomization"),
     ),
     ActivityAlertDialogStackflow: lazy(() => import("../activities/ActivityAlertDialogStackflow")),
     ActivityResultSectionCtaProgressCircle: lazy(
@@ -149,8 +156,14 @@ export const { Stack, actions, stepActions } = stackflow({
     ),
     ActivityArticlePreventPull: lazy(() => import("../activities/ActivityArticlePreventPull")),
     ActivityArticlePreventDrag: lazy(() => import("../activities/ActivityArticlePreventDrag")),
-    ActivityPullToRefreshPreview: lazy(() => import("../activities/ActivityPullToRefreshPreview")),
+    ActivityLegacyPullToRefreshPreview: lazy(() => import("../activities/ActivityLegacyPullToRefreshPreview")),
+    ActivityPullToRefreshPreview: lazy(
+      () => import("../activities/ActivityPullToRefreshPreview"),
+    ),
     ActivityPullToRefreshTabs: lazy(() => import("../activities/ActivityPullToRefreshTabs")),
+    ActivityLegacyPullToRefreshPreventPull: lazy(
+      () => import("../activities/ActivityLegacyPullToRefreshPreventPull"),
+    ),
     ActivityPullToRefreshPreventPull: lazy(
       () => import("../activities/ActivityPullToRefreshPreventPull"),
     ),

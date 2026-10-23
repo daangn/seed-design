@@ -1,17 +1,17 @@
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
-import { Flex } from "@seed-design/react";
+import { Flex, Icon } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useEffect, useRef, useState } from "react";
 import {
-  AppBar,
-  AppBarCloseButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  type AppBarProps,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarCloseButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+  type NextAppBarProps,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -22,7 +22,7 @@ declare module "@stackflow/config" {
 const ActivityAppScreenIntersectionObserver: StaticActivityComponentType<
   "ActivityAppScreenIntersectionObserver"
 > = () => {
-  const [tone, setTone] = useState<AppBarProps["tone"]>("transparent");
+  const [tone, setTone] = useState<NextAppBarProps["tone"]>("transparent");
   const whiteImageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -54,19 +54,19 @@ const ActivityAppScreenIntersectionObserver: StaticActivityComponentType<
   }, []);
 
   return (
-    <AppScreen theme="cupertino" layerOffsetTop="none" tone={tone}>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarCloseButton aria-label="Close" />
-        </AppBarLeft>
-        <AppBarMain>Preview</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Notification">
-            <IconBellFill />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen contentOffsetTop="none">
+      <NextAppBar theme="cupertino" tone={tone}>
+        <NextAppBarLeft>
+          <NextAppBarCloseButton aria-label="Close" />
+        </NextAppBarLeft>
+        <NextAppBarMain title="Next Preview" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Notification">
+            <Icon svg={<IconBellFill />} />
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <Flex
           ref={whiteImageRef}
           justifyContent="center"
@@ -86,8 +86,8 @@ const ActivityAppScreenIntersectionObserver: StaticActivityComponentType<
         >
           컨텐츠 영역
         </Flex>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

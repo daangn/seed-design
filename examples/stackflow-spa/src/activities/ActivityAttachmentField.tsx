@@ -1,15 +1,15 @@
 import { useCallback } from "react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import {
-  AppBar,
-  AppBarLeft,
-  AppBarMain,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
+  NextAppBar,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
 import {
   AttachmentField,
   AttachmentInput,
@@ -21,9 +21,10 @@ import {
 } from "seed-design/ui/attachment-field-reorderable";
 import {
   Divider,
-  VStack,
+  Icon,
   type AttachmentInputFileEntry,
   type AttachmentInputFileStatusDetails,
+  VStack,
 } from "@seed-design/react";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { vars } from "@seed-design/css/vars";
@@ -98,19 +99,19 @@ const ActivityAttachmentField: StaticActivityComponentType<"ActivityAttachmentFi
   );
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>AttachmentField</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="AttachmentField" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <Icon svg={<IconHouseLine />} />
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="x6" px="spacingX.globalGutter" py="x4">
           <AttachmentField
             label="AttachmentInput (image/*)"
@@ -242,8 +243,8 @@ const ActivityAttachmentField: StaticActivityComponentType<"ActivityAttachmentFi
             <AttachmentDropzoneReorderable onRetry={handleRetry} />
           </AttachmentField>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

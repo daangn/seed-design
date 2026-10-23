@@ -1,14 +1,15 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
+import { Icon } from "@seed-design/react";
 import { useFlow } from "@stackflow/react/future";
 import {
-  AppBar,
-  AppBarLeft,
-  AppBarMain,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { radioVariantMap } from "@seed-design/css/recipes/radio";
 import { radiomarkVariantMap } from "@seed-design/css/recipes/radiomark";
@@ -46,19 +47,19 @@ const ActivityRadioGroup: StaticActivityComponentType<"ActivityRadioGroup"> = ()
   const { push } = useFlow();
 
   return (
-    <AppScreen layerOffsetBottom="safeArea">
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>RadioGroup</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="RadioGroup" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <Icon svg={<IconHouseLine />} />
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <ComponentAnalyzer
           variantsMap={variantsMap}
           initialVariants={initialVariants}
@@ -93,8 +94,8 @@ const ActivityRadioGroup: StaticActivityComponentType<"ActivityRadioGroup"> = ()
             </RadioGroup>
           )}
         />
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

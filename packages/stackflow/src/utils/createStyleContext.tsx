@@ -22,6 +22,31 @@ function restoreDefaultProps<P>(
   }
 }
 
+/**
+ * The same rule as `restoreDefaultProps`, for components that merge their
+ * props context by hand instead of going through `withProvider`.
+ *
+ * A wrapper that forwards an optional prop unconditionally (`<Root foo={foo} />`)
+ * passes an explicit `undefined` whenever its own caller left it out, and a
+ * plain spread would let that shadow the context value.
+ */
+export function mergeContextProps<T extends object>(
+  contextProps: Partial<T> | null | undefined,
+  props: T,
+): T {
+  if (!contextProps) return props;
+
+  const merged = { ...contextProps, ...props } as T;
+
+  for (const key of Object.keys(contextProps) as (keyof T)[]) {
+    if (merged[key] === undefined) {
+      merged[key] = contextProps[key] as T[keyof T];
+    }
+  }
+
+  return merged;
+}
+
 export function createStyleContext<
   Props extends Record<string, string | boolean | undefined>,
   Classnames extends Record<string, string>,

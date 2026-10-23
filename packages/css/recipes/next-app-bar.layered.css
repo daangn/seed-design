@@ -1,0 +1,87 @@
+@layer seed-components {
+  .seed-next-app-bar__root {
+    z-index: 1;
+    box-sizing: border-box;
+    width: 100%;
+    height: calc(56px + var(--seed-safe-area-top));
+    padding-left: calc(var(--seed-dimension-x1_5) + var(--seed-safe-area-left));
+    padding-right: calc(var(--seed-dimension-x1_5) + var(--seed-safe-area-right));
+    padding-top: var(--seed-safe-area-top);
+    align-items: flex-end;
+    display: flex;
+    position: absolute;
+    top: 0;
+  }
+
+  .seed-next-app-bar__background {
+    pointer-events: none;
+    z-index: -1;
+    position: absolute;
+    inset: 0;
+  }
+
+  .seed-next-app-bar__left {
+    align-items: center;
+    height: 100%;
+    display: flex;
+  }
+
+  .seed-next-app-bar__right {
+    align-items: center;
+    height: 100%;
+    margin-left: auto;
+    display: flex;
+  }
+
+  .seed-next-app-bar__iconButton {
+    --seed-icon-size: 24px;
+    background-color: var(--seed-color-bg-transparent);
+    border-radius: var(--seed-radius-r2);
+    width: 44px;
+    height: 44px;
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+    border: none;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    font-family: inherit;
+    display: flex;
+  }
+
+  .seed-next-app-bar__iconButton:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  }
+
+  .seed-next-app-bar__iconButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-transparent-pressed);
+    scale: var(--seed-feedback-scale);
+  }
+
+  .seed-next-app-bar__left--theme_android {
+    padding-right: var(--seed-dimension-x1_5);
+  }
+
+  .seed-next-app-bar__background--tone_layer {
+    background: var(--seed-box-background, var(--seed-color-bg-layer-default));
+  }
+
+  .seed-next-app-bar__iconButton--tone_layer {
+    --seed-icon-color: var(--seed-color-fg-neutral);
+  }
+
+  .seed-next-app-bar__root--tone_transparent {
+    background-color: #0000;
+  }
+
+  .seed-next-app-bar__iconButton--tone_transparent {
+    --seed-icon-color: var(--seed-color-palette-static-white);
+  }
+
+  .seed-next-app-bar__background--tone_transparent-gradient_true {
+    height: calc(100% + var(--seed-dimension-x5));
+    background: linear-gradient(#00000059 0%, #0000 100%);
+  }
+}

@@ -1,15 +1,15 @@
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarIconButton,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarIconButton,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { Box } from "@seed-design/react";
+import { Box, Icon } from "@seed-design/react";
 import type * as React from "react";
 
 declare module "@stackflow/config" {
@@ -82,19 +82,19 @@ const ActivityMarginPlayground: StaticActivityComponentType<"ActivityMarginPlayg
   const { push } = useFlow();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Margin Playground</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="Margin Playground" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <Icon svg={<IconHouseLine />} />
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <Box p="x4" bg="palette.gray25">
           {/* 1. Shorthand cascade */}
           <Section title="Shorthand cascade">
@@ -216,8 +216,8 @@ const ActivityMarginPlayground: StaticActivityComponentType<"ActivityMarginPlayg
             </Case>
           </Section>
         </Box>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 
