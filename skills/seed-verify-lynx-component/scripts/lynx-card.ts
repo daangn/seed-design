@@ -468,9 +468,11 @@ async function open(options: Options) {
  */
 async function exec(options: Options): Promise<number> {
   // Card를 만드는 명령은 소유 기록 없이 Card를 늘리므로 open 명령으로만 실행한다.
+  // agent-lynx 전역 옵션(--no-daemon 등)은 값을 받지 않으므로 첫 번째 비옵션 인자가 하위 명령이다.
+  const subcommand = options.passthrough.find((argument) => !argument.startsWith("-"));
   if (
-    options.passthrough[0] === "open" ||
-    options.passthrough.some((argument) => argument.includes("App.openPage"))
+    subcommand?.toLowerCase() === "open" ||
+    options.passthrough.some((argument) => /app\.openpage/i.test(argument))
   ) {
     throw new Blocked("exec로 Card를 만들 수 없다. Card는 lynx-card.ts open으로만 연다.", {
       args: options.passthrough,
