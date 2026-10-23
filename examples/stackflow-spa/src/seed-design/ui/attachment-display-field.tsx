@@ -35,6 +35,8 @@ export interface AttachmentDisplayFieldProps
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
   showRequiredIndicator?: boolean;
+
+  extendSafeAreaX?: SeedAttachmentDisplay.ControlProps["extendSafeAreaX"];
 }
 
 /**
@@ -49,6 +51,7 @@ export const AttachmentDisplayField = React.forwardRef<HTMLDivElement, Attachmen
       description,
       errorMessage,
       showRequiredIndicator,
+      extendSafeAreaX,
       children,
       ...props
     },
@@ -75,7 +78,9 @@ export const AttachmentDisplayField = React.forwardRef<HTMLDivElement, Attachmen
             {/* You might want to put your custom element here */}
           </SeedAttachmentDisplay.Header>
         )}
-        <SeedAttachmentDisplay.Control>{children}</SeedAttachmentDisplay.Control>
+        <SeedAttachmentDisplay.Control extendSafeAreaX={extendSafeAreaX}>
+          {children}
+        </SeedAttachmentDisplay.Control>
         {renderFooter && (
           <SeedAttachmentDisplay.Footer>
             {renderDescription &&
