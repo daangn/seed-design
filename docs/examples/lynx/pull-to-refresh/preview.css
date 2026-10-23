@@ -94,3 +94,7 @@
   flex: 1;
   min-height: 0;
 }
+
+.ptr-preview__list-item {
+  padding: 8px 16px;
+}
