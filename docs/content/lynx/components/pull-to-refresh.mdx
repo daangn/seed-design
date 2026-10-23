@@ -50,7 +50,17 @@ pluginReactLynx({
 
 <react-type-table path="./registry/lynx/ui/pull-to-refresh.tsx" name="PullToRefreshContentProps" />
 
-Content는 세로 `<scroll-view>`입니다. Root에 높이를 지정하고 화면의 세로 스크롤은 Content 하나로 구성하세요. 중첩된 세로 스크롤 컨테이너는 당김 제스처와 경합할 수 있습니다.
+Content는 세로 `<scroll-view>`입니다. 항목이 많아 가상화가 필요하면 Content 대신 `PullToRefreshListContent`를 사용하세요. Root에 높이를 지정하고 화면의 세로 스크롤은 Content나 ListContent 하나로 구성하세요. 중첩된 세로 스크롤 컨테이너는 당김 제스처와 경합할 수 있습니다.
+
+### `PullToRefreshListContent`
+
+<react-type-table path="./registry/lynx/ui/pull-to-refresh.tsx" name="PullToRefreshListContentProps" />
+
+ListContent는 세로 `<list>`입니다. children은 `<list-item>`으로 구성하세요. `<list>`의 나머지 속성은 그대로 전달됩니다.
+
+- `custom-list-name`의 기본값은 `"list-container"`입니다. iOS의 기본 list 구현은 당김 제스처가 native 스크롤을 막지 못해 당기는 중 list가 함께 스크롤될 수 있습니다. 다른 값으로 바꾸면 iOS에서 이 문제가 다시 생길 수 있습니다.
+- Content와 같이 `bounces`의 기본값은 `false`이며 iOS 아래쪽 경계의 bounce도 꺼집니다.
+- 최상단 판정은 list의 scroll 이벤트가 보내는 `scrollTop`을 따릅니다. scroll 이벤트가 늦게 오면 빠르게 최상단까지 스크롤한 직후의 당김이 시작되지 않을 수 있습니다. 이때는 손을 뗀 뒤 다시 당기세요. `scroll-event-throttle`을 낮춰도 iOS list-container에서는 적용이 보장되지 않습니다.
 
 ## Examples
 
@@ -61,6 +71,16 @@ Content는 세로 `<scroll-view>`입니다. Root에 높이를 지정하고 화�
 <LynxComponentExample name="lynx/pull-to-refresh/tabs" height={800}>
   ```json doc-gen:file
   {"file":"examples/lynx/pull-to-refresh/tabs.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### List
+
+`PullToRefreshListContent`로 `<list>`를 당겨서 새로고침합니다.
+
+<LynxComponentExample name="lynx/pull-to-refresh/list" height={800}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/pull-to-refresh/list.tsx","codeblock":true}
   ```
 </LynxComponentExample>
 
@@ -86,6 +106,6 @@ Root 안의 특정 영역에서 당김을 막으려면 `usePullToRefreshPreventP
 
 ## 웹 버전과의 차이
 
-- Lynx는 Root가 배치와 clipping을 맡고 Content가 세로 스크롤을 담당합니다. `asChild`는 지원하지 않습니다.
+- Lynx는 Root가 배치와 clipping을 맡고 Content(`<scroll-view>`)나 ListContent(`<list>`)가 세로 스크롤을 담당합니다. `asChild`는 지원하지 않습니다.
 - Content 내부의 중첩 스크롤 영역을 자동으로 탐지하지 않습니다.
 - 스크롤하다 최상단에 도달한 경우 손을 뗀 뒤 다시 당겨야 새로고침이 시작됩니다.

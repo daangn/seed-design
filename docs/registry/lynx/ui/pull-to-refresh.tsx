@@ -22,3 +22,7 @@ PullToRefreshIndicator.displayName = "PullToRefreshIndicator";
 export interface PullToRefreshContentProps extends PullToRefresh.ContentProps {}
 
 export const PullToRefreshContent = PullToRefresh.Content;
+
+export interface PullToRefreshListContentProps extends PullToRefresh.ListContentProps {}
+
+export const PullToRefreshListContent = PullToRefresh.ListContent;
