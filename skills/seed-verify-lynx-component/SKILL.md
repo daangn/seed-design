@@ -33,7 +33,7 @@ GPT-6-Astra와 GPT-5.6 Luna·Terra·Sol에 같은 필수 검사·수락 기준·
 
 공통 실행 절차와 런타임 증거 수집은 [검증 런북](references/verification.md)을 읽고 따른다. `agent-lynx` CLI가 기본 경로이며, DevTool MCP는 사용할 수 있을 때만 보강한다. 둘 다 사용할 수 없으면 가능한 정적 확인만 하고 native 결과는 `환경 차단`으로 남긴다.
 
-온라인 검증은 단독 실행도 [session 소유권과 Card 수명](references/concurrency/session-ownership.md)을 먼저 읽는다. 여러 에이전트·worktree가 같은 app/client를 쓰거나 `open → reload → snapshot/evaluate`를 이어갈 때와 page 정리에 적용한다. 같은 PlayLynx client는 Card 생성부터 제거 확인까지 공유 잠금으로 직렬화한다. 이번에 연 Card의 정확한 client/session 쌍과 bundle URL을 점유 기록에 고정하며, 새 client가 생긴다고 가정하거나 기존 Card를 임의 점유하지 않는다.
+온라인 검증은 단독 실행도 [session 소유권과 Card 수명](references/concurrency/session-ownership.md)을 먼저 읽는다. 같은 PlayLynx client는 Card 생성부터 제거 확인까지 공유 잠금으로 직렬화하며, 잠금 획득·open·session 대상 명령·정리는 [`scripts/lynx-card.ts`](scripts/lynx-card.ts)의 `acquire → open → exec → release`로 한다. 새 client가 생긴다고 가정하거나 기존 Card를 임의 점유하지 않는다.
 
 ## 검증 흐름
 
@@ -85,7 +85,7 @@ package public export → SPA example import → lynx/<component>/<scenario> →
 
 정적 문서의 MDX·코드 탭·QR·Web preview·docs build pipeline 자체를 변경했을 때는 [문서 인프라 검증](references/verification.md#6-문서-인프라를-실제로-바꾼-경우만)을 추가한다. 이 조건은 native 컴포넌트 검증의 선행조건도, 단순 컴포넌트 변경의 최종 의무도 아니다.
 
-같은 host process·창·전역 overlay·캡처 자원은 session ID가 달라도 소유자가 순서대로 조작한다. 다음 장면은 기존 Card 안에서 탐색하거나 reload한다. menu·overlay만 닫은 것을 Card cleanup으로 취급하지 않으며, 마지막 장면 뒤에는 소유 session 제거와 잠금 해제까지 확인한다. 브라우저 미리보기만으로 실제 Lynx 결과를 주장하지 않는다.
+같은 host process·창·전역 overlay·캡처 자원은 session ID가 달라도 소유자가 순서대로 조작한다. 다음 장면은 기존 Card 안에서 탐색하거나 reload한다. menu·overlay만 닫은 것을 Card cleanup으로 취급하지 않으며, 마지막 장면 뒤에는 `release`로 소유 session 제거와 잠금 해제까지 확인한다. 브라우저 미리보기만으로 실제 Lynx 결과를 주장하지 않는다.
 
 ### 5. 시각적 동등성 통과 조건
 
