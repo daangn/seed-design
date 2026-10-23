@@ -28,6 +28,7 @@ interface Options {
   ttlSeconds: number;
   clientScope: boolean;
   hostTerminated: boolean;
+  confirmedNoCard: boolean;
   positionals: string[];
   passthrough: string[];
 }
@@ -54,8 +55,8 @@ class Blocked extends Error {
 
 const LOCK_DIR = process.env.AGENT_LYNX_LOCK_DIR ?? "/tmp";
 const IDENTIFY_SECONDS = 30;
-// 회수 중 Card 정리(evaluate·목록 재조회)가 끝날 시간보다 길게 둔다.
-const RECLAIM_MUTEX_STALE_MS = 300_000;
+// 회수·release·open이 Card 정리나 식별을 끝낼 때까지 기다리는 시간이다.
+const MUTEX_WAIT_MS = 180_000;
 // PlayLynx 1.4.0에서 확인한 임시 종료 경로다. CLI에 close 명령이 생기면 그것으로 바꾼다.
 const CLOSE_EXPRESSION = "lynx.getNativeApp().nativeModuleProxy.NavigationModule.close()";
 const HTTP_CONTEXT_FRAGMENT = /#__playlynx_http_context=.*$/;
@@ -142,25 +143,114 @@ function isStale(record: LockRecord): boolean {
   return Date.now() - Date.parse(record.heartbeatAt) > record.ttlSeconds * 1000;
 }
 
-/** 현재 owner가 잡은 잠금 기록을 돌려준다. 다른 owner가 회수했으면 즉시 멈춘다. */
-async function heldRecord(options: Options): Promise<LockRecord> {
-  const record = await readRecord(options.clientId);
-  if (!isCurrent(record) || record.owner !== options.owner) {
-    throw new Blocked(
-      "이 owner가 잡은 잠금이 아니다. 조작을 멈추고 status로 현재 소유자를 확인한다.",
-      {
-        lock: lockPath(options.clientId),
-        record,
-      },
-    );
+function isAlive(pid: number): boolean {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (error) {
+    return (error as NodeJS.ErrnoException).code === "EPERM";
   }
-  return record;
+}
+
+async function readMutexPid(directory: string): Promise<number | undefined> {
+  const pid = Number(await readFile(join(directory, "pid"), "utf8").catch(() => ""));
+  return pid > 0 ? pid : undefined;
+}
+
+/** 죽은 프로세스가 남긴 mutex만 치운다. 이름을 바꿔 떼어 낸 뒤 살아 있는 소유자 것이면 되돌린다. */
+async function breakStaleMutex(directory: string): Promise<void> {
+  const pid = await readMutexPid(directory);
+  if (pid !== undefined ? isAlive(pid) : await isYoung(directory)) return;
+  const detached = `${directory}.broken-${process.pid}-${Date.now()}`;
+  try {
+    await rename(directory, detached);
+  } catch {
+    return;
+  }
+  const detachedPid = await readMutexPid(detached);
+  if (detachedPid !== undefined && isAlive(detachedPid)) {
+    await rename(detached, directory).catch(() => undefined);
+    return;
+  }
+  await rm(detached, { recursive: true, force: true });
+}
+
+async function isYoung(directory: string): Promise<boolean> {
+  const directoryStat = await stat(directory).catch(() => undefined);
+  return directoryStat !== undefined && Date.now() - directoryStat.mtimeMs < 5000;
+}
+
+/**
+ * 잠금 기록을 바꾸는 모든 명령(renew·open·release·회수)이 거치는 mutex다.
+ * 잠금 디렉터리 안에 있으므로 release가 잠금을 지우면 함께 사라진다(`gone`).
+ */
+async function takeMutex(clientId: string, waitMs: number): Promise<"held" | "busy" | "gone"> {
+  const directory = join(lockPath(clientId), "mutex");
+  const deadline = Date.now() + waitMs;
+  while (true) {
+    try {
+      await mkdir(directory);
+      await writeFile(join(directory, "pid"), String(process.pid));
+      return "held";
+    } catch (error) {
+      const code = (error as NodeJS.ErrnoException).code;
+      if (code === "ENOENT") return "gone";
+      if (code !== "EEXIST") throw error;
+    }
+    await breakStaleMutex(directory);
+    if (Date.now() >= deadline) return "busy";
+    await sleep(200);
+  }
+}
+
+async function dropMutex(clientId: string): Promise<void> {
+  const directory = join(lockPath(clientId), "mutex");
+  if ((await readMutexPid(directory)) === process.pid) {
+    await rm(directory, { recursive: true, force: true });
+  }
+}
+
+/** mutex 안에서 현재 owner의 기록으로 작업한다. 다른 owner가 회수했으면 즉시 멈춘다. */
+async function withOwner<T>(
+  options: Options,
+  task: (record: LockRecord) => Promise<T>,
+): Promise<T> {
+  const mutex = await takeMutex(options.clientId, MUTEX_WAIT_MS);
+  if (mutex === "busy") {
+    throw new Blocked("다른 명령이 잠금 기록을 쓰는 중이다. 잠시 뒤 다시 실행한다.", {
+      lock: lockPath(options.clientId),
+    });
+  }
+  try {
+    const record = mutex === "held" ? await readRecord(options.clientId) : undefined;
+    if (!isCurrent(record) || record.owner !== options.owner) {
+      throw new Blocked(
+        "이 owner가 잡은 잠금이 아니다. 조작을 멈추고 status로 현재 소유자를 확인한다.",
+        { lock: lockPath(options.clientId), record },
+      );
+    }
+    return await task(record);
+  } finally {
+    await dropMutex(options.clientId);
+  }
 }
 
 async function renew(record: LockRecord): Promise<LockRecord> {
   const renewed = { ...record, heartbeatAt: now() };
   await writeRecord(renewed);
   return renewed;
+}
+
+/** 기록한 host가 같은 client ID에 그대로 있는지 확인한다. 앱 재시작 뒤 ID가 다른 host를 가리킬 수 있다. */
+async function assertSameHost(record: LockRecord, message: string): Promise<void> {
+  const client = await findClient(record.clientId);
+  if (client?.info?.debugRouterId !== record.debugRouterId) {
+    throw new Blocked(message, {
+      clientId: record.clientId,
+      recordedDebugRouterId: record.debugRouterId,
+      currentDebugRouterId: client?.info?.debugRouterId,
+    });
+  }
 }
 
 async function closeSession(clientId: string, sessionId: number): Promise<void> {
@@ -186,17 +276,12 @@ async function closeSession(clientId: string, sessionId: number): Promise<void> 
  * 기록된 owner의 Card를 정리한다. 기록으로 확정한 session만 닫고,
  * 확정할 수 없으면 Blocked로 멈춘다. 이미 사라진 session은 정리된 것으로 본다.
  */
-async function cleanupCard(record: LockRecord): Promise<number | undefined> {
+async function cleanupCard(
+  record: LockRecord,
+  confirmedNoCard: boolean,
+): Promise<number | undefined> {
   if (record.state === "acquired") return undefined;
-
-  const client = await findClient(record.clientId);
-  if (client?.info?.debugRouterId !== record.debugRouterId) {
-    throw new Blocked("기록한 host가 목록에 없거나 바뀌었다. 남은 Card를 확인할 수 없다.", {
-      clientId: record.clientId,
-      recordedDebugRouterId: record.debugRouterId,
-      currentDebugRouterId: client?.info?.debugRouterId,
-    });
-  }
+  await assertSameHost(record, "기록한 host가 목록에 없거나 바뀌었다. 남은 Card를 확인할 수 없다.");
 
   const sessions = await listSessions(record.clientId);
   let sessionId = record.sessionId;
@@ -209,6 +294,13 @@ async function cleanupCard(record: LockRecord): Promise<number | undefined> {
       });
     }
     sessionId = candidates[0]?.session_id;
+    // open을 보냈는데 session이 없으면 session 없는 오류 Card가 남았을 수 있다. 목록으로는 증명할 수 없다.
+    if (sessionId === undefined && !confirmedNoCard) {
+      throw new Blocked(
+        "open 뒤 이번 session을 찾지 못했다. session 없는 오류 Card가 남았을 수 있으니 기기 화면에서 확인·정리한 뒤 --confirmed-no-card로 다시 실행한다.",
+        { baseline: record.baseline, requestedUrl: record.requestedUrl },
+      );
+    }
   }
   if (sessionId === undefined || !sessions.some((session) => session.session_id === sessionId)) {
     return undefined;
@@ -217,29 +309,25 @@ async function cleanupCard(record: LockRecord): Promise<number | undefined> {
   return sessionId;
 }
 
-/** 만료된 잠금을 회수한다. 회수 mutex를 얻은 한 프로세스만 이전 Card를 정리하고 기록을 넘겨받는다. */
-async function reclaim(stale: LockRecord, fresh: LockRecord): Promise<LockRecord | undefined> {
-  const mutex = join(lockPath(stale.clientId), "reclaim");
-  try {
-    await mkdir(mutex);
-  } catch {
-    const mutexStat = await stat(mutex).catch(() => undefined);
-    if (mutexStat && Date.now() - mutexStat.mtimeMs > RECLAIM_MUTEX_STALE_MS) {
-      await rm(mutex, { recursive: true, force: true });
-    }
-    return undefined;
-  }
+/** 만료된 잠금을 회수한다. mutex를 얻은 한 프로세스만 이전 Card를 정리하고 기록을 넘겨받는다. */
+async function reclaim(
+  stale: LockRecord,
+  fresh: LockRecord,
+  confirmedNoCard: boolean,
+): Promise<LockRecord | undefined> {
+  if ((await takeMutex(stale.clientId, 0)) !== "held") return undefined;
   try {
     const current = await readRecord(stale.clientId);
     if (
       !isCurrent(current) ||
       current.heartbeatAt !== stale.heartbeatAt ||
-      current.owner !== stale.owner
+      current.owner !== stale.owner ||
+      !isStale(current)
     ) {
       return undefined;
     }
     try {
-      const closedSessionId = await cleanupCard(current);
+      const closedSessionId = await cleanupCard(current, confirmedNoCard);
       const record: LockRecord = {
         ...fresh,
         reclaimedFrom: { owner: current.owner, state: current.state, sessionId: closedSessionId },
@@ -251,7 +339,7 @@ async function reclaim(stale: LockRecord, fresh: LockRecord): Promise<LockRecord
       throw error;
     }
   } finally {
-    await rm(mutex, { recursive: true, force: true });
+    await dropMutex(stale.clientId);
   }
 }
 
@@ -295,11 +383,11 @@ async function acquire(options: Options) {
         return {
           result: "already-held",
           lock: lockPath(options.clientId),
-          record: await renew(holder),
+          record: await withOwner(options, renew),
         };
       }
       if (isStale(holder)) {
-        const record = await reclaim(holder, fresh());
+        const record = await reclaim(holder, fresh(), options.confirmedNoCard);
         if (record) return { result: "reclaimed", lock: lockPath(options.clientId), record };
       }
     }
@@ -319,102 +407,130 @@ async function acquire(options: Options) {
 async function open(options: Options) {
   const url = options.positionals[0];
   if (!url) throw new Error("open에는 bundle URL이 필요하다.");
-  let record = await heldRecord(options);
-  if (record.state !== "acquired") {
-    throw new Blocked(
-      "이미 Card를 열었거나 정리하지 못한 기록이 있다. 같은 session을 reload하거나 release한다.",
-      {
-        record,
-      },
-    );
-  }
-  const client = await findClient(options.clientId);
-  if (client?.info?.debugRouterId !== record.debugRouterId) {
-    throw new Blocked("잠금을 얻은 뒤 host가 바뀌었다. release 후 client를 다시 고른다.", {
+  return withOwner(options, async (held) => {
+    let record = held;
+    if (record.state !== "acquired") {
+      throw new Blocked(
+        "이미 Card를 열었거나 정리하지 못한 기록이 있다. 같은 session을 reload하거나 release한다.",
+        {
+          record,
+        },
+      );
+    }
+    await assertSameHost(
       record,
-      client,
-    });
-  }
-
-  const baseline = (await listSessions(options.clientId)).map((session) => session.session_id);
-  record = { ...record, heartbeatAt: now(), state: "opening", baseline, requestedUrl: url };
-  await writeRecord(record);
-  // open은 한 번만 호출한다. 실패·timeout이어도 Card가 생겼을 수 있으므로 목록으로 판정한다.
-  const opened = await agentLynx(["open", url, "--client", options.clientId], 60_000).catch(
-    (error: Error) => ({
-      ok: false,
-      stdout: "",
-      stderr: error.message,
-    }),
-  );
-
-  let candidates: Session[] = [];
-  for (let elapsed = 0; elapsed <= IDENTIFY_SECONDS; elapsed++) {
-    candidates = newCards(await listSessions(options.clientId), baseline, url);
-    if (candidates.length > 0) break;
-    await sleep(1000);
-  }
-  const [card] = candidates;
-  if (candidates.length !== 1 || !card) {
-    throw new Blocked(
-      "이번 open의 session 하나를 확정하지 못했다. 다시 open하지 말고 release로 정리를 시도한다.",
-      {
-        baseline,
-        candidates,
-        openResult: opened.ok ? "ok" : opened.stderr,
-      },
+      "잠금을 얻은 뒤 host가 바뀌었다. release 후 client를 다시 고른다.",
     );
-  }
-  record = { ...record, heartbeatAt: now(), state: "open", sessionId: card.session_id };
-  await writeRecord(record);
-  return {
-    result: "opened",
-    clientId: options.clientId,
-    sessionId: card.session_id,
-    url: card.url,
-  };
+
+    const baseline = (await listSessions(options.clientId)).map((session) => session.session_id);
+    record = { ...record, heartbeatAt: now(), state: "opening", baseline, requestedUrl: url };
+    await writeRecord(record);
+    // open은 한 번만 호출한다. 실패·timeout이어도 Card가 생겼을 수 있으므로 목록으로 판정한다.
+    const opened = await agentLynx(["open", url, "--client", options.clientId], 60_000).catch(
+      (error: Error) => ({
+        ok: false,
+        stdout: "",
+        stderr: error.message,
+      }),
+    );
+
+    let candidates: Session[] = [];
+    for (let elapsed = 0; elapsed <= IDENTIFY_SECONDS; elapsed++) {
+      candidates = newCards(await listSessions(options.clientId), baseline, url);
+      if (candidates.length > 0) break;
+      await sleep(1000);
+    }
+    const [card] = candidates;
+    if (candidates.length !== 1 || !card) {
+      throw new Blocked(
+        "이번 open의 session 하나를 확정하지 못했다. 다시 open하지 말고 release로 정리를 시도한다.",
+        {
+          baseline,
+          candidates,
+          openResult: opened.ok ? "ok" : opened.stderr,
+        },
+      );
+    }
+    record = { ...record, heartbeatAt: now(), state: "open", sessionId: card.session_id };
+    await writeRecord(record);
+    return {
+      result: "opened",
+      clientId: options.clientId,
+      sessionId: card.session_id,
+      url: card.url,
+    };
+  });
 }
 
-/** 소유 client/session을 붙여 agent-lynx를 실행하고 heartbeat를 갱신한다. */
+/**
+ * 소유 client/session을 붙여 agent-lynx를 실행한다. 실행하는 동안 heartbeat를 TTL의 1/3마다 갱신하고,
+ * 소유권을 잃으면 명령을 멈춘다.
+ */
 async function exec(options: Options): Promise<number> {
-  const record = await renew(await heldRecord(options));
-  const target = ["--client", options.clientId];
-  if (!options.clientScope) {
-    if (record.state !== "open" || record.sessionId === undefined) {
-      throw new Blocked("열린 소유 session이 없다. open을 먼저 한다.", { record });
+  const record = await withOwner(options, async (held) => {
+    if (!options.clientScope && (held.state !== "open" || held.sessionId === undefined)) {
+      throw new Blocked("열린 소유 session이 없다. open을 먼저 한다.", { record: held });
     }
-    target.push("--session", String(record.sessionId));
-  }
+    await assertSameHost(held, "잠금을 얻은 뒤 host가 바뀌었다. 조작을 멈추고 release한다.");
+    return renew(held);
+  });
+  const target = ["--client", options.clientId];
+  if (!options.clientScope) target.push("--session", String(record.sessionId));
+
   const command = Bun.which("agent-lynx") ? ["agent-lynx"] : ["bunx", "agent-lynx"];
   const child = Bun.spawn([...command, ...options.passthrough, ...target], {
     stdio: ["inherit", "inherit", "inherit"],
     env: { ...process.env, AGENT_LYNX_DISABLE_UPDATE_NOTICE: "1" },
   });
-  return child.exited;
+  let lost: Error | undefined;
+  let renewing = false;
+  const heartbeat = setInterval(
+    async () => {
+      if (renewing || lost) return;
+      renewing = true;
+      try {
+        await withOwner(options, renew);
+      } catch (error) {
+        lost = error as Error;
+        child.kill();
+      } finally {
+        renewing = false;
+      }
+    },
+    Math.max(250, (record.ttlSeconds * 1000) / 3),
+  );
+  const code = await child.exited;
+  clearInterval(heartbeat);
+  if (lost) throw lost;
+  return code;
 }
 
 async function release(options: Options) {
-  const record = await heldRecord(options);
-  try {
-    if (options.hostTerminated) {
-      // 직접 실행한 앱을 종료해 Card를 정리한 경우다. 같은 host가 목록에 남아 있으면 인정하지 않는다.
-      const clients = await agentLynxJson<Client[]>(["list-clients"]);
-      if (clients.some((client) => client.info?.debugRouterId === record.debugRouterId)) {
-        throw new Blocked("기록한 host가 아직 목록에 있다. 앱 종료를 확인한 뒤 다시 release한다.", {
-          record,
-        });
+  return withOwner(options, async (record) => {
+    try {
+      if (options.hostTerminated) {
+        // 직접 실행한 앱을 종료해 Card를 정리한 경우다. 같은 host가 목록에 남아 있으면 인정하지 않는다.
+        const clients = await agentLynxJson<Client[]>(["list-clients"]);
+        if (clients.some((client) => client.info?.debugRouterId === record.debugRouterId)) {
+          throw new Blocked(
+            "기록한 host가 아직 목록에 있다. 앱 종료를 확인한 뒤 다시 release한다.",
+            {
+              record,
+            },
+          );
+        }
+        await rm(lockPath(options.clientId), { recursive: true, force: true });
+        return { result: "released", clientId: options.clientId, hostTerminated: true };
       }
+      const closedSessionId = await cleanupCard(record, options.confirmedNoCard);
       await rm(lockPath(options.clientId), { recursive: true, force: true });
-      return { result: "released", clientId: options.clientId, hostTerminated: true };
+      return { result: "released", clientId: options.clientId, closedSessionId };
+    } catch (error) {
+      // state는 그대로 두어 다음 release나 회수가 같은 기준으로 다시 정리하게 한다.
+      await writeRecord({ ...record, heartbeatAt: now(), error: (error as Error).message });
+      throw error;
     }
-    const closedSessionId = await cleanupCard(record);
-    await rm(lockPath(options.clientId), { recursive: true, force: true });
-    return { result: "released", clientId: options.clientId, closedSessionId };
-  } catch (error) {
-    // state는 그대로 두어 다음 release나 회수가 같은 기준으로 다시 정리하게 한다.
-    await writeRecord({ ...record, heartbeatAt: now(), error: (error as Error).message });
-    throw error;
-  }
+  });
 }
 
 async function status(options: Options) {
@@ -445,6 +561,7 @@ function parseArguments(args: string[], owner: string): Options {
     ttlSeconds: 600,
     clientScope: false,
     hostTerminated: false,
+    confirmedNoCard: false,
     positionals: [],
     passthrough: separator < 0 ? [] : args.slice(separator + 1),
   };
@@ -455,6 +572,8 @@ function parseArguments(args: string[], owner: string): Options {
       options.clientScope = true;
     } else if (argument === "--host-terminated") {
       options.hostTerminated = true;
+    } else if (argument === "--confirmed-no-card") {
+      options.confirmedNoCard = true;
     } else if (argument.startsWith("--")) {
       if (value === undefined) throw new Error(`${argument}에 값이 필요하다.`);
       index++;
@@ -469,7 +588,7 @@ function parseArguments(args: string[], owner: string): Options {
   }
   if (!["acquire", "open", "exec", "renew", "release", "status"].includes(options.command)) {
     throw new Error(
-      "명령: acquire | open <url> | exec [--client-scope] -- <args> | renew | release [--host-terminated] | status",
+      "명령: acquire | open <url> | exec [--client-scope] -- <args> | renew | release [--host-terminated | --confirmed-no-card] | status",
     );
   }
   if (!options.clientId) throw new Error("--client <clientId>가 필요하다.");
@@ -489,7 +608,7 @@ if (import.meta.main) {
         status,
         renew: async (o: Options) => ({
           result: "renewed",
-          record: await renew(await heldRecord(o)),
+          record: await withOwner(o, renew),
         }),
       };
       const result = await commands[options.command as keyof typeof commands](options);
