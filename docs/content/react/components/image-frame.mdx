@@ -144,3 +144,7 @@ import { ContentPlaceholder } from "seed-design/ui/content-placeholder";
   }
   ```
 </ComponentExample>
+
+### Extending to Safe Area
+
+`bleedX="safeArea"`를 지정하면 이미지가 좌우 safe area inset까지 화면 끝으로 넓어집니다. 이때 `ImageFrameFloater`는 `offsetX`에 해당 방향의 inset을 더해 safe area 안에 놓입니다. `AppScreenContent`처럼 inset을 반영한 컨테이너 바로 안에서 사용하세요. 자세한 동작은 [Safe Area 구현 가이드](/react/components/concepts/safe-area#컴포넌트의-extendsafeareax)를 참고하세요.

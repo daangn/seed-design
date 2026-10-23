@@ -1,6 +1,15 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
-import { Box, HStack, Text, VStack } from "@seed-design/react";
-import type { ReactNode } from "react";
+import {
+  Box,
+  HStack,
+  ImageFrame,
+  ImageFrameFloater,
+  ImageFrameIndicator,
+  ImageFrameReactionButton,
+  Text,
+  VStack,
+} from "@seed-design/react";
+import { useState, type ReactNode } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   NextAppBar,
@@ -9,7 +18,11 @@ import {
   NextAppBarMain,
 } from "seed-design/ui/next-app-bar";
 import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
+import { AttachmentField, AttachmentInput } from "seed-design/ui/attachment-field";
 import { ChipTabsList, ChipTabsRoot, ChipTabsTrigger } from "seed-design/ui/chip-tabs";
+import { PageBanner } from "seed-design/ui/page-banner";
+import { Switch } from "seed-design/ui/switch";
+import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 import img from "../assets/peng.jpeg";
 
 declare module "@stackflow/config" {
@@ -29,6 +42,15 @@ const CATEGORIES = [
   "남성패션/잡화",
   "뷰티/미용",
 ];
+
+const TABS = ["추천", "인기", "최신"];
+
+const mockedFiles = Array.from({ length: 8 }, (_, i) => {
+  const file = new File(["file content"], `file${i + 1}.txt`, { type: "text/plain" });
+  Object.defineProperty(file, "size", { value: 1 });
+
+  return file;
+});
 
 const Section = ({
   title,
@@ -52,62 +74,72 @@ const Section = ({
   </VStack>
 );
 
-const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"> = () => (
-  <NextAppScreen contentOffsetBottom="none">
-    <NextAppBar>
-      <NextAppBarLeft>
-        <NextAppBarBackButton />
-      </NextAppBarLeft>
-      <NextAppBarMain title="좌우 safe area와 bleed" />
-    </NextAppBar>
-    <NextAppScreenContent>
-      <VStack gap="x8" pt="x4">
-        <Section title="이미지" description="bleedX에 safeArea를 주면 좌우 inset까지 채워요.">
-          <Box bleedX="safeArea">
-            <img src={img} alt="penguin" style={{ display: "block", width: "100%" }} />
+const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"> = () => {
+  const [extendSafeAreaX, setExtendSafeAreaX] = useState(true);
+
+  return (
+    <NextAppScreen contentOffsetBottom="none">
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="좌우 safe area와 bleed" />
+      </NextAppBar>
+      <NextAppScreenContent>
+        <VStack gap="x8" pt="x4">
+          <Box px="spacingX.globalGutter">
+            <Switch
+              label="extendSafeAreaX"
+              checked={extendSafeAreaX}
+              onCheckedChange={setExtendSafeAreaX}
+            />
           </Box>
-        </Section>
-        <Section
-          title="가로 스크롤"
-          description="스크롤 영역은 bleedX로 화면 끝까지 넓히고, pl과 pr의 safeArea로 내용을 safe area 경계에서 시작해요. gutter는 안쪽 요소가 가져요."
-        >
-          {/* Before iOS 26.4, WebKit leaves a block scroll container's end padding out of the scroll
-              range when a block-level child overflows; a flex container keeps it, so the last item
-              stops at the safe area edge. */}
-          <Box display="flex" bleedX="safeArea" pl="safeArea" pr="safeArea" overflowX="auto">
-            <HStack gap="x2" px="spacingX.globalGutter" width="max-content">
-              {Array.from({ length: 10 }, (_, index) => (
-                <VStack
-                  key={index}
-                  width="120px"
-                  height="80px"
-                  borderRadius="r2"
-                  bg="bg.neutralWeak"
-                  justify="center"
-                  align="center"
-                >
-                  <Text textStyle="t4Bold" color="fg.neutral">
-                    {index + 1}
-                  </Text>
-                </VStack>
-              ))}
-            </HStack>
-          </Box>
-        </Section>
-        <Section
-          title="Chip Tabs"
-          description="스크롤 영역이 gutter를 padding으로 직접 가지면, gutter와 inset을 더한 값을 padding으로 줘요."
-        >
-          <Box bleedX="safeArea">
-            <ChipTabsRoot defaultValue={CATEGORIES[0]} variant="neutralSolid">
-              <ChipTabsList
-                style={{
-                  paddingLeft:
-                    "calc(var(--seed-dimension-spacing-x-global-gutter) + var(--seed-safe-area-left))",
-                  paddingRight:
-                    "calc(var(--seed-dimension-spacing-x-global-gutter) + var(--seed-safe-area-right))",
-                }}
-              >
+          <Section
+            title="Tabs"
+            description="extendSafeAreaX를 주면 목록 배경과 하단 선, 스와이프하는 패널이 화면 끝까지 이어지고, 탭과 패널 내용은 safe area 안에 남아요."
+          >
+            <TabsRoot defaultValue={TABS[0]} extendSafeAreaX={extendSafeAreaX}>
+              <TabsList>
+                {TABS.map((tab) => (
+                  <TabsTrigger key={tab} value={tab}>
+                    {tab}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+              <TabsCarousel swipeable>
+                {TABS.map((tab) => (
+                  <TabsContent key={tab} value={tab}>
+                    {/* The pane re-applies the inset as padding, so the panel background bleeds
+                        the same way it would directly inside NextAppScreenContent. */}
+                    <Box
+                      {...(extendSafeAreaX && {
+                        bleedX: "safeArea" as const,
+                        pl: "safeArea" as const,
+                        pr: "safeArea" as const,
+                      })}
+                      bg="bg.neutralWeak"
+                    >
+                      <Box px="spacingX.globalGutter" py="x6">
+                        <Text textStyle="t4Medium" color="fg.neutral">
+                          {tab} 패널
+                        </Text>
+                      </Box>
+                    </Box>
+                  </TabsContent>
+                ))}
+              </TabsCarousel>
+            </TabsRoot>
+          </Section>
+          <Section
+            title="Chip Tabs"
+            description="extendSafeAreaX를 주면 chip 목록이 화면 끝까지 스크롤되고, 스크롤하기 전에는 첫 chip이 safe area 경계에서 시작해요."
+          >
+            <ChipTabsRoot
+              defaultValue={CATEGORIES[0]}
+              variant="neutralSolid"
+              extendSafeAreaX={extendSafeAreaX}
+            >
+              <ChipTabsList>
                 {CATEGORIES.map((category) => (
                   <ChipTabsTrigger key={category} value={category}>
                     {category}
@@ -115,46 +147,128 @@ const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"
                 ))}
               </ChipTabsList>
             </ChipTabsRoot>
-          </Box>
-        </Section>
-        <Section
-          title="배경 띠"
-          description="배경은 bleedX로 화면 끝까지 채우고, 내용은 pl과 pr의 safeArea와 gutter 안쪽에 둬요."
-        >
-          <Box bleedX="safeArea" pl="safeArea" pr="safeArea" bg="bg.brandWeak">
-            <Box px="spacingX.globalGutter" py="x4">
-              <Text textStyle="t4Medium" color="fg.brand">
-                배경은 화면 끝까지, 글자는 safe area 안쪽에 있어요.
-              </Text>
+          </Section>
+          <Section
+            title="Page Banner"
+            description="extendSafeAreaX를 주면 배경은 화면 끝까지 채우고, 내용은 safe area 안에 둬요."
+          >
+            <PageBanner
+              tone="informative"
+              title="안내"
+              description="배경은 화면 끝까지, 글자는 safe area 안쪽에 있어요."
+              extendSafeAreaX={extendSafeAreaX}
+            />
+          </Section>
+          <Section
+            title="Attachment Field"
+            description="extendSafeAreaX를 주면 항목 목록이 extend-x에 inset을 더한 만큼 넓어져 화면 끝까지 스크롤돼요."
+          >
+            <Box px="spacingX.globalGutter">
+              <AttachmentField
+                maxFiles={8}
+                label="첨부파일"
+                defaultAcceptedFileEntries={mockedFiles.map((file, index) => ({
+                  id: `${index}`,
+                  file,
+                  status: "pending",
+                }))}
+                extendSafeAreaX={extendSafeAreaX}
+                rootProps={{
+                  style: {
+                    "--seed-attachment-input-extend-x":
+                      "var(--seed-dimension-spacing-x-global-gutter)",
+                  } as React.CSSProperties,
+                }}
+              >
+                <AttachmentInput />
+              </AttachmentField>
             </Box>
+          </Section>
+          <Section
+            title="Image Frame"
+            description={`bleedX="safeArea"를 주면 이미지가 화면 끝까지 채워지고, floater는 safe area 안에 남아요. 스위치는 bleedX를 켜고 꺼요.`}
+          >
+            <ImageFrame
+              ratio={2}
+              borderRadius={0}
+              src={img}
+              alt="penguin"
+              {...(extendSafeAreaX && { bleedX: "safeArea" as const })}
+            >
+              <ImageFrameFloater placement="bottom-start">
+                <ImageFrameIndicator>1 / 5</ImageFrameIndicator>
+              </ImageFrameFloater>
+              <ImageFrameFloater placement="bottom-end">
+                <ImageFrameReactionButton aria-label="좋아요" />
+              </ImageFrameFloater>
+            </ImageFrame>
+          </Section>
+          <Section
+            title="가로 스크롤"
+            description="스크롤 영역은 bleedX로 화면 끝까지 넓히고, pl과 pr의 safeArea로 내용을 safe area 경계에서 시작해요. gutter는 안쪽 요소가 가져요."
+          >
+            {/* Before iOS 26.4, WebKit leaves a block scroll container's end padding out of the scroll
+                range when a block-level child overflows; a flex container keeps it, so the last item
+                stops at the safe area edge. */}
+            <Box display="flex" bleedX="safeArea" pl="safeArea" pr="safeArea" overflowX="auto">
+              <HStack gap="x2" px="spacingX.globalGutter" width="max-content">
+                {Array.from({ length: 10 }, (_, index) => (
+                  <VStack
+                    key={index}
+                    width="120px"
+                    height="80px"
+                    borderRadius="r2"
+                    bg="bg.neutralWeak"
+                    justify="center"
+                    align="center"
+                  >
+                    <Text textStyle="t4Bold" color="fg.neutral">
+                      {index + 1}
+                    </Text>
+                  </VStack>
+                ))}
+              </HStack>
+            </Box>
+          </Section>
+          <Section
+            title="배경 띠"
+            description="배경은 bleedX로 화면 끝까지 채우고, 내용은 pl과 pr의 safeArea와 gutter 안쪽에 둬요."
+          >
+            <Box bleedX="safeArea" pl="safeArea" pr="safeArea" bg="bg.brandWeak">
+              <Box px="spacingX.globalGutter" py="x4">
+                <Text textStyle="t4Medium" color="fg.brand">
+                  배경은 화면 끝까지, 글자는 safe area 안쪽에 있어요.
+                </Text>
+              </Box>
+            </Box>
+          </Section>
+          <VStack gap="x3" px="spacingX.globalGutter">
+            {Array.from({ length: 6 }, (_, index) => (
+              <Text key={index} textStyle="t4Regular" color="fg.neutral">
+                아래 하단 바가 콘텐츠 위에 고정되는지 확인하기 위한 문단이에요. 하단 바는 배경을
+                화면 끝까지 채우고, 버튼은 safe area 안쪽에 둬요.
+              </Text>
+            ))}
+          </VStack>
+          <Box
+            position="sticky"
+            bottom={0}
+            bleedX="safeArea"
+            pl="safeArea"
+            pr="safeArea"
+            pb="safeArea"
+            bg="bg.layerDefault"
+          >
+            <HStack px="spacingX.globalGutter" py="x3">
+              <ActionButton variant="brandSolid" flexGrow>
+                확인
+              </ActionButton>
+            </HStack>
           </Box>
-        </Section>
-        <VStack gap="x3" px="spacingX.globalGutter">
-          {Array.from({ length: 6 }, (_, index) => (
-            <Text key={index} textStyle="t4Regular" color="fg.neutral">
-              아래 하단 바가 콘텐츠 위에 고정되는지 확인하기 위한 문단이에요. 하단 바는 배경을 화면
-              끝까지 채우고, 버튼은 safe area 안쪽에 둬요.
-            </Text>
-          ))}
         </VStack>
-        <Box
-          position="sticky"
-          bottom={0}
-          bleedX="safeArea"
-          pl="safeArea"
-          pr="safeArea"
-          pb="safeArea"
-          bg="bg.layerDefault"
-        >
-          <HStack px="spacingX.globalGutter" py="x3">
-            <ActionButton variant="brandSolid" flexGrow>
-              확인
-            </ActionButton>
-          </HStack>
-        </Box>
-      </VStack>
-    </NextAppScreenContent>
-  </NextAppScreen>
-);
+      </NextAppScreenContent>
+    </NextAppScreen>
+  );
+};
 
 export default ActivitySafeAreaBleed;

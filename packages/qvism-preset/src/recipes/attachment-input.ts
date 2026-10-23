@@ -562,8 +562,37 @@ const attachmentInput = defineSlotRecipe({
       margin: 0,
     },
   },
-  variants: {},
-  defaultVariants: {},
+  variants: {
+    extendSafeAreaX: {
+      true: {
+        root: {
+          marginLeft:
+            "calc((var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-left)) * -1)",
+          marginRight:
+            "calc((var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-right)) * -1)",
+        },
+        dropzone: {
+          marginLeft:
+            "calc(var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-left))",
+          marginRight:
+            "calc(var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-right))",
+        },
+        container: {
+          paddingLeft:
+            "calc(var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-left))",
+          paddingRight:
+            "calc(var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-right))",
+          // Keeps a focused item from stopping under the inset the container extends into
+          scrollPaddingLeft: "var(--seed-safe-area-left)",
+          scrollPaddingRight: "var(--seed-safe-area-right)",
+        },
+      },
+      false: {},
+    },
+  },
+  defaultVariants: {
+    extendSafeAreaX: false,
+  },
 });
 
 export { attachmentInput, attachmentInputTrigger, attachmentInputItem };

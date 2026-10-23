@@ -12,6 +12,10 @@ declare interface PageBannerVariant {
   * @default "neutral"
   */
   tone: "neutral" | "informative" | "positive" | "warning" | "critical" | "magic";
+/**
+  * @default false
+  */
+  extendSafeAreaX: boolean;
 }
 
 declare type PageBannerVariantMap = {
