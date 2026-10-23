@@ -2,7 +2,7 @@
 
 `seed-component`의 Lynx 문서 분기와 `seed-verify-lynx-component`가 함께 쓰는 실행 절차다. 기본 native 검증은 `examples/lynx-spa` 개발 서버에서 문서 예제를 선택하거나 query로 직접 여는 것이다. docs build·정적 serve·manifest는 문서 인프라 자체를 바꾼 경우에만 쓴다([6절](#6-문서-인프라를-실제로-바꾼-경우만)).
 
-온라인 실행 전에 [session 소유권과 Card 수명](concurrency/session-ownership.md)을 읽는다. URL은 미리 만들어 두되 page 열기와 화면 검증은 공유 lifecycle lock 안에서 한다. CLI·MCP·OS 딥 링크 중 어느 경로도 잠금과 소유권 확인을 건너뛰지 않는다.
+온라인 실행 전에 [session 소유권과 Card 수명](concurrency/session-ownership.md)을 읽는다. URL은 미리 만들어 두되 page 열기와 화면 검증은 `scripts/lynx-card.ts`로 얻은 공유 잠금 안에서 한다. CLI·MCP·OS 딥 링크 중 어느 경로도 잠금과 소유권 확인을 건너뛰지 않는다.
 
 ## 1. 사전 점검과 서버 소유권
 
@@ -63,16 +63,16 @@ ENCODED_BUNDLE_URL="$(node -p 'encodeURIComponent(process.argv[1])' "$BUNDLE_URL
 DEEP_LINK="lynx://open?url=${ENCODED_BUNDLE_URL}"
 ```
 
-위 코드는 URL만 만든다. 실제 열기는 [잠금 안에서 한 번 열고 소유 session 식별](concurrency/session-ownership.md#3-잠금-안에서-한-번-열고-소유-session-식별) 단계에서 한다.
+위 코드는 URL만 만든다. 실제 열기는 [한 번 열기](concurrency/session-ownership.md#3-한-번-열기) 단계의 `lynx-card.ts open`으로 한다.
 
 - client를 지정할 수 있는 PATH의 `agent-lynx`를 기본으로 쓰고, PATH에 없을 때만 접두사를 `bunx agent-lynx`로 바꾼다.
 - OS URI opener를 잠금 없는 대체 경로로 쓰거나 구식 DevTool script를 직접 호출하지 않는다.
 - console·screenshot·DOM/layout 명령의 현재 이름은 설치된 CLI의 `--help`로 확인한다.
-- client 고정 → 잠금 획득 → baseline 저장 → open 한 번 → 생성된 client/session 쌍 점유를 순서대로 끝낸 뒤 증거 수집으로 넘어간다. 새 client가 생긴다고 가정하지 않고, URL이나 최신 ID로 소유권을 추정하지 않는다. 식별이 모호하면 새 Card를 열지 않고 잠금과 식별 자료를 유지한 채 `환경 차단`으로 기록한다.
+- client 고정 → `acquire` → `open`으로 소유 session을 확정한 뒤 증거 수집으로 넘어간다. 새 client가 생긴다고 가정하지 않고, URL이나 최신 ID로 소유권을 추정하지 않는다. `open`이 session을 확정하지 못하면 새 Card를 열지 않고 `release`로 정리를 시도한 뒤 `환경 차단`으로 기록한다.
 
 증거 수집:
 
-- 고정한 client와 owned session을 모든 session 대상 명령에 명시한다.
+- session 대상 명령은 `lynx-card.ts exec`로 실행해 소유 client·session을 붙인다.
 - 주장에 필요한 만큼 DOM 또는 ReactLynx tree, 대상 node의 layout·computed style, console, screenshot을 수집한다. 증거에는 소유 session과 bundle URL을 함께 적는다.
 - 화면 상태를 바꾸는 tap·drag는 조작 전후를 나눠 남긴다. transition·비동기 상태가 있으면 실제 입력으로 `initial → immediately after input → settled/final`을 수행한다.
 - 같은 화면을 다시 검증할 때는 새로 open하지 않고 `Page.reload`를 쓴다.
@@ -162,5 +162,5 @@ docs Lynx watcher(`bun docs:dev`가 띄우는 `dev:lynx-examples`)와 정적 빌
 정리:
 
 - 직접 시작한 서버·브라우저는 그 수명 소유자가 정리한다. 기존 서버·host app·기기 session은 종료하지 않는다.
-- Card는 성공·실패와 관계없이 [cleanup과 잠금 해제](concurrency/session-ownership.md#5-성공실패-모두-cleanup-후-잠금-해제)를 끝낸다.
+- Card는 성공·실패와 관계없이 [정리 후 해제](concurrency/session-ownership.md#5-성공실패-모두-정리-후-해제)를 끝낸다.
 - 증거로 참조하지 않는 임시 파일만 지운다.
