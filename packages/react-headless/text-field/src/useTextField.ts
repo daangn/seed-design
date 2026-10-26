@@ -1,6 +1,12 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { ariaAttr, dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
-import { useId, useState, type TextareaHTMLAttributes, type InputHTMLAttributes } from "react";
+import { ariaAttr, buttonProps, dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
+import {
+  useId,
+  useRef,
+  useState,
+  type TextareaHTMLAttributes,
+  type InputHTMLAttributes,
+} from "react";
 import { useSupports } from "@seed-design/react-supports";
 
 interface UseTextFieldStateProps {
@@ -62,6 +68,19 @@ export interface UseTextFieldProps extends UseTextFieldStateProps {
 
 export type UseTextFieldReturn = ReturnType<typeof useTextField>;
 
+/**
+ * Sets the value through the native setter and dispatches an `input` event, so React's `onChange`
+ * runs as if the user typed. This updates both controlled and uncontrolled inputs.
+ */
+function clearInputValue(input: HTMLInputElement | HTMLTextAreaElement) {
+  const prototype =
+    input instanceof HTMLTextAreaElement
+      ? HTMLTextAreaElement.prototype
+      : HTMLInputElement.prototype;
+  Object.getOwnPropertyDescriptor(prototype, "value")?.set?.call(input, "");
+  input.dispatchEvent(new Event("input", { bubbles: true }));
+}
+
 export function useTextField(props: UseTextFieldProps) {
   const id = useId();
   const {
@@ -95,6 +114,8 @@ export function useTextField(props: UseTextFieldProps) {
 
   const isUncontrolled = propValue === undefined;
 
+  const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+
   const stateProps = elementProps({
     "data-hover": dataAttr(isHovered),
     "data-active": dataAttr(isActive),
@@ -115,6 +136,8 @@ export function useTextField(props: UseTextFieldProps) {
 
     setIsFocused,
     setIsFocusVisible,
+
+    inputRef,
 
     stateProps,
 
@@ -164,5 +187,30 @@ export function useTextField(props: UseTextFieldProps) {
         }
       },
     }) as InputHTMLAttributes<HTMLInputElement> | TextareaHTMLAttributes<HTMLTextAreaElement>,
+
+    clearButtonProps: buttonProps({
+      type: "button",
+      disabled: disabled || readOnly,
+      hidden: disabled || readOnly,
+
+      // Keep the focus where it is: a focused input stays focused, and an unfocused one stays unfocused.
+      onMouseDown(event) {
+        event.preventDefault();
+      },
+      onClick(event) {
+        const input = inputRef.current;
+        if (!input) return;
+
+        // Activated with the keyboard: the button is about to unmount, so hand the focus to the input.
+        const shouldFocusInput =
+          event.currentTarget === event.currentTarget.ownerDocument.activeElement;
+
+        clearInputValue(input);
+
+        if (shouldFocusInput) {
+          input.focus();
+        }
+      },
+    }),
   };
 }
