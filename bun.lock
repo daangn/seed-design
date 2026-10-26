@@ -460,7 +460,7 @@
         "picocolors": "^1.1.1",
         "postcss": "^8.5.3",
         "semver": "^7.7.1",
-        "simple-git": "^3.27.0",
+        "simple-git": "^4.0.0",
         "winston": "^3.17.0",
         "zod": "^3.24.3",
       },
@@ -1929,8 +1929,8 @@
       "version": "1.0.2",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.0.1",
-        "@seed-design/dom-utils": "^2.0.0",
-        "@seed-design/react-primitive": "^2.0.0",
+        "@seed-design/dom-utils": "^2.0.1",
+        "@seed-design/react-primitive": "^2.0.1",
       },
       "devDependencies": {
         "@types/react": "^19.1.6",
@@ -2507,9 +2507,9 @@
         "@create-figma-plugin/utilities": "^4.0.0",
         "@figmazing/event": "0.0.1",
         "@karrotmarket/react-monochrome-icon": "^1.17.0",
-        "@seed-design/css": "^3.0.0",
+        "@seed-design/css": "^3.0.3",
         "@seed-design/migration-index": "^2.0.1",
-        "@seed-design/react": "^3.0.0",
+        "@seed-design/react": "^3.0.1",
         "@seed-design/vite-plugin": "^2.1.1",
         "change-case": "^5.4.4",
         "color-delta-e": "^1.3.0",
@@ -4272,6 +4272,10 @@
     "@shikijs/types": ["@shikijs/types@4.4.2", "", { "dependencies": { "@shikijs/vscode-textmate": "^10.0.2", "@types/hast": "^3.0.5" } }, "sha512-PFYitV4vpDr/iPCIhnHp+Q4ftic5N5VeNJ3KQ1O8gn3h2ar8qgwMAXF7tq4m1CWaMS60fV4VqF6vfnWH4F7vqQ=="],
 
     "@shikijs/vscode-textmate": ["@shikijs/vscode-textmate@10.0.2", "", {}, "sha512-83yeghZ2xxin3Nj8z1NMd/NCuca+gsYXswywDy5bHvwlWL8tpTQmzGeUuHd9FC3E/SBEMvzJRwWEOz5gGes9Qg=="],
+
+    "@simple-git/args-pathspec": ["@simple-git/args-pathspec@1.0.4", "", {}, "sha512-EtMX6XjRWSastG2SdkmSQByPtJ9dx/NIjnHbpQPCYt62j4RmSx5rgLTGpw0YCjF5h191gZOmBfheOT23cRSFdw=="],
+
+    "@simple-git/argv-parser": ["@simple-git/argv-parser@2.0.1", "", { "dependencies": { "@simple-git/args-pathspec": "^1.0.4" } }, "sha512-M++IaVWrN+vYalilOHfwvT2IL3wYZtVEBQpmX6DLSOJLtxbZ+SUeIDE3IiPogzhPACLajwtxfa5rp+ZX1FczzQ=="],
 
     "@sinclair/typebox": ["@sinclair/typebox@0.34.52", "", {}, "sha512-XiMQh7qqVlxZzcVD+kkGMNGMzcTrDMLWI7S4x7z1MkCkbDPrekpZXEUK0eZqZFMuHQg2a2DZOcDIh9o5v3Gonw=="],
 
@@ -6743,7 +6747,7 @@
 
     "signal-exit": ["signal-exit@4.1.0", "", {}, "sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw=="],
 
-    "simple-git": ["simple-git@3.30.0", "", { "dependencies": { "@kwsites/file-exists": "^1.1.1", "@kwsites/promise-deferred": "^1.1.1", "debug": "^4.4.0" } }, "sha512-q6lxyDsCmEal/MEGhP1aVyQ3oxnagGlBDOVSIB4XUVLl1iZh0Pah6ebC9V4xBap/RfgP2WlI8EKs0WS0rMEJHg=="],
+    "simple-git": ["simple-git@4.0.2", "", { "dependencies": { "@kwsites/file-exists": "^1.1.1", "@kwsites/promise-deferred": "^1.1.1", "@simple-git/args-pathspec": "1.0.4", "@simple-git/argv-parser": "2.0.1", "debug": "^4.4.0" } }, "sha512-l0sIsv9VrPwovKELFDBOj/lhmIcbMvxBk2B+hRhsMM4/VL3gKtuZvYnBNixVo+N/0HnqQx2cBdLvxnAbygHpqA=="],
 
     "simple-reveal": ["simple-reveal@0.8.0", "", { "peerDependencies": { "react": ">=16.8.0" } }, "sha512-cM1u07myFDHcqMP0ZwM+6YgOisaKpkkBejk+Xgb6ynz2kcaoEMKOQNSYbV4chYuCutDmtSsJCjOvOYOTE1Vv8w=="],
 
