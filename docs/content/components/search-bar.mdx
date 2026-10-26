@@ -1,0 +1,157 @@
+---
+title: Search Bar
+description: 제품 안에서 검색어를 입력할 수 있는 Input을 제공하는 컴포넌트입니다.
+keywords: ["검색바", "서치바", "검색"]
+---
+
+## Anatomy
+
+Search Bar는 Search Input, Back Button, Close Button과 함께 조합되어서 제공됩니다.
+
+**Search Input만 따로 사용하는 것은 권장하지 않습니다.**
+
+<FigmaImage
+  id="355:8753"
+  alt="Search Bar의 Anatomy. Search Input, Search Input Clear, Close Button과 Back Button으로 구성됩니다."
+/>
+
+## Properties
+
+### Stack
+
+Search Bar는 검색 플로우에서 네비게이션 기능을 제공하기 위해서 Back Button을 표현할 수 있습니다. Back Button은 Use Stack 속성을 통해서 표시할 수 있습니다.
+
+**Back Button은 반드시 검색 플로우를 구성할 때 네비게이션 동작을 제공하는 경우에만 사용해야 합니다.**
+
+<FigmaImage
+  id="355:8769"
+  alt="Search Bar의 Use Stack 속성 - 꺼진 경우 Search Input과 닫기 버튼만, 켜진 경우 Back Button이 함께 표시됩니다."
+/>
+
+### Search Input State
+
+Search Input은 Filled 상태에 따라서 Input의 입력 여부를 표현합니다. 또한 Focused 상태도 함께 제공됩니다.
+
+<FigmaImage
+  id="355:8788"
+  alt="Search Input의 Filled, Focused 조합 - 플레이스홀더만 있는 상태, 포커스된 빈 상태, 값이 입력된 상태, 포커스된 입력 상태"
+/>
+
+### Prefix Slot (Figma Only)
+
+Search Input Content 내부에는 디자인 편의를 위해서 Slot 컴포넌트가 숨겨져 있습니다. Swap을 활용해서 상황에 따라서 자유롭게 사용해주세요.
+
+<FigmaImage
+  id="355:8853"
+  alt="Figma 레이어 패널의 PrefixSlot.Wrapper와 검색어 앞에 Slot이 표시된 Search Input"
+/>
+
+### Suffix Slot (Figma Only)
+
+Search Input Content 내부에는 디자인 편의를 위해서 Icon Button 컴포넌트가 숨겨져 있습니다. 상황에 따라서 자유롭게 사용해주세요.
+
+Suffix Slot은 Clear Button과 중복으로 사용되지 않도록, Input의 값이 비어 있는 경우에만 사용할 수 있습니다.
+
+<FigmaImage
+  id="355:8869"
+  alt="Figma 레이어 패널의 Suffix Icon Button과 값이 없는 Search Input 끝에 마이크 아이콘이 표시된 예시"
+/>
+
+<DontImage
+  figmaId="355:8875"
+  body="Input의 값이 없는 상태에서는 Clear Button과 유사한 형태의 버튼을 Suffix Slot에 사용하지 않습니다."
+  alt="값이 없는 Search Input 끝에 X 아이콘 버튼을 배치한 예시"
+/>
+
+## Guidelines
+
+### Layout
+
+**Search Bar는 [Top Navigation](/components/top-navigation)과 함께 사용하지 않고 단독으로 사용되어야 하며, 화면 최상단에 위치하는 것을 권장합니다.**
+
+**Search Bar는 [Tabs](/components/tabs)와 같은 다른 요소와 조합해서 사용할 수 있으며, 언제나 상단의 Fixed 영역에 고정된 채로 Content가 Scroll되도록 하는 것을 권장합니다.**
+
+<Grid>
+  <FigmaImage
+    id="355:8897"
+    alt="기본 Layout - 화면 최상단에 Search Bar만 배치한 예시"
+  />
+  <FigmaImage
+    id="355:8905"
+    alt="Scroll 하는 경우 - Search Bar와 Tabs를 상단 Fixed 영역에 고정한 예시"
+  />
+</Grid>
+
+### Stack 사용하기
+
+Stack을 사용할 경우 검색 플로우에서 Back Button을 표시합니다. 사용자는 본인이 검색한 결과 페이지들을 다시 확인할 수 있습니다.
+
+Stack을 사용하면 Back Button과 Close Button이 항상 제공됩니다.
+
+- **Back Button**: 이전 Depth로 이동합니다.
+- **Close Button**: 현재 Depth와 상관없이 검색 화면을 닫습니다.
+
+**Back Button을 Close Button처럼 사용하지 않도록 주의해주세요.**
+
+<FigmaImage
+  id="355:8925"
+  alt="3 Depth 검색 화면에서 Back Button 클릭 → 이전 검색 결과(2 Depth)로 이동하는 예시"
+/>
+
+<FigmaImage
+  id="355:8956"
+  alt="첫 검색 화면에서 Back Button 클릭 → 최초 진입점(Root)으로 이동하는 예시"
+/>
+
+<FigmaImage
+  id="355:9044"
+  alt="n Depth 화면에서 Close Button 클릭 → 최초 진입점(Root)으로 이동하는 예시"
+/>
+
+<DontImage
+  figmaId="355:9065"
+  body="Back Button은 반드시 뒤로가기로 동작해야 합니다. 닫기와 혼용해서 사용하지 않습니다."
+  alt="n Depth에서 Back Button을 클릭했는데 최초 진입점(Root)으로 이동하는 예시"
+/>
+
+### 매우 긴 검색어를 입력한 경우
+
+Search Input은 Single Line Text Input만 지원합니다. 최대 입력 글자 수는 아직 정해지지 않았습니다.
+
+<FigmaImage
+  id="355:9094"
+  alt="입력한 검색어가 Search Input 너비보다 길어진 예시"
+/>
+
+### 검색하기
+
+OS Keyboard에서 Submit 버튼을 누르면 입력된 검색어로 검색 결과가 화면에 표시되고 OS Keyboard는 사라집니다.
+
+<FigmaImage
+  id="355:9101"
+  alt="검색 중 OS Keyboard의 Submit 버튼을 누르면 Keyboard가 사라지고 검색 결과 화면이 표시되는 예시"
+/>
+
+### Keyboard
+
+**Search Input에 포커스된 경우 검색어를 제출할 수 있는 OS Keyboard를 사용해야 하며, Submit 버튼은 OS에서 권장하는 스타일로 적용되어야 합니다.**
+
+<FigmaImage id="355:9155" alt="OS별 권장 Keyboard - iOS와 Android" />
+
+검색 중에 Content의 빈 영역을 탭하거나 스크롤하면 Keyboard가 내려가고 Search Input의 포커스가 해제됩니다.
+
+<FigmaImage
+  id="355:9169"
+  alt="검색 중 Content 빈 영역을 탭하거나 스크롤하면 Keyboard가 내려가고 포커스가 해제되는 예시"
+/>
+
+### 검색어 지우기
+
+Search Input에 검색어가 입력되어 있는 경우 Clear Button으로 검색어를 지울 수 있습니다.
+
+**Input에 포커스된 상태라면 검색어를 지운 뒤에도 포커스가 유지되어야 합니다.**
+
+<FigmaImage
+  id="355:9235"
+  alt="Clear Button을 누르면 검색어가 지워지고 포커스가 유지된 채 플레이스홀더가 표시되는 예시"
+/>
