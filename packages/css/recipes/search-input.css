@@ -1,0 +1,62 @@
+.seed-search-input__root {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    height: 44px;
+    padding-left: var(--seed-dimension-x4);
+    padding-right: var(--seed-dimension-x1);
+    border-radius: var(--seed-radius-r2_5);
+    background-color: var(--seed-color-bg-neutral-weak);
+}
+.seed-search-input__value {
+    box-sizing: border-box;
+    font: inherit;
+    appearance: none;
+    background: none;
+    border: none;
+    outline: none;
+    padding: 0;
+    flex-grow: 1;
+    align-self: stretch;
+    width: 0;
+    color: var(--seed-color-fg-neutral);
+    font-size: var(--seed-font-size-t6);
+    line-height: var(--seed-line-height-t6);
+    font-weight: var(--seed-font-weight-regular);
+}
+.seed-search-input__value::placeholder {
+    color: var(--seed-color-fg-placeholder);
+    font-size: var(--seed-font-size-t6);
+    line-height: var(--seed-line-height-t6);
+    font-weight: var(--seed-font-weight-regular);
+}
+.seed-search-input__value::-webkit-search-cancel-button {
+    display: none;
+}
+.seed-search-input__value::-webkit-search-decoration {
+    appearance: none;
+}
+.seed-search-input__clearButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    padding-inline: var(--seed-dimension-x3);
+    padding-block: var(--seed-dimension-x3);
+    border-radius: var(--seed-radius-full);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+}
+.seed-search-input__clearButton:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+}
+.seed-search-input__clearButton {
+    --seed-icon-size: var(--seed-dimension-x5);
+    --seed-icon-color: var(--seed-color-fg-neutral-subtle);
+}
