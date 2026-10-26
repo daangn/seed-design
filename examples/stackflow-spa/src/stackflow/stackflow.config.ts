@@ -79,6 +79,7 @@ export const config = defineConfig({
     { route: "/responsive-side-panel", name: "ActivityResponsiveSidePanel" },
     { route: "/safe-area-bleed", name: "ActivitySafeAreaBleed" },
     { route: "/scale-feedback", name: "ActivityScaleFeedback" },
+    { route: "/search-bar", name: "ActivitySearchBar" },
     { route: "/segmented-control", name: "ActivitySegmentedControl" },
     { route: "/select", name: "ActivitySelect" },
     { route: "/side-navigation", name: "ActivitySideNavigation" },

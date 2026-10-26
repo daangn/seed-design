@@ -109,6 +109,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityResultSection: lazy(() => import("../activities/ActivityResultSection")),
     ActivitySafeAreaBleed: lazy(() => import("../activities/ActivitySafeAreaBleed")),
     ActivityScaleFeedback: lazy(() => import("../activities/ActivityScaleFeedback")),
+    ActivitySearchBar: lazy(() => import("../activities/ActivitySearchBar")),
     ActivitySegmentedControl: lazy(() => import("../activities/ActivitySegmentedControl")),
     ActivitySelect: lazy(() => import("../activities/ActivitySelect")),
     ActivitySwipeBackKeyboard: lazy(() => import("../activities/ActivitySwipeBackKeyboard")),

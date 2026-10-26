@@ -839,6 +839,31 @@
     {
       "snippets": [
         {
+          "path": "search-bar.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.1.0",
+            "@seed-design/css": "^3.1.0"
+          }
+        }
+      ],
+      "id": "search-bar",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react",
+        "@stackflow/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "app-screen"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "segmented-control.tsx",
           "dependencies": {
             "@seed-design/react": "^2.0.0 || ^3.0.0"
