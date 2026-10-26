@@ -140,6 +140,126 @@
           }
         }
       },
+      "$color.palette.gray-alpha-100": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#00204008"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#d0d9ff1b"
+          }
+        }
+      },
+      "$color.palette.gray-alpha-200": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#14273b0d"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#c8ddff25"
+          }
+        }
+      },
+      "$color.palette.gray-alpha-300": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#000f2d11"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#cfddff35"
+          }
+        }
+      },
+      "$color.palette.gray-alpha-400": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#000f3323"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#d0deff46"
+          }
+        }
+      },
+      "$color.palette.gray-alpha-500": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#05102b2f"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#dbe7ff6a"
+          }
+        }
+      },
+      "$color.palette.gray-alpha-600": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#000a204f"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#e7efff94"
+          }
+        }
+      },
+      "$color.palette.gray-alpha-700": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#000b1e79"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#f1f5ffba"
+          }
+        }
+      },
+      "$color.palette.gray-alpha-800": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#010d25ab"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#f7f9ffe3"
+          }
+        }
+      },
+      "$color.palette.gray-alpha-900": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#000711d5"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#fcfdffec"
+          }
+        }
+      },
+      "$color.palette.gray-alpha-1000": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#000207e5"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#fdfefff5"
+          }
+        }
+      },
       "$color.palette.carrot-100": {
         "values": {
           "theme-light": {

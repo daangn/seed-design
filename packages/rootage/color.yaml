@@ -50,6 +50,46 @@ data:
       values:
         theme-light: "#1a1c20"
         theme-dark: "#f3f4f5"
+    $color.palette.gray-alpha-100:
+      values:
+        theme-light: "#00204008"
+        theme-dark: "#d0d9ff1b"
+    $color.palette.gray-alpha-200:
+      values:
+        theme-light: "#14273b0d"
+        theme-dark: "#c8ddff25"
+    $color.palette.gray-alpha-300:
+      values:
+        theme-light: "#000f2d11"
+        theme-dark: "#cfddff35"
+    $color.palette.gray-alpha-400:
+      values:
+        theme-light: "#000f3323"
+        theme-dark: "#d0deff46"
+    $color.palette.gray-alpha-500:
+      values:
+        theme-light: "#05102b2f"
+        theme-dark: "#dbe7ff6a"
+    $color.palette.gray-alpha-600:
+      values:
+        theme-light: "#000a204f"
+        theme-dark: "#e7efff94"
+    $color.palette.gray-alpha-700:
+      values:
+        theme-light: "#000b1e79"
+        theme-dark: "#f1f5ffba"
+    $color.palette.gray-alpha-800:
+      values:
+        theme-light: "#010d25ab"
+        theme-dark: "#f7f9ffe3"
+    $color.palette.gray-alpha-900:
+      values:
+        theme-light: "#000711d5"
+        theme-dark: "#fcfdffec"
+    $color.palette.gray-alpha-1000:
+      values:
+        theme-light: "#000207e5"
+        theme-dark: "#fdfefff5"
     $color.palette.carrot-100:
       values:
         theme-light: "#fff2ec"
