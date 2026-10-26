@@ -236,7 +236,7 @@ export function usePullToRefresh(props: UsePullToRefreshProps): UsePullToRefresh
     "main thread";
     if (trackScroll(event)) return;
     contentRef.current
-      ?.invoke("scrollToPosition", { index: 0, offset: 0, smooth: false })
+      ?.invoke("scrollToPosition", { position: 0, alignTo: "top", offset: 0, smooth: false })
       .catch(() => {});
   }
 
