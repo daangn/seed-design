@@ -11404,6 +11404,7 @@
   cursor: pointer;
   box-sizing: border-box;
   white-space: nowrap;
+  scroll-margin-inline: var(--seed-dimension-spacing-x-global-gutter);
   color: var(--seed-color-fg-neutral-subtle);
   background-color: #0000;
   border: none;
@@ -11457,7 +11458,6 @@
 
 .seed-tabs__trigger--triggerLayout_fill {
   flex: 1;
-  scroll-margin-inline: 0;
 }
 
 .seed-tabs__trigger--triggerLayout_fill:is([aria-selected="true"], [data-selected])[data-ssr]:after {
@@ -11472,10 +11472,6 @@
 .seed-tabs__indicator--triggerLayout_hug {
   left: calc(var(--indicator-left, 0px) + 0px);
   width: calc(var(--indicator-width, 0px) - 2 * 0px);
-}
-
-.seed-tabs__trigger--triggerLayout_hug {
-  scroll-margin-inline: var(--seed-dimension-spacing-x-global-gutter);
 }
 
 .seed-tabs__trigger--triggerLayout_hug:is([aria-selected="true"], [data-selected])[data-ssr]:after {

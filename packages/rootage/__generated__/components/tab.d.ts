@@ -20,6 +20,9 @@ declare const artifact: {
             "paddingY": {
               "type": "dimension";
             };
+            "scrollMarginX": {
+              "type": "dimension";
+            };
             "scaleScope": {
               "type": "enum";
               "values": readonly [
@@ -65,6 +68,12 @@ declare const artifact: {
               "enabled",
             ];
             "slots": {
+              "root": {
+                "scrollMarginX": {
+                  "type": "dimension";
+                  "value": "$dimension.spacing-x.global-gutter";
+                };
+              };
               "label": {
                 "color": {
                   "type": "color";
