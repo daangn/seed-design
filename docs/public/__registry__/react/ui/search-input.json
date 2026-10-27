@@ -1,0 +1,17 @@
+{
+  "id": "search-input",
+  "dependencies": [
+    "@karrotmarket/react-monochrome-icon",
+    "@seed-design/react"
+  ],
+  "snippets": [
+    {
+      "path": "search-input.tsx",
+      "content": "/**\n * @file ui:search-input\n * @requires @seed-design/react@^3.1.0\n * @requires @seed-design/css@^3.1.0\n **/\n\n\"use client\";\n\nimport { IconXmarkCircleFill } from \"@karrotmarket/react-monochrome-icon\"; // \"@daangn/react-monochrome-icon\"과 동일합니다.\nimport { Icon, SearchInput as SeedSearchInput } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface SearchInputProps\n  extends Omit<SeedSearchInput.RootProps, \"children\" | \"asChild\" | \"aria-label\"> {\n  placeholder?: string;\n\n  /**\n   * The accessible name of the input.\n   * @default \"검색\"\n   */\n  \"aria-label\"?: string;\n\n  /**\n   * The accessible name of the clear button.\n   * @default \"지우기\"\n   */\n  clearButtonLabel?: string;\n\n  /**\n   * Props for the input element, e.g. `maxLength` or `autoFocus`.\n   */\n  inputProps?: SeedSearchInput.InputProps;\n}\n\n/**\n * @see https://seed-design.io/react/components/search-input\n */\nexport const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(\n  (\n    {\n      placeholder,\n      \"aria-label\": ariaLabel = \"검색\",\n      clearButtonLabel = \"지우기\",\n      inputProps,\n      ...otherProps\n    },\n    ref,\n  ) => {\n    return (\n      <SeedSearchInput.Root {...otherProps}>\n        {/* You may implement your own i18n for the labels */}\n        <SeedSearchInput.Input\n          ref={ref}\n          aria-label={ariaLabel}\n          placeholder={placeholder}\n          {...inputProps}\n        />\n        <SeedSearchInput.ClearButton aria-label={clearButtonLabel}>\n          <Icon svg={<IconXmarkCircleFill />} />\n        </SeedSearchInput.ClearButton>\n      </SeedSearchInput.Root>\n    );\n  },\n);\nSearchInput.displayName = \"SearchInput\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "^3.1.0",
+        "@seed-design/css": "^3.1.0"
+      }
+    }
+  ]
+}

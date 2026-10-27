@@ -1,5 +1,3 @@
-import { IconXmarkCircleFill } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
-import { Icon, SearchInput } from "@seed-design/react";
 import { useActivity } from "@stackflow/react";
 import * as React from "react";
 import {
@@ -10,10 +8,9 @@ import {
   AppBarSlot,
   AppBarTextButton,
 } from "./app-bar";
+import { SearchInput, type SearchInputProps } from "./search-input";
 
-export interface SearchBarProps extends Omit<SearchInput.RootProps, "children"> {
-  placeholder?: string;
-
+export interface SearchBarProps extends SearchInputProps {
   /**
    * Shows the back button, which pops the current activity. Hidden on the root activity.
    * @default false
@@ -29,25 +26,13 @@ export interface SearchBarProps extends Omit<SearchInput.RootProps, "children"> 
    * @default "닫기"
    */
   closeLabel?: React.ReactNode;
-
-  inputProps?: SearchInput.InputProps;
 }
 
 /**
  * @see https://seed-design.io/react/stackflow/search-bar
  */
 export const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
-  (
-    {
-      placeholder,
-      showBackButton = false,
-      onClose,
-      closeLabel = "닫기",
-      inputProps,
-      ...otherProps
-    },
-    ref,
-  ) => {
+  ({ showBackButton = false, onClose, closeLabel = "닫기", ...otherProps }, ref) => {
     const activity = useActivity();
     const renderBackButton = showBackButton && !!activity && !activity.isRoot;
 
@@ -61,22 +46,12 @@ export const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
           </AppBarLeft>
         )}
         <AppBarSlot>
-          <SearchInput.Root
+          <SearchInput
+            ref={ref}
             {...otherProps}
             // fills the space between the left and right areas, centered in the bar
             style={{ flex: 1, minWidth: 0, alignSelf: "center", ...otherProps.style }}
-          >
-            {/* You may implement your own i18n for the labels */}
-            <SearchInput.Input
-              ref={ref}
-              aria-label="검색"
-              placeholder={placeholder}
-              {...inputProps}
-            />
-            <SearchInput.ClearButton aria-label="지우기">
-              <Icon svg={<IconXmarkCircleFill />} />
-            </SearchInput.ClearButton>
-          </SearchInput.Root>
+          />
         </AppBarSlot>
         <AppBarRight>
           {/* Without the inner offset, the close button's touch area does not cover the clear button. */}

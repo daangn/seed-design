@@ -1401,7 +1401,14 @@
               "id": "search-input",
               "title": "Search Input",
               "description": "검색어를 입력하고 제출하는 입력 필드입니다. Stackflow 화면에서는 Search Bar와 함께 사용합니다.",
-              "docUrl": "/react/components/search-input"
+              "docUrl": "/react/components/search-input",
+              "snippetKey": "react/ui:search-input",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "search-input.tsx"
+                }
+              ]
             },
             {
               "id": "segmented-control",

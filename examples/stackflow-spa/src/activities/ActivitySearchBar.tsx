@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Flex, Text } from "@seed-design/react";
+import { useActivity } from "@stackflow/react";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { SearchBar } from "seed-design/ui/search-bar";
@@ -12,18 +13,20 @@ declare module "@stackflow/config" {
 
 const ActivitySearchBar: StaticActivityComponentType<"ActivitySearchBar"> = () => {
   const { pop } = useFlow();
+  const { isRoot } = useActivity();
   const [value, setValue] = useState("");
-  const [submittedValue, setSubmittedValue] = useState<string | null>(null);
+  const [message, setMessage] = useState("검색어를 입력하고 검색해주세요");
 
   return (
     <AppScreen>
       <SearchBar
         value={value}
         onValueChange={setValue}
-        onSubmit={setSubmittedValue}
+        onSubmit={(submittedValue) => setMessage(`"${submittedValue}" 검색`)}
         placeholder="검색어를 입력해주세요"
         showBackButton
-        onClose={() => pop()}
+        // The root activity has nowhere to pop to, so it shows the action instead.
+        onClose={() => (isRoot ? setMessage("닫기를 눌렀습니다") : pop())}
       />
       <AppScreenContent>
         <Flex
@@ -37,11 +40,7 @@ const ActivitySearchBar: StaticActivityComponentType<"ActivitySearchBar"> = () =
             }
           }}
         >
-          <Text color="fg.neutralMuted">
-            {submittedValue === null
-              ? "검색어를 입력하고 검색해주세요"
-              : `"${submittedValue}" 검색`}
-          </Text>
+          <Text color="fg.neutralMuted">{message}</Text>
         </Flex>
       </AppScreenContent>
     </AppScreen>
