@@ -17,27 +17,14 @@ import { mergeProps } from "../../utils/merge-props";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(searchInput);
 
-interface SearchInputFocusState {
-  focused: boolean;
-  blurredAt: number;
-  focus?: () => void;
-}
-
 interface SearchInputContextValue {
   onSubmit?: (value: string) => void;
   blurOnSubmit: boolean;
-  /** Written by `SearchInputInput`, read by `SearchInputClearButton` to keep the input's focus. */
-  focusStateRef: { current: SearchInputFocusState };
 }
 
 const SearchInputContext = React.createContext<SearchInputContextValue>({
   blurOnSubmit: true,
-  focusStateRef: { current: { focused: false, blurredAt: Number.NEGATIVE_INFINITY } },
 });
-
-// Some hosts (PlayLynx on macOS) blur the input right before a tap reaches the clear button even
-// with `ignore-focus`. A blur this close to the touch is treated as caused by that touch.
-const BLUR_BEFORE_TOUCH_MS = 500;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -81,14 +68,7 @@ export const SearchInputRoot = React.forwardRef<NodesRef, SearchInputRootProps>(
       () => mergeProps({ ref: rootRef }, { ref: forwardedRef }).ref,
       [rootRef, forwardedRef],
     );
-    const focusStateRef = React.useRef<SearchInputFocusState>({
-      focused: false,
-      blurredAt: Number.NEGATIVE_INFINITY,
-    });
-    const context = React.useMemo(
-      () => ({ onSubmit, blurOnSubmit, focusStateRef }),
-      [onSubmit, blurOnSubmit],
-    );
+    const context = React.useMemo(() => ({ onSubmit, blurOnSubmit }), [onSubmit, blurOnSubmit]);
 
     return (
       <TextFieldProvider value={api}>
@@ -123,36 +103,10 @@ export interface SearchInputInputProps
 
 export const SearchInputInput = React.forwardRef<NodesRef, SearchInputInputProps>((props, ref) => {
   const classes = useClassNames();
-  const { onSubmit, blurOnSubmit, focusStateRef } = React.useContext(SearchInputContext);
-  const { className, bindconfirm, bindfocus, bindblur, ...otherProps } = props;
-
-  const handleFocus = React.useCallback<NonNullable<NativeInputProps["bindfocus"]>>(
-    (event) => {
-      "background only";
-
-      focusStateRef.current.focused = true;
-      bindfocus?.(event);
-    },
-    [bindfocus, focusStateRef],
-  );
-
-  const handleBlur = React.useCallback<NonNullable<NativeInputProps["bindblur"]>>(
-    (event) => {
-      "background only";
-
-      focusStateRef.current.focused = false;
-      focusStateRef.current.blurredAt = Date.now();
-      bindblur?.(event);
-    },
-    [bindblur, focusStateRef],
-  );
-
-  const api = useTextFieldInput(
-    { ...otherProps, bindfocus: handleFocus, bindblur: handleBlur },
-    ref,
-  );
+  const { onSubmit, blurOnSubmit } = React.useContext(SearchInputContext);
+  const { className, bindconfirm, ...otherProps } = props;
+  const api = useTextFieldInput(otherProps, ref);
   const { blur } = api;
-  focusStateRef.current.focus = api.focus;
 
   if (process.env.NODE_ENV !== "production" && !props["accessibility-label"]) {
     console.warn("SearchInputInput: Please provide `accessibility-label` for accessibility.");
@@ -191,8 +145,7 @@ SearchInputInput.displayName = "SearchInputInput";
  * @platform Lynx
  *
  * 값이 비어 있으면 렌더링하지 않는다. 탭하면 `setValue("")`로 값을 비운다.
- * 입력의 focus는 탭 전 상태를 유지한다. `ignore-focus`로 탭이 focus를 가져가지 않게 하고, 그래도 탭 직전에
- * blur된 host에서는 값을 비운 뒤 focus를 되돌린다. focus가 없었으면 새로 주지 않는다.
+ * `ignore-focus`로 탭이 입력의 focus를 가져가지 않게 해, focus가 있었으면 유지하고 없었으면 새로 주지 않는다.
  * children에는 `<Icon icon={...} />`을 넣는다.
  */
 export interface SearchInputClearButtonProps extends LynxHostProps<"view"> {}
@@ -201,9 +154,7 @@ export const SearchInputClearButton = React.forwardRef<unknown, SearchInputClear
   (props, ref) => {
     const classes = useClassNames();
     const { value, disabled, readOnly, setValue } = useTextFieldContext();
-    const { focusStateRef } = React.useContext(SearchInputContext);
-    const { children, className, bindtap, bindtouchstart, ...nativeProps } = props;
-    const wasFocusedRef = React.useRef(false);
+    const { children, className, bindtap, ...nativeProps } = props;
 
     if (process.env.NODE_ENV !== "production" && !props["accessibility-label"]) {
       console.warn(
@@ -211,31 +162,14 @@ export const SearchInputClearButton = React.forwardRef<unknown, SearchInputClear
       );
     }
 
-    const handleTouchStart = React.useCallback<
-      NonNullable<IntrinsicElements["view"]["bindtouchstart"]>
-    >(
-      (event) => {
-        "background only";
-
-        const state = focusStateRef.current;
-        wasFocusedRef.current =
-          state.focused || Date.now() - state.blurredAt < BLUR_BEFORE_TOUCH_MS;
-        bindtouchstart?.(event);
-      },
-      [bindtouchstart, focusStateRef],
-    );
-
     const handleTap = React.useCallback<NonNullable<IntrinsicElements["view"]["bindtap"]>>(
       (event) => {
         "background only";
 
         setValue("");
-        if (wasFocusedRef.current && !focusStateRef.current.focused) {
-          focusStateRef.current.focus?.();
-        }
         bindtap?.(event);
       },
-      [bindtap, focusStateRef, setValue],
+      [bindtap, setValue],
     );
 
     if (value === "" || disabled || readOnly) return null;
@@ -251,7 +185,6 @@ export const SearchInputClearButton = React.forwardRef<unknown, SearchInputClear
           nativeProps,
           ref ? { ref: ref as LynxViewRef } : {},
         )}
-        bindtouchstart={handleTouchStart}
         bindtap={handleTap}
         className={clsx(classes.clearButton, className)}
       >

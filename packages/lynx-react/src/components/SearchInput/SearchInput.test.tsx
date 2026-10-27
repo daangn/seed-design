@@ -115,7 +115,7 @@ describe("SearchInput", () => {
     expect(root.querySelector(".seed-search-input__clearButton")).toBeNull();
   });
 
-  it("returns the focus to the input when the tap on the clear button blurred it", () => {
+  it("does not focus an input that was not focused before clearing", () => {
     const inputRef = createRef<NodesRef>();
     render(
       <SearchInput.Root defaultValue="당근">
@@ -130,28 +130,9 @@ describe("SearchInput", () => {
     if (!input || !inputRef.current || !clearButton) throw new Error("Expected parts to exist.");
     const invoke = mockInvoke(inputRef);
 
-    // Some hosts blur the input before the touch reaches the clear button.
+    // Blurred for another reason right before the tap.
     fireNativeEvent(inputRef.current, input, "focus", {});
     fireNativeEvent(inputRef.current, input, "blur", { value: "당근" });
-    fireEvent.touchstart(clearButton);
-    fireEvent.tap(clearButton);
-
-    expect(invoke).toHaveBeenCalledWith(expect.objectContaining({ method: "focus" }));
-  });
-
-  it("does not focus an input that was not focused before clearing", () => {
-    const inputRef = createRef<NodesRef>();
-    render(
-      <SearchInput.Root defaultValue="당근">
-        <SearchInput.Input ref={inputRef} accessibility-label="검색" />
-        <SearchInput.ClearButton accessibility-label="지우기" />
-      </SearchInput.Root>,
-    );
-
-    const clearButton = getRenderedRoot().querySelector(".seed-search-input__clearButton");
-    if (!clearButton) throw new Error("Expected clear button to render.");
-    const invoke = mockInvoke(inputRef);
-
     fireEvent.touchstart(clearButton);
     fireEvent.tap(clearButton);
 
