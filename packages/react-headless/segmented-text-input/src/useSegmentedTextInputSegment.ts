@@ -3,7 +3,7 @@ import { ariaAttr, dataAttr, inputProps } from "@seed-design/dom-utils";
 import type * as React from "react";
 import { useEffect, useId, useRef } from "react";
 import { flushSync } from "react-dom";
-import { focusSegment, isMasked } from "./dom";
+import { focusSegment, getSegmentElements, isMasked } from "./dom";
 import { digitsOnly, normalizeBirthDate } from "./normalize";
 import { useSegmentedTextInputContext } from "./useSegmentedTextInputContext";
 
@@ -55,12 +55,23 @@ export function useSegmentedTextInputSegment(props: UseSegmentedTextInputSegment
   const inputRef = useRef<HTMLInputElement>(null);
   const snapshotRef = useRef<InputSnapshot | null>(null);
   const composingRef = useRef(false);
+  const compositionSnapshotRef = useRef<InputSnapshot | null>(null);
+  const composedValueRef = useRef<string | null>(null);
 
-  const { registerSegment } = ctx;
+  const { registerSegment, invalidateSegments } = ctx;
   useLayoutEffect(
     () => registerSegment(segmentId, { length }),
     [registerSegment, segmentId, length],
   );
+
+  // Segment가 등록·해제 없이 자리만 바뀌면 값 위치를 다시 센다.
+  useLayoutEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    // Root의 ref는 자식 layout effect보다 늦게 붙을 수 있어 input이 속한 문서에서 찾는다.
+    const segments = getSegmentElements(el.getRootNode() as ParentNode, ctx.rootId);
+    if (segments.indexOf(el) !== index) invalidateSegments();
+  });
 
   const latest = useRef({ value, length, normalize });
   latest.current = { value, length, normalize };
@@ -196,10 +207,15 @@ export function useSegmentedTextInputSegment(props: UseSegmentedTextInputSegment
         const raw = el.value;
 
         if (composingRef.current || (event.nativeEvent as InputEvent).isComposing) {
-          // 조합 중에는 값만 반영하고 자동 이동은 조합이 끝난 뒤에 판단한다.
+          // 조합 중에는 값만 반영하고, 반영 여부와 자동 이동은 조합이 끝난 뒤에 판단한다.
           ctx.setSegmentValues({ [index]: raw });
           return;
         }
+
+        // compositionend 뒤에 오는 input(Safari 등)은 이미 처리한 조합 결과다.
+        const composedValue = composedValueRef.current;
+        composedValueRef.current = null;
+        if (composedValue !== null && raw === composedValue) return;
 
         const snapshot = snapshotRef.current;
         snapshotRef.current = null;
@@ -220,21 +236,62 @@ export function useSegmentedTextInputSegment(props: UseSegmentedTextInputSegment
         commitTyping(el, raw, snapshot);
       },
 
-      onCompositionStart() {
+      onCompositionStart(event) {
         composingRef.current = true;
+        const el = event.currentTarget;
+        compositionSnapshotRef.current = {
+          start: el.selectionStart ?? value.length,
+          end: el.selectionEnd ?? value.length,
+          value,
+        };
       },
 
       onCompositionEnd(event) {
         composingRef.current = false;
         const el = event.currentTarget;
-        const next = normalize(el.value).slice(0, length);
-        ctx.setSegmentValues({ [index]: next });
+        const raw = el.value;
+        const snapshot = compositionSnapshotRef.current ?? {
+          start: value.length,
+          end: value.length,
+          value,
+        };
+        compositionSnapshotRef.current = null;
 
-        const caretAtEnd = el.selectionStart === el.value.length;
-        if (caretAtEnd && next.length === length) {
-          const segments = ctx.getSegments();
-          const nextEl = segments[segments.indexOf(el) + 1];
-          if (nextEl && !nextEl.disabled) focusSegment(nextEl, 0);
+        // 조합은 조합 시작 때의 선택 영역을 바꾼 것으로 본다. 앞뒤 값은 그대로 두고 조합한 글자만 정규화한다.
+        const prefix = snapshot.value.slice(0, snapshot.start);
+        const suffix = snapshot.value.slice(snapshot.end);
+        const keepsSurroundings =
+          raw.length >= prefix.length + suffix.length &&
+          raw.startsWith(prefix) &&
+          raw.endsWith(suffix);
+        const inserted = keepsSurroundings
+          ? normalize(raw.slice(prefix.length, raw.length - suffix.length))
+          : null;
+        const next = inserted !== null ? prefix + inserted + suffix : normalize(raw);
+
+        if (next.length > length) {
+          // 자리 수를 넘는 조합은 반영하지 않고 조합 전 값과 선택 영역으로 되돌린다.
+          composedValueRef.current = snapshot.value;
+          flushSync(() => ctx.setSegmentValues({ [index]: snapshot.value }));
+          el.value = snapshot.value;
+          el.setSelectionRange(snapshot.start, snapshot.end);
+          return;
+        }
+
+        composedValueRef.current = next;
+        flushSync(() => ctx.setSegmentValues({ [index]: next }));
+
+        const typedAtEnd =
+          snapshot.start === snapshot.end &&
+          snapshot.end === snapshot.value.length &&
+          next.length > snapshot.value.length;
+
+        const segments = ctx.getSegments();
+        const nextEl = segments[segments.indexOf(el) + 1];
+        if (typedAtEnd && next.length === length && nextEl && !nextEl.disabled) {
+          focusSegment(nextEl, 0);
+        } else {
+          focusSegment(el, inserted !== null ? prefix.length + inserted.length : "end");
         }
       },
 
