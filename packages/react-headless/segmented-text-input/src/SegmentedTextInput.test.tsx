@@ -195,4 +195,74 @@ describe("SegmentedTextInput", () => {
     expect(getByLabelText("앞 6자리")).toHaveAttribute("inputmode", "numeric");
     expect(getByLabelText("앞 6자리")).not.toHaveAttribute("maxlength");
   });
+
+  describe("IME composition", () => {
+    // 조합 시작 → 조합 중 input → 조합 종료 순서로 브라우저 이벤트를 흉내 낸다.
+    function compose(input: HTMLInputElement, selection: [number, number], text: string) {
+      act(() => input.focus());
+      input.setSelectionRange(...selection);
+      fireEvent.compositionStart(input);
+      const raw = input.value.slice(0, selection[0]) + text + input.value.slice(selection[1]);
+      fireEvent.change(input, { target: { value: raw } });
+      input.setSelectionRange(selection[0] + text.length, selection[0] + text.length);
+      fireEvent.compositionEnd(input, { data: text });
+    }
+
+    it("rejects a composed insertion that overflows a full segment and keeps the existing value", () => {
+      const { getByLabelText } = setUp(<ResidentNumber defaultValue={["931205", ""]} />);
+      const front = getByLabelText("앞 6자리") as HTMLInputElement;
+
+      compose(front, [2, 2], "0");
+
+      expect(front).toHaveValue("931205");
+      expect(front).toHaveFocus();
+      expect(front.selectionStart).toBe(2);
+    });
+
+    it("stays in the segment when a composition replaces the last selected character", () => {
+      const { getByLabelText } = setUp(<ResidentNumber defaultValue={["931205", ""]} />);
+      const front = getByLabelText("앞 6자리") as HTMLInputElement;
+
+      compose(front, [5, 6], "9");
+
+      expect(front).toHaveValue("931209");
+      expect(front).toHaveFocus();
+    });
+
+    it("moves to the next segment when a composition fills the segment at its end", () => {
+      const { getByLabelText } = setUp(<ResidentNumber defaultValue={["93120", ""]} />);
+      const front = getByLabelText("앞 6자리") as HTMLInputElement;
+
+      compose(front, [5, 5], "5");
+
+      expect(front).toHaveValue("931205");
+      expect(getByLabelText("뒤 첫 번째 자리")).toHaveFocus();
+    });
+  });
+
+  it("follows the DOM order after segments are reordered", async () => {
+    const onValueChange = mock();
+    function Reorderable({ order }: { order: string[] }) {
+      return (
+        <SegmentedTextInputRoot aria-label="reorder" onValueChange={onValueChange}>
+          {order.map((key) => (
+            <SegmentedTextInputSegment key={key} aria-label={key} length={2} />
+          ))}
+        </SegmentedTextInputRoot>
+      );
+    }
+
+    const { user, getByRole, rerender } = setUp(<Reorderable order={["a", "b"]} />);
+    rerender(<Reorderable order={["b", "a"]} />);
+
+    const [first, second] = Array.from(getByRole("group").querySelectorAll("input"));
+    expect(first).toHaveAccessibleName("b");
+
+    await user.click(first as HTMLInputElement);
+    await user.paste("5678");
+
+    expect(onValueChange).toHaveBeenLastCalledWith(["56", "78"]);
+    expect(first).toHaveValue("56");
+    expect(second).toHaveValue("78");
+  });
 });

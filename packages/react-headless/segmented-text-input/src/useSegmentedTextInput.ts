@@ -59,11 +59,11 @@ export function useSegmentedTextInput(props: UseSegmentedTextInputProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const segmentConfigs = useRef(new Map<string, SegmentConfig>());
 
-  // Segment의 값 위치는 DOM 순서로 정한다. Segment가 붙거나 떨어지면 다시 센다.
+  // Segment의 값 위치는 DOM 순서로 정한다.
   const [segmentIds, setSegmentIds] = useState<string[]>([]);
   const [segmentsVersion, invalidateSegments] = useReducer((version: number) => version + 1, 0);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: recount when segments mount or unmount
+  // segmentsVersion은 Segment가 붙거나 떨어지거나 자리를 바꿀 때 오른다.
   useLayoutEffect(() => {
     const ids = getSegmentElements(rootRef.current, rootId).map((el) => el.dataset["segmentId"]);
     setSegmentIds((prev) =>
@@ -125,6 +125,7 @@ export function useSegmentedTextInput(props: UseSegmentedTextInputProps) {
     required,
 
     registerSegment,
+    invalidateSegments,
     getSegments,
     getSegmentLength,
     setSegmentValues,

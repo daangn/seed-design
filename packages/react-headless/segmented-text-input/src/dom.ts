@@ -1,9 +1,9 @@
 export const getRootId = (id: string) => `segmented-text-input:${id}:root`;
 
-export function getSegmentElements(rootEl: HTMLElement | null, rootId: string) {
-  if (!rootEl) return [];
+export function getSegmentElements(scope: ParentNode | null, rootId: string) {
+  if (!scope) return [];
 
-  return Array.from(rootEl.querySelectorAll<HTMLInputElement>(`input[data-ownedby="${rootId}"]`));
+  return Array.from(scope.querySelectorAll<HTMLInputElement>(`input[data-ownedby="${rootId}"]`));
 }
 
 export function isMasked(el: HTMLInputElement) {
