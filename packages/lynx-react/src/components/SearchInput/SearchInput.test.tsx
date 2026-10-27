@@ -66,7 +66,7 @@ describe("SearchInput", () => {
 
     const input = getRenderedRoot().querySelector("input");
     if (!input || !inputRef.current) throw new Error("Expected native input to exist.");
-    // iOS and Android blur the input on confirm unless `confirm-enter` is set.
+    // iOS·Android는 `confirm-enter`가 없으면 confirm 뒤 입력을 blur한다.
     expect(input).toHaveAttribute("confirm-enter", "true");
     const invoke = mockInvoke(inputRef);
     fireNativeEvent(inputRef.current, input, "confirm", { value: "당근" });
@@ -101,7 +101,7 @@ describe("SearchInput", () => {
     if (!clearButton) throw new Error("Expected clear button to render.");
     expect(clearButton).toHaveAttribute("accessibility-traits", "button");
     expect(clearButton).toHaveAttribute("accessibility-label", "지우기");
-    // Tapping the button must not take the focus away from the input.
+    // `ignore-focus`가 없으면 탭한 view가 입력의 focus를 가져간다.
     expect(clearButton).toHaveAttribute("ignore-focus", "true");
 
     const invoke = mockInvoke(inputRef);
@@ -130,7 +130,6 @@ describe("SearchInput", () => {
     if (!input || !inputRef.current || !clearButton) throw new Error("Expected parts to exist.");
     const invoke = mockInvoke(inputRef);
 
-    // Blurred for another reason right before the tap.
     fireNativeEvent(inputRef.current, input, "focus", {});
     fireNativeEvent(inputRef.current, input, "blur", { value: "당근" });
     fireEvent.touchstart(clearButton);

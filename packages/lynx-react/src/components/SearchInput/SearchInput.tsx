@@ -108,7 +108,6 @@ export const SearchInputInput = React.forwardRef<NodesRef, SearchInputInputProps
   const classes = useClassNames();
   const { onSubmit, blurOnSubmit } = React.useContext(SearchInputContext);
   const { className, bindconfirm, ...otherProps } = props;
-  // Root has no disabled/readOnly state, so the clear button could not follow an input-level one.
   const api = useTextFieldInput({ ...otherProps, disabled: undefined, readonly: undefined }, ref);
   const { blur } = api;
 
@@ -122,8 +121,8 @@ export const SearchInputInput = React.forwardRef<NodesRef, SearchInputInputProps
 
       onSubmit?.(event.detail.value);
       bindconfirm?.(event);
-      // iOS·Android already resign the input after confirm unless `confirm-enter` is set; blurring
-      // here gives the same result on hosts that do not.
+      // iOS·Android는 `confirm-enter`가 없으면 confirm 뒤 스스로 blur한다. 그렇지 않은 host에서도 같은
+      // 결과가 되도록 직접 blur한다.
       if (blurOnSubmit) blur();
     },
     [blur, blurOnSubmit, bindconfirm, onSubmit],
@@ -133,8 +132,8 @@ export const SearchInputInput = React.forwardRef<NodesRef, SearchInputInputProps
     <input
       {...api.inputProps}
       confirm-type="search"
-      // Without `confirm-enter`, iOS and Android blur the input on confirm by themselves.
-      // `@lynx-js/types` 3.9 does not declare it yet (iOS 3.4, Android 3.5).
+      // `confirm-enter`가 없으면 iOS·Android가 confirm 뒤 입력을 blur한다.
+      // `@lynx-js/types` 3.9에는 아직 선언되지 않아 캐스트한다(iOS 3.4, Android 3.5).
       {...({ "confirm-enter": !blurOnSubmit } as NativeInputProps)}
       bindconfirm={handleConfirm}
       className={clsx(classes.value, className)}
