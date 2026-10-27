@@ -9,13 +9,13 @@ import {
   Text,
   VStack,
 } from "@seed-design/react";
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { AttachmentField, AttachmentInput } from "seed-design/ui/attachment-field";
 import { ChipTabsList, ChipTabsRoot, ChipTabsTrigger } from "seed-design/ui/chip-tabs";
-import { PageBanner } from "seed-design/ui/page-banner";
+import { ActionablePageBanner } from "seed-design/ui/page-banner";
 import { Switch } from "seed-design/ui/switch";
 import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 import img from "../assets/peng.jpeg";
@@ -69,9 +69,36 @@ const Section = ({
   </VStack>
 );
 
+function SafeAreaReadout() {
+  const [insets, setInsets] = useState({ left: 0, right: 0 });
+  const leftRef = useRef<HTMLDivElement>(null);
+  const rightRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const measure = () =>
+      setInsets({
+        left: leftRef.current?.offsetWidth ?? 0,
+        right: rightRef.current?.offsetWidth ?? 0,
+      });
+    measure();
+    window.addEventListener("resize", measure);
+
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  return (
+    <>
+      <div ref={leftRef} style={{ width: "var(--seed-safe-area-left)", height: 0 }} />
+      <div ref={rightRef} style={{ width: "var(--seed-safe-area-right)", height: 0 }} />
+      <Text textStyle="t3Regular" color="fg.neutralMuted">
+        safe area: 왼쪽 {insets.left}px · 오른쪽 {insets.right}px
+      </Text>
+    </>
+  );
+}
+
 const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"> = () => {
   const [extendSafeAreaX, setExtendSafeAreaX] = useState(true);
-
   return (
     <AppScreen>
       <AppBar>
@@ -82,13 +109,14 @@ const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"
       </AppBar>
       <AppScreenContent>
         <VStack gap="x8" pt="x4">
-          <Box px="spacingX.globalGutter">
+          <VStack gap="x2" px="spacingX.globalGutter" align="flex-start">
             <Switch
               label="extendSafeAreaX"
               checked={extendSafeAreaX}
               onCheckedChange={setExtendSafeAreaX}
             />
-          </Box>
+            <SafeAreaReadout />
+          </VStack>
           <Section
             title="Tabs"
             description="extendSafeAreaX를 주면 목록 배경과 하단 선, 스와이프하는 패널이 화면 끝까지 이어지고, 탭과 패널 내용은 safe area 안에 남아요."
@@ -126,6 +154,24 @@ const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"
             </TabsRoot>
           </Section>
           <Section
+            title="Tabs (hug)"
+            description="탭이 넘치면 선택한 탭을 화면 안으로 스크롤해요. 탭은 safe area 아래에 멈추지 않고, 목록 padding만큼 떨어져 멈춰요."
+          >
+            <TabsRoot
+              defaultValue={CATEGORIES[0]}
+              triggerLayout="hug"
+              extendSafeAreaX={extendSafeAreaX}
+            >
+              <TabsList>
+                {CATEGORIES.map((category) => (
+                  <TabsTrigger key={category} value={category}>
+                    {category}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </TabsRoot>
+          </Section>
+          <Section
             title="Chip Tabs"
             description="extendSafeAreaX를 주면 chip 목록이 화면 끝까지 스크롤되고, 스크롤하기 전에는 첫 chip이 safe area 경계에서 시작해요."
           >
@@ -147,8 +193,8 @@ const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"
             title="Page Banner"
             description="extendSafeAreaX를 주면 배경은 화면 끝까지 채우고, 내용은 safe area 안에 둬요."
           >
-            <PageBanner
-              tone="informative"
+            <ActionablePageBanner
+              tone="magic"
               title="안내"
               description="배경은 화면 끝까지, 글자는 safe area 안쪽에 있어요."
               extendSafeAreaX={extendSafeAreaX}
