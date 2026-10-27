@@ -1,0 +1,73 @@
+---
+title: Search Bar
+description: 화면 상단에서 검색어를 입력하는 App Bar입니다. Search Input을 Back·닫기 버튼과 함께 배치합니다.
+compatibility:
+  lynx:
+    engine: "3.5"
+    x-elements:
+      - input
+---
+
+<AvailableSince packages="@seed-design/lynx-react@1.1.0, @seed-design/lynx-css@1.1.0" />
+
+<LynxComponentExample name="lynx/search-bar/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/search-bar/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+Search Bar는 [App Bar](/lynx/components/app-bar) 안에 [Search Input](/lynx/components/search-input)을 배치한 컴포넌트입니다. 검색 입력은 `AppBarSlot`에 두어 좌우 버튼 사이를 채웁니다.
+
+## Installation
+
+```package-install
+npx @seed-design/cli add ui:search-bar
+```
+
+<LynxManualInstallation name="search-bar" />
+
+## Usage
+
+```tsx
+import { SearchBar } from "@/components/ui/search-bar";
+```
+
+```tsx
+<SearchBar
+  value={value}
+  onValueChange={setValue}
+  onSubmit={handleSubmit}
+  placeholder="검색어를 입력해주세요"
+  onClose={handleClose}
+/>
+```
+
+## Props
+
+<react-type-table path="./registry/lynx/ui/search-bar.tsx" name="SearchBarProps" />
+
+`placeholder`, `onBack`, `onClose`, `closeLabel`, `inputProps`, `appBarProps`를 제외한 prop은 [`SearchInput.Root`](/lynx/components/search-input#searchinputroot)로 전달됩니다. 입력 요소에 넘길 `maxlength`, `accessibility-label`(기본값 "검색") 등은 `inputProps`로 전달하세요.
+
+## Examples
+
+### Back Button
+
+`onBack`을 넘기면 Back 버튼을 표시하고, 버튼을 탭하면 `onBack`을 호출합니다. 검색 플로우에서 이전 화면으로 돌아가는 동작을 제공할 때만 사용하세요.
+
+닫기 버튼은 항상 표시되며, `onClose`로 동작을 지정합니다. 레이블은 `closeLabel`로 바꿀 수 있습니다.
+
+### Keyboard
+
+키보드의 검색 키를 누르면 `onSubmit`이 호출되고 입력의 focus가 해제되어 키보드가 내려갑니다. 콘텐츠를 누르거나 스크롤할 때 키보드를 내리는 동작은 화면에서 처리합니다. 위 예제는 콘텐츠를 탭하면 입력의 `blur` UI method를 호출합니다.
+
+<Callout>
+  이 예제는 네이티브 키보드 동작을 사용합니다. QR 코드 패널에서 Lynx Explorer로 실행한 뒤 입력 영역을 탭해 확인해 주세요.
+</Callout>
+
+## 웹 버전과의 차이
+
+- React의 Search Bar는 Stackflow `AppScreen`의 App Bar를 쓰고 `showBackButton`으로 `pop()`을 호출하는 Back 버튼을 표시합니다. Lynx에는 내비게이션 스택이 없으므로 `onBack`으로 Back 버튼의 표시와 동작을 함께 정합니다.
+- App Bar의 `theme` 등은 `appBarProps`로 전달합니다.
