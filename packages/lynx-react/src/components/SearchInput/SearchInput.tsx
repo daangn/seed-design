@@ -99,13 +99,17 @@ type NativeInputProps = IntrinsicElements["input"];
  * 제출 뒤 focus는 Root의 `blurOnSubmit`이 native `confirm-enter`로 정한다.
  */
 export interface SearchInputInputProps
-  extends Omit<LynxHostProps<"input">, "children" | "confirm-type" | "confirm-enter"> {}
+  extends Omit<
+    LynxHostProps<"input">,
+    "children" | "confirm-type" | "confirm-enter" | "disabled" | "readonly"
+  > {}
 
 export const SearchInputInput = React.forwardRef<NodesRef, SearchInputInputProps>((props, ref) => {
   const classes = useClassNames();
   const { onSubmit, blurOnSubmit } = React.useContext(SearchInputContext);
   const { className, bindconfirm, ...otherProps } = props;
-  const api = useTextFieldInput(otherProps, ref);
+  // Root has no disabled/readOnly state, so the clear button could not follow an input-level one.
+  const api = useTextFieldInput({ ...otherProps, disabled: undefined, readonly: undefined }, ref);
   const { blur } = api;
 
   if (process.env.NODE_ENV !== "production" && !props["accessibility-label"]) {

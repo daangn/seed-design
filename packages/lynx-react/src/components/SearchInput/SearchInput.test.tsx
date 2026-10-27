@@ -139,6 +139,21 @@ describe("SearchInput", () => {
     expect(invoke).not.toHaveBeenCalledWith(expect.objectContaining({ method: "focus" }));
   });
 
+  it("ignores disabled and readonly passed to the input at runtime", () => {
+    render(
+      <SearchInput.Root defaultValue="당근">
+        <SearchInput.Input
+          accessibility-label="검색"
+          {...({ disabled: true, readonly: true } as SearchInput.InputProps)}
+        />
+      </SearchInput.Root>,
+    );
+
+    const input = getRenderedRoot().querySelector("input");
+    expect(input).toHaveAttribute("disabled", "false");
+    expect(input).toHaveAttribute("readonly", "false");
+  });
+
   it("warns when the input or the clear button has no accessibility-label", () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
     render(
