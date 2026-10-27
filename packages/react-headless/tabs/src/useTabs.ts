@@ -323,7 +323,10 @@ function useTabsState(props: UseTabsStateProps) {
   );
 
   // Reads `offsetLeft` during render so a newly selected trigger is placed before its observer
-  // reports; `selectedTriggerLeft` only marks when the selected trigger has moved since.
+  // reports; `selectedTriggerLeft` only marks when the selected trigger has moved since. Keep it
+  // the only position dependency: a memo keyed on the render's own read can show a position the
+  // state never recorded, and when the trigger moves back, the measurement equals the state and
+  // the indicator stays where it was.
   // biome-ignore lint/correctness/useExhaustiveDependencies: selectedTriggerLeft invalidates the memo
   const triggerRect = useMemo(
     () => ({
