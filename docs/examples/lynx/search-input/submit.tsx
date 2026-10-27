@@ -1,8 +1,7 @@
 import "./styles";
 
-import IconXmarkCircleFill from "@karrotmarket/lynx-monochrome-icon/IconXmarkCircleFill";
 import { useState } from "@lynx-js/react";
-import { Icon, SearchInput } from "@seed-design/lynx-react";
+import { SearchInput } from "@/components/ui/search-input";
 
 export default function Example() {
   const [value, setValue] = useState("");
@@ -15,15 +14,12 @@ export default function Example() {
 
   return (
     <view className="search-input-preview">
-      <SearchInput.Root value={value} onValueChange={setValue} onSubmit={handleSubmit}>
-        <SearchInput.Input
-          accessibility-label="검색"
-          placeholder="검색어를 입력하고 검색 키를 눌러주세요"
-        />
-        <SearchInput.ClearButton accessibility-label="지우기">
-          <Icon icon={<IconXmarkCircleFill />} />
-        </SearchInput.ClearButton>
-      </SearchInput.Root>
+      <SearchInput
+        value={value}
+        onValueChange={setValue}
+        onSubmit={handleSubmit}
+        placeholder="검색어를 입력하고 검색 키를 눌러주세요"
+      />
       <text className="search-input-preview__status">
         {submittedValue === null ? "아직 검색하지 않았습니다." : `검색한 값: ${submittedValue}`}
       </text>

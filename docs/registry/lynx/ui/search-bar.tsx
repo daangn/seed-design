@@ -1,6 +1,4 @@
-import IconXmarkCircleFill from "@karrotmarket/lynx-monochrome-icon/IconXmarkCircleFill";
 import { forwardRef, type ComponentRef, type ReactNode } from "@lynx-js/react";
-import { Icon, SearchInput } from "@seed-design/lynx-react";
 import {
   AppBar,
   AppBarBackButton,
@@ -10,10 +8,9 @@ import {
   AppBarTextButton,
   type AppBarProps,
 } from "./app-bar";
+import { SearchInput, type SearchInputProps } from "./search-input";
 
-export interface SearchBarProps extends Omit<SearchInput.RootProps, "children"> {
-  placeholder?: string;
-
+export interface SearchBarProps extends SearchInputProps {
   /**
    * Shows the back button and is called when it is tapped.
    * Lynx has no navigation stack, so the screen decides what going back means.
@@ -30,24 +27,19 @@ export interface SearchBarProps extends Omit<SearchInput.RootProps, "children"> 
    */
   closeLabel?: ReactNode;
 
-  inputProps?: SearchInput.InputProps;
-
   /**
    * Props for the App Bar, such as `theme`.
    */
   appBarProps?: Omit<AppBarProps, "children">;
 }
 
-type SearchInputRef = ComponentRef<typeof SearchInput.Input>;
+type SearchInputRef = ComponentRef<typeof SearchInput>;
 
 /**
  * @see https://seed-design.io/lynx/components/search-bar
  */
 export const SearchBar = forwardRef<SearchInputRef, SearchBarProps>(
-  (
-    { placeholder, onBack, onClose, closeLabel = "닫기", inputProps, appBarProps, ...otherProps },
-    ref,
-  ) => {
+  ({ onBack, onClose, closeLabel = "닫기", appBarProps, ...otherProps }, ref) => {
     function handleBack() {
       "background only";
       onBack?.();
@@ -71,18 +63,7 @@ export const SearchBar = forwardRef<SearchInputRef, SearchBarProps>(
         <AppBarSlot
           style={{ flexGrow: 1, flexShrink: 1, flexBasis: 0, minWidth: 0, alignSelf: "center" }}
         >
-          <SearchInput.Root {...otherProps}>
-            {/* You may implement your own i18n for the labels */}
-            <SearchInput.Input
-              ref={ref}
-              accessibility-label="검색"
-              placeholder={placeholder}
-              {...inputProps}
-            />
-            <SearchInput.ClearButton accessibility-label="지우기">
-              <Icon icon={<IconXmarkCircleFill />} />
-            </SearchInput.ClearButton>
-          </SearchInput.Root>
+          <SearchInput ref={ref} {...otherProps} />
         </AppBarSlot>
         <AppBarRight>
           {/* Without the inner offset, the close button's touch area does not cover the clear button. */}

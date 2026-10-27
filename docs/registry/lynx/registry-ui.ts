@@ -305,6 +305,18 @@ export const registryUI: Registry = {
           dependencies: {
             "@seed-design/lynx-react": "^1.1.0",
             "@seed-design/lynx-css": "^1.1.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "search-input",
+      snippets: [
+        {
+          path: "search-input.tsx",
+          dependencies: {
+            "@seed-design/lynx-react": "^1.1.0",
+            "@seed-design/lynx-css": "^1.1.0",
             "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
           },
         },

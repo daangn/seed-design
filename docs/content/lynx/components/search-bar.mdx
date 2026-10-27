@@ -19,13 +19,15 @@ compatibility:
   ```
 </LynxComponentExample>
 
-Search Bar는 [App Bar](/lynx/components/app-bar) 안에 [Search Input](/lynx/components/search-input)을 배치한 컴포넌트입니다. 검색 입력은 `AppBarSlot`에 두어 좌우 버튼 사이를 채웁니다.
+Search Bar는 [App Bar](/lynx/components/app-bar) 안에 [Search Input](/lynx/components/search-input) snippet을 배치한 컴포넌트입니다. 검색 입력은 `AppBarSlot`에 두어 좌우 버튼 사이를 채웁니다.
 
 ## Installation
 
 ```package-install
 npx @seed-design/cli add ui:search-bar
 ```
+
+CLI로 설치하면 Search Bar가 사용하는 `ui:app-bar`와 `ui:search-input`도 함께 설치됩니다.
 
 <LynxManualInstallation name="search-bar" />
 
@@ -49,7 +51,7 @@ import { SearchBar } from "@/components/ui/search-bar";
 
 <react-type-table path="./registry/lynx/ui/search-bar.tsx" name="SearchBarProps" />
 
-`placeholder`, `onBack`, `onClose`, `closeLabel`, `inputProps`, `appBarProps`를 제외한 prop은 [`SearchInput.Root`](/lynx/components/search-input#searchinputroot)로 전달됩니다. 입력 요소에 넘길 `maxlength`, `accessibility-label`(기본값 "검색") 등은 `inputProps`로 전달하세요.
+`onBack`, `onClose`, `closeLabel`, `appBarProps`를 제외한 prop은 [Search Input](/lynx/components/search-input#props) snippet으로 전달됩니다.
 
 ## Examples
 

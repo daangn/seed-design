@@ -2429,7 +2429,14 @@
               "id": "search-input",
               "title": "Search Input",
               "description": "검색어를 입력하고 제출하는 입력 필드입니다. 화면 상단에서는 Search Bar와 함께 사용합니다.",
-              "docUrl": "/lynx/components/search-input"
+              "docUrl": "/lynx/components/search-input",
+              "snippetKey": "lynx/ui:search-input",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "search-input.tsx"
+                }
+              ]
             },
             {
               "id": "segmented-control",
