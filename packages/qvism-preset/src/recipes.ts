@@ -56,6 +56,7 @@ import reactionButton from "./recipes/reaction-button";
 import scrollFog from "./recipes/scroll-fog";
 import searchInput from "./recipes/search-input";
 import segmentedControl from "./recipes/segmented-control";
+import segmentedTextInput from "./recipes/segmented-text-input";
 import { select, selectItem, selectTrigger } from "./recipes/select";
 import { selectBox, selectBoxCheckmark, selectBoxGroup } from "./recipes/select-box";
 import {
@@ -142,6 +143,7 @@ export const recipes = {
   scrollFog,
   searchInput,
   segmentedControl,
+  segmentedTextInput,
   select,
   selectTrigger,
   selectItem,

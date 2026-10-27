@@ -59,6 +59,7 @@ export * from "./ResponsiveSidePanel";
 export * from "./ScrollFog";
 export * from "./SearchInput";
 export * from "./SegmentedControl";
+export * from "./SegmentedTextInput";
 export * from "./Select";
 export * from "./SelectBox";
 export * from "./SideNavigation";
