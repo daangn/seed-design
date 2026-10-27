@@ -1,0 +1,162 @@
+---
+title: Segmented Text Input
+description: 주민등록번호·카드번호처럼 형식이 정해진 값을 여러 구간으로 나눠 입력받는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/react@3.1.0, @seed-design/css@3.1.0" />
+
+<ComponentExample name="react/segmented-text-input/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/segmented-text-input/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+주민등록번호 뒷자리 첫 번째 자리만 받거나 카드번호 뒷자리를 가려야 하는 경우처럼, 하나의 Text Input으로 처리하기 어려운 국내 입력 형식에 사용합니다. 전화번호·이메일, 해외 카드번호처럼 구간을 나눌 필요가 없는 입력은 [Text Field](/react/components/text-field-input)에 포맷을 적용해서 받으세요.
+
+Segment마다 입력 하나를 두고, 값은 입력 Segment 순서대로 `string[]`로 다룹니다.
+
+- 끝에서 입력해 Segment를 채우면 다음 Segment로 이동합니다. 가운데에 넣어 자리 수를 넘는 입력은 반영하지 않습니다.
+- 빈 Segment에서 Backspace를 누르면 이전 Segment의 마지막 글자를 지웁니다. 끝에서 → 키, 처음에서 ← 키를 누르면 옆 Segment로 이동합니다.
+- 붙여넣은 값은 구분자를 지우고 다음 Segment까지 차례로 채웁니다. 가린(`masked`) Segment 앞에서 멈춥니다.
+- `autoComplete="bday"` Segment는 OS가 넣은 생년월일(`yyyy-MM-dd` 등)을 자리 수에 맞춰 바꿉니다.
+- 한글 조합 중에는 다음 Segment로 이동하지 않습니다.
+
+## Installation
+
+주민등록번호와 카드번호는 snippet으로 제공합니다. 자리 구성과 문구(`aria-label`, placeholder)는 snippet에 있으니 필요하면 설치한 파일에서 고쳐 쓰세요.
+
+```package-install
+npx @seed-design/cli@latest add ui:resident-number-field
+```
+
+<ManualInstallation name="resident-number-field" />
+
+```package-install
+npx @seed-design/cli@latest add ui:card-number-field
+```
+
+<ManualInstallation name="card-number-field" />
+
+## Props
+
+### `ResidentNumberField`
+
+<react-type-table
+  path="./registry/react/ui/resident-number-field.tsx"
+  name="ResidentNumberFieldProps"
+/>
+
+### `CardNumberField`
+
+<react-type-table
+  path="./registry/react/ui/card-number-field.tsx"
+  name="CardNumberFieldProps"
+/>
+
+### `SegmentedTextInput.Root`
+
+<react-type-table
+  path="../packages/react/src/components/SegmentedTextInput/SegmentedTextInput.tsx"
+  name="SegmentedTextInputRootProps"
+/>
+
+### `SegmentedTextInput.Segment`
+
+<react-type-table
+  path="../packages/react/src/components/SegmentedTextInput/SegmentedTextInput.tsx"
+  name="SegmentedTextInputInputSegmentProps"
+/>
+
+`staticText`를 주면 입력 없이 정적 텍스트만 표시하는 Segment가 됩니다. 정적 Segment는 값 배열에 포함하지 않습니다.
+
+## Examples
+
+### Resident Number
+
+`digits`로 입력받을 자리 수를 정합니다. (default: `7`)
+
+<ComponentExample name="react/segmented-text-input/resident-number-digits">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/segmented-text-input/resident-number-digits.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Card Number
+
+`maskedDigits`로 가릴 뒷자리 수를 정하고, `suffix`에 카드사 로고를 넣습니다. 로고 크기는 넣는 쪽에서 정합니다(Figma 기준 30×20).
+
+<ComponentExample name="react/segmented-text-input/card-number">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/segmented-text-input/card-number.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### State
+
+<ComponentExample name="react/segmented-text-input/state">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/segmented-text-input/state.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Size
+
+`medium`은 데스크톱(Breakpoint `lg` 이상)에서만 사용합니다. (default: `large`)
+
+<ComponentExample name="react/segmented-text-input/size">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/segmented-text-input/size.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Controlled
+
+<ComponentExample name="react/segmented-text-input/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/segmented-text-input/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### External Keypad
+
+보안 키패드처럼 값을 밖에서 채워야 하면 해당 Segment를 `readOnly`로 두고 값을 controlled로 관리합니다. Segment를 누르면 키패드를 열고, 키패드가 `value`를 바꿉니다. 키패드 연동과 값 암호화는 서비스에서 구현합니다.
+
+<ComponentExample name="react/segmented-text-input/external-keypad">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/segmented-text-input/external-keypad.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Composition
+
+snippet이 다루지 않는 형식은 `SegmentedTextInput`을 직접 조합합니다. 입력 Segment마다 `aria-label`로 구간 이름을 주세요. `Field.Label`은 전체 group의 이름이 되고, 누르면 첫 입력 Segment로 이동합니다.
+
+<ComponentExample name="react/segmented-text-input/composition">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/segmented-text-input/composition.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

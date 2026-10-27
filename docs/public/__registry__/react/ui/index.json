@@ -288,6 +288,21 @@
     {
       "snippets": [
         {
+          "path": "card-number-field.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.1.0"
+          }
+        }
+      ],
+      "id": "card-number-field",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "checkbox.tsx",
           "dependencies": {
             "@seed-design/react": "^2.0.0 || ^3.0.0",
@@ -774,6 +789,21 @@
             "loading-indicator"
           ]
         }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "resident-number-field.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.1.0"
+          }
+        }
+      ],
+      "id": "resident-number-field",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
       ]
     },
     {
