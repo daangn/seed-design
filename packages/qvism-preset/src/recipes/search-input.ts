@@ -1,6 +1,7 @@
 import { searchInput as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { pseudo, focusVisible } from "../utils/pseudo";
+import { pseudo, focusVisible, active, disabled, not } from "../utils/pseudo";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -73,7 +74,9 @@ const searchInput = defineSlotRecipe({
 
       borderRadius: tokens.$radius.full,
 
-      transition: FOCUS_RING_TRANSITION,
+      [pseudo(not(disabled), active)]: createScaleFeedbackStyles(),
+
+      transition: `${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
 

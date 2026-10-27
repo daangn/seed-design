@@ -5,6 +5,7 @@ import clsx from "clsx";
 import type * as React from "react";
 import { createContext, forwardRef, useContext } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(searchInput);
 
@@ -95,15 +96,17 @@ export interface SearchInputClearButtonProps extends TextField.ClearButtonProps 
 /**
  * Renders nothing while the value is empty. Keeps the input focused if it was focused.
  */
-export const SearchInputClearButton = withContext<HTMLButtonElement, SearchInputClearButtonProps>(
-  forwardRef<HTMLButtonElement, SearchInputClearButtonProps>((props, ref) => {
-    if (!props["aria-label"] && !props["aria-labelledby"]) {
-      console.warn(
-        "SearchInputClearButton: Please provide `aria-label` or `aria-labelledby` for accessibility.",
-      );
-    }
+export const SearchInputClearButton = withScaleFeedback(
+  withContext<HTMLButtonElement, SearchInputClearButtonProps>(
+    forwardRef<HTMLButtonElement, SearchInputClearButtonProps>((props, ref) => {
+      if (!props["aria-label"] && !props["aria-labelledby"]) {
+        console.warn(
+          "SearchInputClearButton: Please provide `aria-label` or `aria-labelledby` for accessibility.",
+        );
+      }
 
-    return <TextField.ClearButton ref={ref} {...props} />;
-  }),
-  "clearButton",
+      return <TextField.ClearButton ref={ref} {...props} />;
+    }),
+    "clearButton",
+  ),
 );

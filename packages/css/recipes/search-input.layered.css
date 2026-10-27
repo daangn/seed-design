@@ -50,15 +50,22 @@
     padding-inline: var(--seed-dimension-x3);
     padding-block: var(--seed-dimension-x3);
     border-radius: var(--seed-radius-full);
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     background-color: #0000;
     border: none;
     flex-shrink: 0;
     justify-content: center;
     align-items: center;
     display: flex;
+  }
+
+  .seed-search-input__clearButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-feedback-scale);
+  }
+
+  .seed-search-input__clearButton {
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: calc(var(--seed-dimension-x0_5) * -1);
   }
 
   .seed-search-input__clearButton:is(:focus-visible, [data-focus-visible]) {

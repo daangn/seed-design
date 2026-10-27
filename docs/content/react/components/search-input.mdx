@@ -64,7 +64,7 @@ Enter를 누르면 `onSubmit`이 현재 값과 함께 호출됩니다. 한글처
 
 ### Clear Button
 
-Clear 버튼은 값이 있을 때만 렌더링되고, 누르면 값을 비웁니다. `value`를 넘기지 않은 uncontrolled 상태에서도 동작하며, `onValueChange`가 빈 문자열과 함께 호출됩니다.
+Clear 버튼은 값이 있을 때만 렌더링되고, 누르면 값을 비웁니다. 누르는 동안에는 scale feedback으로 살짝 줄어듭니다. `value`를 넘기지 않은 uncontrolled 상태에서도 동작하며, `onValueChange`가 빈 문자열과 함께 호출됩니다.
 
 입력에 focus가 있었다면 지운 뒤에도 focus를 유지하고, focus가 없었다면 새로 주지 않습니다. 키보드로 Clear 버튼을 누르면 버튼이 사라지므로 focus를 입력으로 옮깁니다.
 
