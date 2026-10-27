@@ -37,6 +37,7 @@ export * from "./RadioGroup";
 export * from "./RadioGroupField";
 export * from "./ReactionButton";
 export * from "./ScaleFeedback";
+export * from "./SearchInput";
 export * from "./SegmentedControl";
 export * from "./Select";
 export * from "./SelectBox";
