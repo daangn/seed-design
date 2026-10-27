@@ -298,6 +298,19 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "search-bar",
+      snippets: [
+        {
+          path: "search-bar.tsx",
+          dependencies: {
+            "@seed-design/lynx-react": "^1.1.0",
+            "@seed-design/lynx-css": "^1.1.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+          },
+        },
+      ],
+    },
+    {
       id: "segmented-control",
       snippets: [
         {
