@@ -1,0 +1,28 @@
+.segmented-text-input-preview {
+  width: 100%;
+  max-width: 420px;
+}
+
+.segmented-text-input-preview__status {
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: 14px;
+}
+
+/* 예시용 카드사 로고. 실제 서비스에서는 카드사 로고 자산을 크기와 함께 넣습니다. */
+.segmented-text-input-preview__card-logo {
+  position: relative;
+  width: 30px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: #00a05b;
+}
+
+.segmented-text-input-preview__card-logo-chip {
+  position: absolute;
+  top: 7px;
+  left: 5px;
+  width: 8px;
+  height: 6px;
+  border-radius: 1.5px;
+  background-color: rgba(255, 255, 255, 0.85);
+}
