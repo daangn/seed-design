@@ -180,12 +180,22 @@ const pageBanner = defineSlotRecipe({
     extendSafeAreaX: {
       true: {
         root: {
-          // `width: 100%` alone would keep the parent's width and only shift the banner left
-          width: "calc(100% + var(--seed-safe-area-left) + var(--seed-safe-area-right))",
-          marginLeft: "calc(var(--seed-safe-area-left) * -1)",
-          marginRight: "calc(var(--seed-safe-area-right) * -1)",
-          paddingLeft: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-left))`,
-          paddingRight: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-right))`,
+          // Only the background bleeds into the inset, unlike the padding + negative margin
+          // other recipes extend with: scale feedback measures the root, so a root widened by
+          // the inset would shrink its safe-area content less than a banner that doesn't extend.
+          position: "relative",
+          isolation: "isolate",
+
+          [pseudo("::before")]: {
+            content: '""',
+            position: "absolute",
+            insetBlock: 0,
+            left: "calc(var(--seed-safe-area-left) * -1)",
+            right: "calc(var(--seed-safe-area-right) * -1)",
+            zIndex: -1,
+            // Follows the root's tone and pressed state, and redraws a gradient across the full width
+            background: "inherit",
+          },
         },
       },
       false: {},
