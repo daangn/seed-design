@@ -45,6 +45,7 @@ describe("SearchInput", () => {
     const input = getRenderedRoot().querySelector("input");
     if (!input || !inputRef.current) throw new Error("Expected native input to exist.");
     expect(input).toHaveAttribute("confirm-type", "search");
+    expect(input).toHaveAttribute("confirm-enter", "false");
     expect(input).toHaveClass("seed-search-input__value");
 
     const invoke = mockInvoke(inputRef);
@@ -65,6 +66,8 @@ describe("SearchInput", () => {
 
     const input = getRenderedRoot().querySelector("input");
     if (!input || !inputRef.current) throw new Error("Expected native input to exist.");
+    // iOS and Android blur the input on confirm unless `confirm-enter` is set.
+    expect(input).toHaveAttribute("confirm-enter", "true");
     const invoke = mockInvoke(inputRef);
     fireNativeEvent(inputRef.current, input, "confirm", { value: "당근" });
 
@@ -110,6 +113,49 @@ describe("SearchInput", () => {
     );
     expect(invoke).not.toHaveBeenCalledWith(expect.objectContaining({ method: "blur" }));
     expect(root.querySelector(".seed-search-input__clearButton")).toBeNull();
+  });
+
+  it("returns the focus to the input when the tap on the clear button blurred it", () => {
+    const inputRef = createRef<NodesRef>();
+    render(
+      <SearchInput.Root defaultValue="당근">
+        <SearchInput.Input ref={inputRef} accessibility-label="검색" />
+        <SearchInput.ClearButton accessibility-label="지우기" />
+      </SearchInput.Root>,
+    );
+
+    const root = getRenderedRoot();
+    const input = root.querySelector("input");
+    const clearButton = root.querySelector(".seed-search-input__clearButton");
+    if (!input || !inputRef.current || !clearButton) throw new Error("Expected parts to exist.");
+    const invoke = mockInvoke(inputRef);
+
+    // Some hosts blur the input before the touch reaches the clear button.
+    fireNativeEvent(inputRef.current, input, "focus", {});
+    fireNativeEvent(inputRef.current, input, "blur", { value: "당근" });
+    fireEvent.touchstart(clearButton);
+    fireEvent.tap(clearButton);
+
+    expect(invoke).toHaveBeenCalledWith(expect.objectContaining({ method: "focus" }));
+  });
+
+  it("does not focus an input that was not focused before clearing", () => {
+    const inputRef = createRef<NodesRef>();
+    render(
+      <SearchInput.Root defaultValue="당근">
+        <SearchInput.Input ref={inputRef} accessibility-label="검색" />
+        <SearchInput.ClearButton accessibility-label="지우기" />
+      </SearchInput.Root>,
+    );
+
+    const clearButton = getRenderedRoot().querySelector(".seed-search-input__clearButton");
+    if (!clearButton) throw new Error("Expected clear button to render.");
+    const invoke = mockInvoke(inputRef);
+
+    fireEvent.touchstart(clearButton);
+    fireEvent.tap(clearButton);
+
+    expect(invoke).not.toHaveBeenCalledWith(expect.objectContaining({ method: "focus" }));
   });
 
   it("warns when the input or the clear button has no accessibility-label", () => {

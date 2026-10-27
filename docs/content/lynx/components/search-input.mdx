@@ -60,7 +60,7 @@ import { Icon, SearchInput } from "@seed-design/lynx-react";
 
 키보드의 검색 키를 누르면 `onSubmit`이 현재 값과 함께 호출됩니다. Lynx `<input>`의 `bindconfirm` 이벤트를 사용합니다.
 
-제출한 뒤에는 입력의 focus를 해제해 키보드를 내립니다. 제출 뒤에도 계속 입력하게 하려면 `blurOnSubmit={false}`를 사용하세요.
+제출한 뒤에는 입력의 focus를 해제해 키보드를 내립니다. 제출 뒤에도 계속 입력하게 하려면 `blurOnSubmit={false}`를 사용하세요. 이때 Lynx `<input>`의 `confirm-enter`를 켜서 native 입력이 제출 뒤 스스로 focus를 해제하지 않게 합니다.
 
 <LynxComponentExample name="lynx/search-input/submit">
   ```json doc-gen:file
@@ -79,7 +79,7 @@ import { Icon, SearchInput } from "@seed-design/lynx-react";
 
 `SearchInput.ClearButton`은 값이 있을 때만 렌더링되고, 누르면 값을 비웁니다. `value`를 넘기지 않은 uncontrolled 상태에서도 동작하며, `onValueChange`가 빈 문자열과 함께 호출됩니다.
 
-Clear 버튼은 `ignore-focus`로 탭이 입력의 focus를 가져가지 않게 합니다. 입력에 focus가 있었다면 유지하고, 없었다면 새로 주지 않습니다.
+입력에 focus가 있었다면 지운 뒤에도 유지하고, 없었다면 새로 주지 않습니다. Clear 버튼은 `ignore-focus`로 탭이 입력의 focus를 가져가지 않게 하고, 그래도 탭 직전에 focus가 해제되는 host에서는 값을 비운 뒤 focus를 되돌립니다.
 
 ## Accessibility
 
