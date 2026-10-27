@@ -10,6 +10,7 @@ import {
 } from "@seed-design/lynx-react-text-field";
 import clsx from "clsx";
 
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { IconSlotProvider } from "../Icon/Icon";
@@ -147,7 +148,7 @@ SearchInputInput.displayName = "SearchInputInput";
 /**
  * @platform Lynx
  *
- * 값이 비어 있으면 렌더링하지 않는다. 탭하면 `setValue("")`로 값을 비운다.
+ * 값이 비어 있으면 렌더링하지 않는다. 탭하면 `setValue("")`로 값을 비운다. 누르는 동안 Scale Feedback을 적용한다.
  * `ignore-focus`로 탭이 입력의 focus를 가져가지 않게 해, focus가 있었으면 유지하고 없었으면 새로 주지 않는다.
  * children에는 `<Icon icon={...} />`을 넣는다.
  */
@@ -158,6 +159,7 @@ export const SearchInputClearButton = React.forwardRef<unknown, SearchInputClear
     const classes = useClassNames();
     const { value, disabled, readOnly, setValue } = useTextFieldContext();
     const { children, className, bindtap, ...nativeProps } = props;
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
 
     if (process.env.NODE_ENV !== "production" && !props["accessibility-label"]) {
       console.warn(
@@ -185,6 +187,8 @@ export const SearchInputClearButton = React.forwardRef<unknown, SearchInputClear
             "accessibility-traits": "button" as const,
             "ignore-focus": true,
           },
+          scaleFeedbackTargetProps,
+          scaleFeedbackTriggerProps,
           nativeProps,
           ref ? { ref: ref as LynxViewRef } : {},
         )}
