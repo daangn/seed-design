@@ -1424,6 +1424,12 @@
               ]
             },
             {
+              "id": "segmented-text-input",
+              "title": "Segmented Text Input",
+              "description": "주민등록번호·카드번호처럼 형식이 정해진 값을 여러 구간으로 나눠 입력받는 컴포넌트입니다.",
+              "docUrl": "/react/components/segmented-text-input"
+            },
+            {
               "id": "select",
               "title": "Select",
               "description": "트리거를 눌러 열리는 목록에서 값을 선택하는 컴포넌트입니다.",
