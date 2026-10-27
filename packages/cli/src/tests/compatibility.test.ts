@@ -73,6 +73,42 @@ describe("analyzeRegistryItemCompatibility", () => {
     });
   });
 
+  it("Stackflow 스니펫이 요구하는 @seed-design/stackflow 범위도 검사해야 함", () => {
+    const report = analyzeRegistryItemCompatibility({
+      publicRegistries: [
+        {
+          id: "ui",
+          items: [
+            {
+              id: "app-screen",
+              snippets: [
+                {
+                  path: "app-bar.tsx",
+                  dependencies: {
+                    "@seed-design/react": "^3.0.0",
+                    "@seed-design/stackflow": "^2.1.0",
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      itemKeys: ["ui:app-screen"],
+      projectPackageVersions: {
+        "@seed-design/react": "3.0.1",
+        "@seed-design/stackflow": "2.0.6",
+      },
+    });
+
+    expect(report.issues).toHaveLength(1);
+    expect(report.issues[0]).toMatchObject({
+      itemKey: "ui:app-screen",
+      packageName: "@seed-design/stackflow",
+      type: "incompatible-version",
+    });
+  });
+
   it("패키지가 없으면 missing-package 이슈를 리턴해야 함", () => {
     const report = analyzeRegistryItemCompatibility({
       publicRegistries: registries,
@@ -170,13 +206,59 @@ describe("getProjectSeedPackageVersionSpecs", () => {
     return rootPath;
   }
 
-  it("package.json 선언이 있으면 선언을 그대로 쓴다", async () => {
+  it("선언이 범위여도 설치본이 있으면 설치 버전을 쓴다", async () => {
     const rootPath = await makeProject({
       name: "app",
       dependencies: { "@seed-design/react": "^2.0.0" },
     });
 
-    expect(getProjectSeedPackageVersionSpecs(rootPath)["@seed-design/react"]).toBe("^2.0.0");
+    expect(getProjectSeedPackageVersionSpecs(rootPath)["@seed-design/react"]).toBe("2.0.4");
+  });
+
+  it("설치본이 없으면 package.json 선언을 쓴다", async () => {
+    const rootPath = await makeProject({
+      name: "app",
+      dependencies: { "@seed-design/css": "^3.0.0" },
+    });
+
+    expect(getProjectSeedPackageVersionSpecs(rootPath)["@seed-design/css"]).toBe("^3.0.0");
+  });
+
+  it("선언 범위가 요구 범위와 겹쳐도 설치된 Stackflow가 낮으면 경고한다", async () => {
+    const rootPath = await makeProject({
+      name: "app",
+      dependencies: { "@seed-design/stackflow": "^2.0.6" },
+    });
+    await fs.outputJSON(
+      path.join(rootPath, "node_modules", "@seed-design", "stackflow", "package.json"),
+      { name: "@seed-design/stackflow", version: "2.0.6" },
+    );
+
+    const report = analyzeRegistryItemCompatibility({
+      publicRegistries: [
+        {
+          id: "ui",
+          items: [
+            {
+              id: "app-screen",
+              snippets: [
+                { path: "app-bar.tsx", dependencies: { "@seed-design/stackflow": "^2.1.0" } },
+              ],
+            },
+          ],
+        },
+      ],
+      itemKeys: ["ui:app-screen"],
+      projectPackageVersions: getProjectSeedPackageVersionSpecs(rootPath),
+    });
+
+    expect(report.issues).toEqual([
+      expect.objectContaining({
+        packageName: "@seed-design/stackflow",
+        installedVersionSpec: "2.0.6",
+        type: "incompatible-version",
+      }),
+    ]);
   });
 
   it("선언이 없어도 설치본이 있으면 미설치로 보지 않는다 (모노레포 호이스팅)", async () => {
