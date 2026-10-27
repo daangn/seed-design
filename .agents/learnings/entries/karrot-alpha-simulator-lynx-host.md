@@ -16,7 +16,8 @@ verified_at: "2026-10-27"
 - host가 bundle URL의 query를 지워 `__pageUrl`에 `example`이 남지 않는다 → SPA 홈이 열린다. `Page.reload`에 query URL을 주면 `__pageUrl`은 바뀌지만 LynxView 전체가 그려지지 않는다. 검증 동안만 `examples/lynx-spa/src/App.tsx`에 `setRoute`를 전역으로 노출하는 한 줄을 넣고(HMR로 반영됨) `evaluate`로 예제를 연 뒤, 끝나면 되돌린다.
 - 입력이 화면에 있을 때 agent-lynx `snapshot`·`tap`(DevTool `UITree.getUIInfoForNode`)을 실행하면 앱이 exit 1로 종료될 수 있다 → 입력 화면에서는 `evaluate`(UI method `focus`·`blur`, 로그 조회)만 쓴다.
 - 탭·키보드 키는 실제 터치로 보낸다. `open -a /Applications/Xcode.app/Contents/Applications/DeviceHub.app`이 시뮬레이터 화면을 띄우고, 이 창에 보낸 macOS 마우스 클릭(CGEvent)이 터치로 전달된다. 창 좌표는 `System Events`의 창 position·size와 창 캡처로 기기 좌표에 맞춘다. 창 캡처는 DeviceHub가 앞에 있을 때만 하고, 다른 앱이 앞에 오면 `simctl` 캡처로 바꾼다.
-- 앱이 종료되면 client의 `debugRouterId`가 바뀐다 → `release --host-terminated` 뒤 다시 `acquire`한다. 끝낼 때는 소유 session에서 `NavigationModule.close()`를 evaluate하고 session 목록이 비었는지 확인한 뒤 해제한다.
+- 눌림 피드백(Scale Feedback)은 DeviceHub 창에 mouseDown만 보내 누른 상태를 유지한 채 `simctl` 캡처하고, 그 뒤 mouseUp을 보내 비교한다. 입력 UI method `setValue`는 `bindinput`을 보내지 않아 값에 따라 나타나는 요소(Clear 버튼 등)가 생기지 않는다 → 검증 동안만 예제에 `defaultValue`를 넣는다.
+- 앱이 종료되면 client의 `debugRouterId`가 바뀐다 → `release --host-terminated` 뒤 다시 `acquire`한다. 끝낼 때는 소유 session에서 `(lynx.getNativeApp().nativeModuleProxy.NavigationModule.close(), "closed")`를 evaluate하고(`NativeModules`·`NavigationModule` 전역은 없다) 소유 session이 목록에서 사라졌는지 확인한 뒤 해제한다.
 
 ## 발생 근거와 적용 조건
 
@@ -27,4 +28,5 @@ verified_at: "2026-10-27"
 
 ## 변경 이력
 
+- 2026-10-27: SEED-15 Clear 버튼 Scale Feedback 검증에서 누름 유지 캡처, `setValue` 한계, 닫기 식을 추가했다. 누른 동안 아이콘이 56→52px(기기 px)로 줄고 중심은 같았다.
 - 2026-10-27: SEED-15 iOS 소프트 키보드 검증에서 기록했다.
