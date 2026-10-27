@@ -22,7 +22,8 @@ Lynx 전용 qvism preset(private)이다. Rootage가 생성한 `src/vars/`와 Lyn
 
 `define.ts`의 strict style type이 Lynx가 지원하지 않는 입력을 막는다. 타입 캐스트로 우회하지 않고 아래처럼 바꾼다.
 
-- `boxSizing`, `verticalAlign`, SVG `stroke*`·`fill` 계열, `content`, CSS-wide keyword(`initial`, `inherit`, `unset`) → 쓰지 않는다. Lynx가 지원하는 property와 명시적인 값으로 바꾼다.
+- `verticalAlign`, SVG `stroke*`·`fill` 계열, `content`, CSS-wide keyword `initial`·`unset` → 쓰지 않는다. Lynx가 지원하는 property와 명시적인 값으로 바꾼다.
+- `boxSizing`과 `inherit`은 Lynx가 지원하므로 허용한다. Lynx 기본 `box-sizing`은 `border-box`다.
 - `inset`·`inset-*` shorthand → `top`·`right`·`bottom`·`left` longhand로 쓴다. `src/index.ts`의 Lightning CSS `include: Features.LogicalProperties`가 최종 CSS에서도 longhand를 유지한다.
 
 ### 상태와 slot
