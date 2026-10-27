@@ -71,7 +71,9 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
     const [variantProps, restProps] = imageFrameRecipe.splitVariantProps(rest);
     const classNames = imageFrameRecipe(variantProps);
 
-    const { bleed, bleedX, bleedLeft, bleedRight } = restProps as AspectRatioProps;
+    // splitVariantProps collapses the margin/bleed union; re-assert the shape.
+    const aspectRatioProps = restProps as AspectRatioProps;
+    const { bleed, bleedX, bleedLeft, bleedRight } = aspectRatioProps;
     const safeAreaBleed = React.useMemo(
       () => ({
         left: (bleedLeft ?? bleedX ?? bleed) === "safeArea",
@@ -88,8 +90,7 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
         ratio={ratio}
         className={className}
         borderRadius={borderRadius}
-        // splitVariantProps collapses the margin/bleed union; re-assert the shape.
-        {...(restProps as AspectRatioProps)}
+        {...aspectRatioProps}
       >
         <Image.Root className={classNames.root}>
           <Image.Content
@@ -126,17 +127,19 @@ export interface ImageFrameFloaterProps extends FloatProps {}
  * `start` and `end` push away from their own edge; `center` re-centers on the safe area.
  */
 function getSafeAreaOffsetX(
+  offsetX: NonNullable<FloatProps["offsetX"]>,
   placement: FloatProps["placement"],
   safeAreaBleed: { left: boolean; right: boolean },
 ) {
   const left = safeAreaBleed.left ? "var(--seed-safe-area-left)" : "0px";
   const right = safeAreaBleed.right ? "var(--seed-safe-area-right)" : "0px";
+  const shift = (amount: string) => `calc(${handleDimension(offsetX)} + ${amount})`;
 
-  if (placement.endsWith("-start")) return safeAreaBleed.left ? left : undefined;
-  if (placement.endsWith("-end")) return safeAreaBleed.right ? right : undefined;
-  if (!safeAreaBleed.left && !safeAreaBleed.right) return undefined;
+  if (placement.endsWith("-start")) return safeAreaBleed.left ? shift(left) : offsetX;
+  if (placement.endsWith("-end")) return safeAreaBleed.right ? shift(right) : offsetX;
+  if (!safeAreaBleed.left && !safeAreaBleed.right) return offsetX;
 
-  return `(${left} - ${right}) / 2`;
+  return shift(`(${left} - ${right}) / 2`);
 }
 
 /**
@@ -144,17 +147,12 @@ function getSafeAreaOffsetX(
  */
 export const ImageFrameFloater = React.forwardRef<HTMLDivElement, ImageFrameFloaterProps>(
   ({ offsetX = "x1_5", offsetY = "x1_5", ...rest }, ref) => {
-    const safeAreaOffsetX = getSafeAreaOffsetX(
-      rest.placement,
-      React.useContext(ImageFrameSafeAreaBleedContext),
-    );
+    const safeAreaBleed = React.useContext(ImageFrameSafeAreaBleedContext);
 
     return (
       <Float
         ref={ref}
-        offsetX={
-          safeAreaOffsetX ? `calc(${handleDimension(offsetX)} + ${safeAreaOffsetX})` : offsetX
-        }
+        offsetX={getSafeAreaOffsetX(offsetX, rest.placement, safeAreaBleed)}
         offsetY={offsetY}
         {...rest}
       />
