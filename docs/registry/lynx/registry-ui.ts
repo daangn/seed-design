@@ -395,6 +395,30 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "resident-number-field",
+      snippets: [
+        {
+          path: "resident-number-field.tsx",
+          dependencies: {
+            "@seed-design/lynx-react": "^1.1.0",
+            "@seed-design/lynx-css": "^1.1.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "card-number-field",
+      snippets: [
+        {
+          path: "card-number-field.tsx",
+          dependencies: {
+            "@seed-design/lynx-react": "^1.1.0",
+            "@seed-design/lynx-css": "^1.1.0",
+          },
+        },
+      ],
+    },
+    {
       id: "wheel-picker",
       snippets: [
         {

@@ -1,0 +1,172 @@
+---
+title: Segmented Text Input
+description: 주민등록번호·카드번호처럼 형식이 정해진 값을 여러 구간으로 나눠 입력받는 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "3.5"
+    x-elements:
+      - input
+---
+
+<AvailableSince packages="@seed-design/lynx-react@1.1.0, @seed-design/lynx-css@1.1.0" />
+
+<LynxComponentExample name="lynx/segmented-text-input/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/segmented-text-input/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+주민등록번호 뒷자리 첫 번째 자리만 받거나 카드번호 뒷자리를 가려야 하는 경우처럼, 하나의 Text Input으로 처리하기 어려운 국내 입력 형식에 사용합니다. 전화번호·이메일, 해외 카드번호처럼 구간을 나눌 필요가 없는 입력은 [Text Field](/lynx/components/text-field-input)에 포맷을 적용해서 받으세요.
+
+Segment마다 native 입력 하나를 두고, 값은 입력 Segment 순서대로 `string[]`로 다룹니다.
+
+- 끝에서 입력해 Segment를 채우면 다음 Segment로 이동합니다. 자리 수를 넘는 입력과 숫자 외 문자는 반영하지 않습니다.
+- 붙여넣은 값은 구분자를 지우고 다음 Segment까지 차례로 채웁니다. 가린(`masked`)·`readOnly` Segment 앞에서 멈춥니다.
+- `autoComplete="bday"` Segment는 붙여넣은 생년월일(`yyyy-MM-dd` 등)을 자리 수에 맞춰 바꿉니다.
+- 한글 조합 중에는 다음 Segment로 이동하지 않습니다.
+
+## Installation
+
+주민등록번호와 카드번호는 snippet으로 제공합니다. 자리 구성과 문구(`accessibility-label`, placeholder)는 snippet에 있으니 필요하면 설치한 파일에서 고쳐 쓰세요.
+
+```package-install
+npx @seed-design/cli@latest add ui:resident-number-field
+```
+
+<LynxManualInstallation name="resident-number-field" />
+
+```package-install
+npx @seed-design/cli@latest add ui:card-number-field
+```
+
+<LynxManualInstallation name="card-number-field" />
+
+## Props
+
+### `ResidentNumberField`
+
+<react-type-table
+  path="./registry/lynx/ui/resident-number-field.tsx"
+  name="ResidentNumberFieldProps"
+/>
+
+### `CardNumberField`
+
+<react-type-table path="./registry/lynx/ui/card-number-field.tsx" name="CardNumberFieldProps" />
+
+### `SegmentedTextInput.Root`
+
+<react-type-table
+  path="../packages/lynx-react/src/components/SegmentedTextInput/SegmentedTextInput.tsx"
+  name="SegmentedTextInputRootProps"
+/>
+
+### `SegmentedTextInput.Segment`
+
+<react-type-table
+  path="../packages/lynx-react/src/components/SegmentedTextInput/SegmentedTextInput.tsx"
+  name="SegmentedTextInputInputSegmentProps"
+/>
+
+`staticText`를 주면 입력 없이 정적 텍스트만 표시하는 Segment가 됩니다. 정적 Segment는 값 배열에 포함하지 않습니다.
+
+## Examples
+
+### Resident Number
+
+`digits`로 입력받을 자리 수를 정합니다. (default: `7`)
+
+<LynxComponentExample name="lynx/segmented-text-input/resident-number-digits">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/segmented-text-input/resident-number-digits.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Card Number
+
+`maskedDigits`로 가릴 뒷자리 수를 정하고, `suffix`에 카드사 로고를 넣습니다. 로고 크기는 넣는 쪽에서 정합니다(Figma 기준 30×20).
+
+<LynxComponentExample name="lynx/segmented-text-input/card-number">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/segmented-text-input/card-number.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### State
+
+<LynxComponentExample name="lynx/segmented-text-input/state">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/segmented-text-input/state.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Size
+
+`size`로 크기를 정합니다. (default: `large`) `medium`은 React에서 데스크톱(Breakpoint `lg` 이상) 전용 크기입니다.
+
+<LynxComponentExample name="lynx/segmented-text-input/size">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/segmented-text-input/size.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Controlled
+
+<LynxComponentExample name="lynx/segmented-text-input/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/segmented-text-input/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### External Keypad
+
+보안 키패드처럼 값을 밖에서 채워야 하면 해당 Segment를 `readOnly`로 두고 값을 controlled로 관리합니다. `readOnly` Segment는 native 입력 대신 텍스트로 그려져 시스템 키보드가 열리지 않습니다. Segment의 `bindtap`에서 키패드를 열고, 키패드가 `value`를 바꿉니다. 키패드 연동과 값 암호화는 서비스에서 구현합니다.
+
+<LynxComponentExample name="lynx/segmented-text-input/external-keypad">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/segmented-text-input/external-keypad.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Composition
+
+snippet이 다루지 않는 형식은 `SegmentedTextInput`을 직접 조합합니다. 입력 Segment마다 `accessibility-label`로 구간 이름을 주세요.
+
+<LynxComponentExample name="lynx/segmented-text-input/composition">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/segmented-text-input/composition.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+- 빈 Segment에서 Backspace를 눌러도 이전 Segment로 이동하지 않습니다. 빈 native 입력에서 지우기를 누르면 값이 바뀌지 않아 입력 이벤트가 오지 않습니다(Android에서 하드웨어·소프트 키보드 모두 확인). 이전 Segment는 탭해서 고칩니다.
+- ←·→ 방향키로 Segment 사이를 이동하지 않습니다.
+- native 입력에 paste 이벤트와 자동완성 속성이 없습니다. 한 번의 입력으로 두 글자 이상 늘어나면 붙여넣기로 보고 나눠 채웁니다. `autoComplete`는 native 입력에 전달하지 않고 `"bday"` 정규화에만 씁니다.
+- 키보드 종류는 `inputMode` 대신 `type`(default: `"number"`)으로 정합니다. `masked` Segment는 native `type="password"`를 쓰므로 문자 키보드가 열리고, 입력한 숫자 외 문자는 반영하지 않습니다.
+- `readOnly`에서는 [Text Field](/lynx/components/text-field-input)처럼 native 입력 대신 텍스트로 그립니다.
+- Field label이 group 이름이 되거나 label을 눌러 첫 Segment로 이동하는 동작이 없습니다. 각 Segment의 `accessibility-label`로 구간 이름을 알립니다.
