@@ -73,10 +73,10 @@ export type UseTextFieldReturn = ReturnType<typeof useTextField>;
  * runs as if the user typed. This updates both controlled and uncontrolled inputs.
  */
 function clearInputValue(input: HTMLInputElement | HTMLTextAreaElement) {
-  const prototype =
-    input instanceof HTMLTextAreaElement
-      ? HTMLTextAreaElement.prototype
-      : HTMLInputElement.prototype;
+  // Read the setter from the element's own prototype rather than this window's classes, so an
+  // element from another document (e.g. portaled into an iframe) gets the setter of its own kind.
+  // React tracks the value on the element itself, so the prototype setter bypasses that tracker.
+  const prototype = Object.getPrototypeOf(input);
   Object.getOwnPropertyDescriptor(prototype, "value")?.set?.call(input, "");
   input.dispatchEvent(new Event("input", { bubbles: true }));
 }
