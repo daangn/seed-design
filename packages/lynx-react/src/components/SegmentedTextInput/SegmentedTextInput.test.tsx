@@ -31,21 +31,39 @@ function stubInvoke(ref: { current: NodesRef | null }) {
   return calls;
 }
 
-function fireInput(
+function fireNativeEvent(
   ref: { current: NodesRef | null },
   element: Element,
-  value: string,
-  selection = value.length,
+  eventName: string,
+  detail: object,
 ) {
   const EventConstructor = element.ownerDocument.defaultView?.CustomEvent;
   if (!EventConstructor || !ref.current) throw new Error("Expected native input to exist.");
 
-  const event = new EventConstructor("bindEvent:input", {
-    bubbles: true,
-    detail: { value, selectionStart: selection, selectionEnd: selection, isComposing: false },
-  });
-  Object.assign(event, { eventType: "bindEvent", eventName: "input" });
+  const event = new EventConstructor(`bindEvent:${eventName}`, { bubbles: true, detail });
+  Object.assign(event, { eventType: "bindEvent", eventName });
   fireEvent(ref.current as unknown as Element, event);
+}
+
+function fireInput(
+  ref: { current: NodesRef | null },
+  element: Element,
+  value: string,
+  { selection = value.length, isComposing = false } = {},
+) {
+  fireNativeEvent(ref, element, "input", {
+    value,
+    selectionStart: selection,
+    selectionEnd: selection,
+    isComposing,
+  });
+}
+
+function fireSelection(ref: { current: NodesRef | null }, element: Element, selection: number) {
+  fireNativeEvent(ref, element, "selection", {
+    selectionStart: selection,
+    selectionEnd: selection,
+  });
 }
 
 async function flushReconciliation() {
@@ -113,6 +131,70 @@ describe("SegmentedTextInput", () => {
     );
     expect(calls[2]).toContainEqual(expect.objectContaining({ method: "focus" }));
     expect(calls[2]).not.toContainEqual(expect.objectContaining({ method: "setValue" }));
+  });
+
+  it("keeps a paste inside the segment when unselected characters follow the caret", async () => {
+    const onValueChange = vi.fn();
+    const refs = [createRef<NodesRef>(), createRef<NodesRef>()];
+    render(
+      <SegmentedTextInput.Root defaultValue={["1234", "5678"]} onValueChange={onValueChange}>
+        <SegmentedTextInput.Segment ref={refs[0]} accessibility-label="앞 4자리" length={4} />
+        <SegmentedTextInput.Segment ref={refs[1]} accessibility-label="뒤 4자리" length={4} />
+      </SegmentedTextInput.Root>,
+    );
+    const calls = refs.map(stubInvoke);
+    const inputs = getInputs();
+
+    fireSelection(refs[0]!, inputs[0]!, 2);
+    fireInput(refs[0]!, inputs[0]!, "129934", { selection: 4 });
+    await flushReconciliation();
+
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(calls[0]).toContainEqual(
+      expect.objectContaining({ method: "setValue", params: { value: "1234" } }),
+    );
+
+    fireSelection(refs[0]!, inputs[0]!, 0);
+    fireInput(refs[0]!, inputs[0]!, "1234", { selection: 0 });
+    fireSelection(refs[0]!, inputs[0]!, 4);
+    fireInput(refs[0]!, inputs[0]!, "123");
+    expect(onValueChange).toHaveBeenLastCalledWith(["123", "5678"]);
+  });
+
+  it("judges a composition against the value before it started", async () => {
+    const onValueChange = vi.fn();
+    const refs = [createRef<NodesRef>(), createRef<NodesRef>(), createRef<NodesRef>()];
+    render(
+      <SegmentedTextInput.Root defaultValue={["abcd", "123", ""]} onValueChange={onValueChange}>
+        <SegmentedTextInput.Segment
+          ref={refs[0]}
+          accessibility-label="문자"
+          length={4}
+          type="text"
+        />
+        <SegmentedTextInput.Segment ref={refs[1]} accessibility-label="숫자" length={4} />
+        <SegmentedTextInput.Segment ref={refs[2]} accessibility-label="다음" length={4} />
+      </SegmentedTextInput.Root>,
+    );
+    const calls = refs.map(stubInvoke);
+    const inputs = getInputs();
+
+    // 자리 수를 넘는 조합은 조합 전 값으로 되돌린다.
+    fireSelection(refs[0]!, inputs[0]!, 2);
+    fireInput(refs[0]!, inputs[0]!, "ab한cd", { selection: 3, isComposing: true });
+    fireInput(refs[0]!, inputs[0]!, "ab한cd", { selection: 3 });
+    await flushReconciliation();
+
+    expect(onValueChange).toHaveBeenLastCalledWith(["abcd", "123", ""]);
+
+    // 끝에서 조합해 Segment를 채우면 조합이 끝난 뒤 다음 Segment로 이동한다.
+    fireSelection(refs[1]!, inputs[1]!, 3);
+    fireInput(refs[1]!, inputs[1]!, "1234", { isComposing: true });
+    expect(calls[2]).not.toContainEqual(expect.objectContaining({ method: "focus" }));
+    fireInput(refs[1]!, inputs[1]!, "1234");
+
+    expect(onValueChange).toHaveBeenLastCalledWith(["abcd", "1234", ""]);
+    expect(calls[2]).toContainEqual(expect.objectContaining({ method: "focus" }));
   });
 
   it("normalizes a pasted birth date for a bday segment", () => {

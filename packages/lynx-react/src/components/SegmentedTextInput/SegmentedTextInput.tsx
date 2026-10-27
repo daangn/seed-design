@@ -474,6 +474,10 @@ interface InputSnapshot {
   end: number;
 }
 
+interface InputState extends InputSnapshot {
+  value: string;
+}
+
 const SegmentedTextInputSegmentControl = React.forwardRef<
   NodesRef,
   SegmentedTextInputInputSegmentProps & { segmentKey: object }
@@ -509,6 +513,8 @@ const SegmentedTextInputSegmentControl = React.forwardRef<
     const latest = React.useRef({ index, value, length, normalize, isBirthDate });
     latest.current = { index, value, length, normalize, isBirthDate };
     const selectionRef = React.useRef<InputSnapshot | null>(null);
+    // 조합을 시작하기 전의 값과 선택 영역. 조합이 끝난 입력을 이 상태에서 바꾼 것으로 판단한다.
+    const compositionRef = React.useRef<InputState | null>(null);
 
     const handleInput = React.useCallback(
       (event: TextFieldInputEvent) => {
@@ -516,29 +522,66 @@ const SegmentedTextInputSegmentControl = React.forwardRef<
 
         const { value: raw, selectionStart, selectionEnd, isComposing } = event.detail;
         const { index, value, length, normalize, isBirthDate } = latest.current;
-        const snapshot = selectionRef.current ?? { start: value.length, end: value.length };
+        const selection = selectionRef.current ?? { start: value.length, end: value.length };
         selectionRef.current = { start: selectionStart, end: selectionEnd };
 
         if (isComposing) {
           // 조합 중에는 값만 반영하고, 정규화와 자동 이동은 조합이 끝난 입력에서 판단한다.
+          compositionRef.current ??= { ...selection, value };
           ctx.setSegmentValues({ [index]: raw });
         } else {
-          const insertedLength = raw.length - (value.length - (snapshot.end - snapshot.start));
+          const composed = compositionRef.current !== null;
+          const before = compositionRef.current ?? { ...selection, value };
+          compositionRef.current = null;
 
-          if (insertedLength > 1) {
-            // paste 이벤트가 없으므로 한 번에 여러 글자가 들어오면 붙여넣기·자동완성으로 본다.
-            const text = (isBirthDate && normalizeBirthDate(raw, length)) || normalize(raw);
-            ctx.distribute(index, text);
+          // 입력은 이전 선택 영역을 바꾼 것으로 본다. 앞뒤 값이 그대로면 바뀐 부분만 정규화한다.
+          const prefix = before.value.slice(0, before.start);
+          const suffix = before.value.slice(before.end);
+          const keepsSurroundings =
+            raw.length >= prefix.length + suffix.length &&
+            raw.startsWith(prefix) &&
+            raw.endsWith(suffix);
+          const inserted = keepsSurroundings
+            ? raw.slice(prefix.length, raw.length - suffix.length)
+            : null;
+          // 자리 수를 넘는 값은 반영하지 않고 이전 값으로 되돌린다. native 값은 TextField 동기화가 맞춘다.
+          const revert = () => ctx.setSegmentValues({ [index]: before.value });
+
+          // paste 이벤트가 없으므로 조합이 아닌 입력으로 여러 글자가 들어오면 붙여넣기·자동완성으로 본다.
+          const insertedLength =
+            inserted?.length ?? raw.length - (before.value.length - (before.end - before.start));
+          const isPaste = !composed && insertedLength > 1;
+
+          if (isPaste) {
+            const date = isBirthDate ? normalizeBirthDate(inserted ?? raw, length) : null;
+
+            if (date) {
+              ctx.distribute(index, date);
+            } else if (suffix !== "") {
+              // 뒤에 선택하지 않은 값이 남아 있으면 현재 Segment 안에서만 반영한다.
+              const next =
+                inserted === null ? normalize(raw) : prefix + normalize(inserted) + suffix;
+              if (next.length > length) revert();
+              else ctx.setSegmentValues({ [index]: next });
+            } else {
+              // 앞 값까지 바뀐 입력(자동완성 교체 등)은 Segment 전체를 바꾼다.
+              ctx.distribute(
+                index,
+                inserted === null ? normalize(raw) : prefix + normalize(inserted),
+              );
+            }
           } else {
-            const next = normalize(raw);
-            // 자리 수를 넘는 입력은 반영하지 않는다. native 값은 TextField 동기화가 되돌린다.
-            if (next.length <= length) {
+            const next = inserted === null ? normalize(raw) : prefix + normalize(inserted) + suffix;
+
+            if (next.length > length) {
+              revert();
+            } else {
               ctx.setSegmentValues({ [index]: next });
 
               const typedAtEnd =
-                snapshot.start === snapshot.end &&
-                snapshot.end === value.length &&
-                next.length > value.length;
+                before.start === before.end &&
+                before.end === before.value.length &&
+                next.length > before.value.length;
               if (typedAtEnd && next.length === length) ctx.focusSegment(index + 1);
             }
           }
