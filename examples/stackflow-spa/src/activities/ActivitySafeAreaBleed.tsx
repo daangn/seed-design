@@ -119,7 +119,7 @@ const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"
           </VStack>
           <Section
             title="Tabs"
-            description="extendSafeAreaX를 주면 목록 배경과 하단 선, 스와이프하는 패널이 화면 끝까지 이어지고, 탭과 패널 내용은 safe area 안에 남아요."
+            description="extendSafeAreaX를 주면 목록 배경과 하단 선이 화면 끝까지 이어지고 패널도 화면 끝까지 스와이프돼요. 탭과 패널 내용은 safe area 안에 남아요."
           >
             <TabsRoot defaultValue={TABS[0]} extendSafeAreaX={extendSafeAreaX}>
               <TabsList>
@@ -132,21 +132,16 @@ const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"
               <TabsCarousel swipeable>
                 {TABS.map((tab) => (
                   <TabsContent key={tab} value={tab}>
-                    {/* The pane re-applies the inset as padding, so the panel background bleeds
-                        the same way it would directly inside AppScreenContent. */}
                     <Box
-                      {...(extendSafeAreaX && {
-                        bleedX: "safeArea" as const,
-                        pl: "safeArea" as const,
-                        pr: "safeArea" as const,
-                      })}
-                      bg="bg.neutralWeak"
+                      px="spacingX.globalGutter"
+                      py="x6"
+                      bg="bg.informativeWeak"
+                      borderWidth={1}
+                      borderColor="stroke.neutralMuted"
                     >
-                      <Box px="spacingX.globalGutter" py="x6">
-                        <Text textStyle="t4Medium" color="fg.neutral">
-                          {tab} 패널
-                        </Text>
-                      </Box>
+                      <Text textStyle="t4Medium" color="fg.neutral">
+                        {tab} 패널
+                      </Text>
                     </Box>
                   </TabsContent>
                 ))}
