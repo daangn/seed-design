@@ -26,10 +26,11 @@ physical `top` / `right` / `bottom` / `left` longhands for Lynx.
 ## Authoring rules
 
 - Model root/text/compound parts explicitly with `defineSlotRecipe`.
-- Do not rely on `initial`, `inherit`, or `unset`; write explicit fallback values.
+- Do not rely on `initial` or `unset`; write explicit fallback values. `inherit`
+  is supported by Lynx and allowed.
 - Do not write `inset` or `inset-*` shorthand in source; use physical longhands
   when a full-position fill is needed.
-- Avoid web-only CSS such as `boxSizing`, `verticalAlign`, SVG stroke/fill CSS,
+- Avoid web-only CSS such as `verticalAlign`, SVG stroke/fill CSS,
   generated `content`, and attribute selector based theme switching.
 - Use Lynx class selectors such as `.seed-color-mode-dark-only` for theme
   branches.

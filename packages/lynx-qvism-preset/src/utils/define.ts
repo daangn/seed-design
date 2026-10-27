@@ -15,7 +15,7 @@ import type {
 type CssVarRef = `var(--${string})`;
 type CssVarKey = `--${string}`;
 
-type CssWideKeyword = "initial" | "inherit" | "unset";
+type CssWideKeyword = "initial" | "unset";
 
 type ForbiddenLynxStyleKey =
   | "inset"
@@ -25,7 +25,6 @@ type ForbiddenLynxStyleKey =
   | "insetInline"
   | "insetInlineEnd"
   | "insetInlineStart"
-  | "boxSizing"
   | "verticalAlign"
   | "font"
   | "fontFeatureSettings"
