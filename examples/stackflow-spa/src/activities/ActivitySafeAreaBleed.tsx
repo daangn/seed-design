@@ -13,7 +13,11 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
-import { AttachmentField, AttachmentInput } from "seed-design/ui/attachment-field";
+import {
+  AttachmentDropzone,
+  AttachmentField,
+  AttachmentInput,
+} from "seed-design/ui/attachment-field";
 import { ChipTabsList, ChipTabsRoot, ChipTabsTrigger } from "seed-design/ui/chip-tabs";
 import { ActionablePageBanner } from "seed-design/ui/page-banner";
 import { Switch } from "seed-design/ui/switch";
@@ -217,6 +221,31 @@ const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"
                 }}
               >
                 <AttachmentInput />
+              </AttachmentField>
+            </Box>
+          </Section>
+          <Section
+            title="Attachment Field (Dropzone)"
+            description="extendSafeAreaX를 주어도 dropzone은 safe area 안에 남고, 항목 목록만 화면 끝까지 스크롤돼요."
+          >
+            <Box px="spacingX.globalGutter">
+              <AttachmentField
+                maxFiles={8}
+                label="첨부파일"
+                defaultAcceptedFileEntries={mockedFiles.map((file, index) => ({
+                  id: `${index}`,
+                  file,
+                  status: "pending",
+                }))}
+                extendSafeAreaX={extendSafeAreaX}
+                rootProps={{
+                  style: {
+                    "--seed-attachment-input-extend-x":
+                      "var(--seed-dimension-spacing-x-global-gutter)",
+                  } as React.CSSProperties,
+                }}
+              >
+                <AttachmentDropzone />
               </AttachmentField>
             </Box>
           </Section>
