@@ -39,6 +39,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityAccordion: lazy(() => import("../activities/ActivityAccordion")),
     ActivityActionButton: lazy(() => import("../activities/ActivityActionButton")),
     ActivityAppBarSlot: lazy(() => import("../activities/ActivityAppBarSlot")),
+    ActivityAppBarTextButton: lazy(() => import("../activities/ActivityAppBarTextButton")),
     ActivityAlertDialog: lazy(() => import("../activities/ActivityAlertDialog")),
     ActivityAnimateFalseTest: lazy(() => import("../activities/ActivityAnimateFalseTest")),
     ActivityAlertDialogActivity: lazy(() => import("../activities/ActivityAlertDialogActivity")),

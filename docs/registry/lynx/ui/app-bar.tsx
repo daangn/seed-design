@@ -69,6 +69,10 @@ export interface AppBarIconButtonProps extends SeedAppBar.IconButtonProps {}
 
 export const AppBarIconButton = SeedAppBar.IconButton;
 
+export interface AppBarTextButtonProps extends SeedAppBar.TextButtonProps {}
+
+export const AppBarTextButton = SeedAppBar.TextButton;
+
 export interface AppBarBackButtonProps extends Omit<AppBarIconButtonProps, "icon"> {
   icon?: AppBarIconButtonProps["icon"];
 }

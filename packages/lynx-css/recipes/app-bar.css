@@ -51,6 +51,44 @@
 .seed-app-bar__icon {
     flex-shrink: 0;
 }
+.seed-app-bar__textButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    height: 44px;
+    border-width: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: var(--seed-dimension-x2_5);
+    padding-right: var(--seed-dimension-x2_5);
+    border-radius: var(--seed-radius-r2);
+    background-color: var(--seed-color-bg-transparent);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+}
+.seed-app-bar__textButton:active {
+    background-color: var(--seed-color-bg-transparent-pressed);
+}
+.seed-app-bar__textButton.seed-app-bar__text-button-disabled:active {
+    background-color: var(--seed-color-bg-transparent);
+}
+.seed-app-bar__textButton.seed-app-bar__text-button-edge-leading {
+    margin-left: calc(var(--seed-dimension-x1_5) - var(--seed-dimension-x4));
+}
+.seed-app-bar__textButton.seed-app-bar__text-button-edge-trailing {
+    margin-right: calc(var(--seed-dimension-x1_5) - var(--seed-dimension-x4));
+}
+.seed-app-bar__textButtonLabel {
+    flex-shrink: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+    font-weight: var(--seed-font-weight-medium);
+}
 .seed-app-bar__custom {
     display: flex;
     flex-direction: row;
@@ -75,6 +113,9 @@
 .seed-app-bar__icon--theme_cupertino {
     width: 24px;
     height: 24px;
+}
+.seed-app-bar__textButton--theme_cupertino {
+    max-width: 96px;
 }
 .seed-app-bar__root--theme_android {
     height: calc(56px + var(--seed-safe-area-top));
@@ -103,9 +144,21 @@
 .seed-app-bar__icon--tone_layer {
     color: var(--seed-color-fg-neutral);
 }
+.seed-app-bar__textButtonLabel--tone_layer {
+    color: var(--seed-color-fg-neutral);
+}
+.seed-app-bar__textButtonLabel--tone_layer.seed-app-bar__text-button-label-disabled {
+    color: var(--seed-color-fg-disabled);
+}
 .seed-app-bar__background--tone_transparent {
     background: #00000000;
 }
 .seed-app-bar__icon--tone_transparent {
     color: var(--seed-color-palette-static-white);
+}
+.seed-app-bar__textButtonLabel--tone_transparent {
+    color: var(--seed-color-palette-static-white);
+}
+.seed-app-bar__textButtonLabel--tone_transparent.seed-app-bar__text-button-label-disabled {
+    color: var(--seed-color-fg-disabled);
 }

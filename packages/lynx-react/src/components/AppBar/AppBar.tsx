@@ -24,6 +24,7 @@ import { IconSlotProvider } from "../Icon/Icon";
 import { getMainLayoutStyle, useStyledAppBar, useStyledAppBarContext } from "./useStyledAppBar";
 import { mergeProps } from "../../utils/merge-props";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import { getAccessibleText } from "../../utils/accessibility";
 
 type AppBarClassNames = ReturnType<typeof appBar>;
 type AppBarMainClassNames = ReturnType<typeof appBarMain>;
@@ -52,7 +53,7 @@ function useAppBarMainClassNames(consumer: string): AppBarMainClassNames {
 }
 
 /**
- * 아이콘 버튼의 bleed 보정 방향. `leading`은 왼쪽, `trailing`은 오른쪽, `both`는 양쪽.
+ * 아이콘·텍스트 버튼의 bleed 보정 방향. `leading`은 왼쪽, `trailing`은 오른쪽, `both`는 양쪽.
  */
 export type AppBarEdge = "leading" | "trailing" | "both";
 
@@ -308,6 +309,80 @@ export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>
   );
 });
 AppBarIconButton.displayName = "AppBarIconButton";
+
+export interface AppBarTextButtonProps extends LynxHostProps<"view"> {
+  /**
+   * tap 핸들러(`bindtap`·`catchtap`과 capture·main-thread 변형)와 눌림 피드백을 막고 비활성 색상을 적용한다.
+   * `accessibility-traits`를 따로 주지 않으면 `"disabled"`로 알린다.
+   * @default false
+   */
+  disabled?: boolean;
+  /**
+   * 슬롯의 첫·마지막 자식이 텍스트 버튼이면 해당 방향을, 유일한 자식이면 양쪽을 자동 보정한다.
+   * 명시하면 `AppBarLeft` / `AppBarRight`에서 감지한 자동 보정 방향을 덮어쓴다.
+   */
+  edge?: AppBarEdge;
+}
+
+const TAP_HANDLER_PATTERN = /^(main-thread:)?(capture-)?(bind|catch)tap$/;
+
+function omitTapHandlers<T extends object>(props: T): T {
+  return Object.fromEntries(
+    Object.entries(props).filter(([key]) => !TAP_HANDLER_PATTERN.test(key)),
+  ) as T;
+}
+
+export const AppBarTextButton = React.forwardRef<unknown, AppBarTextButtonProps>((props, ref) => {
+  const {
+    children,
+    className,
+    edge,
+    disabled = false,
+    "accessibility-element": accessibilityElement = true,
+    "accessibility-label": accessibilityLabel,
+    "accessibility-traits": accessibilityTraits = disabled ? "disabled" : "button",
+    ...nativeProps
+  } = props;
+  const classNames = useAppBarClassNames("AppBarTextButton");
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({ disabled });
+  const automaticEdge = React.useContext(AppBarEdgeContext);
+  const resolvedEdge = edge ?? automaticEdge;
+
+  return (
+    <view
+      {...mergeProps(
+        {
+          "accessibility-element": accessibilityElement,
+          "accessibility-label": accessibilityLabel ?? getAccessibleText(children),
+          "accessibility-traits": accessibilityTraits,
+        },
+        scaleFeedbackTriggerProps,
+        scaleFeedbackTargetProps,
+        disabled ? omitTapHandlers(nativeProps) : nativeProps,
+        ref ? { ref: ref as LynxViewRef } : {},
+      )}
+      className={clsx(
+        classNames.textButton,
+        disabled && "seed-app-bar__text-button-disabled",
+        (resolvedEdge === "leading" || resolvedEdge === "both") &&
+          "seed-app-bar__text-button-edge-leading",
+        (resolvedEdge === "trailing" || resolvedEdge === "both") &&
+          "seed-app-bar__text-button-edge-trailing",
+        className,
+      )}
+    >
+      <text
+        className={clsx(
+          classNames.textButtonLabel,
+          disabled && "seed-app-bar__text-button-label-disabled",
+        )}
+      >
+        {children}
+      </text>
+    </view>
+  );
+});
+AppBarTextButton.displayName = "AppBarTextButton";
 
 export interface AppBarSlotProps extends LynxHostProps<"view"> {
   /**
