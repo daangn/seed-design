@@ -26,6 +26,10 @@ export default defineMain({
     options: {},
   },
   staticDirs: ["../public"],
+  viteFinal(config) {
+    // staticDirs와 Vite가 같은 public 폴더를 동시에 복사하면 EEXIST가 발생할 수 있습니다.
+    return { ...config, build: { ...config.build, copyPublicDir: false } };
+  },
   core: {
     allowedHosts: [".test"],
   },
