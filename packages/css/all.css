@@ -7457,6 +7457,48 @@
   scale: var(--seed-feedback-scale);
 }
 
+.seed-next-app-bar__textButton {
+  box-sizing: border-box;
+  min-width: 0;
+  height: 44px;
+  padding-block: 0;
+  padding-inline: var(--seed-dimension-x2_5);
+  background-color: var(--seed-color-bg-transparent);
+  border-radius: var(--seed-radius-r2);
+  transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+  outline: var(--seed-dimension-x0_5) solid transparent;
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+  border: none;
+  justify-content: center;
+  align-items: center;
+  font-family: inherit;
+  text-decoration: none;
+  display: flex;
+}
+
+.seed-next-app-bar__textButton:is(:focus-visible, [data-focus-visible]) {
+  outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+  outline-offset: calc(var(--seed-dimension-x0_5) * -1);
+}
+
+.seed-next-app-bar__textButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+  background-color: var(--seed-color-bg-transparent-pressed);
+  scale: var(--seed-feedback-scale);
+}
+
+.seed-next-app-bar__textButtonLabel {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: clamp(calc(var(--seed-font-size-t5-static) * 1), var(--seed-font-size-t5), calc(var(--seed-font-size-t5-static) * 1.2));
+  font-weight: var(--seed-font-weight-medium);
+  line-height: clamp(calc(var(--seed-line-height-t5-static) * 1), var(--seed-line-height-t5), calc(var(--seed-line-height-t5-static) * 1.2));
+  overflow: hidden;
+}
+
+.seed-next-app-bar__textButton--theme_cupertino {
+  max-width: 96px;
+}
+
 .seed-next-app-bar__left--theme_android {
   padding-right: var(--seed-dimension-x1_5);
 }
@@ -7469,12 +7511,28 @@
   --seed-icon-color: var(--seed-color-fg-neutral);
 }
 
+.seed-next-app-bar__textButton--tone_layer {
+  color: var(--seed-color-fg-neutral);
+}
+
+.seed-next-app-bar__textButton--tone_layer:is(:disabled, [disabled], [data-disabled]) {
+  color: var(--seed-color-fg-disabled);
+}
+
 .seed-next-app-bar__root--tone_transparent {
   background-color: #0000;
 }
 
 .seed-next-app-bar__iconButton--tone_transparent {
   --seed-icon-color: var(--seed-color-palette-static-white);
+}
+
+.seed-next-app-bar__textButton--tone_transparent {
+  color: var(--seed-color-palette-static-white);
+}
+
+.seed-next-app-bar__textButton--tone_transparent:is(:disabled, [disabled], [data-disabled]) {
+  color: var(--seed-color-fg-disabled);
 }
 
 .seed-next-app-bar__background--tone_transparent-gradient_true {
