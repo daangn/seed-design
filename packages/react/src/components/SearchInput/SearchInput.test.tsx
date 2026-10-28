@@ -48,6 +48,18 @@ describe("SearchInput", () => {
       expect(input).toHaveFocus();
     });
 
+    it("should stop a surrounding form from submitting only when onSubmit is set", () => {
+      const withOnSubmit = setUp({ onSubmit: () => {} });
+      // `fireEvent` returns false when the default action is prevented.
+      expect(fireEvent.keyDown(withOnSubmit.getByRole("searchbox"), { key: "Enter" })).toBe(false);
+      withOnSubmit.unmount();
+
+      const withoutOnSubmit = setUp();
+      expect(fireEvent.keyDown(withoutOnSubmit.getByRole("searchbox"), { key: "Enter" })).toBe(
+        true,
+      );
+    });
+
     it("should ignore Enter that confirms an IME composition", () => {
       const handleSubmit = mock(() => {});
       const { getByRole } = setUp({ defaultValue: "당근", onSubmit: handleSubmit });

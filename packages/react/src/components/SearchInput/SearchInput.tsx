@@ -71,8 +71,12 @@ export const SearchInputInput = forwardRef<HTMLInputElement, SearchInputInputPro
           // Enter that confirms an IME composition is not a submit. Safari reports `isComposing: false`
           // for that Enter but still sets `keyCode` to 229.
           if (event.nativeEvent.isComposing || event.keyCode === 229) return;
-
-          onSubmit?.(event.currentTarget.value);
+          if (onSubmit) {
+            // `onSubmit` handles the submit, so a surrounding form must not submit too.
+            // Without `onSubmit`, Enter keeps submitting the form.
+            event.preventDefault();
+            onSubmit(event.currentTarget.value);
+          }
 
           if (blurOnSubmit) {
             event.currentTarget.blur();
