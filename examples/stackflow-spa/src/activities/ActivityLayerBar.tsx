@@ -5,6 +5,7 @@ import {
   NextAppBarRight,
   NextAppBarMain,
   NextAppBarIconButton,
+  NextAppBarTextButton,
 } from "seed-design/ui/next-app-bar";
 import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 
@@ -14,7 +15,8 @@ import {
   IconHouseLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { ActionButton } from "seed-design/ui/action-button";
-import { HStack, Icon, PrefixIcon, VStack } from "@seed-design/react";
+import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
+import { HStack, Icon, PrefixIcon, Text, VStack } from "@seed-design/react";
 import { useState } from "react";
 
 declare module "@stackflow/config" {
@@ -23,31 +25,71 @@ declare module "@stackflow/config" {
   }
 }
 
+const BUTTON_KINDS = ["icon", "text", "longText"] as const;
+type ButtonKind = (typeof BUTTON_KINDS)[number];
+
+const BUTTON_KIND_LABELS = {
+  icon: "Icon",
+  text: "Text",
+  longText: "Long Text",
+} as const satisfies Record<ButtonKind, string>;
+
+const SIDES = ["left", "right"] as const;
+
+const TITLES = {
+  short: "Title",
+  long: "Random Long Title Hello World Commodo occaecat laboris voluptate aute magna.",
+} as const;
+
+const SUBTITLES = {
+  none: undefined,
+  short: "Subtitle",
+  long: "Subtitle Ut voluptate in sint sunt adipisicing ex adipisicing magna ad fugiat excepteur commodo voluptate.",
+} as const;
+
+function renderButton(kind: ButtonKind, index: number, disabled: boolean) {
+  switch (kind) {
+    case "icon":
+      return (
+        <NextAppBarIconButton key={index} aria-label="Notification" disabled={disabled}>
+          <Icon svg={<IconBellLine />} />
+        </NextAppBarIconButton>
+      );
+    case "text":
+      return (
+        <NextAppBarTextButton key={index} disabled={disabled}>
+          완료
+        </NextAppBarTextButton>
+      );
+    case "longText":
+      return (
+        <NextAppBarTextButton key={index} disabled={disabled}>
+          아주 긴 텍스트 버튼
+        </NextAppBarTextButton>
+      );
+  }
+}
+
 const ActivityLayerBar: StaticActivityComponentType<"ActivityLayerBar"> = () => {
   const { push, pop } = useFlow();
 
-  const [counts, setCounts] = useState({ left: 1, right: 1 });
+  const [buttons, setButtons] = useState<Record<(typeof SIDES)[number], ButtonKind[]>>({
+    left: ["icon"],
+    right: ["icon"],
+  });
+  const [title, setTitle] = useState<keyof typeof TITLES>("long");
+  const [subtitle, setSubtitle] = useState<keyof typeof SUBTITLES>("long");
+  const [disabled, setDisabled] = useState(false);
 
   return (
     <NextAppScreen>
       <NextAppBar>
         <NextAppBarLeft>
-          {Array.from({ length: counts.left }).map((_, index) => (
-            <NextAppBarIconButton key={index} aria-label="Notification">
-              <Icon svg={<IconBellLine />} />
-            </NextAppBarIconButton>
-          ))}
+          {buttons.left.map((kind, index) => renderButton(kind, index, disabled))}
         </NextAppBarLeft>
-        <NextAppBarMain
-          title="Random Long Title Hello World Commodo occaecat laboris voluptate aute magna."
-          subtitle="Subtitle Ut voluptate in sint sunt adipisicing ex adipisicing magna ad fugiat excepteur commodo voluptate."
-        />
+        <NextAppBarMain title={TITLES[title]} subtitle={SUBTITLES[subtitle]} />
         <NextAppBarRight>
-          {Array.from({ length: counts.right }).map((_, index) => (
-            <NextAppBarIconButton key={index} aria-label="Notification">
-              <Icon svg={<IconBellLine />} />
-            </NextAppBarIconButton>
-          ))}
+          {buttons.right.map((kind, index) => renderButton(kind, index, disabled))}
         </NextAppBarRight>
       </NextAppBar>
       <NextAppScreenContent>
@@ -62,48 +104,72 @@ const ActivityLayerBar: StaticActivityComponentType<"ActivityLayerBar"> = () => 
             <PrefixIcon svg={<IconHouseLine />} />
             ActivityHome
           </ActionButton>
-          <HStack gap="x2">
-            <ActionButton
-              variant="neutralWeak"
-              flexGrow
-              onClick={() => setCounts((prev) => ({ ...prev, left: prev.left + 1 }))}
+
+          <VStack gap="x2" align="center">
+            <Text textStyle="t5Bold">Title</Text>
+            <SegmentedControl
+              value={title}
+              onValueChange={(value) => setTitle(value as keyof typeof TITLES)}
+              aria-label="Title"
             >
-              Append Left
-            </ActionButton>
-            <ActionButton
-              variant="neutralWeak"
-              flexGrow
-              onClick={() => setCounts((prev) => ({ ...prev, right: prev.right + 1 }))}
+              <SegmentedControlItem value="short">Short</SegmentedControlItem>
+              <SegmentedControlItem value="long">Long</SegmentedControlItem>
+            </SegmentedControl>
+          </VStack>
+          <VStack gap="x2" align="center">
+            <Text textStyle="t5Bold">Subtitle</Text>
+            <SegmentedControl
+              value={subtitle}
+              onValueChange={(value) => setSubtitle(value as keyof typeof SUBTITLES)}
+              aria-label="Subtitle"
             >
-              Append Right
-            </ActionButton>
-          </HStack>
-          <HStack gap="x2">
-            <ActionButton
-              variant="neutralWeak"
-              flexGrow
-              onClick={() =>
-                setCounts((prev) => ({
-                  ...prev,
-                  left: Math.max(0, prev.left - 1),
-                }))
-              }
+              <SegmentedControlItem value="none">None</SegmentedControlItem>
+              <SegmentedControlItem value="short">Short</SegmentedControlItem>
+              <SegmentedControlItem value="long">Long</SegmentedControlItem>
+            </SegmentedControl>
+          </VStack>
+
+          <VStack gap="x2" align="center">
+            <Text textStyle="t5Bold">Buttons</Text>
+            <SegmentedControl
+              value={disabled ? "disabled" : "enabled"}
+              onValueChange={(value) => setDisabled(value === "disabled")}
+              aria-label="Buttons"
             >
-              Remove Left
-            </ActionButton>
-            <ActionButton
-              variant="neutralWeak"
-              flexGrow
-              onClick={() =>
-                setCounts((prev) => ({
-                  ...prev,
-                  right: Math.max(0, prev.right - 1),
-                }))
-              }
-            >
-              Remove Right
-            </ActionButton>
-          </HStack>
+              <SegmentedControlItem value="enabled">Enabled</SegmentedControlItem>
+              <SegmentedControlItem value="disabled">Disabled</SegmentedControlItem>
+            </SegmentedControl>
+          </VStack>
+
+          {SIDES.map((side) => (
+            <VStack key={side} gap="x2">
+              <Text textStyle="t5Bold">{side === "left" ? "Left" : "Right"}</Text>
+              <HStack gap="x2">
+                {BUTTON_KINDS.map((kind) => (
+                  <ActionButton
+                    key={kind}
+                    variant="neutralWeak"
+                    flexGrow
+                    onClick={() =>
+                      setButtons((prev) => ({ ...prev, [side]: [...prev[side], kind] }))
+                    }
+                  >
+                    + {BUTTON_KIND_LABELS[kind]}
+                  </ActionButton>
+                ))}
+                <ActionButton
+                  variant="neutralWeak"
+                  flexGrow
+                  disabled={buttons[side].length === 0}
+                  onClick={() =>
+                    setButtons((prev) => ({ ...prev, [side]: prev[side].slice(0, -1) }))
+                  }
+                >
+                  Remove
+                </ActionButton>
+              </HStack>
+            </VStack>
+          ))}
         </VStack>
       </NextAppScreenContent>
     </NextAppScreen>
