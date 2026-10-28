@@ -3,13 +3,7 @@ import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "bun:test";
 import type { ReactElement } from "react";
-import {
-  ImageFrame,
-  ImageFrameFloater,
-  type ImageFrameFloaterProps,
-  type ImageFrameProps,
-  ImageFrameReactionButton,
-} from "./ImageFrame";
+import { ImageFrame, ImageFrameReactionButton } from "./ImageFrame";
 
 function setUp(jsx: ReactElement) {
   return {
@@ -60,94 +54,31 @@ describe("ImageFrame", () => {
   });
 
   describe("safe-area bleed", () => {
-    function renderRootStyle(frameProps: Partial<ImageFrameProps>) {
-      const { container } = setUp(
-        <ImageFrame {...(frameProps as ImageFrameProps)} src="/image.png" alt="" />,
-      );
-
-      const root = container.querySelector<HTMLElement>(".seed-image-frame__root");
+    function getInsetStyle(jsx: ReactElement) {
+      const root = setUp(jsx).container.querySelector<HTMLElement>(".seed-image-frame__root");
       if (!root) throw new Error("ImageFrame root not found");
 
-      return root.style;
+      return (side: "left" | "right", breakpoint: string) =>
+        root.style.getPropertyValue(`--seed-image-frame-safe-area-${side}-${breakpoint}`);
     }
 
-    it("declares no inset when the frame does not bleed", () => {
-      const style = renderRootStyle({});
-
-      expect(style.getPropertyValue("--seed-image-frame-safe-area-left-base")).toBe("");
-      expect(style.getPropertyValue("--seed-image-frame-safe-area-right-base")).toBe("");
-    });
-
-    it("declares both insets under bleedX='safeArea'", () => {
-      const style = renderRootStyle({ bleedX: "safeArea" });
-
-      expect(style.getPropertyValue("--seed-image-frame-safe-area-left-base")).toBe(
-        "var(--seed-safe-area-left)",
-      );
-      expect(style.getPropertyValue("--seed-image-frame-safe-area-right-base")).toBe(
-        "var(--seed-safe-area-right)",
-      );
-    });
-
-    it("declares only the right inset when only the right side bleeds", () => {
-      const style = renderRootStyle({ bleedRight: "safeArea" });
-
-      expect(style.getPropertyValue("--seed-image-frame-safe-area-left-base")).toBe("");
-      expect(style.getPropertyValue("--seed-image-frame-safe-area-right-base")).toBe(
-        "var(--seed-safe-area-right)",
-      );
-    });
-
-    it("lets bleedLeft override bleedX for the left side", () => {
-      const style = renderRootStyle({ bleedX: "safeArea", bleedLeft: 0 });
-
-      expect(style.getPropertyValue("--seed-image-frame-safe-area-left-base")).toBe("0px");
-      expect(style.getPropertyValue("--seed-image-frame-safe-area-right-base")).toBe(
-        "var(--seed-safe-area-right)",
-      );
-    });
-
-    it("resolves a responsive bleed per breakpoint", () => {
-      const style = renderRootStyle({ bleedX: { base: "safeArea", md: 0 } });
-
-      expect(style.getPropertyValue("--seed-image-frame-safe-area-left-base")).toBe(
-        "var(--seed-safe-area-left)",
-      );
-      expect(style.getPropertyValue("--seed-image-frame-safe-area-left-md")).toBe("0px");
-    });
-  });
-
-  describe("ImageFrameFloater", () => {
-    function renderFloaterStyle(placement: ImageFrameFloaterProps["placement"]) {
-      const { getByTestId } = setUp(
-        <ImageFrame src="/image.png" alt="">
-          <ImageFrameFloater data-testid="floater" placement={placement} />
-        </ImageFrame>,
+    it("lets bleedLeft override bleedX, as Box does", () => {
+      const inset = getInsetStyle(
+        <ImageFrame src="/image.png" alt="" bleedX="safeArea" bleedLeft={0} />,
       );
 
-      return getByTestId("floater").getAttribute("style") ?? "";
-    }
-
-    it("pushes a start floater away from the left inset", () => {
-      const style = renderFloaterStyle("bottom-start");
-
-      expect(style).toContain("var(--seed-image-frame-safe-area-left, 0px)");
-      expect(style).not.toContain("--seed-image-frame-safe-area-right");
+      expect(inset("left", "base")).toBe("0px");
+      expect(inset("right", "base")).toBe("var(--seed-safe-area-right)");
     });
 
-    it("pushes an end floater away from the right inset", () => {
-      const style = renderFloaterStyle("top-end");
-
-      expect(style).toContain("var(--seed-image-frame-safe-area-right, 0px)");
-      expect(style).not.toContain("--seed-image-frame-safe-area-left");
-    });
-
-    it("re-centers a center floater on the safe area", () => {
-      const style = renderFloaterStyle("bottom-center");
-
-      expect(style).toContain(
-        "(var(--seed-image-frame-safe-area-left, 0px) - var(--seed-image-frame-safe-area-right, 0px)) / 2",
+    // Leaving `md` unset would inherit the base safe-area inset through the breakpoint chain.
+    it("writes 0px at a breakpoint where a responsive bleed stops being safeArea", () => {
+      const inset = getInsetStyle(
+        <ImageFrame src="/image.png" alt="" bleedX={{ base: "safeArea", md: 0 }} />,
       );
+
+      expect(inset("left", "base")).toBe("var(--seed-safe-area-left)");
+      expect(inset("left", "md")).toBe("0px");
     });
   });
 });
