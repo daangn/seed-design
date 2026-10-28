@@ -9380,6 +9380,10 @@
     display: flex;
   }
 
+  .seed-search-input__clearButton:is([hidden], [data-hidden]) {
+    display: none;
+  }
+
   .seed-search-input__clearButton:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     scale: var(--seed-feedback-scale);
   }

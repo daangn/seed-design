@@ -1,6 +1,6 @@
 import { searchInput as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { pseudo, focusVisible, active, disabled, not } from "../utils/pseudo";
+import { pseudo, focusVisible, active, disabled, hidden, not } from "../utils/pseudo";
 import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import {
   createFocusRingRestStyles,
@@ -73,6 +73,11 @@ const searchInput = defineSlotRecipe({
       paddingBlock: vars.base.enabled.clearButton.paddingY,
 
       borderRadius: tokens.$radius.full,
+
+      // `display: flex` overrides the `hidden` attribute set while the field is disabled or read-only.
+      [pseudo(hidden)]: {
+        display: "none",
+      },
 
       [pseudo(not(disabled), active)]: createScaleFeedbackStyles(),
 
