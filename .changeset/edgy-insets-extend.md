@@ -1,7 +1,6 @@
 ---
 "@seed-design/css": minor
 "@seed-design/react": minor
-"@seed-design/react-tabs": patch
 ---
 
 Tabs, Chip Tabs, Page Banner, Attachment Input, Attachment Display에 `extendSafeAreaX` 속성을 추가합니다. 지정하면 배경과 스크롤 영역이 좌우 safe area inset까지 화면 끝으로 넓어지고, 탭, chip, 항목, 글자 같은 내용은 safe area 안에 남습니다.
