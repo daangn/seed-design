@@ -44,7 +44,11 @@ export interface PullToRefreshIndicatorRenderProps {
   mainThreadProgress: MainThreadRef<MainThreadProgress>;
 }
 
-type ScrollEvent = Parameters<NonNullable<IntrinsicElements["scroll-view"]["bindscroll"]>>[0];
+/** scroll-view와 list의 scroll 계열 이벤트가 공통으로 보내는 `detail.scrollTop`만 사용합니다. */
+type ScrollEvent =
+  | Parameters<NonNullable<IntrinsicElements["scroll-view"]["bindscroll"]>>[0]
+  | Parameters<NonNullable<IntrinsicElements["list"]["bindscroll"]>>[0]
+  | Parameters<NonNullable<IntrinsicElements["list"]["bindscrolltoupper"]>>[0];
 type LayoutEvent = Parameters<
   NonNullable<IntrinsicElements["view"]["main-thread:bindlayoutchange"]>
 >[0];
@@ -59,7 +63,10 @@ export interface UsePullToRefreshContext {
   mainThreadProgress: MainThreadRef<MainThreadProgress>;
   gesture: NativeGesture;
   resetContact: () => void;
+  /** scroll-view Content용입니다. 경계 이탈을 `scrollTo`로 되돌립니다. */
   handleScroll: (event: ScrollEvent) => void;
+  /** list Content용입니다. list에는 `scrollTo`가 없어(Android) `scrollToPosition`으로 되돌립니다. */
+  handleListScroll: (event: ScrollEvent) => void;
   handleIndicatorLayout: (event: LayoutEvent) => void;
 }
 
@@ -207,17 +214,30 @@ export function usePullToRefresh(props: UsePullToRefreshProps): UsePullToRefresh
     contact.current.accepted = false;
   }
 
-  function handleScroll(event: ScrollEvent) {
+  /** 수락한 당김 중 native 스크롤이 경계를 벗어났으면 false를 반환합니다. */
+  function trackScroll(event: ScrollEvent): boolean {
     "main thread";
     const nextScrollTop = event.detail.scrollTop;
     if (contact.current.accepted && nextScrollTop > 0) {
       scrollTop.current = 0;
-      contentRef.current
-        ?.invoke("scrollTo", { offset: 0, index: 0, smooth: false })
-        .catch(() => {});
-      return;
+      return false;
     }
     scrollTop.current = nextScrollTop;
+    return true;
+  }
+
+  function handleScroll(event: ScrollEvent) {
+    "main thread";
+    if (trackScroll(event)) return;
+    contentRef.current?.invoke("scrollTo", { offset: 0, index: 0, smooth: false }).catch(() => {});
+  }
+
+  function handleListScroll(event: ScrollEvent) {
+    "main thread";
+    if (trackScroll(event)) return;
+    contentRef.current
+      ?.invoke("scrollToPosition", { position: 0, alignTo: "top", offset: 0, smooth: false })
+      .catch(() => {});
   }
 
   function handleIndicatorLayout(event: LayoutEvent) {
@@ -326,6 +346,7 @@ export function usePullToRefresh(props: UsePullToRefreshProps): UsePullToRefresh
       gesture,
       resetContact,
       handleScroll,
+      handleListScroll,
       handleIndicatorLayout,
     }),
     [
@@ -339,6 +360,7 @@ export function usePullToRefresh(props: UsePullToRefreshProps): UsePullToRefresh
       gesture,
       resetContact,
       handleScroll,
+      handleListScroll,
       handleIndicatorLayout,
     ],
   );
