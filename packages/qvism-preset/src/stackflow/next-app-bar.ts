@@ -11,6 +11,7 @@ import { vars as tokens } from "../vars/";
 import {
   topNavigation as vars,
   topNavigationIconButton as iconButtonVars,
+  topNavigationTextButton as textButtonVars,
 } from "../vars/component";
 
 export const nextAppBarMain = defineSlotRecipe({
@@ -152,7 +153,7 @@ export const nextAppBarMain = defineSlotRecipe({
 
 export const nextAppBar = defineSlotRecipe({
   name: "next-app-bar",
-  slots: ["root", "background", "left", "right", "iconButton"],
+  slots: ["root", "background", "left", "right", "iconButton", "textButton", "textButtonLabel"],
   base: {
     root: {
       // The bar lives inside the screen layer (the transition unit), so it has
@@ -214,10 +215,51 @@ export const nextAppBar = defineSlotRecipe({
         ...createScaleFeedbackStyles(),
       },
     },
+    textButton: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      // `asChild` can render a link, which defaults to `content-box`; keep `maxWidth` including padding.
+      boxSizing: "border-box",
+      minWidth: 0,
+      height: textButtonVars.base.enabled.root.height,
+
+      border: "none",
+      fontFamily: "inherit",
+      // `asChild` can render a link; drop its default underline so it matches the button.
+      textDecoration: "none",
+      paddingBlock: 0,
+      paddingInline: textButtonVars.base.enabled.root.paddingX,
+
+      backgroundColor: textButtonVars.base.enabled.root.color,
+      borderRadius: textButtonVars.base.enabled.root.cornerRadius,
+
+      transition: `background-color ${textButtonVars.base.enabled.root.colorDuration} ${textButtonVars.base.enabled.root.colorTimingFunction}, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+      ...createFocusRingRestStyles({ position: "inside" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
+
+      [pseudo(not(disabled), active)]: {
+        backgroundColor: textButtonVars.base.pressed.root.color,
+        ...createScaleFeedbackStyles(),
+      },
+    },
+    // The label inherits the tone color from `textButton`, which also owns the disabled state.
+    textButtonLabel: {
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      fontSize: `clamp(calc(${tokens.$fontSize.t5Static} * ${textButtonVars.base.enabled.label.minFontSizeScale}), ${textButtonVars.base.enabled.label.fontSize}, calc(${tokens.$fontSize.t5Static} * ${textButtonVars.base.enabled.label.maxFontSizeScale}))`,
+      fontWeight: textButtonVars.base.enabled.label.fontWeight,
+      lineHeight: `clamp(calc(${tokens.$lineHeight.t5Static} * ${textButtonVars.base.enabled.label.minLineHeightScale}), ${textButtonVars.base.enabled.label.lineHeight}, calc(${tokens.$lineHeight.t5Static} * ${textButtonVars.base.enabled.label.maxLineHeightScale}))`,
+    },
   },
   variants: {
     theme: {
-      cupertino: {},
+      cupertino: {
+        textButton: {
+          maxWidth: textButtonVars.themeIos.enabled.root.maxWidth,
+        },
+      },
       android: {
         left: {
           paddingRight: vars.themeAndroid.enabled.main.paddingLeft,
@@ -232,6 +274,12 @@ export const nextAppBar = defineSlotRecipe({
         iconButton: {
           ...onlyIcon({ color: iconButtonVars.toneLayer.enabled.icon.color }),
         },
+        textButton: {
+          color: textButtonVars.toneLayer.enabled.label.color,
+          [pseudo(disabled)]: {
+            color: textButtonVars.toneLayer.disabled.label.color,
+          },
+        },
       },
       transparent: {
         root: {
@@ -239,6 +287,12 @@ export const nextAppBar = defineSlotRecipe({
         },
         iconButton: {
           ...onlyIcon({ color: iconButtonVars.toneTransparent.enabled.icon.color }),
+        },
+        textButton: {
+          color: textButtonVars.toneTransparent.enabled.label.color,
+          [pseudo(disabled)]: {
+            color: textButtonVars.toneTransparent.disabled.label.color,
+          },
         },
       },
     },
