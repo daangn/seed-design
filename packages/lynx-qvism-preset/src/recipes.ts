@@ -52,6 +52,7 @@ import switchRecipe from "./recipes/switch";
 import switchmarkRecipe from "./recipes/switchmark";
 import { tagGroup as lynxTagGroup, tagGroupItem as lynxTagGroupItem } from "./recipes/tag-group";
 import tabs from "./recipes/tabs";
+import searchInput from "./recipes/search-input";
 import textInput from "./recipes/text-input";
 import wheelPicker from "./recipes/wheel-picker";
 import {
@@ -113,6 +114,7 @@ export const recipes = {
   radiomark,
   reactionButton,
   scrollFog,
+  searchInput,
   notificationBadge,
   notificationBadgePositioner,
   segmentedControl,

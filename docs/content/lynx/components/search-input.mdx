@@ -1,0 +1,99 @@
+---
+title: Search Input
+description: 검색어를 입력하고 제출하는 입력 필드입니다. 화면 상단에서는 Search Bar와 함께 사용합니다.
+compatibility:
+  lynx:
+    engine: "3.6"
+    x-elements:
+      - input
+---
+
+<AvailableSince packages="@seed-design/lynx-react@1.1.0, @seed-design/lynx-css@1.1.0" />
+
+<LynxComponentExample name="lynx/search-input/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/search-input/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+화면 상단에서 검색하는 경우에는 Search Input을 직접 배치하지 말고 [Search Bar](/lynx/components/search-bar)를 사용하세요. Search Bar는 Search Input을 App Bar에 Back·닫기 버튼과 함께 배치합니다.
+
+## Installation
+
+```package-install
+npx @seed-design/cli add ui:search-input
+```
+
+<LynxManualInstallation name="search-input" />
+
+## Usage
+
+```tsx
+import { SearchInput } from "@/components/ui/search-input";
+```
+
+```tsx
+<SearchInput
+  value={value}
+  onValueChange={setValue}
+  onSubmit={handleSubmit}
+  placeholder="검색어를 입력해주세요"
+/>
+```
+
+## Props
+
+<react-type-table path="./registry/lynx/ui/search-input.tsx" name="SearchInputProps" />
+
+`placeholder`, `accessibility-label`, `clearButtonLabel`, `inputProps`를 제외한 prop은 `SearchInput.Root`로 전달됩니다. `accessibility-label`(기본값 "검색")은 입력 요소에, `clearButtonLabel`(기본값 "지우기")은 Clear 버튼에 지정됩니다. 입력 요소에 넘길 `maxlength` 등은 `inputProps`로 전달하세요.
+
+### `SearchInput.Root`
+
+Snippet이 감싸는 `@seed-design/lynx-react`의 `SearchInput.Root`입니다. 레이아웃을 직접 조합하려면 `SearchInput.Root`·`SearchInput.Input`·`SearchInput.ClearButton`을 함께 사용하세요.
+
+<react-type-table
+  path="../packages/lynx-react/src/components/SearchInput/SearchInput.tsx"
+  name="SearchInputRootProps"
+/>
+
+## Examples
+
+### Submit
+
+키보드의 검색 키를 누르면 `onSubmit`이 현재 값과 함께 호출됩니다. Lynx `<input>`의 `bindconfirm` 이벤트를 사용합니다.
+
+제출한 뒤에는 입력의 focus를 해제해 키보드를 내립니다. 제출 뒤에도 계속 입력하게 하려면 `blurOnSubmit={false}`를 사용하세요. 이때 Lynx `<input>`의 `confirm-enter`를 켜서 native 입력이 제출 뒤 스스로 focus를 해제하지 않게 합니다.
+
+<LynxComponentExample name="lynx/search-input/submit">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/search-input/submit.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<Callout>
+  이 예제는 네이티브 키보드 동작을 사용합니다. QR 코드 패널에서 Lynx Explorer로 실행한 뒤 입력 영역을 탭하고 키보드의 검색 키를 눌러 확인해 주세요.
+</Callout>
+
+### Clear Button
+
+Clear 버튼은 값이 있을 때만 렌더링되고, 누르면 값을 비웁니다. `value`를 넘기지 않은 uncontrolled 상태에서도 동작하며, `onValueChange`가 빈 문자열과 함께 호출됩니다.
+
+누르는 동안 Scale Feedback으로 살짝 줄어듭니다. 입력에 focus가 있었다면 지운 뒤에도 유지하고, 없었다면 새로 주지 않습니다. Clear 버튼은 `ignore-focus`로 탭이 입력의 focus를 가져가지 않게 합니다.
+
+## Accessibility
+
+- 화면에 보이는 레이블이 없으므로 입력과 Clear 버튼에 레이블이 필요합니다. Snippet은 기본값 "검색"·"지우기"를 지정하며, `accessibility-label`·`clearButtonLabel`로 바꿀 수 있습니다. compound 컴포넌트를 직접 쓸 때 `SearchInput.Input`과 `SearchInput.ClearButton`에 `accessibility-label`이 없으면 개발 콘솔에 경고가 출력됩니다.
+- Clear 버튼은 `accessibility-traits="button"`으로 알립니다.
+- 콘텐츠를 누르거나 스크롤할 때 키보드를 내리는 동작은 Search Input이 아닌 화면이 담당합니다. [Search Bar](/lynx/components/search-bar#keyboard) 예제를 참고하세요.
+
+## 웹 버전과의 차이
+
+- 제출은 Enter 키의 `keydown` 대신 Lynx `<input>`의 `bindconfirm`(키보드의 검색 키)으로 처리합니다.
+- `SearchInput`은 `value`·`defaultValue`·`onValueChange`·`name`과 제출 prop만 받습니다. `disabled`·`readOnly`·`invalid`·`required`는 지원하지 않습니다.
+- `role="search"`에 대응하는 Lynx 접근성 역할이 없어 Root에는 역할을 지정하지 않습니다.
