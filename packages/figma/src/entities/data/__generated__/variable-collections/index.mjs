@@ -289,6 +289,17 @@ export const FIGMA_VARIABLE_COLLECTIONS = {
       "VariableID:59176:2",
       "VariableID:59176:3",
       "VariableID:61337:3",
+      "VariableID:63387:10",
+      "VariableID:63387:11",
+      "VariableID:64470:2",
+      "VariableID:64470:3",
+      "VariableID:64470:4",
+      "VariableID:64470:5",
+      "VariableID:64470:6",
+      "VariableID:64470:7",
+      "VariableID:64470:8",
+      "VariableID:64480:2",
+      "VariableID:64647:2",
       "VariableID:654:20851",
       "VariableID:670:2700",
       "VariableID:6782:76317",
@@ -486,6 +497,18 @@ export const FIGMA_VARIABLE_COLLECTIONS = {
       {
         "modeId": "16766:0",
         "name": "375x812"
+      },
+      {
+        "modeId": "64624:0",
+        "name": "951x669 (iPhone Duo)"
+      },
+      {
+        "modeId": "64624:1",
+        "name": "932x704 (Z Fold 8)"
+      },
+      {
+        "modeId": "64641:0",
+        "name": "835x752 (Z Fold 8 Ultra)"
       }
     ],
     "key": "7b0f506ae5e0955f152efe15b7982265075ad655",
