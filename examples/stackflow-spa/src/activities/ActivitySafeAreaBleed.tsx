@@ -266,6 +266,9 @@ const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"
               <ImageFrameFloater placement="bottom-end">
                 <ImageFrameReactionButton aria-label="좋아요" />
               </ImageFrameFloater>
+              <ImageFrameFloater placement="top-center" offsetX={0}>
+                <ImageFrameIndicator>center</ImageFrameIndicator>
+              </ImageFrameFloater>
             </ImageFrame>
           </Section>
           <Section
