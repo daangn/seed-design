@@ -10,6 +10,16 @@
   --color-palette-gray-800: var(--seed-color-palette-gray-800);
   --color-palette-gray-900: var(--seed-color-palette-gray-900);
   --color-palette-gray-1000: var(--seed-color-palette-gray-1000);
+  --color-palette-gray-alpha-100: var(--seed-color-palette-gray-alpha-100);
+  --color-palette-gray-alpha-200: var(--seed-color-palette-gray-alpha-200);
+  --color-palette-gray-alpha-300: var(--seed-color-palette-gray-alpha-300);
+  --color-palette-gray-alpha-400: var(--seed-color-palette-gray-alpha-400);
+  --color-palette-gray-alpha-500: var(--seed-color-palette-gray-alpha-500);
+  --color-palette-gray-alpha-600: var(--seed-color-palette-gray-alpha-600);
+  --color-palette-gray-alpha-700: var(--seed-color-palette-gray-alpha-700);
+  --color-palette-gray-alpha-800: var(--seed-color-palette-gray-alpha-800);
+  --color-palette-gray-alpha-900: var(--seed-color-palette-gray-alpha-900);
+  --color-palette-gray-alpha-1000: var(--seed-color-palette-gray-alpha-1000);
   --color-palette-carrot-100: var(--seed-color-palette-carrot-100);
   --color-palette-carrot-200: var(--seed-color-palette-carrot-200);
   --color-palette-carrot-300: var(--seed-color-palette-carrot-300);
