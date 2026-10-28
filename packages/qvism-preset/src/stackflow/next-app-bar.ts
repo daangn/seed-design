@@ -273,6 +273,9 @@ export const nextAppBar = defineSlotRecipe({
         },
         iconButton: {
           ...onlyIcon({ color: iconButtonVars.toneLayer.enabled.icon.color }),
+          [pseudo(disabled)]: {
+            ...onlyIcon({ color: iconButtonVars.toneLayer.disabled.icon.color }),
+          },
         },
         textButton: {
           color: textButtonVars.toneLayer.enabled.label.color,
@@ -287,6 +290,9 @@ export const nextAppBar = defineSlotRecipe({
         },
         iconButton: {
           ...onlyIcon({ color: iconButtonVars.toneTransparent.enabled.icon.color }),
+          [pseudo(disabled)]: {
+            ...onlyIcon({ color: iconButtonVars.toneTransparent.disabled.icon.color }),
+          },
         },
         textButton: {
           color: textButtonVars.toneTransparent.enabled.label.color,

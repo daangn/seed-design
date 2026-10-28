@@ -98,6 +98,9 @@
 .seed-next-app-bar__iconButton--tone_layer {
     --seed-icon-color: var(--seed-color-fg-neutral);
 }
+.seed-next-app-bar__iconButton--tone_layer:is(:disabled, [disabled], [data-disabled]) {
+    --seed-icon-color: var(--seed-color-fg-disabled);
+}
 .seed-next-app-bar__textButton--tone_layer {
     color: var(--seed-color-fg-neutral);
 }
@@ -109,6 +112,9 @@
 }
 .seed-next-app-bar__iconButton--tone_transparent {
     --seed-icon-color: var(--seed-color-palette-static-white);
+}
+.seed-next-app-bar__iconButton--tone_transparent:is(:disabled, [disabled], [data-disabled]) {
+    --seed-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-next-app-bar__textButton--tone_transparent {
     color: var(--seed-color-palette-static-white);
