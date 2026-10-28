@@ -8,7 +8,7 @@ import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import clsx from "clsx";
-import { forwardRef } from "react";
+import { cloneElement, forwardRef, isValidElement } from "react";
 import { NextAppBar as NextAppBarPrimitive } from "../../primitive";
 import { createStyleContext, mergeContextProps } from "../../utils/createStyleContext";
 import { useBoxBackgroundProps, type BoxBackgroundProps } from "../../utils/styled";
@@ -132,3 +132,34 @@ export const NextAppBarIconButton = forwardRef<HTMLButtonElement, NextAppBarIcon
   },
 );
 NextAppBarIconButton.displayName = "NextAppBarIconButton";
+
+export interface NextAppBarTextButtonProps
+  extends PrimitiveProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export const NextAppBarTextButton = forwardRef<HTMLButtonElement, NextAppBarTextButtonProps>(
+  ({ asChild, children, className, ...otherProps }, ref) => {
+    const classNames = useClassNames();
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
+
+    const renderLabel = (content: React.ReactNode) => (
+      <span className={classNames.textButtonLabel}>{content}</span>
+    );
+
+    return (
+      <Primitive.button
+        ref={composeRefs(scaleFeedbackRef, ref)}
+        type="button"
+        asChild={asChild}
+        className={clsx(classNames.textButton, scaleFeedbackClassName, className)}
+        {...otherProps}
+      >
+        {/* With `asChild`, the button props go to the child, so the label goes inside it. */}
+        {asChild && isValidElement<{ children?: React.ReactNode }>(children)
+          ? cloneElement(children, undefined, renderLabel(children.props.children))
+          : renderLabel(children)}
+      </Primitive.button>
+    );
+  },
+);
+NextAppBarTextButton.displayName = "NextAppBarTextButton";

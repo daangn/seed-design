@@ -5,6 +5,7 @@ export {
   NextAppBarRight as Right,
   NextAppBarRoot as Root,
   NextAppBarSubtitle as Subtitle,
+  NextAppBarTextButton as TextButton,
   NextAppBarTitle as Title,
 } from "./NextAppBar";
 
@@ -15,5 +16,6 @@ export type {
   NextAppBarRightProps as RightProps,
   NextAppBarRootProps as RootProps,
   NextAppBarSubtitleProps as SubtitleProps,
+  NextAppBarTextButtonProps as TextButtonProps,
   NextAppBarTitleProps as TitleProps,
 } from "./NextAppBar";
