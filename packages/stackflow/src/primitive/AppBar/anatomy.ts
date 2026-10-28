@@ -10,6 +10,7 @@ export const appBarAnatomy = {
   background: "appBarBackground",
   main: "appBarMain",
   icon: "appBarIcon",
+  textButtonLabel: "appBarTextButtonLabel",
   custom: "appBarCustom",
 } as const;
 

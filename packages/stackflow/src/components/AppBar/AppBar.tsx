@@ -4,7 +4,7 @@ import { appBarMain, type AppBarMainVariantProps } from "@seed-design/css/recipe
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
-import { forwardRef } from "react";
+import { cloneElement, forwardRef, isValidElement } from "react";
 import { AppBar as AppBarPrimitive } from "../../primitive";
 import { appBarAnatomy } from "../../primitive/AppBar/anatomy";
 import { useAppBarContext } from "../../primitive/AppBar/useAppBarContext";
@@ -129,6 +129,43 @@ export const AppBarIconButton = forwardRef<HTMLButtonElement, AppBarIconButtonPr
   },
 );
 AppBarIconButton.displayName = "IconButton";
+
+export interface AppBarTextButtonProps
+  extends PrimitiveProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export const AppBarTextButton = forwardRef<HTMLButtonElement, AppBarTextButtonProps>(
+  ({ asChild, children, className, ...otherProps }, ref) => {
+    const { stateProps } = useAppBarContext();
+    const classNames = useClassNames();
+
+    const renderLabel = (content: React.ReactNode) => (
+      <span
+        className={classNames.textButtonLabel}
+        data-part={appBarAnatomy.textButtonLabel}
+        {...stateProps}
+      >
+        {content}
+      </span>
+    );
+
+    return (
+      <Primitive.button
+        ref={ref}
+        type="button"
+        asChild={asChild}
+        className={clsx(classNames.textButton, className)}
+        {...mergeProps(stateProps, otherProps)}
+      >
+        {/* With `asChild`, the button props go to the child, so the label goes inside it. */}
+        {asChild && isValidElement<{ children?: React.ReactNode }>(children)
+          ? cloneElement(children, undefined, renderLabel(children.props.children))
+          : renderLabel(children)}
+      </Primitive.button>
+    );
+  },
+);
+AppBarTextButton.displayName = "AppBarTextButton";
 
 export interface AppBarSlotProps extends PrimitiveProps, React.HTMLAttributes<HTMLElement> {}
 

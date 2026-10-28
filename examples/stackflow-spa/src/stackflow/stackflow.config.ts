@@ -11,6 +11,7 @@ export const config = defineConfig({
     { route: "/accordion", name: "ActivityAccordion" },
     { route: "/action-button", name: "ActivityActionButton" },
     { route: "/app-bar-slot", name: "ActivityAppBarSlot" },
+    { route: "/app-bar-text-button", name: "ActivityAppBarTextButton" },
     { route: "/alert-dialog", name: "ActivityAlertDialog" },
     { route: "/alert-dialog-activity", name: "ActivityAlertDialogActivity" },
     { route: "/alert-dialog-step", name: "ActivityAlertDialogStep" },

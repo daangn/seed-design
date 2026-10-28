@@ -3,12 +3,16 @@ import { defineSlotRecipe } from "../utils/define";
 import {
   topNavigation as vars,
   topNavigationIconButton as iconButtonVars,
+  topNavigationTextButton as textButtonVars,
 } from "../vars/component";
 
 // Keep the web recipe's icon-based spacing and negative margins together until DES-2511
 // migrates both platforms to button-box-based spacing.
 const PINNED_ROOT_PADDING_X = dimension.x4;
 const PINNED_LEFT_PADDING_RIGHT = "16px";
+// Text buttons follow the spec's button-box basis: an edge button's box sits at the spec's
+// `root.paddingX` from the bar edge instead of the pinned padding.
+const TEXT_BUTTON_EDGE_OFFSET = `calc(${vars.base.enabled.root.paddingX} - ${PINNED_ROOT_PADDING_X})`;
 
 export const appBarMain = defineSlotRecipe({
   name: "app-bar-main",
@@ -120,7 +124,17 @@ export const appBarMain = defineSlotRecipe({
 
 export const appBar = defineSlotRecipe({
   name: "app-bar",
-  slots: ["root", "background", "left", "right", "iconButton", "icon", "custom"],
+  slots: [
+    "root",
+    "background",
+    "left",
+    "right",
+    "iconButton",
+    "icon",
+    "textButton",
+    "textButtonLabel",
+    "custom",
+  ],
   base: {
     root: {
       position: "relative",
@@ -179,6 +193,46 @@ export const appBar = defineSlotRecipe({
     icon: {
       flexShrink: 0,
     },
+    textButton: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      minWidth: 0,
+      height: textButtonVars.base.enabled.root.height,
+      borderWidth: 0,
+      paddingTop: 0,
+      paddingBottom: 0,
+      paddingLeft: textButtonVars.base.enabled.root.paddingX,
+      paddingRight: textButtonVars.base.enabled.root.paddingX,
+      borderRadius: textButtonVars.base.enabled.root.cornerRadius,
+      backgroundColor: textButtonVars.base.enabled.root.color,
+      transition: `background-color ${textButtonVars.base.enabled.root.colorDuration} ${textButtonVars.base.enabled.root.colorTimingFunction}`,
+      // Scale Feedback owns the root transform on the main thread; the recipe only adds the pressed color.
+      "&:active": {
+        backgroundColor: textButtonVars.base.pressed.root.color,
+      },
+      // Lynx has no `:disabled`; the component adds this class and drops the tap handlers.
+      "&.seed-app-bar__text-button-disabled:active": {
+        backgroundColor: textButtonVars.base.enabled.root.color,
+      },
+      "&.seed-app-bar__text-button-edge-leading": {
+        marginLeft: TEXT_BUTTON_EDGE_OFFSET,
+      },
+      "&.seed-app-bar__text-button-edge-trailing": {
+        marginRight: TEXT_BUTTON_EDGE_OFFSET,
+      },
+    },
+    textButtonLabel: {
+      flexShrink: 1,
+      minWidth: 0,
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      fontSize: textButtonVars.base.enabled.label.fontSize,
+      lineHeight: textButtonVars.base.enabled.label.lineHeight,
+      fontWeight: textButtonVars.base.enabled.label.fontWeight,
+    },
     custom: {
       display: "flex",
       flexDirection: "row",
@@ -207,6 +261,9 @@ export const appBar = defineSlotRecipe({
         icon: {
           width: iconButtonVars.base.enabled.icon.size,
           height: iconButtonVars.base.enabled.icon.size,
+        },
+        textButton: {
+          maxWidth: textButtonVars.themeIos.enabled.root.maxWidth,
         },
       },
       android: {
@@ -246,6 +303,12 @@ export const appBar = defineSlotRecipe({
         icon: {
           color: iconButtonVars.toneLayer.enabled.icon.color,
         },
+        textButtonLabel: {
+          color: textButtonVars.toneLayer.enabled.label.color,
+          "&.seed-app-bar__text-button-label-disabled": {
+            color: textButtonVars.toneLayer.disabled.label.color,
+          },
+        },
       },
       transparent: {
         background: {
@@ -253,6 +316,12 @@ export const appBar = defineSlotRecipe({
         },
         icon: {
           color: iconButtonVars.toneTransparent.enabled.icon.color,
+        },
+        textButtonLabel: {
+          color: textButtonVars.toneTransparent.enabled.label.color,
+          "&.seed-app-bar__text-button-label-disabled": {
+            color: textButtonVars.toneTransparent.disabled.label.color,
+          },
         },
       },
     },
