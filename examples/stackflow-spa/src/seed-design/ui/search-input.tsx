@@ -20,8 +20,9 @@ export interface SearchInputProps
 
   /**
    * Props for the input element, e.g. `maxLength` or `autoFocus`.
+   * Set `disabled` and `readOnly` on `SearchInput` itself, so the clear button follows them.
    */
-  inputProps?: SeedSearchInput.InputProps;
+  inputProps?: Omit<SeedSearchInput.InputProps, "disabled" | "readOnly">;
 }
 
 /**
