@@ -15,6 +15,7 @@ related: ["workspace-installation"]
 - `bun lynx:generate`가 새 Lynx headless 패키지에서 `@lynx-js/react`를 찾지 못하는 TS2307로 실패하면 checkout 뒤 추가된 workspace 패키지가 설치되지 않은 것이다. `bun install --frozen-lockfile` 후 다시 실행한다.
 - 새 checkout에서 Lynx lib가 없으면 `bun lynx-headless:build && bun --filter @seed-design/docs prepare:lynx-workspace`도 실행한다. `prepare:lynx-workspace`만으로는 아직 빌드하지 않은 headless 패키지가 준비되지 않을 수 있다.
 - `typecheck:web`는 `@seed-design/rootage-core`와 `@seed-design/stackflow`의 lib도 읽는다. 없으면 두 패키지를 빌드한다.
+- docs dev 서버(`next dev --webpack`)도 `@seed-design/rootage-core` lib를 읽는다(`components/component-variant-table.tsx`). 없으면 모든 문서 페이지가 Module not found 오류 화면이 되고, lib를 빌드해도 webpack이 해석 실패를 캐시해 오류가 남으므로 dev 서버를 재시작한다.
 - 누락된 lib를 빌드한 뒤에도 타입 오류가 남으면, 같은 소스·의존성을 사용하는 깨끗한 기준 checkout과 비교한다. 기준은 통과하고 기존 checkout만 실패하면 무시된 빌드 산출물 `docs/tsconfig.tsbuildinfo`를 지우고 `typecheck:web`를 다시 실행해 증분 캐시 영향을 확인한다. 타입 오류를 코드에 우회 적용하지 않는다.
 
 - headless 테스트·`tsc` 전 `bun utils:build && bun headless:build`를 실행한다. `examples/stackflow-spa` dev 서버·e2e 전에는 `bun --filter @seed-design/vite-plugin build && bun --filter @seed-design/stackflow build`도 필요하다. 두 패키지는 `ecosystem:build`·`headless:build`에 포함되지 않는다.
@@ -39,3 +40,4 @@ related: ["workspace-installation"]
 - 2026-09-30: `docs:test` 준비에 `@seed-design/rsbuild-plugin-lynx-icon` 빌드를 추가했다(DES-2654 재실행으로 확인).
 - 2026-09-30: 새 checkout의 Lynx·웹 선행 빌드와 누락된 lib를 읽은 증분 캐시의 비교·재검증 절차를 보강했다.
 - 2026-10-01: `docs:test` 준비에 `bun lynx:generate`와 새 workspace 패키지 설치 조건을 추가했다(DES-2627 재실행으로 확인).
+- 2026-10-28: docs dev 서버의 `rootage-core` lib 의존과 webpack 해석 실패 캐시 때문에 빌드 후 서버 재시작이 필요함을 추가했다(SEED-24에서 재현·해결 확인).
