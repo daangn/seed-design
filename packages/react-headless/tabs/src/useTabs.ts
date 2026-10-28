@@ -44,7 +44,7 @@ function useTabsState(props: UseTabsStateProps) {
   //       to allow users to customize the scroll behavior.
   useEffect(() => {
     if (selectedTriggerEl && listEl) {
-      scrollTabIntoView(selectedTriggerEl, listEl, { scrollPadding: 16 });
+      scrollTabIntoView(selectedTriggerEl, listEl);
     }
   }, [selectedTriggerEl, listEl]);
 
@@ -303,12 +303,17 @@ function useTabsState(props: UseTabsStateProps) {
     [],
   );
 
+  // `left` is measured from the list's content box: a change in the list's padding alone, such as
+  // a safe area inset moving, can't be observed, so styles add the padding back instead.
   const triggerRect = useMemo(
     () => ({
       width: selectedTriggerSize?.width ?? selectedTriggerEl?.offsetWidth ?? 0,
-      left: selectedTriggerEl?.offsetLeft ?? 0,
+      left:
+        selectedTriggerEl && listEl
+          ? selectedTriggerEl.offsetLeft - Number.parseFloat(getComputedStyle(listEl).paddingLeft)
+          : 0,
     }),
-    [selectedTriggerSize, selectedTriggerEl],
+    [selectedTriggerSize, selectedTriggerEl, listEl],
   );
 
   const isSSR = useIsSSR();

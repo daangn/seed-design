@@ -32,7 +32,8 @@ const defaultVariant = {
   "size": "medium",
   "variant": "neutralSolid",
   "contentLayout": "hug",
-  "stickyList": false
+  "stickyList": false,
+  "extendSafeAreaX": false
 };
 
 const compoundVariants = [];
@@ -51,6 +52,10 @@ export const chipTabsVariantMap = {
     "hug"
   ],
   "stickyList": [
+    true,
+    false
+  ],
+  "extendSafeAreaX": [
     true,
     false
   ]

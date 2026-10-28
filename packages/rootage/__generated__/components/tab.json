@@ -20,6 +20,9 @@
             "paddingY": {
               "type": "dimension"
             },
+            "scrollMarginX": {
+              "type": "dimension"
+            },
             "scaleScope": {
               "type": "enum",
               "values": [
@@ -65,6 +68,12 @@
               "enabled"
             ],
             "slots": {
+              "root": {
+                "scrollMarginX": {
+                  "type": "dimension",
+                  "value": "$dimension.spacing-x.global-gutter"
+                }
+              },
               "label": {
                 "color": {
                   "type": "color",

@@ -126,6 +126,19 @@
         background-color: var(--seed-color-bg-transparent-pressed);
     }
 }
+.seed-page-banner__root--extendSafeAreaX_true {
+    position: relative;
+    isolation: isolate;
+}
+.seed-page-banner__root--extendSafeAreaX_true::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    left: calc(var(--seed-safe-area-left) * -1);
+    right: calc(var(--seed-safe-area-right) * -1);
+    z-index: -1;
+    background: inherit;
+}
 .seed-page-banner__root--tone_neutral-variant_weak {
     background-color: var(--seed-color-bg-neutral-weak);
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
