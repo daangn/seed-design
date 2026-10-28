@@ -90,7 +90,7 @@
 - Lynx native 기본 장면은 [`검증 런북`](../../seed-verify-lynx-component/references/verification.md)의 `examples/lynx-spa` 문서 예제로 확인한다.
 - 전체 docs 빌드나 정적 bundle 서빙은 MDX 페이지·`LynxComponentExample` host·코드 탭·QR·Web preview·docs pipeline 자체를 바꾼 경우에만, 그 문서 변경 부분을 확인하려고 추가한다.
 - 온라인 검증을 배정하기 전에 실행자가 [session 소유권과 Card 수명](../../seed-verify-lynx-component/references/concurrency/session-ownership.md)을 읽게 한다.
-- 공통 작업 메모에 생성 요청 client, host 식별 근거, 공유 잠금 경로, 소유자를 적는다. Card 생성 뒤에는 점유한 client/session 쌍과 bundle URL을 더한다.
+- 공통 작업 메모에 생성 요청 client, host 식별 근거, 잠금 owner를 적는다. 같은 worktree에서 여러 실행자가 온라인 검증을 나누면 실행자마다 `--owner`를 정한다. Card 생성 뒤에는 점유한 client/session 쌍과 bundle URL을 더한다.
 - 다른 실행자는 그 쌍에 자기 bundle을 로드하거나 같은 URL의 Card를 다시 점유하지 않는다. 같은 PlayLynx client의 다음 실행자는 이전 Card 제거 확인과 잠금 해제가 끝난 뒤 시작한다. 다른 client라도 host·기기·overlay·캡처 자원이 독립적일 때만 함께 실행한다.
 
 ### 공유 자원
