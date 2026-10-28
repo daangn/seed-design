@@ -23,6 +23,9 @@ const tabs = defineSlotRecipe({
       alignItems: "stretch",
       alignContent: "stretch",
 
+      paddingLeft: "var(--tabs-list-padding-left)",
+      paddingRight: "var(--tabs-list-padding-right)",
+
       overflowX: "auto",
       msOverflowStyle: "none",
       scrollbarWidth: "none",
@@ -65,7 +68,9 @@ const tabs = defineSlotRecipe({
       transitionProperty: "left, width",
       transitionDuration: vars.base.enabled.indicator.transformDuration,
       transitionTimingFunction: vars.base.enabled.indicator.transformTimingFunction,
-      left: "var(--indicator-left, 0px)",
+      // `--indicator-left` is measured from the list's content box, so a padding change such as
+      // a safe area inset moves the indicator without a re-measure.
+      left: "calc(var(--indicator-left, 0px) + var(--tabs-list-padding-left, 0px))",
       width: "var(--indicator-width, 0px)",
       color: vars.base.enabled.indicator.color,
       borderBottom: `${vars.base.enabled.indicator.height} solid ${vars.base.enabled.indicator.color}`,
@@ -118,11 +123,12 @@ const tabs = defineSlotRecipe({
     triggerLayout: {
       fill: {
         list: {
-          paddingInline: vars.layoutFill.enabled.root.paddingX,
+          "--tabs-list-padding-left": vars.layoutFill.enabled.root.paddingX,
+          "--tabs-list-padding-right": vars.layoutFill.enabled.root.paddingX,
           justifyContent: "space-around",
         },
         indicator: {
-          left: `calc(var(--indicator-left, 0px) + ${vars.layoutFill.enabled.indicator.insetX})`,
+          left: `calc(var(--indicator-left, 0px) + var(--tabs-list-padding-left, 0px) + ${vars.layoutFill.enabled.indicator.insetX})`,
           width: `calc(var(--indicator-width, 0px) - 2 * ${vars.layoutFill.enabled.indicator.insetX})`,
         },
         trigger: {
@@ -135,11 +141,12 @@ const tabs = defineSlotRecipe({
       },
       hug: {
         list: {
-          paddingInline: vars.layoutHug.enabled.root.paddingX,
+          "--tabs-list-padding-left": vars.layoutHug.enabled.root.paddingX,
+          "--tabs-list-padding-right": vars.layoutHug.enabled.root.paddingX,
           justifyContent: "flex-start",
         },
         indicator: {
-          left: `calc(var(--indicator-left, 0px) + ${vars.layoutHug.enabled.indicator.insetX})`,
+          left: `calc(var(--indicator-left, 0px) + var(--tabs-list-padding-left, 0px) + ${vars.layoutHug.enabled.indicator.insetX})`,
           width: `calc(var(--indicator-width, 0px) - 2 * ${vars.layoutHug.enabled.indicator.insetX})`,
         },
         trigger: {
@@ -245,8 +252,8 @@ const tabs = defineSlotRecipe({
       extendSafeAreaX: true,
       css: {
         list: {
-          paddingLeft: `calc(${vars.layoutFill.enabled.root.paddingX} + var(--seed-safe-area-left))`,
-          paddingRight: `calc(${vars.layoutFill.enabled.root.paddingX} + var(--seed-safe-area-right))`,
+          "--tabs-list-padding-left": `calc(${vars.layoutFill.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          "--tabs-list-padding-right": `calc(${vars.layoutFill.enabled.root.paddingX} + var(--seed-safe-area-right))`,
         },
       },
     },
@@ -255,8 +262,8 @@ const tabs = defineSlotRecipe({
       extendSafeAreaX: true,
       css: {
         list: {
-          paddingLeft: `calc(${vars.layoutHug.enabled.root.paddingX} + var(--seed-safe-area-left))`,
-          paddingRight: `calc(${vars.layoutHug.enabled.root.paddingX} + var(--seed-safe-area-right))`,
+          "--tabs-list-padding-left": `calc(${vars.layoutHug.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          "--tabs-list-padding-right": `calc(${vars.layoutHug.enabled.root.paddingX} + var(--seed-safe-area-right))`,
         },
       },
     },

@@ -11589,6 +11589,8 @@
 
   .seed-tabs__list {
     isolation: isolate;
+    padding-left: var(--tabs-list-padding-left);
+    padding-right: var(--tabs-list-padding-right);
     -ms-overflow-style: none;
     scrollbar-width: none;
     flex-wrap: nowrap;
@@ -11637,7 +11639,7 @@
     transition-property: left, width;
     transition-duration: var(--seed-duration-d4);
     transition-timing-function: var(--seed-timing-function-easing);
-    left: var(--indicator-left, 0px);
+    left: calc(var(--indicator-left, 0px) + var(--tabs-list-padding-left, 0px));
     width: var(--indicator-width, 0px);
     color: var(--seed-color-fg-neutral);
     border-bottom: 2px solid var(--seed-color-fg-neutral);
@@ -11696,12 +11698,13 @@
   }
 
   .seed-tabs__list--triggerLayout_fill {
+    --tabs-list-padding-left: 0px;
+    --tabs-list-padding-right: 0px;
     justify-content: space-around;
-    padding-inline: 0;
   }
 
   .seed-tabs__indicator--triggerLayout_fill {
-    left: calc(var(--indicator-left, 0px) + var(--seed-dimension-spacing-x-global-gutter));
+    left: calc(var(--indicator-left, 0px) + var(--tabs-list-padding-left, 0px) + var(--seed-dimension-spacing-x-global-gutter));
     width: calc(var(--indicator-width, 0px) - 2 * var(--seed-dimension-spacing-x-global-gutter));
   }
 
@@ -11714,12 +11717,13 @@
   }
 
   .seed-tabs__list--triggerLayout_hug {
-    padding-inline: var(--seed-dimension-spacing-x-global-gutter);
+    --tabs-list-padding-left: var(--seed-dimension-spacing-x-global-gutter);
+    --tabs-list-padding-right: var(--seed-dimension-spacing-x-global-gutter);
     justify-content: flex-start;
   }
 
   .seed-tabs__indicator--triggerLayout_hug {
-    left: calc(var(--indicator-left, 0px) + 0px);
+    left: calc(var(--indicator-left, 0px) + var(--tabs-list-padding-left, 0px) + 0px);
     width: calc(var(--indicator-width, 0px) - 2 * 0px);
   }
 
@@ -11807,13 +11811,13 @@
   }
 
   .seed-tabs__list--triggerLayout_fill-extendSafeAreaX_true {
-    padding-left: calc(0px + var(--seed-safe-area-left));
-    padding-right: calc(0px + var(--seed-safe-area-right));
+    --tabs-list-padding-left: calc(0px + var(--seed-safe-area-left));
+    --tabs-list-padding-right: calc(0px + var(--seed-safe-area-right));
   }
 
   .seed-tabs__list--triggerLayout_hug-extendSafeAreaX_true {
-    padding-left: calc(var(--seed-dimension-spacing-x-global-gutter) + var(--seed-safe-area-left));
-    padding-right: calc(var(--seed-dimension-spacing-x-global-gutter) + var(--seed-safe-area-right));
+    --tabs-list-padding-left: calc(var(--seed-dimension-spacing-x-global-gutter) + var(--seed-safe-area-left));
+    --tabs-list-padding-right: calc(var(--seed-dimension-spacing-x-global-gutter) + var(--seed-safe-area-right));
   }
 
   .seed-tag-group__separator {

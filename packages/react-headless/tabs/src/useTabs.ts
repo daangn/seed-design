@@ -32,7 +32,6 @@ function useTabsState(props: UseTabsStateProps) {
   const [listEl, listRef] = useState<HTMLElement | null>(null);
   const [selectedTriggerEl, setSelectedTriggerEl] = useState<HTMLElement | null>(null);
   const selectedTriggerSize = useSize(selectedTriggerEl);
-  const [selectedTriggerLeft, setSelectedTriggerLeft] = useState<number>();
 
   const enabledValues = useMemo(() => (listEl ? dom.getEnabledValues(listEl) : []), [listEl]);
   const contentIndex = value ? enabledValues.indexOf(value) : -1;
@@ -47,24 +46,6 @@ function useTabsState(props: UseTabsStateProps) {
     if (selectedTriggerEl && listEl) {
       scrollTabIntoView(selectedTriggerEl, listEl);
     }
-  }, [selectedTriggerEl, listEl]);
-
-  // A change in the list's padding moves the selected trigger without resizing it. A list that
-  // grows into the safe area adds the same amount as padding, so only its border box changes;
-  // moving an inset from one side to the other changes neither box, but fires `resize`.
-  useEffect(() => {
-    if (!selectedTriggerEl || !listEl) return;
-
-    const measure = () => setSelectedTriggerLeft(selectedTriggerEl.offsetLeft);
-    const observer = new ResizeObserver(measure);
-    observer.observe(listEl, { box: "border-box" });
-    observer.observe(selectedTriggerEl);
-    window.addEventListener("resize", measure);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", measure);
-    };
   }, [selectedTriggerEl, listEl]);
 
   const focusTriggerByValue = useCallback(
@@ -322,18 +303,17 @@ function useTabsState(props: UseTabsStateProps) {
     [],
   );
 
-  // Reads `offsetLeft` during render so a newly selected trigger is placed before its observer
-  // reports; `selectedTriggerLeft` only marks when the selected trigger has moved since. Keep it
-  // the only position dependency: a memo keyed on the render's own read can show a position the
-  // state never recorded, and when the trigger moves back, the measurement equals the state and
-  // the indicator stays where it was.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: selectedTriggerLeft invalidates the memo
+  // `left` is measured from the list's content box: a change in the list's padding alone, such as
+  // a safe area inset moving, can't be observed, so styles add the padding back instead.
   const triggerRect = useMemo(
     () => ({
       width: selectedTriggerSize?.width ?? selectedTriggerEl?.offsetWidth ?? 0,
-      left: selectedTriggerEl?.offsetLeft ?? 0,
+      left:
+        selectedTriggerEl && listEl
+          ? selectedTriggerEl.offsetLeft - Number.parseFloat(getComputedStyle(listEl).paddingLeft)
+          : 0,
     }),
-    [selectedTriggerSize, selectedTriggerEl, selectedTriggerLeft],
+    [selectedTriggerSize, selectedTriggerEl, listEl],
   );
 
   const isSSR = useIsSSR();
