@@ -19,7 +19,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { handleDimension, type DistributiveOmit } from "../../utils/styled";
+import { handleDimension, resolveResponsive, type DistributiveOmit } from "../../utils/styled";
 import { AspectRatio, type AspectRatioProps } from "../AspectRatio/AspectRatio";
 import { BadgeLabel, BadgeRoot, type BadgeRootProps } from "../Badge/Badge";
 import { Float, type FloatProps } from "../Float/Float";
@@ -28,7 +28,13 @@ import { InternalIcon } from "../private/Icon";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-const ImageFrameSafeAreaBleedContext = React.createContext({ left: false, right: false });
+function resolveSafeAreaBleed(side: "left" | "right", bleed: AspectRatioProps["bleedLeft"]) {
+  if (bleed === undefined) return {};
+
+  return resolveResponsive(`--seed-image-frame-safe-area-${side}`, bleed, (value) =>
+    value === "safeArea" ? `var(--seed-safe-area-${side})` : "0px",
+  );
+}
 
 export type ImageFrameProps = DistributiveOmit<AspectRatioProps, "children"> &
   ImageFrameVariantProps & {
@@ -74,13 +80,6 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
     // splitVariantProps collapses the margin/bleed union; re-assert the shape.
     const aspectRatioProps = restProps as AspectRatioProps;
     const { bleed, bleedX, bleedLeft, bleedRight } = aspectRatioProps;
-    const safeAreaBleed = React.useMemo(
-      () => ({
-        left: (bleedLeft ?? bleedX ?? bleed) === "safeArea",
-        right: (bleedRight ?? bleedX ?? bleed) === "safeArea",
-      }),
-      [bleed, bleedX, bleedLeft, bleedRight],
-    );
 
     return (
       // TODO: `asChild` arrives from `AspectRatioProps` but slots onto `Image.Root` below, so it
@@ -92,7 +91,13 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
         borderRadius={borderRadius}
         {...aspectRatioProps}
       >
-        <Image.Root className={classNames.root}>
+        <Image.Root
+          className={classNames.root}
+          style={{
+            ...resolveSafeAreaBleed("left", bleedLeft ?? bleedX ?? bleed),
+            ...resolveSafeAreaBleed("right", bleedRight ?? bleedX ?? bleed),
+          }}
+        >
           <Image.Content
             className={classNames.content}
             src={src}
@@ -107,9 +112,7 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
             onError={onError}
           />
           {fallback && <Image.Fallback className={classNames.fallback}>{fallback}</Image.Fallback>}
-          <ImageFrameSafeAreaBleedContext.Provider value={safeAreaBleed}>
-            {children}
-          </ImageFrameSafeAreaBleedContext.Provider>
+          {children}
         </Image.Root>
       </AspectRatio>
     );
@@ -122,42 +125,34 @@ ImageFrame.displayName = "ImageFrame";
 
 export interface ImageFrameFloaterProps extends FloatProps {}
 
+// The fallbacks cover a floater rendered outside an ImageFrame, where the variables are never declared.
+const SAFE_AREA_LEFT = "var(--seed-image-frame-safe-area-left, 0px)";
+const SAFE_AREA_RIGHT = "var(--seed-image-frame-safe-area-right, 0px)";
+
 /**
- * Keeps floaters inside the safe area when the frame bleeds into it.
+ * Keeps floaters inside the safe area the frame bleeds into.
  * `start` and `end` push away from their own edge; `center` re-centers on the safe area.
  */
-function getSafeAreaOffsetX(
-  offsetX: NonNullable<FloatProps["offsetX"]>,
-  placement: FloatProps["placement"],
-  safeAreaBleed: { left: boolean; right: boolean },
-) {
-  const left = safeAreaBleed.left ? "var(--seed-safe-area-left)" : "0px";
-  const right = safeAreaBleed.right ? "var(--seed-safe-area-right)" : "0px";
-  const shift = (amount: string) => `calc(${handleDimension(offsetX)} + ${amount})`;
+function getSafeAreaInset(placement: FloatProps["placement"]) {
+  if (placement.endsWith("-start")) return SAFE_AREA_LEFT;
+  if (placement.endsWith("-end")) return SAFE_AREA_RIGHT;
 
-  if (placement.endsWith("-start")) return safeAreaBleed.left ? shift(left) : offsetX;
-  if (placement.endsWith("-end")) return safeAreaBleed.right ? shift(right) : offsetX;
-  if (!safeAreaBleed.left && !safeAreaBleed.right) return offsetX;
-
-  return shift(`(${left} - ${right}) / 2`);
+  return `(${SAFE_AREA_LEFT} - ${SAFE_AREA_RIGHT}) / 2`;
 }
 
 /**
  * ImageFrame 내에서 오버레이 요소를 배치하기 위한 컴포넌트
  */
 export const ImageFrameFloater = React.forwardRef<HTMLDivElement, ImageFrameFloaterProps>(
-  ({ offsetX = "x1_5", offsetY = "x1_5", ...rest }, ref) => {
-    const safeAreaBleed = React.useContext(ImageFrameSafeAreaBleedContext);
-
-    return (
-      <Float
-        ref={ref}
-        offsetX={getSafeAreaOffsetX(offsetX, rest.placement, safeAreaBleed)}
-        offsetY={offsetY}
-        {...rest}
-      />
-    );
-  },
+  ({ placement, offsetX = "x1_5", offsetY = "x1_5", ...rest }, ref) => (
+    <Float
+      ref={ref}
+      placement={placement}
+      offsetX={`calc(${handleDimension(offsetX)} + ${getSafeAreaInset(placement)})`}
+      offsetY={offsetY}
+      {...rest}
+    />
+  ),
 );
 
 ImageFrameFloater.displayName = "ImageFrameFloater";

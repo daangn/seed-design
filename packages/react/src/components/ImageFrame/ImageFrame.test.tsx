@@ -59,13 +59,68 @@ describe("ImageFrame", () => {
     });
   });
 
+  describe("safe-area bleed", () => {
+    function renderRootStyle(frameProps: Partial<ImageFrameProps>) {
+      const { container } = setUp(
+        <ImageFrame {...(frameProps as ImageFrameProps)} src="/image.png" alt="" />,
+      );
+
+      const root = container.querySelector<HTMLElement>(".seed-image-frame__root");
+      if (!root) throw new Error("ImageFrame root not found");
+
+      return root.style;
+    }
+
+    it("declares no inset when the frame does not bleed", () => {
+      const style = renderRootStyle({});
+
+      expect(style.getPropertyValue("--seed-image-frame-safe-area-left-base")).toBe("");
+      expect(style.getPropertyValue("--seed-image-frame-safe-area-right-base")).toBe("");
+    });
+
+    it("declares both insets under bleedX='safeArea'", () => {
+      const style = renderRootStyle({ bleedX: "safeArea" });
+
+      expect(style.getPropertyValue("--seed-image-frame-safe-area-left-base")).toBe(
+        "var(--seed-safe-area-left)",
+      );
+      expect(style.getPropertyValue("--seed-image-frame-safe-area-right-base")).toBe(
+        "var(--seed-safe-area-right)",
+      );
+    });
+
+    it("declares only the right inset when only the right side bleeds", () => {
+      const style = renderRootStyle({ bleedRight: "safeArea" });
+
+      expect(style.getPropertyValue("--seed-image-frame-safe-area-left-base")).toBe("");
+      expect(style.getPropertyValue("--seed-image-frame-safe-area-right-base")).toBe(
+        "var(--seed-safe-area-right)",
+      );
+    });
+
+    it("lets bleedLeft override bleedX for the left side", () => {
+      const style = renderRootStyle({ bleedX: "safeArea", bleedLeft: 0 });
+
+      expect(style.getPropertyValue("--seed-image-frame-safe-area-left-base")).toBe("0px");
+      expect(style.getPropertyValue("--seed-image-frame-safe-area-right-base")).toBe(
+        "var(--seed-safe-area-right)",
+      );
+    });
+
+    it("resolves a responsive bleed per breakpoint", () => {
+      const style = renderRootStyle({ bleedX: { base: "safeArea", md: 0 } });
+
+      expect(style.getPropertyValue("--seed-image-frame-safe-area-left-base")).toBe(
+        "var(--seed-safe-area-left)",
+      );
+      expect(style.getPropertyValue("--seed-image-frame-safe-area-left-md")).toBe("0px");
+    });
+  });
+
   describe("ImageFrameFloater", () => {
-    function renderFloater(
-      frameProps: Partial<ImageFrameProps>,
-      placement: ImageFrameFloaterProps["placement"],
-    ) {
+    function renderFloaterStyle(placement: ImageFrameFloaterProps["placement"]) {
       const { getByTestId } = setUp(
-        <ImageFrame {...(frameProps as ImageFrameProps)} src="/image.png" alt="">
+        <ImageFrame src="/image.png" alt="">
           <ImageFrameFloater data-testid="floater" placement={placement} />
         </ImageFrame>,
       );
@@ -73,41 +128,26 @@ describe("ImageFrame", () => {
       return getByTestId("floater").getAttribute("style") ?? "";
     }
 
-    it("keeps the default offset when the frame does not bleed into the safe area", () => {
-      const style = renderFloater({}, "top-end");
+    it("pushes a start floater away from the left inset", () => {
+      const style = renderFloaterStyle("bottom-start");
 
-      expect(style).not.toContain("--seed-safe-area");
+      expect(style).toContain("var(--seed-image-frame-safe-area-left, 0px)");
+      expect(style).not.toContain("--seed-image-frame-safe-area-right");
     });
 
-    it("pushes an end floater away from the right inset under bleedX='safeArea'", () => {
-      const style = renderFloater({ bleedX: "safeArea" }, "top-end");
+    it("pushes an end floater away from the right inset", () => {
+      const style = renderFloaterStyle("top-end");
 
-      expect(style).toContain("var(--seed-safe-area-right)");
-      expect(style).not.toContain("var(--seed-safe-area-left)");
-    });
-
-    it("pushes a start floater away from the left inset under bleedLeft='safeArea'", () => {
-      const style = renderFloater({ bleedLeft: "safeArea" }, "bottom-start");
-
-      expect(style).toContain("var(--seed-safe-area-left)");
-    });
-
-    it("leaves a start floater alone when only the right side bleeds", () => {
-      const style = renderFloater({ bleedRight: "safeArea" }, "bottom-start");
-
-      expect(style).not.toContain("--seed-safe-area");
+      expect(style).toContain("var(--seed-image-frame-safe-area-right, 0px)");
+      expect(style).not.toContain("--seed-image-frame-safe-area-left");
     });
 
     it("re-centers a center floater on the safe area", () => {
-      const style = renderFloater({ bleedX: "safeArea" }, "bottom-center");
+      const style = renderFloaterStyle("bottom-center");
 
-      expect(style).toContain("(var(--seed-safe-area-left) - var(--seed-safe-area-right)) / 2");
-    });
-
-    it("lets bleedLeft override bleedX for the left side", () => {
-      const style = renderFloater({ bleedX: "safeArea", bleedLeft: 0 }, "top-start");
-
-      expect(style).not.toContain("--seed-safe-area");
+      expect(style).toContain(
+        "(var(--seed-image-frame-safe-area-left, 0px) - var(--seed-image-frame-safe-area-right, 0px)) / 2",
+      );
     });
   });
 });
