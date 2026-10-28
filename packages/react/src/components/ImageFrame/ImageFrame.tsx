@@ -77,9 +77,7 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
     const [variantProps, restProps] = imageFrameRecipe.splitVariantProps(rest);
     const classNames = imageFrameRecipe(variantProps);
 
-    // splitVariantProps collapses the margin/bleed union; re-assert the shape.
-    const aspectRatioProps = restProps as AspectRatioProps;
-    const { bleed, bleedX, bleedLeft, bleedRight } = aspectRatioProps;
+    const { bleed, bleedX, bleedLeft, bleedRight } = rest;
 
     return (
       // TODO: `asChild` arrives from `AspectRatioProps` but slots onto `Image.Root` below, so it
@@ -89,7 +87,8 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
         ratio={ratio}
         className={className}
         borderRadius={borderRadius}
-        {...aspectRatioProps}
+        // splitVariantProps collapses the margin/bleed union; re-assert the shape.
+        {...(restProps as AspectRatioProps)}
       >
         <Image.Root
           className={classNames.root}
