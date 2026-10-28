@@ -453,6 +453,24 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "search-bar",
+      snippets: [
+        {
+          path: "search-bar.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0", "@seed-design/css": "^3.1.0" },
+        },
+      ],
+    },
+    {
+      id: "search-input",
+      snippets: [
+        {
+          path: "search-input.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0", "@seed-design/css": "^3.1.0" },
+        },
+      ],
+    },
+    {
       id: "segmented-control",
       snippets: [
         {

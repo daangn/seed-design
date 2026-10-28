@@ -1,0 +1,63 @@
+---
+title: Search Bar
+description: Stackflow 화면 상단에서 검색어를 입력하는 App Bar입니다. Search Input을 Back·닫기 버튼과 함께 배치합니다.
+---
+
+<AvailableSince packages="@seed-design/stackflow@2.1.0, @seed-design/react@3.1.0, @seed-design/css@3.1.0" />
+
+<StackflowExample path="/search-bar">
+  ```json doc-gen:file
+  {
+    "file": "../examples/stackflow-spa/src/activities/ActivitySearchBar.tsx",
+    "codeblock": true
+  }
+  ```
+</StackflowExample>
+
+Search Bar는 [App Screen](/react/stackflow/app-screen)의 `AppBar` 안에 [Search Input](/react/components/search-input)을 배치한 컴포넌트입니다. App Bar가 Stackflow activity에 의존하므로 Stackflow 밖에서는 Search Input snippet을 직접 사용하고 바 레이아웃을 구성하세요.
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:search-bar
+```
+
+<ManualInstallation name="search-bar" />
+
+## Usage
+
+```tsx
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { SearchBar } from "seed-design/ui/search-bar";
+```
+
+```tsx
+<AppScreen>
+  <SearchBar
+    value={value}
+    onValueChange={setValue}
+    onSubmit={handleSubmit}
+    placeholder="검색어를 입력해주세요"
+    onClose={() => pop()}
+  />
+  <AppScreenContent>{/* content */}</AppScreenContent>
+</AppScreen>
+```
+
+## Props
+
+<react-type-table path="./registry/react/ui/search-bar.tsx" name="SearchBarProps" />
+
+`showBackButton`, `onClose`, `closeLabel`을 제외한 prop은 [Search Input](/react/components/search-input#props) snippet으로 전달됩니다. `ui:search-bar`를 설치하면 `ui:search-input`과 `ui:app-screen`도 함께 설치됩니다.
+
+## Examples
+
+### Back Button
+
+`showBackButton`을 사용하면 이전 화면으로 돌아가는 Back 버튼을 표시합니다. 검색 플로우에서 이전 화면으로 돌아가는 동작을 제공할 때만 사용하세요. root activity에서는 Back 버튼이 표시되지 않습니다.
+
+닫기 버튼은 항상 표시되며, `onClose`로 동작을 지정합니다. 레이블은 `closeLabel`로 바꿀 수 있습니다.
+
+### Keyboard
+
+Enter를 누르면 `onSubmit`이 호출되고 입력의 focus가 해제되어 모바일 키보드가 내려갑니다. 콘텐츠를 누르거나 스크롤할 때 키보드를 내리는 동작은 화면에서 처리합니다. 위 예제는 콘텐츠를 누르면 focus를 해제합니다.

@@ -1,5 +1,6 @@
 "use client";
 
+import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
@@ -51,10 +52,11 @@ export interface TextFieldInputProps
     React.InputHTMLAttributes<HTMLInputElement> {}
 
 export const TextFieldInput = forwardRef<HTMLInputElement, TextFieldInputProps>((props, ref) => {
-  const { inputProps } = useTextFieldContext();
+  const { inputProps, inputRef } = useTextFieldContext();
+  const composedRef = useComposedRefs(ref, inputRef);
   const mergedProps = mergeProps(inputProps, props);
 
-  return <Primitive.input ref={ref} {...mergedProps} />;
+  return <Primitive.input ref={composedRef} {...mergedProps} />;
 });
 TextFieldInput.displayName = "TextFieldInput";
 
@@ -64,10 +66,31 @@ export interface TextFieldTextareaProps
 
 export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextareaProps>(
   (props, ref) => {
-    const { inputProps } = useTextFieldContext();
+    const { inputProps, inputRef } = useTextFieldContext();
+    const composedRef = useComposedRefs(ref, inputRef);
     const mergedProps = mergeProps(inputProps, props);
 
-    return <Primitive.textarea ref={ref} {...mergedProps} />;
+    return <Primitive.textarea ref={composedRef} {...mergedProps} />;
   },
 );
 TextFieldTextarea.displayName = "TextFieldTextarea";
+
+export interface TextFieldClearButtonProps
+  extends PrimitiveProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+/**
+ * Clears the value through a native `input` event, so it works with uncontrolled fields too.
+ * Renders nothing while the value is empty.
+ */
+export const TextFieldClearButton = forwardRef<HTMLButtonElement, TextFieldClearButtonProps>(
+  (props, ref) => {
+    const { value, clearButtonProps } = useTextFieldContext();
+    const mergedProps = mergeProps(clearButtonProps, props);
+
+    if (value === "") return null;
+
+    return <Primitive.button ref={ref} {...mergedProps} />;
+  },
+);
+TextFieldClearButton.displayName = "TextFieldClearButton";
