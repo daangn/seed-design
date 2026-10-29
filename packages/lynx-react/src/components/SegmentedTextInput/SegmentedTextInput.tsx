@@ -329,13 +329,16 @@ type NativeInputProps = LynxHostProps<"input">;
  */
 export interface SegmentedTextInputInputSegmentProps
   extends SegmentLayoutProps,
-    Omit<NativeInputProps, "type" | "maxlength" | "default-value" | "readonly" | "disabled"> {
+    Omit<
+      NativeInputProps,
+      "type" | "maxlength" | "default-value" | "readonly" | "disabled" | "placeholder"
+    > {
   /**
    * 자리 수. 붙여넣은 값이 잘리지 않도록 native `maxlength` 대신 JS로 제한한다.
    */
   length: number;
   /**
-   * 값을 가린다. native `type="password"`로 렌더링하므로 키보드는 `type`과 관계없이 문자 키보드다.
+   * 값을 가린다. native 입력의 글자는 숨기고 자리 수만큼 점을 그린다. caret은 항상 값 끝에 둔다.
    * @default false
    */
   masked?: boolean;
@@ -346,7 +349,7 @@ export interface SegmentedTextInputInputSegmentProps
   readOnly?: boolean;
   /**
    * @platform Lynx
-   * native 입력의 키보드 종류. `masked`이면 무시한다.
+   * native 입력의 키보드 종류.
    * @default "number"
    */
   type?: "number" | "digit" | "tel" | "text" | "email";
@@ -360,23 +363,28 @@ export interface SegmentedTextInputInputSegmentProps
    */
   normalize?: (value: string) => string;
   /**
-   * 입력 앞에 고정으로 표시하는 텍스트. 보조기기에서 읽지 않는다.
+   * 빈 Segment에 표시하는 내용. 문자열이 아니면(예: `<SegmentedTextInput.Dots count={1} />`) 입력 위에 겹쳐 그린다.
+   * masked Segment는 빈 자리를 점으로 그리므로 쓰지 않는다.
    */
-  staticPrefix?: string;
+  placeholder?: React.ReactNode;
   /**
-   * 입력 뒤에 고정으로 표시하는 텍스트(예: 주민등록번호 뒷자리 불릿 `"••••••"`). 보조기기에서 읽지 않는다.
+   * 입력 앞에 고정으로 표시하는 내용. 보조기기에서 읽지 않는다.
    */
-  staticSuffix?: string;
+  staticPrefix?: React.ReactNode;
+  /**
+   * 입력 뒤에 고정으로 표시하는 내용(예: 주민등록번호 뒷자리 `<SegmentedTextInput.Dots count={6} />`). 보조기기에서 읽지 않는다.
+   */
+  staticSuffix?: React.ReactNode;
   staticText?: never;
 }
 
 export interface SegmentedTextInputStaticSegmentProps
   extends SegmentLayoutProps,
-    Omit<LynxHostProps<"text">, "children"> {
+    Omit<LynxHostProps<"view">, "children"> {
   /**
-   * Segment 전체를 입력 없이 정적 텍스트로 표시한다. 값 배열에 포함하지 않으며 보조기기에서 읽지 않는다.
+   * Segment 전체를 입력 없이 정적 내용으로 표시한다. 값 배열에 포함하지 않으며 보조기기에서 읽지 않는다.
    */
-  staticText: string;
+  staticText: React.ReactNode;
 }
 
 export type SegmentedTextInputSegmentProps =
@@ -395,6 +403,45 @@ function getSegmentClassName(
   );
 }
 
+type DotsTone = "static" | "placeholder";
+
+// Lynx view에는 currentColor가 없어, Dots가 놓인 자리(정적 내용·placeholder)를 context로 알린다.
+const DotsToneContext = React.createContext<DotsTone>("static");
+
+/**
+ * 정적 내용을 그린다. 문자열은 `<text>`로, 그 밖의 내용(예: Dots)은 세로 가운데에 둔 `<view>`로 감싼다.
+ */
+function StaticContent({
+  children,
+  position,
+}: {
+  children: React.ReactNode;
+  position?: "prefix" | "suffix";
+}) {
+  const classes = useClassNames();
+
+  if (typeof children === "string") {
+    return (
+      <text className={classes.staticText} accessibility-elements-hidden={true}>
+        {children}
+      </text>
+    );
+  }
+
+  return (
+    <view
+      className={clsx(
+        classes.staticContent,
+        position === "prefix" && classes.staticPrefix,
+        position === "suffix" && classes.staticSuffix,
+      )}
+      accessibility-elements-hidden={true}
+    >
+      {children}
+    </view>
+  );
+}
+
 const SegmentedTextInputStaticSegment = React.forwardRef<
   NodesRef,
   SegmentedTextInputStaticSegmentProps
@@ -402,14 +449,11 @@ const SegmentedTextInputStaticSegment = React.forwardRef<
   const classes = useClassNames();
 
   return (
-    <view className={getSegmentClassName(classes, sizing, align)}>
-      <text
-        {...mergeProps(ref ? { ref } : {}, nativeProps)}
-        className={clsx(classes.staticText, className)}
-        accessibility-elements-hidden={true}
-      >
-        {staticText}
-      </text>
+    <view
+      {...mergeProps(ref ? { ref } : {}, nativeProps)}
+      className={clsx(getSegmentClassName(classes, sizing, align), className)}
+    >
+      <StaticContent>{staticText}</StaticContent>
     </view>
   );
 });
@@ -492,12 +536,15 @@ const SegmentedTextInputSegmentControl = React.forwardRef<
       normalize: normalizeProp,
       sizing = "fit",
       align = "start",
+      placeholder,
       staticPrefix,
       staticSuffix,
       readOnly,
       className,
       bindinput,
       bindselection,
+      bindfocus,
+      bindblur,
       ...otherProps
     },
     ref,
@@ -510,8 +557,17 @@ const SegmentedTextInputSegmentControl = React.forwardRef<
       normalizeProp ?? (type === "text" || type === "email" ? identity : digitsOnly);
     const isBirthDate = autoComplete?.split(/\s+/).includes("bday") ?? false;
 
-    const latest = React.useRef({ index, value, length, normalize, isBirthDate });
-    latest.current = { index, value, length, normalize, isBirthDate };
+    const latest = React.useRef({ index, value, length, normalize, isBirthDate, masked });
+    latest.current = { index, value, length, normalize, isBirthDate, masked };
+    const nativeRef = React.useRef<NodesRef | null>(null);
+    const mergedRef = React.useMemo(
+      () => mergeProps({ ref: nativeRef }, ref ? { ref } : {}).ref,
+      [ref],
+    );
+    // native 입력에 남을 값의 길이. masked Segment의 caret을 끝에 고정할 때 쓴다.
+    const nativeLengthRef = React.useRef(value.length);
+    nativeLengthRef.current = value.length;
+    const [focused, setFocused] = React.useState(false);
     const selectionRef = React.useRef<InputSnapshot | null>(null);
     // 조합을 시작하기 전의 값과 선택 영역. 조합이 끝난 입력을 이 상태에서 바꾼 것으로 판단한다.
     const compositionRef = React.useRef<InputState | null>(null);
@@ -522,7 +578,12 @@ const SegmentedTextInputSegmentControl = React.forwardRef<
 
         const { value: raw, selectionStart, selectionEnd, isComposing } = event.detail;
         const { index, value, length, normalize, isBirthDate } = latest.current;
-        const selection = selectionRef.current ?? { start: value.length, end: value.length };
+        // iOS는 입력 뒤의 선택 변경을 bindinput보다 먼저 보낸다. 값 끝을 넘는 선택은 입력 전 끝으로 본다.
+        const last = selectionRef.current;
+        const selection = {
+          start: Math.min(last?.start ?? value.length, value.length),
+          end: Math.min(last?.end ?? value.length, value.length),
+        };
         selectionRef.current = { start: selectionStart, end: selectionEnd };
 
         if (isComposing) {
@@ -545,12 +606,19 @@ const SegmentedTextInputSegmentControl = React.forwardRef<
             ? raw.slice(prefix.length, raw.length - suffix.length)
             : null;
           // 자리 수를 넘는 값은 반영하지 않고 이전 값으로 되돌린다. native 값은 TextField 동기화가 맞춘다.
-          const revert = () => ctx.setSegmentValues({ [index]: before.value });
+          const revert = () => {
+            nativeLengthRef.current = before.value.length;
+            ctx.setSegmentValues({ [index]: before.value });
+          };
 
           // paste 이벤트가 없으므로 조합이 아닌 입력으로 여러 글자가 들어오면 붙여넣기·자동완성으로 본다.
           const insertedLength =
             inserted?.length ?? raw.length - (before.value.length - (before.end - before.start));
           const isPaste = !composed && insertedLength > 1;
+          const commit = (next: string) => {
+            nativeLengthRef.current = next.length;
+            ctx.setSegmentValues({ [index]: next });
+          };
 
           if (isPaste) {
             const date = isBirthDate ? normalizeBirthDate(inserted ?? raw, length) : null;
@@ -562,7 +630,7 @@ const SegmentedTextInputSegmentControl = React.forwardRef<
               const next =
                 inserted === null ? normalize(raw) : prefix + normalize(inserted) + suffix;
               if (next.length > length) revert();
-              else ctx.setSegmentValues({ [index]: next });
+              else commit(next);
             } else {
               // 앞 값까지 바뀐 입력(자동완성 교체 등)은 Segment 전체를 바꾼다.
               ctx.distribute(
@@ -576,7 +644,7 @@ const SegmentedTextInputSegmentControl = React.forwardRef<
             if (next.length > length) {
               revert();
             } else {
-              ctx.setSegmentValues({ [index]: next });
+              commit(next);
 
               const typedAtEnd =
                 before.start === before.end &&
@@ -596,24 +664,60 @@ const SegmentedTextInputSegmentControl = React.forwardRef<
       (event: TextFieldSelectionEvent) => {
         "background only";
 
-        selectionRef.current = {
-          start: event.detail.selectionStart,
-          end: event.detail.selectionEnd,
-        };
+        const { selectionStart: start, selectionEnd: end } = event.detail;
+        const nativeLength = nativeLengthRef.current;
+        // 가린 값은 보이지 않으므로 가운데를 고칠 수 없게 caret을 끝에 둔다.
+        // 입력보다 먼저 온 선택 변경(입력 직후 caret)은 끝보다 뒤에 있으므로 건드리지 않는다.
+        if (latest.current.masked && (start !== end || start < nativeLength)) {
+          selectionRef.current = { start: nativeLength, end: nativeLength };
+          try {
+            nativeRef.current
+              ?.invoke({
+                method: "setSelectionRange",
+                params: { selectionStart: nativeLength, selectionEnd: nativeLength },
+              })
+              .exec();
+          } catch {
+            // native 입력이 아직 commit되지 않았으면 선택 영역도 없다.
+          }
+        } else {
+          selectionRef.current = { start, end };
+        }
         bindselection?.(event as Parameters<NonNullable<NativeInputProps["bindselection"]>>[0]);
       },
       [bindselection],
     );
 
+    const handleFocus = React.useCallback(
+      (event: Parameters<NonNullable<NativeInputProps["bindfocus"]>>[0]) => {
+        "background only";
+        setFocused(true);
+        bindfocus?.(event);
+      },
+      [bindfocus],
+    );
+
+    const handleBlur = React.useCallback(
+      (event: Parameters<NonNullable<NativeInputProps["bindblur"]>>[0]) => {
+        "background only";
+        setFocused(false);
+        bindblur?.(event);
+      },
+      [bindblur],
+    );
+
     const api = useTextFieldInput(
       {
         ...otherProps,
+        placeholder: !masked && typeof placeholder === "string" ? placeholder : undefined,
         readonly: readOnly,
-        type: masked ? ("password" as const) : type,
+        type,
         bindinput: handleInput,
         bindselection: handleSelection,
+        bindfocus: handleFocus,
+        bindblur: handleBlur,
       },
-      ref,
+      mergedRef,
     );
 
     ctx.updateSegment(segmentKey, { length, masked, readOnly: api.readOnly, focus: api.focus });
@@ -628,42 +732,79 @@ const SegmentedTextInputSegmentControl = React.forwardRef<
     }, []);
 
     const isPlaceholder = value === "";
-    const readOnlyDisplay = isPlaceholder
-      ? otherProps.placeholder
-      : masked
-        ? "•".repeat(value.length)
-        : value;
+    const showPlaceholderOverlay =
+      !masked && isPlaceholder && placeholder != null && typeof placeholder !== "string";
 
     return (
       <view className={getSegmentClassName(classes, sizing, align)}>
-        {staticPrefix ? (
-          <text className={classes.staticText} accessibility-elements-hidden={true}>
-            {staticPrefix}
-          </text>
-        ) : null}
+        {staticPrefix ? <StaticContent position="prefix">{staticPrefix}</StaticContent> : null}
         <view
           className={clsx(
             classes.valueContainer,
-            sizing === "fill" && align === "start" && classes.valueContainerFill,
+            sizing === "fill" && align === "start" && !staticSuffix && classes.valueContainerFill,
           )}
         >
-          {/* 입력 너비를 자리 수만큼의 숫자·불릿 글자 너비로 맞춘다. */}
-          <text className={classes.valueSizer} accessibility-elements-hidden={true}>
-            {(masked ? "•" : "0").repeat(length)}
-          </text>
+          {masked ? (
+            // 입력 글자 대신 자리 수만큼 점을 그린다. 채운 자리는 진하게, caret은 마지막 글자 뒤에 둔다.
+            <view
+              className={clsx(classes.dots, classes.maskedDots)}
+              accessibility-elements-hidden={true}
+            >
+              {Array.from({ length }, (_, i) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: 점은 자리 순서 외에 구분할 값이 없다.
+                <React.Fragment key={i}>
+                  {focused && !api.readOnly && i === value.length ? (
+                    <view className={classes.caret} />
+                  ) : null}
+                  <view
+                    className={clsx(
+                      classes.dot,
+                      i < value.length ? classes.filledDot : classes.maskedDot,
+                    )}
+                  />
+                </React.Fragment>
+              ))}
+              {focused && !api.readOnly && value.length >= length ? (
+                <view className={classes.caret} />
+              ) : null}
+            </view>
+          ) : (
+            // 입력 너비를 자리 수만큼의 숫자 글자 너비로 맞춘다.
+            <text className={classes.valueSizer} accessibility-elements-hidden={true}>
+              {"0".repeat(length)}
+            </text>
+          )}
+          {showPlaceholderOverlay ? (
+            <view
+              className={clsx(
+                classes.placeholder,
+                staticSuffix ? classes.placeholderBeforeSuffix : undefined,
+              )}
+              accessibility-elements-hidden={true}
+            >
+              <DotsToneContext.Provider value="placeholder">{placeholder}</DotsToneContext.Provider>
+            </view>
+          ) : null}
           {api.readOnly ? (
-            <view className={classes.readOnlyValue}>
+            masked ? (
               <text
                 {...api.readOnlyTextProps}
-                className={clsx(
-                  classes.readOnlyText,
-                  isPlaceholder && classes.readOnlyPlaceholder,
-                  className,
-                )}
-              >
-                {readOnlyDisplay}
-              </text>
-            </view>
+                className={clsx(classes.maskedReadOnlyText, className)}
+              />
+            ) : (
+              <view className={classes.readOnlyValue}>
+                <text
+                  {...api.readOnlyTextProps}
+                  className={clsx(
+                    classes.readOnlyText,
+                    isPlaceholder && classes.readOnlyPlaceholder,
+                    className,
+                  )}
+                >
+                  {isPlaceholder ? (typeof placeholder === "string" ? placeholder : "") : value}
+                </text>
+              </view>
+            )
           ) : (
             <input
               {...api.inputProps}
@@ -671,11 +812,7 @@ const SegmentedTextInputSegmentControl = React.forwardRef<
             />
           )}
         </view>
-        {staticSuffix ? (
-          <text className={classes.staticText} accessibility-elements-hidden={true}>
-            {staticSuffix}
-          </text>
-        ) : null}
+        {staticSuffix ? <StaticContent position="suffix">{staticSuffix}</StaticContent> : null}
       </view>
     );
   },
@@ -704,6 +841,43 @@ export const SegmentedTextInputSegment = React.forwardRef<NodesRef, SegmentedTex
 SegmentedTextInputSegment.displayName = "SegmentedTextInputSegment";
 
 ////////////////////////////////////////////////////////////////////////////////////
+
+export interface SegmentedTextInputDotsProps extends Omit<LynxHostProps<"view">, "children"> {
+  /**
+   * 점 개수.
+   */
+  count: number;
+}
+
+/**
+ * 주민등록번호 뒷자리처럼 가린 자리를 점으로 표시한다. `staticText`·`staticPrefix`·`staticSuffix`·`placeholder`에 넣는다.
+ * 보조기기에서 읽지 않는다.
+ */
+export const SegmentedTextInputDots = React.forwardRef<NodesRef, SegmentedTextInputDotsProps>(
+  ({ count, className, ...nativeProps }, ref) => {
+    const classes = useClassNames();
+    const tone = React.useContext(DotsToneContext);
+
+    return (
+      <view
+        {...mergeProps(
+          { ...(ref ? { ref } : {}), "accessibility-elements-hidden": true },
+          nativeProps,
+        )}
+        className={clsx(classes.dots, className)}
+      >
+        {Array.from({ length: count }, (_, i) => (
+          <view
+            // biome-ignore lint/suspicious/noArrayIndexKey: 점은 자리 순서 외에 구분할 값이 없다.
+            key={i}
+            className={clsx(classes.dot, tone === "placeholder" && classes.placeholderDot)}
+          />
+        ))}
+      </view>
+    );
+  },
+);
+SegmentedTextInputDots.displayName = "SegmentedTextInputDots";
 
 export interface SegmentedTextInputSeparatorProps extends LynxHostProps<"text"> {}
 

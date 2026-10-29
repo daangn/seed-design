@@ -8,7 +8,7 @@ import { SegmentedTextInput } from "./index";
 
 interface InvokeCall {
   method: string;
-  params?: { value?: string };
+  params?: { value?: string; selectionStart?: number; selectionEnd?: number };
 }
 
 function getRenderedRoot() {
@@ -59,16 +59,29 @@ function fireInput(
   });
 }
 
-function fireSelection(ref: { current: NodesRef | null }, element: Element, selection: number) {
+function fireSelection(
+  ref: { current: NodesRef | null },
+  element: Element,
+  selection: number,
+  selectionEnd = selection,
+) {
   fireNativeEvent(ref, element, "selection", {
     selectionStart: selection,
-    selectionEnd: selection,
+    selectionEnd,
   });
 }
 
 async function flushReconciliation() {
   await Promise.resolve();
   await Promise.resolve();
+}
+
+function getMaskedDots() {
+  const dots = getRenderedRoot().querySelector(".seed-segmented-text-input__maskedDots");
+  return {
+    total: dots?.querySelectorAll(".seed-segmented-text-input__dot").length ?? 0,
+    filled: dots?.querySelectorAll(".seed-segmented-text-input__filledDot").length ?? 0,
+  };
 }
 
 afterEach(() => {
@@ -103,6 +116,17 @@ describe("SegmentedTextInput", () => {
 
     fireInput(refs[0]!, inputs[0]!, "1234");
     expect(onValueChange).toHaveBeenLastCalledWith(["1234", "", "", ""]);
+    expect(calls[1]).toContainEqual(expect.objectContaining({ method: "focus" }));
+  });
+
+  it("moves focus even when the selection change arrives before the input", () => {
+    const { refs, calls, inputs } = renderCardNumber();
+
+    fireInput(refs[0]!, inputs[0]!, "123");
+    // iOS는 입력 뒤의 caret 위치를 bindinput보다 먼저 보낸다.
+    fireSelection(refs[0]!, inputs[0]!, 4);
+    fireInput(refs[0]!, inputs[0]!, "1234");
+
     expect(calls[1]).toContainEqual(expect.objectContaining({ method: "focus" }));
   });
 
@@ -218,7 +242,7 @@ describe("SegmentedTextInput", () => {
 
   it("renders read-only segments as text and masks their value", () => {
     render(
-      <SegmentedTextInput.Root readOnly defaultValue={["931205", "1234567"]}>
+      <SegmentedTextInput.Root readOnly defaultValue={["931205", "123"]}>
         <SegmentedTextInput.Segment accessibility-label="생년월일" length={6} />
         <SegmentedTextInput.Separator> - </SegmentedTextInput.Separator>
         <SegmentedTextInput.Segment accessibility-label="뒷자리" length={7} masked />
@@ -230,8 +254,55 @@ describe("SegmentedTextInput", () => {
     );
     expect(getInputs()).toHaveLength(0);
     expect(texts).toContain("931205");
-    expect(texts).toContain("•••••••");
-    expect(texts).not.toContain("1234567");
+    expect(texts.join("")).not.toContain("123");
+    expect(getMaskedDots()).toEqual({ total: 7, filled: 3 });
+  });
+
+  it("draws masked segments as dots and keeps the caret at the end", () => {
+    const ref = createRef<NodesRef>();
+    render(
+      <SegmentedTextInput.Root defaultValue={["12"]}>
+        <SegmentedTextInput.Segment ref={ref} accessibility-label="뒷자리" length={4} masked />
+      </SegmentedTextInput.Root>,
+    );
+    const calls = stubInvoke(ref);
+    const input = getInputs()[0]!;
+
+    expect(input).toHaveAttribute("type", "number");
+    expect(getMaskedDots()).toEqual({ total: 4, filled: 2 });
+
+    // 가운데로 옮긴 caret은 끝으로 되돌린다.
+    fireSelection(ref, input, 1);
+    expect(calls).toContainEqual({
+      method: "setSelectionRange",
+      params: { selectionStart: 2, selectionEnd: 2 },
+    });
+
+    fireInput(ref, input, "123");
+    expect(getMaskedDots()).toEqual({ total: 4, filled: 3 });
+
+    // 입력 직후 끝에 있는 caret은 건드리지 않는다.
+    calls.length = 0;
+    fireSelection(ref, input, 3);
+    expect(calls).toEqual([]);
+  });
+
+  it("draws Dots in the placeholder color while the segment is empty", () => {
+    render(
+      <SegmentedTextInput.Root>
+        <SegmentedTextInput.Segment
+          accessibility-label="뒷자리 첫 번째 자리"
+          length={1}
+          placeholder={<SegmentedTextInput.Dots count={1} />}
+          staticSuffix={<SegmentedTextInput.Dots count={6} />}
+        />
+      </SegmentedTextInput.Root>,
+    );
+
+    const root = getRenderedRoot();
+    expect(root.querySelectorAll(".seed-segmented-text-input__dot")).toHaveLength(7);
+    expect(root.querySelectorAll(".seed-segmented-text-input__placeholderDot")).toHaveLength(1);
+    expect(getInputs()[0]).not.toHaveAttribute("placeholder");
   });
 
   it("keeps the focus state while focus moves between segments", () => {

@@ -79,8 +79,57 @@
     color: var(--seed-color-fg-placeholder);
     font-weight: var(--seed-font-weight-regular);
 }
-.seed-segmented-text-input__maskedValue::placeholder {
-    color: var(--seed-color-fg-placeholder);
+.seed-segmented-text-input__maskedValue {
+    color: transparent;
+    caret-color: transparent;
+}
+.seed-segmented-text-input__placeholder {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    pointer-events: none;
+}
+.seed-segmented-text-input__placeholderBeforeSuffix {
+    justify-content: flex-end;
+}
+.seed-segmented-text-input__dots {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-shrink: 0;
+    gap: var(--seed-dimension-x2);
+}
+.seed-segmented-text-input__maskedDots {
+    align-self: stretch;
+    padding-left: var(--seed-dimension-x1);
+    padding-right: var(--seed-dimension-x1);
+}
+.seed-segmented-text-input__dot {
+    flex-shrink: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: var(--seed-radius-full);
+    background-color: var(--seed-color-fg-neutral);
+}
+.seed-segmented-text-input__placeholderDot {
+    background-color: var(--seed-color-fg-placeholder);
+}
+.seed-segmented-text-input__maskedDot {
+    background-color: var(--seed-color-fg-placeholder);
+}
+.seed-segmented-text-input__filledDot {
+    background-color: var(--seed-color-fg-neutral);
+}
+.seed-segmented-text-input__caret {
+    flex-shrink: 0;
+    border-radius: var(--seed-radius-full);
+    background-color: var(--seed-color-fg-neutral);
+    animation: caret-blink 1s step-end infinite;
 }
 .seed-segmented-text-input__readOnlyValue {
     position: absolute;
@@ -101,11 +150,31 @@
     color: var(--seed-color-fg-placeholder);
     font-weight: var(--seed-font-weight-regular);
 }
+.seed-segmented-text-input__maskedReadOnlyText {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
 .seed-segmented-text-input__staticText {
     flex-shrink: 0;
     white-space: nowrap;
     color: var(--seed-color-fg-neutral);
     font-weight: var(--seed-font-weight-regular);
+}
+.seed-segmented-text-input__staticContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-self: stretch;
+    flex-shrink: 0;
+}
+.seed-segmented-text-input__staticPrefix {
+    margin-right: var(--seed-dimension-x2);
+}
+.seed-segmented-text-input__staticSuffix {
+    margin-left: var(--seed-dimension-x2);
 }
 .seed-segmented-text-input__separator {
     flex-shrink: 0;
@@ -159,6 +228,12 @@
 .seed-segmented-text-input__suffix--size_large {
     padding-left: var(--seed-dimension-x2_5);
 }
+.seed-segmented-text-input__caret--size_large {
+    width: 1.5px;
+    height: 20px;
+    margin-left: calc((var(--seed-dimension-x2) + 1.5px) / -2);
+    margin-right: calc((var(--seed-dimension-x2) + 1.5px) / -2);
+}
 .seed-segmented-text-input__root--size_medium {
     min-height: var(--seed-dimension-x10);
     border-radius: var(--seed-radius-r2);
@@ -198,6 +273,12 @@
 .seed-segmented-text-input__suffix--size_medium {
     padding-left: var(--seed-dimension-x2);
 }
+.seed-segmented-text-input__caret--size_medium {
+    width: 1px;
+    height: 17px;
+    margin-left: calc((var(--seed-dimension-x2) + 1px) / -2);
+    margin-right: calc((var(--seed-dimension-x2) + 1px) / -2);
+}
 .seed-segmented-text-input__stroke--focused_true {
     border-color: var(--seed-color-stroke-neutral-contrast);
 }
@@ -213,8 +294,17 @@
 .seed-segmented-text-input__value--disabled_true::placeholder {
     color: var(--seed-color-fg-disabled);
 }
-.seed-segmented-text-input__maskedValue--disabled_true::placeholder {
-    color: var(--seed-color-fg-disabled);
+.seed-segmented-text-input__dot--disabled_true {
+    background-color: var(--seed-color-fg-disabled);
+}
+.seed-segmented-text-input__placeholderDot--disabled_true {
+    background-color: var(--seed-color-fg-disabled);
+}
+.seed-segmented-text-input__maskedDot--disabled_true {
+    background-color: var(--seed-color-fg-disabled);
+}
+.seed-segmented-text-input__filledDot--disabled_true {
+    background-color: var(--seed-color-fg-disabled);
 }
 .seed-segmented-text-input__readOnlyText--disabled_true {
     color: var(--seed-color-fg-disabled);

@@ -24,6 +24,7 @@ compatibility:
 Segment마다 native 입력 하나를 두고, 값은 입력 Segment 순서대로 `string[]`로 다룹니다.
 
 - 끝에서 입력해 Segment를 채우면 다음 Segment로 이동합니다. 자리 수를 넘는 입력과 숫자 외 문자는 반영하지 않습니다.
+- 가린(`masked`) Segment는 입력한 글자 대신 자리 수만큼 점을 그립니다. 가린 값 안에서는 caret을 옮기지 않고 끝에서만 입력·삭제합니다.
 - 붙여넣은 값은 구분자를 지우고 다음 Segment까지 차례로 채웁니다. 가린(`masked`)·`readOnly` Segment 앞에서 멈춥니다.
 - `autoComplete="bday"` Segment는 붙여넣은 생년월일(`yyyy-MM-dd` 등)을 자리 수에 맞춰 바꿉니다.
 - 한글 조합 중에는 다음 Segment로 이동하지 않습니다.
@@ -72,6 +73,24 @@ npx @seed-design/cli@latest add ui:card-number-field
 />
 
 `staticText`를 주면 입력 없이 정적 텍스트만 표시하는 Segment가 됩니다. 정적 Segment는 값 배열에 포함하지 않습니다.
+
+### `SegmentedTextInput.Dots`
+
+<react-type-table
+  path="../packages/lynx-react/src/components/SegmentedTextInput/SegmentedTextInput.tsx"
+  name="SegmentedTextInputDotsProps"
+/>
+
+주민등록번호 뒷자리처럼 가린 자리를 7×7 점으로 표시합니다. `staticText`·`staticSuffix`·`placeholder`에 넣습니다.
+
+```tsx
+<SegmentedTextInput.Segment
+  accessibility-label="주민등록번호 뒷자리 첫 번째 자리"
+  length={1}
+  placeholder={<SegmentedTextInput.Dots count={1} />}
+  staticSuffix={<SegmentedTextInput.Dots count={6} />}
+/>
+```
 
 ## Examples
 
@@ -165,8 +184,8 @@ snippet이 다루지 않는 형식은 `SegmentedTextInput`을 직접 조합합�
 ## 웹 버전과의 차이
 
 - 빈 Segment에서 Backspace를 눌러도 이전 Segment로 이동하지 않습니다. 빈 native 입력에서 지우기를 누르면 값이 바뀌지 않아 입력 이벤트가 오지 않습니다(Android에서 하드웨어·소프트 키보드 모두 확인). 이전 Segment는 탭해서 고칩니다.
-- ←·→ 방향키로 Segment 사이를 이동하지 않습니다.
+- ←·→ 방향키로 Segment 사이를 이동하지 않습니다. `masked` Segment에서도 caret만 끝에 고정합니다.
 - native 입력에 paste 이벤트와 자동완성 속성이 없습니다. 한 번의 입력으로 두 글자 이상 늘어나면 붙여넣기로 보고 나눠 채웁니다. `autoComplete`는 native 입력에 전달하지 않고 `"bday"` 정규화에만 씁니다.
-- 키보드 종류는 `inputMode` 대신 `type`(default: `"number"`)으로 정합니다. `masked` Segment는 native `type="password"`를 쓰므로 문자 키보드가 열리고, 입력한 숫자 외 문자는 반영하지 않습니다.
+- 키보드 종류는 `inputMode` 대신 `type`(default: `"number"`)으로 정합니다. `masked` Segment는 native `type="password"` 대신 글자를 숨긴 입력 위에 점을 그리므로 `masked`여도 `type`의 키보드가 열립니다.
 - `readOnly`에서는 [Text Field](/lynx/components/text-field-input)처럼 native 입력 대신 텍스트로 그립니다.
 - Field label이 group 이름이 되거나 label을 눌러 첫 Segment로 이동하는 동작이 없습니다. 각 Segment의 `accessibility-label`로 구간 이름을 알립니다.

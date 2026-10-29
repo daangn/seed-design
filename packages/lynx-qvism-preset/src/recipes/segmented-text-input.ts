@@ -1,3 +1,4 @@
+import { vars as tokens } from "../vars";
 import { segmentedTextInput as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { pseudo } from "../utils/pseudo";
@@ -16,10 +17,23 @@ const segmentedTextInput = defineSlotRecipe({
     "valueSizer",
     "value",
     "maskedValue",
+    "placeholder",
+    "placeholderBeforeSuffix",
+    "dots",
+    "maskedDots",
+    "dot",
+    "placeholderDot",
+    "maskedDot",
+    "filledDot",
+    "caret",
     "readOnlyValue",
     "readOnlyText",
     "readOnlyPlaceholder",
+    "maskedReadOnlyText",
     "staticText",
+    "staticContent",
+    "staticPrefix",
+    "staticSuffix",
     "separator",
     "suffix",
   ],
@@ -73,7 +87,7 @@ const segmentedTextInput = defineSlotRecipe({
     segmentCenter: {
       justifyContent: "center",
     },
-    // 측정용 텍스트(자리 수만큼의 "0" 또는 "•")가 너비를 정하고, 입력은 그 위를 덮는다.
+    // 측정용 텍스트(자리 수만큼의 "0")나 masked 점이 너비를 정하고, 입력은 그 위를 덮는다.
     valueContainer: {
       display: "flex",
       flexDirection: "row",
@@ -109,10 +123,62 @@ const segmentedTextInput = defineSlotRecipe({
         fontWeight: vars.base.enabled.placeholder.fontWeight,
       },
     },
+    // masked 입력의 글자와 caret은 숨기고, 아래에 그린 점과 caret이 대신 보인다.
     maskedValue: {
-      [pseudo("::placeholder")]: {
-        color: vars.base.enabled.maskedPlaceholder.color,
-      },
+      color: "transparent",
+      caretColor: "transparent",
+    },
+    // 문자열이 아닌 placeholder(예: Dots)를 입력 칸 위에 겹쳐 그린다.
+    placeholder: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      pointerEvents: "none",
+    },
+    // 입력 칸은 숫자 폭이라 점보다 넓다. 뒤에 정적 내용이 붙으면 끝에 붙여 점 사이 간격을 고르게 한다.
+    placeholderBeforeSuffix: {
+      justifyContent: "flex-end",
+    },
+    dots: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      flexShrink: 0,
+      gap: tokens.$dimension.x2,
+    },
+    // Figma의 masked Segment는 점 묶음 좌우에 여백을 둔다.
+    maskedDots: {
+      alignSelf: "stretch",
+      paddingLeft: tokens.$dimension.x1,
+      paddingRight: tokens.$dimension.x1,
+    },
+    // Lynx view에는 currentColor가 없어 점이 놓인 자리마다 색을 slot으로 나눈다.
+    dot: {
+      flexShrink: 0,
+      width: "7px",
+      height: "7px",
+      borderRadius: tokens.$radius.full,
+      backgroundColor: vars.base.enabled.staticText.color,
+    },
+    placeholderDot: {
+      backgroundColor: vars.base.enabled.placeholder.color,
+    },
+    maskedDot: {
+      backgroundColor: vars.base.enabled.maskedPlaceholder.color,
+    },
+    filledDot: {
+      backgroundColor: vars.base.enabled.value.color,
+    },
+    caret: {
+      flexShrink: 0,
+      borderRadius: tokens.$radius.full,
+      backgroundColor: vars.base.enabled.value.color,
+      animation: "caret-blink 1s step-end infinite",
     },
     // readOnly에서 native 입력 대신 `<text>`를 입력과 같은 자리에 세로 가운데로 둔다.
     readOnlyValue: {
@@ -134,11 +200,34 @@ const segmentedTextInput = defineSlotRecipe({
       color: vars.base.enabled.placeholder.color,
       fontWeight: vars.base.enabled.placeholder.fontWeight,
     },
+    // readOnly masked Segment는 점을 그리고, 탭·보조기기용 `<text>`는 내용 없이 그 위를 덮는다.
+    maskedReadOnlyText: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+    },
     staticText: {
       flexShrink: 0,
       whiteSpace: "nowrap",
       color: vars.base.enabled.staticText.color,
       fontWeight: vars.base.enabled.staticText.fontWeight,
+    },
+    // 문자열이 아닌 정적 내용(예: Dots)은 글자 기준선이 아니라 줄 가운데에 오도록 세로 가운데에 둔다.
+    staticContent: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      alignSelf: "stretch",
+      flexShrink: 0,
+    },
+    // 입력 앞·뒤에 붙는 정적 점은 입력과 점 사이도 점 간격만큼 띄운다.
+    staticPrefix: {
+      marginRight: tokens.$dimension.x2,
+    },
+    staticSuffix: {
+      marginLeft: tokens.$dimension.x2,
     },
     separator: {
       flexShrink: 0,
@@ -192,6 +281,13 @@ const segmentedTextInput = defineSlotRecipe({
         suffix: {
           paddingLeft: vars.sizeLarge.enabled.root.gap,
         },
+        // Figma의 caret 크기. 점 사이 간격 가운데에 두되, 점 위치는 밀지 않는다.
+        caret: {
+          width: "1.5px",
+          height: "20px",
+          marginLeft: `calc((${tokens.$dimension.x2} + 1.5px) / -2)`,
+          marginRight: `calc((${tokens.$dimension.x2} + 1.5px) / -2)`,
+        },
       },
       medium: {
         root: {
@@ -229,6 +325,12 @@ const segmentedTextInput = defineSlotRecipe({
         suffix: {
           paddingLeft: vars.sizeMedium.enabled.root.gap,
         },
+        caret: {
+          width: "1px",
+          height: "17px",
+          marginLeft: `calc((${tokens.$dimension.x2} + 1px) / -2)`,
+          marginRight: `calc((${tokens.$dimension.x2} + 1px) / -2)`,
+        },
       },
     },
     focused: {
@@ -256,11 +358,10 @@ const segmentedTextInput = defineSlotRecipe({
             color: vars.base.disabled.placeholder.color,
           },
         },
-        maskedValue: {
-          [pseudo("::placeholder")]: {
-            color: vars.base.disabled.maskedPlaceholder.color,
-          },
-        },
+        dot: { backgroundColor: vars.base.disabled.staticText.color },
+        placeholderDot: { backgroundColor: vars.base.disabled.placeholder.color },
+        maskedDot: { backgroundColor: vars.base.disabled.maskedPlaceholder.color },
+        filledDot: { backgroundColor: vars.base.disabled.value.color },
         readOnlyText: { color: vars.base.disabled.value.color },
         readOnlyPlaceholder: { color: vars.base.disabled.placeholder.color },
         staticText: { color: vars.base.disabled.staticText.color },

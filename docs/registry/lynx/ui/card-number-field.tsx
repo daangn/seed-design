@@ -45,7 +45,7 @@ export const CardNumberInput = React.forwardRef<SegmentedTextInputRootRef, CardN
               ) : null}
               <SeedSegmentedTextInput.Segment
                 accessibility-label={label}
-                placeholder={masked ? "••••" : "0000"}
+                placeholder={masked ? undefined : "0000"}
                 length={4}
                 masked={masked}
               />

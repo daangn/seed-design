@@ -44,7 +44,7 @@ export default function Example() {
                 {i > 0 ? <SegmentedTextInput.Separator> - </SegmentedTextInput.Separator> : null}
                 <SegmentedTextInput.Segment
                   accessibility-label={`카드번호 ${label}`}
-                  placeholder={usesKeypad ? "••••" : "0000"}
+                  placeholder={usesKeypad ? undefined : "0000"}
                   length={4}
                   masked={usesKeypad}
                   // 직접 입력을 막고 탭하면 외부 키패드를 연다.
