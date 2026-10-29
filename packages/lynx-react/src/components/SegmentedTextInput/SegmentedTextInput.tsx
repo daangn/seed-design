@@ -167,7 +167,7 @@ export const SegmentedTextInputRoot = React.forwardRef<NodesRef, SegmentedTextIn
         const current = valuesRef.current;
         const count = Math.max(orderRef.current.length, current.length);
         const next = Array.from({ length: count }, (_, i) => updates[i] ?? current[i] ?? "");
-        if (next.every((segmentValue, i) => segmentValue === current[i])) return;
+        if (next.every((segmentValue, i) => segmentValue === (current[i] ?? ""))) return;
 
         valuesRef.current = next;
         setValues(next);

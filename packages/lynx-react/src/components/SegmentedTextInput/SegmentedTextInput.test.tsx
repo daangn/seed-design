@@ -153,6 +153,14 @@ describe("SegmentedTextInput", () => {
     );
   });
 
+  it("does not report a change when an empty segment stays empty", () => {
+    const { refs, inputs, onValueChange } = renderCardNumber();
+
+    fireInput(refs[0]!, inputs[0]!, "ab");
+
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
+
   it("distributes a multi-character insertion and stops before a masked segment", async () => {
     const { refs, calls, inputs, onValueChange } = renderCardNumber();
 
