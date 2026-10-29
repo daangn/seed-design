@@ -65,13 +65,13 @@
         "@seed-design/lynx-react-loop-scroll": "workspace:*",
         "@seed-design/lynx-react-sortable": "workspace:*",
         "@seed-design/migration-index": "2.0.1",
-        "@seed-design/react": "3.0.1",
+        "@seed-design/react": "3.1.0",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/react-primitive": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
         "@seed-design/rootage-core": "0.0.0",
-        "@seed-design/stackflow": "2.0.6",
-        "@seed-design/tailwind4-theme": "3.0.2",
+        "@seed-design/stackflow": "2.1.0",
+        "@seed-design/tailwind4-theme": "3.1.0",
         "@stackflow/config": "^1.2.1",
         "@stackflow/core": "^1.2.0",
         "@stackflow/plugin-renderer-basic": "^1.1.13",
@@ -343,8 +343,8 @@
       "name": "@seed-design/example-rspack",
       "version": "1.0.0",
       "dependencies": {
-        "@seed-design/css": "3.0.3",
-        "@seed-design/react": "3.0.1",
+        "@seed-design/css": "3.1.0",
+        "@seed-design/react": "3.1.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
       },
@@ -372,12 +372,12 @@
         "@karrotmarket/react-multicolor-icon": "^1.17.0",
         "@radix-ui/react-slot": "^1.2.3",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
-        "@seed-design/css": "3.0.3",
+        "@seed-design/css": "3.1.0",
         "@seed-design/dom-utils": "workspace:*",
-        "@seed-design/react": "3.0.1",
+        "@seed-design/react": "3.1.0",
         "@seed-design/react-primitive": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
-        "@seed-design/stackflow": "2.0.6",
+        "@seed-design/stackflow": "2.1.0",
         "@seed-design/stylesheet": "1.1.2",
         "@stackflow/compat-await-push": "^1.1.13",
         "@stackflow/config": "^1.2.1",
@@ -394,7 +394,7 @@
       },
       "devDependencies": {
         "@playwright/test": "^1.61.1",
-        "@seed-design/cli": "1.7.2",
+        "@seed-design/cli": "1.7.3",
         "@seed-design/vite-plugin": "^2.1.1",
         "@types/node": "^25.0.0",
         "@types/react": "^19.2.7",
@@ -411,7 +411,7 @@
     },
     "packages/cli": {
       "name": "@seed-design/cli",
-      "version": "1.7.2",
+      "version": "1.7.3",
       "bin": {
         "seed-design": "./bin/index.mjs",
       },
@@ -479,7 +479,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "3.0.3",
+      "version": "3.1.0",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -528,11 +528,11 @@
     },
     "packages/lynx-css": {
       "name": "@seed-design/lynx-css",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "devDependencies": {
         "@seed-design/lynx-qvism-preset": "0.0.0",
         "@seed-design/qvism-cli": "0.0.0",
-        "@seed-design/rootage-artifacts": "3.0.2",
+        "@seed-design/rootage-artifacts": "3.1.0",
       },
     },
     "packages/lynx-qvism-preset": {
@@ -545,12 +545,12 @@
       },
       "devDependencies": {
         "@lynx-js/types": "^3.7.0",
-        "@seed-design/rootage-artifacts": "3.0.2",
+        "@seed-design/rootage-artifacts": "3.1.0",
       },
     },
     "packages/lynx-react": {
       "name": "@seed-design/lynx-react",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@seed-design/lynx-react-accordion": "^1.0.0",
@@ -573,7 +573,7 @@
         "@seed-design/lynx-react-page-banner": "^1.0.0",
         "@seed-design/lynx-react-popover": "^1.0.0",
         "@seed-design/lynx-react-progress": "^1.0.0",
-        "@seed-design/lynx-react-pull-to-refresh": "^1.0.0",
+        "@seed-design/lynx-react-pull-to-refresh": "^1.1.0",
         "@seed-design/lynx-react-quantity-picker": "^1.0.0",
         "@seed-design/lynx-react-radio-group": "^1.0.0",
         "@seed-design/lynx-react-scale-feedback": "^1.0.0",
@@ -582,7 +582,7 @@
         "@seed-design/lynx-react-slider": "^1.0.0",
         "@seed-design/lynx-react-switch": "^1.0.0",
         "@seed-design/lynx-react-tabs": "^1.0.0",
-        "@seed-design/lynx-react-text-field": "^1.0.0",
+        "@seed-design/lynx-react-text-field": "^1.1.0",
         "@seed-design/lynx-react-toggle": "^1.0.0",
         "@seed-design/lynx-react-use-controllable-state": "^1.0.0",
         "@seed-design/lynx-react-use-press-tap": "^1.0.0",
@@ -593,7 +593,7 @@
         "@lynx-js/lynx-ui-dialog": "^3.133.1",
         "@lynx-js/react": "^0.117.0",
         "@lynx-js/types": "^3.9.0",
-        "@seed-design/lynx-css": "1.0.1",
+        "@seed-design/lynx-css": "1.1.0",
         "@seed-design/lynx-vitest-config": "0.0.0",
         "@testing-library/jest-dom": "^6.9.1",
         "jsdom": "^29.0.2",
@@ -605,7 +605,7 @@
       "peerDependencies": {
         "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.9.0",
-        "@seed-design/lynx-css": "^1.0.1",
+        "@seed-design/lynx-css": "^1.1.0",
       },
     },
     "packages/lynx-react-headless/accordion": {
@@ -1002,7 +1002,7 @@
     },
     "packages/lynx-react-headless/pull-to-refresh": {
       "name": "@seed-design/lynx-react-pull-to-refresh",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "dependencies": {
         "@lynx-js/gesture-runtime": "2.1.1",
       },
@@ -1180,7 +1180,7 @@
     },
     "packages/lynx-react-headless/text-field": {
       "name": "@seed-design/lynx-react-text-field",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "dependencies": {
         "@seed-design/lynx-react-field": "^1.0.0",
         "@seed-design/lynx-react-keyboard-avoiding-scroll-view": "^1.0.0",
@@ -1339,13 +1339,13 @@
         "@seed-design/rootage-core": "0.0.0",
       },
       "devDependencies": {
-        "@seed-design/rootage-artifacts": "3.0.2",
+        "@seed-design/rootage-artifacts": "3.1.0",
         "csstype": "^3.1.3",
       },
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "3.0.1",
+      "version": "3.1.0",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.5",
@@ -1382,8 +1382,8 @@
         "@seed-design/react-slider": "^2.0.1",
         "@seed-design/react-snackbar": "^2.0.1",
         "@seed-design/react-switch": "^2.0.1",
-        "@seed-design/react-tabs": "^2.0.1",
-        "@seed-design/react-text-field": "^2.0.1",
+        "@seed-design/react-tabs": "^3.0.0",
+        "@seed-design/react-text-field": "^2.1.0",
         "@seed-design/react-time-picker": "^1.0.0",
         "@seed-design/react-toggle": "^2.0.1",
         "@seed-design/react-tooltip": "^1.0.1",
@@ -1405,7 +1405,7 @@
         "vite-plugin-dts": "^5.0.0",
       },
       "peerDependencies": {
-        "@seed-design/css": "^3.0.0",
+        "@seed-design/css": "^3.1.0",
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0",
       },
@@ -2080,7 +2080,7 @@
     },
     "packages/react-headless/tabs": {
       "name": "@seed-design/react-tabs",
-      "version": "2.0.1",
+      "version": "3.0.0",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
@@ -2104,7 +2104,7 @@
     },
     "packages/react-headless/text-field": {
       "name": "@seed-design/react-text-field",
-      "version": "2.0.1",
+      "version": "2.1.0",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-use-controllable-state": "1.2.2",
@@ -2215,7 +2215,7 @@
     },
     "packages/rootage": {
       "name": "@seed-design/rootage-artifacts",
-      "version": "3.0.2",
+      "version": "3.1.0",
     },
     "packages/rsbuild-plugin": {
       "name": "@seed-design/rsbuild-plugin",
@@ -2246,7 +2246,7 @@
     },
     "packages/stackflow": {
       "name": "@seed-design/stackflow",
-      "version": "2.0.6",
+      "version": "2.1.0",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-focus-scope": "^1.1.4",
@@ -2258,7 +2258,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "3.0.3",
+        "@seed-design/css": "3.1.0",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",
@@ -2271,7 +2271,7 @@
         "vite-plugin-dts": "^5.0.0",
       },
       "peerDependencies": {
-        "@seed-design/css": "^3.0.1",
+        "@seed-design/css": "^3.1.0",
         "@stackflow/core": ">=1.1.0",
         "@stackflow/react": ">=1.4.1",
         "react": ">=18.0.0",
@@ -2284,7 +2284,7 @@
     },
     "packages/tailwind3-plugin": {
       "name": "@seed-design/tailwind3-plugin",
-      "version": "3.0.2",
+      "version": "3.1.0",
       "devDependencies": {
         "tailwindcss": "3",
       },
@@ -2300,7 +2300,7 @@
     },
     "packages/tailwind4-theme": {
       "name": "@seed-design/tailwind4-theme",
-      "version": "3.0.2",
+      "version": "3.1.0",
       "devDependencies": {
         "tailwindcss": "^4.1.4",
       },
@@ -2336,7 +2336,7 @@
       "devDependencies": {
         "@lynx-js/react": "^0.117.0",
         "@lynx-js/types": "^3.9.0",
-        "@seed-design/lynx-css": "1.0.1",
+        "@seed-design/lynx-css": "1.1.0",
         "@seed-design/lynx-vitest-config": "0.0.0",
         "@testing-library/jest-dom": "^6.9.1",
         "jsdom": "^29.0.2",
@@ -2345,7 +2345,7 @@
       "peerDependencies": {
         "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.9.0",
-        "@seed-design/lynx-css": "^1.0.1",
+        "@seed-design/lynx-css": "^1.1.0",
       },
     },
     "packages/utils/react-scale-feedback": {
@@ -2464,10 +2464,10 @@
       "version": "1.0.0",
       "dependencies": {
         "@karrotmarket/react-monochrome-icon": "^1.17.0",
-        "@seed-design/css": "3.0.3",
+        "@seed-design/css": "3.1.0",
         "@seed-design/figma": "2.1.0",
         "@seed-design/migration-index": "2.0.1",
-        "@seed-design/react": "3.0.1",
+        "@seed-design/react": "3.1.0",
         "@seed-design/vite-plugin": "2.1.1",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",

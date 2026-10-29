@@ -1,5 +1,24 @@
 # @seed-design/lynx-css
 
+## 1.1.0
+
+### Minor Changes
+
+- d4ec62d: Lynx `AppBar.TextButton`을 추가합니다. "완료", "닫기"처럼 짧은 텍스트로 동작을 표시하는 App Bar 버튼입니다.
+  
+  - `npx @seed-design/cli@latest add ui:app-bar`로 Registry 컴포넌트를 다시 설치하면 `AppBarTextButton`을 사용할 수 있습니다.
+  - 텍스트 children을 접근성 라벨로 사용하고, 슬롯 가장자리에 있으면 아이콘 버튼처럼 여백을 자동으로 보정합니다.
+  - `disabled`를 주면 탭과 눌림 피드백을 막고 비활성 색상을 적용합니다.
+- d4ec62d: Lynx `SearchInput`을 추가합니다. 검색어를 입력하고 제출하는 입력 필드입니다. `npx @seed-design/cli@latest add ui:search-input`으로 설치하는 `SearchInput` snippet으로 사용하고, 화면 상단에서는 `ui:search-bar`로 설치하는 `SearchBar`를 사용합니다. `ui:search-bar`를 설치하면 `ui:search-input`도 함께 설치됩니다. 레이아웃을 직접 조합할 때는 `SearchInput.Root`·`SearchInput.Input`·`SearchInput.ClearButton`을 사용합니다.
+  
+  - `SearchInput.Input`은 `confirm-type="search"`로 렌더링하고, 키보드의 검색 키(`bindconfirm`)를 누르면 `SearchInput.Root`의 `onSubmit`을 현재 값과 함께 호출합니다. 제출 뒤에는 입력의 focus를 해제하며, `blurOnSubmit={false}`로 유지할 수 있습니다(native `confirm-enter`).
+  - `SearchInput.ClearButton`은 값이 있을 때만 렌더링되며, uncontrolled 상태에서도 값을 비웁니다. 누르는 동안 Scale Feedback으로 살짝 줄어듭니다(Lynx Engine 3.6 이상). 입력의 focus는 누르기 전 상태를 유지합니다.
+  - `SearchInput.Input`과 `SearchInput.ClearButton`에 `accessibility-label`이 없으면 경고합니다.
+- d4ec62d: Gray 램프와 톤이 일치하는 반투명 팔레트 `$color.palette.gray-alpha-100` ~ `gray-alpha-1000`을 추가합니다.
+  
+  - `gray-00` 위에 합성하면 light·dark 테마 각각에서 같은 스텝의 `gray-N`과 같은 색이 됩니다.
+  - CSS 변수 `--seed-color-palette-gray-alpha-100` ~ `--seed-color-palette-gray-alpha-1000`으로 사용할 수 있습니다.
+
 ## 1.0.1
 
 ### Patch Changes
