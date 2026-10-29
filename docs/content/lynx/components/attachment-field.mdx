@@ -167,6 +167,23 @@ import { AttachmentField, AttachmentInput } from "@/components/ui/attachment-fie
 
 ## Examples
 
+### Extending to Safe Area
+
+`AttachmentField`에 `extendSafeAreaX`를 지정하면 가로 스크롤 영역이 좌우 safe area까지 확장됩니다. 기존 `--seed-attachment-input-extend-x`에 inset을 더하므로, 화면 여백 확장과 함께 사용할 수 있습니다. 첫 항목과 마지막 항목은 안전 영역 안에 남고, label·description은 기존 위치를 유지합니다. 기본값은 `false`입니다.
+
+`Box pl="safeArea" pr="safeArea"`처럼 좌우 inset을 이미 확보한 컨테이너 바로 안에서 사용하세요. inset을 확보하지 않은 곳에 적용하면 화면 밖으로 넘칠 수 있습니다.
+
+최신 Registry snippet은 확장된 목록이 Field에 잘리지 않도록 처리합니다. 직접 컴포넌트를 조합하면 목록을 감싸는 안전 영역 안쪽 부모에 `style={{ overflow: "visible" }}`을 지정하세요.
+
+<LynxComponentExample name="lynx/attachment-field/extend-safe-area">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/attachment-field/extend-safe-area.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ### Showing Thumbnails
 
 `accept="image/*"`으로 이미지 파일만 허용하고, 호스트가 반환한 `previewUrl`로 썸네일을 표시합니다.

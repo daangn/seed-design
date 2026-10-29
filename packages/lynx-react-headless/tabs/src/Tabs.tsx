@@ -37,8 +37,8 @@ export interface TabsListProps
   listContentProps?: ViewProps;
 }
 export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) => {
-  const { children, scrollAlign, listContentProps, ...nativeProps } = props;
-  const api = useTabsList({ children, scrollAlign });
+  const { children, scrollAlign, viewportInsets, listContentProps, ...nativeProps } = props;
+  const api = useTabsList({ children, scrollAlign, viewportInsets });
   const mergedRef = React.useMemo(
     () =>
       mergeNativeProps<ScrollViewProps>(
@@ -53,6 +53,8 @@ export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) =>
       {...mergeNativeProps<ScrollViewProps>({ ...api.listProps, ref: mergedRef }, nativeProps)}
     >
       <view {...mergeNativeProps<ViewProps>(api.listContentProps, contentNativeProps)}>
+        {api.viewportStartProps ? <view {...api.viewportStartProps} /> : null}
+        {api.viewportEndProps ? <view {...api.viewportEndProps} /> : null}
         {contentChildren ?? children}
       </view>
     </scroll-view>

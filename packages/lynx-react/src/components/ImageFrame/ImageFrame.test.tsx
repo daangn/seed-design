@@ -43,6 +43,41 @@ function nativeEvent(element: HTMLElement, name: string) {
 }
 
 describe("ImageFrame", () => {
+  it("tracks each safe-area bleed edge and resets inset inheritance for nested frames", () => {
+    const { rerender } = render(
+      <ImageFrame src="outer.png" alt="Outer" bleed="safeArea" bleedLeft={0} data-testid="outer">
+        <ImageFrame src="inner.png" alt="Inner" data-testid="inner" />
+      </ImageFrame>,
+    );
+    expect(styleProperty(query('[data-testid="outer"]'), "--seed-image-frame-safe-area-left")).toBe(
+      "0px",
+    );
+    expect(
+      styleProperty(query('[data-testid="outer"]'), "--seed-image-frame-safe-area-right"),
+    ).toBe("var(--seed-safe-area-right)");
+    expect(styleProperty(query('[data-testid="inner"]'), "--seed-image-frame-safe-area-left")).toBe(
+      "0px",
+    );
+    expect(
+      styleProperty(query('[data-testid="inner"]'), "--seed-image-frame-safe-area-right"),
+    ).toBe("0px");
+
+    rerender(<ImageFrame src="outer.png" alt="Outer" bleedX="12px" data-testid="outer" />);
+    expect(styleProperty(query('[data-testid="outer"]'), "--seed-image-frame-safe-area-left")).toBe(
+      "0px",
+    );
+    expect(
+      styleProperty(query('[data-testid="outer"]'), "--seed-image-frame-safe-area-right"),
+    ).toBe("0px");
+  });
+
+  it("preserves explicit caller margin overrides when bleeding into the safe area", () => {
+    render(
+      <ImageFrame src="photo.png" alt="Photo" bleedX="safeArea" style={{ marginLeft: "8px" }} />,
+    );
+    expect(query(".seed-image-frame__root").style.marginLeft).toBe("8px");
+  });
+
   it("supports the shared Box margin and bleed contract", () => {
     const { rerender } = render(<ImageFrame src="photo.png" alt="Photo" mx="x2" ml="auto" />);
     expect(query(".seed-image-frame__root").style.marginRight).toBe("var(--seed-dimension-x2)");

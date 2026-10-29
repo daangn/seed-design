@@ -190,6 +190,56 @@ describe("Tabs", () => {
     expect(listContent).not.toBeNull();
     expect(listContent?.querySelectorAll(".seed-tabs__trigger")).toHaveLength(2);
   });
+
+  it.each([
+    ["Tabs", Tabs, "seed-tabs"],
+    ["ChipTabs", ChipTabs, "seed-chip-tabs"],
+  ] as const)("toggles safe-area expansion without resetting selection for %s", (_name, Component, prefix) => {
+    measurement.enabled = true;
+    const safeAreaStyle: React.ComponentProps<typeof Component.Root>["style"] &
+      Record<"--seed-safe-area-left" | "--seed-safe-area-right", string> = {
+      "--seed-safe-area-left": "84px",
+      "--seed-safe-area-right": "0px",
+    };
+    function Subject({ extend }: { extend: boolean }) {
+      return (
+        <Component.Root defaultValue="one" extendSafeAreaX={extend} style={safeAreaStyle}>
+          <Component.List>
+            <Component.Trigger value="one">one</Component.Trigger>
+            <Component.Trigger value="two">two</Component.Trigger>
+          </Component.List>
+          <Component.Content value="two">
+            <text>Selected content</text>
+          </Component.Content>
+        </Component.Root>
+      );
+    }
+    const { container, rerender } = render(<Subject extend={false} />);
+    const root = container.querySelector(`.${prefix}__root`)!;
+    const second = container.querySelectorAll(`.${prefix}__trigger`)[1];
+    fireEvent.tap(second);
+    expect(second).toHaveAttribute("accessibility-value", "selected");
+    expect(root).not.toHaveClass(`${prefix}__root--extendSafeAreaX_true`);
+    expect(container.querySelectorAll('[user-interaction-enabled="false"]')).toHaveLength(0);
+
+    rerender(<Subject extend />);
+    expect(root).toHaveClass(`${prefix}__root--extendSafeAreaX_true`);
+    expect(second).toHaveAttribute("accessibility-value", "selected");
+    expect(container.querySelector(`.${prefix}__content`)).toHaveClass(
+      `${prefix}__content--extendSafeAreaX_true`,
+    );
+    const probes = container.querySelectorAll('[user-interaction-enabled="false"]');
+    expect(probes).toHaveLength(2);
+    for (const probe of probes) {
+      expect(probe).toHaveStyle({ width: "0px", height: "0px", position: "absolute" });
+      expect(probe).toHaveAttribute("accessibility-elements-hidden", "true");
+    }
+    expect(root).not.toHaveAttribute("extendSafeAreaX");
+
+    rerender(<Subject extend={false} />);
+    expect(second).toHaveAttribute("accessibility-value", "selected");
+    expect(container.querySelectorAll('[user-interaction-enabled="false"]')).toHaveLength(0);
+  });
   it("lets user scroll props win while keeping the internal scroll state updated", async () => {
     measurement.enabled = true;
     const bindscroll = vi.fn();

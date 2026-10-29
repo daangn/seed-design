@@ -45,10 +45,19 @@ const defaultVariant = {
   "contentLayout": "hug",
   "size": "small",
   "stickyList": false,
-  "transitionEnabled": true
+  "transitionEnabled": true,
+  "extendSafeAreaX": false
 };
 
 const compoundVariants = [
+  {
+    "triggerLayout": "fill",
+    "extendSafeAreaX": true
+  },
+  {
+    "triggerLayout": "hug",
+    "extendSafeAreaX": true
+  },
   {
     "selected": false,
     "inCarousel": true
@@ -56,6 +65,10 @@ const compoundVariants = [
 ];
 
 export const tabsVariantMap = {
+  "extendSafeAreaX": [
+    true,
+    false
+  ],
   "triggerLayout": [
     "fill",
     "hug"

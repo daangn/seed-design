@@ -36,6 +36,7 @@ import type { LynxHostProps, LynxIconElementProps, LynxPressableProps } from "..
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import { useSafeAreaStyle } from "../../hooks/useSafeAreaStyle";
 import { toArray } from "../../utils/children";
 import clsx from "clsx";
 import { IconSlotProvider, InternalIcon } from "../Icon/Icon";
@@ -53,7 +54,6 @@ export {
 export type AttachmentInputStateProps = UseFileUploadStateProps;
 export type AttachmentInputProps = UseFileUploadProps;
 export type AttachmentInputContextValue = UseFileUploadContext;
-
 
 const rootRecipe = createSlotRecipeContext(attachmentInput);
 const triggerRecipe = createSlotRecipeContext(attachmentInputTrigger);
@@ -95,6 +95,7 @@ export const AttachmentInputRoot = React.forwardRef<NodesRef, AttachmentInputRoo
     const {
       children,
       className,
+      style,
       acceptedFileEntries,
       defaultAcceptedFileEntries,
       onAcceptedFileEntriesChange,
@@ -115,6 +116,7 @@ export const AttachmentInputRoot = React.forwardRef<NodesRef, AttachmentInputRoo
     } = otherProps;
     const fieldState = useFieldStateFallback(otherProps);
     const classes = attachmentInput(variantProps);
+    const safeAreaStyle = useSafeAreaStyle();
 
     return (
       <rootRecipe.ClassNamesProvider value={classes}>
@@ -134,6 +136,7 @@ export const AttachmentInputRoot = React.forwardRef<NodesRef, AttachmentInputRoo
           onSelectError={onSelectError}
           {...fieldState}
           {...nativeProps}
+          style={{ ...safeAreaStyle, ...style }}
           className={clsx(classes.root, className)}
         >
           {children}

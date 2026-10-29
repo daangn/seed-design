@@ -8,6 +8,7 @@ import { Image, useImageContext, type UseImageProps } from "@seed-design/lynx-re
 import { Toggle, useToggleContext, type UseToggleProps } from "@seed-design/lynx-react-toggle";
 import clsx from "clsx";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import { useSafeAreaStyle } from "../../hooks/useSafeAreaStyle";
 import type {
   LynxIconElementProps,
   LynxStyledElementProps,
@@ -62,7 +63,14 @@ export const ImageFrame: React.ForwardRefExoticComponent<
   const { style, restProps } = useStyleProps({ borderRadius, ...rest });
   const { children, className, ...nativeProps } = restProps;
   const classNames = imageFrame(variantProps);
+  const safeAreaStyle = useSafeAreaStyle();
+  const { bleed, bleedX, bleedLeft, bleedRight } = props;
   const frameStyle = {
+    ...safeAreaStyle,
+    "--seed-image-frame-safe-area-left":
+      (bleedLeft ?? bleedX ?? bleed) === "safeArea" ? "var(--seed-safe-area-left)" : "0px",
+    "--seed-image-frame-safe-area-right":
+      (bleedRight ?? bleedX ?? bleed) === "safeArea" ? "var(--seed-safe-area-right)" : "0px",
     "--seed-image-frame-ratio": String(ratio),
     "--seed-image-frame-radius": handleDimension(style.borderRadius ?? 0),
     ...style,

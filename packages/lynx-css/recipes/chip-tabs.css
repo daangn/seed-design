@@ -49,6 +49,18 @@
 .seed-chip-tabs__carouselCamera {
     width: 100%
 }
+.seed-chip-tabs__root--extendSafeAreaX_true {
+    margin-left: calc(var(--seed-safe-area-left) * -1);
+    margin-right: calc(var(--seed-safe-area-right) * -1)
+}
+.seed-chip-tabs__listContent--extendSafeAreaX_true {
+    padding-left: calc(var(--seed-dimension-x4) + var(--seed-safe-area-left));
+    padding-right: calc(var(--seed-dimension-x4) + var(--seed-safe-area-right))
+}
+.seed-chip-tabs__content--extendSafeAreaX_true {
+    padding-left: var(--seed-safe-area-left);
+    padding-right: var(--seed-safe-area-right)
+}
 .seed-chip-tabs__trigger--size_medium {
     min-height: 36px;
     min-width: var(--seed-dimension-x12);

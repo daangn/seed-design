@@ -1,5 +1,8 @@
 declare interface AttachmentInputVariant {
-  
+  /**
+  * @default false
+  */
+  extendSafeAreaX: boolean;
 }
 
 declare type AttachmentInputVariantMap = {

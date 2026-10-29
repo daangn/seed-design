@@ -35,6 +35,7 @@ import type { LynxHostProps, LynxIconElementProps, LynxPressableProps } from "..
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import { useSafeAreaStyle } from "../../hooks/useSafeAreaStyle";
 import { toArray } from "../../utils/children";
 import clsx from "clsx";
 import { IconSlotProvider, InternalIcon } from "../Icon/Icon";
@@ -51,6 +52,7 @@ export type AttachmentDisplayProps = UseAttachmentDisplayProps;
 
 const { ClassNamesProvider: RootClassNamesProvider, useClassNames: useRootClassNames } =
   createSlotRecipeContext(attachmentInput);
+const SafeAreaExtendedContext = React.createContext(false);
 const { ClassNamesProvider: TriggerClassNamesProvider, useClassNames: useTriggerClassNames } =
   createSlotRecipeContext(attachmentInputTrigger);
 const { ClassNamesProvider: ItemClassNamesProvider, useClassNames: useItemClassNames } =
@@ -70,17 +72,21 @@ export interface AttachmentDisplayRootProps
 export const AttachmentDisplayRoot = React.forwardRef<NodesRef, AttachmentDisplayRootProps>(
   (props, ref) => {
     const [variantProps, otherProps] = attachmentInput.splitVariantProps(props);
-    const { children, className, ...rootProps } = otherProps;
+    const { children, className, style, ...rootProps } = otherProps;
     const classes = attachmentInput(variantProps);
+    const safeAreaStyle = useSafeAreaStyle();
     return (
       <RootClassNamesProvider value={classes}>
-        <HeadlessAttachmentDisplayRoot
-          ref={ref}
-          {...rootProps}
-          className={clsx(classes.root, className)}
-        >
-          {children}
-        </HeadlessAttachmentDisplayRoot>
+        <SafeAreaExtendedContext.Provider value={variantProps.extendSafeAreaX ?? false}>
+          <HeadlessAttachmentDisplayRoot
+            ref={ref}
+            {...rootProps}
+            style={{ ...safeAreaStyle, ...style }}
+            className={clsx(classes.root, className)}
+          >
+            {children}
+          </HeadlessAttachmentDisplayRoot>
+        </SafeAreaExtendedContext.Provider>
       </RootClassNamesProvider>
     );
   },
@@ -94,15 +100,36 @@ export interface AttachmentDisplayControlProps
 export const AttachmentDisplayControl = React.forwardRef<NodesRef, AttachmentDisplayControlProps>(
   (props, ref) => {
     const [variantProps, otherProps] = attachmentInput.splitVariantProps(props);
-    const { children, className, ...nativeProps } = otherProps;
-    const classes = attachmentInput(variantProps);
+    const { children, className, style, ...nativeProps } = otherProps;
+    const parentExtended = React.useContext(SafeAreaExtendedContext);
+    const extended = parentExtended || (variantProps.extendSafeAreaX ?? false);
+    const classes = attachmentInput({ ...variantProps, extendSafeAreaX: extended });
+    const rootClasses = attachmentInput({
+      ...variantProps,
+      extendSafeAreaX: extended && !parentExtended,
+    });
+    const safeAreaStyle = useSafeAreaStyle();
     return (
-      <view
-        {...mergeProps(ref ? { ref } : {}, nativeProps)}
-        className={clsx(classes.root, className)}
-      >
-        {children}
-      </view>
+      <RootClassNamesProvider value={classes}>
+        <SafeAreaExtendedContext.Provider value={extended}>
+          <view
+            {...mergeProps(ref ? { ref } : {}, nativeProps)}
+            style={{
+              ...safeAreaStyle,
+              ...(parentExtended
+                ? {
+                    "--seed-safe-area-left": "inherit",
+                    "--seed-safe-area-right": "inherit",
+                  }
+                : {}),
+              ...style,
+            }}
+            className={clsx(rootClasses.root, className)}
+          >
+            {children}
+          </view>
+        </SafeAreaExtendedContext.Provider>
+      </RootClassNamesProvider>
     );
   },
 );

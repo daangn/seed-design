@@ -69,6 +69,7 @@ export const AttachmentField = React.forwardRef<FieldRootRef, AttachmentFieldPro
     return (
       <SeedField.Root
         ref={ref}
+        style={{ overflow: props.extendSafeAreaX ? "visible" : "hidden" }}
         disabled={disabled}
         required={required}
         invalid={invalid}

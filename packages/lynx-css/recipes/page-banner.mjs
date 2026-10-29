@@ -7,6 +7,10 @@ const pageBannerSlotNames = [
     "seed-page-banner__root"
   ],
   [
+    "background",
+    "seed-page-banner__background"
+  ],
+  [
     "content",
     "seed-page-banner__content"
   ],
@@ -49,6 +53,7 @@ const pageBannerSlotNames = [
 ];
 
 const defaultVariant = {
+  "extendSafeAreaX": false,
   "tone": "neutral",
   "variant": "weak",
   "pressed": false,
@@ -210,10 +215,21 @@ const compoundVariants = [
     "tone": "magic",
     "variant": "weak",
     "pressed": true
+  },
+  {
+    "extendSafeAreaX": true
+  },
+  {
+    "extendSafeAreaX": true,
+    "interactive": true
   }
 ];
 
 export const pageBannerVariantMap = {
+  "extendSafeAreaX": [
+    true,
+    false
+  ],
   "tone": [
     "neutral",
     "informative",

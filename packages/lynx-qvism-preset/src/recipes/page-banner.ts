@@ -10,6 +10,7 @@ const pageBanner = defineSlotRecipe({
   name: "page-banner",
   slots: [
     "root",
+    "background",
     "content",
     "scaleContent",
     "body",
@@ -22,6 +23,15 @@ const pageBanner = defineSlotRecipe({
     "closeButtonIcon",
   ],
   base: {
+    background: {
+      position: "absolute",
+      top: 0,
+      bottom: 0,
+      left: "calc(var(--seed-safe-area-left) * -1)",
+      right: "calc(var(--seed-safe-area-right) * -1)",
+      zIndex: -1,
+      pointerEvents: "none",
+    },
     root: {
       display: "flex",
       flexDirection: "row",
@@ -126,6 +136,12 @@ const pageBanner = defineSlotRecipe({
     },
   },
   variants: {
+    extendSafeAreaX: {
+      true: {
+        root: { position: "relative", zIndex: 0, overflow: "visible" },
+      },
+      false: {},
+    },
     tone: {
       neutral: {},
       informative: {},
@@ -163,6 +179,9 @@ const pageBanner = defineSlotRecipe({
           "&:active": {
             backgroundColor: vars.toneNeutralVariantWeak.pressed.root.color,
           },
+          "&:active .seed-page-banner__background": {
+            backgroundColor: vars.toneNeutralVariantWeak.pressed.root.color,
+          },
         },
       },
     },
@@ -173,6 +192,9 @@ const pageBanner = defineSlotRecipe({
       css: {
         root: {
           "&:active": {
+            backgroundColor: vars.toneNeutralVariantSolid.pressed.root.color,
+          },
+          "&:active .seed-page-banner__background": {
             backgroundColor: vars.toneNeutralVariantSolid.pressed.root.color,
           },
         },
@@ -187,6 +209,9 @@ const pageBanner = defineSlotRecipe({
           "&:active": {
             backgroundColor: vars.toneInformativeVariantWeak.pressed.root.color,
           },
+          "&:active .seed-page-banner__background": {
+            backgroundColor: vars.toneInformativeVariantWeak.pressed.root.color,
+          },
         },
       },
     },
@@ -197,6 +222,9 @@ const pageBanner = defineSlotRecipe({
       css: {
         root: {
           "&:active": {
+            backgroundColor: vars.toneInformativeVariantSolid.pressed.root.color,
+          },
+          "&:active .seed-page-banner__background": {
             backgroundColor: vars.toneInformativeVariantSolid.pressed.root.color,
           },
         },
@@ -211,6 +239,9 @@ const pageBanner = defineSlotRecipe({
           "&:active": {
             backgroundColor: vars.tonePositiveVariantWeak.pressed.root.color,
           },
+          "&:active .seed-page-banner__background": {
+            backgroundColor: vars.tonePositiveVariantWeak.pressed.root.color,
+          },
         },
       },
     },
@@ -221,6 +252,9 @@ const pageBanner = defineSlotRecipe({
       css: {
         root: {
           "&:active": {
+            backgroundColor: vars.tonePositiveVariantSolid.pressed.root.color,
+          },
+          "&:active .seed-page-banner__background": {
             backgroundColor: vars.tonePositiveVariantSolid.pressed.root.color,
           },
         },
@@ -235,6 +269,9 @@ const pageBanner = defineSlotRecipe({
           "&:active": {
             backgroundColor: vars.toneWarningVariantWeak.pressed.root.color,
           },
+          "&:active .seed-page-banner__background": {
+            backgroundColor: vars.toneWarningVariantWeak.pressed.root.color,
+          },
         },
       },
     },
@@ -245,6 +282,9 @@ const pageBanner = defineSlotRecipe({
       css: {
         root: {
           "&:active": {
+            backgroundColor: vars.toneWarningVariantSolid.pressed.root.color,
+          },
+          "&:active .seed-page-banner__background": {
             backgroundColor: vars.toneWarningVariantSolid.pressed.root.color,
           },
         },
@@ -259,6 +299,9 @@ const pageBanner = defineSlotRecipe({
           "&:active": {
             backgroundColor: vars.toneCriticalVariantWeak.pressed.root.color,
           },
+          "&:active .seed-page-banner__background": {
+            backgroundColor: vars.toneCriticalVariantWeak.pressed.root.color,
+          },
         },
       },
     },
@@ -269,6 +312,9 @@ const pageBanner = defineSlotRecipe({
       css: {
         root: {
           "&:active": {
+            backgroundColor: vars.toneCriticalVariantSolid.pressed.root.color,
+          },
+          "&:active .seed-page-banner__background": {
             backgroundColor: vars.toneCriticalVariantSolid.pressed.root.color,
           },
         },
@@ -283,6 +329,9 @@ const pageBanner = defineSlotRecipe({
           "&:active": {
             backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient.serialized})`,
           },
+          "&:active .seed-page-banner__background": {
+            backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient.serialized})`,
+          },
         },
       },
     },
@@ -291,6 +340,9 @@ const pageBanner = defineSlotRecipe({
       variant: "weak",
       css: {
         root: {
+          backgroundColor: vars.toneNeutralVariantWeak.enabled.root.color,
+        },
+        background: {
           backgroundColor: vars.toneNeutralVariantWeak.enabled.root.color,
         },
         title: { color: vars.toneNeutralVariantWeak.enabled.title.color },
@@ -308,6 +360,9 @@ const pageBanner = defineSlotRecipe({
         root: {
           backgroundColor: vars.toneNeutralVariantSolid.enabled.root.color,
         },
+        background: {
+          backgroundColor: vars.toneNeutralVariantSolid.enabled.root.color,
+        },
         title: { color: vars.toneNeutralVariantSolid.enabled.title.color },
         description: { color: vars.toneNeutralVariantSolid.enabled.description.color },
         button: { color: vars.toneNeutralVariantSolid.enabled.button.color },
@@ -321,6 +376,9 @@ const pageBanner = defineSlotRecipe({
       variant: "weak",
       css: {
         root: {
+          backgroundColor: vars.toneInformativeVariantWeak.enabled.root.color,
+        },
+        background: {
           backgroundColor: vars.toneInformativeVariantWeak.enabled.root.color,
         },
         title: { color: vars.toneInformativeVariantWeak.enabled.title.color },
@@ -338,6 +396,9 @@ const pageBanner = defineSlotRecipe({
         root: {
           backgroundColor: vars.toneInformativeVariantSolid.enabled.root.color,
         },
+        background: {
+          backgroundColor: vars.toneInformativeVariantSolid.enabled.root.color,
+        },
         title: { color: vars.toneInformativeVariantSolid.enabled.title.color },
         description: { color: vars.toneInformativeVariantSolid.enabled.description.color },
         button: { color: vars.toneInformativeVariantSolid.enabled.button.color },
@@ -351,6 +412,9 @@ const pageBanner = defineSlotRecipe({
       variant: "weak",
       css: {
         root: {
+          backgroundColor: vars.tonePositiveVariantWeak.enabled.root.color,
+        },
+        background: {
           backgroundColor: vars.tonePositiveVariantWeak.enabled.root.color,
         },
         title: { color: vars.tonePositiveVariantWeak.enabled.title.color },
@@ -368,6 +432,9 @@ const pageBanner = defineSlotRecipe({
         root: {
           backgroundColor: vars.tonePositiveVariantSolid.enabled.root.color,
         },
+        background: {
+          backgroundColor: vars.tonePositiveVariantSolid.enabled.root.color,
+        },
         title: { color: vars.tonePositiveVariantSolid.enabled.title.color },
         description: { color: vars.tonePositiveVariantSolid.enabled.description.color },
         button: { color: vars.tonePositiveVariantSolid.enabled.button.color },
@@ -381,6 +448,9 @@ const pageBanner = defineSlotRecipe({
       variant: "weak",
       css: {
         root: {
+          backgroundColor: vars.toneWarningVariantWeak.enabled.root.color,
+        },
+        background: {
           backgroundColor: vars.toneWarningVariantWeak.enabled.root.color,
         },
         title: { color: vars.toneWarningVariantWeak.enabled.title.color },
@@ -398,6 +468,9 @@ const pageBanner = defineSlotRecipe({
         root: {
           backgroundColor: vars.toneWarningVariantSolid.enabled.root.color,
         },
+        background: {
+          backgroundColor: vars.toneWarningVariantSolid.enabled.root.color,
+        },
         title: { color: vars.toneWarningVariantSolid.enabled.title.color },
         description: { color: vars.toneWarningVariantSolid.enabled.description.color },
         button: { color: vars.toneWarningVariantSolid.enabled.button.color },
@@ -411,6 +484,9 @@ const pageBanner = defineSlotRecipe({
       variant: "weak",
       css: {
         root: {
+          backgroundColor: vars.toneCriticalVariantWeak.enabled.root.color,
+        },
+        background: {
           backgroundColor: vars.toneCriticalVariantWeak.enabled.root.color,
         },
         title: { color: vars.toneCriticalVariantWeak.enabled.title.color },
@@ -428,6 +504,9 @@ const pageBanner = defineSlotRecipe({
         root: {
           backgroundColor: vars.toneCriticalVariantSolid.enabled.root.color,
         },
+        background: {
+          backgroundColor: vars.toneCriticalVariantSolid.enabled.root.color,
+        },
         title: { color: vars.toneCriticalVariantSolid.enabled.title.color },
         description: { color: vars.toneCriticalVariantSolid.enabled.description.color },
         button: { color: vars.toneCriticalVariantSolid.enabled.button.color },
@@ -443,6 +522,9 @@ const pageBanner = defineSlotRecipe({
         root: {
           backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.enabled.root.gradient.serialized})`,
         },
+        background: {
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.enabled.root.gradient.serialized})`,
+        },
         title: { color: vars.toneMagicVariantWeak.enabled.title.color },
         description: { color: vars.toneMagicVariantWeak.enabled.description.color },
         button: { color: vars.toneMagicVariantWeak.enabled.button.color },
@@ -455,61 +537,91 @@ const pageBanner = defineSlotRecipe({
       tone: "neutral",
       variant: "weak",
       pressed: true,
-      css: { root: { backgroundColor: vars.toneNeutralVariantWeak.pressed.root.color } },
+      css: {
+        root: { backgroundColor: vars.toneNeutralVariantWeak.pressed.root.color },
+        background: { backgroundColor: vars.toneNeutralVariantWeak.pressed.root.color },
+      },
     },
     {
       tone: "neutral",
       variant: "solid",
       pressed: true,
-      css: { root: { backgroundColor: vars.toneNeutralVariantSolid.pressed.root.color } },
+      css: {
+        root: { backgroundColor: vars.toneNeutralVariantSolid.pressed.root.color },
+        background: { backgroundColor: vars.toneNeutralVariantSolid.pressed.root.color },
+      },
     },
     {
       tone: "informative",
       variant: "weak",
       pressed: true,
-      css: { root: { backgroundColor: vars.toneInformativeVariantWeak.pressed.root.color } },
+      css: {
+        root: { backgroundColor: vars.toneInformativeVariantWeak.pressed.root.color },
+        background: { backgroundColor: vars.toneInformativeVariantWeak.pressed.root.color },
+      },
     },
     {
       tone: "informative",
       variant: "solid",
       pressed: true,
-      css: { root: { backgroundColor: vars.toneInformativeVariantSolid.pressed.root.color } },
+      css: {
+        root: { backgroundColor: vars.toneInformativeVariantSolid.pressed.root.color },
+        background: { backgroundColor: vars.toneInformativeVariantSolid.pressed.root.color },
+      },
     },
     {
       tone: "positive",
       variant: "weak",
       pressed: true,
-      css: { root: { backgroundColor: vars.tonePositiveVariantWeak.pressed.root.color } },
+      css: {
+        root: { backgroundColor: vars.tonePositiveVariantWeak.pressed.root.color },
+        background: { backgroundColor: vars.tonePositiveVariantWeak.pressed.root.color },
+      },
     },
     {
       tone: "positive",
       variant: "solid",
       pressed: true,
-      css: { root: { backgroundColor: vars.tonePositiveVariantSolid.pressed.root.color } },
+      css: {
+        root: { backgroundColor: vars.tonePositiveVariantSolid.pressed.root.color },
+        background: { backgroundColor: vars.tonePositiveVariantSolid.pressed.root.color },
+      },
     },
     {
       tone: "warning",
       variant: "weak",
       pressed: true,
-      css: { root: { backgroundColor: vars.toneWarningVariantWeak.pressed.root.color } },
+      css: {
+        root: { backgroundColor: vars.toneWarningVariantWeak.pressed.root.color },
+        background: { backgroundColor: vars.toneWarningVariantWeak.pressed.root.color },
+      },
     },
     {
       tone: "warning",
       variant: "solid",
       pressed: true,
-      css: { root: { backgroundColor: vars.toneWarningVariantSolid.pressed.root.color } },
+      css: {
+        root: { backgroundColor: vars.toneWarningVariantSolid.pressed.root.color },
+        background: { backgroundColor: vars.toneWarningVariantSolid.pressed.root.color },
+      },
     },
     {
       tone: "critical",
       variant: "weak",
       pressed: true,
-      css: { root: { backgroundColor: vars.toneCriticalVariantWeak.pressed.root.color } },
+      css: {
+        root: { backgroundColor: vars.toneCriticalVariantWeak.pressed.root.color },
+        background: { backgroundColor: vars.toneCriticalVariantWeak.pressed.root.color },
+      },
     },
     {
       tone: "critical",
       variant: "solid",
       pressed: true,
-      css: { root: { backgroundColor: vars.toneCriticalVariantSolid.pressed.root.color } },
+      css: {
+        root: { backgroundColor: vars.toneCriticalVariantSolid.pressed.root.color },
+        background: { backgroundColor: vars.toneCriticalVariantSolid.pressed.root.color },
+      },
     },
     {
       tone: "magic",
@@ -519,10 +631,35 @@ const pageBanner = defineSlotRecipe({
         root: {
           backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient.serialized})`,
         },
+        background: {
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient.serialized})`,
+        },
+      },
+    },
+    {
+      extendSafeAreaX: true,
+      css: {
+        root: {
+          backgroundColor: "transparent",
+          backgroundImage: "none",
+        },
+      },
+    },
+    {
+      extendSafeAreaX: true,
+      interactive: true,
+      css: {
+        root: {
+          "&:active": {
+            backgroundColor: "transparent",
+            backgroundImage: "none",
+          },
+        },
       },
     },
   ],
   defaultVariants: {
+    extendSafeAreaX: false,
     tone: "neutral",
     variant: "weak",
     pressed: false,
