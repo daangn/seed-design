@@ -75,7 +75,7 @@ export interface SegmentedTextInputInputSegmentProps
    */
   staticPrefix?: string;
   /**
-   * 입력 뒤에 고정으로 표시하는 텍스트(예: 주민등록번호 뒷자리 불릿 `"●●●●●●"`). 보조기기에서 읽지 않는다.
+   * 입력 뒤에 고정으로 표시하는 텍스트(예: 주민등록번호 뒷자리 불릿 `"••••••"`). 보조기기에서 읽지 않는다.
    */
   staticSuffix?: string;
   staticText?: never;
@@ -164,15 +164,10 @@ const SegmentedTextInputInputSegment = forwardRef<
           </SegmentedTextInputPrimitive.StaticText>
         )}
         <span className={classNames.valueContainer} data-sizing={sizing} data-align={align}>
-          {/* 입력 너비를 자리 수만큼의 숫자·불릿 글자 너비와 placeholder 너비 중 넓은 쪽에 맞춘다. */}
+          {/* 입력 너비를 자리 수만큼의 숫자·불릿 글자 너비로 맞춘다. */}
           <span className={classNames.valueSizer} aria-hidden>
             {(masked ? "•" : "0").repeat(length)}
           </span>
-          {otherProps.placeholder && (
-            <span className={classNames.valueSizer} aria-hidden>
-              {otherProps.placeholder}
-            </span>
-          )}
           <Primitive.input
             ref={composeRefs(inputRef, ref)}
             {...mergedProps}
