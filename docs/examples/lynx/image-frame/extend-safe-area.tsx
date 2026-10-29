@@ -7,6 +7,7 @@ import {
   ImageFrameBadge,
   ImageFrameFloater,
   Text,
+  useSafeArea,
   VStack,
 } from "@seed-design/lynx-react";
 import { Switch } from "@/components/ui/switch";
@@ -14,6 +15,7 @@ import { Switch } from "@/components/ui/switch";
 export default function Example() {
   useGlobalProps();
   const [extend, setExtend] = useState(true);
+  const { safeAreaInsetLeft, safeAreaInsetRight } = useSafeArea();
   return (
     <VStack gap="x4" width="100%">
       <Switch checked={extend} onCheckedChange={setExtend} label="안전 영역까지 확장" />
@@ -23,6 +25,7 @@ export default function Example() {
       <Box pl="safeArea" pr="safeArea">
         <ImageFrame
           ratio={4 / 3}
+          width={extend ? `calc(100% + ${safeAreaInsetLeft} + ${safeAreaInsetRight})` : "100%"}
           borderRadius="r0"
           bleedX={extend ? "safeArea" : 0}
           src="https://avatars.githubusercontent.com/u/54893898?v=4"
