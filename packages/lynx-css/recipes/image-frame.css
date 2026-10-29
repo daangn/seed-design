@@ -46,42 +46,42 @@
 }
 .seed-image-frame__floater--placement_top-start {
     top: var(--seed-image-frame-offset-y);
-    left: var(--seed-image-frame-offset-x)
+    left: calc(var(--seed-image-frame-offset-x) + var(--seed-image-frame-safe-area-left, 0px))
 }
 .seed-image-frame__floater--placement_top-center {
     top: var(--seed-image-frame-offset-y);
-    left: calc(50% + var(--seed-image-frame-offset-x));
+    left: calc(50% + var(--seed-image-frame-offset-x) + (var(--seed-image-frame-safe-area-left, 0px) - var(--seed-image-frame-safe-area-right, 0px)) / 2);
     transform: translateX(-50%)
 }
 .seed-image-frame__floater--placement_top-end {
     top: var(--seed-image-frame-offset-y);
-    right: var(--seed-image-frame-offset-x)
+    right: calc(var(--seed-image-frame-offset-x) + var(--seed-image-frame-safe-area-right, 0px))
 }
 .seed-image-frame__floater--placement_middle-start {
     top: calc(50% + var(--seed-image-frame-offset-y));
-    left: var(--seed-image-frame-offset-x);
+    left: calc(var(--seed-image-frame-offset-x) + var(--seed-image-frame-safe-area-left, 0px));
     transform: translateY(-50%)
 }
 .seed-image-frame__floater--placement_middle-center {
     top: calc(50% + var(--seed-image-frame-offset-y));
-    left: calc(50% + var(--seed-image-frame-offset-x));
+    left: calc(50% + var(--seed-image-frame-offset-x) + (var(--seed-image-frame-safe-area-left, 0px) - var(--seed-image-frame-safe-area-right, 0px)) / 2);
     transform: translate(-50%, -50%)
 }
 .seed-image-frame__floater--placement_middle-end {
     top: calc(50% + var(--seed-image-frame-offset-y));
-    right: var(--seed-image-frame-offset-x);
+    right: calc(var(--seed-image-frame-offset-x) + var(--seed-image-frame-safe-area-right, 0px));
     transform: translateY(-50%)
 }
 .seed-image-frame__floater--placement_bottom-start {
     bottom: var(--seed-image-frame-offset-y);
-    left: var(--seed-image-frame-offset-x)
+    left: calc(var(--seed-image-frame-offset-x) + var(--seed-image-frame-safe-area-left, 0px))
 }
 .seed-image-frame__floater--placement_bottom-center {
     bottom: var(--seed-image-frame-offset-y);
-    left: calc(50% + var(--seed-image-frame-offset-x));
+    left: calc(50% + var(--seed-image-frame-offset-x) + (var(--seed-image-frame-safe-area-left, 0px) - var(--seed-image-frame-safe-area-right, 0px)) / 2);
     transform: translateX(-50%)
 }
 .seed-image-frame__floater--placement_bottom-end {
     bottom: var(--seed-image-frame-offset-y);
-    right: var(--seed-image-frame-offset-x)
+    right: calc(var(--seed-image-frame-offset-x) + var(--seed-image-frame-safe-area-right, 0px))
 }

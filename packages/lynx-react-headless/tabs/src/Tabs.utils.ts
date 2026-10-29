@@ -67,6 +67,8 @@ export function getTabsScrollOffset({
   contentWidth,
   contentInsetStart,
   contentInsetEnd,
+  viewportInsetStart = 0,
+  viewportInsetEnd = 0,
   triggerRect,
 }: {
   scrollAlign: "nearest" | "start" | "center" | "end";
@@ -75,6 +77,8 @@ export function getTabsScrollOffset({
   contentWidth: number;
   contentInsetStart: number;
   contentInsetEnd: number;
+  viewportInsetStart?: number;
+  viewportInsetEnd?: number;
   triggerRect: TabsLayoutRect;
 }): number {
   const maxOffset = Math.max(0, contentWidth - viewportWidth);
@@ -84,25 +88,26 @@ export function getTabsScrollOffset({
 
   const triggerStart = contentInsetStart + triggerRect.left;
   const triggerEnd = triggerStart + triggerRect.width;
+  const alignmentInsetStart = Math.max(contentInsetStart, viewportInsetStart);
+  const alignmentInsetEnd = Math.max(contentInsetEnd, viewportInsetEnd);
   if (scrollAlign === "nearest") {
-    // Visibility is the scroll-view's actual viewport. Insets provide the
-    // additional room only after a clipped trigger needs to move.
-    const visibleStart = clampedCurrentOffset;
-    const visibleEnd = clampedCurrentOffset + viewportWidth;
+    const visibleStart = clampedCurrentOffset + viewportInsetStart;
+    const visibleEnd = clampedCurrentOffset + viewportWidth - viewportInsetEnd;
 
     if (triggerStart >= visibleStart && triggerEnd <= visibleEnd) return clampedCurrentOffset;
     return clampOffset(
       triggerStart < visibleStart
-        ? triggerStart - contentInsetStart
-        : triggerEnd + contentInsetEnd - viewportWidth,
+        ? triggerStart - alignmentInsetStart
+        : triggerEnd + alignmentInsetEnd - viewportWidth,
     );
   }
 
-  if (scrollAlign === "start") return clampOffset(triggerStart - contentInsetStart);
+  if (scrollAlign === "start") return clampOffset(triggerStart - alignmentInsetStart);
   if (scrollAlign === "center") {
-    return clampOffset(triggerStart + triggerRect.width / 2 - viewportWidth / 2);
+    const visibleCenter = (viewportWidth + viewportInsetStart - viewportInsetEnd) / 2;
+    return clampOffset(triggerStart + triggerRect.width / 2 - visibleCenter);
   }
-  return clampOffset(triggerEnd + contentInsetEnd - viewportWidth);
+  return clampOffset(triggerEnd + alignmentInsetEnd - viewportWidth);
 }
 
 export function areTabsTransitionsEnabled(
