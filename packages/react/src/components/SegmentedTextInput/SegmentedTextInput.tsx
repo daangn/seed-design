@@ -214,7 +214,12 @@ const SegmentedTextInputInputSegment = forwardRef<
             </span>
           )}
           {showPlaceholderOverlay && (
-            <span className={classNames.placeholder} data-disabled={dataAttr(disabled)} aria-hidden>
+            <span
+              className={classNames.placeholder}
+              data-disabled={dataAttr(disabled)}
+              data-before-suffix={dataAttr(!!staticSuffix)}
+              aria-hidden
+            >
               {placeholder}
             </span>
           )}
