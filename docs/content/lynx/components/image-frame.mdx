@@ -74,6 +74,8 @@ Lynx Engine 3.9 이상을 지원합니다.
 
 `Box pl="safeArea" pr="safeArea"`처럼 좌우 inset을 이미 확보한 컨테이너 바로 안에서 사용하세요. inset을 확보하지 않은 곳에 적용하면 화면 밖으로 넘칠 수 있습니다.
 
+Lynx에서는 비율에 맞는 높이를 계산할 수 있도록 프레임 너비를 지정합니다. 예제는 `useSafeArea()`로 읽은 좌우 inset을 너비에 더하고, 확장을 끄면 부모 콘텐츠 너비로 돌아갑니다.
+
 <LynxComponentExample name="lynx/image-frame/extend-safe-area">
   ```json doc-gen:file
   {
