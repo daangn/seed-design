@@ -123,6 +123,12 @@ describe("SegmentedTextInput", () => {
     fireEvent.keyUp(third);
     expect(third.selectionStart).toBe(2);
 
+    // 전체 선택은 바꿔 쓸 수 있게 그대로 둔다.
+    third.setSelectionRange(0, 2);
+    fireEvent.keyUp(third);
+    expect([third.selectionStart, third.selectionEnd]).toEqual([0, 2]);
+    third.setSelectionRange(2, 2);
+
     await user.keyboard("{ArrowRight}");
     expect(getByLabelText("4")).toHaveFocus();
 
@@ -163,6 +169,21 @@ describe("SegmentedTextInput", () => {
 
     expect(first).toHaveValue("1234");
     expect(getByLabelText("2")).toHaveValue("");
+  });
+
+  it("keeps a replacement inside the segment when unselected characters remain after it", () => {
+    const { getByLabelText } = setUp(<CardNumber defaultValue={["1234", "5678", "", ""]} />);
+    const first = getByLabelText("1") as HTMLInputElement;
+
+    first.focus();
+    first.setSelectionRange(0, 2);
+    first.dispatchEvent(
+      new InputEvent("beforeinput", { inputType: "insertReplacementText", data: "999" }),
+    );
+    fireEvent.change(first, { target: { value: "99934" } });
+
+    expect(first).toHaveValue("1234");
+    expect(getByLabelText("2")).toHaveValue("5678");
   });
 
   it("normalizes a birth date autofill and moves to the next segment", () => {

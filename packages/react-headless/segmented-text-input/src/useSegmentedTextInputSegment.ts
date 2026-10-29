@@ -227,7 +227,10 @@ export function useSegmentedTextInputSegment(props: UseSegmentedTextInputSegment
         // beforeinput 없이 들어온 값, 교체 입력, 여러 글자 입력은 자동완성으로 보고 Segment 전체를 바꾼다.
         const isAutofill = !snapshot || inputType === "insertReplacementText" || insertedLength > 1;
 
-        if (isAutofill) {
+        // 선택 영역 뒤에 값이 남아 있으면 붙여넣기처럼 현재 Segment 안에서만 반영한다.
+        const keepsSuffix = snapshot !== null && snapshot.end < snapshot.value.length;
+
+        if (isAutofill && !keepsSuffix) {
           const text = (isBirthDate && normalizeBirthDate(raw, length)) || normalize(raw);
           distribute(el, text);
           return;
@@ -297,10 +300,12 @@ export function useSegmentedTextInputSegment(props: UseSegmentedTextInputSegment
 
       onSelect(event) {
         if (!masked) return;
-        // 가린 값은 보이지 않으므로 가운데를 고칠 수 없게 caret을 끝에 둔다.
+        // 가린 값은 보이지 않으므로 가운데를 고칠 수 없게 caret을 끝에 둔다. 전체 선택은 바꿔 쓸 수 있게 둔다.
         const el = event.currentTarget;
         const end = el.value.length;
-        if (el.selectionStart !== end || el.selectionEnd !== end) el.setSelectionRange(end, end);
+        const atEnd = el.selectionStart === end && el.selectionEnd === end;
+        const selectsAll = el.selectionStart === 0 && el.selectionEnd === end;
+        if (!atEnd && !selectsAll) el.setSelectionRange(end, end);
       },
 
       onPaste(event) {
