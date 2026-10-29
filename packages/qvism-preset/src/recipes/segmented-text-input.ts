@@ -180,6 +180,11 @@ const segmentedTextInput = defineSlotRecipe({
 
       color: vars.base.enabled.placeholder.color,
 
+      // 입력 칸은 숫자 폭이라 점보다 넓다. 뒤에 정적 내용이 붙으면 끝에 붙여 점 사이 간격을 고르게 한다.
+      [pseudo("[data-before-suffix]")]: {
+        justifySelf: "end",
+      },
+
       [pseudo(disabled)]: {
         color: vars.base.disabled.placeholder.color,
       },
@@ -202,7 +207,9 @@ const segmentedTextInput = defineSlotRecipe({
         marginInlineEnd: tokens.$dimension.x2,
       },
 
+      // Figma의 masked Segment는 점 묶음 좌우에 여백을 둔다.
       [pseudo("[data-masked]")]: {
+        paddingInline: tokens.$dimension.x1,
         color: vars.base.enabled.maskedPlaceholder.color,
       },
 

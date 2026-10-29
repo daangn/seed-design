@@ -123,6 +123,9 @@
     pointer-events: none;
     color: var(--seed-color-fg-placeholder);
 }
+.seed-segmented-text-input__placeholder[data-before-suffix] {
+    justify-self: end;
+}
 .seed-segmented-text-input__placeholder:is(:disabled, [disabled], [data-disabled]) {
     color: var(--seed-color-fg-disabled);
 }
@@ -143,6 +146,7 @@
     margin-inline-end: var(--seed-dimension-x2);
 }
 .seed-segmented-text-input__dots[data-masked] {
+    padding-inline: var(--seed-dimension-x1);
     color: var(--seed-color-fg-placeholder);
 }
 .seed-segmented-text-input__dots[data-masked]:is(:disabled, [disabled], [data-disabled]) {
