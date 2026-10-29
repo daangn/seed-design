@@ -40,6 +40,7 @@ export const ResidentNumberInput = React.forwardRef<HTMLDivElement, ResidentNumb
           <SeedSegmentedTextInput.Segment
             staticText={<SeedSegmentedTextInput.Dots count={7} />}
             sizing="fill"
+            align="center"
           />
         )}
         {digits === 7 && (
@@ -49,6 +50,7 @@ export const ResidentNumberInput = React.forwardRef<HTMLDivElement, ResidentNumb
             length={1}
             staticSuffix={<SeedSegmentedTextInput.Dots count={6} />}
             sizing="fill"
+            align="center"
           />
         )}
         {digits === 13 && (
@@ -57,6 +59,7 @@ export const ResidentNumberInput = React.forwardRef<HTMLDivElement, ResidentNumb
             length={7}
             masked
             sizing="fill"
+            align="center"
           />
         )}
       </SeedSegmentedTextInput.Root>
