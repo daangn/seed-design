@@ -36,13 +36,13 @@ export const ResidentNumberInput = React.forwardRef<HTMLDivElement, ResidentNumb
           sizing="fill"
         />
         <SeedSegmentedTextInput.Separator> - </SeedSegmentedTextInput.Separator>
-        {digits === 6 && <SeedSegmentedTextInput.Segment staticText="●●●●●●●" sizing="fill" />}
+        {digits === 6 && <SeedSegmentedTextInput.Segment staticText="•••••••" sizing="fill" />}
         {digits === 7 && (
           <SeedSegmentedTextInput.Segment
             aria-label="주민등록번호 뒷자리 첫 번째 자리"
-            placeholder="●"
+            placeholder="•"
             length={1}
-            staticSuffix="●●●●●●"
+            staticSuffix="••••••"
             sizing="fill"
           />
         )}
