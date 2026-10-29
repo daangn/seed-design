@@ -23,7 +23,7 @@ compatibility:
 
 Segment마다 native 입력 하나를 두고, 값은 입력 Segment 순서대로 `string[]`로 다룹니다.
 
-- 끝에서 입력해 Segment를 채우면 다음 Segment로 이동합니다. 자리 수를 넘는 입력과 숫자 외 문자는 반영하지 않습니다.
+- 끝에서 입력해 Segment를 채우면 다음 Segment로 이동합니다. 자리 수를 넘는 입력은 반영하지 않습니다. 기본 `type`(`"number"`)에서는 숫자 외 문자도 반영하지 않습니다.
 - 가린(`masked`) Segment는 입력한 글자 대신 자리 수만큼 점을 그립니다. 가린 값 안에서는 caret을 옮기지 않고 끝에서만 입력·삭제합니다.
 - 붙여넣은 값은 구분자를 지우고 다음 Segment까지 차례로 채웁니다. 가린(`masked`)·`readOnly` Segment 앞에서 멈춥니다.
 - `autoComplete="bday"` Segment는 붙여넣은 생년월일(`yyyy-MM-dd` 등)을 자리 수에 맞춰 바꿉니다.
