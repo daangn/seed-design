@@ -1,3 +1,4 @@
+import { vars as tokens } from "../vars";
 import { segmentedTextInput as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { pseudo, focus, disabled, not, readOnly, invalid } from "../utils/pseudo";
@@ -12,6 +13,10 @@ const segmentedTextInput = defineSlotRecipe({
     "valueContainer",
     "valueSizer",
     "value",
+    "placeholder",
+    "dots",
+    "dot",
+    "caret",
     "staticText",
     "separator",
     "suffix",
@@ -84,8 +89,7 @@ const segmentedTextInput = defineSlotRecipe({
         justifyContent: "center",
       },
     },
-    // 입력과 측정용 텍스트(자리 수만큼의 "0" 또는 "•")를 한 칸에 겹쳐, 입력 너비를 실제 글자 너비에 맞춘다.
-    // masked 입력의 불릿도 폰트의 U+2022로 그려지므로 placeholder 불릿과 같은 위치에서 채워진다.
+    // 입력과 측정용 텍스트(자리 수만큼의 "0")나 masked 점을 한 칸에 겹쳐, 입력 너비를 보이는 내용에 맞춘다.
     valueContainer: {
       display: "inline-grid",
       alignSelf: "stretch",
@@ -157,8 +161,82 @@ const segmentedTextInput = defineSlotRecipe({
         color: vars.base.disabled.placeholder.color,
       },
 
-      [pseudo(disabled, "[data-masked]::placeholder")]: {
+      // masked 입력의 글자와 caret은 숨기고, 겹쳐 둔 점과 caret이 대신 보인다.
+      [pseudo("[data-masked]")]: {
+        color: "transparent",
+        WebkitTextFillColor: "transparent",
+        caretColor: "transparent",
+      },
+
+      [pseudo("[data-masked]::selection")]: {
+        backgroundColor: "transparent",
+      },
+    },
+    placeholder: {
+      gridArea: "1 / 1",
+      alignSelf: "center",
+      display: "flex",
+      pointerEvents: "none",
+
+      color: vars.base.enabled.placeholder.color,
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.placeholder.color,
+      },
+    },
+    dots: {
+      gridArea: "1 / 1",
+      alignSelf: "center",
+      display: "inline-flex",
+      alignItems: "center",
+      flex: "none",
+      gap: tokens.$dimension.x2,
+      verticalAlign: "middle",
+      pointerEvents: "none",
+
+      // 입력 뒤·앞에 붙는 정적 점은 입력과 점 사이도 같은 간격으로 띄운다.
+      "[data-position=suffix] > &": {
+        marginInlineStart: tokens.$dimension.x2,
+      },
+      "[data-position=prefix] > &": {
+        marginInlineEnd: tokens.$dimension.x2,
+      },
+
+      [pseudo("[data-masked]")]: {
+        color: vars.base.enabled.maskedPlaceholder.color,
+      },
+
+      [pseudo("[data-masked]", disabled)]: {
         color: vars.base.disabled.maskedPlaceholder.color,
+      },
+    },
+    dot: {
+      flex: "none",
+      width: "7px",
+      height: "7px",
+      borderRadius: tokens.$radius.full,
+      backgroundColor: "currentColor",
+
+      [pseudo("[data-filled]")]: {
+        color: vars.base.enabled.value.color,
+      },
+
+      [pseudo("[data-filled]", disabled)]: {
+        color: vars.base.disabled.value.color,
+      },
+    },
+    caret: {
+      display: "none",
+      flex: "none",
+      borderRadius: tokens.$radius.full,
+      backgroundColor: vars.base.enabled.value.color,
+      // 점 사이 간격 가운데에 두되, 점 위치는 밀지 않는다.
+      marginInline: `calc((${tokens.$dimension.x2} + var(--seed-segmented-text-input-caret-width)) / -2)`,
+      width: "var(--seed-segmented-text-input-caret-width)",
+      animation: "caret-blink 1s step-end infinite",
+
+      [pseudo("[data-focus]:not([data-readonly])")]: {
+        display: "block",
       },
     },
     staticText: {
@@ -224,6 +302,11 @@ const segmentedTextInput = defineSlotRecipe({
         suffix: {
           paddingInlineStart: vars.sizeLarge.enabled.root.gap,
         },
+        caret: {
+          // Figma의 caret 크기
+          "--seed-segmented-text-input-caret-width": "1.5px",
+          height: "20px",
+        },
       },
       medium: {
         root: {
@@ -254,6 +337,11 @@ const segmentedTextInput = defineSlotRecipe({
         },
         suffix: {
           paddingInlineStart: vars.sizeMedium.enabled.root.gap,
+        },
+        caret: {
+          // Figma의 caret 크기
+          "--seed-segmented-text-input-caret-width": "1px",
+          height: "17px",
         },
       },
     },

@@ -46,7 +46,7 @@ export const CardNumberInput = React.forwardRef<HTMLDivElement, CardNumberInputP
               {i > 0 && <SeedSegmentedTextInput.Separator> - </SeedSegmentedTextInput.Separator>}
               <SeedSegmentedTextInput.Segment
                 aria-label={label}
-                placeholder={masked ? "••••" : "0000"}
+                placeholder={masked ? undefined : "0000"}
                 length={4}
                 masked={masked}
                 autoComplete={i === 0 ? "cc-number" : masked ? "off" : undefined}

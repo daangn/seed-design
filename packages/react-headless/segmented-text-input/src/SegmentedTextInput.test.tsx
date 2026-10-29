@@ -111,6 +111,26 @@ describe("SegmentedTextInput", () => {
     expect(front.selectionStart).toBe(6);
   });
 
+  it("keeps the caret at the end of a masked segment and moves to neighbors with arrow keys", async () => {
+    const { user, getByLabelText } = setUp(
+      <CardNumber defaultValue={["1234", "5678", "12", ""]} />,
+    );
+    const third = getByLabelText("3") as HTMLInputElement;
+
+    await user.click(third);
+    third.setSelectionRange(0, 0);
+    // React는 keyup 등에서 선택 변경을 확인해 onSelect를 부른다.
+    fireEvent.keyUp(third);
+    expect(third.selectionStart).toBe(2);
+
+    await user.keyboard("{ArrowRight}");
+    expect(getByLabelText("4")).toHaveFocus();
+
+    await user.click(third);
+    await user.keyboard("{ArrowLeft}");
+    expect(getByLabelText("2")).toHaveFocus();
+  });
+
   it("distributes a pasted resident number across segments", async () => {
     const { user, getByLabelText } = setUp(<ResidentNumber />);
 

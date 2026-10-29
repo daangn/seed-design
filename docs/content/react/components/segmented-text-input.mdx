@@ -20,6 +20,7 @@ Segment마다 입력 하나를 두고, 값은 입력 Segment 순서대로 `strin
 
 - 끝에서 입력해 Segment를 채우면 다음 Segment로 이동합니다. 가운데에 넣어 자리 수를 넘는 입력은 반영하지 않습니다.
 - 빈 Segment에서 Backspace를 누르면 이전 Segment의 마지막 글자를 지웁니다. 끝에서 → 키, 처음에서 ← 키를 누르면 옆 Segment로 이동합니다.
+- 가린(`masked`) Segment는 입력한 글자 대신 자리 수만큼 점을 그립니다. 가린 값 안에서는 caret을 옮기지 않고 끝에서만 입력·삭제하며, ←·→ 키는 바로 옆 Segment로 이동합니다.
 - 붙여넣은 값은 구분자를 지우고 다음 Segment까지 차례로 채웁니다. 가린(`masked`) Segment 앞에서 멈춥니다.
 - `autoComplete="bday"` Segment는 OS가 넣은 생년월일(`yyyy-MM-dd` 등)을 자리 수에 맞춰 바꿉니다.
 - 한글 조합 중에는 다음 Segment로 이동하지 않습니다.
@@ -71,6 +72,24 @@ npx @seed-design/cli@latest add ui:card-number-field
 />
 
 `staticText`를 주면 입력 없이 정적 텍스트만 표시하는 Segment가 됩니다. 정적 Segment는 값 배열에 포함하지 않습니다.
+
+### `SegmentedTextInput.Dots`
+
+<react-type-table
+  path="../packages/react/src/components/SegmentedTextInput/SegmentedTextInput.tsx"
+  name="SegmentedTextInputDotsProps"
+/>
+
+주민등록번호 뒷자리처럼 가린 자리를 7×7 점으로 표시합니다. `staticText`·`staticSuffix`·`placeholder`에 넣습니다.
+
+```tsx
+<SegmentedTextInput.Segment
+  aria-label="주민등록번호 뒷자리 첫 번째 자리"
+  length={1}
+  placeholder={<SegmentedTextInput.Dots count={1} />}
+  staticSuffix={<SegmentedTextInput.Dots count={6} />}
+/>
+```
 
 ## Examples
 
