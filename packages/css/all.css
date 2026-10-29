@@ -9508,11 +9508,15 @@
   align-self: center;
   align-items: center;
   gap: var(--seed-dimension-x2);
-  vertical-align: middle;
   pointer-events: none;
   flex: none;
   grid-area: 1 / 1;
   display: inline-flex;
+}
+
+.seed-segmented-text-input__dots:before {
+  content: "​";
+  margin-inline-end: calc(var(--seed-dimension-x2) * -1);
 }
 
 [data-position="suffix"] > .seed-segmented-text-input__dots {
@@ -9569,8 +9573,6 @@
   color: var(--seed-color-fg-neutral);
   font-weight: var(--seed-font-weight-regular);
   flex: none;
-  align-items: center;
-  display: flex;
 }
 
 .seed-segmented-text-input__staticText:is(:disabled, [disabled], [data-disabled]) {
