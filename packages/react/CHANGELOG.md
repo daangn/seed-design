@@ -1,5 +1,32 @@
 # @seed-design/react
 
+## 3.1.0
+
+### Minor Changes
+
+- d4ec62d: 검색어를 입력하고 제출하는 `SearchInput`을 추가합니다. `npx @seed-design/cli@latest add ui:search-input`으로 Registry 컴포넌트를 설치해 사용하고, Stackflow 화면에서는 `ui:search-bar`로 설치하는 `SearchBar`를 사용합니다. `ui:search-bar`를 설치하면 `ui:search-input`도 함께 설치됩니다.
+  
+  - `SearchInput.Root`의 `onSubmit`은 Enter를 누르면 현재 값과 함께 호출됩니다. IME 조합을 확정하는 Enter는 무시하고, 제출 뒤에는 입력의 focus를 해제합니다. `blurOnSubmit={false}`로 focus를 유지할 수 있습니다.
+  - `SearchInput.Root`는 `role="search"`를, `SearchInput.Input`은 `type="search"`와 `enterKeyHint="search"`를 가집니다. `SearchInput.Input`과 `SearchInput.ClearButton`에 `aria-label`이나 `aria-labelledby`가 없으면 경고합니다.
+  - `SearchInput.ClearButton`은 값이 있을 때만 렌더링되며, uncontrolled 상태에서도 값을 비웁니다. 누르는 동안 scale feedback으로 살짝 줄어듭니다.
+- d4ec62d: Tabs, Chip Tabs, Page Banner, Attachment Input, Attachment Display에 `extendSafeAreaX` 속성을 추가합니다. 지정하면 배경과 스크롤 영역이 좌우 safe area inset까지 화면 끝으로 넓어지고, 탭, chip, 항목, 글자 같은 내용은 safe area 안에 남습니다.
+  
+  - 선택하거나 포커스한 탭, chip, 항목을 화면 안으로 스크롤할 때 safe area 안에 멈추도록 수정합니다.
+  - Image Frame에 `bleedX="safeArea"`를 지정하면 `ImageFrameFloater`도 safe area 안에 놓입니다.
+  - `npx @seed-design/cli@latest add ui:attachment-display-field`로 Registry 컴포넌트를 최신화하면 `AttachmentDisplayField`의 `controlProps`로 `extendSafeAreaX`를 지정할 수 있습니다.
+
+### Patch Changes
+
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+  - @seed-design/css@3.1.0
+  - @seed-design/react-text-field@2.1.0
+  - @seed-design/react-tabs@3.0.0
+
 ## 3.0.1
 
 ### Patch Changes

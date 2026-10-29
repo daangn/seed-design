@@ -1,5 +1,25 @@
 # @seed-design/css
 
+## 3.1.0
+
+### Minor Changes
+
+- d4ec62d: `AppBar.TextButton`을 추가합니다. "완료", "닫기"처럼 짧은 텍스트로 동작을 표시하는 App Bar 버튼입니다.
+  
+  - `npx @seed-design/cli@latest add ui:app-screen`으로 Registry 컴포넌트를 다시 설치하면 `AppBarTextButton`을 사용할 수 있습니다. 갱신한 snippet은 `@seed-design/stackflow` 2.1.0 이상과 `@seed-design/css` 3.1.0 이상이 필요합니다.
+  - `theme="cupertino"`에서는 레이블이 최대 너비를 넘으면 말줄임표로 줄입니다.
+  - 누름 배경과 `disabled` 비활성 색상을 지원하고, `asChild`로 다른 요소를 버튼으로 렌더할 수 있습니다.
+- d4ec62d: Tabs, Chip Tabs, Page Banner, Attachment Input, Attachment Display에 `extendSafeAreaX` 속성을 추가합니다. 지정하면 배경과 스크롤 영역이 좌우 safe area inset까지 화면 끝으로 넓어지고, 탭, chip, 항목, 글자 같은 내용은 safe area 안에 남습니다.
+  
+  - 선택하거나 포커스한 탭, chip, 항목을 화면 안으로 스크롤할 때 safe area 안에 멈추도록 수정합니다.
+  - Image Frame에 `bleedX="safeArea"`를 지정하면 `ImageFrameFloater`도 safe area 안에 놓입니다.
+  - `npx @seed-design/cli@latest add ui:attachment-display-field`로 Registry 컴포넌트를 최신화하면 `AttachmentDisplayField`의 `controlProps`로 `extendSafeAreaX`를 지정할 수 있습니다.
+- d4ec62d: `SearchInput`에서 쓰는 `search-input` recipe를 추가합니다. 브라우저가 `type="search"` 입력에 그리는 기본 지우기 버튼(`::-webkit-search-cancel-button`)은 숨깁니다.
+- d4ec62d: Gray 램프와 톤이 일치하는 반투명 팔레트 `$color.palette.gray-alpha-100` ~ `gray-alpha-1000`을 추가합니다.
+  
+  - `gray-00` 위에 합성하면 light·dark 테마 각각에서 같은 스텝의 `gray-N`과 같은 색이 됩니다.
+  - CSS 변수 `--seed-color-palette-gray-alpha-100` ~ `--seed-color-palette-gray-alpha-1000`으로 사용할 수 있습니다.
+
 ## 3.0.3
 
 ### Patch Changes

@@ -1,5 +1,25 @@
 # @seed-design/tailwind4-theme
 
+## 3.1.0
+
+### Minor Changes
+
+- d4ec62d: Gray 램프와 톤이 일치하는 반투명 팔레트 `$color.palette.gray-alpha-100` ~ `gray-alpha-1000`을 추가합니다.
+  
+  - `gray-00` 위에 합성하면 light·dark 테마 각각에서 같은 스텝의 `gray-N`과 같은 색이 됩니다.
+  - CSS 변수 `--seed-color-palette-gray-alpha-100` ~ `--seed-color-palette-gray-alpha-1000`으로 사용할 수 있습니다.
+
+### Patch Changes
+
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+  - @seed-design/css@3.1.0
+  - @seed-design/lynx-css@1.1.0
+
 ## 3.0.2
 
 ### Patch Changes

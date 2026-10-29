@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/lynx-react",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -39,13 +39,13 @@
   "peerDependencies": {
     "@lynx-js/react": ">=0.117.0",
     "@lynx-js/types": ">=3.9.0",
-    "@seed-design/lynx-css": "^1.0.1"
+    "@seed-design/lynx-css": "^1.1.0"
   },
   "devDependencies": {
     "@lynx-js/lynx-ui-dialog": "^3.133.1",
     "@lynx-js/react": "^0.117.0",
     "@lynx-js/types": "^3.9.0",
-    "@seed-design/lynx-css": "1.0.1",
+    "@seed-design/lynx-css": "1.1.0",
     "@seed-design/lynx-vitest-config": "0.0.0",
     "@testing-library/jest-dom": "^6.9.1",
     "jsdom": "^29.0.2",
@@ -80,7 +80,7 @@
     "@seed-design/lynx-react-page-banner": "^1.0.0",
     "@seed-design/lynx-react-popover": "^1.0.0",
     "@seed-design/lynx-react-progress": "^1.0.0",
-    "@seed-design/lynx-react-pull-to-refresh": "^1.0.0",
+    "@seed-design/lynx-react-pull-to-refresh": "^1.1.0",
     "@seed-design/lynx-react-quantity-picker": "^1.0.0",
     "@seed-design/lynx-react-radio-group": "^1.0.0",
     "@seed-design/lynx-react-scale-feedback": "^1.0.0",
@@ -89,7 +89,7 @@
     "@seed-design/lynx-react-slider": "^1.0.0",
     "@seed-design/lynx-react-switch": "^1.0.0",
     "@seed-design/lynx-react-tabs": "^1.0.0",
-    "@seed-design/lynx-react-text-field": "^1.0.0",
+    "@seed-design/lynx-react-text-field": "^1.1.0",
     "@seed-design/lynx-react-toggle": "^1.0.0",
     "@seed-design/lynx-react-use-press-tap": "^1.0.0",
     "@seed-design/lynx-react-use-safe-area": "^1.0.0",
