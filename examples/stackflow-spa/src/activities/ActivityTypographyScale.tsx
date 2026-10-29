@@ -6,8 +6,8 @@ import fontSizeArtifact from "@seed-design/rootage-artifacts/font-size";
 import lineHeightArtifact from "@seed-design/rootage-artifacts/line-height";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { NextAppBar, NextAppBarBackButton, NextAppBarLeft, NextAppBarMain } from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { Callout } from "seed-design/ui/callout";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 
@@ -179,14 +179,14 @@ const ActivityTypographyScale: StaticActivityComponentType<"ActivityTypographySc
   const [weight, setWeight] = React.useState<(typeof WEIGHTS)[number]>(WEIGHTS[0]);
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain title="Typography Scale" />
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="Typography Scale" />
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack
           gap="spacingY.componentDefault"
           px="spacingX.globalGutter"
@@ -312,8 +312,8 @@ const ActivityTypographyScale: StaticActivityComponentType<"ActivityTypographySc
             );
           })}
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

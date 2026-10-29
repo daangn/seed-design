@@ -1,18 +1,18 @@
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { HStack, Portal, Text, VStack } from "@seed-design/react";
+import { HStack, Icon, Portal, Text, VStack } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import {
   DialogAction,
   DialogBody,
@@ -38,19 +38,19 @@ const ActivityDialog: StaticActivityComponentType<"ActivityDialog"> = () => {
   const paragraphCount = overflow ? 16 : 1;
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Dialog</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="Dialog" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <Icon svg={<IconHouseLine />} />
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="x5" align="stretch" style={{ padding: 24 }}>
           <Switch
             tone="neutral"
@@ -58,6 +58,7 @@ const ActivityDialog: StaticActivityComponentType<"ActivityDialog"> = () => {
             label="긴 본문 (오버플로)"
             checked={overflow}
             onCheckedChange={setOverflow}
+            style={{ alignSelf: "flex-start" }}
           />
           <DialogRoot size="medium">
             <DialogTrigger asChild>
@@ -90,8 +91,8 @@ const ActivityDialog: StaticActivityComponentType<"ActivityDialog"> = () => {
             </Portal>
           </DialogRoot>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

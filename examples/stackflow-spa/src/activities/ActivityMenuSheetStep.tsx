@@ -1,4 +1,4 @@
-import { Portal, VStack } from "@seed-design/react";
+import { Icon, Portal, VStack } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import {
   useActivityParams,
@@ -8,8 +8,13 @@ import {
 } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
-import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import {
+  NextAppBar,
+  NextAppBarIconButton,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import {
   SwipeableMenuSheetContent,
   SwipeableMenuSheetGroup,
@@ -65,16 +70,16 @@ const ActivityMenuSheetStep: StaticActivityComponentType<"ActivityMenuSheetStep"
   };
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarMain title="Step" />
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarMain title="Step" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <Icon svg={<IconHouseLine />} />
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <SwipeableMenuSheetRoot open={open} onOpenChange={onOpenChange}>
           <SwipeableMenuSheetTrigger asChild>
             <VStack p="x5" justify="center" gap="x4">
@@ -123,8 +128,8 @@ const ActivityMenuSheetStep: StaticActivityComponentType<"ActivityMenuSheetStep"
             </SwipeableMenuSheetContent>
           </Portal>
         </SwipeableMenuSheetRoot>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

@@ -1,0 +1,165 @@
+import { composeRefs } from "@radix-ui/react-compose-refs";
+import { nextAppBar, type NextAppBarVariantProps } from "@seed-design/css/recipes/next-app-bar";
+import {
+  nextAppBarMain,
+  type NextAppBarMainVariantProps,
+} from "@seed-design/css/recipes/next-app-bar-main";
+import { mergeProps } from "@seed-design/dom-utils";
+import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { useScaleFeedback } from "@seed-design/react-scale-feedback";
+import clsx from "clsx";
+import { cloneElement, forwardRef, isValidElement } from "react";
+import { NextAppBar as NextAppBarPrimitive } from "../../primitive";
+import { createStyleContext, mergeContextProps } from "../../utils/createStyleContext";
+import { useBoxBackgroundProps, type BoxBackgroundProps } from "../../utils/styled";
+
+const { PropsProvider, ClassNamesProvider, useProps, withContext, useClassNames } =
+  createStyleContext(nextAppBar);
+const {
+  PropsProvider: MainPropsProvider,
+  withProvider: withMainProvider,
+  withContext: withMainContext,
+} = createStyleContext(nextAppBarMain);
+
+export const NextAppBarPropsProvider = PropsProvider;
+
+export interface NextAppBarRootProps
+  extends NextAppBarVariantProps,
+    NextAppBarPrimitive.RootProps,
+    BoxBackgroundProps {}
+
+/**
+ * Embedded in the NextAppScreen layer (the transition unit): the bar moves
+ * with the layer as one piece, so unlike the legacy AppBar it needs no
+ * behind-activity restyling or transition choreography of its own.
+ */
+export const NextAppBarRoot = forwardRef<HTMLDivElement, NextAppBarRootProps>((props, ref) => {
+  const { style: boxStyle, restProps: propsWithoutBoxProps } = useBoxBackgroundProps(props);
+
+  const contextProps = useProps();
+  const [variantProps, otherProps] = nextAppBar.splitVariantProps(
+    mergeContextProps<typeof propsWithoutBoxProps>(contextProps, propsWithoutBoxProps),
+  );
+
+  const classNames = nextAppBar(variantProps);
+  const [mainVariantProps] = nextAppBarMain.splitVariantProps(variantProps);
+  const { children, ...restProps } = otherProps;
+
+  return (
+    <ClassNamesProvider value={classNames}>
+      <MainPropsProvider value={mainVariantProps}>
+        <NextAppBarPrimitive.Root
+          ref={ref}
+          {...mergeProps({ className: classNames.root, style: boxStyle }, restProps)}
+        >
+          <div aria-hidden className={classNames.background} />
+          {children}
+        </NextAppBarPrimitive.Root>
+      </MainPropsProvider>
+    </ClassNamesProvider>
+  );
+});
+NextAppBarRoot.displayName = "NextAppBarRoot";
+
+export interface NextAppBarLeftProps extends NextAppBarPrimitive.LeftProps {}
+
+export const NextAppBarLeft = withContext<HTMLDivElement, NextAppBarLeftProps>(
+  NextAppBarPrimitive.Left,
+  "left",
+);
+
+export interface NextAppBarRightProps extends NextAppBarPrimitive.RightProps {}
+
+export const NextAppBarRight = withContext<HTMLDivElement, NextAppBarRightProps>(
+  NextAppBarPrimitive.Right,
+  "right",
+);
+
+export interface NextAppBarMainProps
+  extends Omit<NextAppBarMainVariantProps, "theme" | "tone">,
+    NextAppBarPrimitive.MainProps {}
+
+export const NextAppBarMain = withMainProvider<HTMLDivElement, NextAppBarMainProps>(
+  NextAppBarPrimitive.Main,
+  "root",
+);
+
+export interface NextAppBarTitleProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLSpanElement> {}
+
+export const NextAppBarTitle = withMainContext<HTMLSpanElement, NextAppBarTitleProps>(
+  Primitive.span,
+  "title",
+);
+
+export interface NextAppBarSubtitleProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLSpanElement> {}
+
+export const NextAppBarSubtitle = withMainContext<HTMLSpanElement, NextAppBarSubtitleProps>(
+  Primitive.span,
+  "subtitle",
+);
+
+/**
+ * The button only hands the icon its size and color through `--seed-icon-*`, so wrap the icon
+ * in `<Icon svg={...} />` from `@seed-design/react`; a bare svg renders unstyled.
+ */
+export interface NextAppBarIconButtonProps
+  extends PrimitiveProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export const NextAppBarIconButton = forwardRef<HTMLButtonElement, NextAppBarIconButtonProps>(
+  ({ className, ...otherProps }, ref) => {
+    const classNames = useClassNames();
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
+
+    if (!(otherProps["aria-label"] || otherProps["aria-labelledby"])) {
+      console.warn(
+        "NextAppBarIconButton should be provided with 'aria-label' or 'aria-labelledby'.",
+      );
+    }
+
+    return (
+      <Primitive.button
+        ref={composeRefs(scaleFeedbackRef, ref)}
+        type="button"
+        className={clsx(classNames.iconButton, scaleFeedbackClassName, className)}
+        {...otherProps}
+      />
+    );
+  },
+);
+NextAppBarIconButton.displayName = "NextAppBarIconButton";
+
+export interface NextAppBarTextButtonProps
+  extends PrimitiveProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export const NextAppBarTextButton = forwardRef<HTMLButtonElement, NextAppBarTextButtonProps>(
+  ({ asChild, children, className, ...otherProps }, ref) => {
+    const classNames = useClassNames();
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
+
+    const renderLabel = (content: React.ReactNode) => (
+      <span className={classNames.textButtonLabel}>{content}</span>
+    );
+
+    return (
+      <Primitive.button
+        ref={composeRefs(scaleFeedbackRef, ref)}
+        type="button"
+        asChild={asChild}
+        className={clsx(classNames.textButton, scaleFeedbackClassName, className)}
+        {...otherProps}
+      >
+        {/* With `asChild`, the button props go to the child, so the label goes inside it. */}
+        {asChild && isValidElement<{ children?: React.ReactNode }>(children)
+          ? cloneElement(children, undefined, renderLabel(children.props.children))
+          : renderLabel(children)}
+      </Primitive.button>
+    );
+  },
+);
+NextAppBarTextButton.displayName = "NextAppBarTextButton";
