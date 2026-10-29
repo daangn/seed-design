@@ -119,6 +119,16 @@ describe("SegmentedTextInput", () => {
     expect(calls[1]).toContainEqual(expect.objectContaining({ method: "focus" }));
   });
 
+  it("blocks further typing natively once the segment is full", () => {
+    const { refs, inputs } = renderCardNumber();
+
+    fireInput(refs[0]!, inputs[0]!, "123");
+    expect(getInputs()[0]).toHaveAttribute("maxlength", "2147483647");
+
+    fireInput(refs[0]!, inputs[0]!, "1234");
+    expect(getInputs()[0]).toHaveAttribute("maxlength", "4");
+  });
+
   it("moves focus even when the selection change arrives before the input", () => {
     const { refs, calls, inputs } = renderCardNumber();
 
