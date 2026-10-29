@@ -9819,6 +9819,8 @@
     color: var(--seed-color-fg-neutral);
     font-weight: var(--seed-font-weight-regular);
     flex: none;
+    align-items: center;
+    display: flex;
   }
 
   .seed-segmented-text-input__staticText:is(:disabled, [disabled], [data-disabled]) {
