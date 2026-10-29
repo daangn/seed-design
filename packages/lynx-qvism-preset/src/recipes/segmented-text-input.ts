@@ -107,10 +107,12 @@ const segmentedTextInput = defineSlotRecipe({
       visibility: "hidden",
       whiteSpace: "nowrap",
     },
+    // iOS UITextField는 글자 폭과 입력 폭이 같으면 반올림 차이로 placeholder를 말줄임하고, caret 자리만큼 값을 밀어낸다.
+    // 입력을 측정용 텍스트보다 오른쪽으로 조금 넓혀 여유를 둔다. 배경이 투명해 뒤 요소를 가리지 않는다.
     value: {
       position: "absolute",
       top: 0,
-      right: 0,
+      right: `calc(-1 * ${tokens.$dimension.x1})`,
       bottom: 0,
       left: 0,
       padding: 0,
