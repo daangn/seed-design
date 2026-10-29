@@ -240,6 +240,9 @@ const segmentedTextInput = defineSlotRecipe({
       },
     },
     staticText: {
+      // 안에 넣은 Dots가 글자 기준선이 아니라 줄 가운데에 오도록 flex로 세로 가운데에 둔다.
+      display: "flex",
+      alignItems: "center",
       flex: "none",
       whiteSpace: "pre",
       userSelect: "none",
