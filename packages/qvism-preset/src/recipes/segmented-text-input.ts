@@ -196,8 +196,13 @@ const segmentedTextInput = defineSlotRecipe({
       alignItems: "center",
       flex: "none",
       gap: tokens.$dimension.x2,
-      verticalAlign: "middle",
       pointerEvents: "none",
+
+      // 폭 없는 글자로 줄 높이와 기준선을 만들어, 글자 사이에 놓여도 점이 줄 가운데에 오게 한다.
+      "&::before": {
+        content: '"\\200b"',
+        marginInlineEnd: `calc(${tokens.$dimension.x2} * -1)`,
+      },
 
       // 입력 뒤·앞에 붙는 정적 점은 입력과 점 사이도 같은 간격으로 띄운다.
       "[data-position=suffix] > &": {
@@ -247,9 +252,6 @@ const segmentedTextInput = defineSlotRecipe({
       },
     },
     staticText: {
-      // 안에 넣은 Dots가 글자 기준선이 아니라 줄 가운데에 오도록 flex로 세로 가운데에 둔다.
-      display: "flex",
-      alignItems: "center",
       flex: "none",
       whiteSpace: "pre",
       userSelect: "none",

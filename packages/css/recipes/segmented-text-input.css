@@ -136,8 +136,11 @@
     align-items: center;
     flex: none;
     gap: var(--seed-dimension-x2);
-    vertical-align: middle;
     pointer-events: none;
+}
+.seed-segmented-text-input__dots::before {
+    content: "\200b";
+    margin-inline-end: calc(var(--seed-dimension-x2) * -1);
 }
 [data-position=suffix] > .seed-segmented-text-input__dots {
     margin-inline-start: var(--seed-dimension-x2);
@@ -178,8 +181,6 @@
     display: block;
 }
 .seed-segmented-text-input__staticText {
-    display: flex;
-    align-items: center;
     flex: none;
     white-space: pre;
     user-select: none;

@@ -45,6 +45,18 @@ export const keyframes = defineKeyframes({
     },
   },
 
+  "caret-blink": {
+    "0%": {
+      opacity: 1,
+    },
+    "50%": {
+      opacity: 0,
+    },
+    "100%": {
+      opacity: 1,
+    },
+  },
+
   "fade-in": {
     from: {
       opacity: 0,
