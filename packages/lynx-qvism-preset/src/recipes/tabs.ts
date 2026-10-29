@@ -78,6 +78,19 @@ const tabs = defineSlotRecipe({
     },
   },
   variants: {
+    extendSafeAreaX: {
+      true: {
+        root: {
+          marginLeft: "calc(var(--seed-safe-area-left) * -1)",
+          marginRight: "calc(var(--seed-safe-area-right) * -1)",
+        },
+        content: {
+          paddingLeft: "var(--seed-safe-area-left)",
+          paddingRight: "var(--seed-safe-area-right)",
+        },
+      },
+      false: {},
+    },
     triggerLayout: {
       fill: {
         listContent: {
@@ -208,6 +221,32 @@ const tabs = defineSlotRecipe({
   },
   compoundVariants: [
     {
+      triggerLayout: "fill",
+      extendSafeAreaX: true,
+      css: {
+        listContent: {
+          paddingLeft: `calc(${vars.layoutFill.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${vars.layoutFill.enabled.root.paddingX} + var(--seed-safe-area-right))`,
+        },
+        indicator: {
+          left: `calc(${vars.layoutFill.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+        },
+      },
+    },
+    {
+      triggerLayout: "hug",
+      extendSafeAreaX: true,
+      css: {
+        listContent: {
+          paddingLeft: `calc(${vars.layoutHug.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${vars.layoutHug.enabled.root.paddingX} + var(--seed-safe-area-right))`,
+        },
+        indicator: {
+          left: `calc(${vars.layoutHug.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+        },
+      },
+    },
+    {
       selected: false,
       inCarousel: true,
       css: {
@@ -223,6 +262,7 @@ const tabs = defineSlotRecipe({
     size: "small",
     stickyList: false,
     transitionEnabled: true,
+    extendSafeAreaX: false,
   },
 });
 

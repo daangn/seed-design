@@ -111,6 +111,23 @@ export function App() {
 
 ## Examples
 
+### Extending to Safe Area
+
+`ChipTabsRoot`에 `extendSafeAreaX`를 지정하면 스크롤 영역과 Carousel 패널이 좌우 safe area까지 확장됩니다. 첫 chip과 마지막 chip에는 기존 화면 여백과 inset이 함께 적용되고, 패널 내용은 안전 영역 안에 남습니다. 기본값은 `false`입니다.
+
+기본 `scrollAlign="nearest"`는 안전 영역 안에 보이는 chip을 움직이지 않고, inset에 가린 chip만 안쪽으로 스크롤합니다.
+
+`Box pl="safeArea" pr="safeArea"`처럼 좌우 inset을 이미 확보한 컨테이너 바로 안에서 사용하세요. inset을 확보하지 않은 곳에 적용하면 화면 밖으로 넘칠 수 있습니다. Carousel 안의 `fixed` 요소처럼 부모의 padding을 따르지 않는 요소는 별도로 처리해야 합니다.
+
+<LynxComponentExample name="lynx/chip-tabs/extend-safe-area">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip-tabs/extend-safe-area.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ### Size=Medium
 
 `medium`의 최소 높이는 36px입니다.

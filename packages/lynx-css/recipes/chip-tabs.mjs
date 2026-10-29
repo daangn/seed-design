@@ -37,6 +37,7 @@ const chipTabsSlotNames = [
 ];
 
 const defaultVariant = {
+  "extendSafeAreaX": false,
   "size": "medium",
   "variant": "neutralSolid",
   "contentLayout": "hug",
@@ -95,6 +96,10 @@ const compoundVariants = [
 ];
 
 export const chipTabsVariantMap = {
+  "extendSafeAreaX": [
+    true,
+    false
+  ],
   "size": [
     "medium",
     "large"

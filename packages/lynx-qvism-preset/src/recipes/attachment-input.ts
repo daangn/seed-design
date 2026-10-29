@@ -52,8 +52,30 @@ const attachmentInput = defineSlotRecipe({
       overflow: "visible",
     },
   },
-  variants: {},
-  defaultVariants: {},
+  variants: {
+    extendSafeAreaX: {
+      true: {
+        root: {
+          marginLeft:
+            "calc((var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-left)) * -1)",
+          marginRight:
+            "calc((var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-right)) * -1)",
+        },
+        container: {
+          paddingLeft: 0,
+          paddingRight: 0,
+        },
+        containerContent: {
+          paddingLeft:
+            "calc(var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-left))",
+          paddingRight:
+            "calc(var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-right))",
+        },
+      },
+      false: {},
+    },
+  },
+  defaultVariants: { extendSafeAreaX: false },
 });
 
 const attachmentInputTrigger = defineSlotRecipe({

@@ -67,6 +67,23 @@ const chipTabs = defineSlotRecipe({
     },
   },
   variants: {
+    extendSafeAreaX: {
+      true: {
+        root: {
+          marginLeft: "calc(var(--seed-safe-area-left) * -1)",
+          marginRight: "calc(var(--seed-safe-area-right) * -1)",
+        },
+        listContent: {
+          paddingLeft: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-right))`,
+        },
+        content: {
+          paddingLeft: "var(--seed-safe-area-left)",
+          paddingRight: "var(--seed-safe-area-right)",
+        },
+      },
+      false: {},
+    },
     size: {
       medium: {
         trigger: {
@@ -262,6 +279,7 @@ const chipTabs = defineSlotRecipe({
     },
   ],
   defaultVariants: {
+    extendSafeAreaX: false,
     size: "medium",
     variant: "neutralSolid",
     contentLayout: "hug",

@@ -12,6 +12,7 @@ import * as React from "@lynx-js/react";
 import clsx from "clsx";
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import { useSafeAreaStyle } from "../../hooks/useSafeAreaStyle";
 import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { IconSlotProvider } from "../Icon/Icon";
@@ -61,9 +62,11 @@ export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((pr
   }
 
   const [variantProps, otherProps] = pageBanner.splitVariantProps(props);
+  const safeAreaStyle = useSafeAreaStyle();
   const {
     children,
     className,
+    style,
     defaultOpen,
     open,
     onDismiss,
@@ -122,8 +125,12 @@ export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((pr
                 nativeProps,
                 ref ? { ref: ref as LynxViewRef } : {},
               )}
+              style={{ ...safeAreaStyle, ...style }}
               className={clsx(classNames.root, className)}
             >
+              {variantProps.extendSafeAreaX ? (
+                <view className={classNames.background} accessibility-elements-hidden />
+              ) : null}
               {interactive ? (
                 <>
                   <view {...scaleFeedbackTargetProps} className={classNames.scaleContent}>

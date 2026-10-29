@@ -487,6 +487,109 @@ describe("Tabs headless", () => {
     ).toBe(0);
   });
 
+  it("reveals tabs covered by either viewport inset while preserving content gutters", () => {
+    const geometry = {
+      viewportWidth: 360,
+      contentWidth: 900,
+      contentInsetStart: 100,
+      contentInsetEnd: 40,
+      viewportInsetStart: 84,
+      viewportInsetEnd: 24,
+      scrollAlign: "nearest" as const,
+    };
+
+    expect(
+      getTabsScrollOffset({
+        ...geometry,
+        currentOffset: 200,
+        triggerRect: { left: 120, width: 56 },
+      }),
+    ).toBe(120);
+    expect(
+      getTabsScrollOffset({
+        ...geometry,
+        currentOffset: 0,
+        triggerRect: { left: 200, width: 56 },
+      }),
+    ).toBe(36);
+    expect(
+      getTabsScrollOffset({
+        ...geometry,
+        currentOffset: 200,
+        triggerRect: { left: 200, width: 56 },
+      }),
+    ).toBe(200);
+  });
+
+  it("centers on the safe viewport and updates when equal insets swap sides", () => {
+    const geometry = {
+      viewportWidth: 360,
+      contentWidth: 900,
+      currentOffset: 0,
+      triggerRect: { left: 300, width: 60 },
+      scrollAlign: "center" as const,
+    };
+    expect(
+      getTabsScrollOffset({
+        ...geometry,
+        contentInsetStart: 100,
+        contentInsetEnd: 16,
+        viewportInsetStart: 84,
+        viewportInsetEnd: 0,
+      }),
+    ).toBe(208);
+    expect(
+      getTabsScrollOffset({
+        ...geometry,
+        contentInsetStart: 16,
+        contentInsetEnd: 100,
+        viewportInsetStart: 0,
+        viewportInsetEnd: 84,
+      }),
+    ).toBe(208);
+    // 같은 trigger의 콘텐츠 내 위치를 유지하는 독립 Headless 소비자는 가시 영역의 중심만 이동한다.
+    expect(
+      getTabsScrollOffset({
+        ...geometry,
+        contentInsetStart: 16,
+        contentInsetEnd: 16,
+        viewportInsetStart: 84,
+        viewportInsetEnd: 0,
+      }),
+    ).toBe(124);
+    expect(
+      getTabsScrollOffset({
+        ...geometry,
+        contentInsetStart: 16,
+        contentInsetEnd: 16,
+        viewportInsetStart: 0,
+        viewportInsetEnd: 84,
+      }),
+    ).toBe(208);
+  });
+
+  it("reveals occluded triggers even when independent consumers use smaller content gutters", () => {
+    const geometry = {
+      viewportWidth: 360,
+      contentWidth: 900,
+      contentInsetStart: 16,
+      contentInsetEnd: 16,
+      viewportInsetStart: 84,
+      viewportInsetEnd: 84,
+      currentOffset: 100,
+    };
+    for (const scrollAlign of ["nearest", "start"] as const) {
+      expect(
+        getTabsScrollOffset({ ...geometry, scrollAlign, triggerRect: { left: 100, width: 56 } }),
+      ).toBe(32);
+    }
+    for (const scrollAlign of ["nearest", "end"] as const) {
+      expect(
+        getTabsScrollOffset({ ...geometry, scrollAlign, triggerRect: { left: 360, width: 56 } }),
+      ).toBe(156);
+    }
+  });
+
   it("blocks disabled activation and pressed feedback", () => {
     const onValueChange = vi.fn();
     const bindtap = vi.fn();

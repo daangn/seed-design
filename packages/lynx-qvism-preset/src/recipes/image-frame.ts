@@ -50,60 +50,63 @@ export default defineSlotRecipe({
       "top-start": {
         floater: {
           top: "var(--seed-image-frame-offset-y)",
-          left: "var(--seed-image-frame-offset-x)",
+          left: "calc(var(--seed-image-frame-offset-x) + var(--seed-image-frame-safe-area-left, 0px))",
         },
       },
       "top-center": {
         floater: {
           top: "var(--seed-image-frame-offset-y)",
-          left: "calc(50% + var(--seed-image-frame-offset-x))",
+          left: "calc(50% + var(--seed-image-frame-offset-x) + (var(--seed-image-frame-safe-area-left, 0px) - var(--seed-image-frame-safe-area-right, 0px)) / 2)",
           transform: "translateX(-50%)",
         },
       },
       "top-end": {
         floater: {
           top: "var(--seed-image-frame-offset-y)",
-          right: "var(--seed-image-frame-offset-x)",
+          right:
+            "calc(var(--seed-image-frame-offset-x) + var(--seed-image-frame-safe-area-right, 0px))",
         },
       },
       "middle-start": {
         floater: {
           top: "calc(50% + var(--seed-image-frame-offset-y))",
-          left: "var(--seed-image-frame-offset-x)",
+          left: "calc(var(--seed-image-frame-offset-x) + var(--seed-image-frame-safe-area-left, 0px))",
           transform: "translateY(-50%)",
         },
       },
       "middle-center": {
         floater: {
           top: "calc(50% + var(--seed-image-frame-offset-y))",
-          left: "calc(50% + var(--seed-image-frame-offset-x))",
+          left: "calc(50% + var(--seed-image-frame-offset-x) + (var(--seed-image-frame-safe-area-left, 0px) - var(--seed-image-frame-safe-area-right, 0px)) / 2)",
           transform: "translate(-50%, -50%)",
         },
       },
       "middle-end": {
         floater: {
           top: "calc(50% + var(--seed-image-frame-offset-y))",
-          right: "var(--seed-image-frame-offset-x)",
+          right:
+            "calc(var(--seed-image-frame-offset-x) + var(--seed-image-frame-safe-area-right, 0px))",
           transform: "translateY(-50%)",
         },
       },
       "bottom-start": {
         floater: {
           bottom: "var(--seed-image-frame-offset-y)",
-          left: "var(--seed-image-frame-offset-x)",
+          left: "calc(var(--seed-image-frame-offset-x) + var(--seed-image-frame-safe-area-left, 0px))",
         },
       },
       "bottom-center": {
         floater: {
           bottom: "var(--seed-image-frame-offset-y)",
-          left: "calc(50% + var(--seed-image-frame-offset-x))",
+          left: "calc(50% + var(--seed-image-frame-offset-x) + (var(--seed-image-frame-safe-area-left, 0px) - var(--seed-image-frame-safe-area-right, 0px)) / 2)",
           transform: "translateX(-50%)",
         },
       },
       "bottom-end": {
         floater: {
           bottom: "var(--seed-image-frame-offset-y)",
-          right: "var(--seed-image-frame-offset-x)",
+          right:
+            "calc(var(--seed-image-frame-offset-x) + var(--seed-image-frame-safe-area-right, 0px))",
         },
       },
     },

@@ -14,6 +14,7 @@ import type {
   AttachmentDisplayContextProps,
   AttachmentDisplayEntry,
   AttachmentDisplayRootProps,
+  AttachmentDisplayControlProps,
   AttachmentDisplayStatusDetails,
 } from "@seed-design/lynx-react";
 
@@ -42,6 +43,7 @@ export type AttachmentDisplayProps = {
 );
 
 export interface AttachmentDisplayFieldProps extends Omit<AttachmentDisplayRootProps, "children"> {
+  controlProps?: AttachmentDisplayControlProps;
   children?: React.ReactNode;
   label?: React.ReactNode;
   labelWeight?: SeedField.LabelProps["weight"];
@@ -63,6 +65,7 @@ export const AttachmentDisplayField = React.forwardRef<FieldRootRef, AttachmentD
       description,
       errorMessage,
       showRequiredIndicator,
+      controlProps,
       children,
       disabled,
       required,
@@ -80,6 +83,9 @@ export const AttachmentDisplayField = React.forwardRef<FieldRootRef, AttachmentD
     return (
       <SeedField.Root
         ref={ref}
+        style={{
+          overflow: props.extendSafeAreaX || controlProps?.extendSafeAreaX ? "visible" : "hidden",
+        }}
         disabled={disabled}
         required={required}
         invalid={invalid}
@@ -98,11 +104,17 @@ export const AttachmentDisplayField = React.forwardRef<FieldRootRef, AttachmentD
         ) : null}
         <SeedAttachmentDisplay.Root
           {...props}
+          style={{
+            overflow: controlProps?.extendSafeAreaX ? "visible" : "hidden",
+            ...props.style,
+          }}
           disabled={disabled}
           invalid={invalid}
           readOnly={readOnly}
         >
-          <SeedAttachmentDisplay.Control>{children}</SeedAttachmentDisplay.Control>
+          <SeedAttachmentDisplay.Control {...controlProps}>
+            {children}
+          </SeedAttachmentDisplay.Control>
         </SeedAttachmentDisplay.Root>
         {renderFooter ? (
           <SeedField.Footer>

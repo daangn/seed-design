@@ -66,6 +66,23 @@ Lynx Engine 3.9 이상을 지원합니다.
 
 ## Examples
 
+### Extending to Safe Area
+
+`bleedX="safeArea"`를 지정하면 이미지가 좌우 safe area까지 확장되고, `ImageFrameFloater`는 안전 영역 안에 배치됩니다. `*-start`에는 왼쪽 inset, `*-end`에는 오른쪽 inset이 `offsetX`에 더해집니다. `*-center`는 좌우 inset 차이의 절반만큼 이동해 안전 영역의 중앙에 놓입니다.
+
+`bleedLeft`·`bleedRight`를 따로 지정한 경우 해당 방향에 실제로 `"safeArea"`가 적용될 때만 보정합니다. px 길이로 확장하거나 확장하지 않은 이미지는 기존 Floater 위치를 유지합니다.
+
+`Box pl="safeArea" pr="safeArea"`처럼 좌우 inset을 이미 확보한 컨테이너 바로 안에서 사용하세요. inset을 확보하지 않은 곳에 적용하면 화면 밖으로 넘칠 수 있습니다.
+
+<LynxComponentExample name="lynx/image-frame/extend-safe-area">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/image-frame/extend-safe-area.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ### Ratio
 
 `ratio`로 이미지 영역의 비율을 지정합니다.

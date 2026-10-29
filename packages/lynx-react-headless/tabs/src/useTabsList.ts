@@ -17,6 +17,8 @@ type ComputedStyleElement = MainThread.Element & {
 interface TabsContentInsets {
   start: number;
   end: number;
+  viewportStart: number;
+  viewportEnd: number;
 }
 
 interface TabsScrollMetrics {
@@ -28,6 +30,9 @@ interface TabsScrollMetrics {
 
 function getTabsContentInsets(
   contentRef: React.RefObject<ComputedStyleElement | null>,
+  startInsetRef: React.RefObject<ComputedStyleElement | null>,
+  endInsetRef: React.RefObject<ComputedStyleElement | null>,
+  measureViewport: boolean,
 ): TabsContentInsets | null {
   "main thread";
 
@@ -39,7 +44,26 @@ function getTabsContentInsets(
   const start = Number.parseFloat(content.getComputedStyleProperty("padding-left"));
   const end = Number.parseFloat(content.getComputedStyleProperty("padding-right"));
   if (!Number.isFinite(start) || !Number.isFinite(end) || start < 0 || end < 0) return null;
-  return { start, end };
+  if (!measureViewport) return { start, end, viewportStart: 0, viewportEnd: 0 };
+
+  const startInset = startInsetRef.current;
+  const endInset = endInsetRef.current;
+  if (
+    typeof startInset?.getComputedStyleProperty !== "function" ||
+    typeof endInset?.getComputedStyleProperty !== "function"
+  )
+    return null;
+
+  const viewportStart = Number.parseFloat(startInset.getComputedStyleProperty("margin-left"));
+  const viewportEnd = Number.parseFloat(endInset.getComputedStyleProperty("margin-right"));
+  if (
+    !Number.isFinite(viewportStart) ||
+    !Number.isFinite(viewportEnd) ||
+    viewportStart < 0 ||
+    viewportEnd < 0
+  )
+    return null;
+  return { start, end, viewportStart, viewportEnd };
 }
 function invokeScrollToOffset(list: NodesRef | null, offset: number) {
   "background only";
@@ -72,13 +96,23 @@ function getTabsTriggerValues(children: React.ReactNode): string[] {
 
 export interface UseTabsListProps {
   children?: React.ReactNode;
-  /** @platform Lynx React의 fixed-padding reveal과 달리 정렬 방식을 지정합니다. */
+  /** @platform Lynx 선택한 탭의 가로 스크롤 정렬 방식을 지정합니다. */
   scrollAlign?: "nearest" | "start" | "center" | "end";
+  /**
+   * 스크롤 영역의 좌우에서 가려지는 길이입니다. CSS 길이와 `env()`를 native layout으로 해석합니다.
+   * 목록의 콘텐츠 padding과 별개이며, 생략하면 전체 스크롤 영역을 보이는 범위로 사용합니다.
+   */
+  viewportInsets?: { start: string; end: string };
 }
-export function useTabsList({ children, scrollAlign = "start" }: UseTabsListProps) {
+export function useTabsList({ children, scrollAlign = "start", viewportInsets }: UseTabsListProps) {
+  const viewportInsetStart = viewportInsets?.start;
+  const viewportInsetEnd = viewportInsets?.end;
+  const hasViewportInsets = viewportInsets !== undefined;
   const { items, syncTriggerOrder, triggerRects, value } = useTabsContext();
   const scrollRef = React.useRef<NodesRef | null>(null);
   const contentRef = React.useMainThreadRef<ComputedStyleElement | null>(null);
+  const startInsetRef = React.useMainThreadRef<ComputedStyleElement | null>(null);
+  const endInsetRef = React.useMainThreadRef<ComputedStyleElement | null>(null);
   const metricsRef = React.useRef<TabsScrollMetrics>({
     currentOffset: 0,
     viewportWidth: null,
@@ -86,6 +120,7 @@ export function useTabsList({ children, scrollAlign = "start" }: UseTabsListProp
     insets: null,
   });
   const contentInsetRequestRef = React.useRef(0);
+  const hadViewportInsetsRef = React.useRef(false);
   const selectedValueRef = React.useRef(value);
   const [geometryRevision, setGeometryRevision] = React.useState(0);
   const triggerOrder = React.useMemo(() => getTabsTriggerValues(children), [children]);
@@ -104,7 +139,7 @@ export function useTabsList({ children, scrollAlign = "start" }: UseTabsListProp
 
     void runOnMainThread<TabsContentInsets | null, typeof getTabsContentInsets>(
       getTabsContentInsets,
-    )(contentRef).then(
+    )(contentRef, startInsetRef, endInsetRef, hasViewportInsets).then(
       (insets) => {
         "background only";
         if (request !== contentInsetRequestRef.current || !insets) return;
@@ -116,7 +151,21 @@ export function useTabsList({ children, scrollAlign = "start" }: UseTabsListProp
         // Missing native measurement intentionally leaves alignment pending.
       },
     );
-  }, [contentRef]);
+  }, [
+    contentRef,
+    startInsetRef,
+    endInsetRef,
+    hasViewportInsets,
+    viewportInsetStart,
+    viewportInsetEnd,
+  ]);
+
+  React.useEffect(() => {
+    "background only";
+    const shouldMeasure = hasViewportInsets || hadViewportInsetsRef.current;
+    hadViewportInsetsRef.current = hasViewportInsets;
+    if (shouldMeasure) requestContentInsets();
+  }, [requestContentInsets, hasViewportInsets]);
 
   const handleListLayoutChange = React.useCallback<ScrollViewLayoutChangeHandler>((event) => {
     "background only";
@@ -197,6 +246,8 @@ export function useTabsList({ children, scrollAlign = "start" }: UseTabsListProp
       contentWidth,
       contentInsetStart: insets.start,
       contentInsetEnd: insets.end,
+      viewportInsetStart: insets.viewportStart,
+      viewportInsetEnd: insets.viewportEnd,
       triggerRect: selectedRect,
     });
     if (selectedValueRef.current !== value || targetOffset === currentOffset) return;
@@ -220,6 +271,38 @@ export function useTabsList({ children, scrollAlign = "start" }: UseTabsListProp
         "main-thread:ref": contentRef,
         bindlayoutchange: handleContentLayoutChange,
       },
+      viewportStartProps: viewportInsets
+        ? {
+            "main-thread:ref": startInsetRef,
+            bindlayoutchange: requestContentInsets,
+            "accessibility-elements-hidden": true,
+            "user-interaction-enabled": false,
+            style: {
+              position: "absolute" as const,
+              top: 0,
+              left: 0,
+              width: 0,
+              height: 0,
+              marginLeft: viewportInsets.start,
+            },
+          }
+        : undefined,
+      viewportEndProps: viewportInsets
+        ? {
+            "main-thread:ref": endInsetRef,
+            bindlayoutchange: requestContentInsets,
+            "accessibility-elements-hidden": true,
+            "user-interaction-enabled": false,
+            style: {
+              position: "absolute" as const,
+              top: 0,
+              right: 0,
+              width: 0,
+              height: 0,
+              marginRight: viewportInsets.end,
+            },
+          }
+        : undefined,
     }),
     [
       contentRef,
@@ -227,6 +310,10 @@ export function useTabsList({ children, scrollAlign = "start" }: UseTabsListProp
       handleScroll,
       handleContentSizeChanged,
       handleContentLayoutChange,
+      viewportInsets,
+      startInsetRef,
+      endInsetRef,
+      requestContentInsets,
     ],
   );
 }

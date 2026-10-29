@@ -1,5 +1,9 @@
 declare interface TabsVariant {
   /**
+  * @default false
+  */
+  extendSafeAreaX: boolean;
+/**
   * @default "fill"
   */
   triggerLayout: "fill" | "hug";
