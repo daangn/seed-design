@@ -13,7 +13,7 @@ export interface UseSegmentedTextInputSegmentProps {
    */
   length: number;
   /**
-   * 값을 가린다. `type="password"`로 렌더링한다.
+   * 값을 가린다. `type="password"`로 렌더링하고, 가린 값 안에서 caret을 옮길 수 없도록 caret을 항상 끝에 둔다.
    * @default false
    */
   masked?: boolean;
@@ -295,6 +295,14 @@ export function useSegmentedTextInputSegment(props: UseSegmentedTextInputSegment
         }
       },
 
+      onSelect(event) {
+        if (!masked) return;
+        // 가린 값은 보이지 않으므로 가운데를 고칠 수 없게 caret을 끝에 둔다.
+        const el = event.currentTarget;
+        const end = el.value.length;
+        if (el.selectionStart !== end || el.selectionEnd !== end) el.setSelectionRange(end, end);
+      },
+
       onPaste(event) {
         const el = event.currentTarget;
         if (el.readOnly || el.disabled) return;
@@ -345,14 +353,17 @@ export function useSegmentedTextInputSegment(props: UseSegmentedTextInputSegment
             focusSegment(prev, "end");
             return;
           }
+          // masked Segment는 caret이 끝에 고정되어 있으므로 바로 옆 Segment로 옮긴다.
           case "ArrowRight": {
-            if (!collapsed || el.selectionEnd !== el.value.length || !next || next.disabled) return;
+            if (!next || next.disabled) return;
+            if (!masked && (!collapsed || el.selectionEnd !== el.value.length)) return;
             event.preventDefault();
             focusSegment(next, 0);
             return;
           }
           case "ArrowLeft": {
-            if (!collapsed || el.selectionStart !== 0 || !prev || prev.disabled) return;
+            if (!prev || prev.disabled) return;
+            if (!masked && (!collapsed || el.selectionStart !== 0)) return;
             event.preventDefault();
             focusSegment(prev, "end");
             return;

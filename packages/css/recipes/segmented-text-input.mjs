@@ -23,6 +23,22 @@ const segmentedTextInputSlotNames = [
     "seed-segmented-text-input__value"
   ],
   [
+    "placeholder",
+    "seed-segmented-text-input__placeholder"
+  ],
+  [
+    "dots",
+    "seed-segmented-text-input__dots"
+  ],
+  [
+    "dot",
+    "seed-segmented-text-input__dot"
+  ],
+  [
+    "caret",
+    "seed-segmented-text-input__caret"
+  ],
+  [
     "staticText",
     "seed-segmented-text-input__staticText"
   ],

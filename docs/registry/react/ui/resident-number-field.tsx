@@ -13,7 +13,7 @@ export interface ResidentNumberInputProps
   extends Omit<SeedSegmentedTextInput.RootProps, "children" | "asChild"> {
   /**
    * 입력받을 자리 수.
-   * - `6`: 생년월일 6자리만 입력받고 뒷자리는 불릿으로 표시합니다.
+   * - `6`: 생년월일 6자리만 입력받고 뒷자리는 점으로 표시합니다.
    * - `7`: 생년월일 6자리와 뒷자리 첫 번째 자리를 입력받습니다.
    * - `13`: 생년월일 6자리와 뒷자리 7자리를 입력받습니다. 뒷자리는 가려서 표시합니다.
    * @default 7
@@ -36,20 +36,24 @@ export const ResidentNumberInput = React.forwardRef<HTMLDivElement, ResidentNumb
           sizing="fill"
         />
         <SeedSegmentedTextInput.Separator> - </SeedSegmentedTextInput.Separator>
-        {digits === 6 && <SeedSegmentedTextInput.Segment staticText="•••••••" sizing="fill" />}
+        {digits === 6 && (
+          <SeedSegmentedTextInput.Segment
+            staticText={<SeedSegmentedTextInput.Dots count={7} />}
+            sizing="fill"
+          />
+        )}
         {digits === 7 && (
           <SeedSegmentedTextInput.Segment
             aria-label="주민등록번호 뒷자리 첫 번째 자리"
-            placeholder="•"
+            placeholder={<SeedSegmentedTextInput.Dots count={1} />}
             length={1}
-            staticSuffix="••••••"
+            staticSuffix={<SeedSegmentedTextInput.Dots count={6} />}
             sizing="fill"
           />
         )}
         {digits === 13 && (
           <SeedSegmentedTextInput.Segment
             aria-label="주민등록번호 뒷자리 7자리"
-            placeholder="•••••••"
             length={7}
             masked
             sizing="fill"

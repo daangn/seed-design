@@ -4,6 +4,7 @@ import { describe, expect, it } from "bun:test";
 
 import { Field } from "@seed-design/react-field";
 import {
+  SegmentedTextInputDots,
   SegmentedTextInputRoot,
   SegmentedTextInputSegment,
   SegmentedTextInputSeparator,
@@ -18,8 +19,8 @@ function ResidentNumber() {
         aria-label="뒤 첫 번째 자리"
         length={1}
         sizing="fill"
-        align="center"
-        staticSuffix="••••••"
+        placeholder={<SegmentedTextInputDots count={1} />}
+        staticSuffix={<SegmentedTextInputDots count={6} />}
       />
     </SegmentedTextInputRoot>
   );
@@ -61,18 +62,37 @@ describe("SegmentedTextInput", () => {
     expect(getByLabelText("뒤 첫 번째 자리")).toHaveAttribute("readonly");
   });
 
-  it("hides static text from assistive technologies and excludes static segments from the value", async () => {
+  it("draws masked segments as dots that fill as the user types", async () => {
     const user = userEvent.setup();
-    const values: string[][] = [];
-    const { getByText, getByLabelText } = render(
-      <SegmentedTextInputRoot onValueChange={(value) => values.push(value)}>
-        <SegmentedTextInputSegment aria-label="앞 6자리" length={6} />
-        <SegmentedTextInputSeparator> - </SegmentedTextInputSeparator>
-        <SegmentedTextInputSegment staticText="•••••••" />
+    const { container, getByLabelText } = render(
+      <SegmentedTextInputRoot>
+        <SegmentedTextInputSegment aria-label="뒷자리" length={7} masked />
       </SegmentedTextInputRoot>,
     );
 
-    expect(getByText("•••••••")).toHaveAttribute("aria-hidden", "true");
+    await user.click(getByLabelText("뒷자리"));
+    await user.keyboard("123");
+
+    const dots = container.querySelector(".seed-segmented-text-input__dots[data-masked]");
+    expect(dots).toHaveAttribute("aria-hidden", "true");
+    expect(dots?.querySelectorAll(".seed-segmented-text-input__dot")).toHaveLength(7);
+    expect(dots?.querySelectorAll("[data-filled]")).toHaveLength(3);
+  });
+
+  it("hides static text from assistive technologies and excludes static segments from the value", async () => {
+    const user = userEvent.setup();
+    const values: string[][] = [];
+    const { container, getByLabelText } = render(
+      <SegmentedTextInputRoot onValueChange={(value) => values.push(value)}>
+        <SegmentedTextInputSegment aria-label="앞 6자리" length={6} />
+        <SegmentedTextInputSeparator> - </SegmentedTextInputSeparator>
+        <SegmentedTextInputSegment staticText={<SegmentedTextInputDots count={7} />} />
+      </SegmentedTextInputRoot>,
+    );
+
+    const dots = container.querySelector(".seed-segmented-text-input__dots");
+    expect(dots?.closest("[aria-hidden=true]")).not.toBeNull();
+    expect(dots?.children).toHaveLength(7);
 
     await user.click(getByLabelText("앞 6자리"));
     await user.keyboard("9");
