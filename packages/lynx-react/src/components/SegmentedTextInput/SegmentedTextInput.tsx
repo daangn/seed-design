@@ -334,7 +334,7 @@ export interface SegmentedTextInputInputSegmentProps
       "type" | "maxlength" | "default-value" | "readonly" | "disabled" | "placeholder"
     > {
   /**
-   * 자리 수. 붙여넣은 값이 잘리지 않도록 native `maxlength` 대신 JS로 제한한다.
+   * 자리 수. 다 채운 Segment에서만 native `maxlength`로 추가 입력을 막고, 그 밖에는 붙여넣은 값이 잘리지 않도록 JS로 제한한다.
    */
   length: number;
   /**
@@ -461,6 +461,9 @@ SegmentedTextInputStaticSegment.displayName = "SegmentedTextInputStaticSegment";
 
 const noop = () => {};
 
+// `useTextFieldInput`이 무제한 `maxlength`로 쓰는 32비트 센티널과 같은 값.
+const NATIVE_TEXT_MAX_LENGTH_UNLIMITED = 2_147_483_647;
+
 const SegmentedTextInputInputSegment = React.forwardRef<
   NodesRef,
   SegmentedTextInputInputSegmentProps
@@ -480,11 +483,16 @@ const SegmentedTextInputInputSegment = React.forwardRef<
 
   // 값·focus는 Root가 소유한다. Segment는 항상 controlled로 두어,
   // Root가 반영하지 않은 입력(자리 수 초과·숫자 외 문자)을 native 입력에서 되돌린다.
+  // 다 채운 Segment는 native `maxlength`로 추가 입력을 막아 글자가 잠깐 보였다 사라지지 않게 한다.
+  // 범위 선택 교체·조합 중에는 TextField가 제한을 풀어, 붙여넣기는 그대로 bindinput으로 받는다.
+  const nativeInsertionMaxLength =
+    value.length >= props.length ? value.length : NATIVE_TEXT_MAX_LENGTH_UNLIMITED;
   const textFieldContext = React.useMemo<UseTextFieldReturn>(
     () => ({
       rootRef: ctx.rootRef,
       value,
       controlled: true,
+      nativeInsertionMaxLength,
       required: ctx.required,
       disabled: ctx.disabled,
       readOnly: ctx.readOnly,
@@ -496,6 +504,7 @@ const SegmentedTextInputInputSegment = React.forwardRef<
     [
       ctx.rootRef,
       value,
+      nativeInsertionMaxLength,
       ctx.required,
       ctx.disabled,
       ctx.readOnly,
