@@ -228,6 +228,9 @@ declare const artifact: {
       "path": "/components/scroll-fog.json";
     },
     {
+      "path": "/components/search-input.json";
+    },
+    {
       "path": "/components/segmented-control-indicator.json";
     },
     {

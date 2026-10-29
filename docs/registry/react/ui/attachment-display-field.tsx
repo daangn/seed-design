@@ -37,6 +37,8 @@ export interface AttachmentDisplayFieldProps
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
   showRequiredIndicator?: boolean;
+
+  controlProps?: Omit<SeedAttachmentDisplay.ControlProps, "children" | "asChild">;
 }
 
 /**
@@ -51,6 +53,7 @@ export const AttachmentDisplayField = React.forwardRef<HTMLDivElement, Attachmen
       description,
       errorMessage,
       showRequiredIndicator,
+      controlProps,
       children,
       ...props
     },
@@ -77,7 +80,7 @@ export const AttachmentDisplayField = React.forwardRef<HTMLDivElement, Attachmen
             {/* You might want to put your custom element here */}
           </SeedAttachmentDisplay.Header>
         )}
-        <SeedAttachmentDisplay.Control>{children}</SeedAttachmentDisplay.Control>
+        <SeedAttachmentDisplay.Control {...controlProps}>{children}</SeedAttachmentDisplay.Control>
         {renderFooter && (
           <SeedAttachmentDisplay.Footer>
             {renderDescription &&

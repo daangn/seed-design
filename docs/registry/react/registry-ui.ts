@@ -21,7 +21,12 @@ export const registryUI: Registry = {
         },
         {
           path: "app-bar.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+          // `AppBarTextButton` ships in @seed-design/stackflow 2.1.0 and its recipe in @seed-design/css 3.1.0.
+          dependencies: {
+            "@seed-design/react": "^2.0.0 || ^3.0.0",
+            "@seed-design/css": "^3.1.0",
+            "@seed-design/stackflow": "^2.1.0",
+          },
         },
       ],
     },
@@ -444,6 +449,24 @@ export const registryUI: Registry = {
           dependencies: {
             "@seed-design/react": "^3.0.0",
           },
+        },
+      ],
+    },
+    {
+      id: "search-bar",
+      snippets: [
+        {
+          path: "search-bar.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0", "@seed-design/css": "^3.1.0" },
+        },
+      ],
+    },
+    {
+      id: "search-input",
+      snippets: [
+        {
+          path: "search-input.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0", "@seed-design/css": "^3.1.0" },
         },
       ],
     },

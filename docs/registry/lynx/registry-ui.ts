@@ -10,6 +10,12 @@ const lynxSeedIconPackageRanges = {
   "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
 };
 
+// `AppBarTextButton` ships in @seed-design/lynx-react 1.1.0 and its recipe in @seed-design/lynx-css 1.1.0.
+const appBarPackageRanges = {
+  "@seed-design/lynx-react": "^1.1.0",
+  "@seed-design/lynx-css": "^1.1.0",
+};
+
 const attachmentReorderablePackageRanges = {
   ...lynxSeedIconPackageRanges,
   "@seed-design/lynx-react-sortable": "^1.0.0",
@@ -36,7 +42,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "app-bar.tsx",
-          dependencies: lynxSeedPackageRanges,
+          dependencies: appBarPackageRanges,
         },
       ],
     },
@@ -288,6 +294,31 @@ export const registryUI: Registry = {
         {
           path: "result-section.tsx",
           dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "search-bar",
+      snippets: [
+        {
+          path: "search-bar.tsx",
+          dependencies: {
+            "@seed-design/lynx-react": "^1.1.0",
+            "@seed-design/lynx-css": "^1.1.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "search-input",
+      snippets: [
+        {
+          path: "search-input.tsx",
+          dependencies: {
+            "@seed-design/lynx-react": "^1.1.0",
+            "@seed-design/lynx-css": "^1.1.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+          },
         },
       ],
     },

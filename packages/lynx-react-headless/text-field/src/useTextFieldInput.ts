@@ -122,6 +122,8 @@ export interface UseTextFieldInputReturn<P extends UseTextFieldInputProps> {
   readOnlyTextProps: TextFieldReadOnlyTextProps;
   /** native 입력의 `focus` UI method를 호출합니다. 입력을 감싼 영역의 tap에서 사용합니다. */
   focus: () => void;
+  /** native 입력의 `blur` UI method를 호출합니다. 제출 뒤 키보드를 내릴 때 사용합니다. */
+  blur: () => void;
   /** autoresize처럼 focus된 입력의 크기가 바뀌면 호출해 키보드 회피 위치를 다시 계산합니다. */
   notifyLayoutChanged: () => void;
 }
@@ -501,6 +503,19 @@ export function useTextFieldInput<P extends UseTextFieldInputProps>(
     }
   }, []);
 
+  const blur = useCallback(() => {
+    "background only";
+
+    const node = nativeRef.current;
+    if (!node || typeof node.invoke !== "function") return;
+
+    try {
+      node.invoke({ method: "blur" }).exec();
+    } catch {
+      // Native node가 아직 commit되지 않았으면 focus도 없으므로 내릴 키보드가 없다.
+    }
+  }, []);
+
   const insertionMaxLength =
     wasInsertionMaxLengthManaged &&
     canApplyInsertionMaxLength &&
@@ -538,6 +553,7 @@ export function useTextFieldInput<P extends UseTextFieldInputProps>(
     },
     readOnlyTextProps: readOnly ? getReadOnlyTextProps(nativeProps, mergedRef) : { ref: mergedRef },
     focus,
+    blur,
     notifyLayoutChanged,
   };
 }

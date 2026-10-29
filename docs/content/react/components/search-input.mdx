@@ -1,0 +1,91 @@
+---
+title: Search Input
+description: 검색어를 입력하고 제출하는 입력 필드입니다. Stackflow 화면에서는 Search Bar와 함께 사용합니다.
+---
+
+<AvailableSince packages="@seed-design/react@3.1.0, @seed-design/css@3.1.0" />
+
+<ComponentExample name="react/search-input/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/search-input/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+Stackflow 화면의 상단에서 검색하는 경우에는 Search Input을 직접 배치하지 말고 [Search Bar](/react/stackflow/search-bar)를 사용하세요. Search Bar는 Search Input을 App Bar에 Back·닫기 버튼과 함께 배치하며, 설치하면 Search Input도 함께 설치됩니다.
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:search-input
+```
+
+<ManualInstallation name="search-input" />
+
+## Usage
+
+```tsx
+import { SearchInput } from "seed-design/ui/search-input";
+```
+
+```tsx
+<SearchInput
+  value={value}
+  onValueChange={setValue}
+  onSubmit={handleSubmit}
+  placeholder="검색어를 입력해주세요"
+/>
+```
+
+## Props
+
+<react-type-table path="./registry/react/ui/search-input.tsx" name="SearchInputProps" />
+
+입력의 접근성 레이블은 `aria-label`(기본값 "검색"), Clear 버튼의 레이블은 `clearButtonLabel`(기본값 "지우기")로 바꿀 수 있습니다. `maxLength`, `autoFocus`처럼 입력 요소에 넘길 속성은 `inputProps`로 전달하세요. `ref`는 입력 요소를 가리킵니다.
+
+## Examples
+
+### Submit
+
+Enter를 누르면 `onSubmit`이 현재 값과 함께 호출됩니다. 한글처럼 IME로 조합 중인 글자를 확정하는 Enter는 제출로 처리하지 않습니다.
+
+제출한 뒤에는 입력의 focus를 해제해 모바일 키보드를 내립니다. 제출 뒤에도 계속 입력하게 하려면 `blurOnSubmit={false}`를 사용하세요.
+
+<ComponentExample name="react/search-input/submit">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/search-input/submit.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Clear Button
+
+Clear 버튼은 값이 있을 때만 렌더링되고, 누르면 값을 비웁니다. 누르는 동안에는 scale feedback으로 살짝 줄어듭니다. `value`를 넘기지 않은 uncontrolled 상태에서도 동작하며, `onValueChange`가 빈 문자열과 함께 호출됩니다.
+
+입력에 focus가 있었다면 지운 뒤에도 focus를 유지하고, focus가 없었다면 새로 주지 않습니다. 키보드로 Clear 버튼을 누르면 버튼이 사라지므로 focus를 입력으로 옮깁니다.
+
+### Composition
+
+Snippet은 `@seed-design/react`의 `SearchInput.Root`, `SearchInput.Input`, `SearchInput.ClearButton`을 조합합니다. 구성을 바꿔야 하면 설치한 snippet을 고치거나 이 컴포넌트를 직접 조합하세요.
+
+```tsx
+import { Icon, SearchInput } from "@seed-design/react";
+import { IconXmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
+
+<SearchInput.Root value={value} onValueChange={setValue} onSubmit={handleSubmit}>
+  <SearchInput.Input aria-label="검색" placeholder="검색어를 입력해주세요" />
+  <SearchInput.ClearButton aria-label="지우기">
+    <Icon svg={<IconXmarkCircleFill />} />
+  </SearchInput.ClearButton>
+</SearchInput.Root>;
+```
+
+## Accessibility
+
+- `SearchInput.Root`는 `role="search"`를 가지며, 입력은 `type="search"`와 `enterKeyHint="search"`로 렌더링됩니다.
+- 화면에 보이는 레이블이 없으므로 입력과 Clear 버튼에 접근성 레이블이 필요합니다. 직접 조합할 때 `SearchInput.Input`이나 `SearchInput.ClearButton`에 `aria-label` 또는 `aria-labelledby`가 없으면 개발 콘솔에 경고가 출력됩니다.
+- 콘텐츠를 누르거나 스크롤할 때 키보드를 내리는 동작은 Search Input이 아닌 화면이 담당합니다. [Search Bar](/react/stackflow/search-bar#keyboard) 예제를 참고하세요.

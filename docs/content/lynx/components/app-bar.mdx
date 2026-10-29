@@ -51,6 +51,10 @@ npx @seed-design/cli add ui:app-bar
 
 <react-type-table path="./registry/lynx/ui/app-bar.tsx" name="AppBarIconButtonProps" />
 
+### `AppBarTextButton`
+
+<react-type-table path="./registry/lynx/ui/app-bar.tsx" name="AppBarTextButtonProps" />
+
 ### `AppBarBackButton`
 
 <react-type-table path="./registry/lynx/ui/app-bar.tsx" name="AppBarBackButtonProps" />
@@ -142,6 +146,19 @@ export function Header({ goBack }: { goBack: () => void }) {
 }
 ```
 
+### Text Button
+
+`AppBarTextButton`은 "완료", "닫기"처럼 짧은 텍스트로 동작을 표시합니다. Cupertino theme에서는 레이블이 최대 너비를 넘으면 말줄임표로 줄여 제목 영역을 확보합니다. 아이콘 버튼과 같이 슬롯 가장자리에 있으면 여백을 자동으로 보정하고, `edge`로 직접 지정할 수 있습니다.
+
+<LynxComponentExample name="lynx/app-bar/text-button">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/app-bar/text-button.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
 ### Multiple / Conditional Actions
 
 여러 버튼 중 가장자리에 있는 버튼만 여백을 보정합니다. 조건부 렌더링으로 버튼 수가 바뀌어도 제목은 가운데에 유지됩니다.
@@ -190,7 +207,7 @@ import IconBellLine from "@karrotmarket/lynx-monochrome-icon/IconBellLine";
 <AppBarIconButton accessibility-label="알림" icon={<IconBellLine />} />
 ```
 
-`AppBarBackButton`, `AppBarCloseButton`은 각각 `"뒤로"`, `"닫기"` 라벨을 기본값으로 제공합니다.
+`AppBarBackButton`, `AppBarCloseButton`은 각각 `"뒤로"`, `"닫기"` 라벨을 기본값으로 제공합니다. `AppBarTextButton`은 텍스트 children을 라벨로 사용하며, 다른 이름이 필요하면 `accessibility-label`로 지정합니다.
 
 ### Theme
 

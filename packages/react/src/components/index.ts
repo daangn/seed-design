@@ -57,6 +57,7 @@ export * from "./ResponsiveDialog";
 export * from "./ResponsivePair";
 export * from "./ResponsiveSidePanel";
 export * from "./ScrollFog";
+export * from "./SearchInput";
 export * from "./SegmentedControl";
 export * from "./Select";
 export * from "./SelectBox";
