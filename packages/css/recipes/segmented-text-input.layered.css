@@ -56,7 +56,7 @@
     display: inline-grid;
   }
 
-  .seed-segmented-text-input__valueContainer[data-sizing="fill"]:not([data-align="center"]) {
+  .seed-segmented-text-input__valueContainer[data-sizing="fill"]:not([data-align="center"]):last-child {
     flex: 1 1 0;
   }
 

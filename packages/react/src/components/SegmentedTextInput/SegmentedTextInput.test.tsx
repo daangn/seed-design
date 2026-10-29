@@ -19,7 +19,7 @@ function ResidentNumber() {
         length={1}
         sizing="fill"
         align="center"
-        staticSuffix="••••••"
+        staticSuffix="●●●●●●"
       />
     </SegmentedTextInputRoot>
   );
@@ -68,11 +68,11 @@ describe("SegmentedTextInput", () => {
       <SegmentedTextInputRoot onValueChange={(value) => values.push(value)}>
         <SegmentedTextInputSegment aria-label="앞 6자리" length={6} />
         <SegmentedTextInputSeparator> - </SegmentedTextInputSeparator>
-        <SegmentedTextInputSegment staticText="•••••••" />
+        <SegmentedTextInputSegment staticText="●●●●●●●" />
       </SegmentedTextInputRoot>,
     );
 
-    expect(getByText("•••••••")).toHaveAttribute("aria-hidden", "true");
+    expect(getByText("●●●●●●●")).toHaveAttribute("aria-hidden", "true");
 
     await user.click(getByLabelText("앞 6자리"));
     await user.keyboard("9");

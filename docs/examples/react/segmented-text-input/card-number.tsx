@@ -3,7 +3,7 @@ import { CardNumberField } from "seed-design/ui/card-number-field";
 
 export default function SegmentedTextInputCardNumber() {
   return (
-    <VStack width="full" gap="spacingY.componentDefault">
+    <VStack width="358px" maxWidth="100%" gap="spacingY.componentDefault">
       <CardNumberField label="카드번호" description="maskedDigits=8 (default)" />
       <CardNumberField
         label="카드번호"
