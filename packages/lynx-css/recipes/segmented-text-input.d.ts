@@ -27,7 +27,7 @@ declare type SegmentedTextInputVariantMap = {
 
 export declare type SegmentedTextInputVariantProps = Partial<SegmentedTextInputVariant>;
 
-export declare type SegmentedTextInputSlotName = "root" | "baseStroke" | "stroke" | "segment" | "segmentFill" | "segmentCenter" | "valueContainer" | "valueContainerFill" | "valueSizer" | "value" | "maskedValue" | "readOnlyValue" | "readOnlyText" | "readOnlyPlaceholder" | "staticText" | "separator" | "suffix";
+export declare type SegmentedTextInputSlotName = "root" | "baseStroke" | "stroke" | "segment" | "segmentFill" | "segmentCenter" | "valueContainer" | "valueContainerFill" | "valueSizer" | "value" | "maskedValue" | "placeholder" | "placeholderBeforeSuffix" | "dots" | "maskedDots" | "dot" | "placeholderDot" | "maskedDot" | "filledDot" | "caret" | "readOnlyValue" | "readOnlyText" | "readOnlyPlaceholder" | "maskedReadOnlyText" | "staticText" | "staticContent" | "staticPrefix" | "staticSuffix" | "separator" | "suffix";
 
 export declare const segmentedTextInputVariantMap: SegmentedTextInputVariantMap;
 
