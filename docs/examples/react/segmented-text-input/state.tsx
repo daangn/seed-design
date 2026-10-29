@@ -3,7 +3,7 @@ import { ResidentNumberField } from "seed-design/ui/resident-number-field";
 
 export default function SegmentedTextInputState() {
   return (
-    <VStack width="full" gap="spacingY.componentDefault">
+    <VStack width="358px" maxWidth="100%" gap="spacingY.componentDefault">
       <ResidentNumberField label="Enabled" description="설명을 써주세요" />
       <ResidentNumberField
         label="Invalid"

@@ -55,7 +55,7 @@
     align-self: stretch;
     flex: none;
 }
-.seed-segmented-text-input__valueContainer[data-sizing=fill]:not([data-align=center]) {
+.seed-segmented-text-input__valueContainer[data-sizing=fill]:not([data-align=center]):last-child {
     flex: 1 1 0;
 }
 .seed-segmented-text-input__valueSizer {

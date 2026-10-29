@@ -25,7 +25,7 @@ export default function SegmentedTextInputExternalKeypad() {
     });
 
   return (
-    <VStack width="full" gap="x4">
+    <VStack width="358px" maxWidth="100%" gap="x4">
       <Field.Root>
         <Field.Header>
           <Field.Label>카드번호</Field.Label>

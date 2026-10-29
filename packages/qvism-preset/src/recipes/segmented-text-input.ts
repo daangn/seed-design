@@ -92,7 +92,8 @@ const segmentedTextInput = defineSlotRecipe({
       flex: "none",
 
       // fill·start Segment의 입력은 남은 공간을 채워 긴 placeholder도 보이게 한다.
-      [pseudo("[data-sizing=fill]:not([data-align=center])")]: {
+      // 뒤에 staticSuffix가 있으면 입력 바로 뒤에 붙도록 늘리지 않는다.
+      [pseudo("[data-sizing=fill]:not([data-align=center]):last-child")]: {
         flex: "1 1 0",
       },
     },
