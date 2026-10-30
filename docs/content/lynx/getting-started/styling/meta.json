@@ -4,6 +4,7 @@
   "pages": [
     "index",
     "theming",
+    "font-scaling",
     "vanilla-extract",
     "tailwind-css-4",
     "tailwind-css-3"
