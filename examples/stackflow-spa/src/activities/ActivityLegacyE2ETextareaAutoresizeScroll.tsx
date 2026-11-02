@@ -7,14 +7,14 @@ import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivityE2ETextareaAutoresizeScroll: {};
+    ActivityLegacyE2ETextareaAutoresizeScroll: {};
   }
 }
 
 const LONG_VALUE = Array.from({ length: 40 }, (_, index) => `${index + 1}번째 줄`).join("\n");
 
-const ActivityE2ETextareaAutoresizeScroll: StaticActivityComponentType<
-  "ActivityE2ETextareaAutoresizeScroll"
+const ActivityLegacyE2ETextareaAutoresizeScroll: StaticActivityComponentType<
+  "ActivityLegacyE2ETextareaAutoresizeScroll"
 > = () => {
   return (
     <AppScreen>
@@ -38,4 +38,4 @@ const ActivityE2ETextareaAutoresizeScroll: StaticActivityComponentType<
   );
 };
 
-export default ActivityE2ETextareaAutoresizeScroll;
+export default ActivityLegacyE2ETextareaAutoresizeScroll;
