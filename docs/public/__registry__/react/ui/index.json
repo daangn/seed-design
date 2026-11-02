@@ -295,9 +295,13 @@
         }
       ],
       "id": "card-number-field",
-      "dependencies": [
-        "@karrotmarket/react-monochrome-icon",
-        "@seed-design/react"
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "segmented-text-field"
+          ]
+        }
       ]
     },
     {
@@ -801,9 +805,13 @@
         }
       ],
       "id": "resident-number-field",
-      "dependencies": [
-        "@karrotmarket/react-monochrome-icon",
-        "@seed-design/react"
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "segmented-text-field"
+          ]
+        }
       ]
     },
     {
@@ -917,6 +925,21 @@
       ],
       "id": "segmented-control",
       "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "segmented-text-field.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.1.0"
+          }
+        }
+      ],
+      "id": "segmented-text-field",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
       ]
     },

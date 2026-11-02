@@ -1,6 +1,11 @@
 import { Fragment, useState } from "react";
-import { Field, HStack, SegmentedTextInput, VStack } from "@seed-design/react";
+import { HStack, VStack } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
+import {
+  SegmentedTextField,
+  SegmentedTextFieldSegment,
+  SegmentedTextFieldSeparator,
+} from "seed-design/ui/segmented-text-field";
 
 const LABELS = ["1-4번째 자리", "5-8번째 자리", "9-12번째 자리", "13-16번째 자리"];
 const KEYPAD_SEGMENTS = [2, 3];
@@ -26,32 +31,27 @@ export default function SegmentedTextInputExternalKeypad() {
 
   return (
     <VStack width="358px" maxWidth="100%" gap="x4">
-      <Field.Root>
-        <Field.Header>
-          <Field.Label>카드번호</Field.Label>
-        </Field.Header>
-        <SegmentedTextInput.Root value={value} onValueChange={setValue}>
-          {LABELS.map((label, i) => {
-            const usesKeypad = KEYPAD_SEGMENTS.includes(i);
+      <SegmentedTextField label="카드번호" value={value} onValueChange={setValue}>
+        {LABELS.map((label, i) => {
+          const usesKeypad = KEYPAD_SEGMENTS.includes(i);
 
-            return (
-              <Fragment key={label}>
-                {i > 0 && <SegmentedTextInput.Separator> - </SegmentedTextInput.Separator>}
-                <SegmentedTextInput.Segment
-                  aria-label={`카드번호 ${label}`}
-                  placeholder={usesKeypad ? undefined : "0000"}
-                  length={4}
-                  masked={usesKeypad}
-                  // 직접 입력을 막고 탭하면 외부 키패드를 연다.
-                  readOnly={usesKeypad}
-                  inputMode={usesKeypad ? "none" : "numeric"}
-                  onFocus={() => setKeypadOpen(usesKeypad)}
-                />
-              </Fragment>
-            );
-          })}
-        </SegmentedTextInput.Root>
-      </Field.Root>
+          return (
+            <Fragment key={label}>
+              {i > 0 && <SegmentedTextFieldSeparator> - </SegmentedTextFieldSeparator>}
+              <SegmentedTextFieldSegment
+                aria-label={`카드번호 ${label}`}
+                placeholder={usesKeypad ? undefined : "0000"}
+                length={4}
+                masked={usesKeypad}
+                // 직접 입력을 막고 탭하면 외부 키패드를 연다.
+                readOnly={usesKeypad}
+                inputMode={usesKeypad ? "none" : "numeric"}
+                onFocus={() => setKeypadOpen(usesKeypad)}
+              />
+            </Fragment>
+          );
+        })}
+      </SegmentedTextField>
       {keypadOpen && (
         // 키패드를 눌러도 입력의 focus가 유지되도록 mousedown 기본 동작을 막는다.
         <HStack wrap gap="x2" onMouseDown={(event) => event.preventDefault()}>

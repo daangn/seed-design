@@ -27,7 +27,7 @@ Segment마다 입력 하나를 두고, 값은 입력 Segment 순서대로 `strin
 
 ## Installation
 
-주민등록번호와 카드번호는 snippet으로 제공합니다. 자리 구성과 문구(`aria-label`, placeholder)는 snippet에 있으니 필요하면 설치한 파일에서 고쳐 쓰세요.
+주민등록번호와 카드번호는 snippet으로 제공합니다. 자리 구성과 문구(`aria-label`, placeholder)는 snippet에 있으니 필요하면 설치한 파일에서 고쳐 쓰세요. 두 snippet은 label·description·errorMessage를 그리는 `segmented-text-field` snippet 위에 만들어져 있어 함께 설치됩니다.
 
 ```package-install
 npx @seed-design/cli@latest add ui:resident-number-field
@@ -40,6 +40,14 @@ npx @seed-design/cli@latest add ui:card-number-field
 ```
 
 <ManualInstallation name="card-number-field" />
+
+그 밖의 형식은 `segmented-text-field` snippet으로 Segment를 직접 조합합니다. [Composition](#composition)을 참고하세요.
+
+```package-install
+npx @seed-design/cli@latest add ui:segmented-text-field
+```
+
+<ManualInstallation name="segmented-text-field" />
 
 ## Props
 
@@ -56,6 +64,15 @@ npx @seed-design/cli@latest add ui:card-number-field
   path="./registry/react/ui/card-number-field.tsx"
   name="CardNumberFieldProps"
 />
+
+### `SegmentedTextField`
+
+<react-type-table
+  path="./registry/react/ui/segmented-text-field.tsx"
+  name="SegmentedTextFieldProps"
+/>
+
+`SegmentedTextFieldSegment`·`SegmentedTextFieldSeparator`·`SegmentedTextFieldDots`·`SegmentedTextFieldSuffix`는 아래 `SegmentedTextInput`의 같은 이름 컴포넌트와 같습니다.
 
 ### `SegmentedTextInput.Root`
 
@@ -169,7 +186,7 @@ npx @seed-design/cli@latest add ui:card-number-field
 
 ### Composition
 
-snippet이 다루지 않는 형식은 `SegmentedTextInput`을 직접 조합합니다. 입력 Segment마다 `aria-label`로 구간 이름을 주세요. `Field.Label`은 전체 group의 이름이 되고, 누르면 첫 입력 Segment로 이동합니다.
+주민등록번호·카드번호가 아닌 형식은 `SegmentedTextField` children에 Segment를 조합합니다. 입력 Segment마다 `aria-label`로 구간 이름을 주세요. `label`은 전체 group의 이름이 되고, 누르면 첫 입력 Segment로 이동합니다.
 
 <ComponentExample name="react/segmented-text-input/composition">
   ```json doc-gen:file

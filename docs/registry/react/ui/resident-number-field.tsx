@@ -2,15 +2,14 @@
 
 import * as React from "react";
 import {
-  SegmentedTextInput as SeedSegmentedTextInput,
-  Field as SeedField,
-  VisuallyHidden,
-  PrefixIcon,
-} from "@seed-design/react";
-import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
+  SegmentedTextField,
+  SegmentedTextFieldDots,
+  SegmentedTextFieldSegment,
+  SegmentedTextFieldSeparator,
+  type SegmentedTextFieldProps,
+} from "./segmented-text-field";
 
-export interface ResidentNumberInputProps
-  extends Omit<SeedSegmentedTextInput.RootProps, "children" | "asChild"> {
+export interface ResidentNumberFieldProps extends Omit<SegmentedTextFieldProps, "children"> {
   /**
    * 입력받을 자리 수.
    * - `6`: 생년월일 6자리만 입력받고 뒷자리는 점으로 표시합니다.
@@ -23,38 +22,40 @@ export interface ResidentNumberInputProps
 
 /**
  * 값은 입력 Segment 순서대로 `string[]`입니다. `digits=6`이면 `[생년월일]`, 그 밖에는 `[생년월일, 뒷자리]`입니다.
+ *
+ * @see https://seed-design.io/react/components/segmented-text-input
  */
-export const ResidentNumberInput = React.forwardRef<HTMLDivElement, ResidentNumberInputProps>(
+export const ResidentNumberField = React.forwardRef<HTMLDivElement, ResidentNumberFieldProps>(
   ({ digits = 7, ...otherProps }, ref) => {
     return (
-      <SeedSegmentedTextInput.Root ref={ref} {...otherProps}>
-        <SeedSegmentedTextInput.Segment
+      <SegmentedTextField ref={ref} {...otherProps}>
+        <SegmentedTextFieldSegment
           aria-label="생년월일 6자리"
           placeholder="생년월일 6자리"
           length={6}
           autoComplete="bday"
           sizing="fill"
         />
-        <SeedSegmentedTextInput.Separator> - </SeedSegmentedTextInput.Separator>
+        <SegmentedTextFieldSeparator> - </SegmentedTextFieldSeparator>
         {digits === 6 && (
-          <SeedSegmentedTextInput.Segment
-            staticText={<SeedSegmentedTextInput.Dots count={7} />}
+          <SegmentedTextFieldSegment
+            staticText={<SegmentedTextFieldDots count={7} />}
             sizing="fill"
             align="center"
           />
         )}
         {digits === 7 && (
-          <SeedSegmentedTextInput.Segment
+          <SegmentedTextFieldSegment
             aria-label="주민등록번호 뒷자리 첫 번째 자리"
-            placeholder={<SeedSegmentedTextInput.Dots count={1} />}
+            placeholder={<SegmentedTextFieldDots count={1} />}
             length={1}
-            staticSuffix={<SeedSegmentedTextInput.Dots count={6} />}
+            staticSuffix={<SegmentedTextFieldDots count={6} />}
             sizing="fill"
             align="center"
           />
         )}
         {digits === 13 && (
-          <SeedSegmentedTextInput.Segment
+          <SegmentedTextFieldSegment
             aria-label="주민등록번호 뒷자리 7자리"
             length={7}
             masked
@@ -62,103 +63,7 @@ export const ResidentNumberInput = React.forwardRef<HTMLDivElement, ResidentNumb
             align="center"
           />
         )}
-      </SeedSegmentedTextInput.Root>
-    );
-  },
-);
-ResidentNumberInput.displayName = "ResidentNumberInput";
-
-export interface ResidentNumberFieldProps extends ResidentNumberInputProps {
-  label?: React.ReactNode;
-  /**
-   * @default "medium"
-   */
-  labelWeight?: SeedField.LabelProps["weight"];
-
-  indicator?: React.ReactNode;
-
-  description?: React.ReactNode;
-  errorMessage?: React.ReactNode;
-
-  showRequiredIndicator?: boolean;
-
-  fieldRef?: React.Ref<HTMLDivElement>;
-}
-
-/**
- * @see https://seed-design.io/react/components/segmented-text-input
- */
-export const ResidentNumberField = React.forwardRef<HTMLDivElement, ResidentNumberFieldProps>(
-  (
-    {
-      label,
-      labelWeight,
-      indicator,
-      description,
-      errorMessage,
-
-      // field props
-      required,
-      disabled,
-      invalid,
-      readOnly,
-
-      showRequiredIndicator,
-
-      fieldRef,
-
-      ...otherProps
-    },
-    ref,
-  ) => {
-    const renderHeader = label || indicator;
-    const renderDescription = !!description;
-    const renderErrorMessage = errorMessage && invalid;
-    const renderFooter = renderDescription || renderErrorMessage;
-
-    if (process.env.NODE_ENV !== "production" && !label) {
-      console.warn(
-        "ResidentNumberField: Provide a `label` prop for better accessibility. Please ignore this warning if you've provided `aria-label` or `aria-labelledby`. This warning will not be shown in production builds.",
-      );
-    }
-
-    return (
-      <SeedField.Root
-        required={required}
-        disabled={disabled}
-        invalid={invalid}
-        readOnly={readOnly}
-        ref={fieldRef}
-      >
-        {renderHeader && (
-          <SeedField.Header>
-            <SeedField.Label weight={labelWeight}>
-              {label}
-              {showRequiredIndicator && <SeedField.RequiredIndicator />}
-              {indicator && <SeedField.IndicatorText>{indicator}</SeedField.IndicatorText>}
-            </SeedField.Label>
-          </SeedField.Header>
-        )}
-        <ResidentNumberInput ref={ref} {...otherProps} />
-        {renderFooter && (
-          <SeedField.Footer>
-            {renderDescription &&
-              (renderErrorMessage ? (
-                <VisuallyHidden asChild>
-                  <SeedField.Description>{description}</SeedField.Description>
-                </VisuallyHidden>
-              ) : (
-                <SeedField.Description>{description}</SeedField.Description>
-              ))}
-            {renderErrorMessage && (
-              <SeedField.ErrorMessage>
-                <PrefixIcon svg={<IconExclamationmarkCircleFill />} />
-                {errorMessage}
-              </SeedField.ErrorMessage>
-            )}
-          </SeedField.Footer>
-        )}
-      </SeedField.Root>
+      </SegmentedTextField>
     );
   },
 );
