@@ -9,9 +9,15 @@ import { findTabbedFolder } from "@/lib/tabbed";
 
 // Docs 전용 탭 스타일 override(SEED Tabs 스니펫 위에 inline style로 recipe를 덮음).
 // 값이 unlayered recipe라 className보다 inline style이 확실하다(chip-tab-trigger.tsx와 같은 이유).
-// X gutter 제거: root/list/trigger의 paddingInline을 0으로, 탭 간격은 list gap으로만.
+// X gutter 제거: root/trigger의 paddingInline을 0으로, 탭 간격은 list gap으로만.
+// list 패딩은 `--tabs-list-padding-*` 변수로 덮는다. indicator `left`도 이 변수를 더하므로
+// paddingInline만 덮으면 indicator가 원래 패딩만큼 오른쪽으로 밀린다.
 const TAB_ROOT_STYLE: CSSProperties = { paddingInline: 0 };
-const TAB_LIST_STYLE: CSSProperties = { paddingInline: 0, gap: "1.5rem" };
+const TAB_LIST_STYLE = {
+  "--tabs-list-padding-left": "0px",
+  "--tabs-list-padding-right": "0px",
+  gap: "1.5rem",
+} as CSSProperties;
 const TAB_TRIGGER_STYLE: CSSProperties = {
   paddingInline: 0,
   // t5-regular: 본문과 같은 16px, weight만 트리거 기본(500→400)에서 낮춤.
