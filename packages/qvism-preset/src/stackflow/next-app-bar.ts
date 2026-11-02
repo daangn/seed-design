@@ -285,8 +285,9 @@ export const nextAppBar = defineSlotRecipe({
         },
       },
       transparent: {
-        root: {
-          backgroundColor: vars.toneTransparentGradientFalse.enabled.root.color,
+        background: {
+          background: `linear-gradient(180deg, ${vars.toneTransparentGradientTrue.enabled.root.gradient.serialized})`,
+          height: `calc(100% + ${vars.toneTransparentGradientTrue.enabled.root.bleedBottom})`,
         },
         iconButton: {
           ...onlyIcon({ color: iconButtonVars.toneTransparent.enabled.icon.color }),
@@ -302,26 +303,9 @@ export const nextAppBar = defineSlotRecipe({
         },
       },
     },
-    gradient: {
-      true: {},
-      false: {},
-    },
   },
-  compoundVariants: [
-    {
-      tone: "transparent",
-      gradient: true,
-      css: {
-        background: {
-          background: `linear-gradient(180deg, ${vars.toneTransparentGradientTrue.enabled.root.gradient.serialized})`,
-          height: `calc(100% + ${vars.toneTransparentGradientTrue.enabled.root.bleedBottom})`,
-        },
-      },
-    },
-  ],
   defaultVariants: {
     theme: "cupertino",
     tone: "layer",
-    gradient: true,
   },
 });

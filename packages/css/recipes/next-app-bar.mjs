@@ -34,16 +34,10 @@ const nextAppBarSlotNames = [
 
 const defaultVariant = {
   "theme": "cupertino",
-  "tone": "layer",
-  "gradient": true
+  "tone": "layer"
 };
 
-const compoundVariants = [
-  {
-    "tone": "transparent",
-    "gradient": true
-  }
-];
+const compoundVariants = [];
 
 export const nextAppBarVariantMap = {
   "theme": [
@@ -53,10 +47,6 @@ export const nextAppBarVariantMap = {
   "tone": [
     "layer",
     "transparent"
-  ],
-  "gradient": [
-    true,
-    false
   ]
 };
 

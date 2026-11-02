@@ -59,13 +59,13 @@ describe("transitionStyle 결정", () => {
     );
   });
 
-  it("NextAppBar의 tone/gradient variant가 background slot 클래스에 반영된다", async () => {
+  it("NextAppBar의 tone variant가 background slot 클래스에 반영된다", async () => {
     const { container } = renderStack({
       activities: {
         Transparent: makeActivity({
           testId: "transparent",
           withAppBar: true,
-          appBarProps: { tone: "transparent", gradient: true },
+          appBarProps: { tone: "transparent" },
         }),
       },
       initialActivity: "Transparent",
@@ -73,23 +73,21 @@ describe("transitionStyle 결정", () => {
     await settle(container);
 
     const background = getPart(getScreen(container, "transparent"), "app-bar-background");
-    expect(background?.className).toContain(
-      "seed-next-app-bar__background--tone_transparent-gradient_true",
-    );
+    expect(background?.className).toContain("seed-next-app-bar__background--tone_transparent");
 
-    const { container: plainContainer } = renderStack({
+    const { container: layerContainer } = renderStack({
       activities: {
-        Plain: makeActivity({
-          testId: "plain",
+        Layer: makeActivity({
+          testId: "layer",
           withAppBar: true,
-          appBarProps: { tone: "transparent", gradient: false },
+          appBarProps: { tone: "layer" },
         }),
       },
-      initialActivity: "Plain",
+      initialActivity: "Layer",
     });
-    await settle(plainContainer);
-    const plainBackground = getPart(getScreen(plainContainer, "plain"), "app-bar-background");
-    expect(plainBackground?.className).not.toContain("gradient_true");
+    await settle(layerContainer);
+    const layerBackground = getPart(getScreen(layerContainer, "layer"), "app-bar-background");
+    expect(layerBackground?.className).not.toContain("tone_transparent");
   });
 
   it("plugin theme이 화면 안의 NextAppBar recipe에 반영된다", async () => {

@@ -6,7 +6,6 @@ import {
   NextAppBarMain,
   NextAppBarBackButton,
   NextAppBarIconButton,
-  type NextAppBarProps,
 } from "seed-design/ui/next-app-bar";
 import {
   NextAppScreen,
@@ -20,7 +19,6 @@ import { Icon, VStack } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { useState } from "react";
-import { Switch } from "seed-design/ui/switch";
 import { nextAppScreenVariantMap } from "@seed-design/css/recipes/next-app-screen";
 
 declare module "@stackflow/config" {
@@ -32,13 +30,12 @@ declare module "@stackflow/config" {
 const ActivityTransparentBar: StaticActivityComponentType<"ActivityTransparentBar"> = () => {
   const [contentOffsetTop, setContentOffsetTop] =
     useState<NonNullable<NextAppScreenProps["contentOffsetTop"]>>("none");
-  const [gradient, setGradient] = useState<NonNullable<NextAppBarProps["gradient"]>>(true);
 
   const { push } = useFlow();
 
   return (
     <NextAppScreen contentOffsetTop={contentOffsetTop}>
-      <NextAppBar tone="transparent" gradient={gradient}>
+      <NextAppBar tone="transparent">
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
@@ -68,13 +65,6 @@ const ActivityTransparentBar: StaticActivityComponentType<"ActivityTransparentBa
               <SegmentedControlItem value="safeArea">safeArea</SegmentedControlItem>
               <SegmentedControlItem value="appBar">appBar</SegmentedControlItem>
             </SegmentedControl>
-            <Switch
-              label="gradient"
-              tone="neutral"
-              size="24"
-              checked={gradient}
-              onCheckedChange={setGradient}
-            />
             <ActionButton
               variant="neutralSolid"
               flexGrow
