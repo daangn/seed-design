@@ -392,10 +392,6 @@ export function useTabs(props: UseTabsProps) {
 
     rootProps: elementProps({
       ...stateProps,
-      style: {
-        "--indicator-left": `${triggerRect.left}px`,
-        "--indicator-width": `${triggerRect.width}px`,
-      } as React.CSSProperties,
     }),
 
     listProps: elementProps({
@@ -536,6 +532,10 @@ export function useTabs(props: UseTabsProps) {
 
     indicatorProps: elementProps({
       ...stateProps,
+      style: {
+        "--indicator-left": `${triggerRect.left}px`,
+        "--indicator-width": `${triggerRect.width}px`,
+      } as React.CSSProperties,
     }),
   };
 }
