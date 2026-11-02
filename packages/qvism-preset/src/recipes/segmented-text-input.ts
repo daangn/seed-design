@@ -161,15 +161,10 @@ const segmentedTextInput = defineSlotRecipe({
         color: vars.base.disabled.placeholder.color,
       },
 
-      // masked 입력의 글자와 caret은 숨기고, 겹쳐 둔 점과 caret이 대신 보인다.
+      // masked 입력은 통째로 숨기고, 겹쳐 둔 점과 caret이 대신 보인다.
+      // 글자색만 투명하게 하면 포커스 때 선택된 글자가 브라우저 선택 색으로 드러난다.
       [pseudo("[data-masked]")]: {
-        color: "transparent",
-        WebkitTextFillColor: "transparent",
-        caretColor: "transparent",
-      },
-
-      [pseudo("[data-masked]::selection")]: {
-        backgroundColor: "transparent",
+        opacity: 0,
       },
     },
     placeholder: {

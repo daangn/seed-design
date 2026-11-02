@@ -9479,13 +9479,7 @@
 }
 
 .seed-segmented-text-input__value[data-masked] {
-  color: #0000;
-  -webkit-text-fill-color: transparent;
-  caret-color: #0000;
-}
-
-.seed-segmented-text-input__value[data-masked]::selection {
-  background-color: #0000;
+  opacity: 0;
 }
 
 .seed-segmented-text-input__placeholder {

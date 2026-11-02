@@ -109,12 +109,7 @@
     color: var(--seed-color-fg-disabled);
 }
 .seed-segmented-text-input__value[data-masked] {
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    caret-color: transparent;
-}
-.seed-segmented-text-input__value[data-masked]::selection {
-    background-color: transparent;
+    opacity: 0;
 }
 .seed-segmented-text-input__placeholder {
     grid-area: 1 / 1;
