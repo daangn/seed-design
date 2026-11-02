@@ -77,6 +77,7 @@ export const config = defineConfig({
     { route: "/search-bar", name: "ActivitySearchBar" },
     { route: "/segmented-control", name: "ActivitySegmentedControl" },
     { route: "/select", name: "ActivitySelect" },
+    { route: "/showcase", name: "ActivityShowcase" },
     { route: "/side-navigation", name: "ActivitySideNavigation" },
     { route: "/side-panel", name: "ActivitySidePanel" },
     { route: "/side-panel-activity", name: "ActivitySidePanelActivity" },
@@ -102,13 +103,19 @@ export const config = defineConfig({
     { route: "/app-screen-gesture", name: "ActivityAppScreenGesture" },
     { route: "/app-screen-preview", name: "ActivityAppScreenPreview" },
     { route: "/app-screen-transparent", name: "ActivityAppScreenTransparent" },
-    { route: "/legacy-app-screen-intersection-observer", name: "ActivityLegacyAppScreenIntersectionObserver" },
+    {
+      route: "/legacy-app-screen-intersection-observer",
+      name: "ActivityLegacyAppScreenIntersectionObserver",
+    },
     {
       route: "/app-screen-intersection-observer",
       name: "ActivityAppScreenIntersectionObserver",
     },
     { route: "/animate-false-test", name: "ActivityAnimateFalseTest" },
-    { route: "/legacy-app-screen-app-bar-customization", name: "ActivityLegacyAppScreenAppBarCustomization" },
+    {
+      route: "/legacy-app-screen-app-bar-customization",
+      name: "ActivityLegacyAppScreenAppBarCustomization",
+    },
     { route: "/alert-dialog-stackflow", name: "ActivityAlertDialogStackflow" },
     {
       route: "/result-section-cta-progress-circle",
@@ -119,7 +126,10 @@ export const config = defineConfig({
     { route: "/legacy-pull-to-refresh-preview", name: "ActivityLegacyPullToRefreshPreview" },
     { route: "/pull-to-refresh-preview", name: "ActivityPullToRefreshPreview" },
     { route: "/pull-to-refresh-tabs", name: "ActivityPullToRefreshTabs" },
-    { route: "/legacy-pull-to-refresh-prevent-pull", name: "ActivityLegacyPullToRefreshPreventPull" },
+    {
+      route: "/legacy-pull-to-refresh-prevent-pull",
+      name: "ActivityLegacyPullToRefreshPreventPull",
+    },
     {
       route: "/pull-to-refresh-prevent-pull",
       name: "ActivityPullToRefreshPreventPull",
