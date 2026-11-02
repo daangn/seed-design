@@ -21,7 +21,7 @@ function scrollContainerTop(textarea: Locator, scrollTo?: "bottom") {
 }
 
 test("autoresize textarea를 편집해도 스크롤 위치가 유지된다", async ({ page }) => {
-  await page.goto("/e2e/textarea-autoresize-scroll");
+  await page.goto("/e2e/legacy-textarea-autoresize-scroll");
   const textarea = page.getByTestId("autoresize-textarea");
   await expect(textarea).toBeVisible();
 

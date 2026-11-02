@@ -41,7 +41,9 @@ export const { Stack, actions, stepActions } = stackflow({
 
     ActivityAccordion: lazy(() => import("../activities/ActivityAccordion")),
     ActivityActionButton: lazy(() => import("../activities/ActivityActionButton")),
-    ActivityAppBarTextButton: lazy(() => import("../activities/ActivityAppBarTextButton")),
+    ActivityLegacyAppBarTextButton: lazy(
+      () => import("../activities/ActivityLegacyAppBarTextButton"),
+    ),
     ActivityAlertDialog: lazy(() => import("../activities/ActivityAlertDialog")),
     ActivityLegacyAnimateFalseTest: lazy(
       () => import("../activities/ActivityLegacyAnimateFalseTest"),
@@ -75,8 +77,8 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityDetail: lazy(() => import("../activities/ActivityDetail")),
     ActivityDialog: lazy(() => import("../activities/ActivityDialog")),
     ActivityE2EImageBehavior: lazy(() => import("../activities/ActivityE2EImageBehavior")),
-    ActivityE2ETextareaAutoresizeScroll: lazy(
-      () => import("../activities/ActivityE2ETextareaAutoresizeScroll"),
+    ActivityLegacyE2ETextareaAutoresizeScroll: lazy(
+      () => import("../activities/ActivityLegacyE2ETextareaAutoresizeScroll"),
     ),
     ActivityFontMultiplierLayout: lazy(() => import("../activities/ActivityFontMultiplierLayout")),
     ActivityHelpBubble: lazy(() => import("../activities/ActivityHelpBubble")),
@@ -110,7 +112,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityResultSection: lazy(() => import("../activities/ActivityResultSection")),
     ActivitySafeAreaBleed: lazy(() => import("../activities/ActivitySafeAreaBleed")),
     ActivityScaleFeedback: lazy(() => import("../activities/ActivityScaleFeedback")),
-    ActivitySearchBar: lazy(() => import("../activities/ActivitySearchBar")),
+    ActivityLegacySearchBar: lazy(() => import("../activities/ActivityLegacySearchBar")),
     ActivitySegmentedControl: lazy(() => import("../activities/ActivitySegmentedControl")),
     ActivitySelect: lazy(() => import("../activities/ActivitySelect")),
     ActivityShowcase: lazy(() => import("../activities/ActivityShowcase")),

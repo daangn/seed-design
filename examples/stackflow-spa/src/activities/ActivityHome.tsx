@@ -124,7 +124,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: `홈 다시 push (깊이: ${activityIndex})`, ...to("ActivityHome", {}) },
         { title: "App Bar 슬롯과 긴 제목", ...to("ActivityLayerBar", {}) },
         { title: "투명 App Bar", ...to("ActivityTransparentBar", {}) },
-        { title: "Search Bar", ...to("ActivitySearchBar", {}) },
+        { title: "Search Bar [Legacy]", ...to("ActivityLegacySearchBar", {}) },
         { title: "기본 [Legacy]", ...to("ActivityLegacyAppScreen", {}) },
         {
           title: "IntersectionObserver [Legacy]",
