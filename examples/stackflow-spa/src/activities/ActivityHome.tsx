@@ -134,6 +134,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           title: "animate: false 밀림 버그 [Legacy]",
           ...to("ActivityLegacyAnimateFalseTest", {}),
         },
+        {
+          title: "App Bar 커스터마이징 [Legacy]",
+          ...to("ActivityLegacyAppScreenAppBarCustomization", {}),
+        },
         { title: "@stackflow/plugin-basic-ui", ...to("ActivityPluginBasicUI", {}) },
       ],
     },

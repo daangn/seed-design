@@ -1,6 +1,7 @@
 import { IconCarrotFill, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import {
   Flex,
+  Icon,
   ImageFrame,
   ImageFrameBadge,
   ImageFrameFloater,
@@ -12,14 +13,14 @@ import {
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { useState } from "react";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -74,19 +75,19 @@ const ActivityE2EImageBehavior: StaticActivityComponentType<"ActivityE2EImageBeh
   const [fallbackPressed, setFallbackPressed] = useState(false);
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>E2E Image Behavior</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="E2E Image Behavior" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <Icon svg={<IconHouseLine />} />
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="x6" p="x5">
           <ImageFrame
             data-testid="held-image-frame"
@@ -124,8 +125,8 @@ const ActivityE2EImageBehavior: StaticActivityComponentType<"ActivityE2EImageBeh
             style={{ width: 300 }}
           />
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

@@ -1,13 +1,8 @@
 import { Flex, Icon } from "@seed-design/react";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
-import {
-  NextAppBar,
-  NextAppBarIconButton,
-  NextAppBarMain,
-  NextAppBarRight,
-} from "seed-design/ui/next-app-bar";
-import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
+import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -19,21 +14,21 @@ const ActivityLegacyAppScreenAppBarCustomization: StaticActivityComponentType<
   "ActivityLegacyAppScreenAppBarCustomization"
 > = () => {
   return (
-    <NextAppScreen>
-      <NextAppBar theme="android" bg="palette.blue200">
-        <NextAppBarMain title="Preview" subtitle="This is a nice preview." />
-        <NextAppBarRight>
-          <NextAppBarIconButton aria-label="Notification">
+    <AppScreen theme="android">
+      <AppBar bg="palette.blue200">
+        <AppBarMain title="Preview" subtitle="This is a nice preview." />
+        <AppBarRight>
+          <AppBarIconButton aria-label="Notification">
             <Icon svg={<IconBellFill />} color="palette.blue500" size="x5" />
-          </NextAppBarIconButton>
-        </NextAppBarRight>
-      </NextAppBar>
-      <NextAppScreenContent>
+          </AppBarIconButton>
+        </AppBarRight>
+      </AppBar>
+      <AppScreenContent>
         <Flex justify="center" align="center" height="full">
           Preview
         </Flex>
-      </NextAppScreenContent>
-    </NextAppScreen>
+      </AppScreenContent>
+    </AppScreen>
   );
 };
 
