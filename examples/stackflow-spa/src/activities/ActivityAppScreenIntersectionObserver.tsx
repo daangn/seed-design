@@ -59,7 +59,7 @@ const ActivityAppScreenIntersectionObserver: StaticActivityComponentType<
         <NextAppBarLeft>
           <NextAppBarCloseButton aria-label="Close" />
         </NextAppBarLeft>
-        <NextAppBarMain title="Next Preview" />
+        <NextAppBarMain title="Preview" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Notification">
             <Icon svg={<IconBellFill />} />
