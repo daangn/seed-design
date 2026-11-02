@@ -69,7 +69,7 @@ const ActivityAppScreen: StaticActivityComponentType<"ActivityAppScreen"> = ({ p
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain title="NextAppScreen" />
+        <NextAppBarMain title="AppScreen" />
       </NextAppBar>
       <NextAppScreenContent
         ptr={params.contentMode === "ptr"}

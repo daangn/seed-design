@@ -168,7 +168,7 @@ const ActivityAnimateFalseTest: StaticActivityComponentType<"ActivityAnimateFals
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain title="animate: false (Next)" />
+        <NextAppBarMain title="animate: false Test" />
         <NextAppBarRight>
           <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
             <Icon svg={<IconHouseLine />} />
