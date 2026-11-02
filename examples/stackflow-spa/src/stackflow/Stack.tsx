@@ -43,7 +43,9 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityActionButton: lazy(() => import("../activities/ActivityActionButton")),
     ActivityAppBarTextButton: lazy(() => import("../activities/ActivityAppBarTextButton")),
     ActivityAlertDialog: lazy(() => import("../activities/ActivityAlertDialog")),
-    ActivityLegacyAnimateFalseTest: lazy(() => import("../activities/ActivityLegacyAnimateFalseTest")),
+    ActivityLegacyAnimateFalseTest: lazy(
+      () => import("../activities/ActivityLegacyAnimateFalseTest"),
+    ),
     ActivityAlertDialogActivity: lazy(() => import("../activities/ActivityAlertDialogActivity")),
     ActivityAlertDialogStep: lazy(() => import("../activities/ActivityAlertDialogStep")),
     ActivityAnimatedTabs: lazy(() => import("../activities/ActivityAnimatedTabs")),
@@ -111,6 +113,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivitySearchBar: lazy(() => import("../activities/ActivitySearchBar")),
     ActivitySegmentedControl: lazy(() => import("../activities/ActivitySegmentedControl")),
     ActivitySelect: lazy(() => import("../activities/ActivitySelect")),
+    ActivityShowcase: lazy(() => import("../activities/ActivityShowcase")),
     ActivitySwipeBackKeyboard: lazy(() => import("../activities/ActivitySwipeBackKeyboard")),
     ActivitySwitch: lazy(() => import("../activities/ActivitySwitch")),
     ActivitySideNavigation: lazy(() => import("../activities/ActivitySideNavigation")),
@@ -139,9 +142,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityAppScreen: lazy(() => import("../activities/ActivityAppScreen")),
     ActivityAppScreenGesture: lazy(() => import("../activities/ActivityAppScreenGesture")),
     ActivityAppScreenPreview: lazy(() => import("../activities/ActivityAppScreenPreview")),
-    ActivityAppScreenTransparent: lazy(
-      () => import("../activities/ActivityAppScreenTransparent"),
-    ),
+    ActivityAppScreenTransparent: lazy(() => import("../activities/ActivityAppScreenTransparent")),
     ActivityLegacyAppScreenIntersectionObserver: lazy(
       () => import("../activities/ActivityLegacyAppScreenIntersectionObserver"),
     ),
@@ -158,10 +159,10 @@ export const { Stack, actions, stepActions } = stackflow({
     ),
     ActivityArticlePreventPull: lazy(() => import("../activities/ActivityArticlePreventPull")),
     ActivityArticlePreventDrag: lazy(() => import("../activities/ActivityArticlePreventDrag")),
-    ActivityLegacyPullToRefreshPreview: lazy(() => import("../activities/ActivityLegacyPullToRefreshPreview")),
-    ActivityPullToRefreshPreview: lazy(
-      () => import("../activities/ActivityPullToRefreshPreview"),
+    ActivityLegacyPullToRefreshPreview: lazy(
+      () => import("../activities/ActivityLegacyPullToRefreshPreview"),
     ),
+    ActivityPullToRefreshPreview: lazy(() => import("../activities/ActivityPullToRefreshPreview")),
     ActivityPullToRefreshTabs: lazy(() => import("../activities/ActivityPullToRefreshTabs")),
     ActivityLegacyPullToRefreshPreventPull: lazy(
       () => import("../activities/ActivityLegacyPullToRefreshPreventPull"),
