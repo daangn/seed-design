@@ -1,6 +1,6 @@
 ---
 name: seed-component
-description: SEED 컴포넌트의 경로 조회·React·Lynx API 비교, 신규·포팅·기존 구현 변경, React·Lynx 문서·예제 작성, 또는 컴포넌트와 무관한 색상 토큰의 지도·WCAG 대비 조사를 할 때 사용한다.
+description: SEED 컴포넌트의 경로 조회·React·Lynx API 비교, 신규·포팅·기존 구현 변경, React·Lynx 예제 작성, 또는 컴포넌트와 무관한 색상 토큰의 지도·WCAG 대비 조사를 할 때 사용한다.
 ---
 
 # SEED 컴포넌트

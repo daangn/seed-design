@@ -8,14 +8,14 @@
 
 - React: `AvailableSince` → preview → (도입 문단) → `## Installation` → `## Usage` → `## Props` → `## Examples` → `## Accessibility` → (심화: `## Scale Feedback`, `## Localization`).
 - Lynx: 같은 순서 뒤에 `## 웹 버전과의 차이` → `## Lynx 미지원 기능`. 두 절은 실제 항목이 있을 때만 둔다. 기존 문서의 `## Web Version Differences`·`## Unsupported Lynx Features` 표기는 그 파일 안에서만 유지한다.
-- 절 제목은 영어다. `## 설치`·`## 속성`처럼 한국어 제목을 새로 쓰지 않는다.
+- 절 제목은 영어다. `## 설치`·`## 속성`처럼 한국어 제목을 새로 쓰지 않는다. 예외는 Lynx 전용 절 `## 웹 버전과의 차이`·`## Lynx 미지원 기능`·`### 요구 사항`뿐이다(`seed-component`의 lynx-docs-authoring.md가 확정한 표기).
 - Lynx 문서의 `###` 예제 제목·순서·시나리오 파일명은 React 문서와 같게 유지하고, 다른 점은 그 자리에서 설명한다.
 
 ## 절별 형식
 
 도입: preview 바로 아래에 "언제 쓰지 말아야 하는지"나 대안 컴포넌트를 한 문단 또는 `<Card title="Alert Dialog" href="/react/components/alert-dialog" variant="example">`로 둔다. 링크는 같은 플랫폼 안에서만 건다(가이드 `/components/`로의 링크는 두지 않는다).
 
-```mdx
+````mdx
 <AvailableSince packages="@seed-design/react@3.1.0, @seed-design/css@3.1.0" />
 
 <ComponentExample name="react/search-input/preview">
@@ -23,13 +23,13 @@
   { "file": "examples/react/search-input/preview.tsx", "codeblock": true }
   ```
 </ComponentExample>
-```
+````
 
 Lynx는 `<LynxComponentExample name="lynx/select/preview" height={400}>`이고 overlay·fill 예제에만 `height`를 준다.
 
 Installation:
 
-```mdx
+````mdx
 ## Installation
 
 ```package-install
@@ -37,7 +37,7 @@ npx @seed-design/cli@latest add ui:search-input
 ```
 
 <ManualInstallation name="search-input" />          {/* Lynx: <LynxManualInstallation name="..." /> */}
-```
+````
 
 - `@latest`를 뺀 CLI 명령을 쓰지 않는다.
 - 의존 snippet이 함께 설치되면 한 문장으로 알린다: `CLI로 설치하면 Search Bar가 사용하는 ui:app-bar와 ui:search-input도 함께 설치됩니다.`
@@ -50,7 +50,7 @@ Props: `<react-type-table path="./registry/react/ui/search-input.tsx" name="Sear
 
 Examples: `### 제목` → 동작 계약 1~2문단 → 예제. 제목 아래 예제만 두지 않는다. 제목은 영어 Title Case(`Listening to Value Changes`, `Field Integration`), prop 이름은 백틱(`` ### `onOpenChange` Details ``). 예제가 필요 없는 시나리오(동작 설명만, Lynx 미지원)는 문단만 둔다.
 
-```mdx
+````mdx
 ### Submit
 
 Enter를 누르면 `onSubmit`이 현재 값과 함께 호출됩니다. 한글처럼 IME로 조합 중인 글자를 확정하는 Enter는 제출로 처리하지 않습니다.
@@ -62,7 +62,7 @@ Enter를 누르면 `onSubmit`이 현재 값과 함께 호출됩니다. 한글처
   { "file": "examples/react/search-input/submit.tsx", "codeblock": true }
   ```
 </ComponentExample>
-```
+````
 
 Accessibility: 루트 role과 렌더 요소, 레이블이 없을 때 필요한 `aria-label`과 개발 모드 경고 조건, 컴포넌트가 책임지지 않는 동작과 그것을 맡는 곳을 불릿으로 쓴다.
 

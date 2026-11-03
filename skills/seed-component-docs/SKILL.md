@@ -1,6 +1,6 @@
 ---
 name: seed-component-docs
-description: SEED 컴포넌트 문서를 새로 쓰거나 고칠 때 사용한다. 공통 가이드 MDX(`docs/content/components/`), Figma SEED-Docs 페이지, React·Lynx 플랫폼 문서(`docs/content/{react,lynx}/components/`)의 내용·구조·문체를 맡고, Figma 문서 페이지에서 가이드 MDX로 이관할 때도 사용한다.
+description: SEED 컴포넌트의 가이드·React·Lynx 문서를 쓰거나 고칠 때, Figma SEED Docs 페이지를 만들 때, Figma 문서 페이지에서 가이드 MDX로 이관할 때 사용한다.
 ---
 
 # SEED 컴포넌트 문서
