@@ -76,12 +76,12 @@
 .seed-next-app-bar-main__subtitle--tone_layer {
     color: var(--seed-color-fg-neutral-muted);
 }
-.seed-next-app-bar-main__root--tone_transparent {
+.seed-next-app-bar-main__root--tone_gradient {
     color: var(--seed-color-palette-static-white);
 }
-.seed-next-app-bar-main__title--tone_transparent {
+.seed-next-app-bar-main__title--tone_gradient {
     color: var(--seed-color-palette-static-white);
 }
-.seed-next-app-bar-main__subtitle--tone_transparent {
+.seed-next-app-bar-main__subtitle--tone_gradient {
     color: var(--seed-color-palette-static-white);
 }

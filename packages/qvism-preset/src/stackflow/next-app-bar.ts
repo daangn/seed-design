@@ -131,7 +131,7 @@ export const nextAppBarMain = defineSlotRecipe({
           color: vars.toneLayer.enabled.subtitle.color,
         },
       },
-      transparent: {
+      gradient: {
         root: {
           color: vars.toneTransparent.enabled.title.color,
         },
@@ -284,7 +284,7 @@ export const nextAppBar = defineSlotRecipe({
           },
         },
       },
-      transparent: {
+      gradient: {
         background: {
           background: `linear-gradient(180deg, ${vars.toneTransparentGradientTrue.enabled.root.gradient.serialized})`,
           height: `calc(100% + ${vars.toneTransparentGradientTrue.enabled.root.bleedBottom})`,
