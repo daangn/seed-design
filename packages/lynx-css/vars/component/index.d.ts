@@ -75,6 +75,7 @@ export { vars as searchInput } from "./search-input";
 export { vars as segmentedControlIndicator } from "./segmented-control-indicator";
 export { vars as segmentedControlItem } from "./segmented-control-item";
 export { vars as segmentedControl } from "./segmented-control";
+export { vars as segmentedTextInput } from "./segmented-text-input";
 export { vars as selectBoxCheckmark } from "./select-box-checkmark";
 export { vars as selectBoxGroup } from "./select-box-group";
 export { vars as selectBox } from "./select-box";
