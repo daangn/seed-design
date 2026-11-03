@@ -11,7 +11,7 @@ description: Lynx 앱에서 top/right/bottom/left safe area inset 값을 가져�
 import { useSafeArea } from "@seed-design/lynx-react";
 ```
 
-`useSafeArea`는 `@seed-design/lynx-react-use-safe-area`에서 제공하며, `@seed-design/lynx-react`에서도 가져올 수 있습니다. 호스트 앱이 주입하는 `lynx.__globalProps.safeAreaInsetTop` / `safeAreaInsetRight` / `safeAreaInsetBottom` / `safeAreaInsetLeft` 값을 우선 읽고, 값이 없거나 유효하지 않으면 Lynx CSS `env(safe-area-inset-*)`를 fallback으로 반환합니다.
+`useSafeArea`는 `@seed-design/lynx-react` 패키지에 포함되어 있습니다. 앱이 [`SeedProvider`](/lynx/getting-started/host-integration)의 `safeAreaInsets`로 넘긴 값을 `px` 문자열로 반환합니다.
 
 컴포넌트의 배경이나 가로 스크롤 영역을 화면 끝까지 넓히려면 [Safe Area 가이드](/lynx/getting-started/safe-area)의 `extendSafeAreaX` 사용법과 확장 전후 비교를 참고하세요.
 
@@ -54,29 +54,35 @@ function Screen() {
 
 `Box`의 `pt`, `pr`, `pb`, `pl`에 지정하는 `"safeArea"`도 내부적으로 `useSafeArea`와 같은 safe area resolve 로직을 사용합니다.
 
+### overlay에서 다른 safe area 쓰기
+
+같은 Lynx View의 `<overlay>`처럼 영역마다 다른 inset이 필요하면 그 영역 안에 `SafeAreaProvider`를 중첩합니다. 그 아래의 `useSafeArea()`와 `Box`의 `"safeArea"`는 가장 가까운 Provider 값을 씁니다.
+
+```tsx
+import { SafeAreaProvider } from "@seed-design/lynx-react";
+
+<SafeAreaProvider insets={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+  <OverlayContent />
+</SafeAreaProvider>;
+```
+
 ## 동작 방식
 
 값 소스 우선순위는 다음과 같습니다.
 
-1. `lynx.__globalProps.safeAreaInset*`
-2. `env(safe-area-inset-*)`
+1. 가장 가까운 `SafeAreaProvider` 또는 `SeedProvider`의 `safeAreaInsets`
+2. `lynx.__globalProps.safeAreaInset*` (deprecated)
+3. `env(safe-area-inset-*)`
 
-호스트가 **0 이상의 유한한 숫자**를 전달하면 네 방향 모두 해당 값을 `px` 문자열로 변환합니다. `0`도 유효한 값이므로 `"0px"`를 반환합니다. 값이 없거나 유효하지 않으면 해당 방향의 CSS `env()` 문자열을 반환하고, 실제 px 해석은 Lynx layout 단계에 맡깁니다.
+Provider 값은 보정하지 않고 그대로 `px` 문자열로 반환합니다. `0`도 유효한 값이므로 `"0px"`가 됩니다.
 
-아래는 `safeAreaInsetTop`을 기준으로 한 예시입니다. 나머지 세 방향도 같은 규칙을 따릅니다.
-
-| 호스트가 전달한 값 | 반환값 |
-| --- | --- |
-| `0` | `"0px"` |
-| `24` | `"24px"` |
-| 생략 또는 `undefined` | `"env(safe-area-inset-top)"` |
-| 음수, `NaN`, `Infinity`, 숫자가 아닌 값 | `"env(safe-area-inset-top)"` |
+Provider가 없으면 이전 버전과 같이 host가 넣은 `safeAreaInset*` global props를 읽습니다. `0` 이상의 유한한 숫자는 `px` 문자열로 바꾸고, 값이 없으면 CSS `env()` 문자열을 반환해 실제 px 해석을 Lynx layout 단계에 맡깁니다. global props 값이 쓰이면 개발 빌드에서 키마다 한 번 경고합니다. 이 경로와 `env()` fallback은 다음 메이저 버전에서 제거합니다.
 
 ### `0`과 값 생략의 차이
 
-호스트가 네이티브 레이아웃에서 이미 Safe Area 여백을 확보했다면 Lynx에 추가 여백이 필요하지 않은 방향의 inset을 `0`으로 전달할 수 있습니다. 전달받은 `0`을 그대로 사용하므로 이미 확보한 여백이 한 번 더 적용되지 않습니다.
+호스트가 네이티브 레이아웃에서 이미 Safe Area 여백을 확보했다면 Lynx에 추가 여백이 필요하지 않은 방향의 inset을 `SeedProvider`에 `0`으로 넘길 수 있습니다. 넘긴 `0`을 그대로 사용하므로 이미 확보한 여백이 한 번 더 적용되지 않습니다.
 
-반대로 Lynx 화면이 시스템 영역까지 펼쳐져 있고 콘텐츠를 보호할 여백이 필요하다면 호스트가 실제 inset을 전달하거나 값을 생략해 `env()`를 사용해야 합니다. `0`은 기기의 inset을 자동으로 조회하라는 의미가 아닙니다. 이 규칙은 `Box`의 Safe Area padding·bleed처럼 같은 값을 사용하는 스타일에도 적용됩니다.
+반대로 Lynx 화면이 시스템 영역까지 펼쳐져 있고 콘텐츠를 보호할 여백이 필요하다면 실제 inset을 넘겨야 합니다. `0`은 기기의 inset을 자동으로 조회하라는 의미가 아닙니다. 이 규칙은 `Box`의 Safe Area padding·bleed처럼 같은 값을 사용하는 스타일에도 적용됩니다.
 
 ## API
 
@@ -91,8 +97,7 @@ function Screen() {
 
 ## 사용 시 주의사항
 
-- 호스트 global props가 없거나 유효하지 않으면 CSS `env(safe-area-inset-*)` fallback을 반환합니다. 이 값은 JavaScript에서 px로 resolve되지 않고 style/layout 단계에서 해석됩니다.
+- Provider와 host global props가 모두 없으면 CSS `env(safe-area-inset-*)` fallback을 반환합니다. 이 값은 JavaScript에서 px로 resolve되지 않고 style/layout 단계에서 해석됩니다. Android에서는 `env()`가 동작하지 않아 `0`처럼 보일 수 있습니다.
 - `BottomSheet.Content`처럼 컴포넌트 구조상 safe area가 필요한 경우에는 컴포넌트 내부에서 bottom safe area를 처리합니다.
 - `p`, `px`, `py` 같은 shorthand에는 `"safeArea"`를 지정할 수 없습니다.
-- 호스트 앱이 left/right 값을 주입하지 않는 구버전이면 좌우는 `env()` fallback을 사용합니다.
-- BG → FG 딥링크 진입처럼 native safe area 계산 타이밍이 흔들릴 수 있는 환경에서는 호스트 앱이 `lynx.__globalProps.safeAreaInset*` 값을 안정적으로 주입하는지 확인해야 합니다.
+- BG → FG 딥링크 진입처럼 native safe area 계산 타이밍이 흔들릴 수 있는 환경에서는 host가 안정적인 값을 주는지 확인하고, 그 값을 `SeedProvider`로 넘기세요.

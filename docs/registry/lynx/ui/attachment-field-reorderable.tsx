@@ -2,6 +2,7 @@ import * as React from "@lynx-js/react";
 import {
   AttachmentInput as SeedAttachmentInput,
   useAttachmentInputContext,
+  useSeedContext,
 } from "@seed-design/lynx-react";
 import { Sortable } from "@seed-design/lynx-react-sortable";
 import IconCameraFill from "@karrotmarket/lynx-monochrome-icon/IconCameraFill";
@@ -46,7 +47,7 @@ export const AttachmentInputReorderable = React.forwardRef<
   const [generatedId] = React.useState(() => `instance-${nextAttachmentReorderId++}`);
   const boundaryId = id ? `${id}-container` : `attachment-input-reorder-container-${generatedId}`;
   const reorderId = id ? `${id}-list` : `attachment-input-reorder-list-${generatedId}`;
-  const globalProps = React.useGlobalProps() as { motion?: unknown } | undefined;
+  const { preferredMotion } = useSeedContext();
 
   return (
     <SeedAttachmentInput.Context>
@@ -62,7 +63,7 @@ export const AttachmentInputReorderable = React.forwardRef<
             id={reorderId}
             scrollableBoundaryId={boundaryId}
             scrollEdgeOffset={scrollEdgeOffset}
-            reducedMotion={globalProps?.motion === "reduced"}
+            reducedMotion={preferredMotion === "reduced"}
             onReorder={reorderFileEntry}
             onDragStateChange={onDragStateChange}
           >

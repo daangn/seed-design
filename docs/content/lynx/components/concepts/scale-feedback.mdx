@@ -130,14 +130,16 @@ Scale은 `Element.animate()`로 실행하므로 target에 선언된 색상 trans
 
 ## 동작 줄이기
 
-`useScaleFeedback`은 `GlobalProps.motion`을 따릅니다.
+`useScaleFeedback`은 [`SeedProvider`](/lynx/getting-started/host-integration)의 `preferredMotion`을 따릅니다.
 
-| `motion` | 동작 |
+| `preferredMotion` | 동작 |
 |---|---|
 | `"reduced"` | 배율을 `1`로 유지 |
-| 그 외 | Scale Feedback 적용 |
+| `"default"` 또는 생략 | Scale Feedback 적용 |
 
 누르는 도중 `"reduced"`로 바뀌거나 컴포넌트가 비활성화되면 `scale(1)`로 돌아갑니다.
+
+`preferredMotion`을 생략하면 다음 메이저 버전 전까지 `GlobalProps.motion`을 읽습니다(deprecated). 값이 있으면 개발 빌드에서 한 번 경고합니다.
 
 ## disabled, loading, 중첩 target
 
@@ -151,7 +153,7 @@ Scale은 `Element.animate()`로 실행하므로 target에 선언된 색상 trans
 - Lynx는 일부 컴포넌트의 안쪽 콘텐츠만 축소하므로 웹과 눌림 표현이 다를 수 있습니다.
 - React의 `ScaleFeedback`은 wrapper를 만들지 않지만 Lynx는 native `view` wrapper를 렌더링합니다.
 - 직접 만든 Scale Feedback의 중첩 축소를 끄는 API는 없습니다.
-- 프로젝트 전체에서 끄려면 `GlobalProps.motion`을 `"reduced"`로 지정합니다.
+- 프로젝트 전체에서 끄려면 `SeedProvider`에 `preferredMotion="reduced"`를 넘깁니다.
 
 ## API
 

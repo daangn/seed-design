@@ -1,8 +1,8 @@
 import {
   runOnMainThread,
   runOnBackground,
+  useContext,
   useEffect,
-  useGlobalProps,
   useMainThreadRef,
   useRef,
 } from "@lynx-js/react";
@@ -14,6 +14,9 @@ import {
 } from "@seed-design/lynx-css/scale-feedback";
 
 import { calculateScaleFeedback, isReducedMotion } from "./calculate-scale-feedback.js";
+import { warnDeprecatedMotionGlobalProp } from "./deprecated-global-props.js";
+import { PreferredMotionContext } from "./PreferredMotionContext.js";
+import { useHostGlobalProps } from "./use-host-global-props.js";
 
 type LynxViewProps = IntrinsicElements["view"] & ViewProps;
 
@@ -109,6 +112,11 @@ function readScaleFeedbackScale(target: ScaleFeedbackElement | null): number | n
   return calculateScaleFeedback(width, height);
 }
 
+function readDeprecatedReducedMotion(motion: unknown): boolean {
+  if (motion !== undefined) warnDeprecatedMotionGlobalProp();
+  return isReducedMotion(motion);
+}
+
 /**
  * Applies SEED Scale Feedback on the Lynx Main Thread.
  *
@@ -120,14 +128,19 @@ function readScaleFeedbackScale(target: ScaleFeedbackElement | null): number | n
  * The target's transform is owned by this hook. Use a separate content layer
  * when the element already uses translate, rotate, or another transform.
  *
- * Supported on Lynx Engine 3.6 and later. Missing or unknown
- * `GlobalProps.motion` values preserve the default motion; only the exact
- * `"reduced"` value disables scaling.
+ * Supported on Lynx Engine 3.6 and later. `preferredMotion: "reduced"` on
+ * `SeedProvider` disables scaling. Without it, the deprecated
+ * `GlobalProps.motion` fallback is used; only the exact `"reduced"` value
+ * disables scaling.
  */
 export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScaleFeedbackReturn {
   const { disabled = false, onTouchStart, onTouchEnd, onTouchCancel } = options;
-  const globalProps = useGlobalProps() as SeedMotionGlobalProps | undefined;
-  const reducedMotion = isReducedMotion(globalProps?.motion);
+  const preferredMotion = useContext(PreferredMotionContext);
+  const globalProps = useHostGlobalProps() as SeedMotionGlobalProps | undefined;
+  const reducedMotion =
+    preferredMotion !== undefined
+      ? preferredMotion === "reduced"
+      : readDeprecatedReducedMotion(globalProps?.motion);
   const targetRef = useMainThreadRef<ScaleFeedbackElement | null>(null);
   const animationRef = useMainThreadRef<MainThread.Animation>(null);
   const scaleRef = useMainThreadRef<number | null>(null);

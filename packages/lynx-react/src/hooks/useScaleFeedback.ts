@@ -1,5 +1,6 @@
 export {
   useScaleFeedback,
+  type PreferredMotion,
   type ScaleFeedbackTargetProps,
   type ScaleFeedbackTriggerProps,
   type UseScaleFeedbackOptions,

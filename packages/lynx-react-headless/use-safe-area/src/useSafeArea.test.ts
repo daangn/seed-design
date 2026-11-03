@@ -1,6 +1,9 @@
+import { createElement, type ReactNode } from "@lynx-js/react";
 import { act, renderHook } from "@lynx-js/react/testing-library";
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+import { SafeAreaProvider, type SafeAreaInsets } from "./SafeAreaProvider.jsx";
+import { resetDeprecatedSafeAreaWarnings } from "./deprecated-global-props.js";
 import { useSafeArea } from "./useSafeArea.js";
 
 interface TestLynxGlobal {
@@ -59,7 +62,27 @@ function emitGlobalPropsChanged() {
   backgroundLynx.getJSModule("GlobalEventEmitter").emit("onGlobalPropsChanged");
 }
 
+function withInsets(...layers: SafeAreaInsets[]) {
+  return ({ children }: { children: ReactNode }) =>
+    layers.reduceRight<ReactNode>(
+      (node, insets) => createElement(SafeAreaProvider, { insets }, node),
+      children,
+    );
+}
+
 describe("useSafeArea", () => {
+  let warn: ReturnType<typeof vi.spyOn>;
+
+  beforeEach(() => {
+    setGlobalProps({});
+    resetDeprecatedSafeAreaWarnings();
+    warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    warn.mockRestore();
+  });
+
   it("falls back to Lynx env values when host flat global props are missing", () => {
     const { result } = renderHook(() => useSafeArea());
 
@@ -133,5 +156,45 @@ describe("useSafeArea", () => {
       safeAreaInsetBottom: "21px",
       safeAreaInsetLeft: "59px",
     });
+  });
+
+  it("warns once per deprecated global prop key that is actually used", () => {
+    setGlobalProps({ safeAreaInsetTop: 48, safeAreaInsetBottom: 35 });
+
+    const { rerender } = renderHook(() => useSafeArea());
+    rerender();
+
+    expect(warn.mock.calls.map(([message]) => message)).toEqual([
+      expect.stringContaining("lynx.__globalProps.safeAreaInsetTop"),
+      expect.stringContaining("lynx.__globalProps.safeAreaInsetBottom"),
+    ]);
+  });
+
+  it("uses provider insets before global props and env without warning", () => {
+    setGlobalProps({ safeAreaInsetTop: 48, safeAreaInsetBottom: 35 });
+
+    const { result } = renderHook(() => useSafeArea(), {
+      wrapper: withInsets({ top: 0, right: 12, bottom: 21, left: 0 }),
+    });
+
+    expect(result.current).toEqual({
+      safeAreaInsetTop: "0px",
+      safeAreaInsetRight: "12px",
+      safeAreaInsetBottom: "21px",
+      safeAreaInsetLeft: "0px",
+    });
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it("uses the nearest provider", () => {
+    const { result } = renderHook(() => useSafeArea(), {
+      wrapper: withInsets(
+        { top: 47, right: 0, bottom: 34, left: 0 },
+        { top: 0, right: 0, bottom: 0, left: 0 },
+      ),
+    });
+
+    expect(result.current.safeAreaInsetTop).toBe("0px");
+    expect(result.current.safeAreaInsetBottom).toBe("0px");
   });
 });

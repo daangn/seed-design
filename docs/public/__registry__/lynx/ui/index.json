@@ -79,7 +79,7 @@
         {
           "path": "attachment-display-field-reorderable.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-react": "^1.2.0",
             "@seed-design/lynx-css": "^1.0.0",
             "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
             "@seed-design/lynx-react-sortable": "^1.0.0"
@@ -131,7 +131,7 @@
         {
           "path": "attachment-field-reorderable.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-react": "^1.2.0",
             "@seed-design/lynx-css": "^1.0.0",
             "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
             "@seed-design/lynx-react-sortable": "^1.0.0"
