@@ -60,9 +60,13 @@ export const selectBox = defineSlotRecipe({
       flexGrow: 1,
       borderRadius: vars.base.enabled.root.cornerRadius,
       backgroundColor: vars.base.enabled.root.color,
-      boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+      // iOS Lynx는 inset box-shadow를 흐리게 그리고 continuous 코너를 적용하지 않는다.
+      // border로 그리고 trigger padding에서 두께만큼 빼 기존 크기와 콘텐츠 배치를 유지한다.
+      borderStyle: "solid",
+      borderWidth: vars.base.enabled.root.strokeWidth,
+      borderColor: vars.base.enabled.root.strokeColor,
       overflow: "hidden",
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, border-color ${vars.base.enabled.root.strokeDuration} ${vars.base.enabled.root.strokeTimingFunction}`,
     },
     scaleContent: {
       display: "flex",
@@ -78,10 +82,11 @@ export const selectBox = defineSlotRecipe({
       right: 0,
       bottom: 0,
       left: 0,
+      // root border 안쪽에 선택 두께의 나머지만 그린다. 선택 시 root border 색도 함께 바꾼다.
       borderStyle: "solid",
-      borderWidth: vars.base.selected.root.strokeWidth,
+      borderWidth: `calc(${vars.base.selected.root.strokeWidth} - ${vars.base.enabled.root.strokeWidth})`,
       borderColor: "transparent",
-      borderRadius: vars.base.enabled.root.cornerRadius,
+      borderRadius: `calc(${vars.base.enabled.root.cornerRadius} - ${vars.base.enabled.root.strokeWidth})`,
       transition: `border-color ${vars.base.enabled.root.strokeDuration} ${vars.base.enabled.root.strokeTimingFunction}`,
     },
     trigger: {
@@ -156,10 +161,10 @@ export const selectBox = defineSlotRecipe({
       horizontal: {
         trigger: {
           alignItems: "center",
-          paddingLeft: vars.layoutHorizontal.enabled.trigger.paddingLeft,
-          paddingRight: vars.layoutHorizontal.enabled.trigger.paddingRight,
-          paddingTop: vars.layoutHorizontal.enabled.trigger.paddingY,
-          paddingBottom: vars.layoutHorizontal.enabled.trigger.paddingY,
+          paddingLeft: `calc(${vars.layoutHorizontal.enabled.trigger.paddingLeft} - ${vars.base.enabled.root.strokeWidth})`,
+          paddingRight: `calc(${vars.layoutHorizontal.enabled.trigger.paddingRight} - ${vars.base.enabled.root.strokeWidth})`,
+          paddingTop: `calc(${vars.layoutHorizontal.enabled.trigger.paddingY} - ${vars.base.enabled.root.strokeWidth})`,
+          paddingBottom: `calc(${vars.layoutHorizontal.enabled.trigger.paddingY} - ${vars.base.enabled.root.strokeWidth})`,
         },
         content: {
           alignItems: "center",
@@ -172,10 +177,10 @@ export const selectBox = defineSlotRecipe({
       },
       vertical: {
         trigger: {
-          paddingLeft: vars.layoutVertical.enabled.trigger.paddingX,
-          paddingRight: vars.layoutVertical.enabled.trigger.paddingX,
-          paddingTop: vars.layoutVertical.enabled.trigger.paddingY,
-          paddingBottom: vars.layoutVertical.enabled.trigger.paddingY,
+          paddingLeft: `calc(${vars.layoutVertical.enabled.trigger.paddingX} - ${vars.base.enabled.root.strokeWidth})`,
+          paddingRight: `calc(${vars.layoutVertical.enabled.trigger.paddingX} - ${vars.base.enabled.root.strokeWidth})`,
+          paddingTop: `calc(${vars.layoutVertical.enabled.trigger.paddingY} - ${vars.base.enabled.root.strokeWidth})`,
+          paddingBottom: `calc(${vars.layoutVertical.enabled.trigger.paddingY} - ${vars.base.enabled.root.strokeWidth})`,
         },
         content: {
           flexDirection: "column",
@@ -185,6 +190,9 @@ export const selectBox = defineSlotRecipe({
     },
     selected: {
       true: {
+        root: {
+          borderColor: vars.base.enabledSelected.root.strokeColor,
+        },
         selectedStroke: {
           borderColor: vars.base.enabledSelected.root.strokeColor,
         },
@@ -202,7 +210,7 @@ export const selectBox = defineSlotRecipe({
     disabled: {
       true: {
         root: {
-          boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.disabled.root.strokeColor}`,
+          borderColor: vars.base.disabled.root.strokeColor,
         },
         prefixIcon: {
           color: vars.base.disabled.prefixIcon.color,
@@ -237,6 +245,9 @@ export const selectBox = defineSlotRecipe({
       selected: true,
       disabled: true,
       css: {
+        root: {
+          borderColor: vars.base.disabled.root.strokeColor,
+        },
         selectedStroke: {
           borderColor: vars.base.disabled.root.strokeColor,
         },

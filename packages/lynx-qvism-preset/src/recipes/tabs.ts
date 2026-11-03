@@ -30,10 +30,13 @@ const tabs = defineSlotRecipe({
       alignItems: "stretch",
       width: "max-content",
       minWidth: "100%",
-      // 하단 stroke를 list(scroll-view) border 대신 content 안쪽에 그린다. Android scroll-view는
-      // border 영역으로 나간 Indicator를 잘라 두께가 절반만 보였다. padding으로 기존 높이를 유지한다.
-      paddingBottom: vars.base.enabled.root.strokeBottomWidth,
-      boxShadow: `inset 0 -${vars.base.enabled.root.strokeBottomWidth} 0 0 ${vars.base.enabled.root.strokeColor}`,
+      // 하단 stroke를 list(scroll-view) border 대신 content의 border로 그린다. Android scroll-view는
+      // border 영역으로 나간 Indicator를 잘라 두께가 절반만 보였다. iOS Lynx는 inset box-shadow를
+      // 흐리게 그린다. Indicator가 content border 위로 걸치므로 content는 자르지 않는다.
+      borderBottomStyle: "solid",
+      borderBottomWidth: vars.base.enabled.root.strokeBottomWidth,
+      borderBottomColor: vars.base.enabled.root.strokeColor,
+      overflow: "visible",
     },
     carousel: {
       display: "flex",
@@ -50,8 +53,8 @@ const tabs = defineSlotRecipe({
     indicator: {
       position: "absolute",
       left: "0px",
-      // React처럼 하단 stroke와 겹친다. stroke는 listContent 하단 padding 안에 그려진다.
-      bottom: "0px",
+      // React처럼 하단 stroke와 겹친다. absolute 기준은 listContent의 border 안쪽이므로 두께만큼 내린다.
+      bottom: `calc(${vars.base.enabled.root.strokeBottomWidth} * -1)`,
       height: vars.base.enabled.indicator.height,
       backgroundColor: vars.base.enabled.indicator.color,
       // inline style은 trigger 측정값(px)만 담는다. 좌우 inset은 padding으로 빼고 배경을 content box에만 칠한다.

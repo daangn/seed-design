@@ -21,6 +21,8 @@
     justify-content: center;
     gap: var(--seed-dimension-x2_5);
     border-radius: var(--seed-radius-r3);
+    border-style: solid;
+    border-width: 1px;
     background-color: var(--seed-color-bg-transparent);
     pointer-events: auto;
     overflow: hidden
@@ -119,11 +121,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-width: 0;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--seed-color-stroke-neutral-weak);
     padding: 0;
     background-color: var(--seed-color-bg-layer-default);
     border-radius: var(--seed-radius-full);
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
     color: var(--seed-color-fg-neutral);
     transition: background-color var(--seed-duration-color-transition), transform var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale)
 }
@@ -139,9 +142,9 @@
     width: 160px
 }
 .seed-attachment-input-item__surface--type_general {
-    padding-left: var(--seed-dimension-x4);
-    padding-right: var(--seed-dimension-x4);
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
+    padding-left: calc(var(--seed-dimension-x4) - 1px);
+    padding-right: calc(var(--seed-dimension-x4) - 1px);
+    border-color: var(--seed-color-stroke-neutral-weak);
     clip-path: path("M0 0 H143.607695 A12 12 0 0 0 160 16.392305 V80 H0 Z")
 }
 .seed-attachment-input-item__thumbnail--type_general {
@@ -162,7 +165,7 @@
     transition: opacity var(--seed-duration-color-transition), transform var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale)
 }
 .seed-attachment-input-item__surface--type_image {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-subtle);
+    border-color: var(--seed-color-stroke-neutral-subtle);
     clip-path: path("M0 0 H63.607695 A12 12 0 0 0 80 16.392305 V80 H0 Z")
 }
 .seed-attachment-input-item__thumbnail--type_image {

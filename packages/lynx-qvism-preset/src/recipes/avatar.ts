@@ -67,6 +67,9 @@ export default defineSlotRecipe({
       width: "100%",
       height: "100%",
       borderRadius: vars.base.enabled.root.cornerRadius,
+      // iOS Lynx는 inset box-shadow를 흐리게 그린다. 크기별 두께는 size variant의 borderWidth로 준다.
+      borderStyle: "solid",
+      borderColor: vars.base.enabled.root.strokeColor,
       pointerEvents: "none",
     },
     badge: {
@@ -94,7 +97,7 @@ export default defineSlotRecipe({
           "--avatar-badge-clip-shield": avatarBadgeClipPaths[20].shield,
         },
         stroke: {
-          boxShadow: `inset 0 0 0 ${vars.size20.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+          borderWidth: vars.size20.enabled.root.strokeWidth,
         },
         badge: { display: "none" },
       },
@@ -108,7 +111,7 @@ export default defineSlotRecipe({
           "--avatar-badge-clip-shield": avatarBadgeClipPaths[24].shield,
         },
         stroke: {
-          boxShadow: `inset 0 0 0 ${vars.size24.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+          borderWidth: vars.size24.enabled.root.strokeWidth,
         },
         badge: {
           width: vars.size24.enabled.badge.size,
@@ -127,7 +130,7 @@ export default defineSlotRecipe({
           "--avatar-badge-clip-shield": avatarBadgeClipPaths[36].shield,
         },
         stroke: {
-          boxShadow: `inset 0 0 0 ${vars.size36.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+          borderWidth: vars.size36.enabled.root.strokeWidth,
         },
         badge: {
           width: vars.size36.enabled.badge.size,
@@ -146,7 +149,7 @@ export default defineSlotRecipe({
           "--avatar-badge-clip-shield": avatarBadgeClipPaths[42].shield,
         },
         stroke: {
-          boxShadow: `inset 0 0 0 ${vars.size42.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+          borderWidth: vars.size42.enabled.root.strokeWidth,
         },
         badge: {
           width: vars.size42.enabled.badge.size,
@@ -165,7 +168,7 @@ export default defineSlotRecipe({
           "--avatar-badge-clip-shield": avatarBadgeClipPaths[48].shield,
         },
         stroke: {
-          boxShadow: `inset 0 0 0 ${vars.size48.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+          borderWidth: vars.size48.enabled.root.strokeWidth,
         },
         badge: {
           width: vars.size48.enabled.badge.size,
@@ -184,7 +187,7 @@ export default defineSlotRecipe({
           "--avatar-badge-clip-shield": avatarBadgeClipPaths[56].shield,
         },
         stroke: {
-          boxShadow: `inset 0 0 0 ${vars.size56.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+          borderWidth: vars.size56.enabled.root.strokeWidth,
         },
         badge: {
           width: vars.size56.enabled.badge.size,
@@ -203,7 +206,7 @@ export default defineSlotRecipe({
           "--avatar-badge-clip-shield": avatarBadgeClipPaths[64].shield,
         },
         stroke: {
-          boxShadow: `inset 0 0 0 ${vars.size64.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+          borderWidth: vars.size64.enabled.root.strokeWidth,
         },
         badge: {
           width: vars.size64.enabled.badge.size,
@@ -222,7 +225,7 @@ export default defineSlotRecipe({
           "--avatar-badge-clip-shield": avatarBadgeClipPaths[80].shield,
         },
         stroke: {
-          boxShadow: `inset 0 0 0 ${vars.size80.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+          borderWidth: vars.size80.enabled.root.strokeWidth,
         },
         badge: {
           width: vars.size80.enabled.badge.size,
@@ -241,7 +244,7 @@ export default defineSlotRecipe({
           "--avatar-badge-clip-shield": avatarBadgeClipPaths[96].shield,
         },
         stroke: {
-          boxShadow: `inset 0 0 0 ${vars.size96.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+          borderWidth: vars.size96.enabled.root.strokeWidth,
         },
         badge: {
           width: vars.size96.enabled.badge.size,
@@ -260,7 +263,7 @@ export default defineSlotRecipe({
           "--avatar-badge-clip-shield": avatarBadgeClipPaths[108].shield,
         },
         stroke: {
-          boxShadow: `inset 0 0 0 ${vars.size108.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+          borderWidth: vars.size108.enabled.root.strokeWidth,
         },
         badge: {
           width: vars.size108.enabled.badge.size,
