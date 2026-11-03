@@ -29,7 +29,7 @@ export default function Example() {
       <Text textStyle="t3Regular" color="fg.neutralSubtle">
         좌우 안전 영역이 있는 기기에서 목록의 처음과 끝을 비교해 보세요.
       </Text>
-      <Box pl="safeArea" pr="safeArea">
+      <Box pl="safeArea" pr="safeArea" className="docs-safe-area-frame">
         <ChipTabsRoot defaultValue="0" extendSafeAreaX={extend}>
           <ChipTabsList scrollAlign={center ? "center" : "nearest"}>
             {ITEMS.map((label, index) => (

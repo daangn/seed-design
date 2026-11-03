@@ -24,7 +24,7 @@ export default function Example() {
       <Text textStyle="t3Regular" color="fg.neutralSubtle">
         목록을 끝까지 스크롤해 마지막 항목의 여백을 확인해 보세요.
       </Text>
-      <Box pl="safeArea" pr="safeArea">
+      <Box pl="safeArea" pr="safeArea" className="docs-safe-area-frame">
         <AttachmentField
           extendSafeAreaX={extend}
           label="첨부파일"

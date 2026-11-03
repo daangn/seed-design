@@ -102,7 +102,7 @@ iOS의 화면 왼쪽 가장자리에서 시작하는 뒤로 가기 제스처 범
 | 배경·스크롤 영역 | 목록 배경·하단 선·패널이 안전 영역 안에서 끝남 | 목록 배경·하단 선·패널이 좌우 끝까지 이어짐 |
 | 콘텐츠 | 안전 영역 안에 배치 | 탭 라벨·패널 내용은 안전 영역 안에 유지 |
 
-아래 스위치를 켜고 끄며 같은 예제에서 비교할 수 있습니다. 브라우저에는 비교용 좌우 inset을 적용합니다. QR로 연 기기에서는 실제 inset을 사용하므로, 좌우 inset이 모두 `0`이면 차이가 보이지 않을 수 있습니다. 적용 조건은 [Safe Area 가이드](/lynx/getting-started/safe-area)를 참고하세요.
+아래 스위치를 켜고 끄며 같은 예제에서 비교할 수 있습니다. 브라우저에는 비교용 좌우 inset을 적용합니다. 붉은 빗금은 콘텐츠를 피해야 하는 inset 영역이며, 두 경계선 사이는 안전 영역입니다. QR로 연 기기에서는 실제 inset을 사용하므로, 좌우 inset이 모두 `0`이면 차이가 보이지 않을 수 있습니다. 적용 조건은 [Safe Area 가이드](/lynx/getting-started/safe-area)를 참고하세요.
 
 <LynxComponentExample name="lynx/tabs/extend-safe-area" safeAreaInsets={{ left: 24, right: 48 }}>
   ```json doc-gen:file

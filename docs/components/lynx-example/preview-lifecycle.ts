@@ -1,3 +1,5 @@
+import { getSafeAreaPreviewRules, type PreviewSafeAreaInsets } from "../safe-area-preview";
+export type { PreviewSafeAreaInsets } from "../safe-area-preview";
 import { archivePaths } from "../../lib/docs-archive";
 
 export interface QueryableShadowRoot {
@@ -18,12 +20,6 @@ interface ConfigurableLynxView extends ThemeConfigurableLynxView {
 
 const LYNX_WEB_RUNTIME_SDK_VERSION = "3.5";
 export const DEFAULT_LYNX_PREVIEW_MIN_HEIGHT = 320;
-
-/** Browser-only demonstration values; QR/native examples use the host's insets. */
-export interface PreviewSafeAreaInsets {
-  left: number;
-  right: number;
-}
 
 export function getLynxPreviewSizing(height?: number) {
   if (height !== undefined) {
@@ -89,7 +85,9 @@ export function initializeLynxView(
   element.transformVW = true;
   element.transformVH = options.transformVH;
   configureLynxView(element, options);
-  element.injectStyleRules = options.styleRules;
+  element.injectStyleRules = options.safeAreaInsets
+    ? [...options.styleRules, ...getSafeAreaPreviewRules(options.safeAreaInsets)]
+    : options.styleRules;
   element.url = options.url;
 }
 

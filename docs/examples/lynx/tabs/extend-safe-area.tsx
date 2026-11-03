@@ -26,7 +26,7 @@ export default function Example() {
       <Text textStyle="t3Regular" color="fg.neutralSubtle">
         좌우 안전 영역이 있는 기기에서 목록과 콘텐츠의 경계를 비교해 보세요.
       </Text>
-      <Box pl="safeArea" pr="safeArea">
+      <Box pl="safeArea" pr="safeArea" className="docs-safe-area-frame">
         <TabsRoot defaultValue="0" triggerLayout={fill ? "fill" : "hug"} extendSafeAreaX={extend}>
           <TabsList scrollAlign={center ? "center" : "nearest"}>
             {ITEMS.map((label, index) => (

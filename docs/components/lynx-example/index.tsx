@@ -1,3 +1,4 @@
+import { SafeAreaPreviewLegend } from "../safe-area-preview";
 import { archivePaths } from "@/lib/docs-archive";
 import { SeedTab as Tab, SeedTabs as Tabs } from "@/components/tabs/seed-tabs";
 import { loadLynxExample, type LynxExampleName } from "@/lib/lynx-examples/manifest";
@@ -31,12 +32,7 @@ export async function LynxComponentExample({
     <ErrorBoundary>
       <Tabs card className="!overflow-hidden" items={["미리보기", "코드"]}>
         <Tab value="미리보기">
-          {safeAreaInsets && (
-            <p className="m-0 border-b border-solid border-stroke-neutral-muted px-4 py-3 text-sm text-fg-neutral-subtle">
-              브라우저 비교용 안전 영역: 왼쪽 {safeAreaInsets.left}px · 오른쪽{" "}
-              {safeAreaInsets.right}px (가상)
-            </p>
-          )}
+          {safeAreaInsets && <SafeAreaPreviewLegend {...safeAreaInsets} />}
           {/* 카드 폭 기준으로 배치한다. 좁으면 QR 패널이 미리보기 아래로 내려간다. */}
           <div className="@container">
             <div className="flex flex-col @xl:flex-row">

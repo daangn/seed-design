@@ -25,7 +25,7 @@ export default function Example() {
       <Text textStyle="t3Regular" color="fg.neutralSubtle">
         이미지는 화면 끝까지, 배지는 안전 영역 안에 놓입니다.
       </Text>
-      <Box pl="safeArea" pr="safeArea">
+      <Box pl="safeArea" pr="safeArea" className="docs-safe-area-frame">
         <ImageFrame
           ratio={4 / 3}
           width={extend ? `calc(100% + ${safeAreaInsetLeft} + ${safeAreaInsetRight})` : "100%"}

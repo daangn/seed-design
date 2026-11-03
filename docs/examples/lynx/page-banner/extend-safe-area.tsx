@@ -18,7 +18,7 @@ export default function Example() {
       <Text textStyle="t3Regular" color="fg.neutralSubtle">
         배경의 경계와 내용의 위치를 비교해 보세요.
       </Text>
-      <Box pl="safeArea" pr="safeArea">
+      <Box pl="safeArea" pr="safeArea" className="docs-safe-area-frame">
         <VStack gap="x3" style={{ overflow: "visible" }}>
           <PageBanner extendSafeAreaX={extend} description="새로운 동네 소식을 확인해 보세요." />
           <ActionablePageBanner

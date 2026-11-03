@@ -26,7 +26,7 @@ export default function Example() {
       <Text textStyle="t3Regular" color="fg.neutralSubtle">
         목록을 끝까지 스크롤해 마지막 이미지와 삭제 버튼을 확인해 보세요.
       </Text>
-      <Box pl="safeArea" pr="safeArea">
+      <Box pl="safeArea" pr="safeArea" className="docs-safe-area-frame">
         <AttachmentDisplayField
           controlProps={{ extendSafeAreaX: extend }}
           label="첨부 이미지"
