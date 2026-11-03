@@ -54,7 +54,7 @@ Figma 파일 "SEED Docs"의 컴포넌트 페이지를 `use_figma`로 만들거�
 | `.Document / Directional Text` (set) | Anatomy 라벨 |
 | `.Document / Range Text` (set) | 범위 표시 라벨 |
 | `.Document / Prop` | 속성 라벨 칩 |
-| `.Document / Status` (set, `Available=True|False`) | Platform Status 칩 |
+| `.Document / Status` (set, `Available=True\|False`) | Platform Status 칩 |
 
 아래 스크립트는 원본 파일에 샘플 페이지를 만들어 확인했다. 섹션 프레임(`Spec / X`)은 템플릿이 없으므로 [직접 만들기](#직접-만들기)의 `section`·`sectionShell`과 같은 규격으로 만들고, 그 안의 Visual·라벨·칩·Do/Don't·표만 템플릿에서 가져온다. 공통 도우미(`text`·`bodyText`)는 [직접 만들기](#직접-만들기)와 같다.
 
