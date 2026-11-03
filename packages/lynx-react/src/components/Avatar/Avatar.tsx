@@ -121,6 +121,11 @@ export const AvatarStack = React.forwardRef<unknown, AvatarStackProps>((props, r
           // biome-ignore lint/suspicious/noArrayIndexKey: Wrapper order defines stacking order, matching React AvatarStack.
           <view key={index} className={clsx(classes.item, index > 0 && classes.overlap)}>
             {child}
+            <view
+              className={classes.stroke}
+              user-interaction-enabled={false}
+              accessibility-elements-hidden={true}
+            />
           </view>
         ))}
       </view>

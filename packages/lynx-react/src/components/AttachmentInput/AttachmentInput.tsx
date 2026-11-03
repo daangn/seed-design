@@ -54,7 +54,6 @@ export type AttachmentInputStateProps = UseFileUploadStateProps;
 export type AttachmentInputProps = UseFileUploadProps;
 export type AttachmentInputContextValue = UseFileUploadContext;
 
-
 const rootRecipe = createSlotRecipeContext(attachmentInput);
 const triggerRecipe = createSlotRecipeContext(attachmentInputTrigger);
 const itemRecipe = createSlotRecipeContext(attachmentInputItem);
@@ -374,6 +373,11 @@ export const AttachmentInputItemSurface = React.forwardRef<
       className={clsx(classes.surface, className)}
     >
       {children}
+      <view
+        className={classes.surfaceStroke}
+        user-interaction-enabled={false}
+        accessibility-elements-hidden={true}
+      />
     </view>
   );
 });

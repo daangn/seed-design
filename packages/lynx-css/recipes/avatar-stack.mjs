@@ -13,6 +13,10 @@ const avatarStackSlotNames = [
   [
     "overlap",
     "seed-avatar-stack__overlap"
+  ],
+  [
+    "stroke",
+    "seed-avatar-stack__stroke"
   ]
 ];
 

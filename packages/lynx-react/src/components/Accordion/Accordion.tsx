@@ -149,6 +149,11 @@ export const AccordionItem = React.forwardRef<unknown, AccordionItemProps>((prop
             className={clsx(classes.item, className)}
           >
             {children}
+            <view
+              className={classes.stroke}
+              user-interaction-enabled={false}
+              accessibility-elements-hidden={true}
+            />
             {!isLast ? (
               <view className={classes.divider} accessibility-elements-hidden={true} />
             ) : null}

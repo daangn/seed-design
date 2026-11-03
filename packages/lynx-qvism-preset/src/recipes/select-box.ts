@@ -32,6 +32,7 @@ export const selectBox = defineSlotRecipe({
     "interactionRoot",
     "root",
     "scaleContent",
+    "stroke",
     "selectedStroke",
     "trigger",
     "content",
@@ -60,7 +61,6 @@ export const selectBox = defineSlotRecipe({
       flexGrow: 1,
       borderRadius: vars.base.enabled.root.cornerRadius,
       backgroundColor: vars.base.enabled.root.color,
-      boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
       overflow: "hidden",
       transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
     },
@@ -71,6 +71,19 @@ export const selectBox = defineSlotRecipe({
       width: "100%",
       minHeight: 0,
       flexGrow: 1,
+    },
+    // iOS Lynx는 inset box-shadow를 흐리게 그리고 continuous 코너를 적용하지 않는다.
+    // 기본 stroke도 selectedStroke처럼 overlay의 border로 그린다.
+    stroke: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      borderStyle: "solid",
+      borderWidth: vars.base.enabled.root.strokeWidth,
+      borderColor: vars.base.enabled.root.strokeColor,
+      borderRadius: vars.base.enabled.root.cornerRadius,
     },
     selectedStroke: {
       position: "absolute",
@@ -201,8 +214,8 @@ export const selectBox = defineSlotRecipe({
     },
     disabled: {
       true: {
-        root: {
-          boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.disabled.root.strokeColor}`,
+        stroke: {
+          borderColor: vars.base.disabled.root.strokeColor,
         },
         prefixIcon: {
           color: vars.base.disabled.prefixIcon.color,

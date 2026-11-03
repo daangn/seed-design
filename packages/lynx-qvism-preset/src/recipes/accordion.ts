@@ -18,6 +18,7 @@ const accordion = defineSlotRecipe({
     "content",
     "contentInner",
     "divider",
+    "stroke",
   ],
   base: {
     root: {
@@ -109,6 +110,10 @@ const accordion = defineSlotRecipe({
       width: "100%",
       height: "max-content",
     },
+    // separated item의 stroke. iOS Lynx는 inset box-shadow를 흐리게 그리므로 overlay의 border로 그린다.
+    stroke: {
+      display: "none",
+    },
     divider: {
       height: "1px",
       marginLeft: itemVars.variantInline.enabled.root.dividerPaddingX,
@@ -128,9 +133,21 @@ const accordion = defineSlotRecipe({
       separated: {
         root: {},
         item: {
-          boxShadow: `inset 0 0 0 ${itemVars.variantSeparated.enabled.root.strokeWidth} ${itemVars.variantSeparated.enabled.root.strokeColor}`,
+          position: "relative",
           borderRadius: itemVars.variantSeparated.enabled.root.cornerRadius,
           overflow: "hidden",
+        },
+        stroke: {
+          display: "flex",
+          position: "absolute",
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          borderStyle: "solid",
+          borderWidth: itemVars.variantSeparated.enabled.root.strokeWidth,
+          borderColor: itemVars.variantSeparated.enabled.root.strokeColor,
+          borderRadius: itemVars.variantSeparated.enabled.root.cornerRadius,
         },
         divider: {
           display: "none",

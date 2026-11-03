@@ -7,6 +7,7 @@ const tabs = defineSlotRecipe({
     "root",
     "list",
     "listContent",
+    "listStroke",
     "carousel",
     "carouselCamera",
     "content",
@@ -33,7 +34,15 @@ const tabs = defineSlotRecipe({
       // 하단 stroke를 list(scroll-view) border 대신 content 안쪽에 그린다. Android scroll-view는
       // border 영역으로 나간 Indicator를 잘라 두께가 절반만 보였다. padding으로 기존 높이를 유지한다.
       paddingBottom: vars.base.enabled.root.strokeBottomWidth,
-      boxShadow: `inset 0 -${vars.base.enabled.root.strokeBottomWidth} 0 0 ${vars.base.enabled.root.strokeColor}`,
+    },
+    // iOS Lynx는 inset box-shadow를 흐리게 그린다. 하단 stroke는 padding 위에 둔 view의 배경으로 그린다.
+    listStroke: {
+      position: "absolute",
+      right: 0,
+      bottom: 0,
+      left: 0,
+      height: vars.base.enabled.root.strokeBottomWidth,
+      backgroundColor: vars.base.enabled.root.strokeColor,
     },
     carousel: {
       display: "flex",

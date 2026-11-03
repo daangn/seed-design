@@ -27,7 +27,7 @@ declare type AttachmentInputItemVariantMap = {
 
 export declare type AttachmentInputItemVariantProps = Partial<AttachmentInputItemVariant>;
 
-export declare type AttachmentInputItemSlotName = "root" | "surface" | "image" | "thumbnail" | "thumbnailIcon" | "metadata" | "name" | "size" | "badge" | "badgeLabel" | "backdrop" | "actionButton" | "actionIcon" | "actionLabel" | "removeButton" | "removeIcon";
+export declare type AttachmentInputItemSlotName = "root" | "surface" | "surfaceStroke" | "image" | "thumbnail" | "thumbnailIcon" | "metadata" | "name" | "size" | "badge" | "badgeLabel" | "backdrop" | "actionButton" | "actionIcon" | "actionLabel" | "removeButton" | "removeIcon";
 
 export declare const attachmentInputItemVariantMap: AttachmentInputItemVariantMap;
 

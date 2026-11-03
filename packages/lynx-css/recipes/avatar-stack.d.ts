@@ -11,7 +11,7 @@ declare type AvatarStackVariantMap = {
 
 export declare type AvatarStackVariantProps = Partial<AvatarStackVariant>;
 
-export declare type AvatarStackSlotName = "root" | "item" | "overlap";
+export declare type AvatarStackSlotName = "root" | "item" | "overlap" | "stroke";
 
 export declare const avatarStackVariantMap: AvatarStackVariantMap;
 

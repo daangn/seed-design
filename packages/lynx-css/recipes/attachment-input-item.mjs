@@ -11,6 +11,10 @@ const attachmentInputItemSlotNames = [
     "seed-attachment-input-item__surface"
   ],
   [
+    "surfaceStroke",
+    "seed-attachment-input-item__surfaceStroke"
+  ],
+  [
     "image",
     "seed-attachment-input-item__image"
   ],

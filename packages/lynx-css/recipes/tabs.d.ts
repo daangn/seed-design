@@ -30,7 +30,7 @@ declare type TabsVariantMap = {
 
 export declare type TabsVariantProps = Partial<TabsVariant>;
 
-export declare type TabsSlotName = "root" | "list" | "listContent" | "carousel" | "carouselCamera" | "content" | "indicator" | "trigger" | "triggerLabel";
+export declare type TabsSlotName = "root" | "list" | "listContent" | "listStroke" | "carousel" | "carouselCamera" | "content" | "indicator" | "trigger" | "triggerLabel";
 
 export declare const tabsVariantMap: TabsVariantMap;
 

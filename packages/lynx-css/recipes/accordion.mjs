@@ -57,6 +57,10 @@ const accordionSlotNames = [
   [
     "divider",
     "seed-accordion__divider"
+  ],
+  [
+    "stroke",
+    "seed-accordion__stroke"
   ]
 ];
 
