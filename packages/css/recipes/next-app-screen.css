@@ -5,7 +5,7 @@
     inset-inline: 0;
     overflow: hidden;
     --app-bar-height: 56px;
-    --app-bar-offset: calc(var(--app-bar-height) + var(--seed-safe-area-top));
+    --app-bar-offset: calc(var(--app-bar-height) + var(--seed-safe-area-top) + var(--app-bar-accessory-height, 0px));
     z-index: calc(var(--z-index-base) + 3);
 }
 .seed-next-app-screen__dim {

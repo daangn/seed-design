@@ -15,7 +15,7 @@ declare type NextAppBarVariantMap = {
 
 export declare type NextAppBarVariantProps = Partial<NextAppBarVariant>;
 
-export declare type NextAppBarSlotName = "root" | "background" | "left" | "right" | "iconButton" | "textButton" | "textButtonLabel";
+export declare type NextAppBarSlotName = "root" | "background" | "row" | "accessory" | "left" | "right" | "iconButton" | "textButton" | "textButtonLabel";
 
 export declare const nextAppBarVariantMap: NextAppBarVariantMap;
 

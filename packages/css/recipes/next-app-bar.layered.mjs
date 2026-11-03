@@ -11,6 +11,14 @@ const nextAppBarSlotNames = [
     "seed-next-app-bar__background"
   ],
   [
+    "row",
+    "seed-next-app-bar__row"
+  ],
+  [
+    "accessory",
+    "seed-next-app-bar__accessory"
+  ],
+  [
     "left",
     "seed-next-app-bar__left"
   ],
