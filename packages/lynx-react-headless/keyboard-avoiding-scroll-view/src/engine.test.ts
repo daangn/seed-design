@@ -293,6 +293,24 @@ describe("createKeyboardAvoidingEngine", () => {
     expect(harness.driver.scrollTo).not.toHaveBeenCalled();
   });
 
+  it("collapses again at once when the keyboard reopens and closes during a close transition", async () => {
+    const harness = createHarness();
+    await openKeyboard(harness);
+    harness.setMetrics({ offsetY: 100, maxOffsetY: 300 });
+    harness.engine.keyboardChanged({ visible: false, height: 0 });
+    await harness.scheduler.flushFrame();
+
+    // 정리 timer가 끝나기 전에 키보드가 다시 열렸다 닫힌다.
+    harness.engine.keyboardChanged({ visible: true, height: 300 });
+    await harness.scheduler.flushFrame();
+    harness.driver.setSpacerHeight.mockClear();
+    harness.setMetrics({ offsetY: 100, maxOffsetY: 300 });
+    harness.engine.keyboardChanged({ visible: false, height: 0 });
+    await harness.scheduler.flushFrame();
+
+    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 24, true);
+  });
+
   it("retries close clamping when native metrics are temporarily unavailable", async () => {
     const harness = createHarness();
     await openKeyboard(harness);

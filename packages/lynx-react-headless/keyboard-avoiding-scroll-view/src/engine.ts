@@ -194,6 +194,11 @@ class KeyboardAvoidingEngineImpl<Node> implements KeyboardAvoidingEngine<Node> {
       this.#session += 1;
       this.#ownerStates.clear();
     }
+    // 다시 열리면 이전 닫힘의 spacer는 #open이 즉시 덮어쓴다. 남은 정리 timer가 다음 닫힘을 막지 않게 취소한다.
+    if (next.visible) {
+      this.#cancelCloseCleanup?.();
+      this.#cancelCloseCleanup = null;
+    }
     this.#keyboard = next;
     // iOS는 입력 밖 touchstart에서 키보드를 닫는다. 측정이 필요 없는 Footer 복귀는
     // 사용자 스크롤이 끝날 때까지 미루지 않고 키보드와 함께 시작한다.
