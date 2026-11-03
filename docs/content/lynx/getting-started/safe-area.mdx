@@ -9,7 +9,7 @@ Safe Area는 기기의 화면 모서리나 시스템 UI에 콘텐츠가 가려�
 
 먼저 화면 컨테이너에서 좌우 inset을 확보합니다. `Box`의 `pl="safeArea"`, `pr="safeArea"`를 사용하거나 앱의 레이아웃에서 같은 inset을 적용할 수 있습니다. 부모가 이미 처리했다면 중복으로 추가하지 마세요.
 
-호스트가 좌우 inset을 `0`으로 전달하면 추가할 여백도 `0px`입니다. `extendSafeAreaX`도 해당 방향으로 더 넓히지 않습니다. 값을 생략하면 `env()`를 사용하므로 `0`과 생략은 다릅니다. 위·아래 inset의 `0` 처리 변경과 적용 버전은 [useSafeArea의 동작 방식](/lynx/hooks/use-safe-area#동작-방식)을 참고하세요.
+호스트가 좌우 inset을 `0`으로 전달하면 추가할 여백도 `0px`입니다. `extendSafeAreaX`도 해당 방향으로 더 넓히지 않습니다. 값을 생략하면 `env()`를 사용하므로 `0`과 생략은 다릅니다. 네 방향 inset의 처리 규칙은 [useSafeArea의 동작 방식](/lynx/hooks/use-safe-area#동작-방식)을 참고하세요.
 
 ```tsx
 import { Box } from "@seed-design/lynx-react";
