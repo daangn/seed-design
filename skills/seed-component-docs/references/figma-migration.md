@@ -20,11 +20,10 @@ const md = (t) => t.getStyledTextSegments(["fontName"]).map(s => /Bold/.test(s.f
 const IMG = /^(\.Document \/ Image|Visual \/|docs\/components\/|Image$)/;
 // 자신이나 조상(섹션 아래)이 숨겨진 노드는 제외한다
 const shown = (n, top) => { for (let c = n; c && c !== top; c = c.parent) if (c.visible === false) return false; return true; };
-return root.children.map(sec => {
+return root.children.filter(sec => shown(sec, root)).map(sec => {
   const td = sec.findOne(n => (n.name === "Title Description" || n.name === "Description") && shown(n, sec)) || sec; // 샘플 콘텐츠 안의 "Title" 텍스트를 피한다
   const titles = td.findAll(n => n.type === "TEXT" && n.name === "Title" && shown(n, sec)).map(t => t.characters);
   const descs = td.findAll(n => n.type === "TEXT" && n.name !== "Title" && n.name !== "Figma Only" && shown(n, sec)).map(md);
-  const images = sec.findAll(n => (n.type === "FRAME" || n.type === "INSTANCE") && IMG.test(n.name) && !(n.parent && IMG.test(n.parent.name)) && shown(n, sec)).map(n => ({ id: n.id, name: n.name, w: Math.round(n.width), h: Math.round(n.height) }));
   const callouts = sec.findAll(n => n.type === "TEXT" && /^(Do|Don[’']t)$/.test(n.characters) && shown(n, sec)).map(n => {
     const b = n.parent.children.find(c => c.type === "TEXT" && c !== n);
     // Do/Don't 카드(이미지 + Callout)를 조상에서 찾고, 그 안의 이미지 프레임을 이름으로 고른다
@@ -32,6 +31,9 @@ return root.children.map(sec => {
     const img = card && card !== sec ? card.children.find(c => IMG.test(c.name)) : null;
     return { kind: n.characters, body: b ? md(b) : "", imageId: img ? img.id : null };
   });
+  const calloutImageIds = new Set(callouts.map(c => c.imageId).filter(Boolean));
+  // callout 이미지는 images에서 빼서 한 노드가 두 placeholder에 가지 않게 한다
+  const images = sec.findAll(n => (n.type === "FRAME" || n.type === "INSTANCE") && IMG.test(n.name) && !(n.parent && IMG.test(n.parent.name)) && shown(n, sec) && !calloutImageIds.has(n.id)).map(n => ({ id: n.id, name: n.name, w: Math.round(n.width), h: Math.round(n.height) }));
   return { id: sec.id, name: sec.name, titles, descs, images, callouts };
 });
 ```
@@ -52,7 +54,7 @@ return root.children.map(sec => {
 
 1단계 결과의 `images`와 `callouts.imageId`를 문서 흐름 순서대로 placeholder에 넣는다. 절 안에 이미지가 여럿이면 본문의 순서(기본 → 좁은 화면, Do → Don't)를 따른다.
 
-개수가 맞지 않거나 여러 대응이 가능하면 부모·순서를 더 조사한 뒤에도 남는 선택만 사용자에게 묻는다. 임의로 배정하지 않는다. 빈 `id=""`는 문서 빌드 오류다.
+개수가 맞지 않거나 여러 대응이 가능하면 부모·순서를 더 조사한 뒤에도 남는 선택만 사용자에게 묻는다. 임의로 배정하지 않는다. 끝낼 때 `id=""`·`figmaId=""`가 하나도 남지 않았는지 검색한다. 빈 `id`는 문서 빌드 오류지만 빈 `figmaId`는 collector가 조용히 무시해 이미지가 빠진 채 게시된다. 채울 수 없는 이미지는 요소를 빼고 사용자에게 알린다.
 
 ## 4. 범위 검토
 
