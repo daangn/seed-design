@@ -354,7 +354,16 @@ describe("KeyboardAvoidingScrollView", () => {
       </KeyboardAvoidingScrollView.Root>,
     );
 
+    // 키보드가 열려 올라갈 때와 닫혀 내려갈 때는 각자 키보드에 맞춘 곡선을 쓴다.
+    act(() => {
+      getEngineOptions().setFooterOffset(300);
+    });
     expect(getElement(container, "#footer").style.transition).toMatch(/^transform 0\.4s/);
+
+    act(() => {
+      getEngineOptions().setFooterOffset(0);
+    });
+    expect(getElement(container, "#footer").style.transition).toMatch(/^transform 0\.3s/);
   });
 
   it("subscribes keyboard state and cleans up the shared source and engine", () => {

@@ -169,10 +169,10 @@ describe("lynxKeyboardAvoidingNativeDriver", () => {
   it("executes native spacer and absolute scroll mutations", () => {
     const { exec, invoke, node, setNativeProps } = createNode();
 
-    lynxKeyboardAvoidingNativeDriver.setSpacerHeight(node, -10);
+    lynxKeyboardAvoidingNativeDriver.setSpacerHeight(node, -10, false);
     lynxKeyboardAvoidingNativeDriver.scrollTo(node, -20, false);
 
-    expect(setNativeProps).toHaveBeenCalledWith({ height: "0px" });
+    expect(setNativeProps).toHaveBeenCalledWith({ transition: "height 0s", height: "0px" });
     expect(invoke).toHaveBeenCalledWith({
       method: "scrollTo",
       params: {

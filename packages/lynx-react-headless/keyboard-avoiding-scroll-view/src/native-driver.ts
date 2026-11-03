@@ -2,6 +2,12 @@ import type { NodesRef, PlatformType } from "@lynx-js/types";
 
 import type { KeyboardAvoidingNativeDriver } from "./engine.js";
 import type { VerticalRect } from "./geometry.js";
+import { KEYBOARD_CLOSE_TIMING } from "./motion.js";
+
+/** spacer가 한 번에 사라지면 scroll-view가 줄어든 최대 offset으로 바로 clamp되어 Content가 튄다. */
+const SPACER_CLOSE_TRANSITION = `height ${KEYBOARD_CLOSE_TIMING}`;
+/** `transition` key를 유지해야 다음 닫힘 때 전환으로 다시 바뀐다. */
+const SPACER_INSTANT_TRANSITION = "height 0s";
 
 export type KeyboardAvoidingPlatform = Extract<PlatformType, "Android" | "iOS">;
 
@@ -208,12 +214,17 @@ export const lynxKeyboardAvoidingNativeDriver: KeyboardAvoidingNativeDriver<Node
           topInScreenPx,
         };
   },
-  setSpacerHeight(node, height) {
+  setSpacerHeight(node, height, animated) {
     "background only";
 
     // 동기 실행 실패는 engine까지 전달한다. engine이 transaction을 중단하되
     // 적용 상태를 확정하지 않아 다음 invalidation에서 재시도할 수 있다.
-    node.setNativeProps({ height: `${normalizeNonNegative(height)}px` }).exec();
+    node
+      .setNativeProps({
+        transition: animated ? SPACER_CLOSE_TRANSITION : SPACER_INSTANT_TRANSITION,
+        height: `${normalizeNonNegative(height)}px`,
+      })
+      .exec();
   },
   waitForLayout() {
     "background only";

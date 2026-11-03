@@ -8,6 +8,7 @@ import {
   type AvoidanceTargetKind,
   type VerticalRect,
 } from "./geometry.js";
+import { KEYBOARD_CLOSE_DURATION_MS } from "./motion.js";
 import type { KeyboardOcclusion, RawKeyboardState, ScrollMetrics } from "./native-driver.js";
 
 const BLUR_HANDOFF_DELAY_MS = 30;
@@ -35,7 +36,8 @@ export interface KeyboardAvoidanceRegistration<Node> {
 export interface KeyboardAvoidingNativeDriver<Node> {
   measure(node: Node): Promise<VerticalRect | null>;
   resolveKeyboardOcclusion(state: RawKeyboardState): Promise<KeyboardOcclusion | null>;
-  setSpacerHeight(node: Node, height: number): void;
+  /** `animated`이면 높이를 바로 바꾸지 않고 전환한다. 키보드가 닫힌 뒤 Content가 한 번에 내려앉지 않게 한다. */
+  setSpacerHeight(node: Node, height: number, animated: boolean): void;
   waitForLayout(): Promise<void>;
   getScrollMetrics(node: Node, viewportHeight: number): Promise<ScrollMetrics | null>;
   scrollTo(node: Node, offset: number, smooth: boolean): void;
@@ -120,6 +122,7 @@ class KeyboardAvoidingEngineImpl<Node> implements KeyboardAvoidingEngine<Node> {
   #needsCloseClamp = false;
   #cancelFrame: CancelScheduledCallback | null = null;
   #cancelBlur: CancelScheduledCallback | null = null;
+  #cancelCloseCleanup: CancelScheduledCallback | null = null;
   #blurOwner: object | null = null;
   #userScrolling = false;
   #disposed = false;
@@ -191,7 +194,15 @@ class KeyboardAvoidingEngineImpl<Node> implements KeyboardAvoidingEngine<Node> {
       this.#session += 1;
       this.#ownerStates.clear();
     }
+    // 다시 열리면 이전 닫힘의 spacer는 #open이 즉시 덮어쓴다. 남은 정리 timer가 다음 닫힘을 막지 않게 취소한다.
+    if (next.visible) {
+      this.#cancelCloseCleanup?.();
+      this.#cancelCloseCleanup = null;
+    }
     this.#keyboard = next;
+    // iOS는 입력 밖 touchstart에서 키보드를 닫는다. 측정이 필요 없는 Footer 복귀는
+    // 사용자 스크롤이 끝날 때까지 미루지 않고 키보드와 함께 시작한다.
+    if (!next.visible) this.#applyFooterOffset(0);
     this.#invalidate("keyboard");
   }
 
@@ -225,6 +236,8 @@ class KeyboardAvoidingEngineImpl<Node> implements KeyboardAvoidingEngine<Node> {
     this.#cancelFrame?.();
     this.#cancelFrame = null;
     this.#cancelPendingBlur();
+    this.#cancelCloseCleanup?.();
+    this.#cancelCloseCleanup = null;
     this.#pendingReasons.clear();
     this.#ownerStates.clear();
     this.#activeRegistration = null;
@@ -333,14 +346,29 @@ class KeyboardAvoidingEngineImpl<Node> implements KeyboardAvoidingEngine<Node> {
   async #close(transaction: Transaction<Node>): Promise<void> {
     if (this.#appliedSpacerHeight === 0 && !this.#needsCloseClamp) return;
 
+    // 전환 중에는 적용한 높이와 화면의 높이가 달라 다시 재면 남은 spacer 전체를 전환하게 된다.
+    // 정리 timer가 전환이 끝난 뒤 다시 평가한다.
+    if (this.#cancelCloseCleanup !== null) return;
+
     const scrollNode = this.#options.getScrollNode();
     if (this.#appliedSpacerHeight !== 0) {
       const spacerNode = this.#options.getSpacerNode();
       if (spacerNode === null) return;
 
-      this.#options.driver.setSpacerHeight(spacerNode, 0);
-      this.#appliedSpacerHeight = 0;
-      this.#needsCloseClamp = true;
+      const travel = scrollNode === null ? null : await this.#measureCloseTravel(scrollNode);
+      if (!this.#isCurrent(transaction)) return;
+      if (travel !== null) {
+        await this.#collapseSpacer(transaction, spacerNode, travel);
+        if (!this.#isCurrent(transaction)) return;
+        // 전환 중이면 정리 timer가 다시 평가할 때 범위를 벗어난 offset을 확인한다.
+        this.#needsCloseClamp = true;
+        if (this.#cancelCloseCleanup !== null) return;
+      } else {
+        // 위치를 재지 못하면 spacer 전체를 전환하고 아래에서 범위를 벗어난 offset을 되돌린다.
+        this.#options.driver.setSpacerHeight(spacerNode, 0, true);
+        this.#appliedSpacerHeight = 0;
+        this.#needsCloseClamp = true;
+      }
     }
     if (scrollNode === null) return;
 
@@ -364,6 +392,58 @@ class KeyboardAvoidingEngineImpl<Node> implements KeyboardAvoidingEngine<Node> {
     this.#needsCloseClamp = false;
   }
 
+  /**
+   * spacer가 줄어도 최대 offset이 현재 offset보다 작아질 때까지 Content는 움직이지 않고, offset이 0에 닿으면 멈춘다.
+   * 곡선 전체가 Content 이동에 쓰이도록 화면 밖 spacer(`hidden`)와 Content가 내려갈 거리(`distance`)를 나눈다.
+   */
+  async #measureCloseTravel(
+    scrollNode: Node,
+  ): Promise<{ hidden: number; distance: number } | null> {
+    const viewport = await this.#options.driver.measure(scrollNode);
+    if (viewport === null) return null;
+
+    const viewportHeight = Math.max(0, viewport.bottom - viewport.top);
+    const metrics = await this.#options.driver.getScrollMetrics(scrollNode, viewportHeight);
+    if (metrics === null) return null;
+
+    const spacerHeight = this.#appliedSpacerHeight;
+    const hidden = Math.min(spacerHeight, Math.max(0, metrics.maxOffsetY - metrics.offsetY));
+    const distance = Math.min(Math.max(0, metrics.offsetY), spacerHeight - hidden);
+    return { hidden, distance };
+  }
+
+  async #collapseSpacer(
+    transaction: Transaction<Node>,
+    spacerNode: Node,
+    { hidden, distance }: { hidden: number; distance: number },
+  ): Promise<void> {
+    // Content가 움직이지 않으면 spacer는 보이지 않으므로 바로 없앤다.
+    if (!hasMeaningfulGeometryChange(0, distance)) {
+      this.#options.driver.setSpacerHeight(spacerNode, 0, false);
+      this.#appliedSpacerHeight = 0;
+      return;
+    }
+
+    // 화면 밖 spacer를 먼저 없애야 전환을 시작하자마자 Content가 내려간다.
+    const start = this.#appliedSpacerHeight - hidden;
+    if (hasMeaningfulGeometryChange(0, hidden)) {
+      this.#options.driver.setSpacerHeight(spacerNode, start, false);
+      this.#appliedSpacerHeight = start;
+      await this.#options.driver.waitForLayout();
+      if (!this.#isCurrent(transaction)) return;
+    }
+
+    const end = start - distance;
+    this.#options.driver.setSpacerHeight(spacerNode, end, true);
+    this.#appliedSpacerHeight = end;
+
+    // 전환이 끝나면 다시 평가한다. Content가 맨 위에 닿은 뒤 남은 spacer는 보이지 않으므로 그때 없앤다.
+    this.#cancelCloseCleanup = this.#options.scheduler.scheduleTimer(() => {
+      this.#cancelCloseCleanup = null;
+      this.#invalidate("layout");
+    }, KEYBOARD_CLOSE_DURATION_MS);
+  }
+
   async #open(
     transaction: Transaction<Node>,
     registration: KeyboardAvoidanceRegistration<Node> | null,
@@ -384,7 +464,8 @@ class KeyboardAvoidingEngineImpl<Node> implements KeyboardAvoidingEngine<Node> {
     this.#needsCloseClamp = false;
 
     if (hasMeaningfulGeometryChange(this.#appliedSpacerHeight, safeArea.spacerHeight)) {
-      this.#options.driver.setSpacerHeight(spacerNode, safeArea.spacerHeight);
+      // 바로 이어서 대상 위치를 재므로 키보드가 열린 동안에는 전환하지 않는다.
+      this.#options.driver.setSpacerHeight(spacerNode, safeArea.spacerHeight, false);
       this.#appliedSpacerHeight = safeArea.spacerHeight;
     }
 
