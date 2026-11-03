@@ -27,7 +27,8 @@ SEED Design의 공식 문서와 CLI를 단일 원천으로 사용합니다. 이 
 
 | 요청 | 사용할 스킬 |
 |---|---|
-| 컴포넌트 경로·API 비교·색상 토큰 조사, 구현·문서 작성 | [`seed-component`](../seed-component/SKILL.md) |
+| 컴포넌트 경로·API 비교·색상 토큰 조사, 구현·예제 작성 | [`seed-component`](../seed-component/SKILL.md) |
+| 공통 가이드 MDX·Figma SEED-Docs 페이지·React·Lynx 문서 작성, Figma에서 가이드 이관 | [`seed-component-docs`](../seed-component-docs/SKILL.md) |
 | 변경 영향·검증·기준 브랜치 계획, changeset, 명시 요청된 제출 | [`seed-change`](../seed-change/SKILL.md) |
 | deprecated 표시·마이그레이션·제거 | [`seed-deprecation`](../seed-deprecation/SKILL.md) |
 | PR snapshot 생성과 결과 확인 | [`seed-snapshot-release`](../seed-snapshot-release/SKILL.md) |
