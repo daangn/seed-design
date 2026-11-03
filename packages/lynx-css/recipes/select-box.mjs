@@ -15,10 +15,6 @@ const selectBoxSlotNames = [
     "seed-select-box__scaleContent"
   ],
   [
-    "stroke",
-    "seed-select-box__stroke"
-  ],
-  [
     "selectedStroke",
     "seed-select-box__selectedStroke"
   ],

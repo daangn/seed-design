@@ -103,19 +103,7 @@ export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) =>
       {...nativeProps}
       {...(ref ? { ref } : {})}
       className={clsx(classNames.list, className)}
-      listContentProps={{
-        className: classNames.listContent,
-        children: (
-          <>
-            <view
-              className={classNames.listStroke}
-              user-interaction-enabled={false}
-              accessibility-elements-hidden={true}
-            />
-            {children}
-          </>
-        ),
-      }}
+      listContentProps={{ className: classNames.listContent }}
     >
       {children}
     </HeadlessTabs.List>

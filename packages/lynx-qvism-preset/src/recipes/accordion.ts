@@ -18,7 +18,6 @@ const accordion = defineSlotRecipe({
     "content",
     "contentInner",
     "divider",
-    "stroke",
   ],
   base: {
     root: {
@@ -110,10 +109,6 @@ const accordion = defineSlotRecipe({
       width: "100%",
       height: "max-content",
     },
-    // separated item의 stroke. iOS Lynx는 inset box-shadow를 흐리게 그리므로 overlay의 border로 그린다.
-    stroke: {
-      display: "none",
-    },
     divider: {
       height: "1px",
       marginLeft: itemVars.variantInline.enabled.root.dividerPaddingX,
@@ -132,22 +127,18 @@ const accordion = defineSlotRecipe({
       },
       separated: {
         root: {},
+        // iOS Lynx는 inset box-shadow를 흐리게 그린다. border로 그리고 trigger padding에서
+        // 두께만큼 빼 기존 크기와 콘텐츠 배치를 유지한다.
         item: {
-          position: "relative",
-          borderRadius: itemVars.variantSeparated.enabled.root.cornerRadius,
-          overflow: "hidden",
-        },
-        stroke: {
-          display: "flex",
-          position: "absolute",
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0,
           borderStyle: "solid",
           borderWidth: itemVars.variantSeparated.enabled.root.strokeWidth,
           borderColor: itemVars.variantSeparated.enabled.root.strokeColor,
           borderRadius: itemVars.variantSeparated.enabled.root.cornerRadius,
+          overflow: "hidden",
+        },
+        trigger: {
+          paddingLeft: `calc(${itemVars.base.enabled.trigger.paddingX} - ${itemVars.variantSeparated.enabled.root.strokeWidth})`,
+          paddingRight: `calc(${itemVars.base.enabled.trigger.paddingX} - ${itemVars.variantSeparated.enabled.root.strokeWidth})`,
         },
         divider: {
           display: "none",
@@ -256,6 +247,10 @@ const accordion = defineSlotRecipe({
         root: {
           gap: vars.variantSeparatedSizeMedium.enabled.root.gap,
         },
+        trigger: {
+          paddingTop: `calc(${itemVars.sizeMedium.enabled.trigger.paddingY} - ${itemVars.variantSeparated.enabled.root.strokeWidth})`,
+          paddingBottom: `calc(${itemVars.sizeMedium.enabled.trigger.paddingY} - ${itemVars.variantSeparated.enabled.root.strokeWidth})`,
+        },
       },
     },
     {
@@ -264,6 +259,10 @@ const accordion = defineSlotRecipe({
       css: {
         root: {
           gap: vars.variantSeparatedSizeLarge.enabled.root.gap,
+        },
+        trigger: {
+          paddingTop: `calc(${itemVars.sizeLarge.enabled.trigger.paddingY} - ${itemVars.variantSeparated.enabled.root.strokeWidth})`,
+          paddingBottom: `calc(${itemVars.sizeLarge.enabled.trigger.paddingY} - ${itemVars.variantSeparated.enabled.root.strokeWidth})`,
         },
       },
     },

@@ -134,7 +134,6 @@ const attachmentInputItem = defineSlotRecipe({
   slots: [
     "root",
     "surface",
-    "surfaceStroke",
     "image",
     "thumbnail",
     "thumbnailIcon",
@@ -174,21 +173,13 @@ const attachmentInputItem = defineSlotRecipe({
       justifyContent: "center",
       gap: itemVars.base.enabled.root.gap,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
+      // iOS Lynx는 inset box-shadow를 흐리게 그린다. border로 그리면 이미지도 border 안쪽에 놓여
+      // 웹처럼 stroke가 이미지 가장자리 위에 보인다.
+      borderStyle: "solid",
+      borderWidth: itemVars.base.enabled.root.strokeWidth,
       backgroundColor: itemVars.base.enabled.root.color,
       pointerEvents: "auto",
       overflow: "hidden",
-    },
-    // iOS Lynx는 inset box-shadow를 흐리게 그리고, 이미지가 surface의 stroke를 덮는다.
-    // 웹의 ::before처럼 surface 마지막 자식 overlay의 border로 그린다.
-    surfaceStroke: {
-      position: "absolute",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-      borderStyle: "solid",
-      borderWidth: itemVars.base.enabled.root.strokeWidth,
-      borderRadius: itemVars.base.enabled.root.cornerRadius,
     },
     image: {
       width: "100%",
@@ -309,13 +300,11 @@ const attachmentInputItem = defineSlotRecipe({
           width: itemVars.typeFile.enabled.root.width,
         },
         surface: {
-          paddingLeft: itemVars.typeFile.enabled.root.paddingX,
-          paddingRight: itemVars.typeFile.enabled.root.paddingX,
+          paddingLeft: `calc(${itemVars.typeFile.enabled.root.paddingX} - ${itemVars.base.enabled.root.strokeWidth})`,
+          paddingRight: `calc(${itemVars.typeFile.enabled.root.paddingX} - ${itemVars.base.enabled.root.strokeWidth})`,
+          borderColor: itemVars.typeFile.enabled.root.strokeColor,
           // The minor arc keeps the cutout centered on the remove button.
           clipPath: 'path("M0 0 H143.607695 A12 12 0 0 0 160 16.392305 V80 H0 Z")',
-        },
-        surfaceStroke: {
-          borderColor: itemVars.typeFile.enabled.root.strokeColor,
         },
         thumbnail: {
           color: itemVars.base.enabled.thumbnailIcon.color,
@@ -337,10 +326,8 @@ const attachmentInputItem = defineSlotRecipe({
           transition: `opacity ${duration.colorTransition}, ${PRESS_TRANSITION}`,
         },
         surface: {
-          clipPath: 'path("M0 0 H63.607695 A12 12 0 0 0 80 16.392305 V80 H0 Z")',
-        },
-        surfaceStroke: {
           borderColor: itemVars.typeImage.enabled.root.strokeColor,
+          clipPath: 'path("M0 0 H63.607695 A12 12 0 0 0 80 16.392305 V80 H0 Z")',
         },
         thumbnail: { display: "none" },
         metadata: { display: "none" },

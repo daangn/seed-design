@@ -170,11 +170,6 @@ function renderSelectBoxSurface(options: SelectBoxSurfaceOptions) {
                   )}
                 </AccessibilityElementScope>
               </view>
-              <view
-                className={classes.stroke}
-                user-interaction-enabled={false}
-                accessibility-elements-hidden={true}
-              />
               <view className={classes.selectedStroke} accessibility-elements-hidden={true} />
             </view>
           </view>
