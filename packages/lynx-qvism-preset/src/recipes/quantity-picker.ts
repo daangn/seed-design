@@ -7,7 +7,6 @@ const quantityPicker = defineSlotRecipe({
   name: "quantity-picker",
   slots: [
     "root",
-    "stroke",
     "decrementButton",
     "decrementIcon",
     "valueDisplay",
@@ -19,23 +18,12 @@ const quantityPicker = defineSlotRecipe({
   ],
   base: {
     root: {
-      position: "relative",
       display: "flex",
       width: "fit-content",
       alignItems: "center",
 
       backgroundColor: vars.base.enabled.root.color,
-    },
-    // iOS Lynx는 inset box-shadow를 흐리게 그린다. stroke는 버튼 위에 겹친 overlay의 border로 그린다.
-    stroke: {
-      position: "absolute",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-      borderStyle: "solid",
-      borderWidth: vars.base.enabled.root.strokeWidth,
-      borderColor: vars.base.enabled.root.strokeColor,
+      boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
     },
     decrementButton: {
       display: "flex",
@@ -121,9 +109,6 @@ const quantityPicker = defineSlotRecipe({
           height: vars.sizeSmall.enabled.root.height,
           borderRadius: vars.sizeSmall.enabled.root.cornerRadius,
         },
-        stroke: {
-          borderRadius: vars.sizeSmall.enabled.root.cornerRadius,
-        },
         decrementButton: {
           width: buttonVars.sizeSmall.enabled.root.size,
           height: buttonVars.sizeSmall.enabled.root.size,
@@ -160,9 +145,6 @@ const quantityPicker = defineSlotRecipe({
       medium: {
         root: {
           height: vars.sizeMedium.enabled.root.height,
-          borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
-        },
-        stroke: {
           borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
         },
         decrementButton: {
@@ -203,9 +185,6 @@ const quantityPicker = defineSlotRecipe({
           height: vars.sizeLarge.enabled.root.height,
           borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
         },
-        stroke: {
-          borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
-        },
         decrementButton: {
           width: buttonVars.sizeLarge.enabled.root.size,
           height: buttonVars.sizeLarge.enabled.root.size,
@@ -242,9 +221,8 @@ const quantityPicker = defineSlotRecipe({
     },
     invalid: {
       true: {
-        stroke: {
-          borderWidth: vars.base.invalid.root.strokeWidth,
-          borderColor: vars.base.invalid.root.strokeColor,
+        root: {
+          boxShadow: `inset 0 0 0 ${vars.base.invalid.root.strokeWidth} ${vars.base.invalid.root.strokeColor}`,
         },
       },
       false: {},

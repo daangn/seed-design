@@ -7,10 +7,6 @@ const quantityPickerSlotNames = [
     "seed-quantity-picker__root"
   ],
   [
-    "stroke",
-    "seed-quantity-picker__stroke"
-  ],
-  [
     "decrementButton",
     "seed-quantity-picker__decrementButton"
   ],

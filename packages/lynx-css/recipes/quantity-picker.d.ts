@@ -31,7 +31,7 @@ declare type QuantityPickerVariantMap = {
 
 export declare type QuantityPickerVariantProps = Partial<QuantityPickerVariant>;
 
-export declare type QuantityPickerSlotName = "root" | "stroke" | "decrementButton" | "decrementIcon" | "valueDisplay" | "valueDisplayPlaceholder" | "valueDisplayText" | "divider" | "incrementButton" | "incrementIcon";
+export declare type QuantityPickerSlotName = "root" | "decrementButton" | "decrementIcon" | "valueDisplay" | "valueDisplayPlaceholder" | "valueDisplayText" | "divider" | "incrementButton" | "incrementIcon";
 
 export declare const quantityPickerVariantMap: QuantityPickerVariantMap;
 
