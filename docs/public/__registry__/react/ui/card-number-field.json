@@ -1,0 +1,20 @@
+{
+  "id": "card-number-field",
+  "innerDependencies": [
+    {
+      "registryId": "ui",
+      "itemIds": [
+        "segmented-text-field"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "card-number-field.tsx",
+      "content": "/**\n * @file ui:card-number-field\n * @requires @seed-design/react@^3.1.0\n **/\n\n\"use client\";\n\nimport * as React from \"react\";\nimport {\n  SegmentedTextField,\n  SegmentedTextFieldSegment,\n  SegmentedTextFieldSeparator,\n  SegmentedTextFieldSuffix,\n  type SegmentedTextFieldProps,\n} from \"./segmented-text-field\";\n\nconst SEGMENT_LABELS = [\n  \"카드번호 1-4번째 자리\",\n  \"카드번호 5-8번째 자리\",\n  \"카드번호 9-12번째 자리\",\n  \"카드번호 13-16번째 자리\",\n];\n\nexport interface CardNumberFieldProps extends Omit<SegmentedTextFieldProps, \"children\"> {\n  /**\n   * 가려서 입력받을 뒷자리 수. 가린 Segment는 붙여넣기·자동완성으로 채우지 않습니다.\n   * @default 8\n   */\n  maskedDigits?: 4 | 8;\n  /**\n   * 입력 끝에 표시할 요소. 카드사 로고 등을 넣습니다.\n   */\n  suffix?: React.ReactNode;\n}\n\n/**\n * 4자리씩 네 Segment로 카드번호를 입력받습니다. 값은 `string[]`(4개)입니다.\n *\n * @see https://seed-design.io/react/components/segmented-text-input\n */\nexport const CardNumberField = React.forwardRef<HTMLDivElement, CardNumberFieldProps>(\n  ({ maskedDigits = 8, suffix, ...otherProps }, ref) => {\n    const maskedFrom = SEGMENT_LABELS.length - maskedDigits / 4;\n\n    return (\n      <SegmentedTextField ref={ref} {...otherProps}>\n        {SEGMENT_LABELS.map((label, i) => {\n          const masked = i >= maskedFrom;\n\n          return (\n            <React.Fragment key={label}>\n              {i > 0 && <SegmentedTextFieldSeparator> - </SegmentedTextFieldSeparator>}\n              <SegmentedTextFieldSegment\n                aria-label={label}\n                placeholder={masked ? undefined : \"0000\"}\n                length={4}\n                masked={masked}\n                autoComplete={i === 0 ? \"cc-number\" : masked ? \"off\" : undefined}\n              />\n            </React.Fragment>\n          );\n        })}\n        {suffix && <SegmentedTextFieldSuffix>{suffix}</SegmentedTextFieldSuffix>}\n      </SegmentedTextField>\n    );\n  },\n);\nCardNumberField.displayName = \"CardNumberField\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "^3.1.0"
+      }
+    }
+  ]
+}
