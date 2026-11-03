@@ -22,7 +22,7 @@ const ActivityAppScreenTransparent: StaticActivityComponentType<
 > = () => {
   return (
     <NextAppScreen contentOffsetTop="none" contentOffsetBottom="none">
-      <NextAppBar tone="transparent">
+      <NextAppBar tone="gradient">
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>

@@ -1,8 +1,10 @@
 export {
+  NextAppBarAccessory,
   NextAppBarLeft,
   NextAppBarMain,
   NextAppBarRight,
   NextAppBarRoot,
+  type NextAppBarAccessoryProps,
   type NextAppBarLeftProps,
   type NextAppBarMainProps,
   type NextAppBarRightProps,

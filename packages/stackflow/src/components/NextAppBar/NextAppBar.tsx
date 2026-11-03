@@ -1,6 +1,10 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { nextAppBar, type NextAppBarVariantProps } from "@seed-design/css/recipes/next-app-bar";
 import {
+  nextAppBarBackground,
+  type NextAppBarBackgroundVariantProps,
+} from "@seed-design/css/recipes/next-app-bar-background";
+import {
   nextAppBarMain,
   type NextAppBarMainVariantProps,
 } from "@seed-design/css/recipes/next-app-bar-main";
@@ -26,7 +30,19 @@ export const NextAppBarPropsProvider = PropsProvider;
 export interface NextAppBarRootProps
   extends NextAppBarVariantProps,
     NextAppBarPrimitive.RootProps,
-    BoxBackgroundProps {}
+    BoxBackgroundProps {
+  /**
+   * Drawn in place of the `tone` background. A bar whose title and buttons the host draws passes
+   * `<NextAppBarBackground />`, which carries no foreground colour.
+   */
+  backgroundElement?: React.ReactNode;
+
+  /**
+   * Stacked under the title row, such as a tab list. The background runs down behind it, and the
+   * screen's content starts below it.
+   */
+  accessory?: React.ReactNode;
+}
 
 /**
  * Embedded in the NextAppScreen layer (the transition unit): the bar moves
@@ -43,7 +59,7 @@ export const NextAppBarRoot = forwardRef<HTMLDivElement, NextAppBarRootProps>((p
 
   const classNames = nextAppBar(variantProps);
   const [mainVariantProps] = nextAppBarMain.splitVariantProps(variantProps);
-  const { children, ...restProps } = otherProps;
+  const { children, backgroundElement, accessory, ...restProps } = otherProps;
 
   return (
     <ClassNamesProvider value={classNames}>
@@ -52,8 +68,13 @@ export const NextAppBarRoot = forwardRef<HTMLDivElement, NextAppBarRootProps>((p
           ref={ref}
           {...mergeProps({ className: classNames.root, style: boxStyle }, restProps)}
         >
-          <div aria-hidden className={classNames.background} />
-          {children}
+          {backgroundElement ?? <div aria-hidden className={classNames.background} />}
+          <div className={classNames.row}>{children}</div>
+          {accessory != null && (
+            <NextAppBarPrimitive.Accessory className={classNames.accessory}>
+              {accessory}
+            </NextAppBarPrimitive.Accessory>
+          )}
         </NextAppBarPrimitive.Root>
       </MainPropsProvider>
     </ClassNamesProvider>
@@ -163,3 +184,45 @@ export const NextAppBarTextButton = forwardRef<HTMLButtonElement, NextAppBarText
   },
 );
 NextAppBarTextButton.displayName = "NextAppBarTextButton";
+
+// Matches the `nth-child` bands in the `next-app-bar-background` recipe.
+const PROGRESSIVE_BLUR_LAYERS = 8;
+
+export interface NextAppBarBackgroundProps
+  extends NextAppBarBackgroundVariantProps,
+    PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement>,
+    BoxBackgroundProps {}
+
+/**
+ * Background for a bar the host draws natively, passed to `NextAppBar`'s `backgroundElement`.
+ * Switching `material` between `transparent` and `progressiveBlur` fades rather than cuts. `bg`
+ * colours the tint, which the material then thins out.
+ *
+ * To clip it, set `--seed-next-app-bar-background-clip-path` on it instead of `clip-path`: a clip
+ * on the element would stop its blur layers reading the content behind.
+ */
+export const NextAppBarBackground = forwardRef<HTMLDivElement, NextAppBarBackgroundProps>(
+  (props, ref) => {
+    const { style: boxStyle, restProps } = useBoxBackgroundProps(props);
+    const [variantProps, otherProps] = nextAppBarBackground.splitVariantProps(restProps);
+    const classNames = nextAppBarBackground(variantProps);
+
+    return (
+      <Primitive.div
+        ref={ref}
+        aria-hidden
+        {...mergeProps({ className: classNames.root, style: boxStyle }, otherProps)}
+      >
+        {Array.from(
+          { length: variantProps.material === "translucent" ? 1 : PROGRESSIVE_BLUR_LAYERS },
+          (_, index) => (
+            <div key={index} className={classNames.blur} />
+          ),
+        )}
+        <div className={classNames.tint} />
+      </Primitive.div>
+    );
+  },
+);
+NextAppBarBackground.displayName = "NextAppBarBackground";

@@ -11,6 +11,10 @@ export interface NextAppBarProps extends SeedNextAppBar.RootProps {}
 
 export const NextAppBar = SeedNextAppBar.Root;
 
+export interface NextAppBarBackgroundProps extends SeedNextAppBar.BackgroundProps {}
+
+export const NextAppBarBackground = SeedNextAppBar.Background;
+
 export interface NextAppBarLeftProps extends SeedNextAppBar.LeftProps {}
 
 export const NextAppBarLeft = SeedNextAppBar.Left;
