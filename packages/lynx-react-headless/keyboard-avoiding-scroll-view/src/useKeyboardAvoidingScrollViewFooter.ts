@@ -2,6 +2,7 @@ import { useEffect, useMemo, type Ref } from "@lynx-js/react";
 import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
 
 import { mergeStyle } from "./mergeStyle.js";
+import { KEYBOARD_CLOSE_TIMING } from "./motion.js";
 import { useKeyboardAvoidingScrollViewRootContext } from "./useKeyboardAvoidingScrollView.js";
 import type { UseKeyboardAvoidingScrollViewContext } from "./useKeyboardAvoidingScrollViewContext.js";
 
@@ -10,6 +11,8 @@ import type { UseKeyboardAvoidingScrollViewContext } from "./useKeyboardAvoiding
  * iOS 26.5 시뮬레이터에서 0.25s ease-out은 버튼이 약 118ms 가려졌고, 이 값은 1프레임 이하였다.
  */
 const FOOTER_TRANSITION = "transform 0.4s cubic-bezier(0.1, 0.9, 0.2, 1)";
+/** 키보드가 닫혀 제자리로 돌아갈 때는 Content와 같은 곡선으로 내려간다. */
+const FOOTER_CLOSE_TRANSITION = `transform ${KEYBOARD_CLOSE_TIMING}`;
 /** 첫 위치를 놓는 동안 쓴다. `transition` key를 유지해야 이후 기본값이나 `style.transition`으로 바뀐다. */
 const INSTANT_TRANSITION = "transform 0s";
 
@@ -52,7 +55,11 @@ export function useKeyboardAvoidingScrollViewFooter(
     () =>
       mergeStyle(
         {
-          transition: footerTransitionEnabled ? FOOTER_TRANSITION : INSTANT_TRANSITION,
+          transition: !footerTransitionEnabled
+            ? INSTANT_TRANSITION
+            : footerOffset === 0
+              ? FOOTER_CLOSE_TRANSITION
+              : FOOTER_TRANSITION,
           // 첫 화면은 키보드 상태와 Root 위치를 재기 전에 그려지므로, 자리 잡기 전에는 보이지 않게 둔다.
           ...(footerPlaced ? {} : { opacity: 0 }),
           flexShrink: 0,

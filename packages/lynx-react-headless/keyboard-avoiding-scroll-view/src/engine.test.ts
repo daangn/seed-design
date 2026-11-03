@@ -168,7 +168,7 @@ describe("createKeyboardAvoidingEngine", () => {
     await harness.scheduler.flushFrame();
 
     expect(harness.driver.setSpacerHeight).toHaveBeenCalledOnce();
-    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 324);
+    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 324, false);
     expect(harness.driver.scrollTo).toHaveBeenCalledWith("scroll", 144, true);
   });
 
@@ -189,7 +189,7 @@ describe("createKeyboardAvoidingEngine", () => {
 
     await openKeyboard(harness);
 
-    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 324);
+    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 324, false);
     expect(harness.driver.scrollTo).not.toHaveBeenCalled();
   });
 
@@ -206,7 +206,7 @@ describe("createKeyboardAvoidingEngine", () => {
     await harness.scheduler.flushFrame();
 
     expect(harness.driver.setSpacerHeight).toHaveBeenCalledTimes(2);
-    expect(harness.driver.setSpacerHeight).toHaveBeenLastCalledWith("spacer", 324);
+    expect(harness.driver.setSpacerHeight).toHaveBeenLastCalledWith("spacer", 324, false);
   });
 
   it("discards an in-flight measurement after focus changes", async () => {
@@ -224,7 +224,7 @@ describe("createKeyboardAvoidingEngine", () => {
     expect(harness.driver.setSpacerHeight).not.toHaveBeenCalled();
 
     await harness.scheduler.flushFrame();
-    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 324);
+    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 324, false);
   });
 
   it("pauses pending work during a user scroll and reevaluates after scrollend", async () => {
@@ -254,15 +254,50 @@ describe("createKeyboardAvoidingEngine", () => {
     harness.engine.keyboardChanged({ visible: false, height: 0 });
     await harness.scheduler.flushFrame();
 
-    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 0);
+    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 0, true);
+    expect(harness.driver.scrollTo).not.toHaveBeenCalled();
+
+    // 전환이 끝난 뒤 범위를 벗어난 offset을 되돌린다.
+    await harness.scheduler.flushTimer();
+    await harness.scheduler.flushFrame();
+
     expect(harness.driver.scrollTo).toHaveBeenCalledWith("scroll", 200, true);
+  });
+
+  it("eases only the spacer that moves Content and drops the rest without motion", async () => {
+    const harness = createHarness();
+    await openKeyboard(harness);
+    harness.driver.setSpacerHeight.mockClear();
+    harness.driver.scrollTo.mockClear();
+    // spacer 324 중 200은 화면 밖이고, Content는 맨 위까지 100만 내려갈 수 있다.
+    harness.setMetrics({ offsetY: 100, maxOffsetY: 300 });
+
+    harness.engine.keyboardChanged({ visible: false, height: 0 });
+    await harness.scheduler.flushFrame();
+
+    expect(harness.driver.setSpacerHeight.mock.calls).toEqual([
+      ["spacer", 124, false],
+      ["spacer", 24, true],
+    ]);
+
+    // 전환 중의 재평가(예: blur 인계 timer)는 남은 spacer를 다시 전환하지 않는다.
+    harness.engine.viewportChanged();
+    await harness.scheduler.flushFrame();
+    expect(harness.driver.setSpacerHeight).toHaveBeenCalledTimes(2);
+
+    harness.setMetrics({ offsetY: 0, maxOffsetY: 0 });
+    await harness.scheduler.flushTimer();
+    await harness.scheduler.flushFrame();
+
+    expect(harness.driver.setSpacerHeight).toHaveBeenLastCalledWith("spacer", 0, false);
+    expect(harness.driver.scrollTo).not.toHaveBeenCalled();
   });
 
   it("retries close clamping when native metrics are temporarily unavailable", async () => {
     const harness = createHarness();
     await openKeyboard(harness);
     harness.driver.getScrollMetrics.mockClear();
-    harness.driver.getScrollMetrics.mockResolvedValueOnce(null);
+    harness.driver.getScrollMetrics.mockResolvedValueOnce(null).mockResolvedValueOnce(null);
     harness.setMetrics({ offsetY: 500, maxOffsetY: 200 });
 
     harness.engine.keyboardChanged({ visible: false, height: 0 });
@@ -273,7 +308,7 @@ describe("createKeyboardAvoidingEngine", () => {
     harness.engine.viewportChanged();
     await harness.scheduler.flushFrame();
 
-    expect(harness.driver.getScrollMetrics).toHaveBeenCalledTimes(2);
+    expect(harness.driver.getScrollMetrics).toHaveBeenCalledTimes(3);
     expect(harness.driver.scrollTo).toHaveBeenLastCalledWith("scroll", 200, true);
   });
 
@@ -292,7 +327,8 @@ describe("createKeyboardAvoidingEngine", () => {
     );
     await harness.scheduler.flushFrame();
 
-    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 0);
+    // 기본 metrics에서는 spacer가 모두 화면 밖이므로 전환 없이 없앤다.
+    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 0, false);
   });
 
   it("keeps the spacer during a blur-to-focus handoff", async () => {
@@ -305,7 +341,7 @@ describe("createKeyboardAvoidingEngine", () => {
     await harness.scheduler.flushTimer();
     await harness.scheduler.flushFrame();
 
-    expect(harness.driver.setSpacerHeight).not.toHaveBeenCalledWith("spacer", 0);
+    expect(harness.driver.setSpacerHeight).not.toHaveBeenCalledWith("spacer", 0, true);
   });
 
   it("keeps a Field downgrade stable for the current keyboard session", async () => {
@@ -472,7 +508,7 @@ describe("createKeyboardAvoidingEngine", () => {
     // 키보드 상단(500)이 Root 하단(800)을 300만큼 가리므로 Footer(720–800)는 420–500으로 올라간다.
     expect(harness.setFooterOffset).toHaveBeenCalledWith(300);
     // Content는 올라간 Footer 상단(420)에서 keyboardGap을 뺀 396까지만 보인다.
-    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 324);
+    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 324, false);
     expect(harness.driver.scrollTo).toHaveBeenCalledWith("scroll", 224, true);
   });
 
@@ -502,7 +538,30 @@ describe("createKeyboardAvoidingEngine", () => {
     await harness.scheduler.flushFrame();
 
     expect(harness.setFooterOffset).toHaveBeenCalledWith(0);
-    expect(harness.driver.setSpacerHeight).toHaveBeenLastCalledWith("spacer", 0);
+    expect(harness.driver.setSpacerHeight).toHaveBeenLastCalledWith("spacer", 0, false);
+  });
+
+  it("returns the Footer at once when a touch outside the input closes the keyboard", async () => {
+    const harness = createHarness();
+    harness.setHasFooter(true);
+    harness.rects.scroll = { top: 0, bottom: 720 };
+    await openKeyboard(harness);
+    harness.setFooterOffset.mockClear();
+    harness.driver.setSpacerHeight.mockClear();
+
+    // iOS는 입력 밖 touchstart에서 키보드를 닫으므로 Content touch 중에 off가 온다.
+    harness.engine.userScrollStarted();
+    harness.engine.keyboardChanged({ visible: false, height: 0 });
+    await harness.scheduler.flushFrame();
+
+    expect(harness.setFooterOffset).toHaveBeenCalledWith(0);
+    expect(harness.driver.setSpacerHeight).not.toHaveBeenCalled();
+
+    harness.engine.userScrollEnded();
+    await harness.scheduler.flushFrame();
+
+    expect(harness.setFooterOffset).toHaveBeenCalledOnce();
+    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 0, false);
   });
 
   it("lifts the Footer and keeps Content reachable for a keyboard that no registered input opened", async () => {
@@ -515,7 +574,7 @@ describe("createKeyboardAvoidingEngine", () => {
 
     expect(harness.setFooterOffset).toHaveBeenCalledWith(300);
     // 올라간 Footer가 Content 끝을 가리지 않도록 spacer를 두지만, 스크롤할 입력은 없다.
-    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 324);
+    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 324, false);
     expect(harness.driver.scrollTo).not.toHaveBeenCalled();
   });
 
@@ -538,7 +597,7 @@ describe("createKeyboardAvoidingEngine", () => {
 
     expect(harness.setFooterOffset).toHaveBeenCalledWith(300);
     // 가려진 Content 끝까지 사용자가 스크롤할 수 있도록 spacer는 둔다.
-    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 324);
+    expect(harness.driver.setSpacerHeight).toHaveBeenCalledWith("spacer", 324, false);
     expect(harness.driver.measure).not.toHaveBeenCalledWith("field");
     expect(harness.driver.scrollTo).not.toHaveBeenCalled();
   });
