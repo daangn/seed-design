@@ -17,13 +17,21 @@ const page = await figma.getNodeByIdAsync("<PAGE_ID>"); await figma.setCurrentPa
 const root = await figma.getNodeByIdAsync("<SPEC_FRAME_ID>");
 // Bold 구간을 **로 감싼다(Semi Bold 제목은 제외)
 const md = (t) => t.getStyledTextSegments(["fontName"]).map(s => /Bold/.test(s.fontName.style) && !/Semi/.test(s.fontName.style) ? "**" + s.characters + "**" : s.characters).join("");
-const IMG = /^(\.Document \/ Image|Visual \/|docs\/components\/)/;
+const IMG = /^(\.Document \/ Image|Visual \/|docs\/components\/|Image$)/;
+// 자신이나 조상(섹션 아래)이 숨겨진 노드는 제외한다
+const shown = (n, top) => { for (let c = n; c && c !== top; c = c.parent) if (c.visible === false) return false; return true; };
 return root.children.map(sec => {
-  const td = sec.findOne(n => n.name === "Title Description" || n.name === "Description") || sec; // 샘플 콘텐츠 안의 "Title" 텍스트를 피한다
-  const titles = td.findAll(n => n.type === "TEXT" && n.name === "Title").map(t => t.characters);
-  const descs = td.findAll(n => n.type === "TEXT" && n.name !== "Title" && n.name !== "Figma Only").map(md);
-  const images = sec.findAll(n => (n.type === "FRAME" || n.type === "INSTANCE") && IMG.test(n.name) && !(n.parent && IMG.test(n.parent.name))).map(n => ({ id: n.id, name: n.name, w: Math.round(n.width), h: Math.round(n.height) }));
-  const callouts = sec.findAll(n => n.type === "TEXT" && /^(Do|Don[’']t)$/.test(n.characters)).map(n => { const b = n.parent.children.find(c => c.type === "TEXT" && c !== n); return { kind: n.characters, body: b ? b.characters : "", imageId: n.parent.parent.parent.children[0].id }; });
+  const td = sec.findOne(n => (n.name === "Title Description" || n.name === "Description") && shown(n, sec)) || sec; // 샘플 콘텐츠 안의 "Title" 텍스트를 피한다
+  const titles = td.findAll(n => n.type === "TEXT" && n.name === "Title" && shown(n, sec)).map(t => t.characters);
+  const descs = td.findAll(n => n.type === "TEXT" && n.name !== "Title" && n.name !== "Figma Only" && shown(n, sec)).map(md);
+  const images = sec.findAll(n => (n.type === "FRAME" || n.type === "INSTANCE") && IMG.test(n.name) && !(n.parent && IMG.test(n.parent.name)) && shown(n, sec)).map(n => ({ id: n.id, name: n.name, w: Math.round(n.width), h: Math.round(n.height) }));
+  const callouts = sec.findAll(n => n.type === "TEXT" && /^(Do|Don[’']t)$/.test(n.characters) && shown(n, sec)).map(n => {
+    const b = n.parent.children.find(c => c.type === "TEXT" && c !== n);
+    // Do/Don't 카드(이미지 + Callout)를 조상에서 찾고, 그 안의 이미지 프레임을 이름으로 고른다
+    let card = n.parent; while (card && card !== sec && !card.children.some(c => IMG.test(c.name))) card = card.parent;
+    const img = card && card !== sec ? card.children.find(c => IMG.test(c.name)) : null;
+    return { kind: n.characters, body: b ? md(b) : "", imageId: img ? img.id : null };
+  });
   return { id: sec.id, name: sec.name, titles, descs, images, callouts };
 });
 ```
@@ -31,7 +39,7 @@ return root.children.map(sec => {
 - `Sub Title · X`는 `## X`, `Spec / X`와 구형 `Content Section`은 `### X`가 된다. 구형 페이지는 `Spec`과 `Component Guide` 프레임을 따로 읽어 순서대로 잇는다.
 - 한 절의 Visual이 바깥 Image 안에 여러 장 중첩돼 있으면(`Pagination VS Table Pagination`) 바깥 노드의 `children`을 다시 조회해 MDX에 쓸 안쪽 이미지를 고른다.
 - 표(`.Document / Table`)는 `Column > Cell > TEXT`를 열 순서로 읽어 Markdown 표로 옮긴다. 첫 열이 비교 축이다.
-- 본문 텍스트에 `Alert`(빨간 경고문)가 보이면 Guidelines 규칙으로 옮기고, 숨겨진(`visible === false`) 노드는 무시한다.
+- 본문 텍스트에 `Alert`(빨간 경고문)가 보이면 Guidelines 규칙으로 옮긴다. 숨겨진(`visible === false`) 노드와 그 자손은 위 `shown`이 걸러 낸다. `imageId`가 `null`인 callout은 3단계에서 `images`의 순서로 대응한다.
 
 ## 2. MDX 작성
 
