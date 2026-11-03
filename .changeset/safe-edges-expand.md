@@ -10,3 +10,5 @@ Lynx 컴포넌트가 콘텐츠의 안전 영역을 유지하면서 배경과 스
 - `Tabs.List`의 `viewportInsets`로 선택한 탭을 안전 영역 안에 정렬할 수 있습니다.
 - `ImageFrame`의 Safe Area bleed에 따라 Floater의 시작·끝·중앙 위치를 보정합니다.
 - Attachment Display Field Registry snippet을 최신화하면 `controlProps.extendSafeAreaX`로 첨부 목록을 확장할 수 있습니다.
+
+React와 동일한 `placement`, `offsetX`, `offsetY`, `zIndex`를 지원하는 `Float`를 추가합니다. `ImageFrameFloater`는 `Float`를 조합하며 기존 기본 간격과 Safe Area 보정을 유지합니다.

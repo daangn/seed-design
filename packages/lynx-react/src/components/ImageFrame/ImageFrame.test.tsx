@@ -12,6 +12,7 @@ import {
   ImageFrameReactionButton,
 } from "./ImageFrame";
 import { heartFillSource, heartLineSource } from "./heart-assets";
+import { Float } from "../Float";
 
 vi.mock("@lynx-js/react", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@lynx-js/react")>();
@@ -43,6 +44,31 @@ function nativeEvent(element: HTMLElement, name: string) {
 }
 
 describe("ImageFrame", () => {
+  it("composes Float on the same node and keeps generic Float independent of image insets", () => {
+    render(
+      <ImageFrame src="photo.png" alt="Photo" bleedX="safeArea">
+        <ImageFrameFloater placement="bottom-end" data-testid="image-floater">
+          <text>Badge</text>
+        </ImageFrameFloater>
+        <Float placement="bottom-end" data-testid="generic-float">
+          <text>Content</text>
+        </Float>
+      </ImageFrame>,
+    );
+    const imageFloater = query('[data-testid="image-floater"]');
+    const genericFloat = query('[data-testid="generic-float"]');
+    expect(imageFloater).toHaveClass("seed-float", "seed-image-frame__floater");
+    expect(imageFloater.querySelector(".seed-float")).toBeNull();
+    expect(styleProperty(imageFloater, "--seed-image-frame-offset-x")).toBe(
+      "var(--seed-dimension-x1_5)",
+    );
+    expect(styleProperty(imageFloater, "--seed-image-frame-offset-y")).toBe(
+      "var(--seed-dimension-x1_5)",
+    );
+    expect(genericFloat).not.toHaveClass("seed-image-frame__floater");
+    expect(styleProperty(genericFloat, "--seed-float-offset-x")).toBe("0px");
+    expect(styleProperty(genericFloat, "--seed-float-offset-y")).toBe("0px");
+  });
   it("tracks each safe-area bleed edge and resets inset inheritance for nested frames", () => {
     const { rerender } = render(
       <ImageFrame src="outer.png" alt="Outer" bleed="safeArea" bleedLeft={0} data-testid="outer">

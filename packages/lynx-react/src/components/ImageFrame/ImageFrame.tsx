@@ -1,6 +1,6 @@
 import * as React from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
-import { imageFrame, type ImageFrameVariantProps } from "@seed-design/lynx-css/recipes/image-frame";
+import { imageFrame } from "@seed-design/lynx-css/recipes/image-frame";
 import { imageFrameIcon } from "@seed-design/lynx-css/recipes/image-frame-icon";
 import { imageFrameIndicator } from "@seed-design/lynx-css/recipes/image-frame-indicator";
 import { imageFrameReactionButton } from "@seed-design/lynx-css/recipes/image-frame-reaction-button";
@@ -24,6 +24,7 @@ import {
   type MarginBleedStyleProps,
 } from "../../utils/styled";
 import { Badge } from "../Badge";
+import { Float, type FloatProps } from "../Float";
 import { InternalIcon } from "../Icon/Icon";
 import { heartFillSource, heartLineSource } from "./heart-assets";
 
@@ -123,13 +124,11 @@ function FrameImage(props: Pick<ImageFrameProps, "src" | "alt" | "bindload" | "b
 }
 
 /** @platform Lynx Native view placement; polymorphic `as` is unsupported. */
-export interface ImageFrameFloaterProps
-  extends Omit<LynxViewProps, "style">,
-    Pick<LynxStyledElementProps, "style"> {
-  placement: NonNullable<ImageFrameVariantProps["placement"]>;
-  offsetX?: 0 | StyleProps["width"];
-  offsetY?: 0 | StyleProps["height"];
-  zIndex?: StyleProps["zIndex"];
+export interface ImageFrameFloaterProps extends FloatProps {
+  /** Defaults to 0 for center placements and "x1_5" for start/end placements. */
+  offsetX?: FloatProps["offsetX"];
+  /** Defaults to 0 for middle placements and "x1_5" for top/bottom placements. */
+  offsetY?: FloatProps["offsetY"];
 }
 
 export const ImageFrameFloater = React.forwardRef<unknown, ImageFrameFloaterProps>((props, ref) => {
@@ -150,13 +149,17 @@ export const ImageFrameFloater = React.forwardRef<unknown, ImageFrameFloaterProp
     ...style,
   };
   return (
-    <view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+    <Float
+      {...(ref ? { ref } : {})}
+      {...nativeProps}
+      placement={variantProps.placement ?? "bottom-end"}
+      offsetX={offsetX}
+      offsetY={offsetY}
       className={clsx(imageFrame(variantProps).floater, className)}
       style={floaterStyle}
     >
       {children}
-    </view>
+    </Float>
   );
 });
 ImageFrameFloater.displayName = "ImageFrameFloater";

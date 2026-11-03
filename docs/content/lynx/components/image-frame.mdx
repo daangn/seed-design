@@ -153,6 +153,8 @@ Lynx에서는 비율에 맞는 높이를 계산할 수 있도록 프레임 너�
 
 `ImageFrameFloater`를 자식으로 넣고 `placement`로 위치를 지정합니다. 세로와 가로 위치를 조합한 9개 값을 사용할 수 있습니다.
 
+`ImageFrameFloater`는 [Float](/lynx/foundation/layout/float)를 조합해 기본 간격과 Safe Area 보정을 더합니다. 이미지와 무관한 요소를 배치할 때는 `Float`를 직접 사용할 수 있습니다.
+
 <LynxComponentExample name="lynx/image-frame/overlay">
   ```json doc-gen:file
   {
