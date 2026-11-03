@@ -4,14 +4,14 @@ export interface PreviewSafeAreaInsets {
 }
 
 const hatch =
-  "repeating-linear-gradient(135deg, color-mix(in srgb, var(--seed-color-fg-critical) 24%, transparent) 0 1px, transparent 1px 7px), color-mix(in srgb, var(--seed-color-fg-critical) 7%, transparent)";
+  "repeating-linear-gradient(135deg, color-mix(in srgb, var(--seed-color-fg-critical) 10%, transparent) 0 1px, transparent 1px 7px), color-mix(in srgb, var(--seed-color-fg-critical) 2%, transparent)";
 
 export function getSafeAreaPreviewRules({ left, right }: PreviewSafeAreaInsets) {
   return [
     `.docs-safe-area-frame { position: relative; isolation: isolate; }`,
     `.docs-safe-area-frame::before, .docs-safe-area-frame::after { content: ""; position: absolute; top: 0; bottom: 0; z-index: 10; pointer-events: none; box-sizing: border-box; background: ${hatch}; }`,
-    `.docs-safe-area-frame::before { left: 0; width: var(--docs-preview-safe-area-left, ${left}px); border-right: 1px dashed var(--seed-color-fg-critical); }`,
-    `.docs-safe-area-frame::after { right: 0; width: var(--docs-preview-safe-area-right, ${right}px); border-left: 1px dashed var(--seed-color-fg-critical); }`,
+    `.docs-safe-area-frame::before { left: 0; width: var(--docs-preview-safe-area-left, ${left}px); border-right: 1px dashed color-mix(in srgb, var(--seed-color-fg-critical) 35%, transparent); }`,
+    `.docs-safe-area-frame::after { right: 0; width: var(--docs-preview-safe-area-right, ${right}px); border-left: 1px dashed color-mix(in srgb, var(--seed-color-fg-critical) 35%, transparent); }`,
   ];
 }
 
