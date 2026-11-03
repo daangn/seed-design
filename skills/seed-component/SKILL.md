@@ -14,8 +14,8 @@ description: SEED 컴포넌트의 경로 조회·React·Lynx API 비교, 신규�
 | 색상 토큰의 정의·alias·사용처·생성 표면 또는 대비만 (컴포넌트 없이도) | [color-token-analysis.md](references/color-token-analysis.md) | `bun skills/seed-component/scripts/token-map.ts '<token>'`, `token-contrast.ts` |
 | 새 컴포넌트 또는 한 플랫폼이 없는 포팅 | [implementation-workflow.md 신규·포팅](references/implementation-workflow.md#신규포팅) | `bun skills/seed-component/scripts/scaffold-plan.ts` |
 | 기존 컴포넌트의 구현·동작·구조 변경 | [implementation-workflow.md 기존 구현 변경](references/implementation-workflow.md#기존-구현-변경) | 경로 조회 후 필요 시 API 비교 |
-| Lynx 문서·실행 예제만 (컴포넌트 동작 유지) | [lynx-docs.md](references/lynx-docs.md) | 경로가 불명확할 때만 경로 조회 |
-| React 문서·예제, Storybook, 생성물만 | [implementation-workflow.md 짧은 경로](references/implementation-workflow.md#짧은-경로) | 경로가 불명확할 때만 경로 조회 |
+| Lynx 문서·실행 예제만 (컴포넌트 동작 유지) | [lynx-docs.md](references/lynx-docs.md), 문장·절 구성은 [`seed-component-docs`](../seed-component-docs/SKILL.md) | 경로가 불명확할 때만 경로 조회 |
+| React 문서·예제, Storybook, 생성물만 | [implementation-workflow.md 짧은 경로](references/implementation-workflow.md#짧은-경로), 문장·절 구성은 [`seed-component-docs`](../seed-component-docs/SKILL.md) | 경로가 불명확할 때만 경로 조회 |
 
 ## 경계
 
@@ -24,3 +24,4 @@ description: SEED 컴포넌트의 경로 조회·React·Lynx API 비교, 신규�
 - Lynx native 결과를 소스 수정 없이 독립 판정하는 일은 [`seed-verify-lynx-component`](../seed-verify-lynx-component/SKILL.md)가 맡는다.
 - 여러 레이어의 담당·병렬 작업·에이전트 간 협의가 요청됐거나 필요하면 [`seed-orchestrate-component`](../seed-orchestrate-component/SKILL.md)를 함께 사용한다.
 - changeset·변경 계획·제출은 [`seed-change`](../seed-change/SKILL.md)가 맡는다.
+- 공통 가이드 문서(`docs/content/components/`)와 Figma SEED-Docs 페이지, 플랫폼 문서의 내용·문체는 [`seed-component-docs`](../seed-component-docs/SKILL.md)가 맡는다.
