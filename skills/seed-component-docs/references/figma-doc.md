@@ -6,7 +6,7 @@ Figma 파일 "SEED Docs"의 컴포넌트 페이지를 `use_figma`로 만들거�
 
 ## 작업 순서
 
-1. `figma-use` Skill을 읽고 `create_session`을 호출한다. 대상이 원본 파일이면 사용자가 지정한 페이지·브랜치만 쓴다.
+1. `figma-use` Skill을 읽고 `create_session`을 호출한다. `figma-use`가 시각 변경에 함께 요구하는 `figma-generate-design`은 로드해 `skillNames`에 적되, 그 Skill의 화면 캡처·Code Connect 절차는 문서 페이지에 쓰지 않는다. 디자인 시스템 탐색은 아래 [라이브러리 컴포넌트](#라이브러리-컴포넌트)로 충분하다. 대상이 원본 파일이면 사용자가 지정한 페이지·브랜치만 쓴다.
 2. 대상 파일에서 `Docs Components` 페이지와 `.Document / *` 템플릿을 이름으로 찾는다. 있으면 [템플릿 경로](#템플릿-경로), 없으면 [직접 만들기](#직접-만들기)로 같은 규격을 만든다.
 
    ```js
@@ -26,7 +26,7 @@ Figma 파일 "SEED Docs"의 컴포넌트 페이지를 `use_figma`로 만들거�
 - `Spec` 자식 순서: `Header` → `Title Section` → `Spec / Anatomy` → `Sub Title · Properties` → `Spec / <속성>`… → `Sub Title · Guidelines` → `Spec / <규칙>`… → `Spec / <A> vs. <B>`. MDX의 `##`가 Sub Title, `###`가 Spec 섹션에 대응한다.
 - 절 단위 프레임
   - `Header`: 좌우 패딩 32, 안쪽 `HeaderWrapper` HORIZONTAL gap 8 상하 패딩 20, 텍스트 `SEED V3`·`Spec` 15 Semi Bold.
-  - `Title Section`: VERTICAL gap 24, 패딩 56/32/88/32. `Title Description`(gap 4: 제목 34 Bold, 설명 17 Regular) + `Platform Status`(gap 8, 칩 React·iOS·Android. Lynx 구현 여부와 무관하게 세 칩을 유지한다).
+  - `Title Section`: VERTICAL gap 24, 패딩 56/32/88/32. `Title Description`(gap 4: 제목 34 Bold, 설명 17 Regular) + `Platform Status`(gap 8, 칩 React·iOS·Android. Lynx 구현 여부와 무관하게 세 칩을 유지한다). 칩의 가용 여부는 문서 사이트 컴포넌트 페이지 헤더의 플랫폼 상태와 같게 하고, 확인할 수 없으면 사용자에게 묻는다.
   - `Sub Title · <Name>`: 패딩 32 사방, 텍스트 26 Bold.
   - `Spec / <Title>`: HORIZONTAL gap 80, 패딩 0/32/56/32. 왼쪽 `Title Description`(폭 420 고정, VERTICAL gap 12, 위 패딩 8: 제목 18 Semi Bold, 본문 14 Regular 행간 160% 폭 420 높이 자동) + 오른쪽 `Visual / <Title>`(936×560, 배경 245,245,245) 또는 `Image Stack`(VERTICAL gap 16, 폭 936)에 Visual 여러 장.
 - 본문 텍스트는 노드 하나다. Anatomy·State처럼 MDX에서 `- **Name:** 역할` 목록인 내용은 Figma 불릿 목록(`setRangeListOptions` UNORDERED)으로 쓰고 줄마다 `Name`만 Bold 구간으로 둔다. 단락 사이는 빈 줄 하나.
@@ -218,6 +218,17 @@ function label(chars, direction) {
   if (direction === "↑" || direction === "←") { wrap.appendChild(line); wrap.appendChild(t); } else { wrap.appendChild(t); wrap.appendChild(line); }
   return wrap;
 }
+// 속성 라벨 칩(.Document / Prop 대체): 회색 라벨 + 파란 칩
+function propChip(labelChars, value) {
+  const wrap = figma.createAutoLayout("HORIZONTAL", { name: "Prop / " + value, itemSpacing: 6 });
+  wrap.fills = []; wrap.counterAxisAlignItems = "CENTER";
+  wrap.appendChild(text(labelChars, "Regular", 13, 130, [85, 93, 109]));
+  const chip = figma.createAutoLayout("HORIZONTAL", { name: "Prop", paddingTop: 2, paddingBottom: 2, paddingLeft: 4, paddingRight: 4, cornerRadius: 6 });
+  chip.fills = solid(33, 124, 249);
+  const v = text(value, "Bold", 12, 0, [255, 255, 255]); v.lineHeight = { unit: "PIXELS", value: 16 };
+  chip.appendChild(v); wrap.appendChild(chip);
+  return wrap;
+}
 
 const anatomy = section("Anatomy", [
   { name: "Root", body: "전체 컴포넌트를 감싸는 최상위 컨테이너입니다." },
@@ -275,7 +286,7 @@ function doDont(kind, body) {
 function table(columns) {
   const wrap = figma.createAutoLayout("VERTICAL", { name: "Table", cornerRadius: 8 });
   wrap.fills = solid(255, 255, 255); wrap.strokes = solid(0, 0, 0, 0.1); wrap.strokeWeight = 1;
-  wrap.resize(936, 10); wrap.counterAxisSizingMode = "FIXED";
+  wrap.resize(936, 10); wrap.counterAxisSizingMode = "FIXED"; wrap.primaryAxisSizingMode = "AUTO"; // resize가 세로도 FIXED로 만들므로 다시 HUG
   const row = figma.createAutoLayout("HORIZONTAL", { name: "Columns" });
   wrap.appendChild(row); row.layoutSizingHorizontal = "FILL";
   columns.forEach((c, i) => {
@@ -311,6 +322,7 @@ return { createdNodeIds: [g.sec.id, c.sec.id] };
 
 함정:
 
+- `resize()`는 두 축의 sizing을 FIXED로 되돌린다. 폭만 고정하고 세로를 내용에 맞추려면 resize 뒤에 `primaryAxisSizingMode = "AUTO"`(VERTICAL 프레임)를 다시 준다. 빠뜨리면 표·흰 카드가 높이 10으로 접힌다.
 - `figma.createAutoLayout()`은 흰 배경으로 생긴다. 회색 Visual 위에 놓는 라벨·Image Stack·Callout 안쪽 컬럼은 `fills = []`로 비운다.
 - `FILL`은 부모에 붙인 뒤에만 설정된다. 표처럼 중첩된 FILL은 바깥 래퍼를 `resize(936)` + `counterAxisSizingMode = "FIXED"`로 고정한 뒤 안쪽부터 FILL을 준다. 래퍼가 HUG인 채로 안쪽에 FILL을 주면 셀이 접힌다.
 - 본문 텍스트는 `resize(420, h)` 뒤 `textAutoResize = "HEIGHT"` 순서다. 반대로 하면 폭이 0으로 접힌다.
@@ -333,9 +345,10 @@ const outline = spec.children.map(c => { const t = c.findOne ? c.findOne(n => n.
 const texts = spec.findAllWithCriteria({ types: ["TEXT"] });
 const wrongFont = texts.filter(t => t.fontName === figma.mixed ? t.getStyledTextSegments(["fontName"]).some(s => s.fontName.family !== FAMILY) : t.fontName.family !== FAMILY).map(t => t.id + " " + t.characters.slice(0, 20));
 const visuals = spec.findAll(n => n.type === "FRAME" && /^(Visual \/|Image|\.Document \/ Image)/.test(n.name));
-const visualIssues = visuals.flatMap(v => { const i = []; if (Array.isArray(v.strokes) && v.strokes.length) i.push("stroke"); if (!("children" in v) || v.children.length === 0) i.push("empty"); return i.length ? [`${v.id} ${v.name}: ${i.join(",")}`] : []; });
-return { width: spec.width, height: spec.height, outline, wrongFont, visualIssues };
+const visualIssues = visuals.flatMap(v => { const i = []; if (Array.isArray(v.strokes) && v.strokes.length) i.push("stroke"); if (!("children" in v) || v.children.length === 0) i.push("empty"); if ("children" in v && v.children.some(c => c.x < 0 || c.y < 0 || c.x + c.width > v.width + 1 || c.y + c.height > v.height + 1)) i.push("overflow"); return i.length ? [`${v.id} ${v.name}: ${i.join(",")}`] : []; });
+const collapsed = spec.findAll(n => n.type === "FRAME" && n.layoutMode !== "NONE" && n.height <= 10 && n.children.length).map(n => n.id + " " + n.name);
+return { width: spec.width, height: spec.height, outline, wrongFont, visualIssues, collapsed };
 ```
 
-- `width`는 1500, `outline`은 MDX 제목 순서와 같다. `wrongFont`는 비어 있다. `visualIssues`의 `stroke`는 제거하고, `empty`는 채우거나 결과에 미완성으로 적는다.
+- `width`는 1500, `outline`은 MDX 제목 순서와 같다. `wrongFont`는 비어 있다. `visualIssues`의 `stroke`는 제거하고, `empty`는 채우거나 결과에 미완성으로 적고, `overflow`는 안쪽 배치를 936×560 안으로 옮긴다. `collapsed`(높이 10 이하로 접힌 프레임)는 위 함정의 sizing을 다시 준다.
 - 구성이 끝나면 `get_screenshot`(Spec 프레임, `maxDimension` 2400 안팎)으로 한 번 확인한다. 잘린 텍스트, 접힌 표, 흰 상자로 남은 보조 프레임을 찾아 고친 뒤 한 번 더 찍는다.

@@ -4,9 +4,9 @@
 
 ## 작업 순서
 
-1. 근거를 모은다. Figma 페이지가 있으면 [figma-migration.md](figma-migration.md)로 추출하고, 없으면 구현·PRD·사용자 설명에서 부품·속성·규칙을 뽑는다. 근거에 없는 규칙을 보태지 않는다.
+1. 근거를 모은다. Figma 페이지가 있으면 [figma-migration.md](figma-migration.md)로 추출하고, 없거나 비어 있으면(`In Progress` 아래 자식 없는 페이지) 구현·PRD·사용자 설명에서 부품·속성·규칙을 뽑는다. 근거에 없는 규칙을 보태지 않는다.
 2. Rootage spec 존재를 확인한다: `ls packages/rootage/components/<id>.yaml`. 있으면 `## Specification`이 필수다.
-3. [골격](#골격)대로 쓴다. 근거에 있는 절만 두고 빈 절은 만들지 않는다.
+3. [골격](#골격)대로 쓴다. 근거에 있는 절만 두고 빈 절은 만들지 않는다. Figma 이미지 노드가 아직 없으면 `FigmaImage`·`DoImage`·`DontImage`를 넣지 않고 넣을 자리를 결과에 적는다. 다른 파일의 노드 ID는 쓸 수 없다.
 4. [끝내기 전 확인](#끝내기-전-확인)을 통과한다.
 
 ## 구조
