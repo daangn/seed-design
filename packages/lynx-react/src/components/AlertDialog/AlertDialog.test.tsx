@@ -271,9 +271,9 @@ describe("AlertDialog", () => {
     });
 
     expect(renderPositioner()).toEqual({
-      paddingTop: "calc(env(safe-area-inset-top) + 34px)",
+      paddingTop: "34px",
       paddingRight: "84px",
-      paddingBottom: "calc(env(safe-area-inset-top) + 34px)",
+      paddingBottom: "34px",
       paddingLeft: "0px",
     });
 

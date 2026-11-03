@@ -75,7 +75,7 @@ describe("useSafeArea", () => {
     });
   });
 
-  it("falls back to Lynx env values only for top and bottom when host flat global props are zero", () => {
+  it("uses host-provided zero values instead of env fallback", () => {
     setGlobalProps({
       safeAreaInsetTop: 0,
       safeAreaInsetRight: 0,
@@ -86,9 +86,9 @@ describe("useSafeArea", () => {
     const { result } = renderHook(() => useSafeArea());
 
     expect(result.current).toEqual({
-      safeAreaInsetTop: "env(safe-area-inset-top)",
+      safeAreaInsetTop: "0px",
       safeAreaInsetRight: "0px",
-      safeAreaInsetBottom: "env(safe-area-inset-bottom)",
+      safeAreaInsetBottom: "0px",
       safeAreaInsetLeft: "0px",
     });
   });
