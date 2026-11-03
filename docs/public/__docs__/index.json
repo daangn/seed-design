@@ -2426,6 +2426,12 @@
               ]
             },
             {
+              "id": "safe-area",
+              "title": "Safe Area",
+              "description": "콘텐츠를 안전 영역 안에 유지하면서 배경과 가로 스크롤 영역을 화면 끝까지 확장합니다.",
+              "docUrl": "/lynx/getting-started/safe-area"
+            },
+            {
               "id": "scale-feedback",
               "title": "Scale Feedback",
               "description": "Lynx에서 Main Thread 기반의 SEED Scale Feedback을 적용하는 방법을 알아봅니다.",

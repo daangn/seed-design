@@ -15,11 +15,16 @@ const ITEMS = ["전체", "동네 소식", "중고거래", "동네 생활", "가�
 
 export default function Example() {
   useGlobalProps();
-  const [extend, setExtend] = useState(true);
+  const [extend, setExtend] = useState(false);
   const [center, setCenter] = useState(false);
   return (
     <VStack gap="x4" width="100%">
       <Switch checked={extend} onCheckedChange={setExtend} label="안전 영역까지 확장" />
+      <Text textStyle="t3Bold">
+        {extend
+          ? "확장 후 (TO BE) · extendSafeAreaX=true"
+          : "확장 전 (AS IS) · extendSafeAreaX=false"}
+      </Text>
       <Switch checked={center} onCheckedChange={setCenter} label="선택한 탭 중앙 정렬" />
       <Text textStyle="t3Regular" color="fg.neutralSubtle">
         좌우 안전 영역이 있는 기기에서 목록의 처음과 끝을 비교해 보세요.

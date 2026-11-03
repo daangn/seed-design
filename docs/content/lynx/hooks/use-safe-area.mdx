@@ -13,6 +13,8 @@ import { useSafeArea } from "@seed-design/lynx-react";
 
 `useSafeArea`는 `@seed-design/lynx-react` 패키지에 포함되어 있습니다. host 앱이 주입하는 `lynx.__globalProps.safeAreaInsetTop` / `safeAreaInsetRight` / `safeAreaInsetBottom` / `safeAreaInsetLeft` 값을 우선 읽고, 값이 없으면 Lynx CSS `env(safe-area-inset-*)`를 fallback으로 반환합니다.
 
+컴포넌트의 배경이나 가로 스크롤 영역을 화면 끝까지 넓히려면 [Safe Area 가이드](/lynx/getting-started/safe-area)의 `extendSafeAreaX` 사용법과 확장 전후 비교를 참고하세요.
+
 ## Usage
 
 ### 기본 사용

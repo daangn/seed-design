@@ -75,7 +75,16 @@ Lynx Engine 3.9 이상을 지원합니다.
 
 Lynx에서는 비율에 맞는 높이를 계산할 수 있도록 프레임 너비를 지정합니다. 예제는 `useSafeArea()`로 읽은 좌우 inset을 너비에 더하고, 확장을 끄면 부모 콘텐츠 너비로 돌아갑니다.
 
-<LynxComponentExample name="lynx/image-frame/extend-safe-area">
+#### 확장 전 / 확장 후
+
+| 비교 | 확장 전 (AS IS) | 확장 후 (TO BE) |
+| --- | --- | --- |
+| 배경·스크롤 영역 | 이미지가 안전 영역 안에서 끝남 | 이미지가 좌우 끝까지 이어짐 |
+| 콘텐츠 | 안전 영역 안에 배치 | 배지의 시작·끝·중앙은 안전 영역을 기준으로 배치 |
+
+아래 스위치를 켜고 끄며 같은 예제에서 비교할 수 있습니다. 브라우저에는 비교용 좌우 inset을 적용합니다. QR로 연 기기에서는 실제 inset을 사용하므로, 좌우 inset이 모두 `0`이면 차이가 보이지 않을 수 있습니다. 적용 조건은 [Safe Area 가이드](/lynx/getting-started/safe-area)를 참고하세요.
+
+<LynxComponentExample name="lynx/image-frame/extend-safe-area" safeAreaInsets={{ left: 24, right: 48 }}>
   ```json doc-gen:file
   {
     "file": "examples/lynx/image-frame/extend-safe-area.tsx",

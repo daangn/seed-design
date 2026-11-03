@@ -14,11 +14,14 @@ import { Switch } from "@/components/ui/switch";
 
 export default function Example() {
   useGlobalProps();
-  const [extend, setExtend] = useState(true);
+  const [extend, setExtend] = useState(false);
   const { safeAreaInsetLeft, safeAreaInsetRight } = useSafeArea();
   return (
     <VStack gap="x4" width="100%">
       <Switch checked={extend} onCheckedChange={setExtend} label="안전 영역까지 확장" />
+      <Text textStyle="t3Bold">
+        {extend ? '확장 후 (TO BE) · bleedX="safeArea"' : "확장 전 (AS IS) · bleedX=0"}
+      </Text>
       <Text textStyle="t3Regular" color="fg.neutralSubtle">
         이미지는 화면 끝까지, 배지는 안전 영역 안에 놓입니다.
       </Text>

@@ -5,11 +5,16 @@ import { ActionablePageBanner, PageBanner } from "@/components/ui/page-banner";
 
 export default function Example() {
   useGlobalProps();
-  const [extend, setExtend] = useState(true);
+  const [extend, setExtend] = useState(false);
   const [count, setCount] = useState(0);
   return (
     <VStack gap="x4" width="100%">
       <Switch checked={extend} onCheckedChange={setExtend} label="안전 영역까지 확장" />
+      <Text textStyle="t3Bold">
+        {extend
+          ? "확장 후 (TO BE) · extendSafeAreaX=true"
+          : "확장 전 (AS IS) · extendSafeAreaX=false"}
+      </Text>
       <Text textStyle="t3Regular" color="fg.neutralSubtle">
         배경의 경계와 내용의 위치를 비교해 보세요.
       </Text>
