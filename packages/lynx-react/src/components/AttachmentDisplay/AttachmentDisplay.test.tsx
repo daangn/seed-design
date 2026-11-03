@@ -27,15 +27,15 @@ describe("AttachmentDisplay safe-area extension", () => {
       return element.style.getPropertyValue(property) || Reflect.get(element.style, property);
     };
     expect(styleProperty(getByTestId("root"), "--seed-safe-area-left")).toBe("84px");
-    expect(styleProperty(getByTestId("control"), "--seed-safe-area-left")).toBe("inherit");
-    expect(styleProperty(getByTestId("control"), "--seed-safe-area-right")).toBe("inherit");
+    expect(styleProperty(getByTestId("control"), "--seed-safe-area-left")).toBeUndefined();
+    expect(styleProperty(getByTestId("control"), "--seed-safe-area-right")).toBeUndefined();
 
     rerender(
       <AttachmentDisplayRoot extendSafeAreaX style={rootStyle}>
         <AttachmentDisplayControl style={controlStyle} data-testid="control" />
       </AttachmentDisplayRoot>,
     );
-    expect(styleProperty(getByTestId("control"), "--seed-safe-area-left")).toBe("inherit");
+    expect(styleProperty(getByTestId("control"), "--seed-safe-area-left")).toBeUndefined();
     expect(styleProperty(getByTestId("control"), "--seed-safe-area-right")).toBe("32px");
 
     rerender(

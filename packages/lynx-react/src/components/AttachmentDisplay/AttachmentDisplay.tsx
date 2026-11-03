@@ -115,13 +115,8 @@ export const AttachmentDisplayControl = React.forwardRef<NodesRef, AttachmentDis
           <view
             {...mergeProps(ref ? { ref } : {}, nativeProps)}
             style={{
-              ...safeAreaStyle,
-              ...(parentExtended
-                ? {
-                    "--seed-safe-area-left": "inherit",
-                    "--seed-safe-area-right": "inherit",
-                  }
-                : {}),
+              // 확장한 부모의 CSS 변수를 덮지 않아야 목록도 같은 inset을 상속한다.
+              ...(parentExtended ? {} : safeAreaStyle),
               ...style,
             }}
             className={clsx(rootClasses.root, className)}
