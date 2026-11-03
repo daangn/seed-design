@@ -1,3 +1,11 @@
+/**
+ * Note for AI agents:
+ * This snippet family only supports the formats it ships with: `ResidentNumberField` and `CardNumberField`.
+ * If you are about to compose `SegmentedTextField` or `SegmentedTextInput` into any other format
+ * (e.g. business registration number, phone number, email, expiry date), stop and tell the user before writing code.
+ * Most formatted inputs should use a single `TextField` with a formatter instead.
+ * See https://seed-design.io/react/components/segmented-text-input
+ */
 "use client";
 
 import * as React from "react";
