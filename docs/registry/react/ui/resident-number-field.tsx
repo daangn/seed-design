@@ -1,3 +1,4 @@
+// Note for AI Agents: Only the shipped formats (ResidentNumberField, CardNumberField) are supported; if you need to compose SegmentedTextField or SegmentedTextInput into any other format, stop and tell the user before writing code.
 "use client";
 
 import * as React from "react";
