@@ -1,0 +1,160 @@
+@layer seed-components {
+  .seed-next-app-bar-background__root {
+    z-index: -1;
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+  }
+
+  .seed-next-app-bar-background__blur {
+    clip-path: var(--seed-next-app-bar-background-clip-path, none);
+    transition: opacity .2s;
+    position: absolute;
+    inset: 0;
+  }
+
+  .seed-next-app-bar-background__tint {
+    clip-path: var(--seed-next-app-bar-background-clip-path, none);
+    background: var(--seed-color-bg-layer-default);
+    transition: opacity .2s;
+    position: absolute;
+    inset: 0;
+  }
+
+  .seed-next-app-bar-background__blur--material_progressiveBlur:first-child {
+    -webkit-backdrop-filter: blur(.15625px);
+    backdrop-filter: blur(.15625px);
+    -webkit-mask-image: linear-gradient(to top, #0000 0%, #000 11.1111% 22.2222%, #0000 33.3333%);
+    mask-image: linear-gradient(to top, #0000 0%, #000 11.1111% 22.2222%, #0000 33.3333%);
+  }
+
+  .seed-next-app-bar-background__blur--material_progressiveBlur:nth-child(2) {
+    -webkit-backdrop-filter: blur(.3125px);
+    backdrop-filter: blur(.3125px);
+    -webkit-mask-image: linear-gradient(to top, #0000 11.1111%, #000 22.2222% 33.3333%, #0000 44.4444%);
+    mask-image: linear-gradient(to top, #0000 11.1111%, #000 22.2222% 33.3333%, #0000 44.4444%);
+  }
+
+  .seed-next-app-bar-background__blur--material_progressiveBlur:nth-child(3) {
+    -webkit-backdrop-filter: blur(.625px);
+    backdrop-filter: blur(.625px);
+    -webkit-mask-image: linear-gradient(to top, #0000 22.2222%, #000 33.3333% 44.4444%, #0000 55.5556%);
+    mask-image: linear-gradient(to top, #0000 22.2222%, #000 33.3333% 44.4444%, #0000 55.5556%);
+  }
+
+  .seed-next-app-bar-background__blur--material_progressiveBlur:nth-child(4) {
+    -webkit-backdrop-filter: blur(1.25px);
+    backdrop-filter: blur(1.25px);
+    -webkit-mask-image: linear-gradient(to top, #0000 33.3333%, #000 44.4444% 55.5556%, #0000 66.6667%);
+    mask-image: linear-gradient(to top, #0000 33.3333%, #000 44.4444% 55.5556%, #0000 66.6667%);
+  }
+
+  .seed-next-app-bar-background__blur--material_progressiveBlur:nth-child(5) {
+    -webkit-backdrop-filter: blur(2.5px);
+    backdrop-filter: blur(2.5px);
+    -webkit-mask-image: linear-gradient(to top, #0000 44.4444%, #000 55.5556% 66.6667%, #0000 77.7778%);
+    mask-image: linear-gradient(to top, #0000 44.4444%, #000 55.5556% 66.6667%, #0000 77.7778%);
+  }
+
+  .seed-next-app-bar-background__blur--material_progressiveBlur:nth-child(6) {
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    -webkit-mask-image: linear-gradient(to top, #0000 55.5556%, #000 66.6667% 77.7778%, #0000 88.8889%);
+    mask-image: linear-gradient(to top, #0000 55.5556%, #000 66.6667% 77.7778%, #0000 88.8889%);
+  }
+
+  .seed-next-app-bar-background__blur--material_progressiveBlur:nth-child(7) {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit-mask-image: linear-gradient(to top, #0000 66.6667%, #000 77.7778% 88.8889%, #0000 100%);
+    mask-image: linear-gradient(to top, #0000 66.6667%, #000 77.7778% 88.8889%, #0000 100%);
+  }
+
+  .seed-next-app-bar-background__blur--material_progressiveBlur:nth-child(8) {
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    -webkit-mask-image: linear-gradient(to top, #0000 77.7778%, #000 88.8889%);
+    mask-image: linear-gradient(to top, #0000 77.7778%, #000 88.8889%);
+  }
+
+  .seed-next-app-bar-background__tint--material_progressiveBlur {
+    opacity: .72;
+    -webkit-mask-image: linear-gradient(#000, #0000);
+    mask-image: linear-gradient(#000, #0000);
+  }
+
+  .seed-next-app-bar-background__blur--material_transparent:first-child {
+    -webkit-backdrop-filter: blur(.15625px);
+    backdrop-filter: blur(.15625px);
+    -webkit-mask-image: linear-gradient(to top, #0000 0%, #000 11.1111% 22.2222%, #0000 33.3333%);
+    mask-image: linear-gradient(to top, #0000 0%, #000 11.1111% 22.2222%, #0000 33.3333%);
+  }
+
+  .seed-next-app-bar-background__blur--material_transparent:nth-child(2) {
+    -webkit-backdrop-filter: blur(.3125px);
+    backdrop-filter: blur(.3125px);
+    -webkit-mask-image: linear-gradient(to top, #0000 11.1111%, #000 22.2222% 33.3333%, #0000 44.4444%);
+    mask-image: linear-gradient(to top, #0000 11.1111%, #000 22.2222% 33.3333%, #0000 44.4444%);
+  }
+
+  .seed-next-app-bar-background__blur--material_transparent:nth-child(3) {
+    -webkit-backdrop-filter: blur(.625px);
+    backdrop-filter: blur(.625px);
+    -webkit-mask-image: linear-gradient(to top, #0000 22.2222%, #000 33.3333% 44.4444%, #0000 55.5556%);
+    mask-image: linear-gradient(to top, #0000 22.2222%, #000 33.3333% 44.4444%, #0000 55.5556%);
+  }
+
+  .seed-next-app-bar-background__blur--material_transparent:nth-child(4) {
+    -webkit-backdrop-filter: blur(1.25px);
+    backdrop-filter: blur(1.25px);
+    -webkit-mask-image: linear-gradient(to top, #0000 33.3333%, #000 44.4444% 55.5556%, #0000 66.6667%);
+    mask-image: linear-gradient(to top, #0000 33.3333%, #000 44.4444% 55.5556%, #0000 66.6667%);
+  }
+
+  .seed-next-app-bar-background__blur--material_transparent:nth-child(5) {
+    -webkit-backdrop-filter: blur(2.5px);
+    backdrop-filter: blur(2.5px);
+    -webkit-mask-image: linear-gradient(to top, #0000 44.4444%, #000 55.5556% 66.6667%, #0000 77.7778%);
+    mask-image: linear-gradient(to top, #0000 44.4444%, #000 55.5556% 66.6667%, #0000 77.7778%);
+  }
+
+  .seed-next-app-bar-background__blur--material_transparent:nth-child(6) {
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    -webkit-mask-image: linear-gradient(to top, #0000 55.5556%, #000 66.6667% 77.7778%, #0000 88.8889%);
+    mask-image: linear-gradient(to top, #0000 55.5556%, #000 66.6667% 77.7778%, #0000 88.8889%);
+  }
+
+  .seed-next-app-bar-background__blur--material_transparent:nth-child(7) {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit-mask-image: linear-gradient(to top, #0000 66.6667%, #000 77.7778% 88.8889%, #0000 100%);
+    mask-image: linear-gradient(to top, #0000 66.6667%, #000 77.7778% 88.8889%, #0000 100%);
+  }
+
+  .seed-next-app-bar-background__blur--material_transparent:nth-child(8) {
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    -webkit-mask-image: linear-gradient(to top, #0000 77.7778%, #000 88.8889%);
+    mask-image: linear-gradient(to top, #0000 77.7778%, #000 88.8889%);
+  }
+
+  .seed-next-app-bar-background__blur--material_transparent {
+    opacity: 0;
+  }
+
+  .seed-next-app-bar-background__tint--material_transparent {
+    opacity: 0;
+    -webkit-mask-image: linear-gradient(#000, #0000);
+    mask-image: linear-gradient(#000, #0000);
+  }
+
+  .seed-next-app-bar-background__blur--material_translucent {
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+  }
+
+  .seed-next-app-bar-background__tint--material_translucent {
+    opacity: .72;
+  }
+}

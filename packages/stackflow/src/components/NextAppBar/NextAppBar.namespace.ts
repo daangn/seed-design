@@ -1,4 +1,5 @@
 export {
+  NextAppBarBackground as Background,
   NextAppBarIconButton as IconButton,
   NextAppBarLeft as Left,
   NextAppBarMain as Main,
@@ -10,6 +11,7 @@ export {
 } from "./NextAppBar";
 
 export type {
+  NextAppBarBackgroundProps as BackgroundProps,
   NextAppBarIconButtonProps as IconButtonProps,
   NextAppBarLeftProps as LeftProps,
   NextAppBarMainProps as MainProps,

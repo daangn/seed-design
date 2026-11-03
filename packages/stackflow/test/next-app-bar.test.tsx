@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, spyOn } from "bun:test";
-import type { NextAppBarRootProps } from "../src";
+import { NextAppBarBackground, type NextAppBarRootProps } from "../src";
 import { makeActivity } from "./fixtures";
 import { getPart, getScreen, renderStack, settle } from "./harness";
 
@@ -110,5 +110,36 @@ describe("NextAppBar structure", () => {
     await settle(container);
 
     expect(getScreen(container, "a").style.getPropertyValue("--app-bar-accessory-height")).toBe("");
+  });
+
+  it("backgroundElement가 tone 배경을 대신한다", async () => {
+    const { container } = renderWithAppBar({
+      backgroundElement: <NextAppBarBackground material="translucent" />,
+    });
+    await settle(container);
+
+    const background = getPart(getScreen(container, "a"), "app-bar-background");
+    expect(background?.className).toContain("seed-next-app-bar-background__root");
+    expect(background?.className).not.toContain("seed-next-app-bar__background");
+  });
+});
+
+describe("NextAppBarBackground", () => {
+  it.each([
+    ["progressiveBlur", 8],
+    ["transparent", 8],
+    ["translucent", 1],
+  ] as const)("material=%s는 blur 레이어 %d장과 tint 한 장을 그린다", async (material, layers) => {
+    const { container } = renderWithAppBar({
+      backgroundElement: <NextAppBarBackground material={material} />,
+    });
+    await settle(container);
+
+    const background = getPart(getScreen(container, "a"), "app-bar-background");
+    expect(background?.querySelectorAll(".seed-next-app-bar-background__blur")).toHaveLength(
+      layers,
+    );
+    expect(background?.querySelectorAll(".seed-next-app-bar-background__tint")).toHaveLength(1);
+    expect(background?.getAttribute("aria-hidden")).toBe("true");
   });
 });
