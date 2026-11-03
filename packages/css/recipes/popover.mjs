@@ -1,5 +1,5 @@
 import './popover.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const popoverSlotNames = [
   [
@@ -45,14 +45,7 @@ export const popoverVariantMap = {};
 export const popoverVariantKeys = Object.keys(popoverVariantMap);
 
 export function popover(props) {
-  return Object.fromEntries(
-    popoverSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(popoverSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(popover, { splitVariantProps: (props) => splitVariantProps(props, popoverVariantMap) });

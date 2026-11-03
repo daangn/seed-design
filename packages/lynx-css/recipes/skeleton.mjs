@@ -1,5 +1,5 @@
 import './skeleton.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const skeletonSlotNames = [
   [
@@ -35,14 +35,7 @@ export const skeletonVariantMap = {
 export const skeletonVariantKeys = Object.keys(skeletonVariantMap);
 
 export function skeleton(props) {
-  return Object.fromEntries(
-    skeletonSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(skeletonSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(skeleton, { splitVariantProps: (props) => splitVariantProps(props, skeletonVariantMap) });

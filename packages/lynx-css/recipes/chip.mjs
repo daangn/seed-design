@@ -1,5 +1,5 @@
 import './chip.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const chipSlotNames = [
   [
@@ -168,14 +168,7 @@ export const chipVariantMap = {
 export const chipVariantKeys = Object.keys(chipVariantMap);
 
 export function chip(props) {
-  return Object.fromEntries(
-    chipSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(chipSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(chip, { splitVariantProps: (props) => splitVariantProps(props, chipVariantMap) });

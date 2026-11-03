@@ -18,7 +18,7 @@ import clsx from "clsx";
 import type { LynxHostProps, LynxTextRef, LynxViewProps, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
-import { useStyleProps, type StyleProps } from "../../utils/styled";
+import { handleDimension, type StyleProps } from "../../utils/styled";
 import {
   AccessibilityElementScope,
   getAccessibleText,
@@ -203,7 +203,8 @@ export interface HelpBubbleContentProps
     LynxHostProps<"view"> {}
 
 export const HelpBubbleContent = React.forwardRef<unknown, HelpBubbleContentProps>((props, ref) => {
-  const { style, restProps } = useStyleProps(props);
+  const { maxWidth, style: userStyle, ...restProps } = props;
+  const style = { maxWidth: handleDimension(maxWidth), ...userStyle };
   const { children, className, ...nativeProps } = restProps;
   const { open, finishClose } = usePopoverContext();
   const classNames = useClassNames();

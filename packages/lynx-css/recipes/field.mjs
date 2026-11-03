@@ -1,5 +1,5 @@
 import './field.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const fieldSlotNames = [
   [
@@ -57,14 +57,7 @@ export const fieldVariantMap = {
 export const fieldVariantKeys = Object.keys(fieldVariantMap);
 
 export function field(props) {
-  return Object.fromEntries(
-    fieldSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(fieldSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(field, { splitVariantProps: (props) => splitVariantProps(props, fieldVariantMap) });

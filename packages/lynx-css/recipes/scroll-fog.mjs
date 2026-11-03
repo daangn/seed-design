@@ -1,5 +1,5 @@
 import './scroll-fog.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const scrollFogSlotNames = [
   [
@@ -55,14 +55,7 @@ export const scrollFogVariantMap = {
 export const scrollFogVariantKeys = Object.keys(scrollFogVariantMap);
 
 export function scrollFog(props) {
-  return Object.fromEntries(
-    scrollFogSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(scrollFogSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(scrollFog, { splitVariantProps: (props) => splitVariantProps(props, scrollFogVariantMap) });

@@ -37,7 +37,8 @@ import { mergeProps } from "../../utils/merge-props";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { toArray } from "../../utils/children";
 import clsx from "clsx";
-import { IconSlotProvider, InternalIcon } from "../Icon/Icon";
+import { InternalIcon } from "../Icon/Icon";
+import { IconSlotProvider } from "../Icon/icon-context";
 
 export {
   useAttachmentDisplay,

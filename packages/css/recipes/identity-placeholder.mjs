@@ -1,5 +1,5 @@
 import './identity-placeholder.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const identityPlaceholderSlotNames = [
   [
@@ -28,14 +28,7 @@ export const identityPlaceholderVariantMap = {
 export const identityPlaceholderVariantKeys = Object.keys(identityPlaceholderVariantMap);
 
 export function identityPlaceholder(props) {
-  return Object.fromEntries(
-    identityPlaceholderSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(identityPlaceholderSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(identityPlaceholder, { splitVariantProps: (props) => splitVariantProps(props, identityPlaceholderVariantMap) });

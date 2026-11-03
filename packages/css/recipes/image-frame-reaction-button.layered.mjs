@@ -1,5 +1,5 @@
 import './image-frame-reaction-button.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const imageFrameReactionButtonSlotNames = [
   [
@@ -25,14 +25,7 @@ export const imageFrameReactionButtonVariantMap = {};
 export const imageFrameReactionButtonVariantKeys = Object.keys(imageFrameReactionButtonVariantMap);
 
 export function imageFrameReactionButton(props) {
-  return Object.fromEntries(
-    imageFrameReactionButtonSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(imageFrameReactionButtonSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(imageFrameReactionButton, { splitVariantProps: (props) => splitVariantProps(props, imageFrameReactionButtonVariantMap) });

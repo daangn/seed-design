@@ -1,5 +1,5 @@
 import './select-box.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const selectBoxSlotNames = [
   [
@@ -48,14 +48,7 @@ export const selectBoxVariantMap = {
 export const selectBoxVariantKeys = Object.keys(selectBoxVariantMap);
 
 export function selectBox(props) {
-  return Object.fromEntries(
-    selectBoxSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(selectBoxSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(selectBox, { splitVariantProps: (props) => splitVariantProps(props, selectBoxVariantMap) });

@@ -12,7 +12,7 @@ import clsx from "clsx";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
-import { IconSlotProvider } from "../Icon/Icon";
+import { IconSlotProvider } from "../Icon/icon-context";
 import { mergeProps } from "../../utils/merge-props";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(callout);

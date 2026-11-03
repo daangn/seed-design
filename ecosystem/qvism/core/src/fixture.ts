@@ -34,6 +34,13 @@ export function mergeVariants(a, b) {
   return result;
 }
 
+export function createSlots(slots, defaultVariants, compoundVariants, props) {
+  const variants = mergeVariants(defaultVariants, props);
+  return Object.fromEntries(
+    slots.map(([slot, className]) => [slot, createClassName(className, variants, compoundVariants)]),
+  );
+}
+
 export function splitVariantProps(props, variantMap) {
   const variantProps = {};
   const otherProps = {};

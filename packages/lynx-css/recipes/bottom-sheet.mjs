@@ -1,5 +1,5 @@
 import './bottom-sheet.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const bottomSheetSlotNames = [
   [
@@ -87,14 +87,7 @@ export const bottomSheetVariantMap = {
 export const bottomSheetVariantKeys = Object.keys(bottomSheetVariantMap);
 
 export function bottomSheet(props) {
-  return Object.fromEntries(
-    bottomSheetSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(bottomSheetSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(bottomSheet, { splitVariantProps: (props) => splitVariantProps(props, bottomSheetVariantMap) });

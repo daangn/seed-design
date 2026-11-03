@@ -1,5 +1,5 @@
 import './manner-temp-badge.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const mannerTempBadgeSlotNames = [
   [
@@ -36,14 +36,7 @@ export const mannerTempBadgeVariantMap = {
 export const mannerTempBadgeVariantKeys = Object.keys(mannerTempBadgeVariantMap);
 
 export function mannerTempBadge(props) {
-  return Object.fromEntries(
-    mannerTempBadgeSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(mannerTempBadgeSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(mannerTempBadge, { splitVariantProps: (props) => splitVariantProps(props, mannerTempBadgeVariantMap) });

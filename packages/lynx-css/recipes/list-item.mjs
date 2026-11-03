@@ -1,5 +1,5 @@
 import './list-item.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const listItemSlotNames = [
   [
@@ -84,14 +84,7 @@ export const listItemVariantMap = {
 export const listItemVariantKeys = Object.keys(listItemVariantMap);
 
 export function listItem(props) {
-  return Object.fromEntries(
-    listItemSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(listItemSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(listItem, { splitVariantProps: (props) => splitVariantProps(props, listItemVariantMap) });

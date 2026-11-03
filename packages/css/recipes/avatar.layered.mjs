@@ -1,5 +1,5 @@
 import './avatar.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const avatarSlotNames = [
   [
@@ -51,14 +51,7 @@ export const avatarVariantMap = {
 export const avatarVariantKeys = Object.keys(avatarVariantMap);
 
 export function avatar(props) {
-  return Object.fromEntries(
-    avatarSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(avatarSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(avatar, { splitVariantProps: (props) => splitVariantProps(props, avatarVariantMap) });

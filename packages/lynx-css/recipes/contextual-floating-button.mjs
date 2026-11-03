@@ -1,5 +1,5 @@
 import './contextual-floating-button.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const contextualFloatingButtonSlotNames = [
   [
@@ -89,14 +89,7 @@ export const contextualFloatingButtonVariantMap = {
 export const contextualFloatingButtonVariantKeys = Object.keys(contextualFloatingButtonVariantMap);
 
 export function contextualFloatingButton(props) {
-  return Object.fromEntries(
-    contextualFloatingButtonSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(contextualFloatingButtonSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(contextualFloatingButton, { splitVariantProps: (props) => splitVariantProps(props, contextualFloatingButtonVariantMap) });

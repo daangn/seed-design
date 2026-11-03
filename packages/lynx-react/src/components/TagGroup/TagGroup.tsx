@@ -10,7 +10,7 @@ import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
-import { useStyleProps, type StyleProps } from "../../utils/styled";
+import { resolveFlexValue, type StyleProps } from "../../utils/styled";
 import { mergeProps } from "../../utils/merge-props";
 
 const { PropsProvider, useProps, ClassNamesProvider, useClassNames } =
@@ -93,7 +93,8 @@ export const TagGroupItem = React.forwardRef<unknown, TagGroupItemProps>((props,
   const parentVariantProps = useProps();
   const [localVariantProps, otherProps] = tagGroupItem.splitVariantProps(props);
   const classes = tagGroupItem({ ...parentVariantProps, ...localVariantProps });
-  const { style, restProps } = useStyleProps(otherProps);
+  const { flexShrink, style: userStyle, ...restProps } = otherProps;
+  const style = { flexShrink: resolveFlexValue(flexShrink), ...userStyle };
   const { children, className, ...nativeProps } = restProps;
 
   return (

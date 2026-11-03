@@ -1,5 +1,5 @@
 import './input-button.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const inputButtonSlotNames = [
   [
@@ -57,14 +57,7 @@ export const inputButtonVariantMap = {
 export const inputButtonVariantKeys = Object.keys(inputButtonVariantMap);
 
 export function inputButton(props) {
-  return Object.fromEntries(
-    inputButtonSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(inputButtonSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(inputButton, { splitVariantProps: (props) => splitVariantProps(props, inputButtonVariantMap) });

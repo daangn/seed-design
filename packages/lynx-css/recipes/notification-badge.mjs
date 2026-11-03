@@ -1,5 +1,5 @@
 import './notification-badge.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const notificationBadgeSlotNames = [
   [
@@ -28,14 +28,7 @@ export const notificationBadgeVariantMap = {
 export const notificationBadgeVariantKeys = Object.keys(notificationBadgeVariantMap);
 
 export function notificationBadge(props) {
-  return Object.fromEntries(
-    notificationBadgeSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(notificationBadgeSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(notificationBadge, { splitVariantProps: (props) => splitVariantProps(props, notificationBadgeVariantMap) });

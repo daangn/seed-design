@@ -1,5 +1,5 @@
 import './switch.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const switchSlotNames = [
   [
@@ -34,14 +34,7 @@ export const switchVariantMap = {
 export const switchVariantKeys = Object.keys(switchVariantMap);
 
 export function switchStyle(props) {
-  return Object.fromEntries(
-    switchSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(switchSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(switchStyle, { splitVariantProps: (props) => splitVariantProps(props, switchVariantMap) });

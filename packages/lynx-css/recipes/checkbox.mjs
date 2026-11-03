@@ -1,5 +1,5 @@
 import './checkbox.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const checkboxSlotNames = [
   [
@@ -42,14 +42,7 @@ export const checkboxVariantMap = {
 export const checkboxVariantKeys = Object.keys(checkboxVariantMap);
 
 export function checkbox(props) {
-  return Object.fromEntries(
-    checkboxSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(checkboxSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(checkbox, { splitVariantProps: (props) => splitVariantProps(props, checkboxVariantMap) });

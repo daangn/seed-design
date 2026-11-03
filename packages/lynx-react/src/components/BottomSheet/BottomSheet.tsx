@@ -39,7 +39,7 @@ import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
-import { IconSlotProvider } from "../Icon/Icon";
+import { IconSlotProvider } from "../Icon/icon-context";
 import { useSheetScrollGestureProps } from "../private/SheetScrollGesture";
 
 type BottomSheetClassNames = ReturnType<typeof bottomSheet>;

@@ -1,5 +1,5 @@
 import './app-bar.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const appBarSlotNames = [
   [
@@ -59,14 +59,7 @@ export const appBarVariantMap = {
 export const appBarVariantKeys = Object.keys(appBarVariantMap);
 
 export function appBar(props) {
-  return Object.fromEntries(
-    appBarSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(appBarSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(appBar, { splitVariantProps: (props) => splitVariantProps(props, appBarVariantMap) });

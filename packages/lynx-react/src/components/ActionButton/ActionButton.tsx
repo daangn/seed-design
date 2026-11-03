@@ -1,3 +1,4 @@
+import { useSafeArea } from "../../hooks/useSafeArea";
 import { actionButton } from "@seed-design/lynx-css/recipes/action-button";
 import type { ActionButtonVariantProps } from "@seed-design/lynx-css/recipes/action-button";
 import { useActionButton, type UseActionButtonProps } from "@seed-design/lynx-react-action-button";
@@ -17,14 +18,19 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { toArray } from "../../utils/children";
-import { useStyleProps, type MarginBleedStyleProps, type StyleProps } from "../../utils/styled";
 import {
-  ProgressCircleRange,
+  handleBleed,
+  resolveFlexValue,
+  type MarginBleedStyleProps,
+  type StyleProps,
+} from "../../utils/styled";
+import {
   ProgressCircleRoot,
   ProgressCircleTrack,
   type ProgressCircleRootProps,
-} from "../ProgressCircle";
-import { IconRequired, IconSlotProvider, getIconSlotName } from "../Icon/Icon";
+} from "../ProgressCircle/progress-circle-core";
+import { IndeterminateProgressCircleRange as ProgressCircleRange } from "../ProgressCircle/indeterminate-range";
+import { IconRequired, IconSlotProvider, getIconSlotName } from "../Icon/icon-context";
 import { mergeProps } from "../../utils/merge-props";
 import {
   AccessibilityElementScope,
@@ -263,7 +269,16 @@ export interface ActionButtonProps
     LynxPressableProps {}
 
 export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props, ref) => {
-  const { style, restProps } = useStyleProps(props);
+  const { flexGrow, bleed, bleedX, bleedY, style: userStyle, ...restProps } = props;
+  const insets = useSafeArea();
+  const style = {
+    flexGrow: resolveFlexValue(flexGrow),
+    marginTop: handleBleed(bleedY ?? bleed, insets.safeAreaInsetTop),
+    marginBottom: handleBleed(bleedY ?? bleed, insets.safeAreaInsetBottom),
+    marginLeft: handleBleed(bleedX ?? bleed, insets.safeAreaInsetLeft),
+    marginRight: handleBleed(bleedX ?? bleed, insets.safeAreaInsetRight),
+    ...userStyle,
+  };
   const {
     children,
     layout,

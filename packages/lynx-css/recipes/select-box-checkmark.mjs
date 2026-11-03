@@ -1,5 +1,5 @@
 import './select-box-checkmark.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const selectBoxCheckmarkSlotNames = [
   [
@@ -48,14 +48,7 @@ export const selectBoxCheckmarkVariantMap = {
 export const selectBoxCheckmarkVariantKeys = Object.keys(selectBoxCheckmarkVariantMap);
 
 export function selectBoxCheckmark(props) {
-  return Object.fromEntries(
-    selectBoxCheckmarkSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(selectBoxCheckmarkSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(selectBoxCheckmark, { splitVariantProps: (props) => splitVariantProps(props, selectBoxCheckmarkVariantMap) });

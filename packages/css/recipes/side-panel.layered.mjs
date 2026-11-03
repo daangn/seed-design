@@ -1,5 +1,5 @@
 import './side-panel.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const sidePanelSlotNames = [
   [
@@ -57,14 +57,7 @@ export const sidePanelVariantMap = {
 export const sidePanelVariantKeys = Object.keys(sidePanelVariantMap);
 
 export function sidePanel(props) {
-  return Object.fromEntries(
-    sidePanelSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(sidePanelSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(sidePanel, { splitVariantProps: (props) => splitVariantProps(props, sidePanelVariantMap) });

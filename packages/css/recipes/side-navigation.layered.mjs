@@ -1,5 +1,5 @@
 import './side-navigation.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const sideNavigationSlotNames = [
   [
@@ -48,14 +48,7 @@ export const sideNavigationVariantMap = {
 export const sideNavigationVariantKeys = Object.keys(sideNavigationVariantMap);
 
 export function sideNavigation(props) {
-  return Object.fromEntries(
-    sideNavigationSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(sideNavigationSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(sideNavigation, { splitVariantProps: (props) => splitVariantProps(props, sideNavigationVariantMap) });

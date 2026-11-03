@@ -1,5 +1,5 @@
 import './image-frame.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const imageFrameSlotNames = [
   [
@@ -32,14 +32,7 @@ export const imageFrameVariantMap = {
 export const imageFrameVariantKeys = Object.keys(imageFrameVariantMap);
 
 export function imageFrame(props) {
-  return Object.fromEntries(
-    imageFrameSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(imageFrameSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(imageFrame, { splitVariantProps: (props) => splitVariantProps(props, imageFrameVariantMap) });

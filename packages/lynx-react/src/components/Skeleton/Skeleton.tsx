@@ -5,7 +5,7 @@ import * as React from "@lynx-js/react";
 
 import type { LynxHostProps, LynxViewRef } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
-import { useStyleProps, type StyleProps } from "../../utils/styled";
+import { handleDimension, type StyleProps } from "../../utils/styled";
 
 /**
  * @platform Lynx
@@ -34,7 +34,12 @@ function handleHeight(height: string | undefined) {
 
 export const Skeleton = React.forwardRef<unknown, SkeletonProps>((props, ref) => {
   const [variantProps, { height, ...otherProps }] = skeleton.splitVariantProps(props);
-  const { style, restProps } = useStyleProps({ ...otherProps, height: handleHeight(height) });
+  const { width, style: userStyle, ...restProps } = otherProps;
+  const style = {
+    width: handleDimension(width),
+    height: handleDimension(handleHeight(height)),
+    ...userStyle,
+  };
   const {
     children: _children,
     className,

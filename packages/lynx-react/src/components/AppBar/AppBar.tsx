@@ -20,7 +20,7 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { Icon } from "../Icon";
-import { IconSlotProvider } from "../Icon/Icon";
+import { IconSlotProvider } from "../Icon/icon-context";
 import { getMainLayoutStyle, useStyledAppBar, useStyledAppBarContext } from "./useStyledAppBar";
 import { mergeProps } from "../../utils/merge-props";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";

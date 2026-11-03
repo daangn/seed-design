@@ -1,5 +1,5 @@
 import './content-placeholder.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const contentPlaceholderSlotNames = [
   [
@@ -38,14 +38,7 @@ export const contentPlaceholderVariantMap = {
 export const contentPlaceholderVariantKeys = Object.keys(contentPlaceholderVariantMap);
 
 export function contentPlaceholder(props) {
-  return Object.fromEntries(
-    contentPlaceholderSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(contentPlaceholderSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(contentPlaceholder, { splitVariantProps: (props) => splitVariantProps(props, contentPlaceholderVariantMap) });

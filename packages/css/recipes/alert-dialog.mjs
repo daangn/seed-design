@@ -1,5 +1,5 @@
 import './alert-dialog.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const alertDialogSlotNames = [
   [
@@ -51,14 +51,7 @@ export const alertDialogVariantMap = {
 export const alertDialogVariantKeys = Object.keys(alertDialogVariantMap);
 
 export function alertDialog(props) {
-  return Object.fromEntries(
-    alertDialogSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(alertDialogSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(alertDialog, { splitVariantProps: (props) => splitVariantProps(props, alertDialogVariantMap) });

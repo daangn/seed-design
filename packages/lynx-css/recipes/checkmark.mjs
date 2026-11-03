@@ -1,5 +1,5 @@
 import './checkmark.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const checkmarkSlotNames = [
   [
@@ -177,14 +177,7 @@ export const checkmarkVariantMap = {
 export const checkmarkVariantKeys = Object.keys(checkmarkVariantMap);
 
 export function checkmark(props) {
-  return Object.fromEntries(
-    checkmarkSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(checkmarkSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(checkmark, { splitVariantProps: (props) => splitVariantProps(props, checkmarkVariantMap) });

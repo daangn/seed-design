@@ -1,5 +1,5 @@
 import './radiomark.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const radiomarkSlotNames = [
   [
@@ -33,14 +33,7 @@ export const radiomarkVariantMap = {
 export const radiomarkVariantKeys = Object.keys(radiomarkVariantMap);
 
 export function radiomark(props) {
-  return Object.fromEntries(
-    radiomarkSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(radiomarkSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(radiomark, { splitVariantProps: (props) => splitVariantProps(props, radiomarkVariantMap) });

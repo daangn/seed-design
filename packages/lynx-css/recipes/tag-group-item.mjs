@@ -1,5 +1,5 @@
 import './tag-group-item.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const tagGroupItemSlotNames = [
   [
@@ -40,14 +40,7 @@ export const tagGroupItemVariantMap = {
 export const tagGroupItemVariantKeys = Object.keys(tagGroupItemVariantMap);
 
 export function tagGroupItem(props) {
-  return Object.fromEntries(
-    tagGroupItemSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(tagGroupItemSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(tagGroupItem, { splitVariantProps: (props) => splitVariantProps(props, tagGroupItemVariantMap) });

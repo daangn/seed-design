@@ -1,5 +1,5 @@
 import './text-input.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const textInputSlotNames = [
   [
@@ -75,14 +75,7 @@ export const textInputVariantMap = {
 export const textInputVariantKeys = Object.keys(textInputVariantMap);
 
 export function textInput(props) {
-  return Object.fromEntries(
-    textInputSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(textInputSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(textInput, { splitVariantProps: (props) => splitVariantProps(props, textInputVariantMap) });

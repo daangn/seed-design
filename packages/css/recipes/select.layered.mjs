@@ -1,5 +1,5 @@
 import './select.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const selectSlotNames = [
   [
@@ -41,14 +41,7 @@ export const selectVariantMap = {
 export const selectVariantKeys = Object.keys(selectVariantMap);
 
 export function select(props) {
-  return Object.fromEntries(
-    selectSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(selectSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(select, { splitVariantProps: (props) => splitVariantProps(props, selectVariantMap) });

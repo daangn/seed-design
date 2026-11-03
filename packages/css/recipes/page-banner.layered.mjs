@@ -1,5 +1,5 @@
 import './page-banner.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const pageBannerSlotNames = [
   [
@@ -102,14 +102,7 @@ export const pageBannerVariantMap = {
 export const pageBannerVariantKeys = Object.keys(pageBannerVariantMap);
 
 export function pageBanner(props) {
-  return Object.fromEntries(
-    pageBannerSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(pageBannerSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(pageBanner, { splitVariantProps: (props) => splitVariantProps(props, pageBannerVariantMap) });

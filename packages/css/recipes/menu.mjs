@@ -1,5 +1,5 @@
 import './menu.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const menuSlotNames = [
   [
@@ -41,14 +41,7 @@ export const menuVariantMap = {
 export const menuVariantKeys = Object.keys(menuVariantMap);
 
 export function menu(props) {
-  return Object.fromEntries(
-    menuSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(menuSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(menu, { splitVariantProps: (props) => splitVariantProps(props, menuVariantMap) });

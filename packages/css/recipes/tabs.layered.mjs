@@ -1,5 +1,5 @@
 import './tabs.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const tabsSlotNames = [
   [
@@ -63,14 +63,7 @@ export const tabsVariantMap = {
 export const tabsVariantKeys = Object.keys(tabsVariantMap);
 
 export function tabs(props) {
-  return Object.fromEntries(
-    tabsSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(tabsSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(tabs, { splitVariantProps: (props) => splitVariantProps(props, tabsVariantMap) });

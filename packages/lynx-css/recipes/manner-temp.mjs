@@ -1,5 +1,5 @@
 import './manner-temp.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const mannerTempSlotNames = [
   [
@@ -40,14 +40,7 @@ export const mannerTempVariantMap = {
 export const mannerTempVariantKeys = Object.keys(mannerTempVariantMap);
 
 export function mannerTemp(props) {
-  return Object.fromEntries(
-    mannerTempSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(mannerTempSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(mannerTemp, { splitVariantProps: (props) => splitVariantProps(props, mannerTempVariantMap) });

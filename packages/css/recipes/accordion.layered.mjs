@@ -1,5 +1,5 @@
 import './accordion.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const accordionSlotNames = [
   [
@@ -79,14 +79,7 @@ export const accordionVariantMap = {
 export const accordionVariantKeys = Object.keys(accordionVariantMap);
 
 export function accordion(props) {
-  return Object.fromEntries(
-    accordionSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(accordionSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(accordion, { splitVariantProps: (props) => splitVariantProps(props, accordionVariantMap) });

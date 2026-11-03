@@ -211,7 +211,12 @@ const actionButton = defineSlotRecipe({
       false: {},
     },
     disabled: {
-      true: {},
+      true: {
+        text: { color: vars.variantBrandSolid.disabled.label.color },
+        prefixIcon: { color: vars.variantBrandSolid.disabled.prefixIcon.color },
+        suffixIcon: { color: vars.variantBrandSolid.disabled.suffixIcon.color },
+        icon: { color: vars.variantBrandSolid.disabled.icon.color },
+      },
       false: {},
     },
     loading: {
@@ -497,16 +502,12 @@ const actionButton = defineSlotRecipe({
       },
     },
 
-    // ── variant × disabled — all slots ──────────────────────────────────────
+    // ── variant × disabled — root background and border ──────────────────────────────────────
     {
       variant: "brandSolid",
       disabled: true,
       css: {
         root: { background: vars.variantBrandSolid.disabled.root.color },
-        text: { color: vars.variantBrandSolid.disabled.label.color },
-        prefixIcon: { color: vars.variantBrandSolid.disabled.prefixIcon.color },
-        suffixIcon: { color: vars.variantBrandSolid.disabled.suffixIcon.color },
-        icon: { color: vars.variantBrandSolid.disabled.icon.color },
       },
     },
     {
@@ -514,10 +515,6 @@ const actionButton = defineSlotRecipe({
       disabled: true,
       css: {
         root: { background: vars.variantNeutralSolid.disabled.root.color },
-        text: { color: vars.variantNeutralSolid.disabled.label.color },
-        prefixIcon: { color: vars.variantNeutralSolid.disabled.prefixIcon.color },
-        suffixIcon: { color: vars.variantNeutralSolid.disabled.suffixIcon.color },
-        icon: { color: vars.variantNeutralSolid.disabled.icon.color },
       },
     },
     {
@@ -525,10 +522,6 @@ const actionButton = defineSlotRecipe({
       disabled: true,
       css: {
         root: { background: vars.variantNeutralWeak.disabled.root.color },
-        text: { color: vars.variantNeutralWeak.disabled.label.color },
-        prefixIcon: { color: vars.variantNeutralWeak.disabled.prefixIcon.color },
-        suffixIcon: { color: vars.variantNeutralWeak.disabled.suffixIcon.color },
-        icon: { color: vars.variantNeutralWeak.disabled.icon.color },
       },
     },
     {
@@ -536,10 +529,6 @@ const actionButton = defineSlotRecipe({
       disabled: true,
       css: {
         root: { background: vars.variantCriticalSolid.disabled.root.color },
-        text: { color: vars.variantCriticalSolid.disabled.label.color },
-        prefixIcon: { color: vars.variantCriticalSolid.disabled.prefixIcon.color },
-        suffixIcon: { color: vars.variantCriticalSolid.disabled.suffixIcon.color },
-        icon: { color: vars.variantCriticalSolid.disabled.icon.color },
       },
     },
     {
@@ -550,10 +539,6 @@ const actionButton = defineSlotRecipe({
           background: vars.variantBrandOutline.disabled.root.color,
           borderColor: vars.variantBrandOutline.disabled.root.strokeColor,
         },
-        text: { color: vars.variantBrandOutline.disabled.label.color },
-        prefixIcon: { color: vars.variantBrandOutline.disabled.prefixIcon.color },
-        suffixIcon: { color: vars.variantBrandOutline.disabled.suffixIcon.color },
-        icon: { color: vars.variantBrandOutline.disabled.icon.color },
       },
     },
     {
@@ -564,10 +549,6 @@ const actionButton = defineSlotRecipe({
           background: vars.variantNeutralOutline.disabled.root.color,
           borderColor: vars.variantNeutralOutline.disabled.root.strokeColor,
         },
-        text: { color: vars.variantNeutralOutline.disabled.label.color },
-        prefixIcon: { color: vars.variantNeutralOutline.disabled.prefixIcon.color },
-        suffixIcon: { color: vars.variantNeutralOutline.disabled.suffixIcon.color },
-        icon: { color: vars.variantNeutralOutline.disabled.icon.color },
       },
     },
     {
@@ -575,10 +556,6 @@ const actionButton = defineSlotRecipe({
       disabled: true,
       css: {
         root: { background: vars.variantGhost.disabled.root.color },
-        text: { color: vars.variantGhost.disabled.label.color },
-        prefixIcon: { color: vars.variantGhost.disabled.prefixIcon.color },
-        suffixIcon: { color: vars.variantGhost.disabled.suffixIcon.color },
-        icon: { color: vars.variantGhost.disabled.icon.color },
       },
     },
 

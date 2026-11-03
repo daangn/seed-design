@@ -1,5 +1,5 @@
 import './slider.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const sliderSlotNames = [
   [
@@ -84,14 +84,7 @@ export const sliderVariantMap = {
 export const sliderVariantKeys = Object.keys(sliderVariantMap);
 
 export function slider(props) {
-  return Object.fromEntries(
-    sliderSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(sliderSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(slider, { splitVariantProps: (props) => splitVariantProps(props, sliderVariantMap) });

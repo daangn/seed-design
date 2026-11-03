@@ -1,5 +1,5 @@
 import './select-trigger.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const selectTriggerSlotNames = [
   [
@@ -41,14 +41,7 @@ export const selectTriggerVariantMap = {
 export const selectTriggerVariantKeys = Object.keys(selectTriggerVariantMap);
 
 export function selectTrigger(props) {
-  return Object.fromEntries(
-    selectTriggerSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(selectTriggerSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(selectTrigger, { splitVariantProps: (props) => splitVariantProps(props, selectTriggerVariantMap) });

@@ -1,0 +1,49 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`generated slot recipe shared runtime preserves the complete generated module 1`] = `
+"import { createSlots, splitVariantProps } from "./shared.mjs";
+
+const auditButtonSlotNames = [
+  [
+    "root",
+    "seed-audit-button__root"
+  ],
+  [
+    "label",
+    "seed-audit-button__label"
+  ]
+];
+
+const defaultVariant = {
+  "size": "small",
+  "disabled": false
+};
+
+const compoundVariants = [
+  {
+    "size": "large",
+    "disabled": true
+  }
+];
+
+export const auditButtonVariantMap = {
+  "size": [
+    "small",
+    "large"
+  ],
+  "disabled": [
+    true,
+    false
+  ]
+};
+
+export const auditButtonVariantKeys = Object.keys(auditButtonVariantMap);
+
+export function auditButton(props) {
+  return createSlots(auditButtonSlotNames, defaultVariant, compoundVariants, props);
+}
+
+Object.assign(auditButton, { splitVariantProps: (props) => splitVariantProps(props, auditButtonVariantMap) });
+
+// @recipe(seed): audit-button"
+`;

@@ -1,5 +1,5 @@
 import './tag-group.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const tagGroupSlotNames = [
   [
@@ -47,14 +47,7 @@ export const tagGroupVariantMap = {
 export const tagGroupVariantKeys = Object.keys(tagGroupVariantMap);
 
 export function tagGroup(props) {
-  return Object.fromEntries(
-    tagGroupSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(tagGroupSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(tagGroup, { splitVariantProps: (props) => splitVariantProps(props, tagGroupVariantMap) });

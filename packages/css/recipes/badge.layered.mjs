@@ -1,5 +1,5 @@
 import './badge.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const badgeSlotNames = [
   [
@@ -124,14 +124,7 @@ export const badgeVariantMap = {
 export const badgeVariantKeys = Object.keys(badgeVariantMap);
 
 export function badge(props) {
-  return Object.fromEntries(
-    badgeSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(badgeSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(badge, { splitVariantProps: (props) => splitVariantProps(props, badgeVariantMap) });

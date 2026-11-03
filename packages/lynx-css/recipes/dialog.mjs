@@ -1,5 +1,5 @@
 import './dialog.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const dialogSlotNames = [
   [
@@ -61,14 +61,7 @@ export const dialogVariantMap = {
 export const dialogVariantKeys = Object.keys(dialogVariantMap);
 
 export function dialog(props) {
-  return Object.fromEntries(
-    dialogSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(dialogSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(dialog, { splitVariantProps: (props) => splitVariantProps(props, dialogVariantMap) });

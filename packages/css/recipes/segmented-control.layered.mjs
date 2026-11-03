@@ -1,5 +1,5 @@
 import './segmented-control.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const segmentedControlSlotNames = [
   [
@@ -25,14 +25,7 @@ export const segmentedControlVariantMap = {};
 export const segmentedControlVariantKeys = Object.keys(segmentedControlVariantMap);
 
 export function segmentedControl(props) {
-  return Object.fromEntries(
-    segmentedControlSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(segmentedControlSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(segmentedControl, { splitVariantProps: (props) => splitVariantProps(props, segmentedControlVariantMap) });

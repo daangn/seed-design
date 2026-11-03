@@ -1,5 +1,5 @@
 import './reaction-button.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const reactionButtonSlotNames = [
   [
@@ -74,14 +74,7 @@ export const reactionButtonVariantMap = {
 export const reactionButtonVariantKeys = Object.keys(reactionButtonVariantMap);
 
 export function reactionButton(props) {
-  return Object.fromEntries(
-    reactionButtonSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(reactionButtonSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(reactionButton, { splitVariantProps: (props) => splitVariantProps(props, reactionButtonVariantMap) });

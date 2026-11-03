@@ -1,5 +1,5 @@
 import './wheel-picker.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const wheelPickerSlotNames = [
   [
@@ -48,14 +48,7 @@ export const wheelPickerVariantMap = {
 export const wheelPickerVariantKeys = Object.keys(wheelPickerVariantMap);
 
 export function wheelPicker(props) {
-  return Object.fromEntries(
-    wheelPickerSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(wheelPickerSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(wheelPicker, { splitVariantProps: (props) => splitVariantProps(props, wheelPickerVariantMap) });

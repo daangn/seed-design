@@ -1,5 +1,5 @@
 import './chip-tabs.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const chipTabsSlotNames = [
   [
@@ -59,14 +59,7 @@ export const chipTabsVariantMap = {
 export const chipTabsVariantKeys = Object.keys(chipTabsVariantMap);
 
 export function chipTabs(props) {
-  return Object.fromEntries(
-    chipTabsSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(chipTabsSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(chipTabs, { splitVariantProps: (props) => splitVariantProps(props, chipTabsVariantMap) });

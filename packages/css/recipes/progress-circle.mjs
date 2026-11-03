@@ -1,5 +1,5 @@
 import './progress-circle.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const progressCircleSlotNames = [
   [
@@ -40,14 +40,7 @@ export const progressCircleVariantMap = {
 export const progressCircleVariantKeys = Object.keys(progressCircleVariantMap);
 
 export function progressCircle(props) {
-  return Object.fromEntries(
-    progressCircleSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(progressCircleSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(progressCircle, { splitVariantProps: (props) => splitVariantProps(props, progressCircleVariantMap) });

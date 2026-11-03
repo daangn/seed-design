@@ -44,7 +44,7 @@ import {
   SEED_SNAP_ANIMATION,
   type BottomSheetHandleProps,
 } from "../BottomSheet/BottomSheet";
-import { IconSlotProvider } from "../Icon/Icon";
+import { IconSlotProvider } from "../Icon/icon-context";
 import { useSheetScrollGestureProps } from "../private/SheetScrollGesture";
 import {
   AccessibilityElementScope,

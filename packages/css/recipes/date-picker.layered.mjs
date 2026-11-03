@@ -1,5 +1,5 @@
 import './date-picker.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const datePickerSlotNames = [
   [
@@ -142,14 +142,7 @@ export const datePickerVariantMap = {
 export const datePickerVariantKeys = Object.keys(datePickerVariantMap);
 
 export function datePicker(props) {
-  return Object.fromEntries(
-    datePickerSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(datePickerSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(datePicker, { splitVariantProps: (props) => splitVariantProps(props, datePickerVariantMap) });

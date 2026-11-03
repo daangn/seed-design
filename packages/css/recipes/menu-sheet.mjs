@@ -1,5 +1,5 @@
 import './menu-sheet.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const menuSheetSlotNames = [
   [
@@ -59,14 +59,7 @@ export const menuSheetVariantMap = {
 export const menuSheetVariantKeys = Object.keys(menuSheetVariantMap);
 
 export function menuSheet(props) {
-  return Object.fromEntries(
-    menuSheetSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(menuSheetSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(menuSheet, { splitVariantProps: (props) => splitVariantProps(props, menuSheetVariantMap) });

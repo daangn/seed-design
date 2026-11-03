@@ -1,5 +1,5 @@
 import './callout.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const calloutSlotNames = [
   [
@@ -115,14 +115,7 @@ export const calloutVariantMap = {
 export const calloutVariantKeys = Object.keys(calloutVariantMap);
 
 export function callout(props) {
-  return Object.fromEntries(
-    calloutSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(calloutSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(callout, { splitVariantProps: (props) => splitVariantProps(props, calloutVariantMap) });

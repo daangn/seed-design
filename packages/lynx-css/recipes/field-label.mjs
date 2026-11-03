@@ -1,5 +1,5 @@
 import './field-label.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const fieldLabelSlotNames = [
   [
@@ -32,14 +32,7 @@ export const fieldLabelVariantMap = {
 export const fieldLabelVariantKeys = Object.keys(fieldLabelVariantMap);
 
 export function fieldLabel(props) {
-  return Object.fromEntries(
-    fieldLabelSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(fieldLabelSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(fieldLabel, { splitVariantProps: (props) => splitVariantProps(props, fieldLabelVariantMap) });

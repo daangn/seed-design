@@ -1,5 +1,5 @@
 import './floating-action-button.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const floatingActionButtonSlotNames = [
   [
@@ -32,14 +32,7 @@ export const floatingActionButtonVariantMap = {
 export const floatingActionButtonVariantKeys = Object.keys(floatingActionButtonVariantMap);
 
 export function floatingActionButton(props) {
-  return Object.fromEntries(
-    floatingActionButtonSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(floatingActionButtonSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(floatingActionButton, { splitVariantProps: (props) => splitVariantProps(props, floatingActionButtonVariantMap) });

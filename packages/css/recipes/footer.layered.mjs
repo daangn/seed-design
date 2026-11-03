@@ -1,5 +1,5 @@
 import './footer.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const footerSlotNames = [
   [
@@ -24,14 +24,7 @@ export const footerVariantMap = {
 export const footerVariantKeys = Object.keys(footerVariantMap);
 
 export function footer(props) {
-  return Object.fromEntries(
-    footerSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(footerSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(footer, { splitVariantProps: (props) => splitVariantProps(props, footerVariantMap) });

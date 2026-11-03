@@ -1,5 +1,5 @@
 import './side-navigation-menu-item.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const sideNavigationMenuItemSlotNames = [
   [
@@ -33,14 +33,7 @@ export const sideNavigationMenuItemVariantMap = {};
 export const sideNavigationMenuItemVariantKeys = Object.keys(sideNavigationMenuItemVariantMap);
 
 export function sideNavigationMenuItem(props) {
-  return Object.fromEntries(
-    sideNavigationMenuItemSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(sideNavigationMenuItemSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(sideNavigationMenuItem, { splitVariantProps: (props) => splitVariantProps(props, sideNavigationMenuItemVariantMap) });

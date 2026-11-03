@@ -1,5 +1,5 @@
 import './layout.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const layoutSlotNames = [
   [
@@ -29,14 +29,7 @@ export const layoutVariantMap = {
 export const layoutVariantKeys = Object.keys(layoutVariantMap);
 
 export function layout(props) {
-  return Object.fromEntries(
-    layoutSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(layoutSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(layout, { splitVariantProps: (props) => splitVariantProps(props, layoutVariantMap) });

@@ -1,5 +1,5 @@
 import './switchmark.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const switchmarkSlotNames = [
   [
@@ -34,14 +34,7 @@ export const switchmarkVariantMap = {
 export const switchmarkVariantKeys = Object.keys(switchmarkVariantMap);
 
 export function switchmark(props) {
-  return Object.fromEntries(
-    switchmarkSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(switchmarkSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(switchmark, { splitVariantProps: (props) => splitVariantProps(props, switchmarkVariantMap) });

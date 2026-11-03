@@ -1,5 +1,5 @@
 import './pull-to-refresh.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const pullToRefreshSlotNames = [
   [
@@ -21,14 +21,7 @@ export const pullToRefreshVariantMap = {};
 export const pullToRefreshVariantKeys = Object.keys(pullToRefreshVariantMap);
 
 export function pullToRefresh(props) {
-  return Object.fromEntries(
-    pullToRefreshSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(pullToRefreshSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(pullToRefresh, { splitVariantProps: (props) => splitVariantProps(props, pullToRefreshVariantMap) });

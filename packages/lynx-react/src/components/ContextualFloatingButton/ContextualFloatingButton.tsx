@@ -11,8 +11,9 @@ import type { LynxElementProps, LynxHostProps, LynxPressableProps, LynxViewRef }
 import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
-import { IconRequired, IconSlotProvider, getIconSlotName } from "../Icon/Icon";
-import { ProgressCircleRange, ProgressCircleRoot, ProgressCircleTrack } from "../ProgressCircle";
+import { IconRequired, IconSlotProvider, getIconSlotName } from "../Icon/icon-context";
+import { ProgressCircleRoot, ProgressCircleTrack } from "../ProgressCircle/progress-circle-core";
+import { IndeterminateProgressCircleRange as ProgressCircleRange } from "../ProgressCircle/indeterminate-range";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(contextualFloatingButton);
 

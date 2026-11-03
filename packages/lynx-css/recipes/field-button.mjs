@@ -1,5 +1,5 @@
 import './field-button.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const fieldButtonSlotNames = [
   [
@@ -93,14 +93,7 @@ export const fieldButtonVariantMap = {
 export const fieldButtonVariantKeys = Object.keys(fieldButtonVariantMap);
 
 export function fieldButton(props) {
-  return Object.fromEntries(
-    fieldButtonSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(fieldButtonSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(fieldButton, { splitVariantProps: (props) => splitVariantProps(props, fieldButtonVariantMap) });

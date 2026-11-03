@@ -48,7 +48,7 @@ export function generateSlotRecipeJs(
         ? `import './${definition.name}.css';\n`
         : "") +
     outdent`
-  import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+  import { createSlots, splitVariantProps } from "./shared.mjs";
 
   const ${jsName}SlotNames = ${JSON.stringify(slotNames, null, 2)};
   
@@ -61,14 +61,7 @@ export function generateSlotRecipeJs(
   export const ${jsName}VariantKeys = Object.keys(${jsName}VariantMap);
   
   export function ${escapeReservedWord(jsName)}(props) {
-    return Object.fromEntries(
-      ${jsName}SlotNames.map(([slot, className]) => {
-        return [
-          slot,
-          createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-        ];
-      }),
-    );
+    return createSlots(${jsName}SlotNames, defaultVariant, compoundVariants, props);
   }
   
   Object.assign(${escapeReservedWord(jsName)}, { splitVariantProps: (props) => splitVariantProps(props, ${jsName}VariantMap) });

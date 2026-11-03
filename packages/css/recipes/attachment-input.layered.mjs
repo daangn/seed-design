@@ -1,5 +1,5 @@
 import './attachment-input.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const attachmentInputSlotNames = [
   [
@@ -33,14 +33,7 @@ export const attachmentInputVariantMap = {};
 export const attachmentInputVariantKeys = Object.keys(attachmentInputVariantMap);
 
 export function attachmentInput(props) {
-  return Object.fromEntries(
-    attachmentInputSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(attachmentInputSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(attachmentInput, { splitVariantProps: (props) => splitVariantProps(props, attachmentInputVariantMap) });

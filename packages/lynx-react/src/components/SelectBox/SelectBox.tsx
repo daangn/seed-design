@@ -28,7 +28,8 @@ import { ScaleFeedbackContentContext } from "../../contexts";
 
 import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
-import { IconSlotProvider, InternalIcon, type InternalIconProps } from "../Icon/Icon";
+import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
+import { IconSlotProvider } from "../Icon/icon-context";
 import { mergeProps } from "../../utils/merge-props";
 import {
   AccessibilityElementScope,

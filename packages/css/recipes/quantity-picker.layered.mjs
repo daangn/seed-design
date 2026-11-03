@@ -1,5 +1,5 @@
 import './quantity-picker.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const quantityPickerSlotNames = [
   [
@@ -62,14 +62,7 @@ export const quantityPickerVariantMap = {
 export const quantityPickerVariantKeys = Object.keys(quantityPickerVariantMap);
 
 export function quantityPicker(props) {
-  return Object.fromEntries(
-    quantityPickerSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(quantityPickerSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(quantityPicker, { splitVariantProps: (props) => splitVariantProps(props, quantityPickerVariantMap) });

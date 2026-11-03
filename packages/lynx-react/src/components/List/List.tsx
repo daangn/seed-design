@@ -28,7 +28,7 @@ import {
   useInsideAccessibilityElement,
   useLabelTextAccessibilityProps,
 } from "../../utils/accessibility";
-import { IconSlotProvider } from "../Icon/Icon";
+import { IconSlotProvider } from "../Icon/icon-context";
 
 type PublicListItemVariantProps = Omit<
   ListItemVariantProps,

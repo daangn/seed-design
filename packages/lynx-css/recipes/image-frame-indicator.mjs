@@ -1,5 +1,5 @@
 import './image-frame-indicator.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const imageFrameIndicatorSlotNames = [
   [
@@ -21,14 +21,7 @@ export const imageFrameIndicatorVariantMap = {};
 export const imageFrameIndicatorVariantKeys = Object.keys(imageFrameIndicatorVariantMap);
 
 export function imageFrameIndicator(props) {
-  return Object.fromEntries(
-    imageFrameIndicatorSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(imageFrameIndicatorSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(imageFrameIndicator, { splitVariantProps: (props) => splitVariantProps(props, imageFrameIndicatorVariantMap) });

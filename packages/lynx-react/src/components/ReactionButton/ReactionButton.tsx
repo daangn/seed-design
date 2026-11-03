@@ -10,8 +10,9 @@ import { mergeProps } from "../../utils/merge-props";
 import type { LynxHostProps, LynxPressableProps, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
 import { isCountElement, type CountProps } from "../Count/Count";
-import { getIconSlotName, IconSlotProvider } from "../Icon/Icon";
-import { ProgressCircleRange, ProgressCircleRoot, ProgressCircleTrack } from "../ProgressCircle";
+import { getIconSlotName, IconSlotProvider } from "../Icon/icon-context";
+import { ProgressCircleRoot, ProgressCircleTrack } from "../ProgressCircle/progress-circle-core";
+import { IndeterminateProgressCircleRange as ProgressCircleRange } from "../ProgressCircle/indeterminate-range";
 
 /**
  * @platform Lynx

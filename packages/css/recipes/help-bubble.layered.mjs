@@ -1,5 +1,5 @@
 import './help-bubble.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const helpBubbleSlotNames = [
   [
@@ -45,14 +45,7 @@ export const helpBubbleVariantMap = {};
 export const helpBubbleVariantKeys = Object.keys(helpBubbleVariantMap);
 
 export function helpBubble(props) {
-  return Object.fromEntries(
-    helpBubbleSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(helpBubbleSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(helpBubble, { splitVariantProps: (props) => splitVariantProps(props, helpBubbleVariantMap) });

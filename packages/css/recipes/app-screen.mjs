@@ -1,5 +1,5 @@
 import './app-screen.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const appScreenSlotNames = [
   [
@@ -83,14 +83,7 @@ export const appScreenVariantMap = {
 export const appScreenVariantKeys = Object.keys(appScreenVariantMap);
 
 export function appScreen(props) {
-  return Object.fromEntries(
-    appScreenSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(appScreenSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(appScreen, { splitVariantProps: (props) => splitVariantProps(props, appScreenVariantMap) });

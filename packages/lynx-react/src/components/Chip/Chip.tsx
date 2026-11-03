@@ -19,14 +19,8 @@ import {
   useLabelTextAccessibilityProps,
 } from "../../utils/accessibility";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
-import {
-  IconRequired,
-  IconSlotProvider,
-  PrefixIcon,
-  SuffixIcon,
-  type PrefixIconProps,
-  type SuffixIconProps,
-} from "../Icon/Icon";
+import { PrefixIcon, SuffixIcon, type PrefixIconProps, type SuffixIconProps } from "../Icon/Icon";
+import { IconRequired, IconSlotProvider } from "../Icon/icon-context";
 import { mergeProps } from "../../utils/merge-props";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(chip);

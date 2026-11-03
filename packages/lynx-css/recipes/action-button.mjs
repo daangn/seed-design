@@ -1,5 +1,5 @@
 import './action-button.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const actionButtonSlotNames = [
   [
@@ -232,14 +232,7 @@ export const actionButtonVariantMap = {
 export const actionButtonVariantKeys = Object.keys(actionButtonVariantMap);
 
 export function actionButton(props) {
-  return Object.fromEntries(
-    actionButtonSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(actionButtonSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(actionButton, { splitVariantProps: (props) => splitVariantProps(props, actionButtonVariantMap) });

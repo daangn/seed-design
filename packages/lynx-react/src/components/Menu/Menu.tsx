@@ -25,7 +25,8 @@ import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { mergeProps } from "../../utils/merge-props";
 import type { LynxHostProps, LynxTextRef, LynxViewProps, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
-import { IconSlotProvider, PrefixIcon, SuffixIcon } from "../Icon/Icon";
+import { PrefixIcon, SuffixIcon } from "../Icon/Icon";
+import { IconSlotProvider } from "../Icon/icon-context";
 import {
   AccessibilityElementScope,
   getAccessibleText,

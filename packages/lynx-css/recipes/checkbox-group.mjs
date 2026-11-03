@@ -1,5 +1,5 @@
 import './checkbox-group.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const checkboxGroupSlotNames = [
   [
@@ -21,14 +21,7 @@ export const checkboxGroupVariantMap = {};
 export const checkboxGroupVariantKeys = Object.keys(checkboxGroupVariantMap);
 
 export function checkboxGroup(props) {
-  return Object.fromEntries(
-    checkboxGroupSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(checkboxGroupSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(checkboxGroup, { splitVariantProps: (props) => splitVariantProps(props, checkboxGroupVariantMap) });

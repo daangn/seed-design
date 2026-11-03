@@ -1,5 +1,5 @@
 import './snackbar.layered.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const snackbarSlotNames = [
   [
@@ -41,14 +41,7 @@ export const snackbarVariantMap = {
 export const snackbarVariantKeys = Object.keys(snackbarVariantMap);
 
 export function snackbar(props) {
-  return Object.fromEntries(
-    snackbarSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(snackbarSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(snackbar, { splitVariantProps: (props) => splitVariantProps(props, snackbarVariantMap) });

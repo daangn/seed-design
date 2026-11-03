@@ -1,5 +1,5 @@
 import './radio-group.css';
-import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+import { createSlots, splitVariantProps } from "./shared.mjs";
 
 const radioGroupSlotNames = [
   [
@@ -21,14 +21,7 @@ export const radioGroupVariantMap = {};
 export const radioGroupVariantKeys = Object.keys(radioGroupVariantMap);
 
 export function radioGroup(props) {
-  return Object.fromEntries(
-    radioGroupSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
-  );
+  return createSlots(radioGroupSlotNames, defaultVariant, compoundVariants, props);
 }
 
 Object.assign(radioGroup, { splitVariantProps: (props) => splitVariantProps(props, radioGroupVariantMap) });
