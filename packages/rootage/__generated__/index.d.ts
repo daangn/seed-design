@@ -240,6 +240,9 @@ declare const artifact: {
       "path": "/components/segmented-control.json";
     },
     {
+      "path": "/components/segmented-text-input.json";
+    },
+    {
       "path": "/components/select-box-checkmark.json";
     },
     {
