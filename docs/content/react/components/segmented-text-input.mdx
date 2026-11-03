@@ -1,6 +1,6 @@
 ---
 title: Segmented Text Input
-description: 주민등록번호·카드번호처럼 형식이 정해진 값을 여러 구간으로 나눠 입력받는 컴포넌트입니다.
+description: 주민등록번호·카드번호처럼 일부 구간을 가려야 하는 값을 구간마다 별도 입력으로 나눠 받는 컴포넌트입니다.
 ---
 
 <AvailableSince packages="@seed-design/react@3.1.0, @seed-design/css@3.1.0" />
@@ -14,7 +14,7 @@ description: 주민등록번호·카드번호처럼 형식이 정해진 값을 �
   ```
 </ComponentExample>
 
-주민등록번호 뒷자리 첫 번째 자리만 받거나 카드번호 뒷자리를 가려야 하는 경우처럼, 하나의 Text Input으로 처리하기 어려운 국내 입력 형식에 사용합니다. 전화번호·이메일, 해외 카드번호처럼 구간을 나눌 필요가 없는 입력은 [Text Field](/react/components/text-field-input)에 포맷을 적용해서 받으세요.
+주민등록번호 뒷자리 첫 번째 자리만 받거나 카드번호 뒷자리를 가려야 하는 경우처럼, 하나의 Text Field로 표현하기 어려운 국내 입력 형식에 사용합니다. 대부분의 형식이 정해진 입력은 [Text Field](/react/components/text-field-input)로 충분합니다. 아래 [Text Field와의 차이](#text-field와의-차이)를 보고 고르세요.
 
 Segment마다 입력 하나를 두고, 값은 입력 Segment 순서대로 `string[]`로 다룹니다.
 
@@ -24,6 +24,17 @@ Segment마다 입력 하나를 두고, 값은 입력 Segment 순서대로 `strin
 - 붙여넣은 값은 구분자를 지우고 다음 Segment까지 차례로 채웁니다. 가린(`masked`) Segment 앞에서 멈춥니다.
 - `autoComplete="bday"` Segment는 OS가 넣은 생년월일(`yyyy-MM-dd` 등)을 자리 수에 맞춰 바꿉니다.
 - 한글 조합 중에는 다음 Segment로 이동하지 않습니다.
+
+## Text Field와의 차이
+
+Text Field는 값 전체를 input 하나로 받고, Segmented Text Input은 Segment마다 input을 따로 둡니다. 이 차이 때문에 두 컴포넌트가 잘하는 일이 다릅니다.
+
+- Text Field: 값 전체를 한 번에 선택(Cmd/Ctrl+A)·복사·수정할 수 있고, 붙여넣기와 OS 자동완성이 그대로 동작합니다. 하이픈 같은 구분자는 formatter로 값에 넣어 보여 줍니다.
+- Segmented Text Input: Segment마다 가리기(`masked`)·자리 수·placeholder를 다르게 줄 수 있고, 구분자를 입력값과 다른 색상·레이아웃의 정적 텍스트로 그립니다. 대신 값 전체를 한 번에 선택하거나 수정할 수 없습니다.
+
+전화번호·이메일, 카드 유효기간(`MM / YY`)처럼 가릴 필요가 없는 일반 정보는 Text Field에 formatter를 적용해 받으세요([Number Formatting](/react/components/text-field-input#number-formatting) 참고). 형식이 정해져 있다는 이유만으로 입력을 여러 칸으로 나누지 않습니다.
+
+Segmented Text Input은 Text Field와 formatter로 같은 표현을 손실 없이 만들 수 없을 때 고릅니다. 주민등록번호·국내 카드번호처럼 값의 일부만 가려야 하거나, 구분자와 입력값을 다른 색상·레이아웃으로 보여야 하는 경우가 여기에 해당합니다. 가리기 여부만으로 정해지지는 않으니, Text Field로 충분한지 먼저 확인하세요.
 
 ## Installation
 
@@ -40,14 +51,6 @@ npx @seed-design/cli@latest add ui:card-number-field
 ```
 
 <ManualInstallation name="card-number-field" />
-
-그 밖의 형식은 `segmented-text-field` snippet으로 Segment를 직접 조합합니다. [Composition](#composition)을 참고하세요.
-
-```package-install
-npx @seed-design/cli@latest add ui:segmented-text-field
-```
-
-<ManualInstallation name="segmented-text-field" />
 
 ## Props
 
@@ -197,19 +200,6 @@ children에 넣는 컴포넌트는 `@seed-design/react`의 컴포넌트를 그�
   ```json doc-gen:file
   {
     "file": "examples/react/segmented-text-input/external-keypad.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-### Composition
-
-주민등록번호·카드번호가 아닌 형식은 `SegmentedTextField` children에 Segment를 조합합니다. 입력 Segment마다 `aria-label`로 구간 이름을 주세요. `label`은 전체 group의 이름이 되고, 누르면 첫 입력 Segment로 이동합니다.
-
-<ComponentExample name="react/segmented-text-input/composition">
-  ```json doc-gen:file
-  {
-    "file": "examples/react/segmented-text-input/composition.tsx",
     "codeblock": true
   }
   ```
