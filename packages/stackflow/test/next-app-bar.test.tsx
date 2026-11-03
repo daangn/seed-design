@@ -142,4 +142,16 @@ describe("NextAppBarBackground", () => {
     expect(background?.querySelectorAll(".seed-next-app-bar-background__tint")).toHaveLength(1);
     expect(background?.getAttribute("aria-hidden")).toBe("true");
   });
+
+  it("bg를 --seed-box-background로 내려서 tint 색을 바꾼다", async () => {
+    const { container } = renderWithAppBar({
+      backgroundElement: <NextAppBarBackground material="translucent" bg="bg.brandWeak" />,
+    });
+    await settle(container);
+
+    const background = getPart(getScreen(container, "a"), "app-bar-background");
+    expect(background?.style.getPropertyValue("--seed-box-background")).toBe(
+      "var(--seed-color-bg-brand-weak)",
+    );
+  });
 });

@@ -14,7 +14,7 @@
     position: absolute;
     inset: 0;
     clip-path: var(--seed-next-app-bar-background-clip-path, none);
-    background: var(--seed-color-bg-layer-default);
+    background: var(--seed-box-background, var(--seed-color-bg-layer-default));
     transition: opacity 200ms
 }
 .seed-next-app-bar-background__blur--material_progressiveBlur:nth-child(1) {
