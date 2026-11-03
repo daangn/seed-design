@@ -105,7 +105,7 @@ export const AttachmentDisplayField = React.forwardRef<FieldRootRef, AttachmentD
         <SeedAttachmentDisplay.Root
           {...props}
           style={{
-            overflow: controlProps?.extendSafeAreaX ? "visible" : "hidden",
+            overflow: props.extendSafeAreaX || controlProps?.extendSafeAreaX ? "visible" : "hidden",
             ...props.style,
           }}
           disabled={disabled}
