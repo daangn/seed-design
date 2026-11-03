@@ -212,7 +212,7 @@ describe("Dialog", () => {
   });
 
   it("adds the block insets when one of them falls back to env()", () => {
-    setGlobalProps({ safeAreaInsetTop: 0, safeAreaInsetBottom: 34 });
+    setGlobalProps({ safeAreaInsetBottom: 34 });
 
     expect(renderPositioner()).toEqual({
       paddingTop: "calc(env(safe-area-inset-top) + 34px)",
