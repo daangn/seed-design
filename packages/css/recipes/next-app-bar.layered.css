@@ -126,24 +126,24 @@
     color: var(--seed-color-fg-disabled);
   }
 
-  .seed-next-app-bar__background--tone_transparent {
+  .seed-next-app-bar__background--tone_gradient {
     height: calc(100% + var(--seed-dimension-x5));
     background: linear-gradient(#00000059 0%, #0000 100%);
   }
 
-  .seed-next-app-bar__iconButton--tone_transparent {
+  .seed-next-app-bar__iconButton--tone_gradient {
     --seed-icon-color: var(--seed-color-palette-static-white);
   }
 
-  .seed-next-app-bar__iconButton--tone_transparent:is(:disabled, [disabled], [data-disabled]) {
+  .seed-next-app-bar__iconButton--tone_gradient:is(:disabled, [disabled], [data-disabled]) {
     --seed-icon-color: var(--seed-color-fg-disabled);
   }
 
-  .seed-next-app-bar__textButton--tone_transparent {
+  .seed-next-app-bar__textButton--tone_gradient {
     color: var(--seed-color-palette-static-white);
   }
 
-  .seed-next-app-bar__textButton--tone_transparent:is(:disabled, [disabled], [data-disabled]) {
+  .seed-next-app-bar__textButton--tone_gradient:is(:disabled, [disabled], [data-disabled]) {
     color: var(--seed-color-fg-disabled);
   }
 }
