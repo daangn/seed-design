@@ -153,8 +153,20 @@ export const nextAppBarMain = defineSlotRecipe({
 
 export const nextAppBar = defineSlotRecipe({
   name: "next-app-bar",
-  slots: ["root", "background", "left", "right", "iconButton", "textButton", "textButtonLabel"],
+  slots: [
+    "root",
+    "background",
+    "row",
+    "accessory",
+    "left",
+    "right",
+    "iconButton",
+    "textButton",
+    "textButtonLabel",
+  ],
   base: {
+    // Row and accessory stack in normal flow, so the root — and the background
+    // filling it — grows with the accessory without being measured.
     root: {
       // The bar lives inside the screen layer (the transition unit), so it has
       // no stack z-index tier — it only needs to sit above the content.
@@ -164,13 +176,25 @@ export const nextAppBar = defineSlotRecipe({
       position: "absolute",
       boxSizing: "border-box",
       width: "100%",
+    },
+    row: {
+      // Containing block for the cupertino Main, which spans the row.
+      position: "relative",
+      boxSizing: "border-box",
       display: "flex",
       alignItems: "flex-end",
 
-      height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
+      // `--app-bar-height` comes from NextAppScreen, which drops it to 0 when a
+      // host draws the bar natively and the safe area already covers it.
+      height: `calc(var(--app-bar-height, ${vars.base.enabled.root.height}) + var(--seed-safe-area-top))`,
       paddingLeft: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-left))`,
       paddingRight: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-right))`,
       paddingTop: "var(--seed-safe-area-top)",
+    },
+    // Edge to edge without the side insets: content such as `TabsList` keeps
+    // clear of them itself.
+    accessory: {
+      position: "relative",
     },
     background: {
       position: "absolute",

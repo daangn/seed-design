@@ -26,7 +26,13 @@ export const NextAppBarPropsProvider = PropsProvider;
 export interface NextAppBarRootProps
   extends NextAppBarVariantProps,
     NextAppBarPrimitive.RootProps,
-    BoxBackgroundProps {}
+    BoxBackgroundProps {
+  /**
+   * Stacked under the title row, such as a tab list. The background runs down behind it, and the
+   * screen's content starts below it.
+   */
+  accessory?: React.ReactNode;
+}
 
 /**
  * Embedded in the NextAppScreen layer (the transition unit): the bar moves
@@ -43,7 +49,7 @@ export const NextAppBarRoot = forwardRef<HTMLDivElement, NextAppBarRootProps>((p
 
   const classNames = nextAppBar(variantProps);
   const [mainVariantProps] = nextAppBarMain.splitVariantProps(variantProps);
-  const { children, ...restProps } = otherProps;
+  const { children, accessory, ...restProps } = otherProps;
 
   return (
     <ClassNamesProvider value={classNames}>
@@ -53,7 +59,12 @@ export const NextAppBarRoot = forwardRef<HTMLDivElement, NextAppBarRootProps>((p
           {...mergeProps({ className: classNames.root, style: boxStyle }, restProps)}
         >
           <div aria-hidden className={classNames.background} />
-          {children}
+          <div className={classNames.row}>{children}</div>
+          {accessory != null && (
+            <NextAppBarPrimitive.Accessory className={classNames.accessory}>
+              {accessory}
+            </NextAppBarPrimitive.Accessory>
+          )}
         </NextAppBarPrimitive.Root>
       </MainPropsProvider>
     </ClassNamesProvider>
