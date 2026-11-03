@@ -1,10 +1,13 @@
-import { renderHook } from "@lynx-js/react/testing-library";
+import { act, renderHook } from "@lynx-js/react/testing-library";
 import { describe, expect, it } from "vitest";
 
 import { useSafeArea } from "./useSafeArea.js";
 
 interface TestLynxGlobal {
   lynx?: {
+    getJSModule?(name: "GlobalEventEmitter"): {
+      emit(eventName: string, args?: unknown[]): void;
+    };
     __globalProps?: {
       safeAreaInsetTop?: number;
       safeAreaInsetRight?: number;
@@ -43,6 +46,17 @@ function setGlobalProps(
       __globalProps: globalProps,
     };
   }
+}
+
+function emitGlobalPropsChanged() {
+  const backgroundLynx = (globalThis as TestLynxGlobal).lynxTestingEnv?.backgroundThread.globalThis
+    .lynx;
+
+  if (!backgroundLynx?.getJSModule) {
+    throw new Error("Expected Lynx background thread globals to be available.");
+  }
+
+  backgroundLynx.getJSModule("GlobalEventEmitter").emit("onGlobalPropsChanged");
 }
 
 describe("useSafeArea", () => {
@@ -90,6 +104,34 @@ describe("useSafeArea", () => {
       safeAreaInsetRight: "0px",
       safeAreaInsetBottom: "0px",
       safeAreaInsetLeft: "0px",
+    });
+  });
+
+  it("re-renders with updated flat globalProps when the host emits onGlobalPropsChanged", () => {
+    setGlobalProps({
+      safeAreaInsetTop: 48,
+      safeAreaInsetRight: 0,
+      safeAreaInsetBottom: 35,
+      safeAreaInsetLeft: 0,
+    });
+
+    const { result } = renderHook(() => useSafeArea());
+
+    act(() => {
+      setGlobalProps({
+        safeAreaInsetTop: 24,
+        safeAreaInsetRight: 62,
+        safeAreaInsetBottom: 21,
+        safeAreaInsetLeft: 59,
+      });
+      emitGlobalPropsChanged();
+    });
+
+    expect(result.current).toEqual({
+      safeAreaInsetTop: "24px",
+      safeAreaInsetRight: "62px",
+      safeAreaInsetBottom: "21px",
+      safeAreaInsetLeft: "59px",
     });
   });
 });
