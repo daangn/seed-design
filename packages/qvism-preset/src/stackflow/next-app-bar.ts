@@ -400,7 +400,7 @@ export const nextAppBarBackground = defineSlotRecipe({
       position: "absolute",
       inset: 0,
       clipPath: "var(--seed-next-app-bar-background-clip-path, none)",
-      background: vars.toneLayer.enabled.root.color,
+      background: `var(--seed-box-background, ${vars.toneLayer.enabled.root.color})`,
       transition: BACKGROUND_TRANSITION,
     },
   },

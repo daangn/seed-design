@@ -191,25 +191,28 @@ const PROGRESSIVE_BLUR_LAYERS = 8;
 export interface NextAppBarBackgroundProps
   extends NextAppBarBackgroundVariantProps,
     PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+    React.HTMLAttributes<HTMLDivElement>,
+    BoxBackgroundProps {}
 
 /**
  * Background for a bar the host draws natively, passed to `NextAppBar`'s `backgroundElement`.
- * Switching `material` between `transparent` and `progressiveBlur` fades rather than cuts.
+ * Switching `material` between `transparent` and `progressiveBlur` fades rather than cuts. `bg`
+ * colours the tint, which the material then thins out.
  *
  * To clip it, set `--seed-next-app-bar-background-clip-path` on it instead of `clip-path`: a clip
  * on the element would stop its blur layers reading the content behind.
  */
 export const NextAppBarBackground = forwardRef<HTMLDivElement, NextAppBarBackgroundProps>(
   (props, ref) => {
-    const [variantProps, otherProps] = nextAppBarBackground.splitVariantProps(props);
+    const { style: boxStyle, restProps } = useBoxBackgroundProps(props);
+    const [variantProps, otherProps] = nextAppBarBackground.splitVariantProps(restProps);
     const classNames = nextAppBarBackground(variantProps);
 
     return (
       <Primitive.div
         ref={ref}
         aria-hidden
-        {...mergeProps({ className: classNames.root }, otherProps)}
+        {...mergeProps({ className: classNames.root, style: boxStyle }, otherProps)}
       >
         {Array.from(
           { length: variantProps.material === "translucent" ? 1 : PROGRESSIVE_BLUR_LAYERS },
