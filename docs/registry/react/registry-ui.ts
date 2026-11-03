@@ -498,6 +498,33 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "segmented-text-field",
+      snippets: [
+        {
+          path: "segmented-text-field.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0" },
+        },
+      ],
+    },
+    {
+      id: "resident-number-field",
+      snippets: [
+        {
+          path: "resident-number-field.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0" },
+        },
+      ],
+    },
+    {
+      id: "card-number-field",
+      snippets: [
+        {
+          path: "card-number-field.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0" },
+        },
+      ],
+    },
+    {
       id: "attachment-display-field",
       snippets: [
         {

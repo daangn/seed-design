@@ -288,6 +288,25 @@
     {
       "snippets": [
         {
+          "path": "card-number-field.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.1.0"
+          }
+        }
+      ],
+      "id": "card-number-field",
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "segmented-text-field"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "checkbox.tsx",
           "dependencies": {
             "@seed-design/react": "^2.0.0 || ^3.0.0",
@@ -779,6 +798,25 @@
     {
       "snippets": [
         {
+          "path": "resident-number-field.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.1.0"
+          }
+        }
+      ],
+      "id": "resident-number-field",
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "segmented-text-field"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "responsive-dialog.tsx",
           "dependencies": {
             "@seed-design/react": "^2.1.0 || ^3.0.0"
@@ -887,6 +925,21 @@
       ],
       "id": "segmented-control",
       "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "segmented-text-field.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.1.0"
+          }
+        }
+      ],
+      "id": "segmented-text-field",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
       ]
     },
