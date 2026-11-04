@@ -49,8 +49,9 @@ function deferred<T>() {
   return { promise, resolve };
 }
 function installRootSelectorQuery() {
+  // `useViewport`의 root 측정은 결과 없이 끝낸다. floating 측정은 `getRectByRef` mock이 맡는다.
   const createSelectorQuery = () => ({
-    selectRoot: () => ({}),
+    selectRoot: () => ({ invoke: () => ({ exec: () => {} }) }),
   });
   vi.stubGlobal("lynx", {
     ...globalThis.lynx,

@@ -209,6 +209,11 @@ export const catalogGridManifest: Record<string, readonly CatalogGridManifestEnt
       "description": "여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다."
     },
     {
+      "slug": "segmented-text-input",
+      "title": "Segmented Text Input",
+      "description": "주민등록번호·카드번호처럼 일부 구간을 가려야 하는 값을 구간마다 별도 입력으로 나눠 받는 컴포넌트입니다."
+    },
+    {
       "slug": "select",
       "title": "Select",
       "description": "옵션 목록에서 값을 골라 Form에 제출할 때 사용하는 컴포넌트입니다."
