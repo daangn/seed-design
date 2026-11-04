@@ -1,0 +1,48 @@
+---
+title: useViewport
+description: 현재 LynxView의 너비와 높이를 가져오는 훅입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@1.2.0" />
+
+## Import
+
+```ts
+import { useViewport } from "@seed-design/lynx-react";
+```
+
+`useViewport`는 `@seed-design/lynx-react` 패키지에 포함되어 있습니다. 화면을 그리는 LynxView의 크기를 논리 px로 반환하고, 크기가 바뀌면 다시 렌더합니다.
+
+## Usage
+
+```tsx
+import { useViewport } from "@seed-design/lynx-react";
+
+function Feed() {
+  const { width } = useViewport();
+  const columns = width !== undefined && width >= 600 ? 2 : 1;
+
+  return <ArticleGrid columns={columns} />;
+}
+```
+
+`BottomSheet`의 백분율 snap point와 `Select`·`Menu`의 `size="responsive"`도 이 값을 기준으로 합니다.
+
+## 동작 방식
+
+전체 화면에서는 LynxView 크기가 기기 화면 크기와 같지만, 접히는 기기, 회전, 앱 안에 삽입된 화면에서는 달라질 수 있습니다. `SystemInfo.pixelWidth`·`pixelHeight`는 기기의 물리 화면 크기이므로 layout 기준으로 쓰지 않습니다.
+
+1. 첫 렌더에서는 `SystemInfo`로 계산한 기기의 논리 크기를 반환합니다. 전체 화면이면 측정값과 같으므로 측정 뒤에 레이아웃이 바뀌지 않습니다.
+2. mount 뒤 root의 `boundingClientRect`를 측정해 그 값으로 다시 렌더합니다.
+3. 이후에는 Lynx runtime의 `onWindowResize` 이벤트로 크기 변경을 따라갑니다.
+
+같은 LynxView 안의 모든 `useViewport`는 측정 한 번과 이벤트 리스너 하나를 함께 씁니다.
+
+호스트가 LynxView 높이를 콘텐츠에 맞춰 늘리는 경우 root 높이는 화면 높이가 아니라 콘텐츠 높이가 됩니다.
+
+## API
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `width` | `number \| undefined` | LynxView 너비(논리 px)입니다. 크기를 알 수 없으면 `undefined`입니다. |
+| `height` | `number \| undefined` | LynxView 높이(논리 px)입니다. 크기를 알 수 없으면 `undefined`입니다. |

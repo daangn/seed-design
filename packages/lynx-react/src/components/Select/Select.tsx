@@ -30,6 +30,7 @@ import {
 } from "@seed-design/lynx-react-select";
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import { useViewport } from "../../hooks/useViewport";
 import type {
   LynxHostProps,
   LynxIconElementProps,
@@ -105,21 +106,6 @@ function useSelectItemClassNames(consumer: string): SelectItemClassNames {
   const context = React.useContext(SelectItemClassNamesContext);
   if (!context) throw new Error(`<${consumer}/> must be rendered inside <SelectItem/>.`);
   return context;
-}
-
-function getScreenWidth(): number | null {
-  const systemInfo = typeof SystemInfo === "undefined" ? undefined : SystemInfo;
-  const pixelWidth = systemInfo?.pixelWidth;
-  const pixelRatio = systemInfo?.pixelRatio;
-  if (
-    typeof pixelWidth !== "number" ||
-    typeof pixelRatio !== "number" ||
-    pixelWidth <= 0 ||
-    pixelRatio <= 0
-  ) {
-    return null;
-  }
-  return pixelWidth / pixelRatio;
 }
 
 function hasExitTransition(event: Parameters<NativeTransitionHandler>[0]): boolean {
@@ -220,10 +206,10 @@ export const SelectRoot = React.forwardRef<unknown, SelectRootProps>((props, ref
     overflowPadding,
     formatValue,
   });
-  const screenWidth = getScreenWidth();
+  const { width: screenWidth } = useViewport();
   const size =
     sizeProp === "responsive"
-      ? screenWidth != null && screenWidth >= 1280
+      ? screenWidth !== undefined && screenWidth >= 1280
         ? "medium"
         : "large"
       : (variantProps.size ?? "large");

@@ -89,6 +89,7 @@ describe("BottomSheet", () => {
 
     expect(sheetMocks.rootProps.at(-1)).toMatchObject({
       screenHeight: SystemInfo.pixelHeight / SystemInfo.pixelRatio,
+      screenWidth: SystemInfo.pixelWidth / SystemInfo.pixelRatio,
     });
   });
 
