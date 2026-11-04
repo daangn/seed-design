@@ -50,7 +50,7 @@ root.render(
 | `light-only` | (무관) | `seed-user-color-scheme-light` |
 | `dark-only` | (무관) | `seed-user-color-scheme-dark` |
 
-`system`으로 설정하면 `SeedProvider`의 `preferredColorScheme`을 따릅니다. 값을 넘기지 않으면 다음 메이저 버전 전까지 `lynx.__globalProps.theme`을 읽고(deprecated), 그 값도 없으면 라이트 모드입니다.
+`system`으로 설정하면 `SeedProvider`의 `preferredColorScheme`을 따릅니다. 값을 넘기지 않으면 `lynx.__globalProps.theme`을 읽고, 그 값도 없으면 라이트 모드입니다. Global props에서 읽는 동작은 다음 메이저 버전에서 제거될 예정입니다.
 
 ## 테마 클래스 이해하기
 

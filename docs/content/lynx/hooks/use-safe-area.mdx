@@ -54,7 +54,7 @@ function Screen() {
 
 `Box`의 `pt`, `pr`, `pb`, `pl`에 지정하는 `"safeArea"`도 내부적으로 `useSafeArea`와 같은 safe area resolve 로직을 사용합니다.
 
-### overlay에서 다른 safe area 쓰기
+### Overlay에서 다른 Safe Area 쓰기
 
 같은 Lynx View의 `<overlay>`처럼 영역마다 다른 inset이 필요하면 그 영역 안에 `SafeAreaProvider`를 중첩합니다. 그 아래의 `useSafeArea()`와 `Box`의 `"safeArea"`는 가장 가까운 Provider 값을 씁니다.
 
@@ -71,12 +71,12 @@ import { SafeAreaProvider } from "@seed-design/lynx-react";
 값 소스 우선순위는 다음과 같습니다.
 
 1. 가장 가까운 `SafeAreaProvider` 또는 `SeedProvider`의 `safeAreaInsets`
-2. `lynx.__globalProps.safeAreaInset*` (deprecated)
+2. `lynx.__globalProps.safeAreaInset*` (다음 메이저 버전에서 제거 예정)
 3. `env(safe-area-inset-*)`
 
 Provider 값은 보정하지 않고 그대로 `px` 문자열로 반환합니다. `0`도 유효한 값이므로 `"0px"`가 됩니다.
 
-Provider가 없으면 이전 버전과 같이 host가 넣은 `safeAreaInset*` global props를 읽습니다. `0` 이상의 유한한 숫자는 `px` 문자열로 바꾸고, 값이 없으면 CSS `env()` 문자열을 반환해 실제 px 해석을 Lynx layout 단계에 맡깁니다. global props 값이 쓰이면 개발 빌드에서 키마다 한 번 경고합니다. 이 경로와 `env()` fallback은 다음 메이저 버전에서 제거합니다.
+Provider가 없으면 이전 버전과 같이 host가 넣은 `safeAreaInset*` global props를 읽습니다. `0` 이상의 유한한 숫자는 `px` 문자열로 바꾸고, 값이 없으면 CSS `env()` 문자열을 반환해 실제 px 해석을 Lynx layout 단계에 맡깁니다. global props 값이 쓰이면 개발 빌드에서 키마다 한 번 경고합니다. 이 경로와 `env()` fallback은 다음 메이저 버전에서 제거될 예정입니다.
 
 ### `0`과 값 생략의 차이
 

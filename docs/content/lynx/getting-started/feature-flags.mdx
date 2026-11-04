@@ -152,7 +152,7 @@ CSS 상속은 Lynx가 지원하는 속성 범위에 적용됩니다. 웹의 모�
 - `"reactive"`: `lynx.__globalProps`를 바로 읽습니다. 값이 바뀌면 페이지 전체가 다시 렌더되므로 구독이 필요 없습니다. 이 모드에서 `useGlobalProps()`는 같은 값을 돌려주지만 개발 빌드에서 호출마다 경고합니다.
 - `"event"`: `useGlobalProps()`로 읽습니다. 이 훅이 변경 이벤트를 구독하므로 별도 이벤트 리스너를 추가할 필요는 없습니다. `lynx.__globalProps`를 직접 읽기만 하면 변경에 반응하지 않습니다.
 
-`SeedProvider`에 넘기지 않은 값을 채우는 SEED의 deprecated global props fallback도 빌드 설정의 모드에 맞춰 같은 방식으로 읽습니다. [React 구현][global-props-source]
+`SeedProvider`에 넘기지 않은 값을 global props에서 채우는 SEED의 fallback도 빌드 설정의 모드에 맞춰 같은 방식으로 읽습니다. [React 구현][global-props-source]
 
 `enableMultiTouchParamsCompatible`는 멀티터치 활성화와 별개의 payload 호환 옵션입니다. 공개 설정에서 빠진 이 옵션을 대신 넣지 말고, 필요한 기능에 맞춰 `enableMultiTouch`를 설정하세요.
 

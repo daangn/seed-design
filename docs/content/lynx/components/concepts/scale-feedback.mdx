@@ -139,7 +139,7 @@ Scale은 `Element.animate()`로 실행하므로 target에 선언된 색상 trans
 
 누르는 도중 `"reduced"`로 바뀌거나 컴포넌트가 비활성화되면 `scale(1)`로 돌아갑니다.
 
-`preferredMotion`을 생략하면 다음 메이저 버전 전까지 `GlobalProps.motion`을 읽습니다(deprecated). 값이 있으면 개발 빌드에서 한 번 경고합니다.
+`preferredMotion`을 생략하면 `GlobalProps.motion`을 읽고, 값이 있으면 개발 빌드에서 한 번 경고합니다. Global props에서 읽는 동작은 다음 메이저 버전에서 제거될 예정입니다.
 
 ## disabled, loading, 중첩 target
 
