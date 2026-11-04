@@ -41,6 +41,41 @@ describe("Lynx 미리보기 lifecycle", () => {
     ).toBe(true);
   });
 
+  it("비교용 inset을 첫 로드와 theme 변경에 유지하고 설정을 제거하면 초기화한다", () => {
+    const element: { globalProps: unknown; transformVH: boolean; transformVW: boolean } = {
+      globalProps: {},
+      transformVH: false,
+      transformVW: false,
+    };
+    initializeLynxView(element, {
+      theme: "light",
+      example: "lynx/tabs/extend-safe-area",
+      safeAreaInsets: { left: 24, right: 48 },
+      styleRules: [],
+      transformVH: false,
+      url: "/tabs.web.bundle",
+    });
+    expect(element.globalProps).toEqual({
+      theme: "light",
+      example: "lynx/tabs/extend-safe-area",
+      safeAreaInsetLeft: 24,
+      safeAreaInsetRight: 48,
+    });
+    configureLynxView(element, {
+      theme: "dark",
+      example: "lynx/tabs/extend-safe-area",
+      safeAreaInsets: { left: 24, right: 48 },
+    });
+    expect(element.globalProps).toEqual({
+      theme: "dark",
+      example: "lynx/tabs/extend-safe-area",
+      safeAreaInsetLeft: 24,
+      safeAreaInsetRight: 48,
+    });
+    configureLynxView(element, { theme: "dark", example: "lynx/badge/preview" });
+    expect(element.globalProps).toEqual({ theme: "dark", example: "lynx/badge/preview" });
+  });
+
   it("자동 높이에서는 transformVH를 비활성화한 다음 url을 설정한다", () => {
     const assignments: string[] = [];
     const element = {

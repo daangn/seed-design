@@ -1,3 +1,5 @@
+import { getSafeAreaPreviewRules, type PreviewSafeAreaInsets } from "../safe-area-preview";
+export type { PreviewSafeAreaInsets } from "../safe-area-preview";
 import { archivePaths } from "../../lib/docs-archive";
 
 export interface QueryableShadowRoot {
@@ -38,9 +40,16 @@ export function getLynxPreviewSizing(height?: number) {
 /** 같은 컴포넌트의 예제는 bundle 하나를 공유하므로 `example`로 렌더할 예제 ID를 함께 넘긴다. */
 export function configureLynxView(
   element: ThemeConfigurableLynxView,
-  options: { theme: string; example: string },
+  options: { theme: string; example: string; safeAreaInsets?: PreviewSafeAreaInsets },
 ) {
-  element.globalProps = { theme: options.theme, example: options.example };
+  element.globalProps = {
+    theme: options.theme,
+    example: options.example,
+    ...(options.safeAreaInsets && {
+      safeAreaInsetLeft: options.safeAreaInsets.left,
+      safeAreaInsetRight: options.safeAreaInsets.right,
+    }),
+  };
 }
 
 export const LYNX_WEB_CORE_STYLES_URL = archivePaths.asset("/__lynx__/web-core.css");
@@ -66,6 +75,7 @@ export function initializeLynxView(
   options: {
     theme: string;
     example: string;
+    safeAreaInsets?: PreviewSafeAreaInsets;
     styleRules: string[];
     transformVH: boolean;
     url: string;
@@ -74,8 +84,10 @@ export function initializeLynxView(
   element.browserConfig = { lynxSdkVersion: LYNX_WEB_RUNTIME_SDK_VERSION };
   element.transformVW = true;
   element.transformVH = options.transformVH;
-  configureLynxView(element, { theme: options.theme, example: options.example });
-  element.injectStyleRules = options.styleRules;
+  configureLynxView(element, options);
+  element.injectStyleRules = options.safeAreaInsets
+    ? [...options.styleRules, ...getSafeAreaPreviewRules(options.safeAreaInsets)]
+    : options.styleRules;
   element.url = options.url;
 }
 

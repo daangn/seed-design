@@ -276,3 +276,16 @@ HTML `<input type="file">`을 사용해야 하는 경우 `AttachmentField`를, �
 | 드래그 앤 드롭으로 업로드 | `AttachmentDropzone`         | 다루지 않음                         |
 | 파일 검증                 | accept, maxFileSize 등       | 다루지 않음                         |
 | Form 연동                 | `<input type="file">` 동기화 | 다루지 않음                         |
+
+## Extending to Safe Area
+
+아래 예제는 좌우에 가상의 inset을 적용합니다. 붉은 빗금은 콘텐츠를 피해야 하는 inset 영역이며, 두 경계선 사이는 안전 영역입니다. 스위치로 확장 전(AS IS)과 확장 후(TO BE)를 비교하고, 배경·스크롤 영역의 경계와 콘텐츠 위치를 확인하세요. 같은 버전에서 옵션을 끄고 켠 비교입니다.
+
+<ComponentExample name="react/attachment-display-field/extend-safe-area" safeAreaInsets={{ left: 24, right: 48 }}>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/attachment-display-field/extend-safe-area.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

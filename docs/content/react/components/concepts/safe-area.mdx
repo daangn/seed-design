@@ -47,6 +47,17 @@ safe area inset을 반영하려면 `viewport-fit=cover`가 포함된 `viewport` 
   ```
 </StackflowExample>
 
+### 문서에서 전후 비교하기
+
+각 컴포넌트의 비교 예제에는 가상의 좌우 inset과 붉은 빗금을 표시합니다. **빗금은 콘텐츠를 피해야 하는 inset 영역**이며, 두 경계선 사이는 안전 영역입니다. 스위치를 켜면 배경과 스크롤 영역이 빗금 영역까지 넓어지고 콘텐츠에 필요한 여백은 유지됩니다. 이는 같은 버전에서 옵션을 끄고 켠 비교이며, 실제 기기의 inset 측정값이 아닙니다.
+
+- [Tabs](/react/components/tabs#extending-to-safe-area)
+- [Chip Tabs](/react/components/chip-tabs#extending-to-safe-area)
+- [Page Banner](/react/components/page-banner#extending-to-safe-area)
+- [Attachment Field](/react/components/attachment-field#extending-to-safe-area)
+- [Attachment Display Field](/react/components/attachment-display-field#extending-to-safe-area): `controlProps.extendSafeAreaX`를 사용합니다.
+- [Image Frame](/react/components/image-frame#extending-to-safe-area): `extendSafeAreaX` 대신 `bleedX="safeArea"`를 사용합니다.
+
 ### Box로 넓히기
 
 - 이미지처럼 요소 전체가 화면 끝까지 이어져야 하면 `bleedX="safeArea"`를 지정합니다.

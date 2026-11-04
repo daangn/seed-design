@@ -1,5 +1,9 @@
 declare interface PageBannerVariant {
   /**
+  * @default false
+  */
+  extendSafeAreaX: boolean;
+/**
   * @default "neutral"
   */
   tone: "neutral" | "informative" | "positive" | "warning" | "critical" | "magic";
@@ -27,7 +31,7 @@ declare type PageBannerVariantMap = {
 
 export declare type PageBannerVariantProps = Partial<PageBannerVariant>;
 
-export declare type PageBannerSlotName = "root" | "content" | "scaleContent" | "body" | "title" | "description" | "button" | "closeButton" | "prefixIcon" | "suffixIcon" | "closeButtonIcon";
+export declare type PageBannerSlotName = "root" | "background" | "content" | "scaleContent" | "body" | "title" | "description" | "button" | "closeButton" | "prefixIcon" | "suffixIcon" | "closeButtonIcon";
 
 export declare const pageBannerVariantMap: PageBannerVariantMap;
 
