@@ -65,7 +65,7 @@
         "@seed-design/lynx-react-loop-scroll": "workspace:*",
         "@seed-design/lynx-react-sortable": "workspace:*",
         "@seed-design/migration-index": "2.0.1",
-        "@seed-design/react": "3.1.0",
+        "@seed-design/react": "3.1.1",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/react-primitive": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
@@ -344,7 +344,7 @@
       "version": "1.0.0",
       "dependencies": {
         "@seed-design/css": "3.1.0",
-        "@seed-design/react": "3.1.0",
+        "@seed-design/react": "3.1.1",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
       },
@@ -374,7 +374,7 @@
         "@radix-ui/react-use-callback-ref": "^1.1.1",
         "@seed-design/css": "3.1.0",
         "@seed-design/dom-utils": "workspace:*",
-        "@seed-design/react": "3.1.0",
+        "@seed-design/react": "3.1.1",
         "@seed-design/react-primitive": "workspace:*",
         "@seed-design/rootage-artifacts": "workspace:*",
         "@seed-design/stackflow": "2.1.0",
@@ -550,12 +550,12 @@
     },
     "packages/lynx-react": {
       "name": "@seed-design/lynx-react",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@seed-design/lynx-react-accordion": "^1.0.0",
         "@seed-design/lynx-react-action-button": "^1.0.0",
-        "@seed-design/lynx-react-app-bar": "^1.0.0",
+        "@seed-design/lynx-react-app-bar": "^1.0.1",
         "@seed-design/lynx-react-attachment-display": "^1.0.0",
         "@seed-design/lynx-react-bottom-sheet": "^1.0.1",
         "@seed-design/lynx-react-callout": "^1.0.0",
@@ -565,20 +565,20 @@
         "@seed-design/lynx-react-field": "^1.0.0",
         "@seed-design/lynx-react-field-button": "^1.0.0",
         "@seed-design/lynx-react-file-upload": "^1.0.0",
-        "@seed-design/lynx-react-floating": "^1.0.0",
+        "@seed-design/lynx-react-floating": "^1.0.1",
         "@seed-design/lynx-react-image": "^1.0.0",
-        "@seed-design/lynx-react-keyboard-avoiding-scroll-view": "^1.0.0",
+        "@seed-design/lynx-react-keyboard-avoiding-scroll-view": "^1.0.1",
         "@seed-design/lynx-react-loop-scroll": "^1.0.0",
-        "@seed-design/lynx-react-menu": "^1.0.0",
+        "@seed-design/lynx-react-menu": "^1.0.1",
         "@seed-design/lynx-react-page-banner": "^1.0.0",
-        "@seed-design/lynx-react-popover": "^1.0.0",
+        "@seed-design/lynx-react-popover": "^1.0.1",
         "@seed-design/lynx-react-progress": "^1.0.0",
         "@seed-design/lynx-react-pull-to-refresh": "^1.1.0",
         "@seed-design/lynx-react-quantity-picker": "^1.0.0",
         "@seed-design/lynx-react-radio-group": "^1.0.0",
         "@seed-design/lynx-react-scale-feedback": "^1.0.0",
         "@seed-design/lynx-react-segmented-control": "^1.0.0",
-        "@seed-design/lynx-react-select": "^1.0.0",
+        "@seed-design/lynx-react-select": "^1.0.1",
         "@seed-design/lynx-react-slider": "^1.0.0",
         "@seed-design/lynx-react-switch": "^1.0.0",
         "@seed-design/lynx-react-tabs": "^1.0.0",
@@ -586,7 +586,7 @@
         "@seed-design/lynx-react-toggle": "^1.0.0",
         "@seed-design/lynx-react-use-controllable-state": "^1.0.0",
         "@seed-design/lynx-react-use-press-tap": "^1.0.0",
-        "@seed-design/lynx-react-use-safe-area": "^1.0.0",
+        "@seed-design/lynx-react-use-safe-area": "^1.0.1",
         "clsx": "^2.1.1",
       },
       "devDependencies": {
@@ -650,9 +650,9 @@
     },
     "packages/lynx-react-headless/app-bar": {
       "name": "@seed-design/lynx-react-app-bar",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
-        "@seed-design/lynx-react-use-safe-area": "^1.0.0",
+        "@seed-design/lynx-react-use-safe-area": "^1.0.1",
       },
       "devDependencies": {
         "@lynx-js/react": "^0.117.0",
@@ -663,7 +663,7 @@
         "vitest": "^3.2.4",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -847,11 +847,11 @@
     },
     "packages/lynx-react-headless/floating": {
       "name": "@seed-design/lynx-react-floating",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
         "@floating-ui/core": "^1.8.0",
         "@lynx-js/lynx-ui-common": "^3.130.0",
-        "@seed-design/lynx-react-use-safe-area": "^1.0.0",
+        "@seed-design/lynx-react-use-safe-area": "^1.0.1",
       },
       "devDependencies": {
         "@lynx-js/react": "^0.117.0",
@@ -859,7 +859,7 @@
         "vitest": "^3.2.4",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -884,7 +884,7 @@
     },
     "packages/lynx-react-headless/keyboard-avoiding-scroll-view": {
       "name": "@seed-design/lynx-react-keyboard-avoiding-scroll-view",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "devDependencies": {
         "@lynx-js/react": "^0.117.0",
         "@lynx-js/types": "^3.7.0",
@@ -919,11 +919,11 @@
     },
     "packages/lynx-react-headless/menu": {
       "name": "@seed-design/lynx-react-menu",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@lynx-js/lynx-ui-overlay": "^3.133.1",
-        "@seed-design/lynx-react-floating": "^1.0.0",
+        "@seed-design/lynx-react-floating": "^1.0.1",
         "@seed-design/lynx-react-use-controllable-state": "^1.0.0",
         "@seed-design/lynx-react-use-press-tap": "^1.0.0",
       },
@@ -936,7 +936,7 @@
         "vitest": "^3.2.4",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -963,11 +963,11 @@
     },
     "packages/lynx-react-headless/popover": {
       "name": "@seed-design/lynx-react-popover",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@lynx-js/lynx-ui-overlay": "^3.133.1",
-        "@seed-design/lynx-react-floating": "^1.0.0",
+        "@seed-design/lynx-react-floating": "^1.0.1",
         "@seed-design/lynx-react-use-controllable-state": "^1.0.0",
         "@seed-design/lynx-react-use-press-tap": "^1.0.0",
       },
@@ -980,7 +980,7 @@
         "vitest": "^3.2.4",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -1081,11 +1081,11 @@
     },
     "packages/lynx-react-headless/select": {
       "name": "@seed-design/lynx-react-select",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@lynx-js/lynx-ui-overlay": "^3.133.1",
-        "@seed-design/lynx-react-floating": "^1.0.0",
+        "@seed-design/lynx-react-floating": "^1.0.1",
         "@seed-design/lynx-react-use-controllable-state": "^1.0.0",
         "@seed-design/lynx-react-use-press-tap": "^1.0.0",
       },
@@ -1098,7 +1098,7 @@
         "vitest": "^3.2.4",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -1276,7 +1276,7 @@
     },
     "packages/lynx-react-headless/use-safe-area": {
       "name": "@seed-design/lynx-react-use-safe-area",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "devDependencies": {
         "@lynx-js/react": "^0.117.0",
         "@lynx-js/types": "^3.7.0",
@@ -1286,7 +1286,7 @@
         "vitest": "^3.2.4",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -1345,7 +1345,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "3.1.0",
+      "version": "3.1.1",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.5",
@@ -1382,7 +1382,7 @@
         "@seed-design/react-slider": "^2.0.1",
         "@seed-design/react-snackbar": "^2.0.1",
         "@seed-design/react-switch": "^2.0.1",
-        "@seed-design/react-tabs": "^3.0.0",
+        "@seed-design/react-tabs": "^3.0.1",
         "@seed-design/react-text-field": "^2.1.0",
         "@seed-design/react-time-picker": "^1.0.0",
         "@seed-design/react-toggle": "^2.0.1",
@@ -2080,7 +2080,7 @@
     },
     "packages/react-headless/tabs": {
       "name": "@seed-design/react-tabs",
-      "version": "3.0.0",
+      "version": "3.0.1",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
@@ -2467,7 +2467,7 @@
         "@seed-design/css": "3.1.0",
         "@seed-design/figma": "2.1.0",
         "@seed-design/migration-index": "2.0.1",
-        "@seed-design/react": "3.1.0",
+        "@seed-design/react": "3.1.1",
         "@seed-design/vite-plugin": "2.1.1",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",

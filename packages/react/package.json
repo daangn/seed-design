@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -68,7 +68,7 @@
     "@seed-design/react-slider": "^2.0.1",
     "@seed-design/react-snackbar": "^2.0.1",
     "@seed-design/react-switch": "^2.0.1",
-    "@seed-design/react-tabs": "^3.0.0",
+    "@seed-design/react-tabs": "^3.0.1",
     "@seed-design/react-text-field": "^2.1.0",
     "@seed-design/react-time-picker": "^1.0.0",
     "@seed-design/react-toggle": "^2.0.1",
