@@ -2242,6 +2242,12 @@
               ]
             },
             {
+              "id": "host-integration",
+              "title": "Host Integration",
+              "description": "호스트 앱이 주는 색상 스킴·모션 설정·safe area를 SeedProvider로 SEED에 전달하는 방법을 알아봅니다.",
+              "docUrl": "/lynx/getting-started/host-integration"
+            },
+            {
               "id": "iconography",
               "title": "Iconography",
               "description": "Lynx 아이콘 패키지를 사용하는 방법을 설명합니다.",

@@ -1,6 +1,8 @@
-import { runOnMainThread, useEffect, useGlobalProps, useMainThreadRef, useRef } from "@lynx-js/react";
+import { runOnMainThread, useEffect, useMainThreadRef, useRef } from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
 import type { DependencyList, RefObject } from "@lynx-js/react";
+
+import { useSeedContext } from "../contexts/SeedContext";
 
 type IconElement = MainThread.Element & {
   getComputedStyleProperty?: (name: string) => string;
@@ -71,7 +73,7 @@ function cancelTintColorSync(frameRef: RefObject<number>) {
 
 /**
  * Lynx `<image>` 의 tint color 를 recipe 의 CSS `color` 로부터 main-thread 에서 읽어
- * `tint-color` attribute 로 mirror. `deps` 또는 시스템 테마가 바뀌면 native class
+ * `tint-color` attribute 로 mirror. `deps` 또는 호스트 색상 스킴(`SeedProvider`의 `preferredColorScheme`)이 바뀌면 native class
  * patch가 반영된 다음 frame에 재동기화하고, UI 표시 이벤트에서는 즉시 동기화.
  *
  * ```tsx
@@ -90,7 +92,8 @@ export function useIconColor(
   const sourceRef = options?.sourceRef as RefObject<IconElement> | undefined;
   const enabled = options?.enabled ?? true;
   const frameRef = useMainThreadRef<number>(0);
-  const theme = (useGlobalProps() as { theme?: unknown } | undefined)?.theme;
+  // 적용된 색이 바뀔 수 있는 순간을 놓치지 않도록 호스트 설정값 변경을 구독한다.
+  const { preferredColorScheme } = useSeedContext();
   const hasMountedRef = useRef(false);
 
   function syncOnUiAppear() {
@@ -111,7 +114,7 @@ export function useIconColor(
     return () => {
       runOnMainThread(cancelTintColorSync)(frameRef);
     };
-  }, [...deps, enabled, theme]);
+  }, [...deps, enabled, preferredColorScheme]);
 
   return { ref, "main-thread:binduiappear": syncOnUiAppear };
 }

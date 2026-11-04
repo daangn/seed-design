@@ -1,0 +1,121 @@
+---
+title: Host Integration
+description: 호스트 앱이 주는 색상 스킴·모션 설정·safe area를 SeedProvider로 SEED에 전달하는 방법을 알아봅니다.
+---
+
+## 개요
+
+Lynx의 global props는 Lynx가 정의하지 않는 값이고, 어떤 키가 들어오는지는 호스트 앱마다 다릅니다.
+SEED는 특정 호스트의 global props 키를 직접 읽지 않고, 앱이 `SeedProvider`로 넘긴 값만 사용합니다.
+어떤 키를 읽어 어떻게 바꿀지는 앱이 정합니다.
+
+| prop | 타입 | 사용하는 곳 | 생략했을 때 |
+| --- | --- | --- | --- |
+| `preferredColorScheme` | `"light" \| "dark"` | `useSeedClassName`의 `colorMode: "system"`, 아이콘 색상 동기화 | `"light"` |
+| `preferredMotion` | `"default" \| "reduced"` | [Scale Feedback](/lynx/components/concepts/scale-feedback). `"reduced"`이면 눌림 축소를 끕니다 | `"default"` |
+| `safeAreaInsets` | `{ top, right, bottom, left }` (논리 px) | `useSafeArea`, `Box`의 `"safeArea"`, AppBar, Dialog, MenuSheet, floating 레이어 경계 | `env(safe-area-inset-*)` |
+
+화면 크기는 넘기지 않습니다. SEED는 [`useViewport`](/lynx/hooks/use-viewport)로 현재 LynxView 크기를 직접 측정합니다.
+
+`preferredColorScheme`은 호스트가 선호하는 값입니다. root `colorMode`를 적용한 결과가 아니므로, `colorMode: "dark-only"`인 앱에서도 호스트 설정을 그대로 넘기세요.
+
+## 적용하기
+
+앱 root에 `SeedProvider`를 하나 두고, 호스트의 global props를 SEED 값으로 바꿔 넘깁니다.
+global props는 `pluginReactLynx`의 [`globalPropsMode`](/lynx/getting-started/feature-flags)에 맞게 읽습니다. 기본값 `"reactive"`에서는 호스트가 값을 바꾸면 페이지 전체가 다시 렌더되므로 `lynx.__globalProps`를 바로 읽고, `"event"`에서는 `useGlobalProps()`로 읽어 변경을 구독합니다.
+
+```tsx title="src/index.tsx"
+import { root } from "@lynx-js/react";
+import { SeedProvider, useSeedClassName, type SafeAreaInsets } from "@seed-design/lynx-react";
+
+// 호스트 계약은 앱이 선언합니다.
+interface HostGlobalProps {
+  theme?: string;
+  motion?: string;
+  safeAreaInsetTop?: number;
+  safeAreaInsetRight?: number;
+  safeAreaInsetBottom?: number;
+  safeAreaInsetLeft?: number;
+}
+
+function Page() {
+  const seedClassName = useSeedClassName({ colorMode: "system" });
+  return (
+    <page className={seedClassName}>
+      <App />
+    </page>
+  );
+}
+
+const isValidInset = (value: unknown): value is number =>
+  typeof value === "number" && Number.isFinite(value) && value >= 0;
+
+function toSafeAreaInsets(g: HostGlobalProps): SafeAreaInsets | undefined {
+  const { safeAreaInsetTop: top, safeAreaInsetRight: right } = g;
+  const { safeAreaInsetBottom: bottom, safeAreaInsetLeft: left } = g;
+  // 4방향 모두 0 이상의 유한한 숫자일 때만 넘깁니다.
+  if (!isValidInset(top) || !isValidInset(right) || !isValidInset(bottom) || !isValidInset(left)) {
+    return undefined;
+  }
+  return { top, right, bottom, left };
+}
+
+function Root() {
+  // globalPropsMode: "event"이면 `useGlobalProps() as HostGlobalProps`로 읽습니다.
+  const g = lynx.__globalProps as HostGlobalProps;
+  return (
+    <SeedProvider
+      preferredColorScheme={g.theme === "dark" ? "dark" : "light"}
+      preferredMotion={g.motion === "reduced" ? "reduced" : "default"}
+      safeAreaInsets={toSafeAreaInsets(g)}
+    >
+      <Page />
+    </SeedProvider>
+  );
+}
+
+root.render(<Root />);
+```
+
+`useSeedClassName`은 `SeedProvider` 안에서 호출해야 `preferredColorScheme`을 읽습니다. 위 예제처럼 `<page>`를 그리는 컴포넌트를 Provider 안쪽에 둡니다.
+
+`SeedProvider`가 없어도 오류는 나지 않습니다. 호스트 값이 없는 환경에서는 위 표의 "생략했을 때" 값으로 동작합니다.
+
+### Safe Area 값
+
+`safeAreaInsets`는 4방향을 모두 넘깁니다. SEED는 받은 값을 보정하지 않고 그대로 `px`로 쓰므로, 음수나 `NaN` 같은 값은 위 예제처럼 앱에서 걸러 주세요. `0`도 유효한 값이므로, 네이티브가 이미 여백을 확보했다면 `0`을 넘기세요.
+
+`safeAreaInsets`를 생략하면 `env(safe-area-inset-*)`를 씁니다. Android에서는 이 CSS 함수가 동작하지 않아 safe area가 `0`처럼 보일 수 있으니, 호스트가 값을 주지 않는 경우의 보정도 앱에서 정하세요.
+
+### Overlay 안에서 다른 Safe Area 쓰기
+
+같은 Lynx View의 `<overlay>`는 global props를 공유합니다. fullscreen과 overlay에 다른 safe area가 필요하면 overlay 콘텐츠 안에 `SafeAreaProvider`를 중첩합니다. 그 영역의 `useSafeArea()`와 `useSeedContext().safeAreaInsets`가 함께 바뀝니다.
+
+```tsx
+import { SafeAreaProvider } from "@seed-design/lynx-react";
+
+<SafeAreaProvider insets={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+  <OverlayContent />
+</SafeAreaProvider>;
+```
+
+`SeedProvider`를 중첩하면 생략한 prop은 바깥 Provider의 값을 이어받습니다.
+
+## 넘긴 값 읽기
+
+`useSeedContext()`는 `SeedProvider`가 받은 값을 그대로 돌려줍니다. px 문자열 변환이나 `env()` fallback은 하지 않습니다. 화면에 적용할 safe area 값이 필요하면 [`useSafeArea`](/lynx/hooks/use-safe-area)를 사용하세요.
+
+```tsx
+import { useSeedContext } from "@seed-design/lynx-react";
+
+const { preferredColorScheme, preferredMotion, safeAreaInsets } = useSeedContext();
+```
+
+## Global Props 직접 읽기
+
+이전 버전의 SEED는 당근 앱 호스트가 넣어 주는 global props(`theme`, `motion`, `safeAreaInset*`)를 직접 읽었습니다.
+기존 앱이 바로 깨지지 않도록 다음 메이저 버전 전까지는 `SeedProvider`에 넘기지 않은 값만 이 키에서 채웁니다.
+
+- 키가 실제로 있어 사용되면 개발 빌드에서 키마다 한 번 경고합니다. 키가 없는 호스트에서는 경고하지 않습니다.
+- `safeAreaInsets`를 생략하면 `useSafeArea`가 `safeAreaInset*` global props를 읽고, 값이 없으면 `env(safe-area-inset-*)`를 씁니다.
+- 이 경로는 다음 메이저 버전에서 제거될 예정입니다. 위 [적용하기](#적용하기)처럼 `SeedProvider`로 옮기세요.
