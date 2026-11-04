@@ -6,20 +6,12 @@ import { useHostGlobalProps } from "./use-host-global-props.js";
 
 type SafeAreaEdge = "top" | "right" | "bottom" | "left";
 
-declare module "@lynx-js/types" {
-  interface GlobalProps {
-    /**
-     * @deprecated 당근 앱 호스트 전용 키다. `SafeAreaProvider`의 `insets`나
-     * `@seed-design/lynx-react`의 `SeedProvider`에 `safeAreaInsets`를 넘긴다. 다음 메이저 버전에서 제거한다.
-     */
-    safeAreaInsetTop?: number;
-    /** @deprecated `safeAreaInsetTop`과 같다. */
-    safeAreaInsetRight?: number;
-    /** @deprecated `safeAreaInsetTop`과 같다. */
-    safeAreaInsetBottom?: number;
-    /** @deprecated `safeAreaInsetTop`과 같다. */
-    safeAreaInsetLeft?: number;
-  }
+/** 당근 앱 호스트가 넣어 주던 global props. 다음 메이저 버전에서 이 값을 읽는 동작을 제거한다. */
+interface SeedSafeAreaGlobalProps {
+  safeAreaInsetTop?: number;
+  safeAreaInsetRight?: number;
+  safeAreaInsetBottom?: number;
+  safeAreaInsetLeft?: number;
 }
 
 function normalizeSafeAreaValue(value: number | undefined) {
@@ -57,7 +49,7 @@ export interface UseSafeAreaReturn {
  */
 export function useSafeArea(): UseSafeAreaReturn {
   const insets = useContext(SafeAreaContext);
-  const globalProps = useHostGlobalProps();
+  const globalProps = useHostGlobalProps() as SeedSafeAreaGlobalProps | undefined;
   const safeAreaInsetTop = globalProps?.safeAreaInsetTop;
   const safeAreaInsetRight = globalProps?.safeAreaInsetRight;
   const safeAreaInsetBottom = globalProps?.safeAreaInsetBottom;
