@@ -217,7 +217,15 @@ export const QuantityPickerRoot = React.forwardRef<unknown, QuantityPickerRootPr
           {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, api.rootProps, nativeProps)}
           className={clsx(classes.root, className)}
         >
-          {withDividers(orderedChildren, classes.divider)}
+          {[
+            ...withDividers(orderedChildren, classes.divider),
+            <view
+              key="quantity-picker-stroke"
+              className={classes.stroke}
+              user-interaction-enabled={false}
+              accessibility-elements-hidden={true}
+            />,
+          ]}
         </view>
       </QuantityPickerProvider>
     );
