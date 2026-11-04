@@ -17,6 +17,7 @@ import clsx from "clsx";
 import { chipTabs, type ChipTabsVariantProps } from "@seed-design/lynx-css/recipes/chip-tabs";
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import { useSafeAreaStyle } from "../../hooks/useSafeAreaStyle";
 import type { LynxHostProps, LynxViewRef } from "../../types";
 import {
   AccessibilityElementScope,
@@ -37,6 +38,8 @@ type ChipTabsPublicVariantProps = Omit<
 >;
 
 const { PropsProvider, useProps } = createSlotRecipeContext(chipTabs);
+const ViewportInsetsContext =
+  React.createContext<HeadlessTabsListProps["viewportInsets"]>(undefined);
 
 function useChipTabsVariantProps(consumer: string): ChipTabsVariantProps {
   const variantProps = useProps();
@@ -66,19 +69,39 @@ export const ChipTabsRoot = React.forwardRef<unknown, ChipTabsRootProps>((props,
   const { children, className, style, value, defaultValue, onValueChange, ...nativeProps } =
     rootProps;
   const api = useTabs({ value, defaultValue, onValueChange, triggerGap: CHIP_TABS_TRIGGER_GAP });
+  const safeAreaStyle = useSafeAreaStyle();
+  const safeAreaOverrides = style as
+    | (NonNullable<typeof style> & Partial<ReturnType<typeof useSafeAreaStyle>>)
+    | undefined;
+  const safeAreaLeft =
+    safeAreaOverrides?.["--seed-safe-area-left"] ?? safeAreaStyle["--seed-safe-area-left"];
+  const safeAreaRight =
+    safeAreaOverrides?.["--seed-safe-area-right"] ?? safeAreaStyle["--seed-safe-area-right"];
+  const viewportInsets = React.useMemo(
+    () =>
+      variantProps.extendSafeAreaX
+        ? {
+            start: `var(--seed-safe-area-left, ${safeAreaLeft})`,
+            end: `var(--seed-safe-area-right, ${safeAreaRight})`,
+          }
+        : undefined,
+    [variantProps.extendSafeAreaX, safeAreaLeft, safeAreaRight],
+  );
   const classNames = chipTabs(variantProps);
 
   return (
     <TabsProvider value={api}>
-      <PropsProvider value={variantProps}>
-        <view
-          {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-          className={clsx(classNames.root, className)}
-          style={style}
-        >
-          {children}
-        </view>
-      </PropsProvider>
+      <ViewportInsetsContext.Provider value={viewportInsets}>
+        <PropsProvider value={variantProps}>
+          <view
+            {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+            className={clsx(classNames.root, className)}
+            style={{ ...safeAreaStyle, ...style }}
+          >
+            {children}
+          </view>
+        </PropsProvider>
+      </ViewportInsetsContext.Provider>
     </TabsProvider>
   );
 });
@@ -99,12 +122,14 @@ export interface ChipTabsListProps
 export const ChipTabsList = React.forwardRef<unknown, ChipTabsListProps>((props, ref) => {
   const { children, className, scrollAlign = "nearest", ...nativeProps } = props;
   const classNames = chipTabs(useChipTabsVariantProps("ChipTabsList"));
+  const viewportInsets = React.useContext(ViewportInsetsContext);
 
   return (
     <HeadlessTabs.List
       {...nativeProps}
       {...(ref ? { ref } : {})}
       scrollAlign={scrollAlign}
+      viewportInsets={viewportInsets}
       className={clsx(classNames.list, className)}
       listContentProps={{ className: classNames.listContent }}
     >

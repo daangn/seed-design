@@ -1,3 +1,4 @@
+import { SafeAreaPreviewLegend, type PreviewSafeAreaInsets } from "./safe-area-preview";
 import { SeedTab as Tab, SeedTabs as Tabs } from "@/components/tabs/seed-tabs";
 import * as React from "react";
 
@@ -9,11 +10,13 @@ interface ComponentExampleProps {
 
   isolate?: boolean;
 
+  safeAreaInsets?: PreviewSafeAreaInsets;
+
   children?: React.ReactNode;
 }
 
 export function ComponentExample(props: ComponentExampleProps) {
-  const { name, isolate, children } = props;
+  const { name, isolate, safeAreaInsets, children } = props;
 
   // Same card as the tabbed form below, minus the tab strip: an example with nothing to
   // show beside the preview still reads as one content block rather than loose page content.
@@ -29,9 +32,10 @@ export function ComponentExample(props: ComponentExampleProps) {
     return (
       <React.Suspense fallback={null}>
         <div className="my-4 overflow-hidden rounded-r3 border border-solid border-stroke-neutral-muted">
+          {safeAreaInsets && <SafeAreaPreviewLegend {...safeAreaInsets} />}
           <div className="overflow-x-auto">
             <div className="flex min-h-80 w-max min-w-full items-center justify-center p-x5">
-              <ComponentPreview name={name} isolate={isolate} />
+              <ComponentPreview name={name} isolate={isolate} safeAreaInsets={safeAreaInsets} />
             </div>
           </div>
         </div>
@@ -43,8 +47,9 @@ export function ComponentExample(props: ComponentExampleProps) {
     <ErrorBoundary>
       <Tabs card items={["미리보기", "코드"]}>
         <Tab value="미리보기">
+          {safeAreaInsets && <SafeAreaPreviewLegend {...safeAreaInsets} />}
           <div className="flex min-h-80 items-center justify-center p-x5">
-            <ComponentPreview name={name} isolate={isolate} />
+            <ComponentPreview name={name} isolate={isolate} safeAreaInsets={safeAreaInsets} />
           </div>
         </Tab>
         <Tab value="코드">{children}</Tab>

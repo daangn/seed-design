@@ -1,5 +1,9 @@
 declare interface ChipTabsVariant {
   /**
+  * @default false
+  */
+  extendSafeAreaX: boolean;
+/**
   * @default "medium"
   */
   size: "medium" | "large";

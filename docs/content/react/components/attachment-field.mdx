@@ -407,3 +407,18 @@ Snippet이 제공하는 기본 아이템 구성 외에 추가적인 커스터마
   }
   ```
 </ComponentExample>
+
+## Extending to Safe Area
+
+`AttachmentField`에 `extendSafeAreaX`를 지정하면 첨부 목록의 스크롤 영역이 좌우 inset까지 넓어집니다. label·description과 처음·마지막 항목에 필요한 여백은 유지합니다. inset을 반영한 컨테이너 안에서 사용하세요.
+
+아래 예제는 좌우에 가상의 inset을 적용합니다. 붉은 빗금은 콘텐츠를 피해야 하는 inset 영역이며, 두 경계선 사이는 안전 영역입니다. 스위치로 확장 전(AS IS)과 확장 후(TO BE)를 비교하고, 배경·스크롤 영역의 경계와 콘텐츠 위치를 확인하세요. 같은 버전에서 옵션을 끄고 켠 비교입니다.
+
+<ComponentExample name="react/attachment-field/extend-safe-area" safeAreaInsets={{ left: 24, right: 48 }}>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/attachment-field/extend-safe-area.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

@@ -19,6 +19,7 @@ import contentPlaceholder from "./recipes/content-placeholder";
 import dialog from "./recipes/dialog";
 import field from "./recipes/field";
 import fieldLabel from "./recipes/field-label";
+import float from "./recipes/float";
 import floatingActionButton from "./recipes/floating-action-button";
 import imageFrame from "./recipes/image-frame";
 import imageFrameIcon from "./recipes/image-frame-icon";
@@ -95,6 +96,7 @@ export const recipes = {
   dialog,
   field,
   fieldLabel,
+  float,
   floatingActionButton,
   identityPlaceholder,
   mannerTemp,
