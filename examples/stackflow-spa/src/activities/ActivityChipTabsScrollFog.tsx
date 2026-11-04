@@ -1,17 +1,17 @@
-import { Box, ScrollFog } from "@seed-design/react";
+import { Box, Icon, ScrollFog } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { Suspense, useEffect, useState } from "react";
 import * as React from "react";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import {
   ChipTabsCarousel,
   ChipTabsContent,
@@ -71,19 +71,19 @@ const ActivityChipTabsScrollFog: StaticActivityComponentType<"ActivityChipTabsSc
   const { push } = useFlow();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain title="ChipTabs ScrollFog + LazyMount" />
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="ChipTabs ScrollFog + LazyMount" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <Icon svg={<IconHouseLine />} />
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <Box p="x4" color="fg.neutralMuted">
           Check 1 (DES-1532): tab 2/4 content loads after a delay and the carousel height follows.
           {"\n"}
@@ -153,8 +153,8 @@ const ActivityChipTabsScrollFog: StaticActivityComponentType<"ActivityChipTabsSc
             ))}
           </ChipTabsCarousel>
         </ChipTabsRoot>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

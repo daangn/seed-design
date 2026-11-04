@@ -1,21 +1,21 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-  AppBarIconButton,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+  NextAppBarIconButton,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 
 import { toggleButtonVariantMap } from "@seed-design/css/recipes/toggle-button";
 
 import { IconThumbUpFill, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { ToggleButton, type ToggleButtonProps } from "seed-design/ui/toggle-button";
-import { PrefixIcon } from "@seed-design/react";
+import { Icon, PrefixIcon } from "@seed-design/react";
 
 const initialVariants = {
   variant: "brandSolid",
@@ -32,19 +32,19 @@ const ActivityToggleButton: StaticActivityComponentType<"ActivityToggleButton"> 
   const { push } = useFlow();
 
   return (
-    <AppScreen layerOffsetBottom="safeArea">
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Toggle Button</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="Toggle Button" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <Icon svg={<IconHouseLine />} />
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <ComponentAnalyzer
           variantsMap={toggleButtonVariantMap}
           initialVariants={initialVariants}
@@ -55,8 +55,8 @@ const ActivityToggleButton: StaticActivityComponentType<"ActivityToggleButton"> 
             </ToggleButton>
           )}
         />
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

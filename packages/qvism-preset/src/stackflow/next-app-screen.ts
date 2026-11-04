@@ -1,0 +1,316 @@
+import { defineSlotRecipe } from "../utils/define";
+import { SQUIRCLE_CORNER_MASK_IMAGES, SQUIRCLE_CORNER_SPAN_RATIO } from "../utils/squircle";
+import { vars } from "../vars";
+import { topNavigation as navVars } from "../vars/component";
+
+/**
+ * Behind layer park position while a horizontalSlide top covers it.
+ *
+ * Mirrored by the WAAPI keyframes in
+ * `packages/stackflow/src/primitive/NextAppScreen/animation.ts`.
+ */
+const BEHIND_TRANSLATE_X = "-30%";
+
+/**
+ * verticalSlide enter/exit offset. Mirrored by the same WAAPI keyframes.
+ *
+ * The layer alone travels: the dim is a full-viewport scrim, so translating it
+ * would carry its edge into the screen and leave the strip beyond it undimmed.
+ */
+const VERTICAL_LAYER_TRANSLATE_Y = "8vh";
+
+// ─── State selectors ─────────────────────────────────────────────────────────
+//
+// `data-screen-state` and `data-swipe-back-state` live on the screen root
+// (data-part="screen"); every animated slot is a direct child of the root, so
+// `[state] > &` scopes each rule to its own screen.
+//
+// These rules declare where each state RESTS, never how it travels there. The
+// travel is played with WAAPI from
+// `packages/stackflow/src/primitive/NextAppScreen/animation.ts`, whose
+// keyframes end exactly on the values below. Holding the resting positions in
+// CSS is what makes the states self-healing: an animation that is cancelled,
+// times out, or never runs at all leaves the screen wherever its current state
+// says it belongs, with no inline style anyone has to clean up.
+//
+// `push` matches only until `data-screen-ready` lands (one frame after
+// mount): it pins the enter start offset so a paint that beats the animation
+// onto the screen still shows the offset rather than the resting position.
+// States whose resting position IS the default (`push` after ready, `idle`,
+// `pop-behind`) need no rule at all, so re-showing a screen from
+// `display: none` (e.g. future React <Activity>) cannot leave it displaced.
+
+const pushStart = '[data-screen-state="push"]:not([data-screen-ready]) > &';
+const pop = '[data-screen-state="pop"] > &';
+const pushBehind = '[data-screen-state="push-behind"] > &';
+const idleBehind = '[data-screen-state="idle-behind"] > &';
+
+// Swipe rules must beat the state rules regardless of source order (e.g.
+// `swiping` must pin the var-driven transform over the `pop` target while the
+// consumer pops mid-gesture), so force specificity with :not(#\#).
+const isTopScreen = ':not([data-screen-state$="-behind"])';
+const isBehindScreen = '[data-screen-state$="-behind"]';
+const swiping = `[data-swipe-back-state="swiping"]${isTopScreen}:not(#\\#) > &`;
+const swipingBehind = `[data-swipe-back-state="swiping"]${isBehindScreen}:not(#\\#) > &`;
+const canceling = `[data-swipe-back-state="canceling"]${isTopScreen}:not(#\\#) > &`;
+const cancelingBehind = `[data-swipe-back-state="canceling"]${isBehindScreen}:not(#\\#) > &`;
+const completing = `[data-swipe-back-state="completing"]${isTopScreen}:not(#\\#) > &`;
+const completingBehind = `[data-swipe-back-state="completing"]${isBehindScreen}:not(#\\#) > &`;
+
+// Only the top screen is clipped. The behind one keeps its corners off-screen
+// or under the top screen, except where the top screen's own rounded corner
+// uncovers them, and rounding them there opens a gap between the two screens.
+const transitioning = `[data-screen-state]:not([data-screen-state="idle"])${isTopScreen} > &`;
+const swipeBackActive = `[data-swipe-back-state]${isTopScreen} > &`;
+
+// ─── Swipe-driven values ─────────────────────────────────────────────────────
+//
+// During the gesture the position is pure CSS, driven by variables written
+// directly on the consuming elements (top layer, behind layer, dim) — never on
+// the stack root. Every style reads the same ratio, each into its own exit:
+// horizontalSlide travels with the finger 1:1 in px, the rest interpolate the
+// offset and opacity their `pop` rests at.
+
+const SWIPE_RATIO = "var(--seed-swipe-back-displacement-ratio, 0)";
+
+const SWIPE_TOP_TRANSFORM = "translate3d(var(--seed-swipe-back-displacement, 0px), 0, 0)";
+const SWIPE_BEHIND_TRANSFORM = `translate3d(calc(${BEHIND_TRANSLATE_X} + ${SWIPE_RATIO} * 30%), 0, 0)`;
+const SWIPE_FADE_OPACITY = `calc(1 - ${SWIPE_RATIO})`;
+const SWIPE_VERTICAL_LAYER_TRANSFORM = `translate3d(0, calc(${SWIPE_RATIO} * ${VERTICAL_LAYER_TRANSLATE_Y}), 0)`;
+
+// A mask rather than border-radius + overflow: no scroll-container or
+// containing-block side effects on the layer, and no dependence on
+// `overflow: clip` (Chrome 90+/Safari 16+). A squircle rather than a circular
+// arc, because the radius being matched is a physical display corner, which on
+// iOS is a continuous curve — and the transition is exactly when that shows,
+// since a sliding screen carries its corners off the bezel and into the middle
+// of the display.
+//
+// Each corner is its own layer sized to its own radius, and four solid strips,
+// each spanning half the screen between the two corners on its side, fill the
+// rest. That holds while every corner fits inside half the screen on both axes.
+// A nine-slice `mask-border` can't do this: a corner piece takes its width from
+// the left or right border and its height from the top or bottom one, so four
+// different radii would stretch the squircles out of shape.
+//
+// `-webkit-mask` is the one spelling every engine takes: WebKit has no
+// unprefixed `mask` before Safari 15.4, and Gecko aliases the prefixed one.
+//
+// The radius vars are read WITHOUT a fallback, so a stack that sets no
+// `clipRadius` leaves the whole shorthand invalid at computed-value time — the
+// mask falls back to `none` and no full-screen mask layer is rasterized. That
+// only holds for the shorthand: split into longhands, the image list would
+// stay valid on its own. Giving the vars a `0px` fallback would mask every
+// transition on every stack instead.
+const clipSpan = (corner: string) =>
+  `calc(var(--seed-next-app-screen-clip-radius-${corner}) * ${SQUIRCLE_CORNER_SPAN_RATIO})`;
+
+const TOP_LEFT = clipSpan("top-left");
+const TOP_RIGHT = clipSpan("top-right");
+const BOTTOM_RIGHT = clipSpan("bottom-right");
+const BOTTOM_LEFT = clipSpan("bottom-left");
+
+const SOLID = "linear-gradient(white, white)";
+
+const CLIP_STYLES = {
+  WebkitMask: [
+    `${SQUIRCLE_CORNER_MASK_IMAGES.topLeft} 0 0 / ${TOP_LEFT} ${TOP_LEFT}`,
+    `${SQUIRCLE_CORNER_MASK_IMAGES.topRight} 100% 0 / ${TOP_RIGHT} ${TOP_RIGHT}`,
+    `${SQUIRCLE_CORNER_MASK_IMAGES.bottomRight} 100% 100% / ${BOTTOM_RIGHT} ${BOTTOM_RIGHT}`,
+    `${SQUIRCLE_CORNER_MASK_IMAGES.bottomLeft} 0 100% / ${BOTTOM_LEFT} ${BOTTOM_LEFT}`,
+    `${SOLID} ${TOP_LEFT} 0 / calc(100% - ${TOP_LEFT} - ${TOP_RIGHT}) 50%`,
+    `${SOLID} ${BOTTOM_LEFT} 100% / calc(100% - ${BOTTOM_LEFT} - ${BOTTOM_RIGHT}) 50%`,
+    `${SOLID} 0 ${TOP_LEFT} / 50% calc(100% - ${TOP_LEFT} - ${BOTTOM_LEFT})`,
+    `${SOLID} 100% ${TOP_RIGHT} / 50% calc(100% - ${TOP_RIGHT} - ${BOTTOM_RIGHT})`,
+  ]
+    .map((layer) => `${layer} no-repeat`)
+    .join(", "),
+};
+
+export const nextAppScreen = defineSlotRecipe({
+  name: "next-app-screen",
+  slots: ["root", "dim", "layer", "content", "edge"],
+  base: {
+    root: {
+      position: "absolute",
+      width: "100%",
+      height: "100%",
+      insetInline: 0,
+      overflow: "hidden",
+
+      "--app-bar-height": navVars.base.enabled.root.height,
+      "--app-bar-offset": "calc(var(--app-bar-height) + var(--seed-safe-area-top))",
+
+      // The screen takes ONE slot of the activity's 5-wide z-index band, and
+      // the z-index makes it a stacking context so every part below is ordered
+      // locally — nothing inside can reach into a neighbouring activity.
+      //
+      // The offset has to thread a stack that also holds legacy AppScreens,
+      // which spread their parts across `base + 0..7`: it must clear the screen
+      // below (`app-bar` at base - 5 + 7 = base + 2) and stay under the screen
+      // above (`dim` at base + 5 + 0 = base + 5). Only 3 and 4 satisfy both.
+      zIndex: "calc(var(--z-index-base) + 3)",
+    },
+    dim: {
+      zIndex: 0,
+      position: "absolute",
+      width: "100%",
+      top: 0,
+      insetInline: 0,
+    },
+    // NOTE: no transform / will-change at rest — position: fixed descendants of
+    // the content must anchor to the viewport while the screen is idle.
+    layer: {
+      zIndex: 1,
+      boxSizing: "border-box",
+      position: "absolute",
+      width: "100%",
+      height: "100%",
+      insetInline: 0,
+
+      backgroundColor: vars.$color.bg.layerDefault,
+
+      "&:focus": {
+        outline: "none",
+      },
+
+      // iOS 26-style clip: applies only while a transition or swipe is
+      // running. At rest there is no clip at all.
+      [transitioning]: CLIP_STYLES,
+      [swipeBackActive]: CLIP_STYLES,
+    },
+    content: {
+      isolation: "isolate",
+      boxSizing: "border-box",
+      position: "absolute",
+      inset: 0,
+      paddingLeft: "var(--seed-safe-area-left)",
+      paddingRight: "var(--seed-safe-area-right)",
+      overflowY: "scroll",
+      WebkitOverflowScrolling: "touch",
+      "&::-webkit-scrollbar": {
+        display: "none",
+      },
+    },
+    edge: {
+      zIndex: 2,
+      position: "absolute",
+      width: "20px",
+      height: "100%",
+      insetInline: 0,
+    },
+  },
+  variants: {
+    transitionStyle: {
+      horizontalSlide: {
+        dim: {
+          height: "100%",
+          background: vars.$color.palette.staticBlackAlpha400,
+
+          [pushStart]: { opacity: "0" },
+          [pop]: { opacity: "0" },
+
+          [swiping]: { opacity: SWIPE_FADE_OPACITY },
+          [canceling]: { opacity: "1" },
+          [completing]: { opacity: "0" },
+        },
+        layer: {
+          // top
+          [pushStart]: { transform: "translate3d(100%, 0, 0)" },
+          [pop]: { transform: "translate3d(100%, 0, 0)" },
+
+          // behind (`pop-behind` rests at the default position — no rule)
+          [pushBehind]: {
+            transform: `translate3d(${BEHIND_TRANSLATE_X}, 0, 0)`,
+          },
+          [idleBehind]: {
+            transform: `translate3d(${BEHIND_TRANSLATE_X}, 0, 0)`,
+          },
+
+          // swipe interaction (vars written imperatively on the elements)
+          [swiping]: { transform: SWIPE_TOP_TRANSFORM },
+          [swipingBehind]: { transform: SWIPE_BEHIND_TRANSFORM },
+
+          // swipe release — the WAAPI animation departs from the displacement
+          // the drag left behind and lands on these
+          [canceling]: { transform: "translate3d(0, 0, 0)" },
+          [cancelingBehind]: {
+            transform: `translate3d(${BEHIND_TRANSLATE_X}, 0, 0)`,
+          },
+          [completing]: { transform: "translate3d(100%, 0, 0)" },
+          [completingBehind]: { transform: "translate3d(0, 0, 0)" },
+        },
+      },
+      // The swipe rules below scrub the exit above: `swiping` interpolates
+      // towards the `pop` position by the gesture ratio, and `completing` is
+      // that same position reached. The screen behind stays parked in both
+      // styles, so it gets no rule of its own.
+      verticalSlide: {
+        dim: {
+          height: "100%",
+          background: vars.$color.palette.staticBlackAlpha400,
+
+          [pushStart]: { opacity: "0" },
+          [pop]: { opacity: "0" },
+
+          [swiping]: { opacity: SWIPE_FADE_OPACITY },
+          [canceling]: { opacity: "1" },
+          [completing]: { opacity: "0" },
+        },
+        layer: {
+          [pushStart]: {
+            opacity: "0",
+            transform: `translate3d(0, ${VERTICAL_LAYER_TRANSLATE_Y}, 0)`,
+          },
+          [pop]: { opacity: "0", transform: `translate3d(0, ${VERTICAL_LAYER_TRANSLATE_Y}, 0)` },
+
+          [swiping]: { opacity: SWIPE_FADE_OPACITY, transform: SWIPE_VERTICAL_LAYER_TRANSFORM },
+          [canceling]: { opacity: "1", transform: "translate3d(0, 0, 0)" },
+          [completing]: {
+            opacity: "0",
+            transform: `translate3d(0, ${VERTICAL_LAYER_TRANSLATE_Y}, 0)`,
+          },
+        },
+      },
+      crossfade: {
+        dim: {
+          display: "none",
+        },
+        layer: {
+          [pushStart]: { opacity: "0" },
+          [pop]: { opacity: "0" },
+
+          [swiping]: { opacity: SWIPE_FADE_OPACITY },
+          [canceling]: { opacity: "1" },
+          [completing]: { opacity: "0" },
+        },
+      },
+    },
+    contentOffsetTop: {
+      none: {},
+      safeArea: {
+        content: {
+          paddingTop: "var(--seed-safe-area-top)",
+        },
+      },
+      appBar: {
+        content: {
+          paddingTop: "var(--app-bar-offset)",
+        },
+      },
+    },
+    contentOffsetBottom: {
+      none: {},
+      safeArea: {
+        content: {
+          paddingBottom: "var(--seed-safe-area-bottom)",
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    transitionStyle: "horizontalSlide",
+    contentOffsetTop: "appBar",
+    contentOffsetBottom: "safeArea",
+  },
+});

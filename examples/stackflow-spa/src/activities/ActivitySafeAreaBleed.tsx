@@ -11,8 +11,13 @@ import {
 } from "@seed-design/react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
-import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import {
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import {
   AttachmentDropzone,
   AttachmentField,
@@ -104,14 +109,14 @@ function SafeAreaReadout() {
 const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"> = () => {
   const [extendSafeAreaX, setExtendSafeAreaX] = useState(true);
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain title="좌우 safe area와 bleed" />
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen contentOffsetBottom="none">
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="좌우 safe area와 bleed" />
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="x8" pt="x4">
           <VStack gap="x2" px="spacingX.globalGutter" align="flex-start">
             <Switch
@@ -334,8 +339,8 @@ const ActivitySafeAreaBleed: StaticActivityComponentType<"ActivitySafeAreaBleed"
             </HStack>
           </Box>
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 
