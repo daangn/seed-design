@@ -29,14 +29,17 @@ function startListening() {
   "background only";
   const onWindowResize = (...args: unknown[]) => {
     const [width, height] = args;
+    // 한 축만 오면 다른 축은 마지막 값을 유지한다.
+    const previous = measured ?? getSystemViewport();
     publish({
-      width: typeof width === "number" ? width : measured?.width,
-      height: typeof height === "number" ? height : measured?.height,
+      width: typeof width === "number" ? width : previous.width,
+      height: typeof height === "number" ? height : previous.height,
     });
   };
   const emitter = lynx.getJSModule("GlobalEventEmitter");
   emitter.addListener("onWindowResize", onWindowResize);
-  stopListening = () => emitter.removeListener("onWindowResize", onWindowResize);
+  const stop = () => emitter.removeListener("onWindowResize", onWindowResize);
+  stopListening = stop;
 
   // 첫 layout의 onWindowResize는 리스너 등록 전에 지나갈 수 있어 root를 한 번 측정한다.
   // ReactLynx testing library의 SelectorQuery에는 `selectRoot`가 없어, 앱 테스트가 깨지지 않도록 측정을 건너뛴다.
@@ -47,7 +50,8 @@ function startListening() {
     .invoke({
       method: "boundingClientRect",
       success: ({ width, height }: { width: number; height: number }) => {
-        if (!measured) publish({ width, height });
+        // 구독이 끝났거나 다시 시작된 뒤 도착한 결과는 버린다.
+        if (stopListening === stop && !measured) publish({ width, height });
       },
     })
     .exec();

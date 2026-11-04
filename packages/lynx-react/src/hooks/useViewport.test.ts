@@ -68,4 +68,18 @@ describe("useViewport", () => {
 
     unmount();
   });
+
+  it("ignores a measurement that arrives after the last consumer unmounts", () => {
+    const lynxMock = installLynx();
+    renderHook(() => useViewport()).unmount();
+    lynxMock.resolveMeasurement({ width: 1, height: 1 });
+
+    const { result, unmount } = renderHook(() => useViewport());
+    lynxMock.resize(540, 320);
+
+    expect(lynxMock.selectRoot).toHaveBeenCalledTimes(2);
+    expect(result.current).toEqual({ width: 540, height: 320 });
+
+    unmount();
+  });
 });
