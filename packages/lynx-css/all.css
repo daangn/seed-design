@@ -7365,14 +7365,14 @@ text {
 }
 
 .seed-select-box__selectedStroke {
-  border-radius: calc(var(--seed-radius-r3) - 1px);
+  border-radius: var(--seed-radius-r3);
   transition: border-color .1s var(--seed-timing-function-easing);
-  border: 1px solid #0000;
+  border: 2px solid #0000;
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  top: -1px;
+  bottom: -1px;
+  left: -1px;
+  right: -1px;
 }
 
 .seed-select-box__trigger {

@@ -31,14 +31,14 @@
 }
 .seed-select-box__selectedStroke {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    top: calc(1px * -1);
+    right: calc(1px * -1);
+    bottom: calc(1px * -1);
+    left: calc(1px * -1);
     border-style: solid;
-    border-width: calc(2px - 1px);
+    border-width: 2px;
     border-color: transparent;
-    border-radius: calc(var(--seed-radius-r3) - 1px);
+    border-radius: var(--seed-radius-r3);
     transition: border-color 0.1s var(--seed-timing-function-easing)
 }
 .seed-select-box__trigger {

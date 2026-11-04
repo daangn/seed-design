@@ -78,15 +78,16 @@ export const selectBox = defineSlotRecipe({
     },
     selectedStroke: {
       position: "absolute",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-      // root border 안쪽에 선택 두께의 나머지만 그린다. 선택 시 root border 색도 함께 바꾼다.
+      // root border까지 덮어 선택 두께 전체를 한 레이어로 그린다. root border 안쪽에 나머지만
+      // 그리면 두 레이어의 곡선 안티앨리어싱이 겹쳐 코너에 밝은 선이 보인다.
+      top: `calc(${vars.base.enabled.root.strokeWidth} * -1)`,
+      right: `calc(${vars.base.enabled.root.strokeWidth} * -1)`,
+      bottom: `calc(${vars.base.enabled.root.strokeWidth} * -1)`,
+      left: `calc(${vars.base.enabled.root.strokeWidth} * -1)`,
       borderStyle: "solid",
-      borderWidth: `calc(${vars.base.selected.root.strokeWidth} - ${vars.base.enabled.root.strokeWidth})`,
+      borderWidth: vars.base.selected.root.strokeWidth,
       borderColor: "transparent",
-      borderRadius: `calc(${vars.base.enabled.root.cornerRadius} - ${vars.base.enabled.root.strokeWidth})`,
+      borderRadius: vars.base.enabled.root.cornerRadius,
       transition: `border-color ${vars.base.enabled.root.strokeDuration} ${vars.base.enabled.root.strokeTimingFunction}`,
     },
     trigger: {
