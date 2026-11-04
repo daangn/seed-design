@@ -48,7 +48,10 @@ const segmentedControl = defineSlotRecipe({
       minWidth: "var(--segment-min-width)",
       borderRadius: indicatorVars.base.enabled.root.cornerRadius,
       backgroundColor: indicatorVars.base.enabled.root.color,
-      boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
+      // iOS Lynx는 inset box-shadow를 흐리게 그린다. 크기가 위치로 정해지므로 border를 직접 쓴다.
+      borderStyle: "solid",
+      borderWidth: indicatorVars.base.enabled.root.strokeWidth,
+      borderColor: indicatorVars.base.enabled.root.strokeColor,
       transform: "translateX(calc(var(--segment-index, 0) * 100%))",
       transitionProperty: "transform, opacity",
       transitionDuration: indicatorVars.base.enabled.root.transformDuration,
@@ -87,7 +90,9 @@ const segmentedControl = defineSlotRecipe({
       left: 0,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
       backgroundColor: itemVars.base.pressed.root.color,
-      boxShadow: `inset 0 0 0 ${itemVars.base.pressed.root.strokeWidth} ${itemVars.base.pressed.root.strokeColor}`,
+      borderStyle: "solid",
+      borderWidth: itemVars.base.pressed.root.strokeWidth,
+      borderColor: itemVars.base.pressed.root.strokeColor,
       opacity: 0,
       transitionProperty: "opacity",
       transitionDuration: itemVars.base.enabled.root.colorDuration,
@@ -101,7 +106,9 @@ const segmentedControl = defineSlotRecipe({
       left: 0,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
       backgroundColor: indicatorVars.base.pressed.root.color,
-      boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
+      borderStyle: "solid",
+      borderWidth: indicatorVars.base.enabled.root.strokeWidth,
+      borderColor: indicatorVars.base.enabled.root.strokeColor,
       opacity: 0,
       transitionProperty: "opacity",
       transitionDuration: itemVars.base.enabled.root.colorDuration,
@@ -166,9 +173,10 @@ const segmentedControl = defineSlotRecipe({
       selected: true,
       disabled: true,
       css: {
-        item: {
+        // 선택된 disabled item은 같은 stroke를 가진 itemSelectedBackground overlay를 disabled 색으로 켠다.
+        itemSelectedBackground: {
           backgroundColor: indicatorVars.base.disabled.root.color,
-          boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
+          opacity: 1,
         },
       },
     },

@@ -59,6 +59,12 @@ const rootRecipe = createSlotRecipeContext(attachmentInput);
 const triggerRecipe = createSlotRecipeContext(attachmentInputTrigger);
 const itemRecipe = createSlotRecipeContext(attachmentInputItem);
 
+/**
+ * image item은 thumbnail·metadata를 렌더링하지 않는다. Lynx의 `display: none`은 레이아웃만 0으로 만들고
+ * 노드를 남겨, 텍스트를 자르지 않는 환경에서는 파일 크기·이름이 이미지 위에 그려진다.
+ */
+const ItemTypeContext = React.createContext<"general" | "image">("general");
+
 /** 명시한 상태 props를 먼저 쓰고, 생략한 값만 감싼 Field 상태를 사용합니다. */
 function useFieldStateFallback(
   props: Pick<AttachmentInputProps, "disabled" | "required" | "invalid" | "readOnly">,
@@ -316,12 +322,18 @@ export const AttachmentInputItem = React.forwardRef<NodesRef, AttachmentInputIte
     return (
       <FileUploadItemProvider value={item}>
         <itemRecipe.ClassNamesProvider value={classes}>
-          <view
-            {...mergeProps(forwardedRef ? { ref: forwardedRef } : {}, root.stateProps, nativeProps)}
-            className={clsx(classes.root, className)}
-          >
-            {children}
-          </view>
+          <ItemTypeContext.Provider value={type}>
+            <view
+              {...mergeProps(
+                forwardedRef ? { ref: forwardedRef } : {},
+                root.stateProps,
+                nativeProps,
+              )}
+              className={clsx(classes.root, className)}
+            >
+              {children}
+            </view>
+          </ItemTypeContext.Provider>
         </itemRecipe.ClassNamesProvider>
       </FileUploadItemProvider>
     );
@@ -405,6 +417,7 @@ export const AttachmentInputItemThumbnail = React.forwardRef<
   AttachmentInputItemThumbnailProps
 >(({ children, className, ...nativeProps }, forwardedRef) => {
   const classes = itemRecipe.useClassNames();
+  if (React.useContext(ItemTypeContext) === "image") return null;
   return (
     <view
       {...mergeProps(forwardedRef ? { ref: forwardedRef } : {}, nativeProps)}
@@ -425,6 +438,7 @@ export const AttachmentInputItemMetadata = React.forwardRef<
   AttachmentInputItemMetadataProps
 >(({ children, className, ...nativeProps }, forwardedRef) => {
   const classes = itemRecipe.useClassNames();
+  if (React.useContext(ItemTypeContext) === "image") return null;
   return (
     <view
       {...mergeProps(forwardedRef ? { ref: forwardedRef } : {}, nativeProps)}
