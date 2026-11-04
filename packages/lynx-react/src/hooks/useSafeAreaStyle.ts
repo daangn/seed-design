@@ -1,9 +1,7 @@
-import { useGlobalProps } from "@lynx-js/react";
 import { useSafeArea } from "./useSafeArea";
 
 export function useSafeAreaStyle() {
-  // host가 inset을 바꾸면 Recipe에 전달하는 값도 다시 계산한다.
-  useGlobalProps();
+  // `useSafeArea`가 `globalPropsMode`에 맞게 host 값을 읽으므로 inset이 바뀌면 다시 계산된다.
   const { safeAreaInsetLeft, safeAreaInsetRight } = useSafeArea();
 
   return {

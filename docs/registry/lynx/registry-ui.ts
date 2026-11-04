@@ -16,8 +16,10 @@ const appBarPackageRanges = {
   "@seed-design/lynx-css": "^1.1.0",
 };
 
+// reorderable snippet은 @seed-design/lynx-react 1.2.0의 `useSeedContext().preferredMotion`을 읽는다.
 const attachmentReorderablePackageRanges = {
   ...lynxSeedIconPackageRanges,
+  "@seed-design/lynx-react": "^1.2.0",
   "@seed-design/lynx-react-sortable": "^1.0.0",
 };
 

@@ -80,7 +80,7 @@ React 플러그인 **0.9.0부터** `targetSdkVersion`이 deprecated되었고 `en
 | `fontScaleEffectiveOnlyOnSp` | Dynamic(`sp`)·Static(`px`) 타이포그래피 구분 | `true` 명시 | `true` 명시 | `true` 명시 | Config |
 | `enableFixedNew` | fixed 요소의 레이아웃·삽입 처리 | fixed 사용 시 `true` 권장 | 동일 | 다른 unified fixed 경로가 켜진 경우 아래 설명 참고 | Config |
 | `enableMultiTouch` | 터치 기반 컴포넌트·화면에서 여러 손가락의 이벤트 정보 사용 | 멀티터치가 필요하면 `true` 명시 | 동일 | 동일 | Config |
-| `globalPropsMode` | 테마·reduced motion 등 호스트 설정 변경을 SEED 훅에 전달 | 기본 `"reactive"` 또는 이벤트 구독 방식의 `"event"` 선택 | 동일 | 동일 | React |
+| `globalPropsMode` | 테마·reduced motion 등 호스트 설정 변경을 앱과 SEED 훅에 전달 | 기본 `"reactive"` 또는 이벤트 구독 방식의 `"event"` 선택 | 동일 | 동일 | React |
 | `enableTextRefactor` | 텍스트 측정·baseline 등의 개선 경로 | target SDK ≥ 2.2이면 생략 | 동일 | 동일 | 최신 Config에 공개되지 않음 |
 | `enableFlexBasisZeroPercent` | 웹과 같은 `flex` 축약 해석을 선택할 때 | 지원 안 함 | 필요 시 `true` | target SDK ≥ 4.1이면 생략 가능, 그 미만이면 필요 시 `true` | Config |
 
@@ -143,11 +143,16 @@ CSS 상속은 Lynx가 지원하는 속성 범위에 적용됩니다. 웹의 모�
 | 설정 | 기본값과 SEED에서의 의미 | 유지·생략 조건 |
 | --- | --- | --- |
 | `enableMultiTouch: true` | 기본 `false`, 미지정 시 settings fallback 가능. Android·iOS·HarmonyOS의 터치 이벤트에 여러 손가락 정보를 포함합니다. 엔진 정의의 Since는 `2.14`이며 현재 공개 API 문서는 `3.2`로 표기합니다. SEED Slider 등은 `touches`·`changedTouches`를 읽지만 단일 터치 좌표 fallback도 지원합니다. | 여러 손가락 정보를 사용하는 기능에서는 `true` 유지. 단일 터치만 사용하는 모든 SEED 컴포넌트에 필수라고 보지는 않습니다. 확인한 3.6–4.1에서 엔진 버전만으로 일괄 생략할 근거는 없습니다. |
-| `globalPropsMode: "event"` | React 플러그인 기본값은 `"reactive"`. `"event"`는 global props 변경을 이벤트 구독으로 전달합니다. SEED의 `useSeedClassName`, 아이콘 색상·ScaleFeedback 훅은 `useGlobalProps()`를 통해 theme·motion 변경을 읽습니다. | 이벤트 구독 방식이면 `"event"` 유지. 기본 `"reactive"`도 사용할 수 있으므로 `"event"`가 SEED의 필수 값은 아닙니다. 엔진 버전 때문에 삭제하는 플래그가 아니라 React의 갱신 방식 선택입니다. |
+| `globalPropsMode: "event"` | React 플러그인 기본값은 `"reactive"`. `"reactive"`는 global props가 바뀌면 페이지 전체를 다시 렌더하고, `"event"`는 변경을 이벤트로 전달해 구독한 컴포넌트만 다시 렌더합니다. 어느 모드든 앱이 읽은 호스트 설정을 [`SeedProvider`](/lynx/getting-started/host-integration)에 넘기면 테마·모션 변경이 SEED 훅에 전달됩니다. | 이벤트 구독 방식이면 `"event"` 유지. 기본 `"reactive"`도 사용할 수 있으므로 `"event"`가 SEED의 필수 값은 아닙니다. 엔진 버전 때문에 삭제하는 플래그가 아니라 React의 갱신 방식 선택입니다. |
 
 [멀티터치 공식 설명][multitouch-doc] · [3.6 설정 정의][engine-36] · [globalPropsMode 공식 설명][global-props-doc]
 
-확인한 React `0.125.0`에서 `useGlobalProps()`는 `"event"` 모드의 변경 이벤트를 직접 구독합니다. 따라서 이 훅을 쓰는 SEED 컴포넌트에 별도 이벤트 리스너를 중복 추가할 필요는 없습니다. 반면 앱 코드가 `lynx.__globalProps`를 직접 읽기만 하면 변경을 구독하지 않으므로, 테마 등 런타임 변경에 반응해야 하는 곳에서는 훅이나 명시적인 이벤트 구독을 사용하세요. [React 구현][global-props-source]
+호스트 설정을 읽는 방법은 모드에 맞춥니다.
+
+- `"reactive"`: `lynx.__globalProps`를 바로 읽습니다. 값이 바뀌면 페이지 전체가 다시 렌더되므로 구독이 필요 없습니다. 이 모드에서 `useGlobalProps()`는 같은 값을 돌려주지만 개발 빌드에서 호출마다 경고합니다.
+- `"event"`: `useGlobalProps()`로 읽습니다. 이 훅이 변경 이벤트를 구독하므로 별도 이벤트 리스너를 추가할 필요는 없습니다. `lynx.__globalProps`를 직접 읽기만 하면 변경에 반응하지 않습니다.
+
+`SeedProvider`에 넘기지 않은 값을 global props에서 채우는 SEED의 fallback도 빌드 설정의 모드에 맞춰 같은 방식으로 읽습니다. [React 구현][global-props-source]
 
 `enableMultiTouchParamsCompatible`는 멀티터치 활성화와 별개의 payload 호환 옵션입니다. 공개 설정에서 빠진 이 옵션을 대신 넣지 말고, 필요한 기능에 맞춰 `enableMultiTouch`를 설정하세요.
 

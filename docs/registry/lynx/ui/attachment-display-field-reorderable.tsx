@@ -3,6 +3,7 @@ import IconCameraFill from "@karrotmarket/lynx-monochrome-icon/IconCameraFill";
 import {
   AttachmentDisplay as SeedAttachmentDisplay,
   useAttachmentDisplayContext,
+  useSeedContext,
 } from "@seed-design/lynx-react";
 import { Sortable } from "@seed-design/lynx-react-sortable";
 import {
@@ -49,7 +50,7 @@ export const AttachmentDisplayReorderable = React.forwardRef<
   const [instanceId] = React.useState(() => nextReorderInstanceId++);
   const boundaryId = id ? `${id}-container` : `attachment-display-reorder-container-${instanceId}`;
   const reorderId = id ? `${id}-list` : `attachment-display-reorder-list-${instanceId}`;
-  const globalProps = React.useGlobalProps() as { motion?: unknown } | undefined;
+  const { preferredMotion } = useSeedContext();
 
   return (
     <SeedAttachmentDisplay.Context>
@@ -62,7 +63,7 @@ export const AttachmentDisplayReorderable = React.forwardRef<
           id={reorderId}
           scrollableBoundaryId={boundaryId}
           scrollEdgeOffset={scrollEdgeOffset}
-          reducedMotion={globalProps?.motion === "reduced"}
+          reducedMotion={preferredMotion === "reduced"}
           onReorder={context.reorderEntry}
           onDragStateChange={onDragStateChange}
         >

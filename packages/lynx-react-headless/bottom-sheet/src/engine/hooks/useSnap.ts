@@ -102,6 +102,7 @@ export function useSnap({
     toProgress: 0,
   });
 
+  // TODO(next major): global props 직접 읽기를 제거한다. styled `BottomSheet.Root`는 `SeedProvider` 값을 prop으로 넘긴다.
   const screenHeight: number =
     userScreenHeight ??
     // @ts-expect-error TS2339: 호스트가 제공하는 screenHeight가 ReactLynx GlobalProps 타입에는 선언되어 있지 않다.

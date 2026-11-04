@@ -15,35 +15,42 @@ SEED는 라이트 모드와 다크 모드를 지원하는 테마 시스템을 �
 
 ## 전역 설정 적용
 
-`@seed-design/lynx-react`의 `getSeedClassName()` 함수를 사용하여 `<page>` 요소에 테마 클래스를 설정합니다.
+`@seed-design/lynx-react`의 `useSeedClassName()` 훅을 사용하여 `<page>` 요소에 테마 클래스를 설정합니다.
+호스트의 다크 모드 설정은 [Host Integration](/lynx/getting-started/host-integration)대로 `SeedProvider`의 `preferredColorScheme`으로 넘깁니다.
 
 ```tsx
 import { root } from "@lynx-js/react";
-import { getSeedClassName } from "@seed-design/lynx-react";
+import { SeedProvider, useSeedClassName } from "@seed-design/lynx-react";
 
-function Root() {
+function Page() {
+  const seedClassName = useSeedClassName({ colorMode: "system" });
   return (
-    <page className={getSeedClassName({ colorMode: "system" })}>
+    <page className={seedClassName}>
       <App />
     </page>
   );
 }
 
-root.render(<Root />);
+root.render(
+  <SeedProvider preferredColorScheme={/* 호스트 설정에서 읽은 "light" | "dark" */ "dark"}>
+    <Page />
+  </SeedProvider>,
+);
 ```
 
-`getSeedClassName()`은 `colorMode` 옵션에 따라 `seed-user-color-scheme-light` 또는 `seed-user-color-scheme-dark` 클래스를 반환합니다.
+`useSeedClassName()`은 `colorMode` 옵션에 따라 `seed-user-color-scheme-light` 또는 `seed-user-color-scheme-dark` 클래스를 반환하고, `preferredColorScheme`이 바뀌면 다시 계산합니다.
+훅을 쓸 수 없는 곳에서는 `getSeedClassName({ colorMode, colorScheme })`에 색상 스킴을 직접 넘깁니다.
 
 ### `colorMode` 옵션
 
-| `colorMode` 설정 | 기기 설정 | 적용되는 테마 클래스 |
+| `colorMode` 설정 | `preferredColorScheme` | 적용되는 테마 클래스 |
 |---|---|---|
-| `system` (기본값) | 라이트 모드 | `seed-user-color-scheme-light` |
-| `system` | 다크 모드 | `seed-user-color-scheme-dark` |
+| `system` (기본값) | `"light"` 또는 생략 | `seed-user-color-scheme-light` |
+| `system` | `"dark"` | `seed-user-color-scheme-dark` |
 | `light-only` | (무관) | `seed-user-color-scheme-light` |
 | `dark-only` | (무관) | `seed-user-color-scheme-dark` |
 
-`system`으로 설정하면 `lynx.__globalProps.theme` 값을 읽어 기기의 다크 모드 설정을 따릅니다.
+`system`으로 설정하면 `SeedProvider`의 `preferredColorScheme`을 따릅니다. 값을 넘기지 않으면 `lynx.__globalProps.theme`을 읽고, 그 값도 없으면 라이트 모드입니다. Global props에서 읽는 동작은 다음 메이저 버전에서 제거될 예정입니다.
 
 ## 테마 클래스 이해하기
 
@@ -51,7 +58,7 @@ SEED의 Lynx 테마 시스템은 두 종류의 클래스 이름을 사용합니�
 
 ### `seed-user-color-scheme-*` (루트 레벨 테마)
 
-`getSeedClassName()`이 `<page>` 요소에 적용하는 클래스입니다. 현재 해석(resolve)된 테마를 나타냅니다.
+`useSeedClassName()`·`getSeedClassName()`이 `<page>` 요소에 적용하는 클래스입니다. 현재 해석(resolve)된 테마를 나타냅니다.
 
 - `seed-user-color-scheme-light`: 라이트 모드가 적용됨
 - `seed-user-color-scheme-dark`: 다크 모드가 적용됨
@@ -141,7 +148,7 @@ v3 클래스는 `var(--seed-color-*)`를 직접 참조합니다. v4 theme은 루
   [v4 설정과 제한사항](/lynx/getting-started/styling/tailwind-css-4)을 함께 확인하세요.
 </Callout>
 
-기기 모드 전환을 반영하려면 host가 변경된 theme global prop을 전달하고 앱이 루트 클래스를 갱신해야 합니다.
+기기 모드 전환을 반영하려면 앱이 바뀐 호스트 설정을 `SeedProvider`의 `preferredColorScheme`으로 넘기고, 루트 클래스를 `useSeedClassName()`으로 갱신해야 합니다.
 설정 후 실제 host에서 라이트 → 다크 → 라이트 전환을 확인하세요.
 
 ## 일부 요소에만 테마 오버라이드하기
@@ -181,4 +188,4 @@ function MyComponent() {
 | 전역 테마 설정 | `data-seed-color-mode` + `data-seed-user-color-scheme` 속성을 `<html>`에 적용 | `seed-user-color-scheme-*` 클래스를 `<page>`에 적용 |
 | 테마 오버라이드 | `data-seed-color-mode="light-only"` 또는 `"dark-only"` 속성 | `seed-color-mode-light-only` 또는 `seed-color-mode-dark-only` 클래스 |
 | 토큰 상속 | CSS 커스텀 프로퍼티 상속 | CSS 커스텀 프로퍼티 상속 (동일) |
-| 테마 설정 방법 | 번들러 플러그인이 `<script>` 주입 | `getSeedClassName()` 함수로 className 직접 설정 |
+| 테마 설정 방법 | 번들러 플러그인이 `<script>` 주입 | `SeedProvider`로 호스트 설정을 넘기고 `useSeedClassName()`으로 className 설정 |
