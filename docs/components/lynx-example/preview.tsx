@@ -11,6 +11,7 @@ import {
   initializeLynxView,
   isLynxPageReady,
   loadLynxWebCoreStyleRules,
+  type PreviewSafeAreaInsets,
 } from "./preview-lifecycle";
 
 const INITIALIZE_MARGIN = "200px";
@@ -20,10 +21,12 @@ export function LynxComponentPreview({
   url,
   example,
   height,
+  safeAreaInsets,
 }: {
   url: string;
   example: string;
   height?: number;
+  safeAreaInsets?: PreviewSafeAreaInsets;
 }) {
   const { userColorScheme } = useTheme();
   const sizing = getLynxPreviewSizing(height);
@@ -63,8 +66,8 @@ export function LynxComponentPreview({
     void retryKey;
     themeRef.current = userColorScheme;
     const element = elementRef.current;
-    if (element) configureLynxView(element, { theme: userColorScheme, example });
-  }, [userColorScheme, example, retryKey]);
+    if (element) configureLynxView(element, { theme: userColorScheme, example, safeAreaInsets });
+  }, [userColorScheme, example, safeAreaInsets, retryKey]);
 
   useEffect(() => {
     void retryKey;
@@ -106,6 +109,7 @@ export function LynxComponentPreview({
         initializeLynxView(element, {
           theme: themeRef.current,
           example,
+          safeAreaInsets,
           styleRules,
           transformVH: !sizing.autoHeight,
           url,
@@ -141,7 +145,7 @@ export function LynxComponentPreview({
       if (timer) clearTimeout(timer);
       element?.removeEventListener("error", handleError);
     };
-  }, [retryKey, sizing.autoHeight, url, example, visible]);
+  }, [retryKey, sizing.autoHeight, url, example, safeAreaInsets, visible]);
 
   return (
     <div

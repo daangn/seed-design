@@ -1,15 +1,17 @@
 "use client";
 
+import { getSafeAreaPreviewRules, type PreviewSafeAreaInsets } from "./safe-area-preview";
 import * as React from "react";
 import { twMerge as cn } from "tailwind-merge";
 
 interface ComponentPreviewProps {
   name: string;
   isolate?: boolean;
+  safeAreaInsets?: PreviewSafeAreaInsets;
 }
 
 export function ComponentPreview(props: ComponentPreviewProps) {
-  const { name, isolate } = props;
+  const { name, isolate, safeAreaInsets } = props;
 
   const Preview = React.useMemo(() => {
     const [platform, ...pathSegments] = name.split("/");
@@ -31,6 +33,16 @@ export function ComponentPreview(props: ComponentPreviewProps) {
   return (
     <React.Suspense fallback={null}>
       <div
+        style={
+          safeAreaInsets
+            ? ({
+                "--docs-preview-safe-area-left": `${safeAreaInsets.left}px`,
+                "--docs-preview-safe-area-right": `${safeAreaInsets.right}px`,
+                "--seed-safe-area-left": `${safeAreaInsets.left}px`,
+                "--seed-safe-area-right": `${safeAreaInsets.right}px`,
+              } as React.CSSProperties)
+            : undefined
+        }
         // The docs `html` uses Pretendard, so the font goes back to what a product using
         // these components would render in. `leading-[normal]` because Tailwind's
         // `leading-normal` is 1.5.
@@ -40,6 +52,7 @@ export function ComponentPreview(props: ComponentPreviewProps) {
           isolate && "isolate",
         )}
       >
+        {safeAreaInsets && <style>{getSafeAreaPreviewRules(safeAreaInsets).join("\n")}</style>}
         {Preview}
       </div>
     </React.Suspense>

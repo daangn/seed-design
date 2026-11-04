@@ -8,9 +8,11 @@ import {
   useTabsTrigger,
   useTabsIndicator,
   useTabsContent,
+  type TabsListProps as HeadlessTabsListProps,
 } from "@seed-design/lynx-react-tabs";
 import clsx from "clsx";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import { useSafeAreaStyle } from "../../hooks/useSafeAreaStyle";
 import type { LynxHostProps, LynxViewRef } from "../../types";
 import {
   AccessibilityElementScope,
@@ -30,6 +32,7 @@ type TabsClassNames = Record<TabsSlotName, string>;
 interface TabsStyleContextValue {
   classNames: TabsClassNames;
   getClassNames: (state?: TabsRecipeState) => TabsClassNames;
+  viewportInsets: HeadlessTabsListProps["viewportInsets"];
 }
 
 const TabsStyleContext = React.createContext<TabsStyleContextValue | null>(null);
@@ -70,10 +73,28 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
   const { children, className, style, value, defaultValue, onValueChange, ...nativeProps } =
     rootProps;
   const api = useTabs({ value, defaultValue, onValueChange });
+  const safeAreaStyle = useSafeAreaStyle();
+  const safeAreaOverrides = style as
+    | (NonNullable<typeof style> & Partial<ReturnType<typeof useSafeAreaStyle>>)
+    | undefined;
+  const safeAreaLeft =
+    safeAreaOverrides?.["--seed-safe-area-left"] ?? safeAreaStyle["--seed-safe-area-left"];
+  const safeAreaRight =
+    safeAreaOverrides?.["--seed-safe-area-right"] ?? safeAreaStyle["--seed-safe-area-right"];
+  const viewportInsets = React.useMemo(
+    () =>
+      variantProps.extendSafeAreaX
+        ? {
+            start: `var(--seed-safe-area-left, ${safeAreaLeft})`,
+            end: `var(--seed-safe-area-right, ${safeAreaRight})`,
+          }
+        : undefined,
+    [variantProps.extendSafeAreaX, safeAreaLeft, safeAreaRight],
+  );
   const classNames = getClassNames({ transitionEnabled: api.transitionsEnabled });
   const styleContext = React.useMemo(
-    () => ({ classNames, getClassNames }),
-    [classNames, getClassNames],
+    () => ({ classNames, getClassNames, viewportInsets }),
+    [classNames, getClassNames, viewportInsets],
   );
   return (
     <TabsProvider value={api}>
@@ -81,7 +102,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
         <view
           {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
           className={clsx(classNames.root, className)}
-          style={style}
+          style={{ ...safeAreaStyle, ...style }}
         >
           {children}
         </view>
@@ -97,11 +118,12 @@ export interface TabsListProps extends LynxHostProps<"scroll-view"> {
 
 export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const { classNames } = useTabsStyleContext();
+  const { classNames, viewportInsets } = useTabsStyleContext();
   return (
     <HeadlessTabs.List
       {...nativeProps}
       {...(ref ? { ref } : {})}
+      viewportInsets={viewportInsets}
       className={clsx(classNames.list, className)}
       listContentProps={{ className: classNames.listContent }}
     >

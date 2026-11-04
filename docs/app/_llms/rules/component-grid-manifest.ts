@@ -199,6 +199,11 @@ export const catalogGridManifest: Record<string, readonly CatalogGridManifestEnt
       "description": "스크롤 가능한 영역에서 사용자에게 추가 콘텐츠가 있음을 시각적으로 알려주는 힌트 역할을 합니다."
     },
     {
+      "slug": "search-bar",
+      "title": "Search Bar",
+      "description": "제품 안에서 검색어를 입력할 수 있는 Input을 제공하는 컴포넌트입니다."
+    },
+    {
       "slug": "segmented-control",
       "title": "Segmented Control",
       "description": "여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다."

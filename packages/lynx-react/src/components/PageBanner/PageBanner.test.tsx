@@ -30,6 +30,36 @@ function getPageBannerRoot() {
 }
 
 describe("PageBanner", () => {
+  it("extends only a decorative background while keeping content feedback and close actions independent", () => {
+    const { rerender } = render(
+      <PageBanner.Root extendSafeAreaX tone="magic" bindtap={() => {}}>
+        <PageBanner.Content>
+          <PageBanner.Description>Body</PageBanner.Description>
+        </PageBanner.Content>
+        <PageBanner.CloseButton accessibility-label="Close" />
+      </PageBanner.Root>,
+    );
+    const root = getPageBannerRoot();
+    const background = root.querySelector(".seed-page-banner__background");
+    const scaleContent = root.querySelector(".seed-page-banner__scaleContent");
+    expect(background?.parentElement).toBe(root);
+    expect(background).toHaveAttribute("accessibility-elements-hidden", "true");
+    expect(scaleContent?.contains(background)).toBe(false);
+    expect(root.querySelector(".seed-page-banner__closeButton")?.parentElement).toBe(root);
+    expect(root).not.toHaveAttribute("extendSafeAreaX");
+    fireEvent.touchstart(root, {});
+    expect(background).toHaveClass(
+      "seed-page-banner__background--tone_magic-variant_weak-pressed_true",
+    );
+
+    rerender(
+      <PageBanner.Root>
+        <PageBanner.Description>Body</PageBanner.Description>
+      </PageBanner.Root>,
+    );
+    expect(getPageBannerRoot().querySelector(".seed-page-banner__background")).toBeNull();
+  });
+
   it("renders compound slots with the default neutral weak style", () => {
     render(
       <PageBanner.Root>

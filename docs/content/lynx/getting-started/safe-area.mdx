@@ -1,0 +1,96 @@
+---
+title: Safe Area
+description: 콘텐츠를 안전 영역 안에 유지하면서 배경과 가로 스크롤 영역을 화면 끝까지 확장합니다.
+---
+
+Safe Area는 기기의 화면 모서리나 시스템 UI에 콘텐츠가 가려지지 않도록 확보하는 영역입니다. Lynx에서는 호스트 앱이 전달하는 inset을 사용합니다. 값의 우선순위와 fallback은 [useSafeArea](/lynx/hooks/use-safe-area)에서 확인하세요.
+
+## 콘텐츠의 안전 영역 확보하기
+
+먼저 화면 컨테이너에서 좌우 inset을 확보합니다. `Box`의 `pl="safeArea"`, `pr="safeArea"`를 사용하거나 앱의 레이아웃에서 같은 inset을 적용할 수 있습니다. 부모가 이미 처리했다면 중복으로 추가하지 마세요.
+
+호스트가 좌우 inset을 `0`으로 전달하면 추가할 여백도 `0px`입니다. `extendSafeAreaX`도 해당 방향으로 더 넓히지 않습니다. 값을 생략하면 `env()`를 사용하므로 `0`과 생략은 다릅니다. 네 방향 inset의 처리 규칙은 [useSafeArea의 동작 방식](/lynx/hooks/use-safe-area#동작-방식)을 참고하세요.
+
+```tsx
+import { Box } from "@seed-design/lynx-react";
+import { PageBanner } from "@/components/ui/page-banner";
+
+export function Screen() {
+  return (
+    <Box pl="safeArea" pr="safeArea">
+      <PageBanner description="새로운 동네 소식을 확인해 보세요." />
+    </Box>
+  );
+}
+```
+
+이 상태에서는 배경과 내용이 모두 안전 영역 안에 놓입니다.
+
+## extendSafeAreaX로 좌우 확장하기
+
+`extendSafeAreaX`는 좌우 inset만큼 배경이나 가로 스크롤 영역을 넓히는 옵션입니다. 기본값은 `false`이며, `true`로 지정하면 해당 컴포넌트가 콘텐츠의 안전 영역을 유지하면서 필요한 영역만 확장합니다.
+
+좌우 inset을 확보한 컨테이너 바로 안에서 사용하세요. inset이 없는 컨테이너에서 사용하면 화면 밖으로 넘칠 수 있습니다. 위·아래 Safe Area나 부모의 일반 padding을 대신 처리하지는 않습니다.
+
+### 확장 전 (AS IS)
+
+```tsx
+<Box pl="safeArea" pr="safeArea">
+  <PageBanner description="새로운 동네 소식을 확인해 보세요." />
+</Box>
+```
+
+### 확장 후 (TO BE)
+
+```tsx
+<Box pl="safeArea" pr="safeArea">
+  <PageBanner extendSafeAreaX description="새로운 동네 소식을 확인해 보세요." />
+</Box>
+```
+
+| 비교 | 확장 전 | 확장 후 |
+| --- | --- | --- |
+| 배너 배경 | 안전 영역 안에서 끝남 | 화면 좌우 끝까지 이어짐 |
+| 텍스트·아이콘·액션 | 안전 영역 안에 배치 | 기존 위치 유지 |
+| 좌우 inset이 모두 `0` | 기본 모습 | 기본 모습과 같음 |
+
+붉은 빗금은 콘텐츠를 피해야 하는 inset 영역이며, 두 경계선 사이는 안전 영역입니다. 아래 예제의 스위치로 확장 전후를 비교해 보세요. 비대칭 inset을 사용해 좌우가 서로 다른 화면에서도 배경과 콘텐츠의 기준이 어떻게 달라지는지 볼 수 있습니다.
+
+<LynxComponentExample name="lynx/page-banner/extend-safe-area" safeAreaInsets={{ left: 24, right: 48 }}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/page-banner/extend-safe-area.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+여기서 AS IS / TO BE는 같은 버전에서 옵션을 끄고 켠 상태입니다. 이전 패키지 버전과의 렌더링 비교를 뜻하지는 않습니다.
+
+## 컴포넌트별 적용 위치
+
+`extendSafeAreaX`는 `@seed-design/lynx-react@1.2.0`, `@seed-design/lynx-css@1.2.0`부터 사용할 수 있습니다. Registry 컴포넌트는 snippet도 함께 최신화하세요.
+
+| 컴포넌트 | 지정할 prop | 확장되는 영역 |
+| --- | --- | --- |
+| [Tabs](/lynx/components/tabs#extending-to-safe-area) | `TabsRoot`의 `extendSafeAreaX` | 목록 배경·하단 선·Carousel 패널 |
+| [Chip Tabs](/lynx/components/chip-tabs#extending-to-safe-area) | `ChipTabsRoot`의 `extendSafeAreaX` | chip 스크롤 영역·Carousel 패널 |
+| [Page Banner](/lynx/components/page-banner#extending-to-safe-area) | `PageBanner`·`ActionablePageBanner`의 `extendSafeAreaX` | 배경 |
+| [Attachment Field](/lynx/components/attachment-field#extending-to-safe-area) | `AttachmentField`의 `extendSafeAreaX` | 첨부 목록의 가로 스크롤 영역 |
+| [Attachment Display Field](/lynx/components/attachment-display-field#extending-to-safe-area) | `controlProps={{ extendSafeAreaX: true }}` | 이미지 목록의 가로 스크롤 영역 |
+
+Tabs와 Chip Tabs는 선택한 항목을 안전 영역 기준으로 정렬합니다. 첨부 목록은 처음과 마지막 항목에 필요한 여백을 유지합니다. 자세한 사용법과 비교 예제는 각 컴포넌트 문서를 참고하세요.
+
+## ImageFrame과 Float
+
+[ImageFrame](/lynx/components/image-frame#extending-to-safe-area)은 `extendSafeAreaX` 대신 기존 `bleedX="safeArea"`를 사용합니다. 이미지를 좌우로 넓히면서 `ImageFrameFloater`의 시작·끝·중앙 위치를 안전 영역에 맞춰 보정합니다. 너비와 방향별 bleed 설정은 ImageFrame 예제를 참고하세요.
+
+[Float](/lynx/foundation/layout/float)는 부모 안의 요소를 배치하는 컴포넌트입니다. Safe Area를 자동으로 확보하거나 보정하지 않습니다. 이미지 위 배지에는 `ImageFrameFloater`를 사용하고, 일반 `Float`는 콘텐츠를 보호하는 부모 안에 배치하세요.
+
+## 문서와 기기에서 비교하기
+
+- **브라우저 미리보기:** 위 비교 예제는 가상의 좌우 inset을 호스트 입력으로 전달합니다. 데스크톱에서도 옵션에 따른 경계 차이를 볼 수 있습니다. 값은 미리보기 상단에 표시되며 실제 기기의 측정값이 아닙니다.
+- **기기에서 열기:** QR로 연 예제는 호스트 앱의 실제 inset을 사용합니다. 좌우 inset이 모두 `0`인 화면에서는 옵션을 바꿔도 차이가 없을 수 있습니다.
+- **기기에서 확인할 항목:** 가로 스크롤의 처음·끝 여백, 선택한 탭의 정렬, 눌림 동작과 배지 위치를 확인하세요. 브라우저 미리보기는 네이티브 스크롤·터치·clipping 검증을 대신하지 않습니다.
+
+확장된 영역이 잘리면 조상의 `overflow`를 확인하세요. 필요한 부모에 `overflow: visible`을 지정하고, 화면 밖으로 넘는 것이 의도한 좌우 inset 범위인지 확인하세요. `fixed` 요소처럼 부모의 padding을 따르지 않는 요소는 Safe Area를 별도로 처리해야 합니다.

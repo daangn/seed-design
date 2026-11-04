@@ -15,6 +15,7 @@ export * from "./ContextualFloatingButton";
 export * from "./Divider";
 export * from "./Field";
 export * from "./FieldButton";
+export * from "./Float";
 export * from "./FloatingActionButton";
 export * from "./Icon";
 export * from "./Dialog";
