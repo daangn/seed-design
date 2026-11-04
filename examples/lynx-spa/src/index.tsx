@@ -33,21 +33,16 @@ interface KarrotGlobalProps {
   safeAreaInsetLeft?: number;
 }
 
-const isFiniteNumber = (value: unknown): value is number =>
-  typeof value === "number" && Number.isFinite(value);
+const isValidInset = (value: unknown): value is number =>
+  typeof value === "number" && Number.isFinite(value) && value >= 0;
 
 function toSafeAreaInsets(g: KarrotGlobalProps): SafeAreaInsets | undefined {
   const top = g.safeAreaInsetTop;
   const right = g.safeAreaInsetRight;
   const bottom = g.safeAreaInsetBottom;
   const left = g.safeAreaInsetLeft;
-  // 4방향을 모두 받은 호스트만 넘긴다. PlayLynx처럼 값이 없는 호스트는 `env()` fallback을 쓴다.
-  if (
-    !isFiniteNumber(top) ||
-    !isFiniteNumber(right) ||
-    !isFiniteNumber(bottom) ||
-    !isFiniteNumber(left)
-  ) {
+  // 4방향 모두 0 이상의 유한한 숫자일 때만 넘긴다. 값이 없거나 음수·NaN이 섞이면 edge별 fallback을 쓴다.
+  if (!isValidInset(top) || !isValidInset(right) || !isValidInset(bottom) || !isValidInset(left)) {
     return undefined;
   }
   return { top, right, bottom, left };
