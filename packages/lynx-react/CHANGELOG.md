@@ -1,5 +1,28 @@
 # @seed-design/lynx-react
 
+## 1.1.1
+
+### Patch Changes
+
+- b2bafa9: 키보드가 닫힐 때 `KeyboardAvoidingScrollView`의 Footer와 Content가 한 번에 움직이던 문제를 수정합니다.
+  
+  - 입력 밖을 누르거나 끌어서 키보드가 닫혀도 `KeyboardAvoidingScrollView.Footer`가 손을 뗄 때까지 제자리에 남지 않고 키보드와 함께 내려갑니다.
+  - 키보드가 닫힐 때 Footer와 Content가 iOS 키보드와 비슷한 곡선으로 부드럽게 내려갑니다.
+- 6ec5b80: `globalPropsMode: "event"`에서 host가 `safeAreaInset*` global props를 바꿔도 `useSafeArea`가 이전 값을 반환하던 문제를 수정합니다. 이제 `useGlobalProps()`로 값을 구독해 화면 회전이나 폴더블 기기의 inset 변경을 반영합니다.
+  
+  - `useGlobalProps()`를 사용하므로 `useSafeArea`를 직접·간접으로 쓰는 headless 패키지의 `@lynx-js/react` peer dependency 하한을 `>=0.117.0`으로 올립니다. `@seed-design/lynx-react`는 이미 `>=0.117.0`을 요구합니다.
+- 755e0a0: host가 위·아래 inset을 `0`으로 제공해도 `useSafeArea`가 `env(safe-area-inset-*)`를 반환해 native가 이미 확보한 여백 위에 여백이 한 번 더 생기던 문제를 수정합니다. 이제 네 방향 모두 host가 제공한 `0` 이상의 유한한 숫자를 `px` 문자열로 반환하므로 `0`은 `"0px"`가 됩니다.
+- Updated dependencies [b2bafa9]
+- Updated dependencies [6ec5b80]
+- Updated dependencies [755e0a0]
+  - @seed-design/lynx-react-keyboard-avoiding-scroll-view@1.0.1
+  - @seed-design/lynx-react-use-safe-area@1.0.1
+  - @seed-design/lynx-react-app-bar@1.0.1
+  - @seed-design/lynx-react-floating@1.0.1
+  - @seed-design/lynx-react-menu@1.0.1
+  - @seed-design/lynx-react-popover@1.0.1
+  - @seed-design/lynx-react-select@1.0.1
+
 ## 1.1.0
 
 ### Minor Changes

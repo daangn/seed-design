@@ -1,5 +1,13 @@
 # @seed-design/react
 
+## 3.1.1
+
+### Patch Changes
+
+- 94b4634: `TabsList`를 portal로 `TabsRoot` 밖에 렌더링해도 인디케이터가 선택한 탭을 따라가도록 수정합니다. 인디케이터 위치를 담는 `--indicator-left`와 `--indicator-width`를 `TabsRoot` 대신 `TabsIndicator` 요소에 지정합니다.
+- Updated dependencies [94b4634]
+  - @seed-design/react-tabs@3.0.1
+
 ## 3.1.0
 
 ### Minor Changes
