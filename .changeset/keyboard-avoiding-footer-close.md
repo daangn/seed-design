@@ -1,5 +1,6 @@
 ---
 "@seed-design/lynx-react-keyboard-avoiding-scroll-view": patch
+"@seed-design/lynx-react": patch
 ---
 
 키보드가 닫힐 때 `KeyboardAvoidingScrollView`의 Footer와 Content가 한 번에 움직이던 문제를 수정합니다.
