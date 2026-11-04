@@ -22,6 +22,7 @@ import {
 } from "@seed-design/lynx-react-menu";
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import { useViewport } from "../../hooks/useViewport";
 import { mergeProps } from "../../utils/merge-props";
 import type { LynxHostProps, LynxTextRef, LynxViewProps, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
@@ -78,21 +79,6 @@ function useMenuItemClassNames(consumer: string): MenuItemClassNames {
   return context;
 }
 
-function getScreenWidth(): number | null {
-  const systemInfo = typeof SystemInfo === "undefined" ? undefined : SystemInfo;
-  const pixelWidth = systemInfo?.pixelWidth;
-  const pixelRatio = systemInfo?.pixelRatio;
-  if (
-    typeof pixelWidth !== "number" ||
-    typeof pixelRatio !== "number" ||
-    pixelWidth <= 0 ||
-    pixelRatio <= 0
-  ) {
-    return null;
-  }
-  return pixelWidth / pixelRatio;
-}
-
 function hasExitTransition(event: Parameters<NativeTransitionHandler>[0]): boolean {
   if (event.target.uid !== event.currentTarget.uid) return false;
   return (
@@ -145,9 +131,9 @@ export const MenuRoot = React.forwardRef<unknown, MenuRootProps>((props, ref) =>
     overflowPadding,
     matchReferenceWidth,
   });
-  const screenWidth = getScreenWidth();
+  const { width: screenWidth } = useViewport();
   const resolvedSize =
-    sizeProp === "responsive" && screenWidth != null && screenWidth >= 1280
+    sizeProp === "responsive" && screenWidth !== undefined && screenWidth >= 1280
       ? "small"
       : (variantProps.size ?? "medium");
   const classes = menu({ size: resolvedSize, open: api.open, positioned: api.positioned });

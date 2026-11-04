@@ -36,6 +36,7 @@ import clsx from "clsx";
 
 import { useSafeArea } from "../../hooks/useSafeArea";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import { useViewport } from "../../hooks/useViewport";
 import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
@@ -112,18 +113,10 @@ export const BottomSheetRoot: LynxForwardRefComponent<BottomSheetRootRef, Bottom
     const { children, ...rootProps } = restProps;
     const { headerAlign, skipAnimation } = variantProps;
     const [closeButtonRendered, setCloseButtonRendered] = useState(false);
-    const globalProps = lynx.__globalProps;
-    const hostScreenHeight =
-      globalProps && "screenHeight" in globalProps && typeof globalProps.screenHeight === "number"
-        ? globalProps.screenHeight
-        : undefined;
-    // host가 화면 높이를 주지 않아도 엔진의 500px 기본값 대신 기기의 논리 높이를 쓴다.
-    const screenHeight =
-      rootProps.screenHeight ??
-      hostScreenHeight ??
-      (typeof SystemInfo !== "undefined" && SystemInfo.pixelHeight > 0 && SystemInfo.pixelRatio > 0
-        ? SystemInfo.pixelHeight / SystemInfo.pixelRatio
-        : undefined);
+    // snap point의 %는 기기 화면이 아니라 BottomSheet가 그려지는 LynxView 크기를 기준으로 한다.
+    const viewport = useViewport();
+    const screenHeight = rootProps.screenHeight ?? viewport.height;
+    const screenWidth = rootProps.screenWidth ?? viewport.width;
 
     const classNames = useMemo(
       () => bottomSheet({ ...variantProps, closeButton: closeButtonRendered }),
@@ -142,6 +135,7 @@ export const BottomSheetRoot: LynxForwardRefComponent<BottomSheetRootRef, Bottom
               {...(ref ? { ref } : {})}
               {...rootProps}
               screenHeight={screenHeight}
+              screenWidth={screenWidth}
               skipAnimation={skipAnimation === true}
             >
               {children}

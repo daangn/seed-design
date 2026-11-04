@@ -85,7 +85,7 @@ export function App() {
 
 ### Size
 
-`size`로 trigger와 목록의 크기를 정합니다. 기본값은 `large`이고, `responsive`는 native runtime의 화면 폭이 1280 이상이면 `medium`, 그 외에는 `large`로 해석합니다.
+`size`로 trigger와 목록의 크기를 정합니다. 기본값은 `large`이고, `responsive`는 [`useViewport`](/lynx/hooks/use-viewport)가 반환하는 LynxView 너비가 1280 이상이면 `medium`, 그 외에는 `large`로 해석합니다.
 
 <LynxComponentExample name="lynx/select/size" height={400}>
   ```json doc-gen:file
