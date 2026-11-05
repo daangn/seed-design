@@ -1,4 +1,4 @@
-// 당근 앱 호스트만 넣어 주는 global props 키를 직접 읽는 deprecated 경로다.
+// 특정 호스트 앱이 넣어 주는 global props 키를 직접 읽는 deprecated 경로다.
 // 다음 메이저에서 이 파일과 호출부를 함께 제거한다. 앱은 `SeedProvider`로 값을 넘긴다.
 
 export type DeprecatedGlobalPropKey = "theme" | "motion";

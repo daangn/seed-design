@@ -23,8 +23,8 @@ initMainThreadConsole();
 initNetworkMonitor();
 initPerformanceMonitor();
 
-// 당근 앱 호스트가 넣어 주는 global props. 호스트 계약은 SEED가 아니라 앱이 선언한다.
-interface KarrotGlobalProps {
+// 호스트 앱이 넣어 주는 global props. 호스트 계약은 SEED가 아니라 앱이 선언한다.
+interface HostGlobalProps {
   theme?: string;
   motion?: string;
   safeAreaInsetTop?: number;
@@ -36,7 +36,7 @@ interface KarrotGlobalProps {
 const isValidInset = (value: unknown): value is number =>
   typeof value === "number" && Number.isFinite(value) && value >= 0;
 
-function toSafeAreaInsets(g: KarrotGlobalProps): SafeAreaInsets | undefined {
+function toSafeAreaInsets(g: HostGlobalProps): SafeAreaInsets | undefined {
   const top = g.safeAreaInsetTop;
   const right = g.safeAreaInsetRight;
   const bottom = g.safeAreaInsetBottom;
@@ -59,7 +59,7 @@ function Page() {
 
 function Root() {
   // `globalPropsMode: "reactive"`는 host 값이 바뀌면 전체를 다시 렌더하므로 바로 읽는다.
-  const g = lynx.__globalProps as KarrotGlobalProps;
+  const g = lynx.__globalProps as HostGlobalProps;
   return (
     <SeedProvider
       preferredColorScheme={g.theme?.toLowerCase() === "dark" ? "dark" : "light"}

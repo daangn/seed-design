@@ -50,7 +50,7 @@ export interface SeedProviderProps extends SeedContextValue {
  * function Root() {
  *   // 기본 `globalPropsMode: "reactive"`는 host 값이 바뀌면 전체를 다시 렌더하므로 바로 읽는다.
  *   // `"event"`이면 `useGlobalProps()`로 읽는다.
- *   const g = lynx.__globalProps as KarrotGlobalProps;
+ *   const g = lynx.__globalProps as HostGlobalProps;
  *   return (
  *     <SeedProvider
  *       preferredColorScheme={g.theme === "dark" ? "dark" : "light"}
