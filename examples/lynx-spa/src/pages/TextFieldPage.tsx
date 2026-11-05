@@ -105,7 +105,6 @@ function IntroductionTextareaExample() {
           id="text-field-debug-native-textarea"
           accessibility-label="소개"
           placeholder="여러 줄 소개를 입력해 주세요"
-          android-set-soft-input-mode="nothing"
           bindlayoutchange={handleNativeLayoutChange}
         />
       </TextField>

@@ -28,7 +28,6 @@ export default function Example() {
             <TextField label="닉네임">
               <TextFieldInput
                 accessibility-label="닉네임"
-                android-set-soft-input-mode="nothing"
                 maxlength={20}
                 placeholder="닉네임을 입력해 주세요"
               />
