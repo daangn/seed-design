@@ -28,7 +28,7 @@ permissions:
   contents: read
   pull-requests: read
 env:
-  KAPTURE_CLI_VERSION: "0.15.2"
+  KAPTURE_CLI_VERSION: "0.15.3"
   # 캐시 검증·복원에 실패해도 일반 캡처로 복귀합니다.
   KAPTURE_CAPTURE_CACHE: "true"
   KAPTURE_CACHE_RETENTION_DAYS: "7"
@@ -52,6 +52,8 @@ jobs:
         with:
           node-version: "24"
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+        with:
+          bun-version-file: .bun-version
       - run: bun install --frozen-lockfile --ignore-scripts
       - run: bun test scripts/kapture-workflows.test.ts
   context:
@@ -111,6 +113,8 @@ jobs:
         with:
           node-version: "24"
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+        with:
+          bun-version-file: .bun-version
       - name: Restore verified exact-base build
         id: cache
         continue-on-error: true
@@ -176,6 +180,8 @@ jobs:
         with:
           node-version: "24"
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+        with:
+          bun-version-file: .bun-version
       - name: Install project dependencies
         run: |
           bun install --frozen-lockfile
