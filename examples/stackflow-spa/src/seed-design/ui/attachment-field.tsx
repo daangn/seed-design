@@ -222,17 +222,22 @@ AttachmentDropzone.displayName = "AttachmentDropzone";
 export interface AttachmentInputItemProps
   extends Omit<SeedAttachmentInput.ItemProps, "children" | "asChild"> {
   onRetry?: () => void;
+  /**
+   * Rendered before the item contents. Pass an `AttachmentInput.ItemReorderHandle` to make the item reorderable.
+   */
+  reorderHandle?: React.ReactNode;
 }
 
 /**
  * @see https://seed-design.io/react/components/attachment-field
  */
 export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInputItemProps>(
-  ({ onRetry, ...props }, ref) => {
+  ({ onRetry, reorderHandle, ...props }, ref) => {
     const { acceptType } = useAttachmentInputContext();
 
     return (
       <SeedAttachmentInput.Item ref={ref} {...props}>
+        {reorderHandle}
         <SeedAttachmentInput.ItemImage />
         <SeedAttachmentInput.ItemThumbnail>
           <Icon svg={<IconPaperclipFill />} />

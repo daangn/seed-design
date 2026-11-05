@@ -21,8 +21,9 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import {
-  getInternalAttachmentItemReorder,
-  InternalAttachmentItemReorderHandle,
+  AttachmentItemRoot,
+  ReorderHandleTrackingProvider,
+  useReorderHandleTrackRef,
 } from "../private/AttachmentItemReorder";
 
 const { useClassNames, ClassNamesProvider, withContext } =
@@ -37,10 +38,17 @@ export interface AttachmentDisplayItemProps
     PrimitiveProps,
     React.LiHTMLAttributes<HTMLLIElement> {
   entry: DisplayItemEntry;
+
+  /**
+   * Shows the item in its dragging state. Pass the drag state from your drag and drop library
+   * while the item is being reordered.
+   * @default false
+   */
+  dragging?: boolean;
 }
 
 export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentDisplayItemProps>(
-  ({ className, entry, children, ...props }, ref) => {
+  ({ className, entry, ...props }, ref) => {
     const { stateProps } = useAttachmentDisplayContext();
     const api = useAttachmentDisplayItem(entry);
 
@@ -51,23 +59,19 @@ export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentD
 
     const classNames = attachmentInputItem(variantProps);
     const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
-    const reorder = getInternalAttachmentItemReorder(otherProps);
 
     return (
       <ClassNamesProvider value={classNames}>
         <AttachmentDisplayItemProvider value={api}>
           <overlayTracker.Provider>
-            <Primitive.li
-              ref={useComposedRefs(scaleFeedbackRef, ref)}
-              className={clsx(classNames.root, scaleFeedbackClassName, className)}
-              {...stateProps}
-              {...reorder.itemProps}
-            >
-              {reorder.handleProps && (
-                <InternalAttachmentItemReorderHandle {...reorder.handleProps} />
-              )}
-              {children}
-            </Primitive.li>
+            <ReorderHandleTrackingProvider>
+              <AttachmentItemRoot
+                ref={useComposedRefs(scaleFeedbackRef, ref)}
+                className={clsx(classNames.root, scaleFeedbackClassName, className)}
+                {...stateProps}
+                {...otherProps}
+              />
+            </ReorderHandleTrackingProvider>
           </overlayTracker.Provider>
         </AttachmentDisplayItemProvider>
       </ClassNamesProvider>
@@ -220,3 +224,31 @@ export const AttachmentDisplayItemRemoveButton = withScaleFeedback(
     "removeButton",
   ),
 );
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface AttachmentDisplayItemReorderHandleProps
+  extends PrimitiveProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+/**
+ * A focusable button that covers the item and serves as the keyboard and screen reader handle
+ * for reordering. Pass it the handle ref of your drag and drop library and an `aria-label`.
+ */
+export const AttachmentDisplayItemReorderHandle = React.forwardRef<
+  HTMLButtonElement,
+  AttachmentDisplayItemReorderHandleProps
+>(({ className, ...props }, ref) => {
+  const classNames = useClassNames();
+  const trackRef = useReorderHandleTrackRef();
+
+  return (
+    <Primitive.button
+      type="button"
+      ref={useComposedRefs(ref, trackRef)}
+      className={clsx(classNames.reorderHandle, className)}
+      {...props}
+    />
+  );
+});
+AttachmentDisplayItemReorderHandle.displayName = "AttachmentDisplayItemReorderHandle";

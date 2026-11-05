@@ -161,15 +161,20 @@ AttachmentDisplay.displayName = "AttachmentDisplay";
 export interface AttachmentDisplayItemProps
   extends Omit<SeedAttachmentDisplay.ItemProps, "children" | "asChild"> {
   onRetry?: () => void;
+  /**
+   * Rendered before the item contents. Pass an `AttachmentDisplay.ItemReorderHandle` to make the item reorderable.
+   */
+  reorderHandle?: React.ReactNode;
 }
 
 /**
  * @see https://seed-design.io/react/components/attachment-display-field
  */
 export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentDisplayItemProps>(
-  ({ onRetry, ...props }, ref) => {
+  ({ onRetry, reorderHandle, ...props }, ref) => {
     return (
       <SeedAttachmentDisplay.Item ref={ref} {...props}>
+        {reorderHandle}
         <SeedAttachmentDisplay.ItemImage />
         <SeedAttachmentDisplay.ItemBackdrop status="uploading">
           {(entry) => (

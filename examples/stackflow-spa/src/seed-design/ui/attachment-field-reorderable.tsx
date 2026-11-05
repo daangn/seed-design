@@ -1,6 +1,7 @@
 import { Accessibility, AutoScroller, KeyboardSensor, PointerSensor } from "@dnd-kit/dom";
+import { RestrictToHorizontalAxis } from "@dnd-kit/abstract/modifiers";
 import { DragDropProvider } from "@dnd-kit/react";
-import { isSortable } from "@dnd-kit/react/sortable";
+import { isSortable, useSortable } from "@dnd-kit/react/sortable";
 import * as React from "react";
 import {
   AttachmentInput as SeedAttachmentInput,
@@ -17,10 +18,10 @@ import {
 
 import { ActionButton } from "./action-button";
 import { AttachmentInputItem, type AttachmentInputItemProps } from "./attachment-field";
-import { useAttachmentItemReorder } from "../lib/attachment-reorder";
 
 const LABEL_SELECT_FILE = "파일 선택";
 const LABEL_DROP_FILE = "또는 여기로 드래그해서 업로드";
+const LABEL_REORDER = "순서 변경";
 
 const autoScrollerPlugin = AutoScroller.configure({ threshold: { x: 0.2, y: 0 } });
 
@@ -180,18 +181,34 @@ interface SortableAttachmentInputItemProps extends AttachmentInputItemProps {
 export const SortableAttachmentInputItem = React.forwardRef<
   HTMLLIElement,
   SortableAttachmentInputItemProps
->(({ fileEntry, index, ...props }, forwardedRef) => {
+>(({ fileEntry, index, ...props }, _ref) => {
   const { readOnly } = useAttachmentInputContext();
-  const itemName = fileEntry.file.name;
-  const { itemRef, itemProps } = useAttachmentItemReorder({
+
+  const {
+    ref: sortableRef,
+    handleRef,
+    isDragging,
+  } = useSortable({
     id: fileEntry.id,
     index,
-    name: itemName,
-    label: props["aria-label"] ?? `${itemName} 순서 변경`,
     disabled: readOnly,
-    forwardedRef,
+    modifiers: [RestrictToHorizontalAxis],
+    data: { name: fileEntry.file.name },
   });
 
-  return <AttachmentInputItem ref={itemRef} fileEntry={fileEntry} {...props} {...itemProps} />;
+  return (
+    <AttachmentInputItem
+      ref={sortableRef}
+      fileEntry={fileEntry}
+      dragging={isDragging}
+      reorderHandle={
+        <SeedAttachmentInput.ItemReorderHandle
+          ref={handleRef}
+          aria-label={`${fileEntry.file.name} ${LABEL_REORDER}`}
+        />
+      }
+      {...props}
+    />
+  );
 });
 SortableAttachmentInputItem.displayName = "SortableAttachmentInputItem";

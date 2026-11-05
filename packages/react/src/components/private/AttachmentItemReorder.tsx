@@ -1,40 +1,37 @@
 "use client";
 
-import { Primitive } from "@seed-design/react-primitive";
+import { dataAttr } from "@seed-design/dom-utils";
+import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import * as React from "react";
+import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 
-interface InternalAttachmentItemReorderMarker {
-  "data-reorderable"?: string;
+// Shared by AttachmentInput and AttachmentDisplay, which render the same attachment-input-item recipe.
+const reorderHandleTracker = createRenderTrackingContext("AttachmentItemReorderHandle");
+
+export const ReorderHandleTrackingProvider = reorderHandleTracker.Provider;
+
+export function useReorderHandleTrackRef(): (node: HTMLElement | null) => void {
+  return reorderHandleTracker.useRenderTracking().trackRef;
 }
 
-export function getInternalAttachmentItemReorder<
-  ItemProps extends React.HTMLAttributes<HTMLLIElement>,
->(itemProps: ItemProps) {
-  const reorderableItemProps = itemProps as ItemProps & InternalAttachmentItemReorderMarker;
-  const enabled = reorderableItemProps["data-reorderable"] !== undefined;
-
-  if (!enabled) {
-    return { itemProps, handleProps: null };
-  }
-
-  return {
-    itemProps: {
-      ...itemProps,
-      "aria-label": undefined,
-    },
-    handleProps: {
-      "aria-label": itemProps["aria-label"],
-    } satisfies React.ButtonHTMLAttributes<HTMLButtonElement>,
-  };
+export interface AttachmentItemRootProps
+  extends PrimitiveProps,
+    React.LiHTMLAttributes<HTMLLIElement> {
+  dragging?: boolean;
 }
 
-interface InternalAttachmentItemReorderHandleProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export const AttachmentItemRoot = React.forwardRef<HTMLLIElement, AttachmentItemRootProps>(
+  ({ dragging, ...props }, ref) => {
+    const { isRendered } = reorderHandleTracker.useRenderTracking();
 
-export const InternalAttachmentItemReorderHandle = React.forwardRef<
-  HTMLButtonElement,
-  InternalAttachmentItemReorderHandleProps
->((props, ref) => (
-  <Primitive.button ref={ref} type="button" data-attachment-reorder-handle="" {...props} />
-));
-InternalAttachmentItemReorderHandle.displayName = "InternalAttachmentItemReorderHandle";
+    return (
+      <Primitive.li
+        ref={ref}
+        data-reorderable={dataAttr(isRendered)}
+        data-dragging={dataAttr(dragging)}
+        {...props}
+      />
+    );
+  },
+);
+AttachmentItemRoot.displayName = "AttachmentItemRoot";

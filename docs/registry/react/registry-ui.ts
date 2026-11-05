@@ -543,7 +543,8 @@ export const registryUI: Registry = {
         {
           path: "attachment-display-field-reorderable.tsx",
           dependencies: {
-            "@seed-design/react": "^3.0.0",
+            "@seed-design/react": "^3.3.0",
+            "@seed-design/css": "^3.3.0",
             "@dnd-kit/react": "^0.4.0",
             "@dnd-kit/abstract": "^0.4.0",
             "@dnd-kit/dom": "^0.4.0",
@@ -570,7 +571,8 @@ export const registryUI: Registry = {
         {
           path: "attachment-field-reorderable.tsx",
           dependencies: {
-            "@seed-design/react": "^3.0.0",
+            "@seed-design/react": "^3.3.0",
+            "@seed-design/css": "^3.3.0",
             "@dnd-kit/react": "^0.4.0",
             "@dnd-kit/abstract": "^0.4.0",
             "@dnd-kit/dom": "^0.4.0",

@@ -1,8 +1,9 @@
 "use client";
 
+import { RestrictToHorizontalAxis } from "@dnd-kit/abstract/modifiers";
 import { Accessibility, AutoScroller, KeyboardSensor, PointerSensor } from "@dnd-kit/dom";
 import { DragDropProvider } from "@dnd-kit/react";
-import { isSortable } from "@dnd-kit/react/sortable";
+import { isSortable, useSortable } from "@dnd-kit/react/sortable";
 import { IconCameraFill } from "@karrotmarket/react-monochrome-icon";
 import {
   AttachmentDisplay as SeedAttachmentDisplay,
@@ -13,9 +14,9 @@ import {
 import * as React from "react";
 
 import { AttachmentDisplayItem, type AttachmentDisplayItemProps } from "./attachment-display-field";
-import { useAttachmentItemReorder } from "../lib/attachment-reorder";
 
 const LABEL_SELECT_FILE = "파일 선택";
+const LABEL_REORDER = "순서 변경";
 
 const autoScrollerPlugin = AutoScroller.configure({ threshold: { x: 0.2, y: 0 } });
 
@@ -122,18 +123,35 @@ interface SortableAttachmentDisplayItemProps extends AttachmentDisplayItemProps 
 export const SortableAttachmentDisplayItem = React.forwardRef<
   HTMLLIElement,
   SortableAttachmentDisplayItemProps
->(({ entry, index, fileName, ...props }, forwardedRef) => {
+>(({ entry, index, fileName, ...props }, _ref) => {
   const { readOnly } = useAttachmentDisplayContext();
-  const itemName = fileName ?? `${index + 1}번째 이미지`;
-  const { itemRef, itemProps } = useAttachmentItemReorder({
+  const name = fileName ?? `${index + 1}번째 이미지`;
+
+  const {
+    ref: sortableRef,
+    handleRef,
+    isDragging,
+  } = useSortable({
     id: entry.id,
     index,
-    name: itemName,
-    label: props["aria-label"] ?? `${itemName} 순서 변경`,
     disabled: readOnly,
-    forwardedRef,
+    modifiers: [RestrictToHorizontalAxis],
+    data: { name },
   });
 
-  return <AttachmentDisplayItem ref={itemRef} entry={entry} {...props} {...itemProps} />;
+  return (
+    <AttachmentDisplayItem
+      ref={sortableRef}
+      entry={entry}
+      dragging={isDragging}
+      reorderHandle={
+        <SeedAttachmentDisplay.ItemReorderHandle
+          ref={handleRef}
+          aria-label={`${name} ${LABEL_REORDER}`}
+        />
+      }
+      {...props}
+    />
+  );
 });
 SortableAttachmentDisplayItem.displayName = "SortableAttachmentDisplayItem";

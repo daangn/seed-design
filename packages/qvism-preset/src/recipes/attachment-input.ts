@@ -148,6 +148,7 @@ const attachmentInputItem = defineSlotRecipe({
     "backdrop",
     "actionButton",
     "removeButton",
+    "reorderHandle",
   ],
   base: {
     root: {
@@ -187,8 +188,9 @@ const attachmentInputItem = defineSlotRecipe({
         cursor: "grab",
       },
 
-      // Keep dnd-kit's legacy attributes for snippets copied before the
-      // dedicated handle was introduced; those copies can outlive package upgrades.
+      // Snippets copied before ItemReorderHandle existed make the root itself the dnd-kit
+      // activator, which carries role="button" and aria-grabbed. Those copies can outlive
+      // package upgrades.
       [pseudo("[role='button']", not("[aria-grabbed=true]"), not("[data-readonly]"))]: {
         cursor: "grab",
       },
@@ -203,25 +205,6 @@ const attachmentInputItem = defineSlotRecipe({
         // description in attachment-input-item.yaml.
         "--remove-button-mask-size": "0px",
         "--remove-button-mask-offset": "0px",
-      },
-
-      "& [data-attachment-reorder-handle]": {
-        position: "absolute",
-        inset: 0,
-
-        // PointerSensor listens on the item root as well, so the full-size keyboard handle
-        // does not need to intercept pointer hit-testing over the item's contents.
-        pointerEvents: "none",
-
-        border: "none",
-        padding: 0,
-        background: "transparent",
-        borderRadius: "inherit",
-        cursor: "inherit",
-        transition: FOCUS_RING_TRANSITION,
-
-        ...createFocusRingRestStyles(),
-        [pseudo(focusVisible)]: createFocusRingStyles(),
       },
     },
     image: {
@@ -365,12 +348,30 @@ const attachmentInputItem = defineSlotRecipe({
         }),
       },
 
-      // The current reorder adapter exposes drag state as data-dragging on the item root.
-      // aria-grabbed keeps legacy integrations working when the root itself is the activator.
-      // Hide the remove button because the root also disables its matching mask cutout.
+      // `dragging` emits data-dragging on the root; aria-grabbed covers snippets where the
+      // root itself is the dnd-kit activator. Hide the remove button because the root also
+      // disables its matching mask cutout.
       ":is([aria-grabbed=true], [data-dragging]) &": {
         display: "none",
       },
+    },
+    reorderHandle: {
+      position: "absolute",
+      inset: 0,
+
+      // PointerSensor listens on the item root as well, so the full-size keyboard handle
+      // does not need to intercept pointer hit-testing over the item's contents.
+      pointerEvents: "none",
+
+      border: "none",
+      padding: 0,
+      background: "transparent",
+      borderRadius: "inherit",
+      cursor: "inherit",
+      transition: FOCUS_RING_TRANSITION,
+
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
     },
   },
   variants: {

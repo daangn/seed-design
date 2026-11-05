@@ -46,23 +46,6 @@
     --remove-button-mask-size: 0px;
     --remove-button-mask-offset: 0px;
 }
-.seed-attachment-input-item__root [data-attachment-reorder-handle] {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    border: none;
-    padding: 0;
-    background: transparent;
-    border-radius: inherit;
-    cursor: inherit;
-    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
-    outline: var(--seed-dimension-x0_5) solid transparent;
-    outline-offset: var(--seed-dimension-x0_5);
-}
-.seed-attachment-input-item__root [data-attachment-reorder-handle]:is(:focus-visible, [data-focus-visible]) {
-    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
-    outline-offset: var(--seed-dimension-x0_5);
-}
 .seed-attachment-input-item__image {
     width: 100%;
     height: 100%;
@@ -214,6 +197,23 @@
 }
 :is([aria-grabbed=true], [data-dragging]) .seed-attachment-input-item__removeButton {
     display: none;
+}
+.seed-attachment-input-item__reorderHandle {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border: none;
+    padding: 0;
+    background: transparent;
+    border-radius: inherit;
+    cursor: inherit;
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+}
+.seed-attachment-input-item__reorderHandle:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
 }
 .seed-attachment-input-item__root--type_general {
     width: 160px;
