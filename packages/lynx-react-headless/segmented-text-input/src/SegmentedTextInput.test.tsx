@@ -138,4 +138,31 @@ describe("SegmentedTextInput", () => {
     expect(focusedStates.at(-1)).toBe(false);
     vi.useRealTimers();
   });
+
+  it("releases the Field focus when the focused segment unmounts without a blur", () => {
+    const focusedStates: boolean[] = [];
+    function FieldFocusProbe() {
+      focusedStates.push(useFieldContext().focused);
+      return null;
+    }
+    const ref = createRef<NodesRef>();
+    const tree = (showSecond: boolean) => (
+      <FieldRoot>
+        <SegmentedTextInput.Root>
+          <SegmentedTextInput.Segment accessibility-label="a" length={2} />
+          {showSecond ? (
+            <SegmentedTextInput.Segment ref={ref} accessibility-label="b" length={2} />
+          ) : null}
+        </SegmentedTextInput.Root>
+        <FieldFocusProbe />
+      </FieldRoot>
+    );
+    const { rerender } = render(tree(true));
+
+    fireNativeEvent(ref, "focus", { value: "" });
+    expect(focusedStates.at(-1)).toBe(true);
+
+    rerender(tree(false));
+    expect(focusedStates.at(-1)).toBe(false);
+  });
 });

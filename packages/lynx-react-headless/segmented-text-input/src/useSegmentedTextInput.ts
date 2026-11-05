@@ -91,6 +91,12 @@ export function useSegmentedTextInput(
 
   const rootRef = useRef<NodesRef | null>(null);
 
+  // Segment 사이로 focus가 옮겨 갈 때 blur와 focus가 따로 와도 focus 상태가 깜빡이지 않게 한다.
+  const focusedKeysRef = useRef(new Set<object>());
+  const [focused, setFocused] = useState(false);
+  const fieldSetFocusedRef = useRef(fieldContext?.setFocused);
+  fieldSetFocusedRef.current = fieldContext?.setFocused;
+
   const orderRef = useRef<object[]>([]);
   const entriesRef = useRef(new Map<object, SegmentedTextInputSegmentEntry>());
   const [, invalidateOrder] = useReducer((version: number) => version + 1, 0);
@@ -104,6 +110,11 @@ export function useSegmentedTextInput(
   const releaseSegment = useCallback((key: object) => {
     orderRef.current = orderRef.current.filter((segmentKey) => segmentKey !== key);
     entriesRef.current.delete(key);
+    // focus된 채 unmount된 Segment에는 blur가 오지 않을 수 있다.
+    if (focusedKeysRef.current.delete(key) && focusedKeysRef.current.size === 0) {
+      setFocused(false);
+      fieldSetFocusedRef.current?.(false);
+    }
     invalidateOrder();
   }, []);
 
@@ -166,11 +177,6 @@ export function useSegmentedTextInput(
     [focusSegment, setSegmentValues],
   );
 
-  // Segment 사이로 focus가 옮겨 갈 때 blur와 focus가 따로 와도 focus 상태가 깜빡이지 않게 한다.
-  const focusedKeysRef = useRef(new Set<object>());
-  const [focused, setFocused] = useState(false);
-  const fieldSetFocusedRef = useRef(fieldContext?.setFocused);
-  fieldSetFocusedRef.current = fieldContext?.setFocused;
   const setSegmentFocused = useCallback((key: object, segmentFocused: boolean) => {
     "background only";
 
