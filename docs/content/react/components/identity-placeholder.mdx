@@ -14,6 +14,8 @@ description: 인물을 표현하는 이미지가 로드되지 않았을 때 보�
   ```
 </ComponentExample>
 
+인물이나 매장이 아닌 콘텐츠 이미지를 대신할 때는 [Content Placeholder](/react/components/content-placeholder)를 사용하세요.
+
 ## Installation
 
 ```package-install
@@ -22,6 +24,18 @@ npx @seed-design/cli@latest add ui:identity-placeholder
 
 <ManualInstallation name="identity-placeholder" />
 
+## Usage
+
+부모의 너비와 높이를 모두 채우며, 도형은 비율을 유지한 채 중앙에 표시됩니다. 크기를 지정한 부모 안에 배치하세요. 프로필 이미지 자리에서는 [Avatar](/react/components/avatar)의 `fallback`으로 사용하세요.
+
+```tsx
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
+```
+
+```tsx
+<IdentityPlaceholder />
+```
+
 ## Props
 
 <react-type-table
@@ -29,9 +43,13 @@ npx @seed-design/cli@latest add ui:identity-placeholder
   name="IdentityPlaceholderProps"
 />
 
+Snippet은 `@seed-design/react`의 `IdentityPlaceholder.Root`와 `IdentityPlaceholder.Image`를 조합합니다. 전달한 props와 `ref`는 Root `div`가 받습니다.
+
 ## Examples
 
 ### Identity
+
+`identity`로 사람과 매장 도형을 선택합니다. 기본값은 `person`입니다.
 
 <ComponentExample name="react/identity-placeholder/identity">
   ```json doc-gen:file
@@ -41,3 +59,9 @@ npx @seed-design/cli@latest add ui:identity-placeholder
   }
   ```
 </ComponentExample>
+
+## Accessibility
+
+- 도형은 `role="img"`와 `aria-label="Identity placeholder"`를 가진 `svg`로 렌더링됩니다. 기본 레이블은 영문입니다.
+- `Avatar`의 `fallback`으로 쓰면 이미지를 표시할 수 없을 때 `alt` 대신 이 레이블이 읽힙니다. 이름을 주변 텍스트로 제공한다면 `<IdentityPlaceholder aria-hidden="true" />`로 숨기세요.
+- 레이블을 바꾸려면 `IdentityPlaceholder.Root`와 `IdentityPlaceholder.Image`를 직접 조합하고 `IdentityPlaceholder.Image`에 `aria-label`을 전달하세요.
