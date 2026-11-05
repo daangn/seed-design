@@ -182,6 +182,23 @@ snippet이 다루지 않는 형식은 `SegmentedTextInput`을 직접 조합합�
   ```
 </LynxComponentExample>
 
+### Keyboard Avoiding
+
+[Keyboard Avoiding Scroll View](/lynx/components/keyboard-avoiding-scroll-view#segmented-text-input) 안에 두면 Segment에 focus할 때 Field 전체나 `SegmentedTextInput.Root`처럼 Segment보다 넓은 영역이 키보드에 가리지 않도록 스크롤합니다. Segment 사이로 focus가 옮겨 가도 스크롤 위치를 유지합니다.
+
+<LynxComponentExample name="lynx/keyboard-avoiding-scroll-view/segmented-text-input" height={520}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/keyboard-avoiding-scroll-view/segmented-text-input.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<Callout type="warning">
+이 예제는 네이티브 키보드 동작을 사용합니다. QR 코드 패널에서 Lynx Explorer로 실행한 뒤 주민등록번호 입력 영역을 탭해 확인해 주세요.
+</Callout>
+
 ## 웹 버전과의 차이
 
 - 빈 Segment에서 Backspace를 눌러도 이전 Segment로 이동하지 않습니다. 빈 native 입력에서 지우기를 누르면 값이 바뀌지 않아 입력 이벤트가 오지 않습니다(Android에서 하드웨어·소프트 키보드 모두 확인). 이전 Segment는 탭해서 고칩니다.

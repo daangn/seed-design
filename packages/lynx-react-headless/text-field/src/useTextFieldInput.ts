@@ -50,8 +50,9 @@ export interface UseTextFieldInputProps {
   "show-soft-input-on-focus"?: boolean;
   /**
    * Android host window의 soft input mode를 지정합니다.
-   * `undefined`가 native attribute로 전달되지 않도록 `"unspecified"`를 명시적으로 적용합니다.
-   * @default "unspecified"
+   * 생략하면 `KeyboardAvoidingScrollView` 안에서는 컴포넌트가 키보드 회피를 맡도록 `"nothing"`을,
+   * 그 밖에서는 `"unspecified"`를 명시적으로 적용합니다.
+   * @default KeyboardAvoidingScrollView 안에서 "nothing", 그 밖에서 "unspecified"
    */
   "android-set-soft-input-mode"?: AndroidSetSoftInputMode;
   /** disabled·readOnly가 아닐 때 값 갱신 뒤 호출됩니다. */
@@ -544,7 +545,8 @@ export function useTextFieldInput<P extends UseTextFieldInputProps>(
       readonly: readOnly,
       name: name ?? textFieldContext.name,
       "show-soft-input-on-focus": showSoftInputOnFocus ?? true,
-      "android-set-soft-input-mode": androidSetSoftInputMode ?? "unspecified",
+      "android-set-soft-input-mode":
+        androidSetSoftInputMode ?? (keyboardAvoidance ? "nothing" : "unspecified"),
       ...nativeProps,
       bindinput: handleInput,
       bindselection: handleSelection,

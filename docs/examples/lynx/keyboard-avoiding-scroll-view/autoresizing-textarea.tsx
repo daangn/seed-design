@@ -27,7 +27,6 @@ export default function Example() {
             <TextField label="자기소개">
               <TextFieldTextarea
                 accessibility-label="자기소개"
-                android-set-soft-input-mode="nothing"
                 maxlength={300}
                 placeholder="여러 줄을 입력해 보세요"
               />

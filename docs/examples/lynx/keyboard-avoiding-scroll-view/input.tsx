@@ -27,7 +27,6 @@ export default function Example() {
             <TextField label="주소">
               <TextFieldInput
                 accessibility-label="주소"
-                android-set-soft-input-mode="nothing"
                 maxlength={80}
                 placeholder="동네 이름을 입력해 주세요"
               />

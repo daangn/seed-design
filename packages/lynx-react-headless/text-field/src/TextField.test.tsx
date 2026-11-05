@@ -661,9 +661,10 @@ describe("TextField", () => {
     );
 
     if (!inputRef.current) throw new Error("Expected native input ref to exist.");
+    // KeyboardAvoidingScrollView가 회피를 맡으므로 Android window가 함께 움직이지 않게 한다.
     expect(getRenderedRoot().querySelector("input")).toHaveAttribute(
       "android-set-soft-input-mode",
-      "unspecified",
+      "nothing",
     );
 
     // ReactLynx Testing Library runtime accepts NodesRef, but its public fireEvent type
@@ -681,6 +682,28 @@ describe("TextField", () => {
     fireEvent.blur(inputRef.current as unknown as Element);
     expect(actions.blur).toHaveBeenCalledOnce();
     expect(getTextFieldRoot().querySelector(".text-field-focus")).toHaveTextContent("false");
+  });
+
+  it("keeps an explicit soft input mode inside KeyboardAvoidingScrollView context", () => {
+    const actions = {
+      focus: vi.fn(),
+      blur: vi.fn(),
+      layoutChanged: vi.fn(),
+      unregister: vi.fn(),
+    };
+
+    render(
+      <KeyboardAvoidingScrollViewProvider value={actions}>
+        <TextField.Root className="test-text-field">
+          <TextField.Input android-set-soft-input-mode="resize" />
+        </TextField.Root>
+      </KeyboardAvoidingScrollViewProvider>,
+    );
+
+    expect(getRenderedRoot().querySelector("input")).toHaveAttribute(
+      "android-set-soft-input-mode",
+      "resize",
+    );
   });
 
   it("clears Field focus when a focused input unmounts without blur", () => {
