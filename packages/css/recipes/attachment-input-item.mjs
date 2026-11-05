@@ -45,6 +45,10 @@ const attachmentInputItemSlotNames = [
   [
     "removeButton",
     "seed-attachment-input-item__removeButton"
+  ],
+  [
+    "reorderHandle",
+    "seed-attachment-input-item__reorderHandle"
   ]
 ];
 
