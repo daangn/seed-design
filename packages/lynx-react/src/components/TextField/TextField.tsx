@@ -156,8 +156,9 @@ export interface TextFieldInputProps extends Omit<LynxHostProps<"input">, "child
   "show-soft-input-on-focus"?: LynxHostProps<"input">["show-soft-input-on-focus"];
   /**
    * Android host window의 soft input mode를 지정한다.
-   * `undefined`가 native attribute로 전달되지 않도록 `"unspecified"`를 명시적으로 적용한다.
-   * @defaultValue "unspecified"
+   * 생략하면 `KeyboardAvoidingScrollView` 안에서는 컴포넌트가 키보드 회피를 맡도록 `"nothing"`을,
+   * 그 밖에서는 `"unspecified"`를 명시적으로 적용한다.
+   * @defaultValue KeyboardAvoidingScrollView 안에서 "nothing", 그 밖에서 "unspecified"
    */
   "android-set-soft-input-mode"?: AndroidSetSoftInputMode;
 }
@@ -219,8 +220,9 @@ export interface TextFieldTextareaProps extends Omit<LynxHostProps<"textarea">, 
   "android-fullscreen-mode"?: NativeTextareaProps["android-fullscreen-mode"];
   /**
    * Android host window의 soft input mode를 지정한다.
-   * `undefined`가 native attribute로 전달되지 않도록 `"unspecified"`를 명시적으로 적용한다.
-   * @defaultValue "unspecified"
+   * 생략하면 `KeyboardAvoidingScrollView` 안에서는 컴포넌트가 키보드 회피를 맡도록 `"nothing"`을,
+   * 그 밖에서는 `"unspecified"`를 명시적으로 적용한다.
+   * @defaultValue KeyboardAvoidingScrollView 안에서 "nothing", 그 밖에서 "unspecified"
    */
   "android-set-soft-input-mode"?: AndroidSetSoftInputMode;
 }

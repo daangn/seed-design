@@ -2,8 +2,10 @@ import "@testing-library/jest-dom";
 import { createRef } from "@lynx-js/react";
 import { act, fireEvent, render } from "@lynx-js/react/testing-library";
 import type { NodesRef } from "@lynx-js/types";
+import { KeyboardAvoidingScrollViewProvider } from "@seed-design/lynx-react-keyboard-avoiding-scroll-view";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import { FieldRoot } from "../Field";
 import { SegmentedTextInput } from "./index";
 
 interface InvokeCall {
@@ -343,5 +345,79 @@ describe("SegmentedTextInput", () => {
       vi.runAllTimers();
     });
     expect(root).not.toHaveClass("seed-segmented-text-input__root--focused_true");
+  });
+
+  it("registers each segment with KeyboardAvoidingScrollView using the Root and Field areas", () => {
+    const actions = {
+      focus: vi.fn(),
+      blur: vi.fn(),
+      layoutChanged: vi.fn(),
+      unregister: vi.fn(),
+    };
+    const fieldRef = createRef<NodesRef>();
+    const rootRef = createRef<NodesRef>();
+    const refs = [createRef<NodesRef>(), createRef<NodesRef>()];
+    const { unmount } = render(
+      <KeyboardAvoidingScrollViewProvider value={actions}>
+        <FieldRoot ref={fieldRef}>
+          <SegmentedTextInput.Root ref={rootRef}>
+            <SegmentedTextInput.Segment ref={refs[0]} accessibility-label="앞 6자리" length={6} />
+            <SegmentedTextInput.Segment ref={refs[1]} accessibility-label="뒤 1자리" length={1} />
+          </SegmentedTextInput.Root>
+        </FieldRoot>
+      </KeyboardAvoidingScrollViewProvider>,
+    );
+
+    for (const input of getInputs()) {
+      expect(input).toHaveAttribute("android-set-soft-input-mode", "nothing");
+    }
+
+    fireEvent.focus(refs[0]!.current as unknown as Element);
+    expect(actions.focus).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        enabled: true,
+        nativeRef: { current: refs[0]!.current },
+        controlRef: { current: rootRef.current },
+        fieldRef: { current: fieldRef.current },
+      }),
+    );
+    const firstOwner = actions.focus.mock.calls[0]?.[0].owner;
+
+    // Segment 사이 이동은 앞 Segment의 blur 뒤 다음 Segment의 focus로 회피 대상을 넘긴다.
+    fireEvent.blur(refs[0]!.current as unknown as Element);
+    fireEvent.focus(refs[1]!.current as unknown as Element);
+    expect(actions.blur).toHaveBeenLastCalledWith(firstOwner);
+    expect(actions.focus).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        nativeRef: { current: refs[1]!.current },
+        controlRef: { current: rootRef.current },
+      }),
+    );
+    const secondOwner = actions.focus.mock.calls[1]?.[0].owner;
+    expect(secondOwner).not.toBe(firstOwner);
+
+    unmount();
+    expect(actions.unregister).toHaveBeenCalledWith(firstOwner);
+    expect(actions.unregister).toHaveBeenCalledWith(secondOwner);
+  });
+
+  it("does not avoid the keyboard for a disabled segment", () => {
+    const actions = {
+      focus: vi.fn(),
+      blur: vi.fn(),
+      layoutChanged: vi.fn(),
+      unregister: vi.fn(),
+    };
+    const ref = createRef<NodesRef>();
+    render(
+      <KeyboardAvoidingScrollViewProvider value={actions}>
+        <SegmentedTextInput.Root disabled>
+          <SegmentedTextInput.Segment ref={ref} accessibility-label="인증번호" length={6} />
+        </SegmentedTextInput.Root>
+      </KeyboardAvoidingScrollViewProvider>,
+    );
+
+    fireEvent.focus(ref.current as unknown as Element);
+    expect(actions.focus).toHaveBeenLastCalledWith(expect.objectContaining({ enabled: false }));
   });
 });

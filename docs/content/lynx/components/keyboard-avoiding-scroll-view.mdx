@@ -57,8 +57,8 @@ export function Screen() {
 - Root에는 높이를 지정하고 자식으로 Content와 Footer만 두세요. Footer는 Content 바로 아래에 배치합니다.
 - Content는 focus된 입력이 키보드나 Footer에 가리지 않도록 스크롤과 하단 여백을 조정합니다. `keyboardGap`과 `scrollBehavior`로 간격과 이동 방식을 정할 수 있습니다.
 - Footer는 키보드 위로 이동합니다. 하단 safe area 여백은 Root 바깥의 화면 컨테이너에 두세요.
-- Text Field Registry의 Input과 Textarea는 focus, blur, 높이 변경을 자동으로 전달합니다.
-- Android에서 이 컴포넌트가 키보드 회피를 맡으면 입력 요소에 `android-set-soft-input-mode="nothing"`을 지정하고 `avoid-keyboard`는 사용하지 마세요.
+- Text Field Registry의 Input과 Textarea는 focus, blur, 높이 변경을 자동으로 전달합니다. [Segmented Text Input](/lynx/components/segmented-text-input)의 Segment도 focus와 blur를 자동으로 전달합니다.
+- Android에서는 이 컴포넌트가 키보드 회피를 맡도록 Text Field와 Segmented Text Input의 입력에 `android-set-soft-input-mode="nothing"`을 기본으로 적용합니다. 직접 등록하는 native 입력에는 이 값을 지정하세요. 입력에 `avoid-keyboard`는 사용하지 마세요.
 
 ## Examples
 
@@ -94,6 +94,23 @@ export function Screen() {
 
 <Callout type="warning">
 이 예제는 네이티브 입력 요소의 자동 높이 조절과 키보드 회피 동작을 사용합니다. QR 코드 패널에서 Lynx Explorer로 실행한 뒤 여러 줄을 입력해 확인해 주세요.
+</Callout>
+
+### Segmented Text Input
+
+`SegmentedTextInput.Segment`에 focus하면 Segment 하나보다 넓은 영역이 키보드에 가리지 않도록 스크롤합니다. 키보드 위 공간에 들어가면 감싸는 `Field.Root`(label·description 포함), 그다음 `SegmentedTextInput.Root`, 마지막으로 focus한 Segment 순서로 영역을 고릅니다. 채운 Segment에서 다음 Segment로 focus가 넘어가도 회피를 이어받아 스크롤 위치를 유지합니다.
+
+<LynxComponentExample name="lynx/keyboard-avoiding-scroll-view/segmented-text-input" height={520}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/keyboard-avoiding-scroll-view/segmented-text-input.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<Callout type="warning">
+이 예제는 네이티브 키보드 동작을 사용합니다. QR 코드 패널에서 Lynx Explorer로 실행한 뒤 주민등록번호 입력 영역을 탭해 확인해 주세요.
 </Callout>
 
 ### 하단 버튼

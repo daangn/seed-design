@@ -51,7 +51,6 @@ export function TextFieldHeadlessPage() {
               className="tf-headless-input"
               placeholder="abc-123"
               accessibility-label="코드"
-              android-set-soft-input-mode="nothing"
               bindfocus={() => push("focus:code")}
               bindblur={() => push("blur:code")}
             />
@@ -69,7 +68,6 @@ export function TextFieldHeadlessPage() {
               className="tf-headless-input"
               placeholder="👨‍👩‍👧‍👦 같은 이모지도 한 글자"
               accessibility-label="닉네임"
-              android-set-soft-input-mode="nothing"
             />
           </TextField.Root>
           <Field.Description className="tf-headless-meta">
@@ -87,11 +85,7 @@ export function TextFieldHeadlessPage() {
         <Field.Root className="tf-headless-field" disabled>
           <Field.Label className="tf-headless-label">비활성</Field.Label>
           <TextField.Root className="tf-headless-control" defaultValue="입력할 수 없음">
-            <TextField.Input
-              className="tf-headless-input"
-              accessibility-label="비활성"
-              android-set-soft-input-mode="nothing"
-            />
+            <TextField.Input className="tf-headless-input" accessibility-label="비활성" />
           </TextField.Root>
         </Field.Root>
 
@@ -104,7 +98,6 @@ export function TextFieldHeadlessPage() {
               className="tf-headless-textarea"
               placeholder="줄을 늘리면 키보드 회피 위치를 다시 계산합니다."
               accessibility-label="소개"
-              android-set-soft-input-mode="nothing"
               bindfocus={() => push("focus:bio")}
               bindblur={() => push("blur:bio")}
             />
