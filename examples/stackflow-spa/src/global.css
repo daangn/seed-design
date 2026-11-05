@@ -1,6 +1,5 @@
 body {
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: var(--seed-font-family);
   background-color: var(--seed-color-bg-layer-default);
   overscroll-behavior: none;
 }

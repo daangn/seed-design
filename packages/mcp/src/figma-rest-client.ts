@@ -1,8 +1,13 @@
 import { Api as FigmaApi } from "figma-api";
-import type { GetFileNodesResponse } from "@figma/rest-api-spec";
+import type { GetFileNodesResponse, GetImagesQueryParams } from "@figma/rest-api-spec";
 
 export interface FigmaRestClient {
   getFileNodes(fileKey: string, nodeIds: string[]): Promise<GetFileNodesResponse>;
+  getNodeImageUrl(
+    fileKey: string,
+    nodeId: string,
+    options: Omit<GetImagesQueryParams, "ids">,
+  ): Promise<string>;
 }
 
 export function createFigmaRestClient(personalAccessToken: string): FigmaRestClient {
@@ -13,6 +18,25 @@ export function createFigmaRestClient(personalAccessToken: string): FigmaRestCli
       const response = await api.getFileNodes({ file_key: fileKey }, { ids: nodeIds.join(",") });
 
       return response;
+    },
+
+    async getNodeImageUrl(fileKey, nodeId, options) {
+      // Needs figma-api >= 2.1.4-beta: earlier releases drop a falsy query param, which silently
+      // turned `svg_outline_text: false` into Figma's own default of `true`.
+      const response = await api.getImages({ file_key: fileKey }, { ids: nodeId, ...options });
+
+      // The `images` map is keyed by the requested id, but Figma normalizes `:` to `-` in some
+      // responses, so a direct lookup can miss even though exactly one node was requested.
+      const imageUrl = response.images[nodeId] ?? Object.values(response.images)[0];
+
+      // Figma documents a null entry as "rendering of that specific node has failed", either
+      // because the id does not exist or because the node has no renderable components.
+      if (!imageUrl)
+        throw new Error(
+          `Figma failed to render node ${nodeId}. Either the node does not exist in file ${fileKey}, or it has nothing renderable.`,
+        );
+
+      return imageUrl;
     },
   };
 }

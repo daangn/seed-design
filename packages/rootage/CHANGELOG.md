@@ -1,5 +1,412 @@
 # @seed-design/rootage-artifacts
 
+## 3.2.0
+
+### Minor Changes
+
+- cd8f6a9: `segmented-text-input` 컴포넌트 스펙을 추가합니다. 입력 영역(`root`)은 Text Input outline과 같은 크기·stroke·상태 값을 쓰고, 값·placeholder에 더해 Separator(`separator`), 정적 불릿(`staticText`), 빈 masked Segment의 placeholder 불릿(`maskedPlaceholder`) 색상을 정의합니다.
+
+## 3.1.0
+
+### Minor Changes
+
+- d4ec62d: Search Bar에서 쓰는 `search-input` 컴포넌트 스펙을 추가합니다. 입력 영역(`root`), 값·placeholder, Clear 버튼(`clearButton`)과 아이콘(`clearButtonIcon`)의 크기·여백·색상을 정의합니다.
+- d4ec62d: Gray 램프와 톤이 일치하는 반투명 팔레트 `$color.palette.gray-alpha-100` ~ `gray-alpha-1000`을 추가합니다.
+  
+  - `gray-00` 위에 합성하면 light·dark 테마 각각에서 같은 스텝의 `gray-N`과 같은 색이 됩니다.
+  - CSS 변수 `--seed-color-palette-gray-alpha-100` ~ `--seed-color-palette-gray-alpha-1000`으로 사용할 수 있습니다.
+
+## 3.0.2
+
+### Patch Changes
+
+- 0201acc: 화면 끝을 기준으로 위치를 잡는 컴포넌트의 스펙에 safe area 요구사항을 반영합니다.
+  
+  - `bottom-sheet`, `menu-sheet` 컴포넌트 스펙의 `content`에 최대 높이 비율을 나타내는 `maxHeightFraction` 속성(기본값 `0.9`)을 추가합니다.
+  - `dialog`, `alert-dialog`, `bottom-sheet`, `menu-sheet`, `side-panel`, `popover`, `help-bubble`, `menu`, `select`, `snackbar` 컴포넌트 스펙에 safe area 경계를 기준으로 배치하고 크기를 계산하는 방식을 설명으로 추가합니다.
+- 594a7e1: Page Banner 닫기 버튼의 solid 톤 아이콘이 팔레트 색상을 직접 참조하던 문제를 수정합니다. 이제 Page Banner 본문과 같은 `$color.fg.on-*-solid` 토큰을 참조하며, 렌더링되는 색상은 바뀌지 않습니다.
+
+## 3.0.1
+
+### Patch Changes
+
+- 6ecd04e: `$color.bg.neutral-solid-muted`와 `$color.bg.neutral-solid-muted-pressed`를 deprecated로 표시합니다.
+  
+  - 기존 사용처의 하위 호환성을 위해 두 토큰과 이에 대응하는 CSS 변수를 유지하며, 각 패키지의 다음 major 버전에서 제거할 예정입니다.
+
+## 3.0.0
+
+### Major Changes
+
+- 66c3bd9: (BREAKING CHANGE: `$color.bg.layer-fill`을 같은 값의 `$color.bg.neutral-muted`로 교체해야 합니다.) deprecated 상태였던 `$color.bg.layer-fill`을 제거하고 같은 값의 `$color.bg.neutral-muted`를 추가합니다.
+  
+  - `$color.bg.neutral-muted`는 라이트 모드에서 `gray-100`, 다크 모드에서 `gray-200`으로, 기존 `$color.bg.layer-fill`과 값이 같습니다.
+  - `--seed-color-bg-layer-fill`을 `--seed-color-bg-neutral-muted`로, `vars.$color.bg.layerFill`을 `vars.$color.bg.neutralMuted`로 교체하세요.
+  - CSS 변수를 직접 쓴 코드나 `bg="bg.layerFill"` 같은 style prop 값은 에러 없이 배경색만 사라지므로 문자열로 검색해 확인하세요.
+- ebdc295: (BREAKING CHANGE: `$color.bg.neutral-solid`를 직접 사용하는 화면에서 라이트·다크 모드의 배경색과 전경색 대비를 확인해야 합니다.) Neutral Solid 배경 색상과 이를 사용하는 컴포넌트 스타일을 변경합니다.
+  
+  - `$color.bg.neutral-solid`를 라이트 모드에서는 `gray-1000`에서 `gray-900`으로, 다크 모드에서는 `gray-300`에서 `gray-1000`으로 변경합니다.
+  - 눌린 상태에 사용할 `$color.bg.neutral-solid-pressed`를 추가합니다.
+  - Neutral Solid 스타일을 사용하는 컴포넌트가 `$color.bg.neutral-solid`와 `$color.bg.neutral-solid-pressed`를 참조하도록 변경합니다.
+- 19ecbd6: (BREAKING CHANGE: 제거된 컴포넌트 스펙과 속성을 참조했다면 사용처를 정리해야 합니다.) SEED React 3에 맞춰 컴포넌트 스펙을 업데이트합니다.
+  
+  - `popover`, `popover-close-button` 컴포넌트 스펙을 추가합니다.
+  - `badge` 컴포넌트 스펙에 `prefix`, `action` 부분을 추가하고, `root`의 `maxWidth` 속성을 제거합니다.
+  - `date-picker` 컴포넌트 스펙에 Week의 연·월 Wheel Picker를 표시하는 `wheelPopover` 부분을 추가하고, `wheelItem`의 글자 스타일 속성(`paddingX`, `fontSize`, `lineHeight`, `fontWeight`)을 제거합니다.
+  - deprecated 컴포넌트인 Control Chip과 Inline Banner의 `control-chip`, `inline-banner` 컴포넌트 스펙을 제거합니다.
+  - `dialog-close-button`, `side-panel-close-button` 컴포넌트 스펙에서 `icon`의 `colorDuration`, `colorTimingFunction` 속성을 제거합니다.
+
+### Minor Changes
+
+- d3edadf: Solid 배경 위에 쓰는 전경색 토큰을 추가하고, SEED 컴포넌트가 이 토큰을 사용하도록 변경합니다.
+  
+  - `$color.fg.on-brand-solid`, `$color.fg.on-critical-solid`, `$color.fg.on-informative-solid`, `$color.fg.on-neutral-solid`, `$color.fg.on-positive-solid`, `$color.fg.on-warning-solid`를 추가합니다.
+  - Solid 배경을 사용하는 컴포넌트가 팔레트 색상이나 `$color.fg.neutral-inverted` 대신 새 전경색 토큰을 참조하도록 변경합니다. 기존과 값이 같아 화면은 그대로이며, Action Button `variant="neutralSolid"`의 로딩 인디케이터 색만 다크 모드에서 달라집니다.
+  - `$color.fg.neutral-inverted`는 기존 사용처의 하위 호환성을 위해 deprecated 상태로 유지하며, 각 패키지의 다음 major 버전에서 제거할 예정입니다.
+- 5e34f78: SEED 컴포넌트가 `$color.bg.neutral-inverted` 대신 같은 값의 `$color.bg.neutral-solid`를 사용하도록 변경하고, `$color.bg.neutral-inverted`와 `$color.bg.neutral-inverted-pressed`를 deprecated로 표시합니다.
+  
+  - `@seed-design/react`의 Date Picker를 포함한 기존 사용처는 같은 색상 값을 가진 `$color.bg.neutral-solid`를 사용합니다.
+  - 기존 사용처의 하위 호환성을 위해 `$color.bg.neutral-inverted`, `$color.bg.neutral-inverted-pressed`와 이에 대응하는 CSS 변수를 유지하며, 각 패키지의 다음 major 버전에서 제거할 예정입니다.
+- 66c3bd9: 표면과 같은 색상의 `$color.bg.neutral-subtle` 토큰을 추가합니다.
+  
+  - 라이트 모드에서 `gray-00`, 다크 모드에서 `gray-100`을 사용하며, 회색 표면 위에서 주변과 구분되는 영역에 사용합니다.
+  - Tailwind에서는 `bg-neutral-subtle` 색상으로 사용할 수 있습니다(예: `bg-bg-neutral-subtle`).
+
+## 2.10.0
+
+### Minor Changes
+
+- cb4c4a1: Top Navigation 높이를 iOS·Android 모두 56px로 통일합니다. `theme=cupertino` App Bar와 App Screen의 높이가 44px에서 56px로 바뀝니다.
+
+## 2.9.0
+
+### Minor Changes
+
+- 05d4cf9: Top Navigation의 좌우 여백을 아이콘 크기가 아니라 버튼 크기 기준으로 정리하고, `root.titleMinGap`을 추가합니다. `top-navigation-icon-button`과 `top-navigation-text-button`에 pressed 상태 스펙을 추가합니다.
+
+## 2.8.0
+
+### Minor Changes
+
+- 45b827b: `$gradient.fade-mask` 토큰을 추가하고, ScrollFog의 fog 마스크를 easing 그라데이션으로 개선합니다.
+
+  - `$gradient.fade-mask`(`--seed-gradient-fade-mask`)를 추가합니다. 콘텐츠를 부드럽게 가리는 마스크용 불투명도(alpha) easing 곡선이며, 라이트/다크 테마에서 동일합니다.
+  - ScrollFog의 가장자리 페이드가 기존 선형 2단계에서 16단계 easing 곡선으로 바뀌어 더 부드럽게 표현됩니다.
+  - ScrollFog spec의 `fromColor`/`toColor` 프로퍼티가 `gradient` 하나로 대체됩니다.
+
+## 2.7.0
+
+### Minor Changes
+
+- 07076a3: Select Box와 `variant="separated"` Accordion Item의 border 색을 `$color.stroke.neutral-muted`에서 `$color.stroke.neutral-weak`로 변경합니다.
+
+  - Select Box는 enabled와 disabled 상태의 border 색이 함께 바뀝니다. selected 상태의 `$color.stroke.neutral-contrast`는 그대로입니다.
+  - Accordion은 border를 가진 `variant="separated"`만 영향을 받습니다. `variant="inline"`의 divider 색은 그대로입니다.
+  - border 색이 light 테마에서 `#00000010`(알파 6%) → `#dcdee3`, dark 테마에서 `#ffffff17`(알파 9%) → `#393d46`으로 바뀌어 또렷해집니다. 두 테마 모두 색이 있는 배경 위에 올려 쓰던 화면은 대비를 확인해 주세요.
+
+- f73ee94: Pagination과 Table Pagination을 추가합니다.
+
+  - `usePagination`은 controlled·uncontrolled 상태, 페이지 범위 계산과 이전·다음 이동을 제공합니다.
+  - `useTablePagination`은 전체 개수를 아는 경우와 모르는 경우를 모두 지원합니다.
+  - Pagination은 전체 페이지가 0개 또는 1개이면 표시하지 않습니다.
+  - `ui:pagination`, `ui:table-pagination` snippet으로 설치할 수 있습니다.
+  - 표시 문구와 접근성 이름을 앱 언어에 맞게 수정할 수 있습니다.
+
+  ```sh
+  npx @seed-design/cli@latest add ui:pagination
+  npx @seed-design/cli@latest add ui:table-pagination
+  ```
+
+- 568f04c: 눌렀을 때 요소가 줄어드는 Scale Feedback을 일부 컴포넌트에 적용합니다.
+
+  - Action Button에만 있던 축소 피드백이 Callout, Page Banner, Chip, Tab, Checkmark, Radiomark, Switchmark, Toggle Button, Reaction Button, Quantity Picker, Attachment Input 등 눌리는 요소 전반으로 확대됩니다.
+  - Callout Close Button과 Page Banner Close Button에 축소 피드백과 함께 색상 피드백을 추가합니다.
+  - 축소 배율을 요소의 렌더된 크기로부터 계산하여 작은 아이콘 버튼과 화면 양끝을 채우는 버튼이 시각적으로 동일한 정도로 눌린 느낌이 들도록 합니다.
+  - CSS `transform` 및 `scale` 속성이나 motion 등 외부 라이브러리로 비슷한 스타일을 적용하고 있던 경우 제거를 권장합니다.
+
+  직접 만든 React 컴포넌트에 동일한 효과를 적용할 수 있도록 `ScaleFeedback` 유틸리티 컴포넌트를 제공합니다. 자세한 내용은 [Scale Feedback](https://seed-design.io/react/components/concepts/scale-feedback) 문서를 참고합니다.
+
+- aef119e: Bottom Sheet와 Menu Sheet의 content 최대 너비를 480px로 맞춥니다.
+
+  - 넓은 뷰포트에서 시트가 화면 폭 전체로 늘어나지 않고 480px에서 멈추며 가운데 정렬됩니다. 480px보다 좁은 화면에서는 기존과 동일하게 화면을 채웁니다.
+  - Bottom Sheet의 스펙값을 640px에서 480px로 낮춰 Sheet 계열의 최대 너비를 통일합니다.
+
+- 5088420: Snackbar의 최대 너비를 464px로 맞춥니다.
+
+  - 넓은 뷰포트에서 스낵바가 560px까지 늘어나지 않고 464px에서 멈춥니다. 464px보다 좁은 화면에서는 기존과 동일하게 화면을 채웁니다.
+  - Sheet 계열의 최대 너비 480px에서 좌우 8px씩을 뺀 값이라, 스낵바가 시트 위에 떴을 때 시트 가장자리와의 여백이 생깁니다.
+
+- f12cf1d: Help Bubble 및 Help Bubble Tooltip에 기본 최대 너비 `280px`을 추가합니다.
+
+  - 좌우 padding을 포함한 말풍선 전체 폭이 `280px`가 되도록 `content`에 `box-sizing: border-box`를 추가합니다.
+  - 최대 너비 제한을 제거하려는 경우 `contentProps`를 통해 `maxWidth="none"`을 지정할 수 있습니다.
+
+## 2.6.0
+
+### Minor Changes
+
+- 7a9e20b: Help Bubble 스펙에 말풍선과 뷰포트 경계 사이의 최소 간격을 정의하는 `root.overflowPadding`(16px)을 추가합니다.
+
+## 2.5.0
+
+### Minor Changes
+
+- ebb4eae: Date Picker에서 시작일을 유지하고 종료일만 변경할 수 있는 기능을 추가합니다.
+
+  - `selectionMode="range"`에서 `rangeStartReadOnly` prop을 사용할 수 있습니다.
+  - 시작일보다 늦은 날짜만 새 종료일로 선택할 수 있습니다.
+  - 읽기 전용 시작일의 시각적 상태와 접근성 이름을 제공합니다.
+
+  ```tsx
+  <DatePicker
+    selectionMode="range"
+    rangeStartReadOnly
+    value={{
+      start: { year: 2026, month: 8, day: 7 },
+      end: { year: 2026, month: 8, day: 9 },
+    }}
+  />
+  ```
+
+## 2.4.0
+
+### Minor Changes
+
+- c9acaa6: `DatePicker` 컴포넌트를 추가합니다.
+
+  - Single, Range, Multiple 선택 모드를 지원합니다.
+  - Month, Two Months, Week, Continuous 레이아웃을 각각 `DatePicker`, `TwoMonthDatePicker`, `WeekDatePicker`, `ContinuousDatePicker`로 제공합니다.
+  - 날짜 constraints와 예약·가격 표시를 위한 `renderDateCellSupplement`, 내부 콘텐츠 전체를 교체하는 `renderDateCellContent`를 제공합니다.
+  - `actionsRef`를 통해 특정 날짜로 이동하거나 날짜 셀에 포커스할 수 있습니다.
+  - locale 기반 달력, 키보드·스크린 리더 접근성, Wheel Picker를 이용한 월·연도 이동을 지원합니다.
+
+- c9acaa6: `TimePicker` 컴포넌트를 추가합니다.
+
+  - 12시간제 시간 선택 UI와 locale에 따른 컬럼 순서를 지원합니다.
+  - `minuteStep`으로 선택 가능한 분 간격을 설정할 수 있습니다.
+
+## 2.3.0
+
+### Minor Changes
+
+- 4dad2e9: 트리거를 눌러 열리는 목록에서 값을 선택하는 Select 컴포넌트를 추가합니다.
+
+  - `multiple`로 다중 선택을, `SelectGroup`으로 옵션 그룹과 그룹 라벨을 지원합니다.
+  - 키보드 탐색을 지원하며, `size`·`disabled`·`readOnly`·`invalid` 상태를 제공합니다.
+  - `label`, `description`, `errorMessage`로 Field와 연동되고, `name`으로 폼 제출 값의 키를 지정합니다.
+
+  ```tsx
+  <SelectRoot label="과일" defaultValue={["apple"]} name="fruit">
+    <SelectTrigger placeholder="과일을 선택하세요" />
+    <SelectContent>
+      <SelectGroup>
+        <SelectItem value="apple" label="사과" />
+        <SelectItem value="banana" label="바나나" />
+      </SelectGroup>
+    </SelectContent>
+  </SelectRoot>
+  ```
+
+- 6ba7292: 기존 Alert Dialog와 별개로, 범용 Dialog와 ResponsiveDialog를 추가합니다.
+
+  - `Dialog`: `medium`, `large` size를 지원하며, 본문이 길면 Body가 스크롤되고 상단에 divider와 하단 fade가 나타납니다.
+  - `ResponsiveDialog`: `md` 이상에서는 Dialog로, 그 아래에서는 Bottom Sheet로 렌더링합니다.
+  - `ui:dialog`, `ui:responsive-dialog` snippet으로 설치할 수 있습니다.
+
+  ```tsx
+  <DialogRoot size="medium">
+    <DialogTrigger asChild>
+      <ActionButton>열기</ActionButton>
+    </DialogTrigger>
+    <DialogContent title="제목" description="설명">
+      <DialogBody>{/* ... */}</DialogBody>
+      <DialogFooter>
+        <HStack gap="x2" justify="flex-end">
+          <DialogAction variant="neutralWeak">취소</DialogAction>
+          <DialogAction variant="neutralSolid">확인</DialogAction>
+        </HStack>
+      </DialogFooter>
+    </DialogContent>
+  </DialogRoot>
+  ```
+
+- 19f07f5: QuantityPicker 컴포넌트를 추가합니다.
+
+  - 지정한 최소·최대 수량 범위에서 값을 증감할 수 있으며, 최소 수량에서 제거 동작을 지원합니다.
+  - `size`, `disabled`, `readOnly`, `invalid`, 증감 중 loading 상태를 지원합니다.
+  - 폼 제출에 사용할 수 있는 `QuantityPicker.HiddenInput`을 제공합니다.
+  - `ui:quantity-picker` snippet으로 설치할 수 있으며, `@seed-design/css@^2.3.0`을 사용합니다.
+
+  ```tsx
+  <QuantityPicker.Root min={0} max={99} defaultValue={1}>
+    <QuantityPicker.DecrementButton icon={<IconMinusLine />} />
+    <QuantityPicker.ValueDisplay />
+    <QuantityPicker.IncrementButton icon={<IconPlusLine />} />
+    <QuantityPicker.HiddenInput name="quantity" />
+  </QuantityPicker.Root>
+  ```
+
+## 2.2.1
+
+### Patch Changes
+
+- 270c93d: 라이선스를 Apache-2.0으로 명시했습니다. 기존에는 `license` 필드가 비어 있어 저장소 루트의 Apache License 2.0과 일치하지 않았고, 배포물에 `LICENSE`와 `NOTICE`가 포함되지 않아 이용 조건을 확인할 수 없었습니다.
+
+  당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+- 09e28ef: (사용자 변경사항 없음) Side Panel 닫기 버튼 spec에서 사용되지 않던 pressed 상태의 icon 색상 정의를 제거합니다.
+- 6963994: Slider `disabled` 상태에서 track(비활성 구간) 색상을 `bg.disabled`로 지정해, range(활성 구간)와의 색상 대비가 명확히 보이도록 수정합니다.
+
+## 2.2.0
+
+### Minor Changes
+
+- f523979: Action Button의 pressed 상태에 scale 모션을 추가합니다.
+
+  pressed 상태에 적절한 모션 피드백을 제공하기 위해 사용하는 `$scale.s95`, `$scale.s97`, `$scale.s98` 토큰을 추가합니다.
+
+  - `scale` 토큰은 플랫폼 별 동작 줄이기 설정에 따라 값이 `1`로 동작합니다.
+  - 웹 CSS 환경에서는 `(prefers-reduced-motion: reduce)` 미디어 쿼리가 매치되는 환경에서 `1`로 동작합니다.
+  - Tailwind 유틸리티 클래스 `scale-s*`를 통해 scale 토큰을 사용할 수 있습니다. 신규 토큰을 사용할 수 있도록 Tailwind 패키지의 `@seed-design/css` peerDependency 범위를 `^2.1.0`에서 `^2.2.0`으로 올립니다.
+
+## 2.1.1
+
+### Patch Changes
+
+- bfaa48a: Floating Action Button의 확장(extended) 형태 아이콘 크기를 `$dimension.x5`에서 `$dimension.x4`로 수정합니다.
+- e97a89c: `@seed-design/react`에서 `@seed-design/css/vars/component` 의존을 제거하여 ImageFrame `offsetX` `offsetY` 및 ScrollFog `size`의 기본값을 기존과 동일한 값으로 하드코딩합니다.
+- 7224b94: ImageFrameReactionButton root에 반투명 배경색과 그림자를 추가하여 밝은 이미지 위에서의 가시성을 개선합니다.
+- c4ce431: Side Panel Close Button 및 Side Panel Header의 스타일을 디자인 스펙에 맞게 수정하고, Side Panel body에 `box-sizing: border-box`를 적용하여, body에 지정한 `height`/`minHeight`/`maxHeight`가 padding을 포함해 계산되도록 수정합니다.
+
+## 2.1.0
+
+### Minor Changes
+
+- f2b198d: `$color.bg.layer-fill` 토큰을 다시 추가합니다.
+
+  `2.0.0`에서 제거했으나 마땅한 대체 토큰이 없어 deprecated 상태로 되살립니다. 값은 제거 이전과 동일합니다. 추후 동일한 값의 새 이름 토큰으로 대체된 뒤 `3.0.0`에서 제거될 예정입니다.
+
+  `@seed-design/tailwind3-plugin`과 `@seed-design/tailwind4-theme`의 `@seed-design/css` peer dependency 버전 범위를 `^2.1.0`으로 올립니다.
+
+## 2.0.0
+
+### Major Changes
+
+- 555525a: Attachment Field 관련 컴포넌트를 추가합니다.
+
+  - Attachment Field: 파일을 선택하거나 드래그 앤 드롭으로 직접 업로드할 때 사용합니다.
+  - Attachment Display Field: 외부 소스에서 URL로 제공된 미디어를 표시·관리할 때 사용합니다.
+
+- d1a8d7c: 신규 타이포그래피 토큰을 추가합니다.
+
+  - **폰트 크기 토큰 (`$font-size`)**
+    - `t11`, `t11-static`
+    - `t12`, `t12-static`
+    - `t13`, `t13-static`
+    - `t14`, `t14-static`
+  - **줄 간격 토큰 (`$line-height`)**
+    - `t11`, `t11-static`
+    - `t12`, `t12-static`
+    - `t13`, `t13-static`
+    - `t14`, `t14-static`
+  - **텍스트 스타일 (`textStyle`)**
+    - `t8Regular`, `t8Medium`, `t8StaticRegular`, `t8StaticMedium`
+    - `t9Regular`, `t9Medium`, `t9StaticRegular`, `t9StaticMedium`
+    - `t10Regular`, `t10Medium`, `t10StaticRegular`, `t10StaticMedium`
+    - `t11Regular`, `t11Medium`, `t11Bold`, `t11StaticRegular`, `t11StaticMedium`, `t11StaticBold`
+    - `t12Regular`, `t12Medium`, `t12Bold`, `t12StaticRegular`, `t12StaticMedium`, `t12StaticBold`
+    - `t13Regular`, `t13Medium`, `t13Bold`, `t13StaticRegular`, `t13StaticMedium`, `t13StaticBold`
+    - `t14Regular`, `t14Medium`, `t14Bold`, `t14StaticRegular`, `t14StaticMedium`, `t14StaticBold`
+
+- 69e3b97: Menu 컴포넌트를 추가합니다.
+
+  Drawer를 연 뒤 Drawer 뒤 요소에 포커스가 남아 있는 문제를 수정합니다. Drawer가 열리는 경우 `Drawer.Content`에 자동으로 포커스가 이동합니다.
+
+  - `Drawer.RootProps`의 `autoFocus` 기본값을 `false`에서 `true`로 변경합니다.
+  - 스크린 리더가 `modal=true` (기본값)인 Dialog 및 Drawer 뒤 요소를 읽을 수 있는 문제를 수정합니다.
+
+  Dialog(AlertDialog, MenuSheet)와 Drawer(BottomSheet)를 `@radix-ui/react-dismissable-layer`에서 자체 `useDismissibleLayer` 훅 기반으로 리팩터링하고 불필요하게 외부로 노출되던 내부 옵션들을 제거합니다.
+
+  - `DialogRoot` 및 `DrawerRoot`의 `onOpenChange` 두 번째 인자 `details.reason`이 `interactOutside`인 경우 `details.event`의 타입을 `PointerEvent | FocusEvent`에서 `PointerEvent | TouchEvent | FocusEvent`로 변경합니다.
+  - `DialogRoot` 및 `DrawerRoot` 두 번째 인자 `details`의 `reason`으로 `cascadeDismiss`를 추가합니다. 두 개 이상의 오버레이 컴포넌트를 표시한 상황에서 하위 컴포넌트가 dismiss되는 경우 상위 컴포넌트는 `cascadeDismiss`와 함께 `onOpenChange`가 호출됩니다.
+  - `@seed-design/react` 패키지에서 `@radix-ui/react-dialog` 의존성을 제거합니다.
+
+- 57e4f1a: Chip Tabs Trigger가 disabled 상태일 때 opacity를 사용하여 스타일을 조절하도록 수정합니다.
+- 270b277: 컴포넌트 및 파운데이션 전반에 JSDoc 주석을 강화합니다.
+- 60d1a82: 1.2에서 deprecate된 옵션을 제거합니다.
+
+  - 색상 토큰
+    - `$color.bg.layer-fill`: 라이트 및 다크 모드에서 모두 테스트 후 `$color.bg.neutral-weak`으로 대체할 수 있습니다.
+  - 그라디언트 토큰
+    - `$gradient.fade-layer-floating`
+    - `$gradient.fade-layer-default`
+  - Chip Tabs의 `brandSolid` variant
+  - AppBar의 `divider` 옵션
+  - Image Frame의 `rounded` variant: `borderRadius` 옵션을 사용해주세요.
+  - Switch의 `small` 및 `medium` size: 각각 `16`과 `32`를 사용해주세요.
+  - Checkbox의 `default` 및 `stronger` weight: 각각 `regular`와 `bold`를 사용해주세요.
+  - `<Box display="inlineFlex" />` 등 유틸리티 컴포넌트 레이아웃 프로퍼티의 camelCase 옵션: kebab-case 옵션을 사용해주세요.
+    - `display`, `justifyContent`, `justify`, `alignItems`, `align`, `alignContent`, `alignSelf`, `flexDirection`, `direction`
+  - `AppBar`의 `divider` 옵션
+    - 하단 구분선이 더 이상 표시되지 않습니다.
+  - `BottomSheetRoot` (`DrawerRoot`)의 `noBodyStyles` 옵션
+    - 제거되어 기본값(true)처럼 동작합니다.
+  - `BottomSheetRoot` (`DrawerRoot`)의 `preventScrollRestoration` 옵션
+    - 제거되어 기본값(false)처럼 동작합니다.
+  - `BottomSheetRoot`의 `direction` 옵션
+    - BottomSheet는 항상 아래에서 올라오므로 `direction`을 받지 않습니다.
+  - `BottomSheetBackdrop` (`DrawerBackdrop`)의 `forceMount` 옵션
+    - 제거되어 `BottomSheetRoot` (`DrawerRoot`)의 `lazyMount`/`unmountOnExit` 옵션으로 대체할 수 있습니다.
+  - `BottomSheetContent` (`DrawerContent`)의 `onPointerDownOutside`, `onOpenAutoFocus`, `onCloseAutoFocus`, `onEscapeKeyDown`, `onInteractOutside`, `forceMount`, `onFocusOutside` 옵션
+    - 제거되어 `BottomSheetRoot` (`DrawerRoot`)의 `onOpenChange` 두 번째 인자 `details`를 통해 대체할 수 있습니다.
+
+- 98b52a7: Side Panel 컴포넌트를 추가합니다.
+
+  - 화면 좌/우 가장자리에서 슬라이드해 보조 콘텐츠, 상세 정보, 설정 흐름을 표시할 수 있습니다.
+
+- c0fd999: Text Input(Text Field)과 Input Button(Field Button)에 `size="medium"` variant를 추가합니다.
+- 31bf164: Accordion 컴포넌트를 추가합니다.
+
+  - 여러 개의 관련된 콘텐츠 섹션을 수직으로 나열하고, 각 섹션을 펼치거나 접어 정보를 탐색할 수 있는 컴포넌트입니다.
+
+## 1.2.12
+
+### Patch Changes
+
+- 8dc8f4f: Menu Sheet의 디자인 스펙에서 핸들 여백 확보를 위해 `content` 상단 패딩을 `x4` → `x6`으로 늘리고 `header.paddingTop`을 제거합니다 (핸들 여백 확보). React/CSS `MenuSheet`의 경우 핸들이 존재하지 않으므로 변경사항이 없습니다.
+
+## 1.2.11
+
+### Patch Changes
+
+- 9cacf29: AppBar 하단에 구분선을 표시하는 `divider` 옵션을 deprecated 처리합니다. SEED React 1.3에서 제거될 예정이며, 제거 이후에는 AppBar 하단 구분선이 표시되지 않습니다.
+
+## 1.2.10
+
+### Patch Changes
+
+- d8860f4: Chip `layout=withText` variant에 size 별 최소 너비를 추가합니다.
+- 7588e59: 신규 pressed 상태 스타일링을 위한 `$duration.pressed-scale` 및 `$timing-function.pressed-scale` 토큰을 추가합니다. (컴포넌트 변경사항 없음)
+
+## 1.2.9
+
+### Patch Changes
+
+- 46bdf17: AppBar 내부 title/subtitle 영역이 폰트 스케일링이 대응된 iOS 환경에서 최대 120%까지 폰트 스케일링을 하도록 변경합니다. (기존 동작: 폰트 스케일링이 대응된 환경에서도 폰트 스케일링 설정의 영향을 받지 않음)
+- 79c7aa3: NotificationBadge의 size=large variant가 최소 너비를 갖도록 하고, size=large에서 표시되는 레이블이 폰트 스케일링의 영향을 받지 않도록 수정합니다.
+
+## 1.2.8
+
+### Patch Changes
+
+- 5bf2e8a: `ContentPlaceholder` asset의 최대 너비를 64px에서 160px로 변경합니다.
+
+## 1.2.7
+
+### Patch Changes
+
+- 9b36676: (React 컴포넌트 변경사항 없음) menu-sheet 컴포넌트 스펙에 핸들 여백을 위한 header.paddingTop을 추가하고 menu-sheet-close-button을 deprecated 처리합니다.
+
 ## 1.2.6
 
 ### Patch Changes

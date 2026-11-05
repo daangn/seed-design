@@ -6,7 +6,7 @@ declare interface ChipTabsVariant {
 /**
   * @default "neutralSolid"
   */
-  variant: "neutralSolid" | "neutralOutline" | "brandSolid";
+  variant: "neutralSolid" | "neutralOutline";
 /**
   * @default "hug"
   */
@@ -15,6 +15,10 @@ declare interface ChipTabsVariant {
   * @default false
   */
   stickyList: boolean;
+/**
+  * @default false
+  */
+  extendSafeAreaX: boolean;
 }
 
 declare type ChipTabsVariantMap = {

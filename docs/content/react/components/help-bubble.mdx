@@ -3,7 +3,9 @@ title: Help Bubble
 description: 사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 컴포넌트입니다.
 ---
 
-<ComponentExample name="react/help-bubble/preview">
+<AvailableSince packages="@seed-design/react@0.0.1, @seed-design/css@0.0.1" />
+
+<ComponentExample name="react/help-bubble/preview" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/preview.tsx",
@@ -25,14 +27,14 @@ npx @seed-design/cli@latest add ui:help-bubble
 ### `HelpBubbleTrigger`
 
 <react-type-table
-  path="./registry/ui/help-bubble.tsx"
+  path="./registry/react/ui/help-bubble.tsx"
   name="HelpBubbleTriggerProps"
 />
 
 ### `HelpBubbleAnchor`
 
 <react-type-table
-  path="./registry/ui/help-bubble.tsx"
+  path="./registry/react/ui/help-bubble.tsx"
   name="HelpBubbleAnchorProps"
 />
 
@@ -50,7 +52,9 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 `children`으로는 `button` 등 포커스 가능한 요소를 넣어야 합니다.
 
-<ComponentExample name="react/help-bubble/trigger">
+`<HelpBubbleTrigger>`는 `aria-haspopup="dialog"` 속성을 설정하고, Help Bubble의 `open` 상태에 따라 `aria-expanded` 속성을 자동으로 설정합니다. 이 속성은 스크린 리더와 같은 보조 기술에 유용합니다.
+
+<ComponentExample name="react/help-bubble/trigger" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/trigger.tsx",
@@ -65,7 +69,7 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 `defaultOpen`과 `showCloseButton`을 사용하여 적절하게 열리고 닫히도록 하거나, `open` prop을 controlled하게 사용하여 열리고 닫힌 상태를 직접 관리할 수 있습니다.
 
-<ComponentExample name="react/help-bubble/anchor">
+<ComponentExample name="react/help-bubble/anchor" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/anchor.tsx",
@@ -76,9 +80,9 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 ### Close On Interact Outside
 
-`closeOnInteractOutside` prop을 `false`로 설정하면 Help Bubble 및 `HelpBubbleTrigger`, `HelpBubbleAnchor` 외부를 클릭해도 Help Bubble이 닫히지 않습니다. 기본값은 `true`입니다.
+`closeOnInteractOutside` prop을 `false`로 설정하면 Help Bubble 및 `HelpBubbleTrigger`, `HelpBubbleAnchor` 외부를 클릭하거나 포커스가 밖으로 이동해도 Help Bubble이 닫히지 않습니다. 기본값은 `true`입니다.
 
-<ComponentExample name="react/help-bubble/close-on-interact-outside">
+<ComponentExample name="react/help-bubble/close-on-interact-outside" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/close-on-interact-outside.tsx",
@@ -87,9 +91,24 @@ npx @seed-design/cli@latest add ui:help-bubble
   ```
 </ComponentExample>
 
+### Auto Focus
+
+Help Bubble은 기본적으로 열릴 때 포커스를 옮기지 않습니다. 페이지 진입과 함께 열리는 Help Bubble이 입력 필드 등 페이지가 준 포커스를 가져가지 않도록 하기 위함입니다.
+
+`autoFocus` prop을 설정하면 열릴 때 Help Bubble 안으로 포커스를 옮깁니다. 키보드와 스크린 리더 사용자가 Help Bubble 내용을 바로 읽을 수 있어 접근성 권장 동작에 가깝습니다. 어느 쪽이든 Help Bubble 안에 포커스가 있는 상태에서 닫히면 포커스는 trigger로 돌아갑니다.
+
+<ComponentExample name="react/help-bubble/auto-focus" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble/auto-focus.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Placement
 
-<ComponentExample name="react/help-bubble/placement">
+<ComponentExample name="react/help-bubble/placement" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/placement.tsx",
@@ -100,7 +119,7 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 ### Flip
 
-<ComponentExample name="react/help-bubble/flip">
+<ComponentExample name="react/help-bubble/flip" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/flip.tsx",
@@ -111,7 +130,7 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 ### Close Button
 
-<ComponentExample name="react/help-bubble/close-button">
+<ComponentExample name="react/help-bubble/close-button" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/close-button.tsx",
@@ -120,9 +139,22 @@ npx @seed-design/cli@latest add ui:help-bubble
   ```
 </ComponentExample>
 
+### Description
+
+`description`을 사용하여 `title` 아래에 설명을 추가할 수 있습니다.
+
+<ComponentExample name="react/help-bubble/description" isolate>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble/description.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Title Only
 
-<ComponentExample name="react/help-bubble/title-only">
+<ComponentExample name="react/help-bubble/title-only" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/title-only.tsx",
@@ -133,9 +165,9 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 ### Setting Width Manually
 
-`contentProps`에 인라인 스타일로 `maxWidth`나 `width`를 설정하여 너비를 조절할 수 있습니다.
+`content`에는 기본 최대 너비가 지정되어 있습니다. `contentProps`에 `maxWidth`를 지정하면 이 기본값을 덮어쓰고, `none`을 지정하면 최대 너비 제한이 사라집니다. 인라인 스타일로 `width`를 함께 지정할 수도 있으며, 이때 `maxWidth`가 `width`보다 좁으면 `maxWidth`가 적용됩니다.
 
-<ComponentExample name="react/help-bubble/width">
+<ComponentExample name="react/help-bubble/width" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/width.tsx",
@@ -146,7 +178,7 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 ### Line Breaks
 
-<ComponentExample name="react/help-bubble/line-breaks">
+<ComponentExample name="react/help-bubble/line-breaks" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/line-breaks.tsx",
@@ -157,7 +189,7 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 ### `z-index` Offset
 
-<ComponentExample name="react/help-bubble/z-index-offset">
+<ComponentExample name="react/help-bubble/z-index-offset" isolate>
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/z-index-offset.tsx",

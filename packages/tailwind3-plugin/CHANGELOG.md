@@ -1,5 +1,247 @@
 # @seed-design/tailwind3-plugin
 
+## 3.1.0
+
+### Minor Changes
+
+- d4ec62d: Gray 램프와 톤이 일치하는 반투명 팔레트 `$color.palette.gray-alpha-100` ~ `gray-alpha-1000`을 추가합니다.
+  
+  - `gray-00` 위에 합성하면 light·dark 테마 각각에서 같은 스텝의 `gray-N`과 같은 색이 됩니다.
+  - CSS 변수 `--seed-color-palette-gray-alpha-100` ~ `--seed-color-palette-gray-alpha-1000`으로 사용할 수 있습니다.
+
+### Patch Changes
+
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+  - @seed-design/css@3.1.0
+  - @seed-design/lynx-css@1.1.0
+
+## 3.0.2
+
+### Patch Changes
+
+- d0ebeed: `@seed-design/lynx-css` `1.0.0`과 함께 설치할 때 optional peer dependency 경고가 발생하던 문제를 수정해 `^0.14.0 || ^1.0.0`을 허용합니다.
+- Updated dependencies [7dae990]
+- Updated dependencies [524ad2f]
+- Updated dependencies [7dae990]
+- Updated dependencies [20d639c]
+- Updated dependencies [7dae990]
+- Updated dependencies [4f1c681]
+- Updated dependencies [f417a4f]
+- Updated dependencies [f164f8b]
+- Updated dependencies [7f51d06]
+- Updated dependencies [3b4d190]
+- Updated dependencies [d4a20aa]
+- Updated dependencies [a5af36f]
+- Updated dependencies [bb2513e]
+- Updated dependencies [46ecb70]
+- Updated dependencies [a1881c3]
+- Updated dependencies [e5ebfb1]
+- Updated dependencies [26bf8c3]
+- Updated dependencies [eb01c01]
+- Updated dependencies [39d5917]
+- Updated dependencies [524ad2f]
+- Updated dependencies [e056828]
+- Updated dependencies [e056828]
+- Updated dependencies [524ad2f]
+- Updated dependencies [34e7691]
+- Updated dependencies [524ad2f]
+- Updated dependencies [7dae990]
+- Updated dependencies [524ad2f]
+- Updated dependencies [7dae990]
+- Updated dependencies [b7cad68]
+- Updated dependencies [a684488]
+- Updated dependencies [ee36625]
+- Updated dependencies [5769ae6]
+- Updated dependencies [ac07387]
+- Updated dependencies [524ad2f]
+- Updated dependencies [7dae990]
+- Updated dependencies [83b5ca4]
+- Updated dependencies [f423482]
+- Updated dependencies [7dae990]
+- Updated dependencies [26fa233]
+- Updated dependencies [7147073]
+  - @seed-design/lynx-css@1.0.0
+
+## 3.0.1
+
+### Major Changes
+
+- 19ecbd6: (BREAKING CHANGE: `@seed-design/css` 3.0.0과 함께 사용하면 `bg-neutral-solid`의 색상이 바뀌므로, 이 색상을 직접 사용하는 화면에서 라이트·다크 모드의 배경색과 전경색 대비를 확인해야 합니다.) Solid 배경에 쓰는 색상을 추가합니다.
+  
+  - Solid 배경 위 전경색 `fg-on-brand-solid`, `fg-on-critical-solid`, `fg-on-informative-solid`, `fg-on-neutral-solid`, `fg-on-positive-solid`, `fg-on-warning-solid`를 추가합니다(예: `text-fg-on-neutral-solid`).
+  - 눌린 상태의 Neutral Solid 배경색 `bg-neutral-solid-pressed`를 추가합니다(예: `bg-bg-neutral-solid-pressed`).
+  - 새 색상은 `@seed-design/css` 3.0.0 이상, Lynx에서는 `@seed-design/lynx-css` 0.14.0 이상이 제공하는 CSS 변수를 참조합니다. 새 색상을 사용하려면 해당 패키지를 함께 업그레이드하세요.
+  - `bg-neutral-solid`는 `@seed-design/css` 3.0.0의 `$color.bg.neutral-solid` 값 변경에 따라 라이트 모드에서 `gray-900`, 다크 모드에서 `gray-1000`으로 표시됩니다.
+  - `bg-neutral-inverted`, `bg-neutral-inverted-pressed`, `fg-neutral-inverted`는 그대로 제공합니다. 세 색상 모두 `@seed-design/css`에서 deprecated된 토큰이므로 같은 값의 `bg-neutral-solid`, `bg-neutral-solid-pressed`, `fg-on-neutral-solid`로 교체하세요.
+- 66c3bd9: (BREAKING CHANGE: `bg-layer-fill` 색상을 같은 값의 `bg-neutral-muted`로 교체해야 합니다.) deprecated 상태였던 `bg-layer-fill` 색상을 제거하고 `bg-neutral-muted`를 추가합니다.
+  
+  - `bg-bg-layer-fill` 같은 클래스를 `bg-bg-neutral-muted`로 교체하세요. 제거된 클래스는 빌드 에러 없이 스타일만 적용되지 않습니다.
+  - 새 색상은 `@seed-design/css` 3.0.0 이상, Lynx에서는 `@seed-design/lynx-css` 0.14.0 이상이 제공하는 CSS 변수를 참조합니다.
+
+### Minor Changes
+
+- 66c3bd9: 표면과 같은 색상의 `$color.bg.neutral-subtle` 토큰을 추가합니다.
+  
+  - 라이트 모드에서 `gray-00`, 다크 모드에서 `gray-100`을 사용하며, 회색 표면 위에서 주변과 구분되는 영역에 사용합니다.
+  - Tailwind에서는 `bg-neutral-subtle` 색상으로 사용할 수 있습니다(예: `bg-bg-neutral-subtle`).
+
+### Patch Changes
+
+- Updated dependencies [19ecbd6]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [d3edadf]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [5e34f78]
+- Updated dependencies [fa3eb46]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [8c70df1]
+- Updated dependencies [78f0bc1]
+- Updated dependencies [66c3bd9]
+- Updated dependencies [78f0bc1]
+- Updated dependencies [ebdc295]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [66c3bd9]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [19ecbd6]
+  - @seed-design/css@3.0.0
+  - @seed-design/lynx-css@0.14.0
+
+## 2.5.0
+
+### Minor Changes
+
+- 31efec5: 파운데이션 gradient 7종의 8방향 유틸리티를 지원합니다. 기존 방향성·대괄호 각도 클래스를 유지하고, light/dark 모드에 맞는 원본 gradient stop을 사용하도록 수정합니다.
+  
+  각도는 기존 `bg-gradient-{token}-[45deg]` 대괄호 문법을 사용하도록 문서 예제를 정정합니다.
+
+### Patch Changes
+
+- Updated dependencies [f43cedd]
+- Updated dependencies [ba7cfa8]
+- Updated dependencies [cb4c4a1]
+  - @seed-design/css@2.9.0
+  - @seed-design/lynx-css@0.13.0
+
+## 3.0.0
+
+### Patch Changes
+
+- Updated dependencies [fa699aa]
+  - @seed-design/lynx-css@0.12.0
+
+## 2.4.1
+
+### Patch Changes
+
+- dcf17cb: Lynx에서 웹용 CSS 패키지를 필수로 요구하던 문제를 수정합니다.
+
+  `@seed-design/css`와 `@seed-design/lynx-css`를 optional peer로 변경합니다. 웹에서는 `@seed-design/css`, Lynx에서는 `@seed-design/lynx-css`를 설치하고 해당 패키지의 토큰 CSS를 불러와야 합니다.
+
+## 2.4.0
+
+### Minor Changes
+
+- 45b827b: `$gradient.fade-mask` 토큰을 추가하고, ScrollFog의 fog 마스크를 easing 그라데이션으로 개선합니다.
+
+  - `$gradient.fade-mask`(`--seed-gradient-fade-mask`)를 추가합니다. 콘텐츠를 부드럽게 가리는 마스크용 불투명도(alpha) easing 곡선이며, 라이트/다크 테마에서 동일합니다.
+  - ScrollFog의 가장자리 페이드가 기존 선형 2단계에서 16단계 easing 곡선으로 바뀌어 더 부드럽게 표현됩니다.
+  - ScrollFog spec의 `fromColor`/`toColor` 프로퍼티가 `gradient` 하나로 대체됩니다.
+
+## 2.3.0
+
+### Minor Changes
+
+- 86f74d7: 라이선스를 MIT에서 Apache-2.0으로 변경합니다. 저장소 루트의 Apache License 2.0과 표기가 달랐던 것을 일치시킵니다.
+
+  - 배포물에 `LICENSE`와 `NOTICE`를 포함해, 설치한 패키지에서 바로 이용 조건을 확인할 수 있습니다.
+  - MIT와 달리 재배포할 때 라이선스 사본과 `NOTICE`의 귀속 고지를 함께 전달해야 하고, 수정한 파일에는 변경 사실을 표시해야 합니다.
+  - 당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+## 2.2.0
+
+### Minor Changes
+
+- f523979: Action Button의 pressed 상태에 scale 모션을 추가합니다.
+
+  pressed 상태에 적절한 모션 피드백을 제공하기 위해 사용하는 `$scale.s95`, `$scale.s97`, `$scale.s98` 토큰을 추가합니다.
+
+  - `scale` 토큰은 플랫폼 별 동작 줄이기 설정에 따라 값이 `1`로 동작합니다.
+  - 웹 CSS 환경에서는 `(prefers-reduced-motion: reduce)` 미디어 쿼리가 매치되는 환경에서 `1`로 동작합니다.
+  - Tailwind 유틸리티 클래스 `scale-s*`를 통해 scale 토큰을 사용할 수 있습니다. 신규 토큰을 사용할 수 있도록 Tailwind 패키지의 `@seed-design/css` peerDependency 범위를 `^2.1.0`에서 `^2.2.0`으로 올립니다.
+
+## 2.1.0
+
+### Minor Changes
+
+- f2b198d: `$color.bg.layer-fill` 토큰을 다시 추가합니다.
+
+  `2.0.0`에서 제거했으나 마땅한 대체 토큰이 없어 deprecated 상태로 되살립니다. 값은 제거 이전과 동일합니다. 추후 동일한 값의 새 이름 토큰으로 대체된 뒤 `3.0.0`에서 제거될 예정입니다.
+
+  `@seed-design/tailwind3-plugin`과 `@seed-design/tailwind4-theme`의 `@seed-design/css` peer dependency 버전 범위를 `^2.1.0`으로 올립니다.
+
+## 2.0.0
+
+### Major Changes
+
+- d1a8d7c: 신규 타이포그래피 토큰을 추가합니다.
+
+  - **폰트 크기 토큰 (`$font-size`)**
+    - `t11`, `t11-static`
+    - `t12`, `t12-static`
+    - `t13`, `t13-static`
+    - `t14`, `t14-static`
+  - **줄 간격 토큰 (`$line-height`)**
+    - `t11`, `t11-static`
+    - `t12`, `t12-static`
+    - `t13`, `t13-static`
+    - `t14`, `t14-static`
+  - **텍스트 스타일 (`textStyle`)**
+    - `t8Regular`, `t8Medium`, `t8StaticRegular`, `t8StaticMedium`
+    - `t9Regular`, `t9Medium`, `t9StaticRegular`, `t9StaticMedium`
+    - `t10Regular`, `t10Medium`, `t10StaticRegular`, `t10StaticMedium`
+    - `t11Regular`, `t11Medium`, `t11Bold`, `t11StaticRegular`, `t11StaticMedium`, `t11StaticBold`
+    - `t12Regular`, `t12Medium`, `t12Bold`, `t12StaticRegular`, `t12StaticMedium`, `t12StaticBold`
+    - `t13Regular`, `t13Medium`, `t13Bold`, `t13StaticRegular`, `t13StaticMedium`, `t13StaticBold`
+    - `t14Regular`, `t14Medium`, `t14Bold`, `t14StaticRegular`, `t14StaticMedium`, `t14StaticBold`
+
+- 60d1a82: 1.2에서 deprecate된 옵션을 제거합니다.
+
+  - 색상 토큰
+    - `$color.bg.layer-fill`: 라이트 및 다크 모드에서 모두 테스트 후 `$color.bg.neutral-weak`으로 대체할 수 있습니다.
+  - 그라디언트 토큰
+    - `$gradient.fade-layer-floating`
+    - `$gradient.fade-layer-default`
+  - Chip Tabs의 `brandSolid` variant
+  - AppBar의 `divider` 옵션
+  - Image Frame의 `rounded` variant: `borderRadius` 옵션을 사용해주세요.
+  - Switch의 `small` 및 `medium` size: 각각 `16`과 `32`를 사용해주세요.
+  - Checkbox의 `default` 및 `stronger` weight: 각각 `regular`와 `bold`를 사용해주세요.
+  - `<Box display="inlineFlex" />` 등 유틸리티 컴포넌트 레이아웃 프로퍼티의 camelCase 옵션: kebab-case 옵션을 사용해주세요.
+    - `display`, `justifyContent`, `justify`, `alignItems`, `align`, `alignContent`, `alignSelf`, `flexDirection`, `direction`
+  - `AppBar`의 `divider` 옵션
+    - 하단 구분선이 더 이상 표시되지 않습니다.
+  - `BottomSheetRoot` (`DrawerRoot`)의 `noBodyStyles` 옵션
+    - 제거되어 기본값(true)처럼 동작합니다.
+  - `BottomSheetRoot` (`DrawerRoot`)의 `preventScrollRestoration` 옵션
+    - 제거되어 기본값(false)처럼 동작합니다.
+  - `BottomSheetRoot`의 `direction` 옵션
+    - BottomSheet는 항상 아래에서 올라오므로 `direction`을 받지 않습니다.
+  - `BottomSheetBackdrop` (`DrawerBackdrop`)의 `forceMount` 옵션
+    - 제거되어 `BottomSheetRoot` (`DrawerRoot`)의 `lazyMount`/`unmountOnExit` 옵션으로 대체할 수 있습니다.
+  - `BottomSheetContent` (`DrawerContent`)의 `onPointerDownOutside`, `onOpenAutoFocus`, `onCloseAutoFocus`, `onEscapeKeyDown`, `onInteractOutside`, `forceMount`, `onFocusOutside` 옵션
+    - 제거되어 `BottomSheetRoot` (`DrawerRoot`)의 `onOpenChange` 두 번째 인자 `details`를 통해 대체할 수 있습니다.
+
+## 1.1.19
+
+### Patch Changes
+
+- 7588e59: 신규 pressed 상태 스타일링을 위한 `$duration.pressed-scale` 및 `$timing-function.pressed-scale` 토큰을 추가합니다. (컴포넌트 변경사항 없음)
+
 ## 1.1.18
 
 ### Patch Changes

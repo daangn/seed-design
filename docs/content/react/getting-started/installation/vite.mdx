@@ -1,6 +1,6 @@
 ---
 title: Vite
-description: Vite 프로젝트에서 Seed Design을 설치하고 사용하는 방법을 알아봅니다.
+description: Vite 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.
 ---
 
 <Steps>
@@ -106,6 +106,40 @@ npx @seed-design/cli@latest init
 
 ### Vite config 수정하기
 
+<Tabs items={['Vite 8', 'Vite 7 이하']}>
+
+<Tab value="Vite 8">
+
+```package-install
+npm install -D @seed-design/vite-plugin
+```
+
+<Callout>
+
+`seedDesignPlugin`은 [theming](/react/getting-started/styling/theming) 및 CSS 파일 자동 로드 등을 담당해요.
+
+</Callout>
+
+```ts title="vite.config.ts"
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+import { seedDesignPlugin } from "@seed-design/vite-plugin"; // [!code highlight]
+
+export default defineConfig({
+  plugins: [
+    react(),
+    seedDesignPlugin(), // [!code highlight]
+  ],
+  resolve: {
+    tsconfigPaths: true, // [!code highlight]
+  },
+});
+```
+
+</Tab>
+
+<Tab value="Vite 7 이하">
+
 ```package-install
 npm install -D @seed-design/vite-plugin vite-tsconfig-paths
 ```
@@ -130,6 +164,28 @@ export default defineConfig({
   ],
 });
 ```
+
+</Tab>
+
+</Tabs>
+
+#### 플러그인 옵션
+
+옵션 없이 쓰면 색상 모드가 사용자의 시스템 설정을 따라갑니다. 항상 라이트나 다크로 고정하려면 `colorMode`를 지정하세요.
+
+| 옵션 | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| `colorMode` | `"system" \| "light-only" \| "dark-only"` | `"system"` | 전역 색상 모드. `system`은 사용자의 OS 설정을 따릅니다 |
+| `injectColorSchemeTag` | `boolean` | `true` | `color-scheme` 메타 태그를 주입할지 여부 |
+| `fontScaling` | `boolean` | `false` | iOS에서 사용자의 시스템 글자 크기 설정에 따라 텍스트를 확대·축소할지 여부 |
+
+```ts title="vite.config.ts"
+seedDesignPlugin({
+  colorMode: "light-only",
+});
+```
+
+색상 모드가 어떻게 동작하는지는 [Theming](/react/getting-started/styling/theming)에서 다룹니다.
 
 </Step>
 

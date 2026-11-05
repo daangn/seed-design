@@ -28,14 +28,13 @@ export default plugin(
 
     // gradient arbitrary value 지원
     const gradientStopsForArbitrary = {
-      "fade-layer-floating": "#ffffff00 0.00%, #000000 100.00%",
-      "fade-layer-default": "#000000 0.00%, #ffffff00 100.00%",
-      "glow-magic": "#fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%",
-      "glow-magic-pressed": "#fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%",
-      "highlight-magic": "#ff6600 20.00%, #d25aca 100.00%",
-      "highlight-magic-pressed": "#e14f00 20.00%, #ae58bf 100.00%",
-      "shimmer-magic": "#fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%",
-      "shimmer-neutral": "#ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%"
+      "fade-mask": "var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%)",
+      "glow-magic": "var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
+      "glow-magic-pressed": "var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
+      "highlight-magic": "var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%)",
+      "highlight-magic-pressed": "var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%)",
+      "shimmer-magic": "var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
+      "shimmer-neutral": "var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)"
 };
 
     Object.entries(gradientStopsForArbitrary).forEach(([gradientName, colorStops]) => {
@@ -47,7 +46,16 @@ export default plugin(
         },
         {
           type: 'any',
-          values: {}
+          values: {
+            'to-t': 'to top',
+            'to-tr': 'to top right',
+            'to-r': 'to right',
+            'to-br': 'to bottom right',
+            'to-b': 'to bottom',
+            'to-bl': 'to bottom left',
+            'to-l': 'to left',
+            'to-tl': 'to top left',
+          }
         }
       );
     });
@@ -67,6 +75,16 @@ export default plugin(
   "palette-gray-800": "var(--seed-color-palette-gray-800)",
   "palette-gray-900": "var(--seed-color-palette-gray-900)",
   "palette-gray-1000": "var(--seed-color-palette-gray-1000)",
+  "palette-gray-alpha-100": "var(--seed-color-palette-gray-alpha-100)",
+  "palette-gray-alpha-200": "var(--seed-color-palette-gray-alpha-200)",
+  "palette-gray-alpha-300": "var(--seed-color-palette-gray-alpha-300)",
+  "palette-gray-alpha-400": "var(--seed-color-palette-gray-alpha-400)",
+  "palette-gray-alpha-500": "var(--seed-color-palette-gray-alpha-500)",
+  "palette-gray-alpha-600": "var(--seed-color-palette-gray-alpha-600)",
+  "palette-gray-alpha-700": "var(--seed-color-palette-gray-alpha-700)",
+  "palette-gray-alpha-800": "var(--seed-color-palette-gray-alpha-800)",
+  "palette-gray-alpha-900": "var(--seed-color-palette-gray-alpha-900)",
+  "palette-gray-alpha-1000": "var(--seed-color-palette-gray-alpha-1000)",
   "palette-carrot-100": "var(--seed-color-palette-carrot-100)",
   "palette-carrot-200": "var(--seed-color-palette-carrot-200)",
   "palette-carrot-300": "var(--seed-color-palette-carrot-300)",
@@ -161,6 +179,12 @@ export default plugin(
   "fg-neutral-inverted": "var(--seed-color-fg-neutral-inverted)",
   "fg-neutral-muted": "var(--seed-color-fg-neutral-muted)",
   "fg-neutral-subtle": "var(--seed-color-fg-neutral-subtle)",
+  "fg-on-brand-solid": "var(--seed-color-fg-on-brand-solid)",
+  "fg-on-critical-solid": "var(--seed-color-fg-on-critical-solid)",
+  "fg-on-informative-solid": "var(--seed-color-fg-on-informative-solid)",
+  "fg-on-neutral-solid": "var(--seed-color-fg-on-neutral-solid)",
+  "fg-on-positive-solid": "var(--seed-color-fg-on-positive-solid)",
+  "fg-on-warning-solid": "var(--seed-color-fg-on-warning-solid)",
   "fg-placeholder": "var(--seed-color-fg-placeholder)",
   "fg-positive": "var(--seed-color-fg-positive)",
   "fg-positive-contrast": "var(--seed-color-fg-positive-contrast)",
@@ -182,15 +206,17 @@ export default plugin(
   "bg-layer-basement": "var(--seed-color-bg-layer-basement)",
   "bg-layer-default": "var(--seed-color-bg-layer-default)",
   "bg-layer-default-pressed": "var(--seed-color-bg-layer-default-pressed)",
-  "bg-layer-fill": "var(--seed-color-bg-layer-fill)",
   "bg-layer-floating": "var(--seed-color-bg-layer-floating)",
   "bg-layer-floating-pressed": "var(--seed-color-bg-layer-floating-pressed)",
   "bg-magic-weak": "var(--seed-color-bg-magic-weak)",
   "bg-neutral-inverted": "var(--seed-color-bg-neutral-inverted)",
   "bg-neutral-inverted-pressed": "var(--seed-color-bg-neutral-inverted-pressed)",
+  "bg-neutral-muted": "var(--seed-color-bg-neutral-muted)",
   "bg-neutral-solid": "var(--seed-color-bg-neutral-solid)",
+  "bg-neutral-solid-pressed": "var(--seed-color-bg-neutral-solid-pressed)",
   "bg-neutral-solid-muted": "var(--seed-color-bg-neutral-solid-muted)",
   "bg-neutral-solid-muted-pressed": "var(--seed-color-bg-neutral-solid-muted-pressed)",
+  "bg-neutral-subtle": "var(--seed-color-bg-neutral-subtle)",
   "bg-neutral-weak": "var(--seed-color-bg-neutral-weak)",
   "bg-neutral-weak-alpha": "var(--seed-color-bg-neutral-weak-alpha)",
   "bg-neutral-weak-alpha-pressed": "var(--seed-color-bg-neutral-weak-alpha-pressed)",
@@ -203,6 +229,8 @@ export default plugin(
   "bg-positive-weak-pressed": "var(--seed-color-bg-positive-weak-pressed)",
   "bg-transparent": "var(--seed-color-bg-transparent)",
   "bg-transparent-pressed": "var(--seed-color-bg-transparent-pressed)",
+  "bg-transparent-selected": "var(--seed-color-bg-transparent-selected)",
+  "bg-transparent-selected-pressed": "var(--seed-color-bg-transparent-selected-pressed)",
   "bg-warning-solid": "var(--seed-color-bg-warning-solid)",
   "bg-warning-solid-pressed": "var(--seed-color-bg-warning-solid-pressed)",
   "bg-warning-weak": "var(--seed-color-bg-warning-weak)",
@@ -211,6 +239,7 @@ export default plugin(
   "stroke-brand-weak": "var(--seed-color-stroke-brand-weak)",
   "stroke-critical-solid": "var(--seed-color-stroke-critical-solid)",
   "stroke-critical-weak": "var(--seed-color-stroke-critical-weak)",
+  "stroke-focus-ring": "var(--seed-color-stroke-focus-ring)",
   "stroke-informative-solid": "var(--seed-color-stroke-informative-solid)",
   "stroke-informative-weak": "var(--seed-color-stroke-informative-weak)",
   "stroke-neutral-contrast": "var(--seed-color-stroke-neutral-contrast)",
@@ -222,7 +251,6 @@ export default plugin(
   "stroke-positive-weak": "var(--seed-color-stroke-positive-weak)",
   "stroke-warning-solid": "var(--seed-color-stroke-warning-solid)",
   "stroke-warning-weak": "var(--seed-color-stroke-warning-weak)",
-  "stroke-focus-ring": "var(--seed-color-stroke-focus-ring)",
   "manner-temp-l1-bg": "var(--seed-color-manner-temp-l1-bg)",
   "manner-temp-l1-text": "var(--seed-color-manner-temp-l1-text)",
   "manner-temp-l10-bg": "var(--seed-color-manner-temp-l10-bg)",
@@ -253,80 +281,71 @@ export default plugin(
   "banner-teal": "var(--seed-color-banner-teal)",
   "banner-warm-gray": "var(--seed-color-banner-warm-gray)",
   "banner-yellow": "var(--seed-color-banner-yellow)",
-  "gradient-stops-fade-layer-floating": "#ffffff00 0.00%, #000000 100.00%",
-  "gradient-stops-fade-layer-default": "#000000 0.00%, #ffffff00 100.00%",
-  "gradient-stops-glow-magic": "#fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%",
-  "gradient-stops-glow-magic-pressed": "#fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%",
-  "gradient-stops-highlight-magic": "#ff6600 20.00%, #d25aca 100.00%",
-  "gradient-stops-highlight-magic-pressed": "#e14f00 20.00%, #ae58bf 100.00%",
-  "gradient-stops-shimmer-magic": "#fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%",
-  "gradient-stops-shimmer-neutral": "#ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%"
+  "gradient-stops-fade-mask": "var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%)",
+  "gradient-stops-glow-magic": "var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
+  "gradient-stops-glow-magic-pressed": "var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
+  "gradient-stops-highlight-magic": "var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%)",
+  "gradient-stops-highlight-magic-pressed": "var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%)",
+  "gradient-stops-shimmer-magic": "var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
+  "gradient-stops-shimmer-neutral": "var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)"
 },
         backgroundImage: {
-  "fade-layer-floating-to-t": "linear-gradient(to top, #ffffff00 0.00%, #000000 100.00%)",
-  "fade-layer-floating-to-tr": "linear-gradient(to top right, #ffffff00 0.00%, #000000 100.00%)",
-  "fade-layer-floating-to-r": "linear-gradient(to right, #ffffff00 0.00%, #000000 100.00%)",
-  "fade-layer-floating-to-br": "linear-gradient(to bottom right, #ffffff00 0.00%, #000000 100.00%)",
-  "fade-layer-floating-to-b": "linear-gradient(to bottom, #ffffff00 0.00%, #000000 100.00%)",
-  "fade-layer-floating-to-bl": "linear-gradient(to bottom left, #ffffff00 0.00%, #000000 100.00%)",
-  "fade-layer-floating-to-l": "linear-gradient(to left, #ffffff00 0.00%, #000000 100.00%)",
-  "fade-layer-floating-to-tl": "linear-gradient(to top left, #ffffff00 0.00%, #000000 100.00%)",
-  "fade-layer-default-to-t": "linear-gradient(to top, #000000 0.00%, #ffffff00 100.00%)",
-  "fade-layer-default-to-tr": "linear-gradient(to top right, #000000 0.00%, #ffffff00 100.00%)",
-  "fade-layer-default-to-r": "linear-gradient(to right, #000000 0.00%, #ffffff00 100.00%)",
-  "fade-layer-default-to-br": "linear-gradient(to bottom right, #000000 0.00%, #ffffff00 100.00%)",
-  "fade-layer-default-to-b": "linear-gradient(to bottom, #000000 0.00%, #ffffff00 100.00%)",
-  "fade-layer-default-to-bl": "linear-gradient(to bottom left, #000000 0.00%, #ffffff00 100.00%)",
-  "fade-layer-default-to-l": "linear-gradient(to left, #000000 0.00%, #ffffff00 100.00%)",
-  "fade-layer-default-to-tl": "linear-gradient(to top left, #000000 0.00%, #ffffff00 100.00%)",
-  "glow-magic-to-t": "linear-gradient(to top, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
-  "glow-magic-to-tr": "linear-gradient(to top right, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
-  "glow-magic-to-r": "linear-gradient(to right, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
-  "glow-magic-to-br": "linear-gradient(to bottom right, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
-  "glow-magic-to-b": "linear-gradient(to bottom, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
-  "glow-magic-to-bl": "linear-gradient(to bottom left, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
-  "glow-magic-to-l": "linear-gradient(to left, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
-  "glow-magic-to-tl": "linear-gradient(to top left, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
-  "glow-magic-pressed-to-t": "linear-gradient(to top, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
-  "glow-magic-pressed-to-tr": "linear-gradient(to top right, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
-  "glow-magic-pressed-to-r": "linear-gradient(to right, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
-  "glow-magic-pressed-to-br": "linear-gradient(to bottom right, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
-  "glow-magic-pressed-to-b": "linear-gradient(to bottom, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
-  "glow-magic-pressed-to-bl": "linear-gradient(to bottom left, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
-  "glow-magic-pressed-to-l": "linear-gradient(to left, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
-  "glow-magic-pressed-to-tl": "linear-gradient(to top left, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
-  "highlight-magic-to-t": "linear-gradient(to top, #ff6600 20.00%, #d25aca 100.00%)",
-  "highlight-magic-to-tr": "linear-gradient(to top right, #ff6600 20.00%, #d25aca 100.00%)",
-  "highlight-magic-to-r": "linear-gradient(to right, #ff6600 20.00%, #d25aca 100.00%)",
-  "highlight-magic-to-br": "linear-gradient(to bottom right, #ff6600 20.00%, #d25aca 100.00%)",
-  "highlight-magic-to-b": "linear-gradient(to bottom, #ff6600 20.00%, #d25aca 100.00%)",
-  "highlight-magic-to-bl": "linear-gradient(to bottom left, #ff6600 20.00%, #d25aca 100.00%)",
-  "highlight-magic-to-l": "linear-gradient(to left, #ff6600 20.00%, #d25aca 100.00%)",
-  "highlight-magic-to-tl": "linear-gradient(to top left, #ff6600 20.00%, #d25aca 100.00%)",
-  "highlight-magic-pressed-to-t": "linear-gradient(to top, #e14f00 20.00%, #ae58bf 100.00%)",
-  "highlight-magic-pressed-to-tr": "linear-gradient(to top right, #e14f00 20.00%, #ae58bf 100.00%)",
-  "highlight-magic-pressed-to-r": "linear-gradient(to right, #e14f00 20.00%, #ae58bf 100.00%)",
-  "highlight-magic-pressed-to-br": "linear-gradient(to bottom right, #e14f00 20.00%, #ae58bf 100.00%)",
-  "highlight-magic-pressed-to-b": "linear-gradient(to bottom, #e14f00 20.00%, #ae58bf 100.00%)",
-  "highlight-magic-pressed-to-bl": "linear-gradient(to bottom left, #e14f00 20.00%, #ae58bf 100.00%)",
-  "highlight-magic-pressed-to-l": "linear-gradient(to left, #e14f00 20.00%, #ae58bf 100.00%)",
-  "highlight-magic-pressed-to-tl": "linear-gradient(to top left, #e14f00 20.00%, #ae58bf 100.00%)",
-  "shimmer-magic-to-t": "linear-gradient(to top, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
-  "shimmer-magic-to-tr": "linear-gradient(to top right, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
-  "shimmer-magic-to-r": "linear-gradient(to right, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
-  "shimmer-magic-to-br": "linear-gradient(to bottom right, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
-  "shimmer-magic-to-b": "linear-gradient(to bottom, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
-  "shimmer-magic-to-bl": "linear-gradient(to bottom left, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
-  "shimmer-magic-to-l": "linear-gradient(to left, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
-  "shimmer-magic-to-tl": "linear-gradient(to top left, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%)",
-  "shimmer-neutral-to-t": "linear-gradient(to top, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)",
-  "shimmer-neutral-to-tr": "linear-gradient(to top right, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)",
-  "shimmer-neutral-to-r": "linear-gradient(to right, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)",
-  "shimmer-neutral-to-br": "linear-gradient(to bottom right, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)",
-  "shimmer-neutral-to-b": "linear-gradient(to bottom, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)",
-  "shimmer-neutral-to-bl": "linear-gradient(to bottom left, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)",
-  "shimmer-neutral-to-l": "linear-gradient(to left, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)",
-  "shimmer-neutral-to-tl": "linear-gradient(to top left, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%)"
+  "fade-mask-to-t": "linear-gradient(to top, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%))",
+  "fade-mask-to-tr": "linear-gradient(to top right, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%))",
+  "fade-mask-to-r": "linear-gradient(to right, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%))",
+  "fade-mask-to-br": "linear-gradient(to bottom right, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%))",
+  "fade-mask-to-b": "linear-gradient(to bottom, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%))",
+  "fade-mask-to-bl": "linear-gradient(to bottom left, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%))",
+  "fade-mask-to-l": "linear-gradient(to left, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%))",
+  "fade-mask-to-tl": "linear-gradient(to top left, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%))",
+  "glow-magic-to-t": "linear-gradient(to top, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%))",
+  "glow-magic-to-tr": "linear-gradient(to top right, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%))",
+  "glow-magic-to-r": "linear-gradient(to right, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%))",
+  "glow-magic-to-br": "linear-gradient(to bottom right, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%))",
+  "glow-magic-to-b": "linear-gradient(to bottom, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%))",
+  "glow-magic-to-bl": "linear-gradient(to bottom left, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%))",
+  "glow-magic-to-l": "linear-gradient(to left, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%))",
+  "glow-magic-to-tl": "linear-gradient(to top left, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%))",
+  "glow-magic-pressed-to-t": "linear-gradient(to top, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%))",
+  "glow-magic-pressed-to-tr": "linear-gradient(to top right, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%))",
+  "glow-magic-pressed-to-r": "linear-gradient(to right, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%))",
+  "glow-magic-pressed-to-br": "linear-gradient(to bottom right, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%))",
+  "glow-magic-pressed-to-b": "linear-gradient(to bottom, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%))",
+  "glow-magic-pressed-to-bl": "linear-gradient(to bottom left, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%))",
+  "glow-magic-pressed-to-l": "linear-gradient(to left, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%))",
+  "glow-magic-pressed-to-tl": "linear-gradient(to top left, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%))",
+  "highlight-magic-to-t": "linear-gradient(to top, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%))",
+  "highlight-magic-to-tr": "linear-gradient(to top right, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%))",
+  "highlight-magic-to-r": "linear-gradient(to right, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%))",
+  "highlight-magic-to-br": "linear-gradient(to bottom right, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%))",
+  "highlight-magic-to-b": "linear-gradient(to bottom, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%))",
+  "highlight-magic-to-bl": "linear-gradient(to bottom left, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%))",
+  "highlight-magic-to-l": "linear-gradient(to left, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%))",
+  "highlight-magic-to-tl": "linear-gradient(to top left, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%))",
+  "highlight-magic-pressed-to-t": "linear-gradient(to top, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%))",
+  "highlight-magic-pressed-to-tr": "linear-gradient(to top right, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%))",
+  "highlight-magic-pressed-to-r": "linear-gradient(to right, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%))",
+  "highlight-magic-pressed-to-br": "linear-gradient(to bottom right, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%))",
+  "highlight-magic-pressed-to-b": "linear-gradient(to bottom, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%))",
+  "highlight-magic-pressed-to-bl": "linear-gradient(to bottom left, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%))",
+  "highlight-magic-pressed-to-l": "linear-gradient(to left, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%))",
+  "highlight-magic-pressed-to-tl": "linear-gradient(to top left, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%))",
+  "shimmer-magic-to-t": "linear-gradient(to top, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%))",
+  "shimmer-magic-to-tr": "linear-gradient(to top right, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%))",
+  "shimmer-magic-to-r": "linear-gradient(to right, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%))",
+  "shimmer-magic-to-br": "linear-gradient(to bottom right, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%))",
+  "shimmer-magic-to-b": "linear-gradient(to bottom, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%))",
+  "shimmer-magic-to-bl": "linear-gradient(to bottom left, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%))",
+  "shimmer-magic-to-l": "linear-gradient(to left, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%))",
+  "shimmer-magic-to-tl": "linear-gradient(to top left, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%))",
+  "shimmer-neutral-to-t": "linear-gradient(to top, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%))",
+  "shimmer-neutral-to-tr": "linear-gradient(to top right, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%))",
+  "shimmer-neutral-to-r": "linear-gradient(to right, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%))",
+  "shimmer-neutral-to-br": "linear-gradient(to bottom right, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%))",
+  "shimmer-neutral-to-b": "linear-gradient(to bottom, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%))",
+  "shimmer-neutral-to-bl": "linear-gradient(to bottom left, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%))",
+  "shimmer-neutral-to-l": "linear-gradient(to left, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%))",
+  "shimmer-neutral-to-tl": "linear-gradient(to top left, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%))"
 },
         typography: {
   "screen-title": {
@@ -449,19 +468,109 @@ export default plugin(
     "lineHeight": "var(--seed-line-height-t7)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
+  "t8-regular": {
+    "fontSize": "var(--seed-font-size-t8)",
+    "lineHeight": "var(--seed-line-height-t8)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t8-medium": {
+    "fontSize": "var(--seed-font-size-t8)",
+    "lineHeight": "var(--seed-line-height-t8)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
   "t8-bold": {
     "fontSize": "var(--seed-font-size-t8)",
     "lineHeight": "var(--seed-line-height-t8)",
     "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t9-regular": {
+    "fontSize": "var(--seed-font-size-t9)",
+    "lineHeight": "var(--seed-line-height-t9)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t9-medium": {
+    "fontSize": "var(--seed-font-size-t9)",
+    "lineHeight": "var(--seed-line-height-t9)",
+    "fontWeight": "var(--seed-font-weight-medium)"
   },
   "t9-bold": {
     "fontSize": "var(--seed-font-size-t9)",
     "lineHeight": "var(--seed-line-height-t9)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
+  "t10-regular": {
+    "fontSize": "var(--seed-font-size-t10)",
+    "lineHeight": "var(--seed-line-height-t10)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t10-medium": {
+    "fontSize": "var(--seed-font-size-t10)",
+    "lineHeight": "var(--seed-line-height-t10)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
   "t10-bold": {
     "fontSize": "var(--seed-font-size-t10)",
     "lineHeight": "var(--seed-line-height-t10)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t11-regular": {
+    "fontSize": "var(--seed-font-size-t11)",
+    "lineHeight": "var(--seed-line-height-t11)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t11-medium": {
+    "fontSize": "var(--seed-font-size-t11)",
+    "lineHeight": "var(--seed-line-height-t11)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t11-bold": {
+    "fontSize": "var(--seed-font-size-t11)",
+    "lineHeight": "var(--seed-line-height-t11)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t12-regular": {
+    "fontSize": "var(--seed-font-size-t12)",
+    "lineHeight": "var(--seed-line-height-t12)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t12-medium": {
+    "fontSize": "var(--seed-font-size-t12)",
+    "lineHeight": "var(--seed-line-height-t12)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t12-bold": {
+    "fontSize": "var(--seed-font-size-t12)",
+    "lineHeight": "var(--seed-line-height-t12)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t13-regular": {
+    "fontSize": "var(--seed-font-size-t13)",
+    "lineHeight": "var(--seed-line-height-t13)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t13-medium": {
+    "fontSize": "var(--seed-font-size-t13)",
+    "lineHeight": "var(--seed-line-height-t13)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t13-bold": {
+    "fontSize": "var(--seed-font-size-t13)",
+    "lineHeight": "var(--seed-line-height-t13)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t14-regular": {
+    "fontSize": "var(--seed-font-size-t14)",
+    "lineHeight": "var(--seed-line-height-t14)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t14-medium": {
+    "fontSize": "var(--seed-font-size-t14)",
+    "lineHeight": "var(--seed-line-height-t14)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t14-bold": {
+    "fontSize": "var(--seed-font-size-t14)",
+    "lineHeight": "var(--seed-line-height-t14)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
   "t1-static-regular": {
@@ -569,19 +678,109 @@ export default plugin(
     "lineHeight": "var(--seed-line-height-t7-static)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
+  "t8-static-regular": {
+    "fontSize": "var(--seed-font-size-t8-static)",
+    "lineHeight": "var(--seed-line-height-t8-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t8-static-medium": {
+    "fontSize": "var(--seed-font-size-t8-static)",
+    "lineHeight": "var(--seed-line-height-t8-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
   "t8-static-bold": {
     "fontSize": "var(--seed-font-size-t8-static)",
     "lineHeight": "var(--seed-line-height-t8-static)",
     "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t9-static-regular": {
+    "fontSize": "var(--seed-font-size-t9-static)",
+    "lineHeight": "var(--seed-line-height-t9-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t9-static-medium": {
+    "fontSize": "var(--seed-font-size-t9-static)",
+    "lineHeight": "var(--seed-line-height-t9-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
   },
   "t9-static-bold": {
     "fontSize": "var(--seed-font-size-t9-static)",
     "lineHeight": "var(--seed-line-height-t9-static)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
+  "t10-static-regular": {
+    "fontSize": "var(--seed-font-size-t10-static)",
+    "lineHeight": "var(--seed-line-height-t10-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t10-static-medium": {
+    "fontSize": "var(--seed-font-size-t10-static)",
+    "lineHeight": "var(--seed-line-height-t10-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
   "t10-static-bold": {
     "fontSize": "var(--seed-font-size-t10-static)",
     "lineHeight": "var(--seed-line-height-t10-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t11-static-regular": {
+    "fontSize": "var(--seed-font-size-t11-static)",
+    "lineHeight": "var(--seed-line-height-t11-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t11-static-medium": {
+    "fontSize": "var(--seed-font-size-t11-static)",
+    "lineHeight": "var(--seed-line-height-t11-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t11-static-bold": {
+    "fontSize": "var(--seed-font-size-t11-static)",
+    "lineHeight": "var(--seed-line-height-t11-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t12-static-regular": {
+    "fontSize": "var(--seed-font-size-t12-static)",
+    "lineHeight": "var(--seed-line-height-t12-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t12-static-medium": {
+    "fontSize": "var(--seed-font-size-t12-static)",
+    "lineHeight": "var(--seed-line-height-t12-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t12-static-bold": {
+    "fontSize": "var(--seed-font-size-t12-static)",
+    "lineHeight": "var(--seed-line-height-t12-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t13-static-regular": {
+    "fontSize": "var(--seed-font-size-t13-static)",
+    "lineHeight": "var(--seed-line-height-t13-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t13-static-medium": {
+    "fontSize": "var(--seed-font-size-t13-static)",
+    "lineHeight": "var(--seed-line-height-t13-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t13-static-bold": {
+    "fontSize": "var(--seed-font-size-t13-static)",
+    "lineHeight": "var(--seed-line-height-t13-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "t14-static-regular": {
+    "fontSize": "var(--seed-font-size-t14-static)",
+    "lineHeight": "var(--seed-line-height-t14-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "t14-static-medium": {
+    "fontSize": "var(--seed-font-size-t14-static)",
+    "lineHeight": "var(--seed-line-height-t14-static)",
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "t14-static-bold": {
+    "fontSize": "var(--seed-font-size-t14-static)",
+    "lineHeight": "var(--seed-line-height-t14-static)",
     "fontWeight": "var(--seed-font-weight-bold)"
   }
 },
@@ -636,6 +835,10 @@ export default plugin(
   "t8": "var(--seed-font-size-t8)",
   "t9": "var(--seed-font-size-t9)",
   "t10": "var(--seed-font-size-t10)",
+  "t11": "var(--seed-font-size-t11)",
+  "t12": "var(--seed-font-size-t12)",
+  "t13": "var(--seed-font-size-t13)",
+  "t14": "var(--seed-font-size-t14)",
   "t1-static": "var(--seed-font-size-t1-static)",
   "t2-static": "var(--seed-font-size-t2-static)",
   "t3-static": "var(--seed-font-size-t3-static)",
@@ -645,7 +848,11 @@ export default plugin(
   "t7-static": "var(--seed-font-size-t7-static)",
   "t8-static": "var(--seed-font-size-t8-static)",
   "t9-static": "var(--seed-font-size-t9-static)",
-  "t10-static": "var(--seed-font-size-t10-static)"
+  "t10-static": "var(--seed-font-size-t10-static)",
+  "t11-static": "var(--seed-font-size-t11-static)",
+  "t12-static": "var(--seed-font-size-t12-static)",
+  "t13-static": "var(--seed-font-size-t13-static)",
+  "t14-static": "var(--seed-font-size-t14-static)"
 },
         lineHeight: {
   "t1": "var(--seed-line-height-t1)",
@@ -658,6 +865,10 @@ export default plugin(
   "t8": "var(--seed-line-height-t8)",
   "t9": "var(--seed-line-height-t9)",
   "t10": "var(--seed-line-height-t10)",
+  "t11": "var(--seed-line-height-t11)",
+  "t12": "var(--seed-line-height-t12)",
+  "t13": "var(--seed-line-height-t13)",
+  "t14": "var(--seed-line-height-t14)",
   "t1-static": "var(--seed-line-height-t1-static)",
   "t2-static": "var(--seed-line-height-t2-static)",
   "t3-static": "var(--seed-line-height-t3-static)",
@@ -667,7 +878,11 @@ export default plugin(
   "t7-static": "var(--seed-line-height-t7-static)",
   "t8-static": "var(--seed-line-height-t8-static)",
   "t9-static": "var(--seed-line-height-t9-static)",
-  "t10-static": "var(--seed-line-height-t10-static)"
+  "t10-static": "var(--seed-line-height-t10-static)",
+  "t11-static": "var(--seed-line-height-t11-static)",
+  "t12-static": "var(--seed-line-height-t12-static)",
+  "t13-static": "var(--seed-line-height-t13-static)",
+  "t14-static": "var(--seed-line-height-t14-static)"
 },
         fontWeight: {
   "regular": "var(--seed-font-weight-regular)",
@@ -681,7 +896,8 @@ export default plugin(
   "d4": "var(--seed-duration-d4)",
   "d5": "var(--seed-duration-d5)",
   "d6": "var(--seed-duration-d6)",
-  "color-transition": "var(--seed-duration-color-transition)"
+  "color-transition": "var(--seed-duration-color-transition)",
+  "pressed-scale": "var(--seed-duration-pressed-scale)"
 },
         transitionTimingFunction: {
   "linear": "var(--seed-timing-function-linear)",
@@ -689,12 +905,18 @@ export default plugin(
   "enter": "var(--seed-timing-function-enter)",
   "exit": "var(--seed-timing-function-exit)",
   "enter-expressive": "var(--seed-timing-function-enter-expressive)",
-  "exit-expressive": "var(--seed-timing-function-exit-expressive)"
+  "exit-expressive": "var(--seed-timing-function-exit-expressive)",
+  "pressed-scale": "var(--seed-timing-function-pressed-scale)"
 },
         boxShadow: {
   "s1": "var(--seed-shadow-s1)",
   "s2": "var(--seed-shadow-s2)",
   "s3": "var(--seed-shadow-s3)"
+},
+        scale: {
+  "s95": "var(--seed-scale-s95)",
+  "s97": "var(--seed-scale-s97)",
+  "s98": "var(--seed-scale-s98)"
 },
       },
     },

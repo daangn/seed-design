@@ -8,6 +8,7 @@ import clsx from "clsx";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import { InternalIcon } from "../private/Icon";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import {
@@ -35,43 +36,17 @@ export const CheckboxGroup = withGroupContext<HTMLDivElement, CheckboxGroupProps
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @deprecated Use `regular` or `bold` instead of `default` or `stronger`
- */
-type CheckboxVariantDeprecatedWeightProps = "default" | "stronger";
-
 export interface CheckboxRootProps
-  extends Omit<CheckboxVariantProps, "weight">,
+  extends CheckboxVariantProps,
     CheckmarkVariantProps,
-    CheckboxPrimitive.RootProps {
-  weight?: CheckboxVariantProps["weight"] | CheckboxVariantDeprecatedWeightProps;
-}
+    CheckboxPrimitive.RootProps {}
+
+export interface CheckboxRootPrimitiveProps extends CheckboxPrimitive.RootProps {}
 
 export const CheckboxRoot = Object.assign(
   forwardRef<HTMLLabelElement, CheckboxRootProps>(({ className, ...props }, ref) => {
-    if (
-      process.env.NODE_ENV !== "production" &&
-      (props.weight === "default" || props.weight === "stronger")
-    ) {
-      console.warn(
-        `[SEED Design System] Checkbox weight='${props.weight}' is deprecated and will be removed in @seed-design/react@1.3.0. Use weight='${props.weight === "default" ? "regular" : "bold"}' instead.`,
-      );
-    }
-
     const [{ checkbox: checkboxVariantProps, checkmark: checkmarkVariantProps }, otherProps] =
-      splitMultipleVariantsProps(
-        {
-          ...props,
-          // TODO: replace this mapping completely
-          weight:
-            props.weight === "stronger"
-              ? "bold"
-              : props.weight === "default"
-                ? "regular"
-                : props.weight,
-        },
-        { checkbox, checkmark },
-      );
+      splitMultipleVariantsProps(props, { checkbox, checkmark });
 
     const classNames = checkbox(checkboxVariantProps);
 
@@ -95,7 +70,7 @@ export const CheckboxRoot = Object.assign(
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * CheckboxControl combines Checkbox.Primitive with checkmark.root styling
+ * CheckboxControl combines Checkbox.Root.Primitive with checkmark.root styling
  * This enables standalone usage of Checkbox.Control with variants
  */
 
@@ -103,9 +78,8 @@ export interface CheckboxControlProps
   extends CheckmarkVariantProps,
     CheckboxPrimitive.ControlProps {}
 
-export const CheckboxControl = withCheckmarkProvider<HTMLDivElement, CheckboxControlProps>(
-  CheckboxPrimitive.Control,
-  "root",
+export const CheckboxControl = withScaleFeedback(
+  withCheckmarkProvider<HTMLDivElement, CheckboxControlProps>(CheckboxPrimitive.Control, "root"),
 );
 
 ////////////////////////////////////////////////////////////////////////////////////

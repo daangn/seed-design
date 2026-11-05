@@ -3,6 +3,8 @@ title: Snackbar
 description: 화면 하단에 일시적으로 나타나 상태나 결과를 안내하는 컴포넌트입니다.
 ---
 
+<AvailableSince packages="@seed-design/react@0.0.1, @seed-design/css@0.0.1" />
+
 <ComponentExample name="react/snackbar/preview">
   ```json doc-gen:file
   {
@@ -24,18 +26,18 @@ npx @seed-design/cli@latest add ui:snackbar
 
 ### `Snackbar`
 
-<react-type-table path="./registry/ui/snackbar.tsx" name="SnackbarProps" />
+<react-type-table path="./registry/react/ui/snackbar.tsx" name="SnackbarProps" />
 
 ### `SnackbarAdapter.create` Parameters (`CreateSnackbarOptions`)
 
 <react-type-table
-  path="./registry/ui/snackbar.tsx"
+  path="./registry/react/ui/snackbar.tsx"
   name="CreateSnackbarOptions"
 />
 
 ### `SnackbarProvider`
 
-<react-type-table path="./registry/ui/snackbar.tsx" name="SnackbarProviderProps" />
+<react-type-table path="./registry/react/ui/snackbar.tsx" name="SnackbarProviderProps" />
 
 ## Examples
 
@@ -78,6 +80,22 @@ npx @seed-design/cli@latest add ui:snackbar
   ```json doc-gen:file
   {
     "file": "examples/react/snackbar/pause-on-interaction.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Strategy
+
+Snackbar가 이미 표시 중일 때 새로운 Snackbar를 생성하면, 기본적으로 기존 Snackbar를 즉시 교체합니다 (`immediate`).
+큐에 넣고 순차적으로 보여주려면 `strategy: "queued"`를 사용합니다.
+
+`strategy`는 `SnackbarProvider`에서 기본값을 설정하거나, `create()` 호출 시 개별적으로 지정할 수 있습니다.
+
+<ComponentExample name="react/snackbar/strategy">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/snackbar/strategy.tsx",
     "codeblock": true
   }
   ```

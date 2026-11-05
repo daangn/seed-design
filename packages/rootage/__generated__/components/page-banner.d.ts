@@ -1,0 +1,983 @@
+declare const artifact: {
+  "kind": "ComponentSpec";
+  "metadata": {
+    "id": "page-banner";
+    "name": "Page Banner";
+  };
+  "data": {
+    "id": "page-banner";
+    "name": "Page Banner";
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "paddingX": {
+              "type": "dimension";
+            };
+            "paddingY": {
+              "type": "dimension";
+            };
+            "minHeight": {
+              "type": "dimension";
+            };
+            "color": {
+              "type": "color";
+            };
+            "gradient": {
+              "type": "gradient";
+            };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
+          };
+        };
+        "prefixIcon": {
+          "properties": {
+            "size": {
+              "type": "dimension";
+            };
+            "marginRight": {
+              "type": "dimension";
+            };
+            "color": {
+              "type": "color";
+            };
+          };
+          "description": "아이콘은 Fill 타입 사용을 권장합니다.";
+        };
+        "content": {
+          "properties": {
+            "gap": {
+              "type": "dimension";
+            };
+          };
+        };
+        "title": {
+          "properties": {
+            "fontSize": {
+              "type": "dimension";
+            };
+            "lineHeight": {
+              "type": "dimension";
+            };
+            "fontWeight": {
+              "type": "number";
+            };
+            "color": {
+              "type": "color";
+            };
+          };
+        };
+        "description": {
+          "properties": {
+            "fontSize": {
+              "type": "dimension";
+            };
+            "lineHeight": {
+              "type": "dimension";
+            };
+            "fontWeight": {
+              "type": "number";
+            };
+            "color": {
+              "type": "color";
+            };
+          };
+        };
+        "button": {
+          "properties": {
+            "targetHeight": {
+              "type": "dimension";
+            };
+            "fontSize": {
+              "type": "dimension";
+            };
+            "lineHeight": {
+              "type": "dimension";
+            };
+            "fontWeight": {
+              "type": "number";
+            };
+            "color": {
+              "type": "color";
+            };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
+          };
+        };
+        "suffixIcon": {
+          "properties": {
+            "size": {
+              "type": "dimension";
+            };
+            "marginLeft": {
+              "type": "dimension";
+            };
+            "color": {
+              "type": "color";
+            };
+          };
+        };
+      };
+      "variants": {
+        "tone": {
+          "values": {
+            "neutral": {};
+            "positive": {};
+            "informative": {};
+            "warning": {};
+            "critical": {};
+            "magic": {
+              "description": "AI 기능을 나타냅니다. variant=solid와 조합하여 사용하지 않습니다.";
+            };
+          };
+          "defaultValue": "neutral";
+        };
+        "variant": {
+          "values": {
+            "weak": {
+              "description": "배경색이 연한 스타일입니다.";
+            };
+            "solid": {
+              "description": "배경색이 진한 스타일입니다.";
+            };
+          };
+          "defaultValue": "weak";
+        };
+      };
+    };
+    "definitions": readonly [
+      {
+        "variants": {};
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "paddingX": {
+                  "type": "dimension";
+                  "value": "$dimension.x4";
+                };
+                "paddingY": {
+                  "type": "dimension";
+                  "value": "$dimension.x2_5";
+                };
+                "minHeight": {
+                  "type": "dimension";
+                  "value": "$dimension.x10";
+                };
+              };
+              "prefixIcon": {
+                "size": {
+                  "type": "dimension";
+                  "value": "$dimension.x4";
+                };
+                "marginRight": {
+                  "type": "dimension";
+                  "value": "$dimension.x2";
+                };
+              };
+              "content": {
+                "gap": {
+                  "type": "dimension";
+                  "value": "$dimension.x1_5";
+                };
+              };
+              "title": {
+                "fontSize": {
+                  "type": "dimension";
+                  "value": "$font-size.t4";
+                };
+                "lineHeight": {
+                  "type": "dimension";
+                  "value": "$line-height.t4";
+                };
+                "fontWeight": {
+                  "type": "number";
+                  "value": "$font-weight.bold";
+                };
+              };
+              "description": {
+                "fontSize": {
+                  "type": "dimension";
+                  "value": "$font-size.t4";
+                };
+                "lineHeight": {
+                  "type": "dimension";
+                  "value": "$line-height.t4";
+                };
+                "fontWeight": {
+                  "type": "number";
+                  "value": "$font-weight.medium";
+                };
+              };
+              "button": {
+                "targetHeight": {
+                  "type": "dimension";
+                  "value": "$dimension.x10";
+                };
+                "fontSize": {
+                  "type": "dimension";
+                  "value": "$font-size.t3";
+                };
+                "lineHeight": {
+                  "type": "dimension";
+                  "value": "$line-height.t3";
+                };
+                "fontWeight": {
+                  "type": "number";
+                  "value": "$font-weight.bold";
+                };
+              };
+              "suffixIcon": {
+                "size": {
+                  "type": "dimension";
+                  "value": "$dimension.x4";
+                };
+                "marginLeft": {
+                  "type": "dimension";
+                  "value": "$dimension.x2";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "content";
+                };
+              };
+              "button": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
+                };
+              };
+            };
+          },
+        ];
+      },
+      {
+        "variants": {
+          "tone": "neutral";
+          "variant": "weak";
+        };
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.neutral-weak";
+                };
+              };
+              "prefixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.neutral";
+                };
+              };
+              "title": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.neutral";
+                };
+              };
+              "description": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.neutral";
+                };
+              };
+              "button": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.neutral";
+                };
+              };
+              "suffixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.neutral";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.neutral-weak-pressed";
+                };
+              };
+            };
+          },
+        ];
+      },
+      {
+        "variants": {
+          "tone": "neutral";
+          "variant": "solid";
+        };
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.neutral-solid";
+                };
+              };
+              "prefixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-neutral-solid";
+                };
+              };
+              "title": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-neutral-solid";
+                };
+              };
+              "description": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-neutral-solid";
+                };
+              };
+              "button": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-neutral-solid";
+                };
+              };
+              "suffixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-neutral-solid";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.neutral-solid-pressed";
+                };
+              };
+            };
+          },
+        ];
+      },
+      {
+        "variants": {
+          "tone": "positive";
+          "variant": "weak";
+        };
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.positive-weak";
+                };
+              };
+              "prefixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.positive-contrast";
+                };
+              };
+              "title": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.positive-contrast";
+                };
+              };
+              "description": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.positive-contrast";
+                };
+              };
+              "button": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.positive-contrast";
+                };
+              };
+              "suffixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.positive-contrast";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.positive-weak-pressed";
+                };
+              };
+            };
+          },
+        ];
+      },
+      {
+        "variants": {
+          "tone": "positive";
+          "variant": "solid";
+        };
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.positive-solid";
+                };
+              };
+              "prefixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-positive-solid";
+                };
+              };
+              "title": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-positive-solid";
+                };
+              };
+              "description": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-positive-solid";
+                };
+              };
+              "button": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-positive-solid";
+                };
+              };
+              "suffixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-positive-solid";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.positive-solid-pressed";
+                };
+              };
+            };
+          },
+        ];
+      },
+      {
+        "variants": {
+          "tone": "informative";
+          "variant": "weak";
+        };
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.informative-weak";
+                };
+              };
+              "prefixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.informative-contrast";
+                };
+              };
+              "title": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.informative-contrast";
+                };
+              };
+              "description": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.informative-contrast";
+                };
+              };
+              "button": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.informative-contrast";
+                };
+              };
+              "suffixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.informative-contrast";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.informative-weak-pressed";
+                };
+              };
+            };
+          },
+        ];
+      },
+      {
+        "variants": {
+          "tone": "informative";
+          "variant": "solid";
+        };
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.informative-solid";
+                };
+              };
+              "prefixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-informative-solid";
+                };
+              };
+              "title": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-informative-solid";
+                };
+              };
+              "description": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-informative-solid";
+                };
+              };
+              "button": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-informative-solid";
+                };
+              };
+              "suffixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-informative-solid";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.informative-solid-pressed";
+                };
+              };
+            };
+          },
+        ];
+      },
+      {
+        "variants": {
+          "tone": "warning";
+          "variant": "weak";
+        };
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.warning-weak";
+                };
+              };
+              "prefixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.warning-contrast";
+                };
+              };
+              "title": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.warning-contrast";
+                };
+              };
+              "description": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.warning-contrast";
+                };
+              };
+              "button": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.warning-contrast";
+                };
+              };
+              "suffixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.warning-contrast";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.warning-weak-pressed";
+                };
+              };
+            };
+          },
+        ];
+      },
+      {
+        "variants": {
+          "tone": "warning";
+          "variant": "solid";
+        };
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.warning-solid";
+                };
+              };
+              "prefixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-warning-solid";
+                };
+              };
+              "title": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-warning-solid";
+                };
+              };
+              "description": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-warning-solid";
+                };
+              };
+              "button": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-warning-solid";
+                };
+              };
+              "suffixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-warning-solid";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.warning-solid-pressed";
+                };
+              };
+            };
+          },
+        ];
+      },
+      {
+        "variants": {
+          "tone": "critical";
+          "variant": "weak";
+        };
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.critical-weak";
+                };
+              };
+              "prefixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.critical-contrast";
+                };
+              };
+              "title": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.critical-contrast";
+                };
+              };
+              "description": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.critical-contrast";
+                };
+              };
+              "button": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.critical-contrast";
+                };
+              };
+              "suffixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.critical-contrast";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.critical-weak-pressed";
+                };
+              };
+            };
+          },
+        ];
+      },
+      {
+        "variants": {
+          "tone": "critical";
+          "variant": "solid";
+        };
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.critical-solid";
+                };
+              };
+              "prefixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-critical-solid";
+                };
+              };
+              "title": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-critical-solid";
+                };
+              };
+              "description": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-critical-solid";
+                };
+              };
+              "button": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-critical-solid";
+                };
+              };
+              "suffixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-critical-solid";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.critical-solid-pressed";
+                };
+              };
+            };
+          },
+        ];
+      },
+      {
+        "variants": {
+          "tone": "magic";
+          "variant": "weak";
+        };
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "gradient": {
+                  "type": "gradient";
+                  "value": "$gradient.glow-magic";
+                };
+              };
+              "prefixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.neutral";
+                };
+              };
+              "title": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.neutral";
+                };
+              };
+              "description": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.neutral";
+                };
+              };
+              "button": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.neutral";
+                };
+              };
+              "suffixIcon": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.neutral";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "gradient": {
+                  "type": "gradient";
+                  "value": "$gradient.glow-magic-pressed";
+                };
+              };
+            };
+          },
+        ];
+      },
+    ];
+  };
+};
+export default artifact;

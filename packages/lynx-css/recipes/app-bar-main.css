@@ -1,0 +1,67 @@
+.seed-app-bar-main__root {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0
+}
+.seed-app-bar-main__title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+.seed-app-bar-main__subtitle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+.seed-app-bar-main__title--layout_titleOnly {
+    font-size: var(--seed-font-size-t6);
+    font-weight: var(--seed-font-weight-bold);
+    line-height: var(--seed-line-height-t6)
+}
+.seed-app-bar-main__title--layout_withSubtitle {
+    font-size: var(--seed-font-size-t5);
+    font-weight: var(--seed-font-weight-bold);
+    line-height: var(--seed-line-height-t5)
+}
+.seed-app-bar-main__subtitle--layout_withSubtitle {
+    font-size: var(--seed-font-size-t2);
+    font-weight: var(--seed-font-weight-regular);
+    line-height: var(--seed-line-height-t2)
+}
+.seed-app-bar-main__root--theme_cupertino {
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    top: var(--seed-safe-area-top);
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding-left: var(--centered-title-padding-x, 0);
+    padding-right: var(--centered-title-padding-x, 0)
+}
+.seed-app-bar-main__root--theme_android {
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    height: 56px
+}
+.seed-app-bar-main__root--tone_layer {
+    color: var(--seed-color-fg-neutral)
+}
+.seed-app-bar-main__title--tone_layer {
+    color: var(--seed-color-fg-neutral)
+}
+.seed-app-bar-main__subtitle--tone_layer {
+    color: var(--seed-color-fg-neutral-muted)
+}
+.seed-app-bar-main__root--tone_transparent {
+    color: var(--seed-color-palette-static-white)
+}
+.seed-app-bar-main__title--tone_transparent {
+    color: var(--seed-color-palette-static-white)
+}
+.seed-app-bar-main__subtitle--tone_transparent {
+    color: var(--seed-color-palette-static-white)
+}

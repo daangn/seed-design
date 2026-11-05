@@ -1,5 +1,6 @@
+import spec from "@seed-design/rootage-artifacts/components/avatar";
 import { defineSlotRecipe } from "../utils/define";
-import { not, pseudo } from "../utils/pseudo";
+import { hidden, not, pseudo } from "../utils/pseudo";
 import { avatar as vars } from "../vars/component";
 import type { Properties } from "csstype";
 
@@ -50,13 +51,12 @@ const avatar = defineSlotRecipe({
       width: "var(--avatar-size)",
       height: "var(--avatar-size)",
 
+      isolation: "isolate",
+
       "&:after": {
         content: '""',
         position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        inset: 0,
         pointerEvents: "none",
         borderRadius: vars.base.enabled.root.cornerRadius,
         boxShadow: `inset 0 0 0 var(--avatar-stroke-width) ${vars.base.enabled.root.strokeColor}`,
@@ -73,11 +73,20 @@ const avatar = defineSlotRecipe({
 
       ...mask,
 
-      [pseudo(not("[data-loading-state='loaded']"))]: {
+      [pseudo("[data-loading-state='error']")]: {
         display: "none",
+      },
+      [pseudo(hidden)]: {
+        display: "none",
+      },
+      [pseudo(not("[data-loading-state='loaded']"))]: {
+        pointerEvents: "none",
       },
     },
     fallback: {
+      position: "absolute",
+      inset: 0,
+      zIndex: -1,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -258,6 +267,11 @@ const avatar = defineSlotRecipe({
   defaultVariants: {
     size: 48,
     badgeMask: "none",
+  },
+  metadata: {
+    variants: {
+      size: spec.data.schema.variants.size,
+    },
   },
 });
 

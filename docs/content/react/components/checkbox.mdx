@@ -3,6 +3,8 @@ title: Checkbox
 description: 사용자가 하나 이상의 옵션을 선택할 수 있게 해주는 컴포넌트입니다. 목록에서 여러 항목을 선택하거나 약관 동의와 같은 선택적 작업에 사용됩니다.
 ---
 
+<AvailableSince packages="@seed-design/react@0.0.1, @seed-design/css@0.0.1" />
+
 <ComponentExample name="react/checkbox/preview">
   ```json doc-gen:file
   {
@@ -24,15 +26,15 @@ npx @seed-design/cli@latest add ui:checkbox
 
 ### `CheckboxGroup`
 
-<react-type-table path="./registry/ui/checkbox.tsx" name="CheckboxGroupProps" />
+<react-type-table path="./registry/react/ui/checkbox.tsx" name="CheckboxGroupProps" />
 
 ### `Checkbox`
 
-<react-type-table path="./registry/ui/checkbox.tsx" name="CheckboxProps" />
+<react-type-table path="./registry/react/ui/checkbox.tsx" name="CheckboxProps" />
 
 ### `Checkmark`
 
-<react-type-table path="./registry/ui/checkbox.tsx" name="CheckmarkProps" />
+<react-type-table path="./registry/react/ui/checkbox.tsx" name="CheckmarkProps" />
 
 ## Examples
 
@@ -173,3 +175,15 @@ npx @seed-design/cli@latest add ui:checkbox
   }
   ```
 </ComponentExample>
+
+## Scale Feedback
+
+`Checkbox`는 눌렸을 때 `Checkmark`가 살짝 줄어드는 피드백을 제공합니다.
+
+`Checkmark`를 감싸는 요소에 [Scale Feedback](/react/components/concepts/scale-feedback)을 직접 적용하는 경우, 바깥 요소와 `Checkmark`가 함께 줄어들어 축소가 이중으로 나타납니다. `Checkmark`의 상위 요소에서 `--seed-checkmark-feedback-scale`을 `1`로 설정하면 `Checkmark`의 축소만 끌 수 있습니다. 이 변수는 상속되므로 `Checkbox` 전체를 감싸는 요소에 설정해도 됩니다.
+
+```css title="MyRow.css"
+.my-row {
+  --seed-checkmark-feedback-scale: 1;
+}
+```

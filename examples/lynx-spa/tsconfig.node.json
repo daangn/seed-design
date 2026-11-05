@@ -1,0 +1,8 @@
+{
+  "extends": "../../docs/tsconfig.lynx-node.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["bun"]
+  },
+  "include": ["./lynx.config.ts", "../../docs/scripts/lynx-examples/**/*.ts"]
+}

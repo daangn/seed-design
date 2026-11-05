@@ -1,0 +1,7 @@
+{
+  "title": "Design Token",
+  "description": "디자인 토큰은 디자인 결정을 사람과 기계가 이해할 수 있는 방식으로 인코딩하는 방법입니다.",
+  "coverImage": "/og/foundations/design-token",
+  "layout": "tabs",
+  "pages": ["reference"]
+}

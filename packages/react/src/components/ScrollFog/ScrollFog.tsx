@@ -1,7 +1,6 @@
 import { scrollFog, type ScrollFogVariantProps } from "@seed-design/css/recipes/scroll-fog";
 import clsx from "clsx";
 import { forwardRef, useMemo } from "react";
-import { scrollFog as vars } from "@seed-design/css/vars/component";
 
 type ScrollPlacement = "top" | "bottom" | "left" | "right";
 
@@ -16,34 +15,24 @@ export interface ScrollFogProps
   extends ScrollFogVariantProps,
     React.HTMLAttributes<HTMLDivElement> {
   /**
-   * Placement of fog effect
+   * Fog 효과를 표시할 방향입니다.
    * @default ["top", "bottom"]
    */
   placement?: ScrollPlacement[];
 
   /**
-   * Size of the fog effect in pixels
+   * Fog 효과의 크기입니다. 숫자는 px 단위로 처리하며 CSS 길이 또는 계산식도 사용할 수 있습니다.
    * @default 20
    */
-  size?: number;
+  size?: number | string;
 
-  /**
-   * Size of the fog effect for each direction in pixels
-   */
+  /** 방향별 Fog 효과의 크기입니다. */
   sizes?: SizesConfig;
 }
 
 export const ScrollFog = forwardRef<HTMLDivElement, ScrollFogProps>(
   (
-    {
-      className,
-      hideScrollBar,
-      placement = ["top", "bottom"],
-      size = vars.base.enabled.root.size,
-      sizes,
-      style,
-      ...props
-    },
+    { className, hideScrollBar, placement = ["top", "bottom"], size = 20, sizes, style, ...props },
     ref,
   ) => {
     const [variantProps, restProps] = scrollFog.splitVariantProps({

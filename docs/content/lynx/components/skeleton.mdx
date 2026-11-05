@@ -1,0 +1,81 @@
+---
+title: Skeleton
+description: 콘텐츠를 불러오는 동안 윤곽을 표시하는 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "1.0"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.8.0, @seed-design/lynx-css@0.12.0" />
+
+<LynxComponentExample name="lynx/skeleton/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/skeleton/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+## Usage
+
+```tsx
+import { Skeleton } from "@seed-design/lynx-react";
+```
+
+```tsx
+<Skeleton />
+```
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/Skeleton/Skeleton.tsx" name="SkeletonProps" />
+
+## Examples
+
+### Line Height
+
+텍스트를 대체하는 Skeleton에는 `height="lineHeight.t4"`처럼 텍스트와 같은 line-height 토큰을 지정할 수 있습니다.
+
+<LynxComponentExample name="lynx/skeleton/line-height">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/skeleton/line-height.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Radius
+
+<LynxComponentExample name="lynx/skeleton/radius">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/skeleton/radius.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Tone
+
+<LynxComponentExample name="lynx/skeleton/tone">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/skeleton/tone.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+- 접근성 트리에서 숨겨지는 장식 요소입니다.
+- `height`에는 반응형 값이 아닌 단일 값만 전달할 수 있습니다.
+- 웹의 `asChild`는 지원하지 않습니다.

@@ -1,0 +1,104 @@
+declare const artifact: {
+  "kind": "Tokens";
+  "metadata": {
+    "id": "timing-function";
+    "name": "Timing Function";
+  };
+  "data": {
+    "collection": "global";
+    "tokens": {
+      "$timing-function.linear": {
+        "values": {
+          "default": {
+            "type": "cubicBezier";
+            "value": readonly [
+              0,
+              0,
+              1,
+              1,
+            ];
+          };
+        };
+      };
+      "$timing-function.easing": {
+        "values": {
+          "default": {
+            "type": "cubicBezier";
+            "value": readonly [
+              0.35,
+              0,
+              0.35,
+              1,
+            ];
+          };
+        };
+      };
+      "$timing-function.enter": {
+        "values": {
+          "default": {
+            "type": "cubicBezier";
+            "value": readonly [
+              0,
+              0,
+              0.15,
+              1,
+            ];
+          };
+        };
+      };
+      "$timing-function.exit": {
+        "values": {
+          "default": {
+            "type": "cubicBezier";
+            "value": readonly [
+              0.35,
+              0,
+              1,
+              1,
+            ];
+          };
+        };
+      };
+      "$timing-function.enter-expressive": {
+        "values": {
+          "default": {
+            "type": "cubicBezier";
+            "value": readonly [
+              0.03,
+              0.4,
+              0.1,
+              1,
+            ];
+          };
+        };
+      };
+      "$timing-function.exit-expressive": {
+        "values": {
+          "default": {
+            "type": "cubicBezier";
+            "value": readonly [
+              0.35,
+              0,
+              0.95,
+              0.55,
+            ];
+          };
+        };
+      };
+      "$timing-function.pressed-scale": {
+        "values": {
+          "default": {
+            "type": "cubicBezier";
+            "value": readonly [
+              0,
+              0,
+              0.15,
+              1,
+            ];
+          };
+        };
+      };
+    };
+  };
+};
+export default artifact;

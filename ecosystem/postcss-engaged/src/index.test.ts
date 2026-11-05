@@ -137,4 +137,56 @@ describe("postcss-engaged", () => {
       `"@media (hover: hover) {.btn:is(:hover, :focus-visible) { background: red; } }@media (hover: none) {.btn:is(:active, [data-active]) { background: red; } }"`,
     );
   });
+
+  test("custom media.hover", async () => {
+    const output = await run(".btn:--engaged { background: red; }", [
+      postcssEngaged({ media: { hover: "(hover: hover) and (pointer: fine)" } }),
+    ]);
+    expect(output).toMatchInlineSnapshot(
+      `"@media (hover: hover) and (pointer: fine) {.btn:hover { background: red; } }@media (hover: none) {.btn:active { background: red; } }"`,
+    );
+  });
+
+  test("custom media.active", async () => {
+    const output = await run(".btn:--engaged { background: red; }", [
+      postcssEngaged({ media: { active: "not all and (hover: hover) and (pointer: fine)" } }),
+    ]);
+    expect(output).toMatchInlineSnapshot(
+      `"@media (hover: hover) {.btn:hover { background: red; } }@media not all and (hover: hover) and (pointer: fine) {.btn:active { background: red; } }"`,
+    );
+  });
+
+  test("custom media.hover and media.active together", async () => {
+    const output = await run(".btn:--engaged { background: red; }", [
+      postcssEngaged({
+        media: {
+          hover: "(hover: hover) and (pointer: fine)",
+          active: "not all and (hover: hover) and (pointer: fine)",
+        },
+      }),
+    ]);
+    expect(output).toMatchInlineSnapshot(
+      `"@media (hover: hover) and (pointer: fine) {.btn:hover { background: red; } }@media not all and (hover: hover) and (pointer: fine) {.btn:active { background: red; } }"`,
+    );
+  });
+
+  test("throws when inside custom media.hover", async () => {
+    const input =
+      "@media (hover: hover) and (pointer: fine) { .btn:--engaged { background: red; } }";
+    expect(
+      run(input, [postcssEngaged({ media: { hover: "(hover: hover) and (pointer: fine)" } })]),
+    ).rejects.toThrow(/already inside/);
+  });
+
+  test("throws when inside custom media.active", async () => {
+    const input =
+      "@media not all and (hover: hover) and (pointer: fine) { .btn:--engaged { background: red; } }";
+    expect(
+      run(input, [
+        postcssEngaged({
+          media: { active: "not all and (hover: hover) and (pointer: fine)" },
+        }),
+      ]),
+    ).rejects.toThrow(/already inside/);
+  });
 });

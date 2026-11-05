@@ -1,18 +1,14 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import preview from "../.storybook/preview";
 
 import { VStack, HStack } from "@seed-design/react";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
-import { VIEWPORT_MODES } from "./utils/parameters";
+import { VISUAL_VIEWPORT_PARAMETERS } from "./utils/parameters";
 
-const meta = {
+const meta = preview.meta({
   component: VStack,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof VStack>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+});
 
 const Swatch = ({ label }: { label?: string }) => (
   <div
@@ -50,18 +46,19 @@ const vstackConditionMap = {
     "justify center": { justify: "center", width: "500px" },
     "justify space-between": { justify: "space-between", width: "500px" },
     wrap: { wrap: "wrap", height: "120px" },
+    "responsive gap": { gap: { base: "x2", md: "x6" } },
   },
 };
 
-export const VStackLightTheme: Story = {
+export const VStackLightTheme = meta.story({
   args: { children },
   render: (args) => (
     <VariantTable Component={VStack} variantMap={{}} conditionMap={vstackConditionMap} {...args} />
   ),
   parameters: {
-    chromatic: { modes: VIEWPORT_MODES },
+    ...VISUAL_VIEWPORT_PARAMETERS,
   },
-};
+});
 
 const hstackConditionMap = {
   condition: {
@@ -72,15 +69,16 @@ const hstackConditionMap = {
     "justify center": { justify: "center", width: "500px" },
     "justify space-between": { justify: "space-between", width: "500px" },
     wrap: { wrap: "wrap", width: "120px" },
+    "responsive gap": { gap: { base: "x2", md: "x6" } },
   },
 };
 
-export const HStackLightTheme: Story = {
+export const HStackLightTheme = meta.story({
   args: { children },
   render: (args) => (
     <VariantTable Component={HStack} variantMap={{}} conditionMap={hstackConditionMap} {...args} />
   ),
   parameters: {
-    chromatic: { modes: VIEWPORT_MODES },
+    ...VISUAL_VIEWPORT_PARAMETERS,
   },
-};
+});

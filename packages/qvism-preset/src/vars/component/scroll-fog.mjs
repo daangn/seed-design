@@ -2,8 +2,75 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "fromColor": "#00000000",
-        "toColor": "#000000ff",
+        "gradient": {
+          "serialized": "var(--seed-gradient-fade-mask)",
+          "stops": [
+            {
+              "color": "#00000000",
+              "position": 0
+            },
+            {
+              "color": "#00000003",
+              "position": 0.08
+            },
+            {
+              "color": "#00000005",
+              "position": 0.16
+            },
+            {
+              "color": "#0000000d",
+              "position": 0.22
+            },
+            {
+              "color": "#00000014",
+              "position": 0.29
+            },
+            {
+              "color": "#00000021",
+              "position": 0.35
+            },
+            {
+              "color": "#0000002e",
+              "position": 0.41
+            },
+            {
+              "color": "#00000040",
+              "position": 0.47
+            },
+            {
+              "color": "#00000052",
+              "position": 0.53
+            },
+            {
+              "color": "#00000066",
+              "position": 0.59
+            },
+            {
+              "color": "#0000007a",
+              "position": 0.65
+            },
+            {
+              "color": "#00000094",
+              "position": 0.71
+            },
+            {
+              "color": "#000000ab",
+              "position": 0.78
+            },
+            {
+              "color": "#000000c7",
+              "position": 0.84
+            },
+            {
+              "color": "#000000e3",
+              "position": 0.92
+            },
+            {
+              "color": "#000000ff",
+              "position": 1
+            }
+          ]
+        },
         "size": "20px"
       }
     }

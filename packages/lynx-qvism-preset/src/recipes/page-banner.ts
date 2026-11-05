@@ -1,0 +1,671 @@
+import { pageBannerCloseButton as closeButtonVars, pageBanner as vars } from "../vars/component";
+import { r1 } from "../vars/radius";
+import { defineSlotRecipe } from "../utils/define";
+
+const closeButtonNegativeMargin = `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5)`;
+const prefixIconVerticalAdjustMargin = `calc((${vars.base.enabled.root.minHeight} - ${vars.base.enabled.prefixIcon.size}) * 0.5 - ${vars.base.enabled.root.paddingY})`;
+const buttonBleedAmount = `(${vars.base.enabled.button.targetHeight} - ${vars.base.enabled.button.lineHeight}) * 0.5`;
+
+const pageBanner = defineSlotRecipe({
+  name: "page-banner",
+  slots: [
+    "root",
+    "background",
+    "content",
+    "scaleContent",
+    "body",
+    "title",
+    "description",
+    "button",
+    "closeButton",
+    "prefixIcon",
+    "suffixIcon",
+    "closeButtonIcon",
+  ],
+  base: {
+    background: {
+      position: "absolute",
+      top: 0,
+      bottom: 0,
+      left: "calc(var(--seed-safe-area-left) * -1)",
+      right: "calc(var(--seed-safe-area-right) * -1)",
+      zIndex: -1,
+      pointerEvents: "none",
+    },
+    root: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "flex-start",
+      width: "100%",
+      minHeight: vars.base.enabled.root.minHeight,
+      paddingLeft: vars.base.enabled.root.paddingX,
+      paddingRight: vars.base.enabled.root.paddingX,
+      paddingTop: vars.base.enabled.root.paddingY,
+      paddingBottom: vars.base.enabled.root.paddingY,
+    },
+    scaleContent: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "flex-start",
+      flexGrow: 1,
+      flexShrink: 1,
+      minWidth: 0,
+    },
+    content: {
+      display: "flex",
+      flexDirection: "row",
+      flexWrap: "wrap",
+      alignItems: "center",
+      justifyContent: "space-between",
+      flexGrow: 1,
+      flexShrink: 1,
+      gap: vars.base.enabled.content.gap,
+    },
+    body: {
+      flexGrow: 1,
+      flexShrink: 1,
+      lineHeight: vars.base.enabled.description.lineHeight,
+    },
+    title: {
+      flexShrink: 0,
+      fontSize: vars.base.enabled.title.fontSize,
+      lineHeight: vars.base.enabled.title.lineHeight,
+      fontWeight: vars.base.enabled.title.fontWeight,
+    },
+    description: {
+      fontSize: vars.base.enabled.description.fontSize,
+      lineHeight: vars.base.enabled.description.lineHeight,
+      fontWeight: vars.base.enabled.description.fontWeight,
+    },
+    button: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      marginTop: `calc(${buttonBleedAmount} * -1)`,
+      marginRight: `calc(${buttonBleedAmount} * -1)`,
+      marginBottom: `calc(${buttonBleedAmount} * -1)`,
+      marginLeft: `calc(${buttonBleedAmount} * -1)`,
+      paddingTop: `calc(${buttonBleedAmount})`,
+      paddingRight: `calc(${buttonBleedAmount})`,
+      paddingBottom: `calc(${buttonBleedAmount})`,
+      paddingLeft: `calc(${buttonBleedAmount})`,
+      fontSize: vars.base.enabled.button.fontSize,
+      lineHeight: vars.base.enabled.button.lineHeight,
+      fontWeight: vars.base.enabled.button.fontWeight,
+      borderRadius: r1,
+    },
+    closeButton: {
+      flexGrow: 0,
+      flexShrink: 0,
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      alignSelf: "center",
+      width: closeButtonVars.base.enabled.root.size,
+      height: closeButtonVars.base.enabled.root.size,
+      marginTop: closeButtonNegativeMargin,
+      marginRight: closeButtonNegativeMargin,
+      marginBottom: closeButtonNegativeMargin,
+      marginLeft: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5 + ${closeButtonVars.base.enabled.root.marginLeft})`,
+      borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
+      backgroundColor: closeButtonVars.base.enabled.root.color,
+      transition: `background-color ${closeButtonVars.base.enabled.root.colorDuration} ${closeButtonVars.base.enabled.root.colorTimingFunction}`,
+      "&:active": {
+        backgroundColor: closeButtonVars.base.pressed.root.color,
+      },
+    },
+    prefixIcon: {
+      flexShrink: 0,
+      width: vars.base.enabled.prefixIcon.size,
+      height: vars.base.enabled.prefixIcon.size,
+      marginTop: prefixIconVerticalAdjustMargin,
+      marginRight: vars.base.enabled.prefixIcon.marginRight,
+    },
+    suffixIcon: {
+      flexShrink: 0,
+      alignSelf: "center",
+      width: vars.base.enabled.suffixIcon.size,
+      height: vars.base.enabled.suffixIcon.size,
+      marginLeft: vars.base.enabled.suffixIcon.marginLeft,
+    },
+    closeButtonIcon: {
+      flexShrink: 0,
+      width: closeButtonVars.base.enabled.icon.size,
+      height: closeButtonVars.base.enabled.icon.size,
+    },
+  },
+  variants: {
+    extendSafeAreaX: {
+      true: {
+        root: { position: "relative", zIndex: 0, overflow: "visible" },
+      },
+      false: {},
+    },
+    tone: {
+      neutral: {},
+      informative: {},
+      positive: {},
+      warning: {},
+      critical: {},
+      magic: {},
+    },
+    variant: {
+      weak: {},
+      solid: {},
+    },
+    pressed: {
+      true: {},
+      false: {},
+    },
+    interactive: {
+      true: {},
+      false: {},
+    },
+    closeButtonPressed: {
+      true: {
+        closeButton: { backgroundColor: closeButtonVars.base.pressed.root.color },
+      },
+      false: {},
+    },
+  },
+  compoundVariants: [
+    {
+      tone: "neutral",
+      variant: "weak",
+      interactive: true,
+      css: {
+        root: {
+          "&:active": {
+            backgroundColor: vars.toneNeutralVariantWeak.pressed.root.color,
+          },
+          "&:active .seed-page-banner__background": {
+            backgroundColor: vars.toneNeutralVariantWeak.pressed.root.color,
+          },
+        },
+      },
+    },
+    {
+      tone: "neutral",
+      variant: "solid",
+      interactive: true,
+      css: {
+        root: {
+          "&:active": {
+            backgroundColor: vars.toneNeutralVariantSolid.pressed.root.color,
+          },
+          "&:active .seed-page-banner__background": {
+            backgroundColor: vars.toneNeutralVariantSolid.pressed.root.color,
+          },
+        },
+      },
+    },
+    {
+      tone: "informative",
+      variant: "weak",
+      interactive: true,
+      css: {
+        root: {
+          "&:active": {
+            backgroundColor: vars.toneInformativeVariantWeak.pressed.root.color,
+          },
+          "&:active .seed-page-banner__background": {
+            backgroundColor: vars.toneInformativeVariantWeak.pressed.root.color,
+          },
+        },
+      },
+    },
+    {
+      tone: "informative",
+      variant: "solid",
+      interactive: true,
+      css: {
+        root: {
+          "&:active": {
+            backgroundColor: vars.toneInformativeVariantSolid.pressed.root.color,
+          },
+          "&:active .seed-page-banner__background": {
+            backgroundColor: vars.toneInformativeVariantSolid.pressed.root.color,
+          },
+        },
+      },
+    },
+    {
+      tone: "positive",
+      variant: "weak",
+      interactive: true,
+      css: {
+        root: {
+          "&:active": {
+            backgroundColor: vars.tonePositiveVariantWeak.pressed.root.color,
+          },
+          "&:active .seed-page-banner__background": {
+            backgroundColor: vars.tonePositiveVariantWeak.pressed.root.color,
+          },
+        },
+      },
+    },
+    {
+      tone: "positive",
+      variant: "solid",
+      interactive: true,
+      css: {
+        root: {
+          "&:active": {
+            backgroundColor: vars.tonePositiveVariantSolid.pressed.root.color,
+          },
+          "&:active .seed-page-banner__background": {
+            backgroundColor: vars.tonePositiveVariantSolid.pressed.root.color,
+          },
+        },
+      },
+    },
+    {
+      tone: "warning",
+      variant: "weak",
+      interactive: true,
+      css: {
+        root: {
+          "&:active": {
+            backgroundColor: vars.toneWarningVariantWeak.pressed.root.color,
+          },
+          "&:active .seed-page-banner__background": {
+            backgroundColor: vars.toneWarningVariantWeak.pressed.root.color,
+          },
+        },
+      },
+    },
+    {
+      tone: "warning",
+      variant: "solid",
+      interactive: true,
+      css: {
+        root: {
+          "&:active": {
+            backgroundColor: vars.toneWarningVariantSolid.pressed.root.color,
+          },
+          "&:active .seed-page-banner__background": {
+            backgroundColor: vars.toneWarningVariantSolid.pressed.root.color,
+          },
+        },
+      },
+    },
+    {
+      tone: "critical",
+      variant: "weak",
+      interactive: true,
+      css: {
+        root: {
+          "&:active": {
+            backgroundColor: vars.toneCriticalVariantWeak.pressed.root.color,
+          },
+          "&:active .seed-page-banner__background": {
+            backgroundColor: vars.toneCriticalVariantWeak.pressed.root.color,
+          },
+        },
+      },
+    },
+    {
+      tone: "critical",
+      variant: "solid",
+      interactive: true,
+      css: {
+        root: {
+          "&:active": {
+            backgroundColor: vars.toneCriticalVariantSolid.pressed.root.color,
+          },
+          "&:active .seed-page-banner__background": {
+            backgroundColor: vars.toneCriticalVariantSolid.pressed.root.color,
+          },
+        },
+      },
+    },
+    {
+      tone: "magic",
+      variant: "weak",
+      interactive: true,
+      css: {
+        root: {
+          "&:active": {
+            backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient.serialized})`,
+          },
+          "&:active .seed-page-banner__background": {
+            backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient.serialized})`,
+          },
+        },
+      },
+    },
+    {
+      tone: "neutral",
+      variant: "weak",
+      css: {
+        root: {
+          backgroundColor: vars.toneNeutralVariantWeak.enabled.root.color,
+        },
+        background: {
+          backgroundColor: vars.toneNeutralVariantWeak.enabled.root.color,
+        },
+        title: { color: vars.toneNeutralVariantWeak.enabled.title.color },
+        description: { color: vars.toneNeutralVariantWeak.enabled.description.color },
+        button: { color: vars.toneNeutralVariantWeak.enabled.button.color },
+        prefixIcon: { color: vars.toneNeutralVariantWeak.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.toneNeutralVariantWeak.enabled.suffixIcon.color },
+        closeButtonIcon: { color: closeButtonVars.toneNeutralVariantWeak.enabled.icon.color },
+      },
+    },
+    {
+      tone: "neutral",
+      variant: "solid",
+      css: {
+        root: {
+          backgroundColor: vars.toneNeutralVariantSolid.enabled.root.color,
+        },
+        background: {
+          backgroundColor: vars.toneNeutralVariantSolid.enabled.root.color,
+        },
+        title: { color: vars.toneNeutralVariantSolid.enabled.title.color },
+        description: { color: vars.toneNeutralVariantSolid.enabled.description.color },
+        button: { color: vars.toneNeutralVariantSolid.enabled.button.color },
+        prefixIcon: { color: vars.toneNeutralVariantSolid.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.toneNeutralVariantSolid.enabled.suffixIcon.color },
+        closeButtonIcon: { color: closeButtonVars.toneNeutralVariantSolid.enabled.icon.color },
+      },
+    },
+    {
+      tone: "informative",
+      variant: "weak",
+      css: {
+        root: {
+          backgroundColor: vars.toneInformativeVariantWeak.enabled.root.color,
+        },
+        background: {
+          backgroundColor: vars.toneInformativeVariantWeak.enabled.root.color,
+        },
+        title: { color: vars.toneInformativeVariantWeak.enabled.title.color },
+        description: { color: vars.toneInformativeVariantWeak.enabled.description.color },
+        button: { color: vars.toneInformativeVariantWeak.enabled.button.color },
+        prefixIcon: { color: vars.toneInformativeVariantWeak.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.toneInformativeVariantWeak.enabled.suffixIcon.color },
+        closeButtonIcon: { color: closeButtonVars.toneInformativeVariantWeak.enabled.icon.color },
+      },
+    },
+    {
+      tone: "informative",
+      variant: "solid",
+      css: {
+        root: {
+          backgroundColor: vars.toneInformativeVariantSolid.enabled.root.color,
+        },
+        background: {
+          backgroundColor: vars.toneInformativeVariantSolid.enabled.root.color,
+        },
+        title: { color: vars.toneInformativeVariantSolid.enabled.title.color },
+        description: { color: vars.toneInformativeVariantSolid.enabled.description.color },
+        button: { color: vars.toneInformativeVariantSolid.enabled.button.color },
+        prefixIcon: { color: vars.toneInformativeVariantSolid.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.toneInformativeVariantSolid.enabled.suffixIcon.color },
+        closeButtonIcon: { color: closeButtonVars.toneInformativeVariantSolid.enabled.icon.color },
+      },
+    },
+    {
+      tone: "positive",
+      variant: "weak",
+      css: {
+        root: {
+          backgroundColor: vars.tonePositiveVariantWeak.enabled.root.color,
+        },
+        background: {
+          backgroundColor: vars.tonePositiveVariantWeak.enabled.root.color,
+        },
+        title: { color: vars.tonePositiveVariantWeak.enabled.title.color },
+        description: { color: vars.tonePositiveVariantWeak.enabled.description.color },
+        button: { color: vars.tonePositiveVariantWeak.enabled.button.color },
+        prefixIcon: { color: vars.tonePositiveVariantWeak.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.tonePositiveVariantWeak.enabled.suffixIcon.color },
+        closeButtonIcon: { color: closeButtonVars.tonePositiveVariantWeak.enabled.icon.color },
+      },
+    },
+    {
+      tone: "positive",
+      variant: "solid",
+      css: {
+        root: {
+          backgroundColor: vars.tonePositiveVariantSolid.enabled.root.color,
+        },
+        background: {
+          backgroundColor: vars.tonePositiveVariantSolid.enabled.root.color,
+        },
+        title: { color: vars.tonePositiveVariantSolid.enabled.title.color },
+        description: { color: vars.tonePositiveVariantSolid.enabled.description.color },
+        button: { color: vars.tonePositiveVariantSolid.enabled.button.color },
+        prefixIcon: { color: vars.tonePositiveVariantSolid.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.tonePositiveVariantSolid.enabled.suffixIcon.color },
+        closeButtonIcon: { color: closeButtonVars.tonePositiveVariantSolid.enabled.icon.color },
+      },
+    },
+    {
+      tone: "warning",
+      variant: "weak",
+      css: {
+        root: {
+          backgroundColor: vars.toneWarningVariantWeak.enabled.root.color,
+        },
+        background: {
+          backgroundColor: vars.toneWarningVariantWeak.enabled.root.color,
+        },
+        title: { color: vars.toneWarningVariantWeak.enabled.title.color },
+        description: { color: vars.toneWarningVariantWeak.enabled.description.color },
+        button: { color: vars.toneWarningVariantWeak.enabled.button.color },
+        prefixIcon: { color: vars.toneWarningVariantWeak.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.toneWarningVariantWeak.enabled.suffixIcon.color },
+        closeButtonIcon: { color: closeButtonVars.toneWarningVariantWeak.enabled.icon.color },
+      },
+    },
+    {
+      tone: "warning",
+      variant: "solid",
+      css: {
+        root: {
+          backgroundColor: vars.toneWarningVariantSolid.enabled.root.color,
+        },
+        background: {
+          backgroundColor: vars.toneWarningVariantSolid.enabled.root.color,
+        },
+        title: { color: vars.toneWarningVariantSolid.enabled.title.color },
+        description: { color: vars.toneWarningVariantSolid.enabled.description.color },
+        button: { color: vars.toneWarningVariantSolid.enabled.button.color },
+        prefixIcon: { color: vars.toneWarningVariantSolid.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.toneWarningVariantSolid.enabled.suffixIcon.color },
+        closeButtonIcon: { color: closeButtonVars.toneWarningVariantSolid.enabled.icon.color },
+      },
+    },
+    {
+      tone: "critical",
+      variant: "weak",
+      css: {
+        root: {
+          backgroundColor: vars.toneCriticalVariantWeak.enabled.root.color,
+        },
+        background: {
+          backgroundColor: vars.toneCriticalVariantWeak.enabled.root.color,
+        },
+        title: { color: vars.toneCriticalVariantWeak.enabled.title.color },
+        description: { color: vars.toneCriticalVariantWeak.enabled.description.color },
+        button: { color: vars.toneCriticalVariantWeak.enabled.button.color },
+        prefixIcon: { color: vars.toneCriticalVariantWeak.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.toneCriticalVariantWeak.enabled.suffixIcon.color },
+        closeButtonIcon: { color: closeButtonVars.toneCriticalVariantWeak.enabled.icon.color },
+      },
+    },
+    {
+      tone: "critical",
+      variant: "solid",
+      css: {
+        root: {
+          backgroundColor: vars.toneCriticalVariantSolid.enabled.root.color,
+        },
+        background: {
+          backgroundColor: vars.toneCriticalVariantSolid.enabled.root.color,
+        },
+        title: { color: vars.toneCriticalVariantSolid.enabled.title.color },
+        description: { color: vars.toneCriticalVariantSolid.enabled.description.color },
+        button: { color: vars.toneCriticalVariantSolid.enabled.button.color },
+        prefixIcon: { color: vars.toneCriticalVariantSolid.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.toneCriticalVariantSolid.enabled.suffixIcon.color },
+        closeButtonIcon: { color: closeButtonVars.toneCriticalVariantSolid.enabled.icon.color },
+      },
+    },
+    {
+      tone: "magic",
+      variant: "weak",
+      css: {
+        root: {
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.enabled.root.gradient.serialized})`,
+        },
+        background: {
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.enabled.root.gradient.serialized})`,
+        },
+        title: { color: vars.toneMagicVariantWeak.enabled.title.color },
+        description: { color: vars.toneMagicVariantWeak.enabled.description.color },
+        button: { color: vars.toneMagicVariantWeak.enabled.button.color },
+        prefixIcon: { color: vars.toneMagicVariantWeak.enabled.prefixIcon.color },
+        suffixIcon: { color: vars.toneMagicVariantWeak.enabled.suffixIcon.color },
+        closeButtonIcon: { color: closeButtonVars.toneMagicVariantWeak.enabled.icon.color },
+      },
+    },
+    {
+      tone: "neutral",
+      variant: "weak",
+      pressed: true,
+      css: {
+        root: { backgroundColor: vars.toneNeutralVariantWeak.pressed.root.color },
+        background: { backgroundColor: vars.toneNeutralVariantWeak.pressed.root.color },
+      },
+    },
+    {
+      tone: "neutral",
+      variant: "solid",
+      pressed: true,
+      css: {
+        root: { backgroundColor: vars.toneNeutralVariantSolid.pressed.root.color },
+        background: { backgroundColor: vars.toneNeutralVariantSolid.pressed.root.color },
+      },
+    },
+    {
+      tone: "informative",
+      variant: "weak",
+      pressed: true,
+      css: {
+        root: { backgroundColor: vars.toneInformativeVariantWeak.pressed.root.color },
+        background: { backgroundColor: vars.toneInformativeVariantWeak.pressed.root.color },
+      },
+    },
+    {
+      tone: "informative",
+      variant: "solid",
+      pressed: true,
+      css: {
+        root: { backgroundColor: vars.toneInformativeVariantSolid.pressed.root.color },
+        background: { backgroundColor: vars.toneInformativeVariantSolid.pressed.root.color },
+      },
+    },
+    {
+      tone: "positive",
+      variant: "weak",
+      pressed: true,
+      css: {
+        root: { backgroundColor: vars.tonePositiveVariantWeak.pressed.root.color },
+        background: { backgroundColor: vars.tonePositiveVariantWeak.pressed.root.color },
+      },
+    },
+    {
+      tone: "positive",
+      variant: "solid",
+      pressed: true,
+      css: {
+        root: { backgroundColor: vars.tonePositiveVariantSolid.pressed.root.color },
+        background: { backgroundColor: vars.tonePositiveVariantSolid.pressed.root.color },
+      },
+    },
+    {
+      tone: "warning",
+      variant: "weak",
+      pressed: true,
+      css: {
+        root: { backgroundColor: vars.toneWarningVariantWeak.pressed.root.color },
+        background: { backgroundColor: vars.toneWarningVariantWeak.pressed.root.color },
+      },
+    },
+    {
+      tone: "warning",
+      variant: "solid",
+      pressed: true,
+      css: {
+        root: { backgroundColor: vars.toneWarningVariantSolid.pressed.root.color },
+        background: { backgroundColor: vars.toneWarningVariantSolid.pressed.root.color },
+      },
+    },
+    {
+      tone: "critical",
+      variant: "weak",
+      pressed: true,
+      css: {
+        root: { backgroundColor: vars.toneCriticalVariantWeak.pressed.root.color },
+        background: { backgroundColor: vars.toneCriticalVariantWeak.pressed.root.color },
+      },
+    },
+    {
+      tone: "critical",
+      variant: "solid",
+      pressed: true,
+      css: {
+        root: { backgroundColor: vars.toneCriticalVariantSolid.pressed.root.color },
+        background: { backgroundColor: vars.toneCriticalVariantSolid.pressed.root.color },
+      },
+    },
+    {
+      tone: "magic",
+      variant: "weak",
+      pressed: true,
+      css: {
+        root: {
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient.serialized})`,
+        },
+        background: {
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagicVariantWeak.pressed.root.gradient.serialized})`,
+        },
+      },
+    },
+    {
+      extendSafeAreaX: true,
+      css: {
+        root: {
+          backgroundColor: "transparent",
+          backgroundImage: "none",
+        },
+      },
+    },
+    {
+      extendSafeAreaX: true,
+      interactive: true,
+      css: {
+        root: {
+          "&:active": {
+            backgroundColor: "transparent",
+            backgroundImage: "none",
+          },
+        },
+      },
+    },
+  ],
+  defaultVariants: {
+    extendSafeAreaX: false,
+    tone: "neutral",
+    variant: "weak",
+    pressed: false,
+    closeButtonPressed: false,
+    interactive: false,
+  },
+});
+
+export default pageBanner;

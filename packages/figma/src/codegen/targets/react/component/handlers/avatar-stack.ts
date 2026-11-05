@@ -1,7 +1,4 @@
-import type {
-  AvatarProperties,
-  AvatarStackProperties,
-} from "@/codegen/component-properties";
+import type { AvatarProperties, AvatarStackProperties } from "@/codegen/component-properties";
 import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";

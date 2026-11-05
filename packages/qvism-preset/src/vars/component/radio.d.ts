@@ -4,6 +4,7 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** root 전체가 누르는 영역이며, pressed 피드백은 Radiomark의 축소로 표현됩니다. */
       "root": {
         "gap": "var(--seed-dimension-x2)"
       }
@@ -30,6 +31,7 @@ export declare const vars: {
   },
   "sizeMedium": {
     "enabled": {
+      /** root 전체가 누르는 영역이며, pressed 피드백은 Radiomark의 축소로 표현됩니다. */
       "root": {
         "minHeight": "var(--seed-dimension-x8)"
       },
@@ -41,6 +43,7 @@ export declare const vars: {
   },
   "sizeLarge": {
     "enabled": {
+      /** root 전체가 누르는 영역이며, pressed 피드백은 Radiomark의 축소로 표현됩니다. */
       "root": {
         "minHeight": "var(--seed-dimension-x9)"
       },

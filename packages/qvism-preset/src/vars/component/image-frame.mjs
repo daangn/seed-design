@@ -14,13 +14,5 @@ export const vars = {
       }
     }
   },
-  "strokeFalse": {},
-  "roundedTrue": {
-    "enabled": {
-      "root": {
-        "cornerRadius": "var(--seed-radius-r2)"
-      }
-    }
-  },
-  "roundedFalse": {}
+  "strokeFalse": {}
 }

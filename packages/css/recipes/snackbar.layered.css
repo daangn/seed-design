@@ -1,14 +1,12 @@
 @layer seed-components {
   .seed-snackbar__root {
     box-sizing: border-box;
-    background: var(--seed-color-bg-neutral-inverted);
+    background: var(--seed-color-bg-neutral-solid);
     border-radius: var(--seed-radius-r2);
     width: 100%;
-    max-width: 560px;
-    padding-left: var(--seed-dimension-x2_5);
-    padding-right: var(--seed-dimension-x2_5);
-    padding-top: var(--seed-dimension-x2_5);
-    padding-bottom: var(--seed-dimension-x2_5);
+    max-width: 464px;
+    padding-inline: var(--seed-dimension-x2_5);
+    padding-block: var(--seed-dimension-x2_5);
     min-height: 44px;
     animation: seed-enter;
     animation-timing-function: var(--seed-timing-function-enter);
@@ -44,8 +42,7 @@
   }
 
   .seed-snackbar__content {
-    padding-left: var(--seed-dimension-x1_5);
-    padding-right: var(--seed-dimension-x1_5);
+    padding-inline: var(--seed-dimension-x1_5);
     justify-content: space-between;
     align-items: center;
     gap: var(--seed-dimension-x2_5);
@@ -54,7 +51,7 @@
   }
 
   .seed-snackbar__message {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-regular);
@@ -88,11 +85,18 @@
     position: relative;
   }
 
+  .seed-snackbar__actionButton:is(:active, [data-active]) {
+    scale: var(--seed-feedback-scale);
+  }
+
+  .seed-snackbar__actionButton {
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
+  }
+
   .seed-snackbar__actionButton:after {
     content: "";
     top: 50%;
-    left: calc(-1 * var(--seed-dimension-x2));
-    right: calc(-1 * var(--seed-dimension-x2));
+    inset-inline: calc(-1 * var(--seed-dimension-x2));
     outline: var(--seed-dimension-x0_5) solid transparent;
     outline-offset: calc(var(--seed-dimension-x0_5) * -1);
     min-height: 44px;

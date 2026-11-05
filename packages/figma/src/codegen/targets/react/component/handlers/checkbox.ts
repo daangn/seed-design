@@ -27,7 +27,7 @@ export const createCheckboxHandler = (_ctx: ComponentHandlerDeps) =>
     ({ componentProperties: props }) => {
       const tone = match(props.Tone.value)
         .with("Neutral", () => "neutral")
-        .with("🚫[Deprecated]Brand", () => "brand")
+        .with("Brand", () => "brand")
         .exhaustive();
 
       const commonProps = {
@@ -60,7 +60,7 @@ export const createCheckboxGroupFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldFooterHandler = createFieldFooterHandler(ctx);
 
   return defineComponentHandler<CheckboxGroupFieldProperties>(
-    metadata.templateCheckboxField.key,
+    metadata.componentCheckboxField.key,
     (node, traverse) => {
       const { componentProperties: props } = node;
 

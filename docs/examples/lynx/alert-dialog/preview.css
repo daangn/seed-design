@@ -1,0 +1,10 @@
+.alert-dialog-example-text {
+  color: var(--seed-color-fg-neutral);
+}
+
+.alert-dialog-example-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 8px;
+}

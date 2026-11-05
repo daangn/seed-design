@@ -17,6 +17,7 @@ import { parseMetadataDeclaration } from "./metadata";
 import {
   parseColorValue,
   parseCubicBezierValue,
+  parseEnumValue,
   parseDimensionValue,
   parseDurationValue,
   parseGradientValue,
@@ -104,6 +105,9 @@ function parsePropertyDeclaration(property: string, lhValue: Document.Value): Pr
     case "duration":
       return factory.createDurationPropertyDeclaration(property, parseDurationValue(lhValue));
 
+    case "enum":
+      return factory.createEnumPropertyDeclaration(property, parseEnumValue(lhValue));
+
     case "cubicBezier":
       return factory.createCubicBezierPropertyDeclaration(property, parseCubicBezierValue(lhValue));
 
@@ -118,8 +122,8 @@ function parsePropertyDeclaration(property: string, lhValue: Document.Value): Pr
 function parsePropertySchemaDeclaration(
   model: Document.ComponentSpecPropertySchema,
 ): PropertySchemaDeclaration[] {
-  return Object.entries(model).map(([name, { type, description }]) =>
-    factory.createPropertySchemaDeclaration(name, type, description),
+  return Object.entries(model).map(([name, schema]) =>
+    factory.createPropertySchemaDeclaration(name, schema),
   );
 }
 

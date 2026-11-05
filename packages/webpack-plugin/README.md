@@ -90,6 +90,6 @@ module.exports = {
 3. Recipe 주석 (`// @recipe(seed): 컴포넌트명`)이 있는 파일에 자동으로 CSS 파일을 임포트합니다.
 4. Webpack과 Rspack 모두 지원합니다.
 
-## 라이센스
+## 라이선스
 
 MIT

@@ -1,0 +1,14 @@
+.text-field-input-preview {
+  width: 100%;
+  max-width: 420px;
+}
+
+.text-field-input-preview__content {
+  width: 100%;
+  max-width: 420px;
+}
+
+.text-field-input-preview__status {
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: 14px;
+}

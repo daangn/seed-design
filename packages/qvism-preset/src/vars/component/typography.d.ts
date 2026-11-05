@@ -224,12 +224,48 @@ export declare const vars: {
       }
     }
   },
+  "textStyleT8Regular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t8)",
+        "lineHeight": "var(--seed-line-height-t8)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT8Medium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t8)",
+        "lineHeight": "var(--seed-line-height-t8)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
   "textStyleT8Bold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t8)",
         "lineHeight": "var(--seed-line-height-t8)",
         "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT9Regular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t9)",
+        "lineHeight": "var(--seed-line-height-t9)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT9Medium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t9)",
+        "lineHeight": "var(--seed-line-height-t9)",
+        "fontWeight": "var(--seed-font-weight-medium)"
       }
     }
   },
@@ -242,11 +278,173 @@ export declare const vars: {
       }
     }
   },
+  "textStyleT10Regular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t10)",
+        "lineHeight": "var(--seed-line-height-t10)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT10Medium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t10)",
+        "lineHeight": "var(--seed-line-height-t10)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
   "textStyleT10Bold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t10)",
         "lineHeight": "var(--seed-line-height-t10)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
+  "textStyleT11Regular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t11)",
+        "lineHeight": "var(--seed-line-height-t11)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
+  "textStyleT11Medium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t11)",
+        "lineHeight": "var(--seed-line-height-t11)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
+  "textStyleT11Bold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t11)",
+        "lineHeight": "var(--seed-line-height-t11)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
+  "textStyleT12Regular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t12)",
+        "lineHeight": "var(--seed-line-height-t12)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
+  "textStyleT12Medium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t12)",
+        "lineHeight": "var(--seed-line-height-t12)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
+  "textStyleT12Bold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t12)",
+        "lineHeight": "var(--seed-line-height-t12)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
+  "textStyleT13Regular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t13)",
+        "lineHeight": "var(--seed-line-height-t13)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
+  "textStyleT13Medium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t13)",
+        "lineHeight": "var(--seed-line-height-t13)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
+  "textStyleT13Bold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t13)",
+        "lineHeight": "var(--seed-line-height-t13)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
+  "textStyleT14Regular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t14)",
+        "lineHeight": "var(--seed-line-height-t14)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
+  "textStyleT14Medium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t14)",
+        "lineHeight": "var(--seed-line-height-t14)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다.
+   */
+  "textStyleT14Bold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t14)",
+        "lineHeight": "var(--seed-line-height-t14)",
         "fontWeight": "var(--seed-font-weight-bold)"
       }
     }
@@ -506,12 +704,60 @@ export declare const vars: {
   /**
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
+  "textStyleT8StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t8-static)",
+        "lineHeight": "var(--seed-line-height-t8-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
+  "textStyleT8StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t8-static)",
+        "lineHeight": "var(--seed-line-height-t8-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT8StaticBold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t8-static)",
         "lineHeight": "var(--seed-line-height-t8-static)",
         "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
+  "textStyleT9StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t9-static)",
+        "lineHeight": "var(--seed-line-height-t9-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
+  "textStyleT9StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t9-static)",
+        "lineHeight": "var(--seed-line-height-t9-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
       }
     }
   },
@@ -530,11 +776,179 @@ export declare const vars: {
   /**
    * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
    */
+  "textStyleT10StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t10-static)",
+        "lineHeight": "var(--seed-line-height-t10-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
+  "textStyleT10StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t10-static)",
+        "lineHeight": "var(--seed-line-height-t10-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  /**
+   * 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
   "textStyleT10StaticBold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t10-static)",
         "lineHeight": "var(--seed-line-height-t10-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
+  "textStyleT11StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t11-static)",
+        "lineHeight": "var(--seed-line-height-t11-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
+  "textStyleT11StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t11-static)",
+        "lineHeight": "var(--seed-line-height-t11-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
+  "textStyleT11StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t11-static)",
+        "lineHeight": "var(--seed-line-height-t11-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
+  "textStyleT12StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t12-static)",
+        "lineHeight": "var(--seed-line-height-t12-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
+  "textStyleT12StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t12-static)",
+        "lineHeight": "var(--seed-line-height-t12-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
+  "textStyleT12StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t12-static)",
+        "lineHeight": "var(--seed-line-height-t12-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
+  "textStyleT13StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t13-static)",
+        "lineHeight": "var(--seed-line-height-t13-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
+  "textStyleT13StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t13-static)",
+        "lineHeight": "var(--seed-line-height-t13-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
+  "textStyleT13StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t13-static)",
+        "lineHeight": "var(--seed-line-height-t13-static)",
+        "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
+  "textStyleT14StaticRegular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t14-static)",
+        "lineHeight": "var(--seed-line-height-t14-static)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
+  "textStyleT14StaticMedium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t14-static)",
+        "lineHeight": "var(--seed-line-height-t14-static)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
+  /**
+   * `sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+   */
+  "textStyleT14StaticBold": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t14-static)",
+        "lineHeight": "var(--seed-line-height-t14-static)",
         "fontWeight": "var(--seed-font-weight-bold)"
       }
     }

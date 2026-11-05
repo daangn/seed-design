@@ -6,8 +6,21 @@ export const vars = {
         "targetSize": "var(--seed-dimension-x10)"
       },
       "fillIcon": {
-        "gradient": "var(--seed-color-palette-static-black-alpha-300) 0%, var(--seed-color-palette-static-black-alpha-300) 100%",
-        "size": "var(--seed-dimension-x6)"
+        "gradient": {
+          "serialized": "var(--seed-color-palette-static-black-alpha-600) 0%, var(--seed-color-palette-static-black-alpha-600) 100%",
+          "stops": [
+            {
+              "color": "var(--seed-color-palette-static-black-alpha-600)",
+              "position": 0
+            },
+            {
+              "color": "var(--seed-color-palette-static-black-alpha-600)",
+              "position": 1
+            }
+          ]
+        },
+        "size": "var(--seed-dimension-x6)",
+        "shadow": "0px 2px 4px 0px #00000026"
       },
       "lineIcon": {
         "color": "var(--seed-color-palette-static-white)",
@@ -16,7 +29,19 @@ export const vars = {
     },
     "selected": {
       "fillIcon": {
-        "gradient": "#FF9A56 0%, #FF6600 100%"
+        "gradient": {
+          "serialized": "#FF9A56 0%, #FF6600 100%",
+          "stops": [
+            {
+              "color": "#FF9A56",
+              "position": 0
+            },
+            {
+              "color": "#FF6600",
+              "position": 1
+            }
+          ]
+        }
       },
       "lineIcon": {
         "color": "var(--seed-color-bg-transparent)"

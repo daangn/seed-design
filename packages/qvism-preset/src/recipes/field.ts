@@ -22,6 +22,10 @@ export const field = defineSlotRecipe({
 
       width: "100%",
 
+      // Select has no root of its own to wrap its hidden native `<select>` with, so the field
+      // takes that role and keeps it from escaping into an outer scroll container.
+      position: "relative",
+
       gap: vars.base.enabled.root.gap,
     },
     header: {
@@ -29,16 +33,14 @@ export const field = defineSlotRecipe({
       justifyContent: "space-between",
       alignItems: "center",
 
-      paddingLeft: vars.base.enabled.header.paddingX,
-      paddingRight: vars.base.enabled.header.paddingX,
+      paddingInline: vars.base.enabled.header.paddingX,
       gap: vars.base.enabled.header.gap,
     },
     footer: {
       display: "flex",
       alignItems: "flex-start",
 
-      paddingLeft: vars.base.enabled.footer.paddingX,
-      paddingRight: vars.base.enabled.footer.paddingX,
+      paddingInline: vars.base.enabled.footer.paddingX,
       gap: vars.base.enabled.footer.gap,
     },
     description: {

@@ -1,19 +1,36 @@
+import { defineMain } from "@storybook/nextjs-vite/node";
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
-import type { StorybookConfig } from "@storybook/nextjs";
 
-const config: StorybookConfig = {
+export default defineMain({
   stories: ["../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
-  addons: [getAbsolutePath("@chromatic-com/storybook")],
+  addons: [
+    getAbsolutePath("@chromatic-com/storybook"),
+    {
+      name: "@kaptures/storybook/preset",
+      options: {
+        projectRoot: "..",
+        globalInputs: [
+          "docs/.storybook/**",
+          "docs/public/**",
+          "packages/css/**",
+          "packages/qvism-preset/**",
+          "ecosystem/rootage/**",
+        ],
+        ignoredInputs: [".changeset/**"],
+      },
+    },
+  ],
   framework: {
-    name: getAbsolutePath("@storybook/nextjs"),
+    name: getAbsolutePath("@storybook/nextjs-vite"),
     options: {},
   },
   staticDirs: ["../public"],
-};
+  core: {
+    allowedHosts: [".test"],
+  },
+});
 
-export default config;
-
-function getAbsolutePath(value: string): any {
+function getAbsolutePath(value: string): string {
   return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
 }

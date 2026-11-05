@@ -6,6 +6,10 @@ export interface PluginOptions {
     hover?: string;
     active?: string;
   };
+  media?: {
+    hover?: string;
+    active?: string;
+  };
 }
 
 function isAtRule(node: Container | Document): node is AtRule {
@@ -14,13 +18,17 @@ function isAtRule(node: Container | Document): node is AtRule {
 
 const PLUGIN_NAME = "postcss-engaged";
 
-function isAlreadyWrapped(ancestor: Container | Document | undefined) {
+function isAlreadyWrapped(
+  ancestor: Container | Document | undefined,
+  hoverMediaParams: string,
+  activeMediaParams: string,
+) {
   let container = ancestor;
 
   while (container != null && container.type !== "root") {
     if (
       isAtRule(container) &&
-      (container.params.includes("hover: hover") || container.params.includes("hover: none"))
+      (container.params === hoverMediaParams || container.params === activeMediaParams)
     ) {
       return true;
     }
@@ -35,6 +43,8 @@ export const postcssEngaged: PluginCreator<PluginOptions> = (opts = {}) => {
   const selectorRe = new RegExp(selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
   const hoverReplacement = opts.replace?.hover ?? ":hover";
   const activeReplacement = opts.replace?.active ?? ":active";
+  const hoverMediaParams = opts.media?.hover ?? "(hover: hover)";
+  const activeMediaParams = opts.media?.active ?? "(hover: none)";
 
   return {
     postcssPlugin: PLUGIN_NAME,
@@ -44,9 +54,9 @@ export const postcssEngaged: PluginCreator<PluginOptions> = (opts = {}) => {
         return;
       }
 
-      if (isAlreadyWrapped(rule.parent)) {
+      if (isAlreadyWrapped(rule.parent, hoverMediaParams, activeMediaParams)) {
         throw rule.error(
-          `"${selector}" is already inside a @media (hover: ...) block. Remove the outer @media or the ${selector} pseudo-class.`,
+          `"${selector}" is already inside a matching @media block. Remove the outer @media or the ${selector} pseudo-class.`,
           { plugin: PLUGIN_NAME },
         );
       }
@@ -55,12 +65,12 @@ export const postcssEngaged: PluginCreator<PluginOptions> = (opts = {}) => {
       const activeSelector = rule.selector.replace(selectorRe, activeReplacement);
 
       const hoverRule = rule.clone({ selector: hoverSelector });
-      const hoverMedia = new AtRule({ name: "media", params: "(hover: hover)" });
+      const hoverMedia = new AtRule({ name: "media", params: hoverMediaParams });
       hoverMedia.source = rule.source;
       hoverMedia.append(hoverRule);
 
       const activeRule = rule.clone({ selector: activeSelector });
-      const activeMedia = new AtRule({ name: "media", params: "(hover: none)" });
+      const activeMedia = new AtRule({ name: "media", params: activeMediaParams });
       activeMedia.source = rule.source;
       activeMedia.append(activeRule);
 

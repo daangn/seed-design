@@ -2,6 +2,7 @@ export {
   DialogBackdrop,
   DialogPositioner,
   DialogContent,
+  DialogBody,
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -9,9 +10,11 @@ export {
   DialogTitle,
   DialogTrigger,
   DialogAction,
+  DialogCloseButton,
   type DialogBackdropProps,
   type DialogPositionerProps,
   type DialogContentProps,
+  type DialogBodyProps,
   type DialogDescriptionProps,
   type DialogFooterProps,
   type DialogHeaderProps,
@@ -19,6 +22,7 @@ export {
   type DialogTitleProps,
   type DialogTriggerProps,
   type DialogActionProps,
+  type DialogCloseButtonProps,
 } from "./Dialog";
 
 export * as Dialog from "./Dialog.namespace";

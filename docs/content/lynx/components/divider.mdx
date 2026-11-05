@@ -1,0 +1,81 @@
+---
+title: Divider
+description: 콘텐츠 영역을 시각적으로 구분하는 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "1.1"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.5.0, @seed-design/lynx-css@0.8.1" />
+
+<LynxComponentExample name="lynx/divider/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/divider/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/Divider/Divider.tsx" name="DividerProps" />
+
+## Usage
+
+```tsx
+import { Divider } from "@seed-design/lynx-react";
+```
+
+```tsx
+<Divider />
+```
+
+## Screen Reader Behavior
+
+Divider는 기본적으로 접근성 트리에 포함되며 구분선으로 읽힙니다. 장식용이라면 `accessibility-element={false}`를 지정하세요.
+
+## Examples
+
+### Orientation
+
+`orientation="vertical"`을 사용하면 부모가 구분선의 높이를 정해야 합니다.
+
+<LynxComponentExample name="lynx/divider/orientation">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/divider/orientation.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Inset
+
+`inset`은 구분선 양끝에 16px 간격을 추가합니다.
+
+<LynxComponentExample name="lynx/divider/inset">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/divider/inset.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Web Version Differences
+
+- native `<view>`를 렌더링하며 Lynx 접근성 속성을 사용합니다.
+- 세로 Divider의 방향은 접근성 트리에 별도로 노출되지 않습니다.
+- 세로 Divider는 부모가 높이를 지정해야 합니다.
+
+## Unsupported Lynx Features
+
+- 웹의 `as` prop을 지원하지 않습니다.
+- 접근성 노출 여부는 `accessibility-element`로 조정합니다.

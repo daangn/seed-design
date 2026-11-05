@@ -32,6 +32,9 @@ data:
             type: dimension
           size:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       icon:
         properties:
           color:
@@ -71,12 +74,13 @@ data:
           layoutDuration: $duration.d4
           layoutTimingFunction: $timing-function.easing
         icon:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
           sizeDuration: $duration.d4
           sizeTimingFunction: $timing-function.easing
       pressed:
         root:
           color: $color.bg.brand-solid-pressed
+          scaleScope: self
     extended=true:
       enabled:
         root:
@@ -85,9 +89,9 @@ data:
           paddingY: $dimension.x3
           minHeight: 48px
         icon:
-          size: $dimension.x5
+          size: $dimension.x4
         label:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.bold

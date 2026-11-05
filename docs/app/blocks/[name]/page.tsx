@@ -1,4 +1,4 @@
-import { registryBlock } from "../../../registry/registry-block";
+import { registryBlock } from "../../../registry/react/registry-block";
 import { BlockRenderer } from "./block-renderer";
 
 export default async function BlockPage({ params }: { params: Promise<{ name: string }> }) {

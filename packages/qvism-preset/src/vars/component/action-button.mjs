@@ -16,20 +16,20 @@ export const vars = {
         "color": "var(--seed-color-bg-brand-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-brand-solid)"
       },
       "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-brand-solid)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-brand-solid)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-brand-solid)"
       },
       "progressCircle": {
         "trackColor": "var(--seed-color-palette-static-white-alpha-300)",
-        "rangeColor": "var(--seed-color-palette-static-white)"
+        "rangeColor": "var(--seed-color-fg-on-brand-solid)"
       }
     },
     "pressed": {
@@ -63,28 +63,28 @@ export const vars = {
   "variantNeutralSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "progressCircle": {
         "trackColor": "var(--seed-color-palette-static-white-alpha-300)",
-        "rangeColor": "var(--seed-color-palette-static-white)"
+        "rangeColor": "var(--seed-color-fg-on-neutral-solid)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--seed-color-bg-neutral-solid-pressed)"
       }
     },
     "disabled": {
@@ -106,7 +106,7 @@ export const vars = {
     },
     "loading": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--seed-color-bg-neutral-solid-pressed)"
       }
     }
   },
@@ -166,20 +166,20 @@ export const vars = {
         "color": "var(--seed-color-bg-critical-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       },
       "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       },
       "progressCircle": {
         "trackColor": "var(--seed-color-palette-static-white-alpha-300)",
-        "rangeColor": "var(--seed-color-palette-static-white)"
+        "rangeColor": "var(--seed-color-fg-on-critical-solid)"
       }
     },
     "pressed": {

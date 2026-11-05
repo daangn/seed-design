@@ -1,3 +1,4 @@
+import spec from "@seed-design/rootage-artifacts/components/progress-circle";
 import { progressCircle as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
@@ -80,6 +81,12 @@ const progressCircle = defineSlotRecipe({
   defaultVariants: {
     tone: "neutral",
     size: 40,
+  },
+  metadata: {
+    variants: {
+      tone: spec.data.schema.variants.tone,
+      size: spec.data.schema.variants.size,
+    },
   },
 });
 

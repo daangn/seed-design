@@ -1,0 +1,631 @@
+import type { Registry } from "../schema";
+
+export const registryUI: Registry = {
+  id: "ui",
+  items: [
+    {
+      id: "accordion",
+      snippets: [
+        {
+          path: "accordion.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "app-screen",
+      snippets: [
+        {
+          path: "app-screen.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+        {
+          path: "app-bar.tsx",
+          // `AppBarTextButton` ships in @seed-design/stackflow 2.1.0 and its recipe in @seed-design/css 3.1.0.
+          dependencies: {
+            "@seed-design/react": "^2.0.0 || ^3.0.0",
+            "@seed-design/css": "^3.1.0",
+            "@seed-design/stackflow": "^2.1.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "badge",
+      snippets: [
+        {
+          path: "badge.tsx",
+          dependencies: {
+            "@karrotmarket/react-monochrome-icon": "^1.17.0",
+            "@seed-design/react": "^3.0.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "field-button",
+      snippets: [
+        {
+          path: "field-button.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "manner-temp",
+      snippets: [
+        {
+          path: "manner-temp.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "manner-temp-badge",
+      snippets: [
+        {
+          path: "manner-temp-badge.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "alert-dialog",
+      snippets: [
+        {
+          path: "alert-dialog.tsx",
+          dependencies: { "@seed-design/react": "^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "dialog",
+      snippets: [
+        {
+          path: "dialog.tsx",
+          dependencies: { "@seed-design/react": "^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "responsive-dialog",
+      snippets: [
+        {
+          path: "responsive-dialog.tsx",
+          dependencies: { "@seed-design/react": "^2.1.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "bottom-sheet",
+      snippets: [
+        {
+          path: "bottom-sheet.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "side-panel",
+      snippets: [
+        {
+          path: "side-panel.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "responsive-side-panel",
+      snippets: [
+        {
+          path: "responsive-side-panel.tsx",
+          dependencies: {
+            "@seed-design/react": "^2.0.0 || ^3.0.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "avatar",
+      snippets: [
+        {
+          path: "avatar.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "pull-to-refresh",
+      snippets: [
+        {
+          path: "pull-to-refresh.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "loading-indicator",
+      snippets: [
+        {
+          path: "loading-indicator.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "action-button",
+      snippets: [
+        {
+          path: "action-button.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "toggle-button",
+      snippets: [
+        {
+          path: "toggle-button.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "reaction-button",
+      snippets: [
+        {
+          path: "reaction-button.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "callout",
+      snippets: [
+        {
+          path: "callout.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "chip",
+      snippets: [
+        {
+          path: "chip.tsx",
+          dependencies: { "@seed-design/react": "^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "checkbox",
+      snippets: [
+        {
+          path: "checkbox.tsx",
+          dependencies: {
+            "@seed-design/react": "^2.0.0 || ^3.0.0",
+            "@seed-design/css": "^2.0.0 || ^3.0.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "content-placeholder",
+      snippets: [
+        {
+          path: "content-placeholder.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "identity-placeholder",
+      snippets: [
+        {
+          path: "identity-placeholder.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "menu",
+      snippets: [
+        {
+          path: "menu.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "menu-sheet",
+      snippets: [
+        {
+          path: "menu-sheet.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+      deprecated: true,
+    },
+    {
+      id: "swipeable-menu-sheet",
+      snippets: [
+        {
+          path: "swipeable-menu-sheet.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "navigation-menu",
+      snippets: [
+        {
+          path: "navigation-menu.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "slider",
+      snippets: [
+        {
+          path: "slider.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "snackbar",
+      snippets: [
+        {
+          path: "snackbar.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "help-bubble",
+      snippets: [
+        {
+          path: "help-bubble.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "help-bubble-tooltip",
+      snippets: [
+        {
+          path: "help-bubble-tooltip.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "popover",
+      snippets: [
+        {
+          path: "popover.tsx",
+          dependencies: { "@seed-design/react": "^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "tabs",
+      snippets: [
+        {
+          path: "tabs.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "chip-tabs",
+      snippets: [
+        {
+          path: "chip-tabs.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "tag-group",
+      snippets: [
+        {
+          path: "tag-group.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "page-banner",
+      snippets: [
+        {
+          path: "page-banner.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "pagination",
+      snippets: [
+        {
+          path: "pagination.tsx",
+          dependencies: {
+            "@seed-design/react": "^3.0.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "progress-circle",
+      snippets: [
+        {
+          path: "progress-circle.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "quantity-picker",
+      snippets: [
+        {
+          path: "quantity-picker.tsx",
+          dependencies: { "@seed-design/react": "^2.1.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "date-picker",
+      snippets: [
+        {
+          path: "date-picker.tsx",
+          dependencies: {
+            "@karrotmarket/react-monochrome-icon": "^1.17.0",
+            "@seed-design/react": "^3.0.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "time-picker",
+      snippets: [
+        {
+          path: "time-picker.tsx",
+          dependencies: {
+            "@seed-design/react": "^3.0.0",
+            "@seed-design/css": "^3.0.0",
+            clsx: "^2.1.1",
+          },
+        },
+      ],
+    },
+    {
+      id: "wheel-picker",
+      snippets: [
+        {
+          path: "wheel-picker.tsx",
+          dependencies: { "@seed-design/react": "^2.4.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "radio-group",
+      snippets: [
+        {
+          path: "radio-group.tsx",
+          dependencies: {
+            "@seed-design/react": "^2.0.0 || ^3.0.0",
+            "@seed-design/css": "^2.0.0 || ^3.0.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "select",
+      snippets: [
+        {
+          path: "select.tsx",
+          dependencies: { "@seed-design/react": "^2.1.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "select-box",
+      snippets: [
+        {
+          path: "select-box.tsx",
+          dependencies: {
+            "@seed-design/react": "^2.0.0 || ^3.0.0",
+            "@seed-design/css": "^2.0.0 || ^3.0.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "table-pagination",
+      snippets: [
+        {
+          path: "table-pagination.tsx",
+          dependencies: {
+            "@seed-design/react": "^3.0.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "search-bar",
+      snippets: [
+        {
+          path: "search-bar.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0", "@seed-design/css": "^3.1.0" },
+        },
+      ],
+    },
+    {
+      id: "search-input",
+      snippets: [
+        {
+          path: "search-input.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0", "@seed-design/css": "^3.1.0" },
+        },
+      ],
+    },
+    {
+      id: "segmented-control",
+      snippets: [
+        {
+          path: "segmented-control.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "switch",
+      snippets: [
+        {
+          path: "switch.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "text-field",
+      snippets: [
+        {
+          path: "text-field.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "segmented-text-field",
+      snippets: [
+        {
+          path: "segmented-text-field.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0" },
+        },
+      ],
+    },
+    {
+      id: "resident-number-field",
+      snippets: [
+        {
+          path: "resident-number-field.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0" },
+        },
+      ],
+    },
+    {
+      id: "card-number-field",
+      snippets: [
+        {
+          path: "card-number-field.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0" },
+        },
+      ],
+    },
+    {
+      id: "attachment-display-field",
+      snippets: [
+        {
+          path: "attachment-display-field.tsx",
+          dependencies: { "@seed-design/react": "^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "attachment-display-field-reorderable",
+      snippets: [
+        {
+          path: "attachment-display-field.tsx",
+          dependencies: { "@seed-design/react": "^3.0.0" },
+        },
+        {
+          path: "attachment-display-field-reorderable.tsx",
+          dependencies: {
+            "@seed-design/react": "^3.0.0",
+            "@dnd-kit/react": "^0.4.0",
+            "@dnd-kit/abstract": "^0.4.0",
+            "@dnd-kit/dom": "^0.4.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "attachment-field",
+      snippets: [
+        {
+          path: "attachment-field.tsx",
+          dependencies: { "@seed-design/react": "^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "attachment-field-reorderable",
+      snippets: [
+        {
+          path: "attachment-field.tsx",
+          dependencies: { "@seed-design/react": "^3.0.0" },
+        },
+        {
+          path: "attachment-field-reorderable.tsx",
+          dependencies: {
+            "@seed-design/react": "^3.0.0",
+            "@dnd-kit/react": "^0.4.0",
+            "@dnd-kit/abstract": "^0.4.0",
+            "@dnd-kit/dom": "^0.4.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "contextual-floating-button",
+      snippets: [
+        {
+          path: "contextual-floating-button.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "floating-action-button",
+      snippets: [
+        {
+          path: "floating-action-button.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "list",
+      snippets: [
+        {
+          path: "list.tsx",
+          dependencies: { "@seed-design/react": "^3.0.0", "@seed-design/css": "^3.0.0" },
+        },
+        {
+          path: "list-header.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "result-section",
+      snippets: [
+        {
+          path: "result-section.tsx",
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "side-navigation",
+      snippets: [
+        {
+          path: "side-navigation.tsx",
+          dependencies: { "@seed-design/react": "^3.0.0" },
+        },
+      ],
+    },
+  ],
+};

@@ -12,10 +12,8 @@ const listHeader = defineRecipe({
 
     boxSizing: "border-box",
 
-    paddingLeft: vars.base.enabled.root.paddingX,
-    paddingRight: vars.base.enabled.root.paddingX,
-    paddingTop: vars.base.enabled.root.paddingY,
-    paddingBottom: vars.base.enabled.root.paddingY,
+    paddingInline: vars.base.enabled.root.paddingX,
+    paddingBlock: vars.base.enabled.root.paddingY,
 
     fontSize: vars.base.enabled.root.fontSize,
     lineHeight: vars.base.enabled.root.lineHeight,

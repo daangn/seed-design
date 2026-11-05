@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as changeCase from "change-case";
-import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
+import { SeedClientCodeBlock } from "@/components/codeblock/client-code-block";
 
 import { TabsRoot, TabsList, TabsTrigger, TabsContent } from "seed-design/ui/tabs";
 
@@ -31,7 +31,7 @@ const ReactTab = () => {
         label="컴포넌트 이름이 복사되었습니다"
         className="text-sm font-mono font-medium"
       />
-      <DynamicCodeBlock lang="tsx" code={usageCode} />
+      <SeedClientCodeBlock lang="tsx" code={usageCode} className="!my-0" />
     </div>
   );
 };

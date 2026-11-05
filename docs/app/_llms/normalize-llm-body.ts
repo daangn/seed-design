@@ -1,11 +1,11 @@
 import type { Root, RootContent } from "mdast";
-import type { MdxJsxAttribute, MdxJsxFlowElement } from "mdast-util-mdx-jsx";
+import type { MdxJsxAttribute, MdxJsxFlowElement, MdxJsxTextElement } from "mdast-util-mdx-jsx";
 import remarkMdx from "remark-mdx";
 import remarkParse from "remark-parse";
 import remarkStringify from "remark-stringify";
 import { unified } from "unified";
 import { activeRules } from "./rules";
-import type { Rule, RuleContext } from "./rules/types";
+import type { AnyRule, RuleContext, RuleNode } from "./rules/types";
 
 const processor = unified().use(remarkParse).use(remarkMdx).use(remarkStringify, {
   bullet: "-",
@@ -31,8 +31,8 @@ export function normalizeCodeIndent(code: string): string {
     .trimEnd();
 }
 
-function isMdxJsxFlowElement(node: RootContent): node is MdxJsxFlowElement {
-  return node.type === "mdxJsxFlowElement";
+function isMdxJsxElement(node: RootContent): node is MdxJsxFlowElement | MdxJsxTextElement {
+  return node.type === "mdxJsxFlowElement" || node.type === "mdxJsxTextElement";
 }
 
 function isMdxJsxAttribute(
@@ -41,7 +41,7 @@ function isMdxJsxAttribute(
   return attribute.type === "mdxJsxAttribute";
 }
 
-export function getStringAttribute(node: MdxJsxFlowElement, name: string): string | undefined {
+export function getStringAttribute(node: RuleNode, name: string): string | undefined {
   for (const attribute of node.attributes) {
     if (!isMdxJsxAttribute(attribute) || attribute.name !== name) continue;
     if (typeof attribute.value === "string") return attribute.value;
@@ -54,16 +54,24 @@ function hasChildren(node: RootContent): node is RootContent & { children: RootC
   return "children" in node && Array.isArray(node.children);
 }
 
-function transformNodes(nodes: RootContent[], rules: Rule[], context: RuleContext): RootContent[] {
+function transformNodes(
+  nodes: RootContent[],
+  rules: AnyRule[],
+  context: RuleContext,
+): RootContent[] {
   const transformed: RootContent[] = [];
 
   for (const node of nodes) {
-    if (isMdxJsxFlowElement(node)) {
+    if (isMdxJsxElement(node)) {
       const matchedRule = rules.find((rule) => rule.match(node));
       if (matchedRule) {
         try {
           const nextNodes = matchedRule.transform(node, context);
-          transformed.push(...transformNodes(nextNodes, rules, context));
+          // 룰은 변환할 수 없을 때 원본 노드를 그대로 돌려준다(AGENTS.md의 안전 실패 규약).
+          // 그 결과를 다시 돌리면 같은 룰이 다시 매치돼 스택이 넘칠 때까지 재귀하고,
+          // 아래 catch가 그 RangeError를 삼켜 실패가 드러나지 않는다.
+          const unchanged = nextNodes.length === 1 && nextNodes[0] === node;
+          transformed.push(...(unchanged ? nextNodes : transformNodes(nextNodes, rules, context)));
         } catch {
           transformed.push(node);
         }
@@ -85,7 +93,7 @@ function transformNodes(nodes: RootContent[], rules: Rule[], context: RuleContex
   return transformed;
 }
 
-export function normalizeLLMBodyWithRules(content: string | undefined, rules: Rule[]): string {
+export function normalizeLLMBodyWithRules(content: string | undefined, rules: AnyRule[]): string {
   if (!content) return "";
 
   const context: RuleContext = {
@@ -106,8 +114,11 @@ export function normalizeLLMBody(content?: string): string {
   return normalizeLLMBodyWithRules(content, activeRules);
 }
 
-const _rulesInit = Promise.all(activeRules.filter((r) => r.init).map((r) => r.init!()));
+// 모듈 로드가 아니라 첫 호출에 시작한다. 이 모듈은 규칙 단위 테스트도 import하는데,
+// 모듈 스코프에서 발사하면 그 테스트 전부가 Sanity를 찌르게 된다.
+let rulesInitPromise: Promise<unknown> | null = null;
 
 export async function ensureRulesReady(): Promise<void> {
-  await _rulesInit;
+  rulesInitPromise ??= Promise.all(activeRules.map((rule) => rule.init?.()));
+  await rulesInitPromise;
 }

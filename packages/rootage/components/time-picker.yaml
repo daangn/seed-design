@@ -1,0 +1,53 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: time-picker
+  name: Time Picker
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          height:
+            type: dimension
+      selectionIndicator:
+        properties:
+          height:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          color:
+            type: color
+      item:
+        properties:
+          height:
+            type: dimension
+          paddingX:
+            type: dimension
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+  definitions:
+    base:
+      enabled:
+        root:
+          height: 220px
+        selectionIndicator:
+          height: 44px
+          cornerRadius: $radius.r2
+          color: $color.bg.neutral-weak
+        item:
+          height: 44px
+          paddingX: $dimension.x4
+          fontSize: $font-size.t10-static
+          lineHeight: $line-height.t10-static
+          fontWeight: $font-weight.medium
+          color: $color.fg.disabled
+      selected:
+        item:
+          color: $color.fg.neutral

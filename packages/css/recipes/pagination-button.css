@@ -1,0 +1,68 @@
+.seed-pagination-button {
+    display: inline-flex;
+    position: relative;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    text-transform: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-decoration: none;
+    flex-shrink: 0;
+    font-family: inherit;
+    width: var(--seed-dimension-x10);
+    height: var(--seed-dimension-x10);
+    border-radius: var(--seed-radius-r2);
+    background: transparent;
+    isolation: isolate;
+}
+.seed-pagination-button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: var(--seed-color-bg-transparent);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+}
+.seed-pagination-button {
+    --seed-icon-size: var(--seed-dimension-x4);
+    --seed-icon-color: var(--seed-color-fg-neutral);
+    outline: var(--seed-dimension-x0_5) solid transparent;
+    outline-offset: var(--seed-dimension-x0_5);
+}
+.seed-pagination-button:is(:focus-visible, [data-focus-visible]) {
+    outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
+    outline-offset: var(--seed-dimension-x0_5);
+}
+.seed-pagination-button {
+    scale: 1;
+}
+@media (hover: hover) and (pointer: fine) {
+    .seed-pagination-button:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled]))::before {
+        background-color: var(--seed-color-bg-transparent-pressed);
+    }
+}
+@media not all and (hover: hover) and (pointer: fine) {
+    .seed-pagination-button:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled]))::before {
+        background-color: var(--seed-color-bg-transparent-pressed);
+    }
+}
+.seed-pagination-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-scale-s97);
+}
+.seed-pagination-button:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+    --seed-icon-color: var(--seed-color-fg-disabled);
+}
+.seed-pagination-button:is(:disabled, [disabled], [data-disabled])::before {
+    background-color: var(--seed-color-bg-transparent);
+}
+.seed-pagination-button {
+    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+}

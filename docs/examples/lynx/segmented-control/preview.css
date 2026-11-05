@@ -1,0 +1,23 @@
+.segmented-control-example {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px;
+  align-items: center;
+  gap: 16px;
+}
+
+.segmented-control-example__fixed-wide {
+  width: 100%;
+  max-width: 500px;
+}
+
+.segmented-control-example__fixed-narrow {
+  width: 100%;
+  max-width: 400px;
+}
+
+.segmented-control-example__status {
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: 14px;
+}

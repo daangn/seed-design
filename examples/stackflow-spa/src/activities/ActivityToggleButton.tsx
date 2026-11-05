@@ -32,7 +32,7 @@ const ActivityToggleButton: StaticActivityComponentType<"ActivityToggleButton"> 
   const { push } = useFlow();
 
   return (
-    <AppScreen>
+    <AppScreen layerOffsetBottom="safeArea">
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

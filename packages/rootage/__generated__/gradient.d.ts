@@ -1,0 +1,391 @@
+declare const artifact: {
+  "kind": "Tokens";
+  "metadata": {
+    "id": "gradient";
+    "name": "Gradient";
+    "lastUpdated": "26-01-14";
+  };
+  "data": {
+    "collection": "color";
+    "tokens": {
+      "$gradient.fade-mask": {
+        "values": {
+          "theme-light": {
+            "type": "gradient";
+            "value": readonly [
+              {
+                "color": "#00000000";
+                "position": 0;
+              },
+              {
+                "color": "#00000003";
+                "position": 0.08;
+              },
+              {
+                "color": "#00000005";
+                "position": 0.16;
+              },
+              {
+                "color": "#0000000d";
+                "position": 0.22;
+              },
+              {
+                "color": "#00000014";
+                "position": 0.29;
+              },
+              {
+                "color": "#00000021";
+                "position": 0.35;
+              },
+              {
+                "color": "#0000002e";
+                "position": 0.41;
+              },
+              {
+                "color": "#00000040";
+                "position": 0.47;
+              },
+              {
+                "color": "#00000052";
+                "position": 0.53;
+              },
+              {
+                "color": "#00000066";
+                "position": 0.59;
+              },
+              {
+                "color": "#0000007a";
+                "position": 0.65;
+              },
+              {
+                "color": "#00000094";
+                "position": 0.71;
+              },
+              {
+                "color": "#000000ab";
+                "position": 0.78;
+              },
+              {
+                "color": "#000000c7";
+                "position": 0.84;
+              },
+              {
+                "color": "#000000e3";
+                "position": 0.92;
+              },
+              {
+                "color": "#000000ff";
+                "position": 1;
+              },
+            ];
+          };
+          "theme-dark": {
+            "type": "gradient";
+            "value": readonly [
+              {
+                "color": "#00000000";
+                "position": 0;
+              },
+              {
+                "color": "#00000003";
+                "position": 0.08;
+              },
+              {
+                "color": "#00000005";
+                "position": 0.16;
+              },
+              {
+                "color": "#0000000d";
+                "position": 0.22;
+              },
+              {
+                "color": "#00000014";
+                "position": 0.29;
+              },
+              {
+                "color": "#00000021";
+                "position": 0.35;
+              },
+              {
+                "color": "#0000002e";
+                "position": 0.41;
+              },
+              {
+                "color": "#00000040";
+                "position": 0.47;
+              },
+              {
+                "color": "#00000052";
+                "position": 0.53;
+              },
+              {
+                "color": "#00000066";
+                "position": 0.59;
+              },
+              {
+                "color": "#0000007a";
+                "position": 0.65;
+              },
+              {
+                "color": "#00000094";
+                "position": 0.71;
+              },
+              {
+                "color": "#000000ab";
+                "position": 0.78;
+              },
+              {
+                "color": "#000000c7";
+                "position": 0.84;
+              },
+              {
+                "color": "#000000e3";
+                "position": 0.92;
+              },
+              {
+                "color": "#000000ff";
+                "position": 1;
+              },
+            ];
+          };
+        };
+        "description": "콘텐츠를 부드럽게 가리는 마스크용 불투명도(alpha) easing 곡선입니다. Figma에 없는 개발 전용 토큰입니다.";
+      };
+      "$gradient.glow-magic": {
+        "values": {
+          "theme-light": {
+            "type": "gradient";
+            "value": readonly [
+              {
+                "color": "#fef6f7";
+                "position": 0;
+              },
+              {
+                "color": "#fef0e7";
+                "position": 0.8;
+              },
+              {
+                "color": "#f9f7f5";
+                "position": 1;
+              },
+            ];
+          };
+          "theme-dark": {
+            "type": "gradient";
+            "value": readonly [
+              {
+                "color": "#2d252d";
+                "position": 0;
+              },
+              {
+                "color": "#3a312b";
+                "position": 0.8;
+              },
+              {
+                "color": "#333232";
+                "position": 1;
+              },
+            ];
+          };
+        };
+        "description": "반짝이는 것처럼 느껴지는 배경에 쓰이는 ai 컬러입니다.";
+      };
+      "$gradient.glow-magic-pressed": {
+        "values": {
+          "theme-light": {
+            "type": "gradient";
+            "value": readonly [
+              {
+                "color": "#fbf0f2";
+                "position": 0;
+              },
+              {
+                "color": "#ffe8db";
+                "position": 0.8;
+              },
+              {
+                "color": "#f5f2ef";
+                "position": 1;
+              },
+            ];
+          };
+          "theme-dark": {
+            "type": "gradient";
+            "value": readonly [
+              {
+                "color": "#3e333e";
+                "position": 0;
+              },
+              {
+                "color": "#51453e";
+                "position": 0.8;
+              },
+              {
+                "color": "#434242";
+                "position": 1;
+              },
+            ];
+          };
+        };
+        "description": "반짝이는 것처럼 느껴지는 배경에 쓰이는 ai 컬러의 pressed컬러입니다.";
+      };
+      "$gradient.highlight-magic": {
+        "values": {
+          "theme-light": {
+            "type": "gradient";
+            "value": readonly [
+              {
+                "color": "#ff6600";
+                "position": 0.2;
+              },
+              {
+                "color": "#d25aca";
+                "position": 1;
+              },
+            ];
+          };
+          "theme-dark": {
+            "type": "gradient";
+            "value": readonly [
+              {
+                "color": "#ff6600";
+                "position": 0.2;
+              },
+              {
+                "color": "#d25aca";
+                "position": 1;
+              },
+            ];
+          };
+        };
+        "description": "아이콘 및 shape 영역에서 AI 기능을 표현할 때 사용하는 컬러입니다.";
+      };
+      "$gradient.highlight-magic-pressed": {
+        "values": {
+          "theme-light": {
+            "type": "gradient";
+            "value": readonly [
+              {
+                "color": "#e14f00";
+                "position": 0.2;
+              },
+              {
+                "color": "#ae58bf";
+                "position": 1;
+              },
+            ];
+          };
+          "theme-dark": {
+            "type": "gradient";
+            "value": readonly [
+              {
+                "color": "#ff9e65";
+                "position": 0.2;
+              },
+              {
+                "color": "#e89bee";
+                "position": 1;
+              },
+            ];
+          };
+        };
+        "description": "";
+      };
+      "$gradient.shimmer-magic": {
+        "values": {
+          "theme-light": {
+            "type": "gradient";
+            "value": readonly [
+              {
+                "color": "#fff9f500";
+                "position": 0;
+              },
+              {
+                "color": "#fff9f5cc";
+                "position": 0.46;
+              },
+              {
+                "color": "#fff9f5cc";
+                "position": 0.54;
+              },
+              {
+                "color": "#fff9f500";
+                "position": 1;
+              },
+            ];
+          };
+          "theme-dark": {
+            "type": "gradient";
+            "value": readonly [
+              {
+                "color": "#fff9f500";
+                "position": 0;
+              },
+              {
+                "color": "#fff9f51a";
+                "position": 0.46;
+              },
+              {
+                "color": "#fff9f51a";
+                "position": 0.54;
+              },
+              {
+                "color": "#fff9f500";
+                "position": 1;
+              },
+            ];
+          };
+        };
+        "description": "Skeleton AI shimmer";
+      };
+      "$gradient.shimmer-neutral": {
+        "values": {
+          "theme-light": {
+            "type": "gradient";
+            "value": readonly [
+              {
+                "color": "#ffffff00";
+                "position": 0;
+              },
+              {
+                "color": "#ffffffab";
+                "position": 0.46;
+              },
+              {
+                "color": "#ffffffab";
+                "position": 0.54;
+              },
+              {
+                "color": "#ffffff00";
+                "position": 1;
+              },
+            ];
+          };
+          "theme-dark": {
+            "type": "gradient";
+            "value": readonly [
+              {
+                "color": "#ffffff00";
+                "position": 0;
+              },
+              {
+                "color": "#ffffff1a";
+                "position": 0.46;
+              },
+              {
+                "color": "#ffffff1a";
+                "position": 0.54;
+              },
+              {
+                "color": "#ffffff00";
+                "position": 1;
+              },
+            ];
+          };
+        };
+        "description": "Skeleton shimmer";
+      };
+    };
+  };
+};
+export default artifact;

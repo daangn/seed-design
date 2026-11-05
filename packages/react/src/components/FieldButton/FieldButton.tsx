@@ -1,17 +1,25 @@
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { FieldButton, useFieldButtonContext } from "@seed-design/react-field-button";
 import * as React from "react";
+import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
+import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
 import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
 import { fieldLabel, type FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
-import { inputButton } from "@seed-design/css/recipes/input-button";
+import { inputButton, type InputButtonVariantProps } from "@seed-design/css/recipes/input-button";
 import clsx from "clsx";
 
-const { withContext: withFieldContext, withProvider: withFieldProvider } =
+const { ClassNamesProvider: FieldClassNamesProvider, withContext: withFieldContext } =
   createSlotRecipeContext(field);
-const { withProvider, withContext, useClassNames } = createSlotRecipeContext(inputButton);
+const {
+  withProvider,
+  withContext,
+  useClassNames,
+  PropsProvider: InputButtonPropsProvider,
+} = createSlotRecipeContext(inputButton);
 const {
   withProvider: withLabelProvider,
   withContext: withLabelContext,
@@ -22,12 +30,32 @@ const withStateProps = createWithStateProps([useFieldButtonContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FieldButtonRootProps extends FieldVariantProps, FieldButton.RootProps {}
+export interface FieldButtonRootProps
+  extends FieldVariantProps,
+    InputButtonVariantProps,
+    FieldButton.RootProps {}
 
-export const FieldButtonRoot = withFieldProvider<HTMLDivElement, FieldButtonRootProps>(
-  FieldButton.Root,
-  "root",
+export const FieldButtonRoot = forwardRef<HTMLDivElement, FieldButtonRootProps>(
+  ({ className, ...props }, ref) => {
+    const [{ field: fieldVariantProps, inputButton: inputButtonVariantProps }, otherProps] =
+      splitMultipleVariantsProps(props, { field, inputButton });
+
+    const fieldClassNames = field(fieldVariantProps);
+
+    return (
+      <InputButtonPropsProvider value={inputButtonVariantProps}>
+        <FieldClassNamesProvider value={fieldClassNames}>
+          <FieldButton.Root
+            ref={ref}
+            className={clsx(fieldClassNames.root, className)}
+            {...otherProps}
+          />
+        </FieldClassNamesProvider>
+      </InputButtonPropsProvider>
+    );
+  },
 );
+FieldButtonRoot.displayName = "FieldButtonRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -189,7 +217,8 @@ export const FieldButtonButton = withContext<HTMLButtonElement, FieldButtonButto
 );
 
 export interface FieldButtonControlProps
-  extends PrimitiveProps,
+  extends InputButtonVariantProps,
+    PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonControl = withProvider<HTMLDivElement, FieldButtonControlProps>(
@@ -199,9 +228,11 @@ export const FieldButtonControl = withProvider<HTMLDivElement, FieldButtonContro
 
 export interface FieldButtonClearButtonProps extends FieldButton.ClearButtonProps {}
 
-export const FieldButtonClearButton = withContext<HTMLButtonElement, FieldButtonClearButtonProps>(
-  FieldButton.ClearButton,
-  "clearButton",
+export const FieldButtonClearButton = withScaleFeedback(
+  withContext<HTMLButtonElement, FieldButtonClearButtonProps>(
+    FieldButton.ClearButton,
+    "clearButton",
+  ),
 );
 
 export interface FieldButtonValueProps

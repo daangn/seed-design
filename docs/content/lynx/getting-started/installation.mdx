@@ -1,0 +1,267 @@
+---
+title: Installation
+description: Lynx 프로젝트에서 SEED를 설치하고 사용하는 방법을 알아봅니다.
+---
+
+<Steps>
+<Step>
+
+### 의존성 설치
+
+필요한 공통 의존성을 설치해요. 스타일링 라이브러리는 다음 단계에서 선택해요.
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+</Step>
+
+<Step>
+
+### 스타일링 라이브러리 선택하기
+
+**Vanilla Extract 또는 Tailwind CSS v4 중 프로젝트에 맞는 방식을 선택하세요.**
+정적 CSS를 권장하는 이유와 레이아웃 작성 예제는 [Styling 가이드](/lynx/getting-started/styling)에서 확인하세요.
+
+| 스타일링 방식 | 작성 방법 | 설정 가이드 |
+| --- | --- | --- |
+| Vanilla Extract | `.css.ts`에서 타입이 있는 스타일과 SEED 토큰을 작성해요. | [Vanilla Extract](/lynx/getting-started/styling/vanilla-extract) |
+| Tailwind CSS v4 | `className`에 utility class를 조합해요. | [Tailwind CSS 4](/lynx/getting-started/styling/tailwind-css-4) |
+
+선택한 가이드에서 의존성, 빌드 설정, SEED `base.css`와 앱 entry의 CSS import까지 적용한 뒤 다음 단계로 진행하세요.
+각 가이드의 Rspeedy·Rsbuild 요구사항을 먼저 확인하세요. Vanilla Extract 플러그인 `0.2.0`은 Rsbuild 1을 요구하며,
+Tailwind v4 가이드는 Rsbuild 2 기반 구성을 다뤄요.
+기존 Tailwind v3 프로젝트는 [Tailwind CSS 3](/lynx/getting-started/styling/tailwind-css-3) 설정을 유지할 수 있어요.
+
+</Step>
+
+<Step>
+
+### seed-design.json 생성하기
+
+<Tabs items={['CLI로 추가', '직접 추가']}>
+<Tab value="CLI로 추가">
+<Steps>
+<Step>
+
+### init 명령어 입력하기
+
+</Step>
+
+```package-install
+npx @seed-design/cli init
+```
+
+<Step>
+
+### seed-design 설정
+
+`@lynx-js/react`가 설치되어 있으면 프레임워크가 자동으로 Lynx로 감지돼요.
+
+```sh
+◇  TypeScript를 사용중이신가요?
+│  Yes
+│
+◇  어떤 프레임워크를 사용하시나요?
+│  Lynx
+│
+◇  seed-design 폴더 경로를 입력해주세요. (기본값은 프로젝트 루트에 생성됩니다.)
+│  ./seed-design
+│
+◇  개선을 위해 익명 사용 데이터를 수집할까요?
+│  Yes
+```
+
+</Step>
+</Steps>
+</Tab>
+
+<Tab value="직접 추가">
+
+아래 파일을 프로젝트 루트에 생성해주세요.
+
+```json title="seed-design.json"
+{
+  "tsx": true,
+  "framework": "lynx",
+  "path": "./seed-design"
+}
+```
+
+</Tab>
+</Tabs>
+
+</Step>
+
+<Step>
+
+### seed-design path alias 설정하기
+
+<Callout>
+
+위에서 설정한 [seed-design.json path](/react/getting-started/cli/configuration#path)의 경로와 동일해야 해요.
+
+</Callout>
+
+TypeScript가 snippet import를 해석할 수 있도록 루트 `tsconfig.json`에 path alias를 추가해요.
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    // ... your options
+    "baseUrl": ".",
+    "paths": {
+      // [!code highlight]
+      "seed-design/*": [
+        // [!code highlight]
+        "./seed-design/*"
+      ]
+    }
+  }
+}
+```
+
+Lynx 템플릿처럼 `src/tsconfig.json`이 별도로 있고 `composite` 프로젝트를 사용하는 경우, 생성된 snippet 경로도 include에 추가해야 해요.
+
+```json title="src/tsconfig.json"
+{
+  "include": [
+    "./**/*.ts",
+    "./**/*.tsx",
+    "../seed-design/**/*.ts",
+    "../seed-design/**/*.tsx"
+  ]
+}
+```
+
+Rspeedy/Rspack도 같은 alias를 알아야 런타임 빌드에서 `seed-design/*` import를 해석할 수 있어요.
+
+```ts title="lynx.config.ts"
+import { defineConfig } from "@lynx-js/rspeedy";
+import { fileURLToPath } from "node:url";
+
+const seedDesignDir = fileURLToPath(new URL("./seed-design", import.meta.url));
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      "seed-design": seedDesignDir,
+    },
+  },
+});
+```
+
+<Callout>
+  `@karrotmarket/lynx-*-icon` 아이콘 패키지를 사용하는 경우 SVG asset을
+  Lynx에서 표시할 수 있도록 `@seed-design/rsbuild-plugin-lynx-icon`도
+  설정해야 해요. 자세한 설정은 [Iconography](/lynx/foundation/iconography#rsbuild-plugin-configuration)에서 확인하세요.
+</Callout>
+
+</Step>
+
+<Step>
+
+### Lynx 피쳐 플래그 설정하기
+
+SEED의 CSS 상속, 인라인 변수, Dynamic/Static 타이포그래피, fixed 요소를 위한 기본 설정이에요.
+CSS Selector와 Invalidation은 `pluginReactLynx`의 기본값을 사용하므로 반복해서 설정하지 않아도 돼요.
+아래 예제는 React 플러그인 `0.18.3`·`0.20.2`, config 플러그인 `0.2.2`·`0.2.3`에서 허용되는 옵션을 사용해요.
+
+```package-install
+@lynx-js/config-rsbuild-plugin
+```
+
+```ts title="lynx.config.ts"
+import { defineConfig } from "@lynx-js/rspeedy";
+import { pluginReactLynx } from "@lynx-js/react-rsbuild-plugin";
+import { pluginLynxConfig } from "@lynx-js/config-rsbuild-plugin";
+
+export default defineConfig({
+  plugins: [
+    pluginReactLynx({
+      engineVersion: "3.6",
+    }),
+    // ... 기존 플러그인들
+    pluginLynxConfig({
+      enableCSSInheritance: true,
+      enableCSSInlineVariables: true,
+      fontScaleEffectiveOnlyOnSp: true,
+      enableFixedNew: true,
+    }),
+  ],
+});
+```
+
+기존 `pluginReactLynx` 호출에 옵션을 합쳐 사용하고, 같은 플러그인을 중복 등록하지 마세요.
+`engineVersion`은 앱의 최소 대상 버전이에요. 기존 앱이 더 높은 버전을 요구한다면 그 값을 유지하세요.
+`enableTextRefactor`는 이 대상 버전에서 기본 활성화되며, `enableCSSStrictMode: false`를 SEED의 필수 설정으로 추가할 필요는 없어요.
+
+`PullToRefresh`를 사용하는 앱은 기존 `pluginReactLynx` 설정에 `enableNewGesture: true`를 추가하세요. PullToRefresh는 `@lynx-js/gesture-runtime`의 `NativeGesture`로 Content 스크롤과 당김 제스처를 중재해요.
+
+```ts
+pluginReactLynx({
+  engineVersion: "3.6",
+  enableNewGesture: true,
+});
+```
+
+이 플래그는 PullToRefresh를 쓰는 앱에 필요한 조건부 설정이에요. 도입 기록과 버전별 설정 조건은 [Feature Flags의 이벤트와 제스처](/lynx/getting-started/feature-flags#이벤트와-제스처)를 확인하세요.
+
+<Callout>
+  엔진·빌드 도구 버전별로 유지하거나 생략할 설정과 선택 옵션은 [Feature
+  Flags](/lynx/getting-started/feature-flags)에서 확인하세요.
+</Callout>
+
+</Step>
+
+<Step>
+
+### 컴포넌트를 한번 사용해볼까요?
+
+```package-install
+npx @seed-design/cli add ui:switch
+```
+
+</Step>
+
+<Step>
+
+### (선택) lynx-console 설치하기
+
+[lynx-console](https://github.com/daangn/lynx-console)은 Lynx 앱 안에서 콘솔 로그, 네트워크, 성능 지표를 확인할 수 있는 개발자 도구예요.
+
+```package-install
+lynx-console
+```
+
+앱 entry에서 초기화하고 컴포넌트를 추가해주세요.
+
+```tsx title="src/App.tsx"
+import {
+  initLogMonitor,
+  initMainThreadConsole,
+  initNetworkMonitor,
+  initPerformanceMonitor,
+} from "lynx-console/setup";
+import LynxConsole from "lynx-console";
+
+initLogMonitor();
+initMainThreadConsole();
+initNetworkMonitor();
+initPerformanceMonitor();
+
+function App() {
+  return (
+    <view>
+      {/* your app */}
+      <LynxConsole />
+    </view>
+  );
+}
+```
+
+자세한 사용법은 [lynx-console GitHub](https://github.com/daangn/lynx-console)을 참고하세요.
+
+</Step>
+
+</Steps>

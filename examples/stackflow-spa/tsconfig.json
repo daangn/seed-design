@@ -11,6 +11,7 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
+    "types": ["node"],
     "paths": {
       "seed-design/*": ["./src/seed-design/*"]
     }

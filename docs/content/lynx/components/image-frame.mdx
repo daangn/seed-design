@@ -1,0 +1,233 @@
+---
+title: Image Frame
+description: 사용자가 업로드한 이미지를 표시하기 위한 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "3.9"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@1.0.0, @seed-design/lynx-css@1.0.0" />
+
+<LynxComponentExample name="lynx/image-frame/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/image-frame/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+## Usage
+
+```tsx
+import { ImageFrame } from "@seed-design/lynx-react";
+```
+
+```tsx
+<ImageFrame
+  ratio={4 / 3}
+  width="200px"
+  borderRadius="r2"
+  stroke
+  src="..."
+  alt="..."
+  fallback={<view><text>이미지를 불러올 수 없습니다.</text></view>}
+/>
+```
+
+`width`·`height`·`margin` 등 공통 레이아웃 prop을 받습니다. `margin`과 `bleed`는 함께 사용하지 않으며, `bleed`는 Lynx Box와 같이 px 길이·`0`·`"safeArea"`를 사용합니다.
+
+## Props
+
+<react-type-table
+  path="../packages/lynx-react/src/components/ImageFrame/ImageFrame.tsx"
+  name="ImageFrameProps"
+/>
+
+## Lynx에서의 동작
+
+Lynx Engine 3.9 이상을 지원합니다.
+
+- 로딩 중에도 이미지를 마운트합니다. `src`가 바뀌면 이전 요청의 이벤트를 새 상태에 반영하지 않습니다.
+- `alt`는 `accessibility-label`로 전달합니다. 장식용 이미지는 빈 문자열을 사용합니다.
+- `onLoad`와 `onError` 대신 `bindload`와 `binderror`를 사용합니다. `onLoadingStatusChange`로 로딩 상태를 관찰할 수 있습니다.
+- `ratio`의 기본값은 `4 / 3`, `borderRadius`의 기본값은 `"r2"`입니다.
+- `ImageFrameIcon`의 `svg`에는 Lynx 아이콘 컴포넌트를 전달합니다.
+- `ImageFrameReactionButton`은 토글 버튼입니다. `pressed`, `defaultPressed`, `onPressedChange`, `disabled`를 제공하며 접근성 이름은 `accessibility-label`로 지정합니다.
+- 좋아요 버튼은 `hit-slop`으로 터치 영역을 기본 8px씩 확장합니다. 부모가 콘텐츠를 자르면 확장 영역도 제한될 수 있습니다.
+- `as`, `asChild`, DOM 속성, 이미지의 `loading`, `decoding`, `crossOrigin`, `referrerPolicy`, `sizes`, `srcSet`은 지원하지 않습니다.
+
+## Examples
+
+### Ratio
+
+`ratio`로 이미지 영역의 비율을 지정합니다.
+
+<LynxComponentExample name="lynx/image-frame/ratio">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/image-frame/ratio.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Border Radius
+
+`borderRadius`에는 토큰, `0`, CSS 길이를 전달합니다. 개별 모서리는 `borderTopLeftRadius` 같은 prop으로 지정합니다.
+
+```tsx
+<ImageFrame
+  src={imageUrl}
+  alt="상품 이미지"
+  width="160px"
+  ratio={1}
+  borderRadius="r1"
+  borderTopLeftRadius="r4"
+  borderBottomRightRadius="24px"
+  stroke
+/>
+```
+
+<LynxComponentExample name="lynx/image-frame/border-radius">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/image-frame/border-radius.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Stroke
+
+`stroke` prop으로 테두리 스타일을 적용할 수 있습니다.
+
+<LynxComponentExample name="lynx/image-frame/stroke">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/image-frame/stroke.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Fallback Image
+
+`fallback`은 로딩 중이거나 오류가 발생했을 때 표시하고, 로딩에 성공하면 언마운트합니다. 다시 표시할 때 유지해야 하는 상태는 부모에서 관리하세요.
+
+<LynxComponentExample name="lynx/image-frame/fallback">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/image-frame/fallback.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Overlay
+
+`ImageFrameFloater`를 자식으로 넣고 `placement`로 위치를 지정합니다. 세로와 가로 위치를 조합한 9개 값을 사용할 수 있습니다.
+
+`ImageFrameFloater`는 [Float](/lynx/foundation/layout/float)를 조합해 기본 간격과 Safe Area 보정을 더합니다. 이미지와 무관한 요소를 배치할 때는 `Float`를 직접 사용할 수 있습니다.
+
+<LynxComponentExample name="lynx/image-frame/overlay">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/image-frame/overlay.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Multiple Overlays
+
+여러 위치에 오버레이를 동시에 배치할 수 있습니다.
+
+<LynxComponentExample name="lynx/image-frame/overlay-multiple">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/image-frame/overlay-multiple.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Custom Overlay
+
+`ImageFrameFloater`는 커스텀 UI도 `children`으로 받습니다.
+
+<LynxComponentExample name="lynx/image-frame/overlay-custom">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/image-frame/overlay-custom.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Offset
+
+`offsetX`와 `offsetY`로 가로와 세로 여백을 지정합니다. `0`, SEED 간격 토큰, CSS 길이를 사용할 수 있습니다. 가장자리의 기본 여백은 6px이며, 중앙 축의 기본 오프셋은 0입니다.
+
+```tsx
+import { ImageFrame, ImageFrameFloater, ImageFrameIndicator } from "@seed-design/lynx-react";
+
+<ImageFrame src={imageUrl} alt="상품 이미지" width="150px" ratio={1}>
+  <ImageFrameFloater placement="bottom-end" offsetX="12px" offsetY="12px">
+    <ImageFrameIndicator>+9</ImageFrameIndicator>
+  </ImageFrameFloater>
+</ImageFrame>
+```
+
+<LynxComponentExample name="lynx/image-frame/overlay-inset">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/image-frame/overlay-inset.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Overlay Props
+
+<react-type-table path="../packages/lynx-react/src/components/ImageFrame/ImageFrame.tsx" name="ImageFrameFloaterProps" />
+<react-type-table path="../packages/lynx-react/src/components/ImageFrame/ImageFrame.tsx" name="ImageFrameBadgeProps" />
+<react-type-table path="../packages/lynx-react/src/components/ImageFrame/ImageFrame.tsx" name="ImageFrameIconProps" />
+<react-type-table path="../packages/lynx-react/src/components/ImageFrame/ImageFrame.tsx" name="ImageFrameIndicatorProps" />
+<react-type-table path="../packages/lynx-react/src/components/ImageFrame/ImageFrame.tsx" name="ImageFrameReactionButtonProps" />
+
+## Extending to Safe Area
+
+`bleedX="safeArea"`를 지정하면 이미지가 좌우 safe area까지 확장되고, `ImageFrameFloater`는 안전 영역 안에 배치됩니다. `*-start`에는 왼쪽 inset, `*-end`에는 오른쪽 inset이 `offsetX`에 더해집니다. `*-center`는 좌우 inset 차이의 절반만큼 이동해 안전 영역의 중앙에 놓입니다.
+
+`bleedLeft`·`bleedRight`를 따로 지정한 경우 해당 방향에 실제로 `"safeArea"`가 적용될 때만 보정합니다. px 길이로 확장하거나 확장하지 않은 이미지는 기존 Floater 위치를 유지합니다.
+
+배지의 위치 보정은 `bleed` prop을 기준으로 계산합니다. `bleed`와 함께 `style`이나 `className`으로 같은 방향의 margin을 덮어쓰지 마세요. margin만 바꾸면 배지의 보정값은 그대로 남습니다. 한쪽 확장을 끄려면 `bleedX="safeArea" bleedLeft={0}`처럼 해당 방향의 `bleed`를 지정하고, 추가 여백은 바깥 컨테이너에서 조절하세요.
+
+`Box pl="safeArea" pr="safeArea"`처럼 좌우 inset을 이미 확보한 컨테이너 바로 안에서 사용하세요. inset을 확보하지 않은 곳에 적용하면 화면 밖으로 넘칠 수 있습니다.
+
+Lynx에서는 비율에 맞는 높이를 계산할 수 있도록 프레임 너비를 지정합니다. 예제는 `useSafeArea()`로 읽은 좌우 inset을 너비에 더하고, 확장을 끄면 부모 콘텐츠 너비로 돌아갑니다.
+
+### 확장 전 / 확장 후
+
+| 비교 | 확장 전 (AS IS) | 확장 후 (TO BE) |
+| --- | --- | --- |
+| 배경·스크롤 영역 | 이미지가 안전 영역 안에서 끝남 | 이미지가 좌우 끝까지 이어짐 |
+| 콘텐츠 | 안전 영역 안에 배치 | 배지의 시작·끝·중앙은 안전 영역을 기준으로 배치 |
+
+아래 스위치를 켜고 끄며 같은 예제에서 비교할 수 있습니다. 브라우저에는 비교용 좌우 inset을 적용합니다. 붉은 빗금은 콘텐츠를 피해야 하는 inset 영역이며, 두 경계선 사이는 안전 영역입니다. QR로 연 기기에서는 실제 inset을 사용하므로, 좌우 inset이 모두 `0`이면 차이가 보이지 않을 수 있습니다. 적용 조건은 [Safe Area 가이드](/lynx/getting-started/safe-area)를 참고하세요.
+
+<LynxComponentExample name="lynx/image-frame/extend-safe-area" safeAreaInsets={{ left: 24, right: 48 }}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/image-frame/extend-safe-area.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>

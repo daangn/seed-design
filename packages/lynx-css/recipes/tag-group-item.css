@@ -1,0 +1,34 @@
+.seed-tag-group-item__root {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-shrink: 0
+}
+.seed-tag-group-item__label {}
+.seed-tag-group-item__label--size_t2 {
+    font-size: var(--seed-font-size-t2);
+    line-height: var(--seed-line-height-t2)
+}
+.seed-tag-group-item__label--size_t3 {
+    font-size: var(--seed-font-size-t3);
+    line-height: var(--seed-line-height-t3)
+}
+.seed-tag-group-item__label--size_t4 {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4)
+}
+.seed-tag-group-item__label--weight_regular {
+    font-weight: var(--seed-font-weight-regular)
+}
+.seed-tag-group-item__label--weight_bold {
+    font-weight: var(--seed-font-weight-bold)
+}
+.seed-tag-group-item__label--tone_neutralSubtle {
+    color: var(--seed-color-fg-neutral-subtle)
+}
+.seed-tag-group-item__label--tone_neutral {
+    color: var(--seed-color-fg-neutral)
+}
+.seed-tag-group-item__label--tone_brand {
+    color: var(--seed-color-fg-brand)
+}

@@ -1,5 +1,4 @@
-export const fadeLayerFloating = "var(--seed-gradient-fade-layer-floating)";
-export const fadeLayerDefault = "var(--seed-gradient-fade-layer-default)";
+export const fadeMask = "var(--seed-gradient-fade-mask)";
 export const glowMagic = "var(--seed-gradient-glow-magic)";
 export const glowMagicPressed = "var(--seed-gradient-glow-magic-pressed)";
 export const highlightMagic = "var(--seed-gradient-highlight-magic)";

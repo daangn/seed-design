@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Switch as SeedSwitch } from "@seed-design/react";
 
-export interface SwitchProps extends SeedSwitch.RootProps {
+export interface SwitchProps extends Omit<SeedSwitch.RootProps, "children" | "asChild"> {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
   rootRef?: React.Ref<HTMLLabelElement>;
@@ -27,7 +27,7 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
 );
 Switch.displayName = "Switch";
 
-export interface SwitchmarkProps extends SeedSwitch.ControlProps {}
+export interface SwitchmarkProps extends Omit<SeedSwitch.ControlProps, "children" | "asChild"> {}
 
 /**
  * @see https://seed-design.io/react/components/switch
@@ -42,11 +42,11 @@ export const Switchmark = React.forwardRef<HTMLDivElement, SwitchmarkProps>((pro
 Switchmark.displayName = "Switchmark";
 
 /**
- * @deprecated Use `Switchmark` instead. Will be removed in @seed-design/react@1.3.0.
+ * @deprecated Use `Switchmark` instead. Will be removed in @seed-design/react@2.0.0.
  */
 export const SwitchMark = Switchmark;
 
 /**
- * @deprecated Use `SwitchmarkProps` instead. Will be removed in @seed-design/react@1.3.0.
+ * @deprecated Use `SwitchmarkProps` instead. Will be removed in @seed-design/react@2.0.0.
  */
 export type SwitchMarkProps = SwitchmarkProps;

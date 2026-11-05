@@ -1,0 +1,42 @@
+.chip-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.chip-preview__row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.chip-preview__group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.chip-preview__status {
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: 14px;
+}
+
+.chip-preview__avatar {
+  display: flex;
+  width: var(--seed-dimension-x6);
+  height: var(--seed-dimension-x6);
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background-color: var(--seed-color-bg-brand-solid);
+}
+
+.chip-preview__avatar-label {
+  color: var(--seed-color-fg-brand-contrast);
+  font-size: 12px;
+  font-weight: 700;
+}

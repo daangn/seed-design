@@ -28,6 +28,15 @@ export type Gradient = {
   value: GradientStop[];
 };
 
+/**
+ * A value from an `enum` property's list, written bare.
+ *
+ * Kept out of `Value`: being `string`, it would swallow the template-literal
+ * members and stop them rejecting a malformed color or dimension. Only a
+ * component spec property can hold one, so it joins at `PropertyValue` instead.
+ */
+export type Enum = string;
+
 export type Value =
   | Color
   | Dimension
@@ -38,6 +47,8 @@ export type Value =
   | Gradient
   | TokenRef;
 
+export type PropertyValue = Value | Enum;
+
 export interface TokenCollectionsModel {
   kind: "TokenCollections";
   metadata: {
@@ -47,7 +58,7 @@ export interface TokenCollectionsModel {
   };
   data: Array<{
     name: string;
-    modes: string[];
+    modes: Array<{ id: string; description?: string }>;
   }>;
 }
 
@@ -69,6 +80,7 @@ export interface TokensData {
         [mode: string]: Value;
       };
       description?: string;
+      excludeFromExchange?: boolean;
     };
   };
 }
@@ -91,7 +103,7 @@ export interface ComponentSpecData {
 export interface ComponentSpecVariantDefinitions {
   [state: string]: {
     [slot: string]: {
-      [property: string]: Value;
+      [property: string]: PropertyValue;
     };
   };
 }
@@ -107,12 +119,15 @@ export interface ComponentSpecSlotSchema {
   };
 }
 
-export interface ComponentSpecPropertySchema {
-  [name: string]: {
-    type: "color" | "dimension" | "number" | "duration" | "cubicBezier" | "shadow" | "gradient";
-    description?: string;
-  };
-}
+export type ComponentSpecPropertySchema = Record<
+  string,
+  | {
+      type: "color" | "dimension" | "number" | "duration" | "cubicBezier" | "shadow" | "gradient";
+      values?: never;
+      description?: string;
+    }
+  | { type: "enum"; values: string[]; description?: string }
+>;
 
 export interface ComponentSpecVariantSchema {
   [name: string]: {
@@ -130,7 +145,12 @@ export interface ComponentSpecVariantValueSchema {
 
 export interface ComponentSpecSchema {
   slots: ComponentSpecSlotSchema;
-  variants: ComponentSpecVariantSchema;
+  /**
+   * Optional because the parser infers the variant axes from the keys of
+   * `definitions` and only merges this in on top — most component documents
+   * declare nothing here.
+   */
+  variants?: ComponentSpecVariantSchema;
 }
 
 export type Model = TokenCollectionsModel | TokensModel | ComponentSpecModel;

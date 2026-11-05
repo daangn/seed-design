@@ -3,6 +3,8 @@ title: Skeleton
 description: 콘텐츠가 로딩되는 동안 이후 나타날 요소의 윤곽을 미리 보여주어 로딩 시간을 짧게 느끼게 하는 UI 요소입니다.
 ---
 
+<AvailableSince packages="@seed-design/react@0.0.1, @seed-design/css@0.0.1" />
+
 <ComponentExample name="react/skeleton/preview">
   ```json doc-gen:file
   {
@@ -27,6 +29,25 @@ import { Skeleton } from "@seed-design/react";
 <react-type-table path="../packages/react/src/components/Skeleton/Skeleton.tsx" name="SkeletonProps" />
 
 ## Examples
+
+### Line Height
+
+텍스트를 대체하는 Skeleton에는 `height="lineHeight.t4"`처럼 텍스트와 같은 line-height 토큰을 지정할 수 있습니다.
+
+<ComponentExample name="react/skeleton/line-height">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/skeleton/line-height.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+반응형 높이에도 사용할 수 있습니다.
+
+```tsx
+<Skeleton height={{ base: "lineHeight.t4", md: "lineHeight.t5" }} width="full" />
+```
 
 ### Radius
 

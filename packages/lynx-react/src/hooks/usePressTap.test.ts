@@ -1,0 +1,140 @@
+import { act, renderHook } from "@lynx-js/react/testing-library";
+import { describe, expect, it, vi } from "vitest";
+import { usePressTap } from "./usePressTap";
+
+const fakeEvent = {} as Parameters<ReturnType<typeof usePressTap>["bindtap"]>[0];
+
+describe("usePressTap", () => {
+  describe("pressed state", () => {
+    it("starts as false", () => {
+      const { result } = renderHook(() => usePressTap());
+      expect(result.current.pressed).toBe(false);
+    });
+
+    it("becomes true on bindtouchstart", () => {
+      const { result } = renderHook(() => usePressTap());
+
+      act(() => {
+        result.current.bindtouchstart(fakeEvent);
+      });
+
+      expect(result.current.pressed).toBe(true);
+    });
+
+    it("becomes false on bindtouchend", () => {
+      const { result } = renderHook(() => usePressTap());
+
+      act(() => {
+        result.current.bindtouchstart(fakeEvent);
+      });
+      act(() => {
+        result.current.bindtouchend(fakeEvent);
+      });
+
+      expect(result.current.pressed).toBe(false);
+    });
+
+    it("becomes false on bindtouchcancel", () => {
+      const { result } = renderHook(() => usePressTap());
+
+      act(() => {
+        result.current.bindtouchstart(fakeEvent);
+      });
+      act(() => {
+        result.current.bindtouchcancel(fakeEvent);
+      });
+
+      expect(result.current.pressed).toBe(false);
+    });
+  });
+
+  describe("onTap", () => {
+    it("is called when bindtap fires", () => {
+      const onTap = vi.fn();
+      const { result } = renderHook(() => usePressTap({ onTap }));
+
+      act(() => {
+        result.current.bindtap(fakeEvent);
+      });
+
+      expect(onTap).toHaveBeenCalledTimes(1);
+    });
+
+    it("clears pressed on tap without requiring a callback", () => {
+      const { result } = renderHook(() => usePressTap());
+
+      act(() => {
+        result.current.bindtouchstart(fakeEvent);
+      });
+      act(() => {
+        result.current.bindtap(fakeEvent);
+      });
+
+      expect(result.current.pressed).toBe(false);
+    });
+  });
+
+  describe("disabled", () => {
+    it("clears an active press without restoring it when re-enabled", () => {
+      const { result, rerender } = renderHook(({ disabled }) => usePressTap({ disabled }), {
+        initialProps: { disabled: false },
+      });
+
+      act(() => {
+        result.current.bindtouchstart(fakeEvent);
+      });
+      expect(result.current.pressed).toBe(true);
+
+      rerender({ disabled: true });
+      expect(result.current.pressed).toBe(false);
+
+      rerender({ disabled: false });
+      expect(result.current.pressed).toBe(false);
+
+      act(() => {
+        result.current.bindtouchstart(fakeEvent);
+      });
+      expect(result.current.pressed).toBe(true);
+    });
+
+    it("does not update pressed on bindtouchstart", () => {
+      const { result } = renderHook(() => usePressTap({ disabled: true }));
+
+      act(() => {
+        result.current.bindtouchstart(fakeEvent);
+      });
+
+      expect(result.current.pressed).toBe(false);
+    });
+
+    it("does not call onTap on bindtap", () => {
+      const onTap = vi.fn();
+      const { result } = renderHook(() => usePressTap({ disabled: true, onTap }));
+
+      act(() => {
+        result.current.bindtap(fakeEvent);
+      });
+
+      expect(onTap).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("main-thread:bindtap", () => {
+    it("is not included when mainThreadOnTap is omitted", () => {
+      const { result } = renderHook(() => usePressTap());
+
+      expect(result.current).not.toHaveProperty("main-thread:bindtap");
+    });
+  });
+
+  it("returns stable handler references across renders", () => {
+    const { result, rerender } = renderHook(() => usePressTap());
+
+    const firstBindtap = result.current.bindtap;
+    const firstBindtouchstart = result.current.bindtouchstart;
+    rerender();
+
+    expect(result.current.bindtap).toBe(firstBindtap);
+    expect(result.current.bindtouchstart).toBe(firstBindtouchstart);
+  });
+});

@@ -1,0 +1,23 @@
+import "./styles";
+
+import { VStack } from "@seed-design/lynx-react";
+import { TextField, TextFieldInput } from "@/components/ui/text-field";
+
+export default function Example() {
+  return (
+    <VStack className="text-field-input-preview__content" gap="spacingY.componentDefault">
+      <TextField label="라벨" description="설명을 써주세요" maxGraphemeCount={8}>
+        <TextFieldInput accessibility-label="라벨" placeholder="플레이스홀더" />
+      </TextField>
+      <TextField
+        label="라벨"
+        description="설명을 써주세요"
+        maxGraphemeCount={8}
+        invalid
+        errorMessage="에러 메시지"
+      >
+        <TextFieldInput accessibility-label="라벨" placeholder="플레이스홀더" />
+      </TextField>
+    </VStack>
+  );
+}

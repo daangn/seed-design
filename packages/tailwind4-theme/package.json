@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/tailwind4-theme",
-  "version": "1.1.18",
+  "version": "3.1.0",
   "description": "SEED 디자인 토큰을 Tailwind CSS 4.0에서 사용하기 위한 플러그인",
   "main": "index.css",
   "repository": {
@@ -10,7 +10,9 @@
   },
   "files": [
     "index.css",
-    "README.md"
+    "README.md",
+    "LICENSE",
+    "NOTICE"
   ],
   "scripts": {
     "rootage:generate": "rootage tailwind4 ./ --prefix seed"
@@ -26,7 +28,7 @@
     "seed-design",
     "design-system"
   ],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
   },
@@ -34,6 +36,16 @@
     "tailwindcss": "^4.1.4"
   },
   "peerDependencies": {
-    "tailwindcss": "4"
+    "@seed-design/css": "^3.1.0",
+    "tailwindcss": "4",
+    "@seed-design/lynx-css": "^1.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@seed-design/css": {
+      "optional": true
+    },
+    "@seed-design/lynx-css": {
+      "optional": true
+    }
   }
 }

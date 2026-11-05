@@ -66,6 +66,12 @@ function stringifyValueLit(expr: ValueLit, tokenReference?: (token: TokenLit) =>
     return `${expr.value}`;
   }
 
+  // Enums never reach CSS output — `valueOrToken` rejects them. This branch serves
+  // `staticStringifier`, whose only consumer renders literals as documentation text.
+  if (expr.kind === "EnumLit") {
+    return expr.value;
+  }
+
   if (expr.kind === "CubicBezierLit") {
     return stringifyCubicBezierLit(expr);
   }
@@ -113,9 +119,18 @@ export function createStringifier(
   }
 
   function valueOrToken(value: ValueLit | TokenLit): string {
-    return value.kind === "TokenLit"
-      ? tokenReference(value)
-      : stringifyValueLit(value, tokenReference);
+    if (value.kind === "TokenLit") {
+      return tokenReference(value);
+    }
+
+    // Callers drop enum properties before emitting declarations (see languages/
+    // typescript.ts), so one arriving here is a caller bug: it would publish a
+    // design decision as a custom property.
+    if (value.kind === "EnumLit") {
+      throw new Error("Enum values cannot be emitted as CSS");
+    }
+
+    return stringifyValueLit(value, tokenReference);
   }
 
   function declaration({ decl, mode }: { decl: TokenDeclaration; mode: string }) {
@@ -140,6 +155,14 @@ export function createStringifier(
     mode: string;
   }) {
     const declarations = decls.map((decl) => declaration({ decl, mode }));
+
+    if (selector.startsWith("@")) {
+      return `${selector} {
+  :root {
+    ${declarations.join("\n    ")}
+  }
+}`;
+    }
 
     return `${selector} {
   ${declarations.join("\n  ")}
@@ -166,7 +189,12 @@ export interface CssOptions {
   banner?: string;
   selectors: {
     [collection: string]: {
-      [mode: string]: string;
+      /**
+       * The CSS selector or at-rule the mode's tokens are emitted under.
+       * `null` intentionally opts the mode out of emission (no block is
+       * produced). A missing key throws — a mode must be accounted for.
+       */
+      [mode: string]: string | null;
     };
   };
   customDeclaration?: DeclarationFunction;
@@ -187,16 +215,20 @@ export function getTokenCss(
 
   const rules = tokenCollections.flatMap((collection) => {
     const inCollection = tokens.filter((token) => token.collection === collection.name);
-    return collection.modes.map((mode) => {
+    if (inCollection.length === 0) return [];
+    return collection.modes.flatMap(({ id: mode }) => {
       const selector = options.selectors[collection.name]?.[mode];
 
-      if (!selector) {
+      // A missing selector is a mistake (e.g. a new mode without a mapping), so
+      // fail loudly; `null` is an explicit opt-out that skips the mode silently.
+      if (selector === undefined) {
         throw new Error(
           `Selector for collection ${collection.name} and mode ${mode} is not defined`,
         );
       }
+      if (selector === null) return [];
 
-      return { selector, decls: inCollection, mode };
+      return [{ selector, decls: inCollection, mode }];
     });
   });
 

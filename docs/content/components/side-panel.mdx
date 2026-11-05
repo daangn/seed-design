@@ -1,0 +1,155 @@
+---
+title: Side Panel
+description: 화면의 측면에서 슬라이드되어 나타나며, 현재 맥락을 유지한 채 상세 정보를 확인하거나 부수적인 작업을 수행하는 레이아웃 컴포넌트입니다.
+keywords: ["사이드 패널"]
+coverImage: /og/components/side-panel
+---
+
+Side Panel은 화면의 좌측 또는 우측 가장자리에서 슬라이드되어 나타나는 패널입니다. 현재 화면의 맥락을 벗어나지 않고 상세 정보를 확인하거나 부수적인 작업을 수행할 때 사용합니다. 데스크탑의 상세 조회·설정 변경·보조 작업 영역, 모바일의 사이드 내비게이션 메뉴가 대표적인 사용처입니다.
+
+<Card href="/components/bottom-sheet" title="Bottom Sheet와 함께">
+  데스크탑에서는 기본적으로 Responsive Side Panel을 사용해, md 미만에서 Bottom
+  Sheet로 자동 전환합니다. 화면 하단에서 올라오는 모달이 필요하다면 Bottom
+  Sheet를 사용하세요.
+</Card>
+
+## Anatomy
+
+<FigmaImage
+  id="2104:10657"
+  alt="Side Panel의 Anatomy. Backdrop 위에 패널이 있고, 패널은 Header(Title, Description, Close Button), Body, Footer로 구성됩니다."
+/>
+
+Side Panel은 Header, Body, Footer와 배경을 덮는 Backdrop으로 구성됩니다.
+
+- **Header**: 제목(Title)과 부연 설명(Description), 닫기 버튼(Close Button)이 포함됩니다. Description과 Close Button은 선택 요소입니다.
+- **Body**: 콘텐츠 영역입니다. 배치 방향에 따라 최대 가로 또는 세로 길이를 활용합니다.
+- **Footer** (Optional): 주 작업 버튼과 좌측 보조 버튼(Side Action)이 배치됩니다.
+- **Backdrop**: 배경을 덮는 오버레이입니다. Type에 따라 배경 상호작용을 차단하거나 허용합니다.
+
+## Properties
+
+### Direction
+
+<FigmaImage
+  id="2104:10673"
+  alt="Side Panel의 Direction Property - Right, Left"
+/>
+
+Side Panel이 나타나는 방향을 설정합니다. 방향에 따라 인터랙션의 축이 정의됩니다.
+
+- **Right (Default)**: 데스크탑 표준입니다. 상세 조회, 스레드, 설정 변경 등 범용적으로 사용합니다.
+- **Left**: 모바일 사이드바, 글로벌 내비게이션 메뉴(GNB)에 사용합니다.
+
+### Size
+
+<FigmaImage
+  id="2104:10688"
+  alt="Side Panel의 Size Property - Small 480px, Medium 720px, Large 960px"
+/>
+
+Side Panel의 가로 폭(Width)을 설정합니다. 높이는 방향과 무관하게 항상 100vh를 점유합니다.
+
+- **Small (480px)**: 앱 화면 노출(모바일 뷰), 단순 상세 조회에 사용합니다.
+- **Medium (720px)**: 2열 입력 폼, 리스트와 상세를 나란히 대조하는 화면에 사용합니다.
+- **Large (960px)**: 복잡한 대시보드, 에디터 도구에 사용합니다.
+- **Fluid**: 뷰포트 대비 일정한 비율 유지가 필요할 때는 프리셋 대신 StyleProps의 `width`·`maxWidth`로 직접 지정합니다. 이때 `maxWidth` 지정을 권장합니다.
+
+### Type
+
+<FigmaImage
+  id="2104:10706"
+  alt="Side Panel의 Type - Modal Drawer, Persistent Drawer"
+/>
+
+배경 상호작용을 차단하는 Modal Type과 허용하는 Persistent Type을 제공합니다. 기본값은 Modal Type입니다.
+
+**Modal Type (Standard)**
+
+- Backdrop이 배경을 덮어 현재 작업에만 집중하게 합니다.
+- 배경 클릭(Light Dismiss), `Escape` 키, 닫기 버튼으로 닫을 수 있습니다.
+
+**Persistent Type (Non-modal)**
+
+- Backdrop 없이 배경과 동시에 상호작용할 수 있습니다. Overlay 또는 Layout Split 방식으로 배치합니다.
+- 닫기 버튼 또는 트리거 버튼을 다시 눌러 닫을 수 있습니다.
+
+### Show Close Button
+
+Header의 닫기 버튼 표시 여부를 설정합니다. 기본으로 표시됩니다.
+
+## Guidelines
+
+### Responsive Behavior
+
+<FigmaImage
+  id="2104:10721"
+  alt="Breakpoint에 따른 Side Panel 너비 - md 이상은 Width 토큰값, md 미만은 화면 너비의 80%"
+/>
+
+Side Panel은 화면 크기에 맞춰 너비가 자동으로 조정됩니다. 큰 화면에서는 Width 토큰값을 그대로 사용하고, 화면이 좁아지면 화면 너비의 80%로 표시됩니다.
+
+- **md 이상 (768px+)**: Width 토큰값 그대로 표시합니다 (Small 480px · Medium 720px · Large 960px).
+- **md 미만 (~767px)**: 화면 너비의 80%로 표시해 Backdrop 영역 20%를 확보합니다.
+- **Persistent Type**: md 미만에서는 Modal Type으로 동작합니다.
+- **Safe Area**: Header에 상단 Safe Area Inset을 적용하고, 하단 Safe Area Inset은 Footer가 아닌 Content에 적용합니다. 가로 모드에서 노치가 패널 쪽에 있으면 패널 너비에 safe-area-inset을 더합니다.
+
+### 모바일에서 Side Panel의 사용
+
+<FigmaImage
+  id="2104:10750"
+  alt="데스크탑에서 분리된 Side Nav와 Header 메뉴가 모바일에서 하나의 Side Panel로 통합되는 모습"
+/>
+
+Side Panel은 모바일 환경에서 내비게이션 메뉴를 일시적으로 노출할 때 사용합니다. 데스크탑에서 상시 노출되던 내비게이션이 모바일에서 공간 제약으로 숨겨질 때, Side Panel이 그 콘텐츠를 표시하는 역할을 합니다.
+
+데스크탑에서 Side Nav와 Header 메뉴가 분리되어 있더라도, 모바일에서는 하나의 Side Panel로 통합됩니다. 사용자에게 단일한 내비게이션 진입점을 제공하여 인지 부담을 줄이고 일관된 경험을 보장합니다.
+
+- **데스크탑 (md 이상)**: Side Nav는 상시 노출하고, Header 메뉴는 Header 내부에 노출합니다 (각자 원래 위치).
+- **모바일 (md 미만)**: Side Nav 콘텐츠와 Header 메뉴 콘텐츠가 하나의 Side Panel로 통합되어, Header의 단일 햄버거 버튼으로 진입합니다.
+
+**콘텐츠 구성 원칙**
+
+- Side Nav 콘텐츠를 Side Panel 상단에 배치합니다. 앱 전체 내비게이션이 우선입니다.
+- Header 메뉴 콘텐츠를 그 아래에 배치합니다. 페이지·섹션 메뉴는 보조입니다.
+- 두 영역은 Divider로 시각적으로 구분합니다.
+- 한 영역만 있는 경우 Divider 없이 해당 콘텐츠만 표시합니다.
+
+### Responsive Side Panel
+
+<FigmaImage
+  id="2104:10793"
+  alt="Responsive Side Panel - md 이상에서는 Side Panel, md 미만에서는 Bottom Sheet로 표시"
+/>
+
+데스크탑에서 Side Panel을 사용하는 경우, 기본적으로 Responsive Side Panel을 사용합니다. md 이상에서는 Side Panel, md 미만에서는 [Bottom Sheet](/components/bottom-sheet)로 자동 전환되어 각 환경에 적합한 사용성을 제공합니다.
+
+- **md 이상 (768px+)**: Side Panel로 표시합니다.
+- **md 미만 (~767px)**: Bottom Sheet로 표시합니다.
+- **공통 제약**: Header·Body·Footer 구조는 양 컴포넌트에서 동일하게 유지합니다.
+
+**예외: Side Panel을 직접 사용해야 하는 경우**
+
+- 모바일 사이드 메뉴·내비게이션 (햄버거 메뉴, 프로필 진입 메뉴 등): md 미만에서도 부분 너비 패널로 표시되어야 내비게이션 컨텍스트가 유지됩니다.
+- Persistent Type이 필요한 경우: md 이상 전용 영구 패널로 사용합니다.
+
+### Elevation
+
+<FigmaImage
+  id="2104:10809"
+  alt="Side Panel의 Elevation - 메인 화면(Level 1) 위, Dialog(Level 3) 아래의 Level 2 계층"
+/>
+
+Side Panel은 시스템 내에서 Level 2 계층을 점유하며, 메인 콘텐츠와 상호작용을 유지하면서도 시각적으로 분리된 보조 작업 영역을 제공합니다.
+
+화면의 측면을 점유하는 패널 형태로, 메인 화면(Level 0~1)보다 상위에 위치합니다. Level 3(Dialog)보다는 하위 계층입니다. 따라서 Side Panel이 열려 있는 상태에서 확인이나 경고를 위한 Alert Dialog가 그 위에 중첩되어 나타날 수 있습니다.
+
+## Specification
+
+### Side Panel
+
+<ComponentSpecBlock id="side-panel" headingComponent="h4" />
+
+### Side Panel Close Button
+
+<ComponentSpecBlock id="side-panel-close-button" headingComponent="h4" />

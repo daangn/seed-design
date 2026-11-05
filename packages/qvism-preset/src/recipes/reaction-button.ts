@@ -2,12 +2,22 @@ import { reactionButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
 import { prefixIcon } from "../utils/icon";
-import { engaged, disabled, focusVisible, loading, pressed, pseudo } from "../utils/pseudo";
+import {
+  active,
+  engaged,
+  disabled,
+  focusVisible,
+  loading,
+  not,
+  pressed,
+  pseudo,
+} from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { count } from "../utils/count";
 
 const reactionButton = defineRecipe({
@@ -32,7 +42,9 @@ const reactionButton = defineRecipe({
     ...createFocusRingRestStyles(),
     [pseudo(focusVisible)]: createFocusRingStyles(),
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
+
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, box-shadow ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
     background: vars.base.enabled.root.color,
     fontWeight: vars.base.enabled.label.fontWeight,
     color: vars.base.enabled.label.color,
@@ -92,10 +104,8 @@ const reactionButton = defineRecipe({
     size: {
       xsmall: {
         height: vars.sizeXsmall.enabled.root.minHeight,
-        paddingLeft: vars.sizeXsmall.enabled.root.paddingX,
-        paddingRight: vars.sizeXsmall.enabled.root.paddingX,
-        paddingTop: vars.sizeXsmall.enabled.root.paddingY,
-        paddingBottom: vars.sizeXsmall.enabled.root.paddingY,
+        paddingInline: vars.sizeXsmall.enabled.root.paddingX,
+        paddingBlock: vars.sizeXsmall.enabled.root.paddingY,
         gap: vars.sizeXsmall.enabled.root.gap,
         borderRadius: vars.sizeXsmall.enabled.root.cornerRadius,
 
@@ -115,10 +125,8 @@ const reactionButton = defineRecipe({
       },
       small: {
         height: vars.sizeSmall.enabled.root.minHeight,
-        paddingLeft: vars.sizeSmall.enabled.root.paddingX,
-        paddingRight: vars.sizeSmall.enabled.root.paddingX,
-        paddingTop: vars.sizeSmall.enabled.root.paddingY,
-        paddingBottom: vars.sizeSmall.enabled.root.paddingY,
+        paddingInline: vars.sizeSmall.enabled.root.paddingX,
+        paddingBlock: vars.sizeSmall.enabled.root.paddingY,
         gap: vars.sizeSmall.enabled.root.gap,
         borderRadius: vars.sizeSmall.enabled.root.cornerRadius,
 

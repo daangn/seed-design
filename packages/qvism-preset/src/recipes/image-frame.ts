@@ -1,5 +1,7 @@
 import { defineSlotRecipe } from "../utils/define";
+import { hidden, not, pseudo } from "../utils/pseudo";
 import { imageFrame as vars } from "../vars/component";
+import spec from "@seed-design/rootage-artifacts/components/image-frame";
 
 const imageFrame = defineSlotRecipe({
   name: "image-frame",
@@ -9,6 +11,10 @@ const imageFrame = defineSlotRecipe({
       position: "relative",
       overflow: "hidden",
       borderRadius: "inherit",
+      isolation: "isolate",
+      // Safe-area insets the frame bleeds into; ImageFrameFloater offsets itself by these.
+      "--seed-image-frame-safe-area-left--responsive": "0px",
+      "--seed-image-frame-safe-area-right--responsive": "0px",
     },
     content: {
       display: "block",
@@ -16,10 +22,25 @@ const imageFrame = defineSlotRecipe({
       height: "100%",
       objectFit: "cover",
       borderRadius: "inherit",
+      [pseudo("[data-loading-state='error']")]: {
+        display: "none",
+      },
+      [pseudo(hidden)]: {
+        display: "none",
+      },
+      [pseudo(not("[data-loading-state='loaded']"))]: {
+        pointerEvents: "none",
+      },
     },
     fallback: {
+      position: "absolute",
+      inset: 0,
+      zIndex: -1,
       width: "100%",
       height: "100%",
+      [pseudo("[data-loading-state='loaded']")]: {
+        display: "none",
+      },
     },
   },
   variants: {
@@ -29,10 +50,7 @@ const imageFrame = defineSlotRecipe({
           "&::after": {
             content: "''",
             position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
+            inset: 0,
             pointerEvents: "none",
             borderRadius: "inherit",
             boxShadow: `inset 0 0 0 ${vars.strokeTrue.enabled.root.strokeWidth} ${vars.strokeTrue.enabled.root.strokeColor}`,
@@ -41,18 +59,12 @@ const imageFrame = defineSlotRecipe({
       },
       false: {},
     },
-    rounded: {
-      true: {
-        root: {
-          borderRadius: vars.roundedTrue.enabled.root.cornerRadius,
-        },
-      },
-      false: {},
-    },
   },
   defaultVariants: {
     stroke: false,
-    rounded: false,
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 

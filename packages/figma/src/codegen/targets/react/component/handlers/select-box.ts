@@ -78,7 +78,7 @@ const createSelectBoxHorizontalHandler = (ctx: ComponentHandlerDeps) =>
       })();
 
       const contentSlotNode = props["Show Custom Content#56903:0"].value
-        ? findSlotNode(node, "Content Slot#6752:6")
+        ? findSlotNode(node, "Contents Slot#6752:6")
         : undefined;
       const footer = contentSlotNode ? traverse(contentSlotNode) : undefined;
 
@@ -266,7 +266,7 @@ export const createSelectBoxGroupFieldHandler = (ctx: ComponentHandlerDeps) => {
   const selectBoxGroupHandler = createSelectBoxGroupHandler(ctx);
 
   return defineComponentHandler<SelectBoxGroupFieldProperties>(
-    metadata.templateSelectBoxField.key,
+    metadata.componentSelectBoxField.key,
     (node, traverse) => {
       const { componentProperties: props } = node;
 

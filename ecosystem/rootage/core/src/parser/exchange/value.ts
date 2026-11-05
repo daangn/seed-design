@@ -1,4 +1,5 @@
 import type {
+  EnumLit,
   ColorHexLit,
   CubicBezierLit,
   DimensionLit,
@@ -32,6 +33,7 @@ export function parseValue(
   | DimensionLit
   | DurationLit
   | NumberLit
+  | EnumLit
   | CubicBezierLit
   | ShadowLit
   | GradientLit
@@ -51,6 +53,8 @@ export function parseValue(
       return parseNumberValue(v);
     case "duration":
       return parseDurationValue(v);
+    case "enum":
+      return parseEnumValue(v);
     case "cubicBezier":
       return parseCubicBezierValue(v);
     case "shadow":
@@ -91,6 +95,12 @@ export function parseNumberValue(numVal: Document.Number): NumberLit | TokenLit 
     return factory.createTokenLit(n);
   }
   return factory.createNumberLit(n as number);
+}
+
+/* ------------------ Enum ------------------ */
+
+export function parseEnumValue(enumVal: Document.Enum): EnumLit {
+  return factory.createEnumLit(enumVal.value);
 }
 
 /* ------------------ Duration ------------------ */

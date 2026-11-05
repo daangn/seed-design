@@ -1,0 +1,156 @@
+---
+title: Tag Group
+description: 텍스트 태그를 수평으로 나열해 여러 속성·상태·메타데이터를 한눈에 보여주는 정보 요약 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "1.0"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
+
+<LynxComponentExample name="lynx/tag-group/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/tag-group/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli add ui:tag-group
+```
+
+<LynxManualInstallation name="tag-group" />
+
+## Props
+
+### `TagGroupRoot`
+
+<react-type-table
+  path="./registry/lynx/ui/tag-group.tsx"
+  name="TagGroupRootProps"
+/>
+
+### `TagGroupItem`
+
+<react-type-table
+  path="./registry/lynx/ui/tag-group.tsx"
+  name="TagGroupItemProps"
+/>
+
+## Examples
+
+### Usage
+
+
+```tsx
+import { TagGroupRoot, TagGroupItem } from "@/components/ui/tag-group";
+
+export function App() {
+  return (
+    <TagGroupRoot size="t2">
+      <TagGroupItem label="동네 인증" />
+      <TagGroupItem label="매너 온도 42.0°C" />
+      <TagGroupItem tone="brand" weight="bold" label="추천" />
+    </TagGroupRoot>
+  );
+}
+```
+
+`TagGroupRoot`의 `size`, `weight`, `tone`은 항목의 기본값이며 개별 `TagGroupItem`에서 덮어쓸 수 있습니다. 구분자는 기본 `"·"`이고 `separator`로 바꿀 수 있습니다.
+
+`TagGroupItem`의 `flexShrink`로 긴 태그의 축소 우선순위를 조절할 수 있습니다.
+
+`TagGroup`은 읽기 전용입니다. 단일 선택에는 `RadioGroup`, 다중 선택에는 `Checkbox`를 사용하세요.
+
+### Sizes
+
+<LynxComponentExample name="lynx/tag-group/sizes">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/tag-group/sizes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Weights
+
+<LynxComponentExample name="lynx/tag-group/weights">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/tag-group/weights.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Tones
+
+<LynxComponentExample name="lynx/tag-group/tones">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/tag-group/tones.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### With Icons
+
+Lynx Registry의 `TagGroupItem`은 `prefixIcon`과 `suffixIcon`을 제공하지 않습니다. 아이콘이 필요한 정보는 앱에서 별도 레이아웃으로 구성하세요.
+
+### Customizing `TagGroupItem`
+
+개별 항목의 `tone`과 `weight`만 다르게 지정할 수 있습니다.
+
+<LynxComponentExample name="lynx/tag-group/customizing-item">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/tag-group/customizing-item.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Customizing Separators
+
+`separator`로 구분 기호를 바꿀 수 있습니다. 문자열 앞뒤 공백은 제거되므로 공백만 있는 구분자는 빈 문자열로 렌더링됩니다.
+
+<LynxComponentExample name="lynx/tag-group/customizing-separators">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/tag-group/customizing-separators.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Wrapping Behavior
+
+컨테이너 너비를 초과하면 구분자와 뒤따르는 항목이 함께 다음 줄로 이동합니다. 아이콘이나 한 줄 말줄임이 필요하면 별도 레이아웃을 구성하세요.
+
+<LynxComponentExample name="lynx/tag-group/wrapping-behavior">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/tag-group/wrapping-behavior.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+- 웹은 inline text flow로 항목 안의 텍스트도 줄바꿈할 수 있습니다. Lynx는 항목 단위로 다음 줄에 배치합니다.
+- 문자열 구분자의 앞뒤 공백은 제거하고 컴포넌트가 일정한 간격을 적용합니다.
+- 구분자는 스크린 리더에서 제외합니다. Root와 Item에는 전달한 `accessibility-*` 속성을 적용합니다.
+- 이벤트는 `onClick` 대신 `bindtap` 또는 `main-thread:bindtap`으로 받습니다.
+
+### 미지원 prop
+
+- `truncate`
+- `asChild`
+- `prefixIcon`, `suffixIcon`

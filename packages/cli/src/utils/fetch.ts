@@ -1,3 +1,4 @@
+import { docsSource } from "./docs-source";
 import type { PublicRegistry } from "@/src/schema";
 
 import * as p from "@clack/prompts";
@@ -11,6 +12,26 @@ import {
   docsIndexSchema,
 } from "@/src/schema";
 import { CliError } from "@/src/utils/error";
+
+const FETCH_TIMEOUT_MS = 10_000;
+
+async function fetchWithTimeout(url: string, timeoutMs = FETCH_TIMEOUT_MS): Promise<Response> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { signal: controller.signal });
+  } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      throw new CliError({
+        message: `요청 시간이 초과되었어요 (${timeoutMs}ms): ${url}`,
+        hint: "네트워크 상태를 확인하고 다시 시도해주세요.",
+      });
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
 
 export async function fetchDocsIndex({ baseUrl }: { baseUrl: string }): Promise<DocsIndex> {
   const response = await fetch(`${baseUrl}/__docs__/index.json`);
@@ -33,11 +54,12 @@ export async function fetchDocsIndex({ baseUrl }: { baseUrl: string }): Promise<
 
 export async function fetchAvailableRegistries({
   baseUrl,
+  framework,
 }: {
   baseUrl: string;
+  framework: string;
 }): Promise<PublicAvailableRegistries> {
-  // TODO: make this file public
-  const response = await fetch(`${baseUrl}/__registry__/index.json`);
+  const response = await fetch(`${baseUrl}/__registry__/${framework}/index.json`);
 
   if (!response.ok)
     throw new Error(`Failed to fetch registries: ${response.status} ${response.statusText}`);
@@ -56,12 +78,14 @@ export async function fetchAvailableRegistries({
 
 export async function fetchRegistry({
   baseUrl,
+  framework,
   registryId,
 }: {
   baseUrl: string;
+  framework: string;
   registryId: PublicRegistry["id"];
 }): Promise<PublicRegistry> {
-  const response = await fetch(`${baseUrl}/__registry__/${registryId}/index.json`);
+  const response = await fetch(`${baseUrl}/__registry__/${framework}/${registryId}/index.json`);
 
   if (!response.ok)
     throw new Error(
@@ -78,14 +102,18 @@ export async function fetchRegistry({
 
 async function fetchRegistryItem({
   baseUrl,
+  framework,
   registryId,
   registryItemId,
 }: {
   baseUrl: string;
+  framework: string;
   registryId: PublicRegistry["id"];
   registryItemId: PublicRegistryItem["id"];
 }): Promise<PublicRegistryItem> {
-  const response = await fetch(`${baseUrl}/__registry__/${registryId}/${registryItemId}.json`);
+  const response = await fetch(
+    `${baseUrl}/__registry__/${framework}/${registryId}/${registryItemId}.json`,
+  );
 
   if (!response.ok) {
     throw new Error(`Failed to fetch ${registryItemId}: ${response.status} ${response.statusText}`);
@@ -101,22 +129,96 @@ async function fetchRegistryItem({
   return parsedItem;
 }
 
+export async function fetchLlmsTxt({ url }: { url: string }): Promise<string> {
+  const response = await fetchWithTimeout(url);
+
+  if (!response.ok) {
+    throw new CliError({
+      message: `llms.txt를 가져오지 못했어요: ${response.status} ${response.statusText}`,
+      hint: `${url} 에 접근할 수 있는지 확인해주세요.`,
+    });
+  }
+
+  return response.text();
+}
+
+/**
+ * Try fetching llms.txt content with fallback URL patterns.
+ * 1. {baseUrl}/llms/{query}.txt
+ * 2. {baseUrl}/llms/{query}/llms.txt (for package changelog index)
+ */
+export async function tryFetchLlmsTxt({
+  baseUrl,
+  query,
+}: {
+  baseUrl: string;
+  query: string;
+}): Promise<string> {
+  const normalizedQuery = query.startsWith("/") ? query.slice(1) : query;
+
+  const source = docsSource(baseUrl);
+  const urls = [source.llms(`/${normalizedQuery}`), source.llmsIndex(`/${normalizedQuery}`)];
+
+  let lastError: unknown;
+
+  for (const url of urls) {
+    let response: Response;
+    try {
+      response = await fetchWithTimeout(url);
+    } catch (error) {
+      lastError = error;
+      continue;
+    }
+
+    if (response.ok) {
+      return response.text();
+    }
+
+    // 404 → try next URL candidate
+    if (response.status === 404) {
+      lastError = new CliError({
+        message: `llms.txt를 찾을 수 없어요: ${normalizedQuery}`,
+        hint: `다음 경로를 시도했어요:\n${urls.map((u) => `  - ${u}`).join("\n")}`,
+      });
+      continue;
+    }
+
+    // Non-404 errors (5xx, 401, etc.) — propagate immediately
+    throw new CliError({
+      message: `llms.txt 요청이 실패했어요: ${response.status} ${response.statusText}`,
+      hint: `URL: ${url}`,
+    });
+  }
+
+  throw (
+    lastError ??
+    new CliError({
+      message: `llms.txt를 찾을 수 없어요: ${normalizedQuery}`,
+      hint: `다음 경로를 시도했어요:\n${urls.map((u) => `  - ${u}`).join("\n")}`,
+    })
+  );
+}
+
 export async function fetchRegistryItems({
   baseUrl,
+  framework,
   registryId,
   registryItemIds,
 }: {
   baseUrl: string;
+  framework: string;
   registryId: PublicRegistry["id"];
   registryItemIds: PublicRegistryItem["id"][];
 }): Promise<PublicRegistryItem[]> {
   return await Promise.all(
     registryItemIds.map(async (itemId) => {
       try {
-        return await fetchRegistryItem({ baseUrl, registryId, registryItemId: itemId });
+        return await fetchRegistryItem({ baseUrl, framework, registryId, registryItemId: itemId });
       } catch (error) {
         // show available registry items in the registry
-        const response = await fetch(`${baseUrl}/__registry__/${registryId}/index.json`);
+        const response = await fetch(
+          `${baseUrl}/__registry__/${framework}/${registryId}/index.json`,
+        );
 
         if (!response.ok)
           throw new Error(

@@ -14,7 +14,7 @@ export const createRadiomarkHandler = (_ctx: ComponentHandlerDeps) =>
     ({ componentProperties: props }) => {
       const tone = match(props.Tone.value)
         .with("Neutral", () => "neutral")
-        .with("🚫[Deprecated]Brand", () => "brand")
+        .with("Brand", () => "brand")
         .exhaustive();
 
       const commonProps = {

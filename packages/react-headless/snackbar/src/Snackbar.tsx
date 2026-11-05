@@ -12,11 +12,8 @@ export interface SnackbarRootProviderProps extends UseSnackbarProps {
   children: React.ReactNode;
 }
 
-export const SnackbarRootProvider = ({
-  children,
-  pauseOnInteraction,
-}: SnackbarRootProviderProps) => {
-  const api = useSnackbar({ pauseOnInteraction });
+export const SnackbarRootProvider = ({ children, ...props }: SnackbarRootProviderProps) => {
+  const api = useSnackbar(props);
   return <SnackbarProvider value={api}>{children}</SnackbarProvider>;
 };
 
@@ -55,6 +52,17 @@ export const SnackbarCloseButton = forwardRef<HTMLButtonElement, SnackbarCloseBu
   (props, ref) => {
     const { closeButtonProps } = useSnackbarContext();
     return <Primitive.button ref={ref} {...mergeProps(closeButtonProps, props)} />;
+  },
+);
+
+export interface SnackbarActionButtonProps
+  extends PrimitiveProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export const SnackbarActionButton = forwardRef<HTMLButtonElement, SnackbarActionButtonProps>(
+  (props, ref) => {
+    const { actionButtonProps } = useSnackbarContext();
+    return <Primitive.button ref={ref} {...mergeProps(actionButtonProps, props)} />;
   },
 );
 

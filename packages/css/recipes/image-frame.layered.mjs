@@ -17,18 +17,13 @@ const imageFrameSlotNames = [
 ];
 
 const defaultVariant = {
-  "stroke": false,
-  "rounded": false
+  "stroke": false
 };
 
 const compoundVariants = [];
 
 export const imageFrameVariantMap = {
   "stroke": [
-    true,
-    false
-  ],
-  "rounded": [
     true,
     false
   ]

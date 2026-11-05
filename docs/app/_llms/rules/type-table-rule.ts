@@ -76,7 +76,7 @@ export function docToMdastList(doc: GeneratedDoc): List {
   };
 }
 
-export const typeTableRule: Rule = {
+export const typeTableRule: Rule<MdxJsxFlowElement> = {
   name: "TypeTable",
   match: (node): node is MdxJsxFlowElement =>
     node.type === "mdxJsxFlowElement" && node.name === "TypeTable",

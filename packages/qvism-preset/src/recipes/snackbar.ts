@@ -1,7 +1,8 @@
 import { snackbar as vars } from "../vars/component";
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
 import { enterAnimation, exitAnimation } from "../utils/animation";
-import { focus, focusVisible, pseudo } from "../utils/pseudo";
+import { active, focus, focusVisible, pseudo } from "../utils/pseudo";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -18,14 +19,12 @@ export const snackbarRegion = defineRecipe({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    left: "calc(env(safe-area-inset-left, 0px))",
-    right: "calc(env(safe-area-inset-right, 0px))",
-    bottom: "calc(env(safe-area-inset-bottom, 0px) + var(--snackbar-region-offset, 0px))",
+    left: "var(--seed-safe-area-left)",
+    right: "var(--seed-safe-area-right)",
+    bottom: "calc(var(--seed-safe-area-bottom) + var(--snackbar-region-offset, 0px))",
 
-    paddingLeft: vars.base.enabled.region.paddingX,
-    paddingRight: vars.base.enabled.region.paddingX,
-    paddingTop: vars.base.enabled.region.paddingY,
-    paddingBottom: vars.base.enabled.region.paddingY,
+    paddingInline: vars.base.enabled.region.paddingX,
+    paddingBlock: vars.base.enabled.region.paddingY,
     transitionProperty: "bottom",
     transitionDuration: vars.base.enabled.region.offsetDuration,
     transitionTimingFunction: vars.base.enabled.region.offsetTimingFunction,
@@ -48,10 +47,8 @@ export const snackbar = defineSlotRecipe({
 
       background: vars.base.enabled.root.color,
       borderRadius: vars.base.enabled.root.cornerRadius,
-      paddingLeft: vars.base.enabled.root.paddingX,
-      paddingRight: vars.base.enabled.root.paddingX,
-      paddingTop: vars.base.enabled.root.paddingY,
-      paddingBottom: vars.base.enabled.root.paddingY,
+      paddingInline: vars.base.enabled.root.paddingX,
+      paddingBlock: vars.base.enabled.root.paddingY,
       minHeight: vars.base.enabled.root.minHeight,
 
       ...enterAnimation({
@@ -79,8 +76,7 @@ export const snackbar = defineSlotRecipe({
       flexGrow: 1,
       justifyContent: "space-between",
       alignItems: "center",
-      paddingLeft: vars.base.enabled.content.paddingX,
-      paddingRight: vars.base.enabled.content.paddingX,
+      paddingInline: vars.base.enabled.content.paddingX,
       gap: vars.base.enabled.content.gap,
     },
     message: {
@@ -117,14 +113,17 @@ export const snackbar = defineSlotRecipe({
       lineHeight: vars.base.enabled.actionButton.lineHeight,
       fontWeight: vars.base.enabled.actionButton.fontWeight,
 
+      [pseudo(active)]: { ...createScaleFeedbackStyles() },
+
+      transition: FEEDBACK_SCALE_TRANSITION,
+
       // target size
       "&:after": {
         content: "''",
         position: "absolute",
         top: "50%",
         transform: "translateY(-50%)",
-        left: `calc(-1 * ${vars.base.enabled.actionButton.targetPaddingX})`,
-        right: `calc(-1 * ${vars.base.enabled.actionButton.targetPaddingX})`,
+        insetInline: `calc(-1 * ${vars.base.enabled.actionButton.targetPaddingX})`,
         minHeight: vars.base.enabled.actionButton.targetMinHeight,
         background: "transparent",
         ...createFocusRingRestStyles({ position: "inside" }),

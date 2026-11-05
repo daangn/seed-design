@@ -1,0 +1,334 @@
+import * as dimension from "../vars/dimension";
+import { defineSlotRecipe } from "../utils/define";
+import {
+  topNavigation as vars,
+  topNavigationIconButton as iconButtonVars,
+  topNavigationTextButton as textButtonVars,
+} from "../vars/component";
+
+// Keep the web recipe's icon-based spacing and negative margins together until DES-2511
+// migrates both platforms to button-box-based spacing.
+const PINNED_ROOT_PADDING_X = dimension.x4;
+const PINNED_LEFT_PADDING_RIGHT = "16px";
+// Text buttons follow the spec's button-box basis: an edge button's box sits at the spec's
+// `root.paddingX` from the bar edge instead of the pinned padding.
+const TEXT_BUTTON_EDGE_OFFSET = `calc(${vars.base.enabled.root.paddingX} - ${PINNED_ROOT_PADDING_X})`;
+
+export const appBarMain = defineSlotRecipe({
+  name: "app-bar-main",
+  slots: ["root", "title", "subtitle"],
+  base: {
+    root: {
+      display: "flex",
+      flexDirection: "column",
+      flex: 1,
+      minWidth: 0,
+    },
+    title: {
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+    },
+    subtitle: {
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+    },
+  },
+  variants: {
+    layout: {
+      titleOnly: {
+        title: {
+          fontSize: vars.titleLayoutTitleOnly.enabled.title.fontSize,
+          fontWeight: vars.titleLayoutTitleOnly.enabled.title.fontWeight,
+          lineHeight: vars.titleLayoutTitleOnly.enabled.title.lineHeight,
+        },
+      },
+      withSubtitle: {
+        title: {
+          fontSize: vars.titleLayoutWithSubtitle.enabled.title.fontSize,
+          fontWeight: vars.titleLayoutWithSubtitle.enabled.title.fontWeight,
+          lineHeight: vars.titleLayoutWithSubtitle.enabled.title.lineHeight,
+        },
+        subtitle: {
+          fontSize: vars.titleLayoutWithSubtitle.enabled.subtitle.fontSize,
+          fontWeight: vars.titleLayoutWithSubtitle.enabled.subtitle.fontWeight,
+          lineHeight: vars.titleLayoutWithSubtitle.enabled.subtitle.lineHeight,
+        },
+      },
+    },
+    theme: {
+      cupertino: {
+        root: {
+          position: "absolute",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          top: "var(--seed-safe-area-top)",
+          right: 0,
+          bottom: 0,
+          left: 0,
+          // NOTE: the spec's `root.titleMinGap` is not applied yet. `--centered-title-padding-x`
+          // is measured from the left/right areas and has no floor, so consuming it means
+          // `max(var(--centered-title-padding-x, 0), ${vars.themeIos.enabled.root.titleMinGap})`.
+          paddingLeft: "var(--centered-title-padding-x, 0)",
+          paddingRight: "var(--centered-title-padding-x, 0)",
+        },
+      },
+      android: {
+        root: {
+          alignItems: "flex-start",
+          justifyContent: "center",
+          width: "100%",
+          height: vars.base.enabled.root.height,
+        },
+      },
+    },
+    transitionStyle: {
+      slideFromRightIOS: {},
+      fadeFromBottomAndroid: {},
+      fadeIn: {},
+    },
+    tone: {
+      layer: {
+        root: {
+          color: vars.toneLayer.enabled.title.color,
+        },
+        title: {
+          color: vars.toneLayer.enabled.title.color,
+        },
+        subtitle: {
+          color: vars.toneLayer.enabled.subtitle.color,
+        },
+      },
+      transparent: {
+        root: {
+          color: vars.toneTransparent.enabled.title.color,
+        },
+        title: {
+          color: vars.toneTransparent.enabled.title.color,
+        },
+        subtitle: {
+          color: vars.toneTransparent.enabled.subtitle.color,
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    layout: "titleOnly",
+    theme: "cupertino",
+    transitionStyle: "slideFromRightIOS",
+    tone: "layer",
+  },
+});
+
+export const appBar = defineSlotRecipe({
+  name: "app-bar",
+  slots: [
+    "root",
+    "background",
+    "left",
+    "right",
+    "iconButton",
+    "icon",
+    "textButton",
+    "textButtonLabel",
+    "custom",
+  ],
+  base: {
+    root: {
+      position: "relative",
+      // Lynx는 z-index가 있는 자식을 가장 가까운 stacking context로 올린다. root가 stacking context가
+      // 아니면 z-index를 가진 좌우 슬롯과 배경이 scroll-view 밖으로 올라가 스크롤을 따라가지 않는다.
+      zIndex: 0,
+      width: "100%",
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "flex-end",
+    },
+    background: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      zIndex: -1,
+    },
+    left: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      height: "100%",
+      zIndex: 1,
+    },
+    right: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      height: "100%",
+      marginLeft: "auto",
+      zIndex: 1,
+    },
+    iconButton: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      borderWidth: 0,
+      padding: 0,
+      borderRadius: iconButtonVars.base.enabled.root.cornerRadius,
+      backgroundColor: iconButtonVars.base.enabled.root.color,
+      transition: `background-color ${iconButtonVars.base.enabled.root.colorDuration} ${iconButtonVars.base.enabled.root.colorTimingFunction}`,
+      // Scale Feedback owns the root transform on the main thread; the recipe only adds the pressed color.
+      "&:active": {
+        backgroundColor: iconButtonVars.base.pressed.root.color,
+      },
+      // Keep per-button edge compensation in the recipe so caller styles remain intact.
+      "&.seed-app-bar__icon-button-edge-leading": {
+        marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+      },
+      "&.seed-app-bar__icon-button-edge-trailing": {
+        marginRight: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+      },
+    },
+    icon: {
+      flexShrink: 0,
+    },
+    textButton: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      minWidth: 0,
+      height: textButtonVars.base.enabled.root.height,
+      borderWidth: 0,
+      paddingTop: 0,
+      paddingBottom: 0,
+      paddingLeft: textButtonVars.base.enabled.root.paddingX,
+      paddingRight: textButtonVars.base.enabled.root.paddingX,
+      borderRadius: textButtonVars.base.enabled.root.cornerRadius,
+      backgroundColor: textButtonVars.base.enabled.root.color,
+      transition: `background-color ${textButtonVars.base.enabled.root.colorDuration} ${textButtonVars.base.enabled.root.colorTimingFunction}`,
+      // Scale Feedback owns the root transform on the main thread; the recipe only adds the pressed color.
+      "&:active": {
+        backgroundColor: textButtonVars.base.pressed.root.color,
+      },
+      // Lynx has no `:disabled`; the component adds this class and drops the tap handlers.
+      "&.seed-app-bar__text-button-disabled:active": {
+        backgroundColor: textButtonVars.base.enabled.root.color,
+      },
+      "&.seed-app-bar__text-button-edge-leading": {
+        marginLeft: TEXT_BUTTON_EDGE_OFFSET,
+      },
+      "&.seed-app-bar__text-button-edge-trailing": {
+        marginRight: TEXT_BUTTON_EDGE_OFFSET,
+      },
+    },
+    textButtonLabel: {
+      flexShrink: 1,
+      minWidth: 0,
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      fontSize: textButtonVars.base.enabled.label.fontSize,
+      lineHeight: textButtonVars.base.enabled.label.lineHeight,
+      fontWeight: textButtonVars.base.enabled.label.fontWeight,
+    },
+    custom: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+    },
+  },
+  variants: {
+    theme: {
+      cupertino: {
+        root: {
+          height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
+          paddingLeft: PINNED_ROOT_PADDING_X,
+          paddingRight: PINNED_ROOT_PADDING_X,
+          paddingTop: "var(--seed-safe-area-top)",
+        },
+        left: {
+          height: vars.base.enabled.root.height,
+        },
+        right: {
+          height: vars.base.enabled.root.height,
+        },
+        iconButton: {
+          width: iconButtonVars.base.enabled.root.size,
+          height: iconButtonVars.base.enabled.root.size,
+        },
+        icon: {
+          width: iconButtonVars.base.enabled.icon.size,
+          height: iconButtonVars.base.enabled.icon.size,
+        },
+        textButton: {
+          maxWidth: textButtonVars.themeIos.enabled.root.maxWidth,
+        },
+      },
+      android: {
+        root: {
+          height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
+          paddingLeft: PINNED_ROOT_PADDING_X,
+          paddingRight: PINNED_ROOT_PADDING_X,
+          paddingTop: "var(--seed-safe-area-top)",
+        },
+        left: {
+          height: vars.base.enabled.root.height,
+          paddingRight: PINNED_LEFT_PADDING_RIGHT,
+        },
+        right: {
+          height: vars.base.enabled.root.height,
+        },
+        iconButton: {
+          width: iconButtonVars.base.enabled.root.size,
+          height: iconButtonVars.base.enabled.root.size,
+        },
+        icon: {
+          width: iconButtonVars.base.enabled.icon.size,
+          height: iconButtonVars.base.enabled.icon.size,
+        },
+      },
+    },
+    transitionStyle: {
+      slideFromRightIOS: {},
+      fadeFromBottomAndroid: {},
+      fadeIn: {},
+    },
+    tone: {
+      layer: {
+        background: {
+          background: vars.toneLayer.enabled.root.color,
+        },
+        icon: {
+          color: iconButtonVars.toneLayer.enabled.icon.color,
+        },
+        textButtonLabel: {
+          color: textButtonVars.toneLayer.enabled.label.color,
+          "&.seed-app-bar__text-button-label-disabled": {
+            color: textButtonVars.toneLayer.disabled.label.color,
+          },
+        },
+      },
+      transparent: {
+        background: {
+          background: vars.toneTransparentGradientFalse.enabled.root.color,
+        },
+        icon: {
+          color: iconButtonVars.toneTransparent.enabled.icon.color,
+        },
+        textButtonLabel: {
+          color: textButtonVars.toneTransparent.enabled.label.color,
+          "&.seed-app-bar__text-button-label-disabled": {
+            color: textButtonVars.toneTransparent.disabled.label.color,
+          },
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    theme: "cupertino",
+    transitionStyle: "slideFromRightIOS",
+    tone: "layer",
+  },
+});

@@ -45,7 +45,6 @@ export declare const vars: {
   },
   /**
    * - `variant=square`: 필수 선택 항목이고 사용자가 해당 내용을 인지해야 하는 경우 사용합니다.
-   * - `tone=brand`: [deprecated] 주요 버튼 등의 핵심 액션과 시각적으로 충돌하기에 더 이상 사용하지 않습니다.
    */
   "variantSquareToneBrand": {
     "enabledSelected": {
@@ -53,7 +52,7 @@ export declare const vars: {
         "color": "var(--seed-color-bg-brand-solid)"
       },
       "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-brand-solid)"
       }
     },
     "pressedSelected": {
@@ -68,15 +67,15 @@ export declare const vars: {
   "variantSquareToneNeutral": {
     "enabledSelected": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       }
     },
     "pressedSelected": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--seed-color-bg-neutral-solid-pressed)"
       }
     }
   },
@@ -109,7 +108,6 @@ export declare const vars: {
   },
   /**
    * - `variant=ghost`: 필수 선택 항목이 아니고, 3개 이하 항목으로 구성되는 경우 사용하는 것을 권장합니다.
-   * - `tone=brand`: [deprecated] 주요 버튼 등의 핵심 액션과 시각적으로 충돌하기에 더 이상 사용하지 않습니다.
    */
   "variantGhostToneBrand": {
     "enabledSelected": {

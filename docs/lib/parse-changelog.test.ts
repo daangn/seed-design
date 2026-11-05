@@ -26,15 +26,15 @@ describe("parseChangelogSources", () => {
     expect(entries[0].contentBlocks[0]).toMatchObject({
       type: "markdown",
     });
-    expect(entries[0].contentBlocks[0]?.type === "markdown" && entries[0].contentBlocks[0].html).toContain(
-      "IdentityPlaceholder의 스타일과 글리프를 업데이트합니다.",
-    );
-    expect(entries[0].contentBlocks[0]?.type === "markdown" && entries[0].contentBlocks[0].html).toContain(
-      "/commit/77cdc0e",
-    );
-    expect(entries[0].contentBlocks[0]?.type === "markdown" && entries[0].contentBlocks[0].html).not.toContain(
-      "77cdc0e:",
-    );
+    expect(
+      entries[0].contentBlocks[0]?.type === "markdown" && entries[0].contentBlocks[0].html,
+    ).toContain("IdentityPlaceholder의 스타일과 글리프를 업데이트합니다.");
+    expect(
+      entries[0].contentBlocks[0]?.type === "markdown" && entries[0].contentBlocks[0].html,
+    ).toContain("/commit/77cdc0e");
+    expect(
+      entries[0].contentBlocks[0]?.type === "markdown" && entries[0].contentBlocks[0].html,
+    ).not.toContain("77cdc0e:");
   });
 
   it("section title을 유지한다", async () => {

@@ -1,0 +1,116 @@
+declare const artifact: {
+  "kind": "ComponentSpec";
+  "metadata": {
+    "id": "action-sheet-close-button";
+    "name": "Action Sheet Close Button";
+    "deprecated": "No longer used.";
+  };
+  "data": {
+    "id": "action-sheet-close-button";
+    "name": "Action Sheet Close Button";
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color";
+            };
+            "minHeight": {
+              "type": "dimension";
+            };
+            "paddingX": {
+              "type": "dimension";
+            };
+            "paddingY": {
+              "type": "dimension";
+            };
+          };
+        };
+        "label": {
+          "properties": {
+            "color": {
+              "type": "color";
+            };
+            "fontSize": {
+              "type": "dimension";
+            };
+            "lineHeight": {
+              "type": "dimension";
+            };
+            "fontWeight": {
+              "type": "number";
+            };
+          };
+        };
+      };
+      "variants": {};
+    };
+    "definitions": readonly [
+      {
+        "variants": {};
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.layer-floating";
+                };
+                "minHeight": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 50;
+                    "unit": "px";
+                  };
+                };
+                "paddingX": {
+                  "type": "dimension";
+                  "value": "$dimension.spacing-x.global-gutter";
+                };
+                "paddingY": {
+                  "type": "dimension";
+                  "value": "$dimension.x3_5";
+                };
+              };
+              "label": {
+                "fontSize": {
+                  "type": "dimension";
+                  "value": "$font-size.t5";
+                };
+                "lineHeight": {
+                  "type": "dimension";
+                  "value": "$line-height.t5";
+                };
+                "fontWeight": {
+                  "type": "number";
+                  "value": "$font-weight.bold";
+                };
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.neutral";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.layer-floating-pressed";
+                };
+              };
+            };
+          },
+        ];
+      },
+    ];
+  };
+};
+export default artifact;

@@ -95,22 +95,32 @@ export interface TabsContentProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>((props, ref) => {
-  const { value, ...otherProps } = props;
+  const { value, children, ...otherProps } = props;
   const api = useTabsContext();
   const carouselApi = useTabsCarouselContext({ strict: false });
+  const inCarousel = carouselApi != null;
   const renderStrategyProps = useRenderStrategyPropsContext();
   const { unmounted } = useRenderStrategy({
     ...renderStrategyProps,
     present: api.value === value,
   });
 
-  if (unmounted) return null;
+  // Outside a carousel, an unmounted tab renders nothing at all.
+  // Inside a carousel, every tab must keep its slide slot even while unmounted:
+  // the carousel syncs by numeric index, so collapsing the slide set (returning
+  // null for lazy/exited tabs) makes embla's snap index drift from the tab's
+  // logical index, and clicking/swiping to a far tab lands on the wrong one.
+  // We keep the slot but still honor lazyMount/unmountOnExit for the children,
+  // so expensive content stays lazy — only the empty slide wrapper persists.
+  if (unmounted && !inCarousel) return null;
 
   return (
     <Primitive.div
       ref={ref}
       {...mergeProps(api.getContentProps({ value }), carouselApi?.stateProps ?? {}, otherProps)}
-    />
+    >
+      {unmounted ? null : children}
+    </Primitive.div>
   );
 });
 TabsContent.displayName = "TabsContent";

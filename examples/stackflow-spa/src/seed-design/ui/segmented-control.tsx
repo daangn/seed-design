@@ -2,7 +2,7 @@ import { HStack, SegmentedControl as SeedSegmentedControl } from "@seed-design/r
 import { NotificationBadgePositioner, NotificationBadge } from "@seed-design/react";
 import * as React from "react";
 
-export interface SegmentedControlProps extends SeedSegmentedControl.RootProps {}
+export interface SegmentedControlProps extends Omit<SeedSegmentedControl.RootProps, "asChild"> {}
 
 /**
  * @see https://seed-design.io/react/components/segmented-control
@@ -31,7 +31,7 @@ export const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedContro
 );
 SegmentedControl.displayName = "SegmentedControl";
 
-export interface SegmentedControlItemProps extends SeedSegmentedControl.ItemProps {
+export interface SegmentedControlItemProps extends Omit<SeedSegmentedControl.ItemProps, "asChild"> {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
   rootRef?: React.Ref<HTMLLabelElement>;

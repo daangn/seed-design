@@ -2,7 +2,7 @@
 
 import type { Activity } from "@stackflow/core";
 import { Box, Flex, HStack, Text, VStack } from "@seed-design/react";
-import { IconArrowUpRightFill } from "@karrotmarket/react-monochrome-icon";
+import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import { useEffect, useRef, useState } from "react";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { useSimpleReveal } from "simple-reveal";
@@ -144,7 +144,7 @@ function ActivityStackPanel({
                 >
                   {activity.name}
                 </Text>
-                <IconArrowUpRightFill size={10} className="flex-none" />
+                <IconSeedArrow external className="size-2.5 flex-none" />
               </a>
             </HStack>
             <Text
@@ -204,6 +204,12 @@ function Navigation({ url }: { url: string | null }) {
 
 function getStackflowSpaUrl(path: string): string {
   const baseURL = (() => {
+    // Points previews at a stackflow-spa you run yourself. A local production build otherwise loads
+    // QA, which is deployed from `dev` and shows 404 for activities that are not merged yet.
+    if (process.env.NEXT_PUBLIC_STACKFLOW_SPA_URL) {
+      return process.env.NEXT_PUBLIC_STACKFLOW_SPA_URL;
+    }
+
     if (process.env.NODE_ENV === "development") {
       // TODO: this can be better
       // 1. dev server can be at any host in a local network

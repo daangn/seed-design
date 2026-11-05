@@ -165,7 +165,7 @@ export function useSnapPoints({
         });
       }
 
-      setActiveSnapPoint(snapPoints?.[Math.max(newSnapPointIndex, 0)]);
+      setActiveSnapPoint(snapPoints?.[Math.max(newSnapPointIndex, 0)] ?? null);
     },
     [
       drawerRef,

@@ -1,4 +1,4 @@
-import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
+import { IconHouseFill } from "@karrotmarket/react-monochrome-icon";
 import { Icon, VStack } from "@seed-design/react";
 import { AppScreen } from "@stackflow/plugin-basic-ui";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
@@ -28,7 +28,7 @@ const ActivityPluginBasicUI: StaticActivityComponentType<"ActivityPluginBasicUI"
             aria-label="Home"
             onClick={() => push("ActivityHome", {})}
           >
-            <Icon svg={<IconHouseLine />} />
+            <Icon svg={<IconHouseFill />} />
           </ActionButton>
         ),
       }}

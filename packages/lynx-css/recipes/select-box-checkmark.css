@@ -1,0 +1,30 @@
+.seed-select-box-checkmark__root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5)
+}
+.seed-select-box-checkmark__icon {
+    display: flex;
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+    color: var(--seed-color-fg-placeholder)
+}
+.seed-select-box-checkmark__icon--selected_true {
+    color: var(--seed-color-fg-neutral)
+}
+.seed-select-box-checkmark__icon--pressed_true {
+    color: var(--seed-color-fg-neutral-subtle)
+}
+.seed-select-box-checkmark__icon--disabled_true {
+    color: var(--seed-color-fg-disabled)
+}
+.seed-select-box-checkmark__icon--selected_true-pressed_true-disabled_false {
+    color: var(--seed-color-fg-neutral)
+}
+.seed-select-box-checkmark__icon--selected_true-disabled_true {
+    color: var(--seed-color-fg-disabled)
+}

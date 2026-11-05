@@ -10,6 +10,7 @@ export function visitEachChild<T extends Node>(node: T, fn: (node: Node) => Node
     case "ColorHexLit":
     case "DimensionLit":
     case "NumberLit":
+    case "EnumLit":
     case "DurationLit":
     case "CubicBezierLit":
     case "ShadowLayerLit":
@@ -75,6 +76,10 @@ export function visitEachChild<T extends Node>(node: T, fn: (node: Node) => Node
       };
     case "TokenCollectionDeclaration":
       return node;
+    // Only reached when a caller starts from a mode: the collection above returns
+    // itself rather than mapping `modes`, so traversal never descends into one.
+    case "ModeDeclaration":
+      return node;
 
     // ComponentSpec
     case "ComponentSpecDocument":
@@ -112,6 +117,7 @@ export function visitEachChild<T extends Node>(node: T, fn: (node: Node) => Node
     case "ColorPropertyDeclaration":
     case "DimensionPropertyDeclaration":
     case "NumberPropertyDeclaration":
+    case "EnumPropertyDeclaration":
     case "DurationPropertyDeclaration":
     case "CubicBezierPropertyDeclaration":
     case "ShadowPropertyDeclaration":

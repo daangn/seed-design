@@ -4,6 +4,15 @@ import type { Logger } from "winston";
 import { partition, uniqWith } from "es-toolkit";
 import type { createTrack } from "../../utils/log.js";
 
+function getIdentifierName(value: unknown): string {
+  if (typeof value === "string") return value;
+  if (value && typeof value === "object" && "name" in value) {
+    return getIdentifierName(value.name);
+  }
+
+  throw new Error(`Cannot extract identifier name from ${JSON.stringify(value)}`);
+}
+
 interface ReplaceImportDeclarationsParams {
   importDeclarations: jscodeshift.Collection<jscodeshift.ImportDeclaration>;
   match: MigrateIconsOptions["match"];
@@ -112,7 +121,7 @@ export function replaceImportDeclarations({
       }
 
       const specifiersWithNewNameAvailable = currentSpecifiers.filter((specifier) =>
-        availableNewNames.includes(specifier.imported.name),
+        availableNewNames.includes(getIdentifierName(specifier.imported.name)),
       );
 
       // 모든 specifier가 새 패키지(default or multicolor)로 이동되었을 경우 기존 import문 제거
@@ -214,7 +223,7 @@ export function replaceImportDeclarations({
           jscodeshift.identifier(
             currentSpecifier.local.name === matchFound.oldName
               ? matchFound.newName
-              : currentSpecifier.local.name,
+              : getIdentifierName(currentSpecifier.local.name),
           ),
         );
       });
@@ -274,7 +283,7 @@ export function replaceImportDeclarations({
           jscodeshift.identifier(
             currentSpecifier.local.name === matchFound.oldName
               ? matchFound.newName
-              : currentSpecifier.local.name,
+              : getIdentifierName(currentSpecifier.local.name),
           ),
         );
 

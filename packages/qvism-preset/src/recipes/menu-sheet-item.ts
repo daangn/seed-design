@@ -1,12 +1,14 @@
 import { menuSheetItem as vars, menuSheet as rootVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, focusVisible, pseudo } from "../utils/pseudo";
+import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
+import { createContentScaleStyles } from "../utils/scale-feedback";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import spec from "@seed-design/rootage-artifacts/components/menu-sheet-item";
 
 const menuSheetItem = defineSlotRecipe({
   name: "menu-sheet-item",
@@ -18,10 +20,8 @@ const menuSheetItem = defineSlotRecipe({
 
       backgroundColor: vars.base.enabled.root.color,
       minHeight: vars.base.enabled.root.minHeight,
-      paddingLeft: vars.base.enabled.root.paddingX,
-      paddingRight: vars.base.enabled.root.paddingX,
-      paddingTop: vars.base.enabled.root.paddingY,
-      paddingBottom: vars.base.enabled.root.paddingY,
+      paddingInline: vars.base.enabled.root.paddingX,
+      paddingBlock: vars.base.enabled.root.paddingY,
       gap: vars.base.enabled.root.gap,
       boxShadow: `inset 0 calc(-1 * ${rootVars.base.enabled.divider.strokeBottomWidth}) 0 ${rootVars.base.enabled.divider.strokeColor}`,
 
@@ -34,6 +34,8 @@ const menuSheetItem = defineSlotRecipe({
       [pseudo(engaged)]: {
         backgroundColor: vars.base.pressed.root.color,
       },
+
+      [pseudo(active)]: createContentScaleStyles(),
 
       "&:first-child": {
         // TODO: since we have this, overflow: hidden; from the group slot can be removed
@@ -117,6 +119,9 @@ const menuSheetItem = defineSlotRecipe({
   defaultVariants: {
     tone: "neutral",
     labelAlign: "left",
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 

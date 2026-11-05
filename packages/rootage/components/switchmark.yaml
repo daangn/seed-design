@@ -34,6 +34,10 @@ data:
             type: dimension
           paddingY:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
+            description: 감싸는 컴포넌트가 자체 pressed 피드백을 주는 경우(List Item 등)에는 이 값이 적용되지 않습니다.
       thumb:
         properties:
           color:
@@ -52,6 +56,7 @@ data:
             type: dimension
           scale:
             type: number
+            description: selected 여부에 따른 thumb 크기입니다. pressed 축소는 root에 적용되므로 이 값과 무관합니다.
           scaleDuration:
             type: duration
           scaleTimingFunction:
@@ -60,11 +65,6 @@ data:
             type: duration
           translateTimingFunction:
             type: cubicBezier
-    variants:
-      tone:
-        values:
-          brand:
-            description: "[deprecated] 주요 버튼 등의 핵심 액션과 시각적으로 충돌하기에 더 이상 사용하지 않습니다."
 
   definitions:
     base:
@@ -93,6 +93,9 @@ data:
       selected:
         thumb:
           scale: 1.0
+      pressed:
+        root:
+          scaleScope: self
 
     tone=brand:
       enabled:
@@ -101,13 +104,15 @@ data:
       enabled,selected:
         root:
           color: $color.bg.brand-solid
+        thumb:
+          color: $color.fg.on-brand-solid
     tone=neutral:
       enabled:
         thumb:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
       enabled,selected:
         root:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
       disabled:
         thumb:
           color: $color.palette.static-black-alpha-700

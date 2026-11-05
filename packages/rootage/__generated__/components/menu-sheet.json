@@ -1,0 +1,324 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "menu-sheet",
+    "name": "Menu Sheet"
+  },
+  "data": {
+    "id": "menu-sheet",
+    "name": "Menu Sheet",
+    "schema": {
+      "slots": {
+        "backdrop": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "enterDuration": {
+              "type": "duration"
+            },
+            "enterTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "enterOpacity": {
+              "type": "number"
+            },
+            "exitDuration": {
+              "type": "duration"
+            },
+            "exitTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "exitOpacity": {
+              "type": "number"
+            }
+          }
+        },
+        "content": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "maxWidth": {
+              "type": "dimension"
+            },
+            "maxHeightFraction": {
+              "type": "number",
+              "description": "inset을 빼지 않은 viewport height 또는 parent height에 대한 최대 비율입니다. 최대 높이는 min(maxHeightFraction × 높이, 상단 inset을 뺀 높이)이므로, content는 상단 안전 영역 경계까지만 커집니다."
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingTop": {
+              "type": "dimension"
+            },
+            "paddingBottom": {
+              "type": "dimension",
+              "description": "이 값은 하단 inset과 합산하여 적용합니다."
+            },
+            "topCornerRadius": {
+              "type": "dimension"
+            },
+            "enterDuration": {
+              "type": "duration"
+            },
+            "enterTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "exitDuration": {
+              "type": "duration"
+            },
+            "exitTimingFunction": {
+              "type": "cubicBezier"
+            }
+          },
+          "description": "content는 가로 기준으로 안전 영역의 가운데에 놓입니다."
+        },
+        "header": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            },
+            "paddingBottom": {
+              "type": "dimension"
+            }
+          }
+        },
+        "title": {
+          "properties": {
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "description": {
+          "properties": {
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "list": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
+        "group": {
+          "properties": {
+            "cornerRadius": {
+              "type": "dimension"
+            }
+          }
+        },
+        "divider": {
+          "properties": {
+            "strokeBottomWidth": {
+              "type": "dimension"
+            },
+            "strokeColor": {
+              "type": "color"
+            }
+          }
+        },
+        "footer": {
+          "properties": {
+            "paddingTop": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
+      "variants": {}
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "backdrop": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.overlay"
+                },
+                "enterDuration": {
+                  "type": "duration",
+                  "value": "$duration.d2"
+                },
+                "enterTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.enter"
+                },
+                "enterOpacity": {
+                  "type": "number",
+                  "value": 0
+                },
+                "exitDuration": {
+                  "type": "duration",
+                  "value": "$duration.d2"
+                },
+                "exitTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.exit"
+                },
+                "exitOpacity": {
+                  "type": "number",
+                  "value": 0
+                }
+              },
+              "content": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.layer-floating"
+                },
+                "maxWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 480,
+                    "unit": "px"
+                  }
+                },
+                "maxHeightFraction": {
+                  "type": "number",
+                  "value": 0.9
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.spacing-x.global-gutter"
+                },
+                "paddingTop": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
+                },
+                "paddingBottom": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                },
+                "topCornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r5"
+                },
+                "enterDuration": {
+                  "type": "duration",
+                  "value": "$duration.d6"
+                },
+                "enterTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.enter-expressive"
+                },
+                "exitDuration": {
+                  "type": "duration",
+                  "value": "$duration.d4"
+                },
+                "exitTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.exit"
+                }
+              },
+              "header": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
+                },
+                "paddingBottom": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                }
+              },
+              "title": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t6"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t6"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              },
+              "description": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
+                }
+              },
+              "list": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2_5"
+                }
+              },
+              "group": {
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r4"
+                }
+              },
+              "divider": {
+                "strokeBottomWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-muted"
+                }
+              },
+              "footer": {
+                "paddingTop": {
+                  "type": "dimension",
+                  "value": "$dimension.x2_5"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

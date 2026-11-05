@@ -20,7 +20,7 @@
     "emitDeclarationOnly": true,
     "allowImportingTsExtensions": true,
     "declarationMap": true,
-    "baseUrl": ".",
+    "types": ["node"],
     "paths": {
       "@/*": ["./src/*"]
     }

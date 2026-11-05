@@ -1,0 +1,27 @@
+.scale-feedback-plain-css {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+  min-height: 48px;
+  padding-inline: 16px;
+
+  border: 1px solid var(--seed-color-stroke-neutral-muted);
+  border-radius: var(--seed-radius-r2);
+  background-color: var(--seed-color-bg-layer-default);
+  color: var(--seed-color-fg-neutral);
+
+  font-size: var(--seed-font-size-t6);
+  line-height: var(--seed-line-height-t6);
+  font-weight: var(--seed-font-weight-bold);
+
+  transition:
+    background-color 0.2s,
+    var(--seed-feedback-scale-transition);
+}
+
+.scale-feedback-plain-css:active {
+  background-color: var(--seed-color-bg-layer-default-pressed);
+  scale: var(--seed-feedback-scale);
+}

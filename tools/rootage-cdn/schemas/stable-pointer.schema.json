@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seed-design.io/schemas/rootage-stable-pointer.v1.json",
+  "title": "Rootage stable 포인터",
+  "description": "검증된 npm latest stable과 대응하는 완료 manifest를 가리킨다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "version", "manifestSha256", "npmIntegrity"],
+  "properties": {
+    "schemaVersion": { "description": "stable 포인터 형식 버전이다.", "const": 1 },
+    "version": {
+      "description": "npm latest와 같은 stable SemVer다.",
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "manifestSha256": {
+      "description": "완료 manifest 원본 바이트의 SHA-256이다.",
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "npmIntegrity": {
+      "description": "대응하는 npm tarball의 SHA-512 SRI 값이다.",
+      "type": "string",
+      "pattern": "^sha512-[A-Za-z0-9+/]+={0,2}$"
+    }
+  }
+}

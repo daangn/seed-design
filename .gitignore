@@ -3,6 +3,12 @@
 *.tsbuildinfo
 .ultra.cache.json
 
+# Documentation archive build and local runtime artifacts
+docs/out-archive
+docs/out-archive.tmp-*
+scripts/docs-archive/.wrangler
+/.wrangler/
+
 .nyc_output/
 
 .pnp.*
@@ -15,11 +21,27 @@ lib
 docs/.next
 docs/.source
 docs/out
+docs/plans
+docs/superpowers
+examples/stackflow-spa/test-results
+examples/stackflow-spa/playwright-report
+docs/public/__lynx__
 
 scripts/data
 
 .env
 .sisyphus/*
+.claude-pr/
 .claude/worktrees/*
 
 .codex
+
+docs/superpowers/
+skills/*-workspace/
+
+# Generated CSS bundles
+/packages/css/*.min.css
+/packages/lynx-css/*.min.css
+
+# Agent skills that ship inside dependencies, symlinked by skills-npm on install
+**/skills/npm-*

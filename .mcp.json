@@ -5,6 +5,16 @@
       "command": "bunx",
       "args": ["-y", "@seed-design/mcp@latest"]
     },
+    "seed-design-local": {
+      "type": "stdio",
+      "command": "bun",
+      "args": ["./packages/mcp/bin/index.mjs"]
+    },
+    "lynx-devtool": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["-y", "@lynx-js/devtool-mcp-server@latest"]
+    },
     "playwright": {
       "command": "bunx",
       "args": ["@playwright/mcp@latest"]

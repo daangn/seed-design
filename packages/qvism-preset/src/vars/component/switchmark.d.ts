@@ -10,6 +10,7 @@ export declare const vars: {
       },
       "thumb": {
         "cornerRadius": "var(--seed-radius-full)",
+        /** selected 여부에 따른 thumb 크기입니다. pressed 축소는 root에 적용되므로 이 값과 무관합니다. */
         "scale": "0.8",
         "scaleDuration": "var(--seed-duration-d3)",
         "scaleTimingFunction": "var(--seed-timing-function-easing)",
@@ -29,13 +30,11 @@ export declare const vars: {
     },
     "selected": {
       "thumb": {
+        /** selected 여부에 따른 thumb 크기입니다. pressed 축소는 root에 적용되므로 이 값과 무관합니다. */
         "scale": "1"
       }
     }
   },
-  /**
-   * [deprecated] 주요 버튼 등의 핵심 액션과 시각적으로 충돌하기에 더 이상 사용하지 않습니다.
-   */
   "toneBrand": {
     "enabled": {
       "thumb": {
@@ -45,18 +44,21 @@ export declare const vars: {
     "enabledSelected": {
       "root": {
         "color": "var(--seed-color-bg-brand-solid)"
+      },
+      "thumb": {
+        "color": "var(--seed-color-fg-on-brand-solid)"
       }
     }
   },
   "toneNeutral": {
     "enabled": {
       "thumb": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       }
     },
     "enabledSelected": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       }
     },
     "disabled": {

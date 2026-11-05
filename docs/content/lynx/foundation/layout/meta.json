@@ -1,0 +1,5 @@
+{
+  "title": "Layout",
+  "pages": ["box", "v-stack", "h-stack", "float"],
+  "defaultOpen": true
+}

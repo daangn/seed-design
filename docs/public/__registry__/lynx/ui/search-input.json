@@ -1,0 +1,18 @@
+{
+  "id": "search-input",
+  "dependencies": [
+    "@karrotmarket/lynx-monochrome-icon",
+    "@seed-design/lynx-react"
+  ],
+  "snippets": [
+    {
+      "path": "search-input.tsx",
+      "content": "/**\n * @file ui:search-input\n * @requires @seed-design/lynx-react@^1.1.0\n * @requires @seed-design/lynx-css@^1.1.0\n * @requires @karrotmarket/lynx-monochrome-icon@>=1.20.0 <2.0.0\n **/\n\nimport IconXmarkCircleFill from \"@karrotmarket/lynx-monochrome-icon/IconXmarkCircleFill\";\nimport { forwardRef, type ComponentRef } from \"@lynx-js/react\";\nimport { Icon, SearchInput as SeedSearchInput } from \"@seed-design/lynx-react\";\n\nexport interface SearchInputProps\n  extends Omit<SeedSearchInput.RootProps, \"children\" | \"accessibility-label\"> {\n  placeholder?: string;\n\n  /**\n   * The accessible name of the input.\n   * @default \"검색\"\n   */\n  \"accessibility-label\"?: string;\n\n  /**\n   * The accessible name of the clear button.\n   * @default \"지우기\"\n   */\n  clearButtonLabel?: string;\n\n  /**\n   * Props for the input element, e.g. `maxlength`.\n   */\n  inputProps?: SeedSearchInput.InputProps;\n}\n\ntype SearchInputRef = ComponentRef<typeof SeedSearchInput.Input>;\n\n/**\n * @see https://seed-design.io/lynx/components/search-input\n */\nexport const SearchInput = forwardRef<SearchInputRef, SearchInputProps>(\n  (\n    {\n      placeholder,\n      \"accessibility-label\": accessibilityLabel = \"검색\",\n      clearButtonLabel = \"지우기\",\n      inputProps,\n      ...otherProps\n    },\n    ref,\n  ) => {\n    return (\n      <SeedSearchInput.Root {...otherProps}>\n        {/* You may implement your own i18n for the labels */}\n        <SeedSearchInput.Input\n          ref={ref}\n          accessibility-label={accessibilityLabel}\n          placeholder={placeholder}\n          {...inputProps}\n        />\n        <SeedSearchInput.ClearButton accessibility-label={clearButtonLabel}>\n          <Icon icon={<IconXmarkCircleFill />} />\n        </SeedSearchInput.ClearButton>\n      </SeedSearchInput.Root>\n    );\n  },\n);\nSearchInput.displayName = \"SearchInput\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/lynx-react": "^1.1.0",
+        "@seed-design/lynx-css": "^1.1.0",
+        "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+      }
+    }
+  ]
+}

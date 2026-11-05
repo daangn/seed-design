@@ -30,25 +30,20 @@ export interface ImageContentProps
     React.ImgHTMLAttributes<HTMLImageElement> {}
 
 export const ImageContent = forwardRef<HTMLImageElement, ImageContentProps>((props, ref) => {
-  const { src, onLoad, onError, ...otherProps } = props;
+  const { src, srcSet, onLoad, onError, ...otherProps } = props;
 
   const { refs, setSrc, getContentProps, handleLoad, handleError } = useImageContext();
 
   useLayoutEffect(() => {
-    setSrc(src);
-  }, [src, setSrc]);
+    setSrc(src, srcSet);
+  }, [src, srcSet, setSrc]);
 
-  const contentProps = getContentProps({ src });
+  const contentProps = getContentProps({ src, srcSet });
 
   return (
     <Primitive.img
       ref={composeRefs(refs.image, ref)}
-      {...mergeProps(contentProps, otherProps, {
-        // if loading is lazy, we should not hide the image even if it's not loaded yet,
-        // because the browser should be able to check if it's in the viewport.
-        // TODO: it should be better than this; why doesn't useImage properly handle this case?
-        hidden: otherProps.loading === "lazy" ? false : contentProps.hidden,
-      })}
+      {...mergeProps(contentProps, otherProps)}
       onLoad={(e) => {
         handleLoad();
         onLoad?.(e);

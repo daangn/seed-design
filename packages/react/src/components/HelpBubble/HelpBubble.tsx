@@ -3,8 +3,10 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { helpBubble, type HelpBubbleVariantProps } from "@seed-design/css/recipes/help-bubble";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
+import { getHelpBubbleArrowTipPath } from "../../utils/getHelpBubbleArrowTipPath";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import clsx from "clsx";
 
@@ -30,14 +32,20 @@ export interface HelpBubbleRootProps extends HelpBubbleVariantProps, PopoverPrim
    * @default 14
    */
   arrowPadding?: PopoverPrimitive.RootProps["arrowPadding"];
+  /**
+   * Whether to move focus into the content when it opens. Off by default so a bubble shown on page load keeps focus where the page put it; set `true` to follow the dialog pattern and move focus in.
+   * @default false
+   */
+  autoFocus?: PopoverPrimitive.RootProps["autoFocus"];
 }
 
 export const HelpBubbleRoot = withRootProvider<HelpBubbleRootProps>(PopoverPrimitive.Root, {
   defaultProps: {
     placement: "top",
     gutter: 4, // TODO: get value from rootage spec
-    overflowPadding: 16,
+    overflowPadding: 16, // TODO: get value from rootage spec
     arrowPadding: 14,
+    autoFocus: false,
   },
 });
 
@@ -77,7 +85,7 @@ export interface HelpBubbleContentProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const HelpBubbleContent = withContext<HTMLDivElement, HelpBubbleContentProps>(
-  withStyleProps(withStateProps(Primitive.div)),
+  withStyleProps(withStateProps(PopoverPrimitive.Content)),
   "content",
 );
 
@@ -114,11 +122,7 @@ export const HelpBubbleArrowTip = forwardRef<SVGSVGElement, HelpBubbleArrowTipPr
     const width = api.rects.arrowTip?.width || 0;
     const height = api.rects.arrowTip?.height || 0;
 
-    const pathData = `M0,0
-      H${width}
-      L${width / 2 + tipRadius},${height - tipRadius}
-      Q${width / 2},${height} ${width / 2 - tipRadius},${height - tipRadius}
-      Z`;
+    const pathData = getHelpBubbleArrowTipPath(width, height, tipRadius);
 
     // TODO: mergeProps with api.stateProps
     return (
@@ -140,9 +144,11 @@ HelpBubbleArrowTip.displayName = "HelpBubbleArrowTip";
 
 export interface HelpBubbleCloseButtonProps extends PopoverPrimitive.CloseButtonProps {}
 
-export const HelpBubbleCloseButton = withContext<HTMLButtonElement, HelpBubbleCloseButtonProps>(
-  PopoverPrimitive.CloseButton,
-  "closeButton",
+export const HelpBubbleCloseButton = withScaleFeedback(
+  withContext<HTMLButtonElement, HelpBubbleCloseButtonProps>(
+    PopoverPrimitive.CloseButton,
+    "closeButton",
+  ),
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +165,12 @@ export interface HelpBubbleTitleProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const HelpBubbleTitle = withContext<HTMLSpanElement, HelpBubbleTitleProps>(
-  withStateProps(Primitive.span),
+  forwardRef<HTMLSpanElement, HelpBubbleTitleProps>((props, ref) => (
+    // An h2 is too noisy for something as small as a help bubble, so keep a plain span.
+    <PopoverPrimitive.Title asChild>
+      <Primitive.span ref={ref} {...props} />
+    </PopoverPrimitive.Title>
+  )),
   "title",
 );
 
@@ -168,6 +179,11 @@ export interface HelpBubbleDescriptionProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const HelpBubbleDescription = withContext<HTMLDivElement, HelpBubbleDescriptionProps>(
-  withStateProps(Primitive.div),
+  forwardRef<HTMLDivElement, HelpBubbleDescriptionProps>((props, ref) => (
+    // A p is too noisy for something as small as a help bubble, so keep a plain div.
+    <PopoverPrimitive.Description asChild>
+      <Primitive.div ref={ref} {...props} />
+    </PopoverPrimitive.Description>
+  )),
   "description",
 );

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 import { cac } from "cac";
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { StdioServerTransport } from "@modelcontextprotocol/server/stdio";
+import { McpServer } from "@modelcontextprotocol/server";
 import { version } from "../../package.json" with { type: "json" };
 import { logger } from "../logger";
 import { loadConfig, type McpConfig } from "../config";

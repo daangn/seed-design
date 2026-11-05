@@ -2,12 +2,16 @@
   :root {
     --seed-safe-area-top: 0px;
     --seed-safe-area-bottom: 0px;
+    --seed-safe-area-left: 0px;
+    --seed-safe-area-right: 0px;
   }
 
   @supports (left: constant(safe-area-inset-left)) {
     :root {
       --seed-safe-area-top: constant(safe-area-inset-top);
       --seed-safe-area-bottom: constant(safe-area-inset-bottom);
+      --seed-safe-area-left: constant(safe-area-inset-left);
+      --seed-safe-area-right: constant(safe-area-inset-right);
     }
   }
 
@@ -15,15 +19,21 @@
     :root {
       --seed-safe-area-top: env(safe-area-inset-top);
       --seed-safe-area-bottom: env(safe-area-inset-bottom);
+      --seed-safe-area-left: env(safe-area-inset-left);
+      --seed-safe-area-right: env(safe-area-inset-right);
     }
   }
 
   :root {
+    --seed-font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard Variable", Pretendard, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --seed-font-size-multiplier: 1;
     --seed-font-size-limit-min: .8;
     --seed-font-size-limit-max: 1.5;
     --seed-line-height-limit-min: .8;
     --seed-line-height-limit-max: 1.5;
+    --seed-static-font-scale: 1;
+    --seed-feedback-scale: 1;
+    --seed-feedback-scale-transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale);
   }
 
   [data-seed-platform="ios"] {
@@ -44,7 +54,6 @@
   }
 
   .seed-icon, .seed-prefix-icon, .seed-suffix-icon {
-    vertical-align: middle;
     flex-shrink: 0;
     justify-content: center;
     align-items: center;
@@ -55,12 +64,18 @@
     width: var(--seed-icon-size);
     height: var(--seed-icon-size);
     color: var(--seed-icon-color, currentColor);
+    font-size: var(--seed-icon-font-size, inherit);
+    font-weight: var(--seed-icon-font-weight, inherit);
+    vertical-align: middle;
   }
 
   .seed-prefix-icon {
     width: var(--seed-prefix-icon-size);
     height: var(--seed-prefix-icon-size);
     color: var(--seed-prefix-icon-color, currentColor);
+    font-size: var(--seed-prefix-icon-font-size, inherit);
+    font-weight: var(--seed-prefix-icon-font-weight, inherit);
+    vertical-align: middle;
     margin-left: var(--seed-prefix-icon-margin-left, 0);
     margin-right: var(--seed-prefix-icon-margin-right, 0);
     margin-top: var(--seed-prefix-icon-margin-top, 0);
@@ -73,6 +88,9 @@
     width: var(--seed-suffix-icon-size);
     height: var(--seed-suffix-icon-size);
     color: var(--seed-suffix-icon-color, currentColor);
+    font-size: var(--seed-suffix-icon-font-size, inherit);
+    font-weight: var(--seed-suffix-icon-font-weight, inherit);
+    vertical-align: middle;
     margin-left: var(--seed-suffix-icon-margin-left, 0);
     margin-right: var(--seed-suffix-icon-margin-right, 0);
     margin-top: var(--seed-suffix-icon-margin-top, 0);
@@ -106,31 +124,158 @@
     border-bottom-width: var(--seed-box-border-bottom-width);
     border-left-width: var(--seed-box-border-left-width);
     border-right-width: var(--seed-box-border-right-width);
-    --seed-box-padding: 0;
-    --seed-box-padding-y: var(--seed-box-padding);
-    --seed-box-padding-x: var(--seed-box-padding);
-    --seed-box-padding-bottom: var(--seed-box-padding-y);
-    --seed-box-padding-top: var(--seed-box-padding-y);
-    --seed-box-padding-left: var(--seed-box-padding-x);
-    --seed-box-padding-right: var(--seed-box-padding-x);
+    --seed-box-padding-base: 0;
+    --seed-box-padding-sm: var(--seed-box-padding-base, initial);
+    --seed-box-padding-md: var(--seed-box-padding-sm, initial);
+    --seed-box-padding-lg: var(--seed-box-padding-md, initial);
+    --seed-box-padding-xl: var(--seed-box-padding-lg, initial);
+    --seed-box-padding: var(--seed-box-padding-base, initial);
+    --seed-box-padding-y-base: var(--seed-box-padding);
+    --seed-box-padding-y-sm: var(--seed-box-padding-y-base, initial);
+    --seed-box-padding-y-md: var(--seed-box-padding-y-sm, initial);
+    --seed-box-padding-y-lg: var(--seed-box-padding-y-md, initial);
+    --seed-box-padding-y-xl: var(--seed-box-padding-y-lg, initial);
+    --seed-box-padding-y: var(--seed-box-padding-y-base, initial);
+    --seed-box-padding-x-base: var(--seed-box-padding);
+    --seed-box-padding-x-sm: var(--seed-box-padding-x-base, initial);
+    --seed-box-padding-x-md: var(--seed-box-padding-x-sm, initial);
+    --seed-box-padding-x-lg: var(--seed-box-padding-x-md, initial);
+    --seed-box-padding-x-xl: var(--seed-box-padding-x-lg, initial);
+    --seed-box-padding-x: var(--seed-box-padding-x-base, initial);
+    --seed-box-padding-bottom-base: var(--seed-box-padding-y);
+    --seed-box-padding-bottom-sm: var(--seed-box-padding-bottom-base, initial);
+    --seed-box-padding-bottom-md: var(--seed-box-padding-bottom-sm, initial);
+    --seed-box-padding-bottom-lg: var(--seed-box-padding-bottom-md, initial);
+    --seed-box-padding-bottom-xl: var(--seed-box-padding-bottom-lg, initial);
+    --seed-box-padding-bottom: var(--seed-box-padding-bottom-base, initial);
+    --seed-box-padding-top-base: var(--seed-box-padding-y);
+    --seed-box-padding-top-sm: var(--seed-box-padding-top-base, initial);
+    --seed-box-padding-top-md: var(--seed-box-padding-top-sm, initial);
+    --seed-box-padding-top-lg: var(--seed-box-padding-top-md, initial);
+    --seed-box-padding-top-xl: var(--seed-box-padding-top-lg, initial);
+    --seed-box-padding-top: var(--seed-box-padding-top-base, initial);
+    --seed-box-padding-left-base: var(--seed-box-padding-x);
+    --seed-box-padding-left-sm: var(--seed-box-padding-left-base, initial);
+    --seed-box-padding-left-md: var(--seed-box-padding-left-sm, initial);
+    --seed-box-padding-left-lg: var(--seed-box-padding-left-md, initial);
+    --seed-box-padding-left-xl: var(--seed-box-padding-left-lg, initial);
+    --seed-box-padding-left: var(--seed-box-padding-left-base, initial);
+    --seed-box-padding-right-base: var(--seed-box-padding-x);
+    --seed-box-padding-right-sm: var(--seed-box-padding-right-base, initial);
+    --seed-box-padding-right-md: var(--seed-box-padding-right-sm, initial);
+    --seed-box-padding-right-lg: var(--seed-box-padding-right-md, initial);
+    --seed-box-padding-right-xl: var(--seed-box-padding-right-lg, initial);
+    --seed-box-padding-right: var(--seed-box-padding-right-base, initial);
     padding-top: var(--seed-box-padding-top);
     padding-bottom: var(--seed-box-padding-bottom);
     padding-left: var(--seed-box-padding-left);
     padding-right: var(--seed-box-padding-right);
-    --seed-box-bleed-bottom: 0px;
-    --seed-box-bleed-top: 0px;
-    --seed-box-bleed-left: 0px;
-    --seed-box-bleed-right: 0px;
-    margin-top: calc(var(--seed-box-bleed-top) * -1);
-    margin-bottom: calc(var(--seed-box-bleed-bottom) * -1);
-    margin-left: calc(var(--seed-box-bleed-left) * -1);
-    margin-right: calc(var(--seed-box-bleed-right) * -1);
-    --seed-box-min-height: initial;
-    --seed-box-max-height: initial;
-    --seed-box-height: initial;
-    --seed-box-min-width: initial;
-    --seed-box-max-width: initial;
-    --seed-box-width: initial;
+    --seed-box-bleed-bottom-base: 0px;
+    --seed-box-bleed-bottom-sm: var(--seed-box-bleed-bottom-base, initial);
+    --seed-box-bleed-bottom-md: var(--seed-box-bleed-bottom-sm, initial);
+    --seed-box-bleed-bottom-lg: var(--seed-box-bleed-bottom-md, initial);
+    --seed-box-bleed-bottom-xl: var(--seed-box-bleed-bottom-lg, initial);
+    --seed-box-bleed-bottom: var(--seed-box-bleed-bottom-base, initial);
+    --seed-box-bleed-top-base: 0px;
+    --seed-box-bleed-top-sm: var(--seed-box-bleed-top-base, initial);
+    --seed-box-bleed-top-md: var(--seed-box-bleed-top-sm, initial);
+    --seed-box-bleed-top-lg: var(--seed-box-bleed-top-md, initial);
+    --seed-box-bleed-top-xl: var(--seed-box-bleed-top-lg, initial);
+    --seed-box-bleed-top: var(--seed-box-bleed-top-base, initial);
+    --seed-box-bleed-left-base: 0px;
+    --seed-box-bleed-left-sm: var(--seed-box-bleed-left-base, initial);
+    --seed-box-bleed-left-md: var(--seed-box-bleed-left-sm, initial);
+    --seed-box-bleed-left-lg: var(--seed-box-bleed-left-md, initial);
+    --seed-box-bleed-left-xl: var(--seed-box-bleed-left-lg, initial);
+    --seed-box-bleed-left: var(--seed-box-bleed-left-base, initial);
+    --seed-box-bleed-right-base: 0px;
+    --seed-box-bleed-right-sm: var(--seed-box-bleed-right-base, initial);
+    --seed-box-bleed-right-md: var(--seed-box-bleed-right-sm, initial);
+    --seed-box-bleed-right-lg: var(--seed-box-bleed-right-md, initial);
+    --seed-box-bleed-right-xl: var(--seed-box-bleed-right-lg, initial);
+    --seed-box-bleed-right: var(--seed-box-bleed-right-base, initial);
+    --seed-box-margin-base: initial;
+    --seed-box-margin-sm: var(--seed-box-margin-base, initial);
+    --seed-box-margin-md: var(--seed-box-margin-sm, initial);
+    --seed-box-margin-lg: var(--seed-box-margin-md, initial);
+    --seed-box-margin-xl: var(--seed-box-margin-lg, initial);
+    --seed-box-margin: var(--seed-box-margin-base, initial);
+    --seed-box-margin-y-base: var(--seed-box-margin, initial);
+    --seed-box-margin-y-sm: var(--seed-box-margin-y-base, initial);
+    --seed-box-margin-y-md: var(--seed-box-margin-y-sm, initial);
+    --seed-box-margin-y-lg: var(--seed-box-margin-y-md, initial);
+    --seed-box-margin-y-xl: var(--seed-box-margin-y-lg, initial);
+    --seed-box-margin-y: var(--seed-box-margin-y-base, initial);
+    --seed-box-margin-x-base: var(--seed-box-margin, initial);
+    --seed-box-margin-x-sm: var(--seed-box-margin-x-base, initial);
+    --seed-box-margin-x-md: var(--seed-box-margin-x-sm, initial);
+    --seed-box-margin-x-lg: var(--seed-box-margin-x-md, initial);
+    --seed-box-margin-x-xl: var(--seed-box-margin-x-lg, initial);
+    --seed-box-margin-x: var(--seed-box-margin-x-base, initial);
+    --seed-box-margin-top-base: var(--seed-box-margin-y, initial);
+    --seed-box-margin-top-sm: var(--seed-box-margin-top-base, initial);
+    --seed-box-margin-top-md: var(--seed-box-margin-top-sm, initial);
+    --seed-box-margin-top-lg: var(--seed-box-margin-top-md, initial);
+    --seed-box-margin-top-xl: var(--seed-box-margin-top-lg, initial);
+    --seed-box-margin-top: var(--seed-box-margin-top-base, initial);
+    --seed-box-margin-bottom-base: var(--seed-box-margin-y, initial);
+    --seed-box-margin-bottom-sm: var(--seed-box-margin-bottom-base, initial);
+    --seed-box-margin-bottom-md: var(--seed-box-margin-bottom-sm, initial);
+    --seed-box-margin-bottom-lg: var(--seed-box-margin-bottom-md, initial);
+    --seed-box-margin-bottom-xl: var(--seed-box-margin-bottom-lg, initial);
+    --seed-box-margin-bottom: var(--seed-box-margin-bottom-base, initial);
+    --seed-box-margin-left-base: var(--seed-box-margin-x, initial);
+    --seed-box-margin-left-sm: var(--seed-box-margin-left-base, initial);
+    --seed-box-margin-left-md: var(--seed-box-margin-left-sm, initial);
+    --seed-box-margin-left-lg: var(--seed-box-margin-left-md, initial);
+    --seed-box-margin-left-xl: var(--seed-box-margin-left-lg, initial);
+    --seed-box-margin-left: var(--seed-box-margin-left-base, initial);
+    --seed-box-margin-right-base: var(--seed-box-margin-x, initial);
+    --seed-box-margin-right-sm: var(--seed-box-margin-right-base, initial);
+    --seed-box-margin-right-md: var(--seed-box-margin-right-sm, initial);
+    --seed-box-margin-right-lg: var(--seed-box-margin-right-md, initial);
+    --seed-box-margin-right-xl: var(--seed-box-margin-right-lg, initial);
+    --seed-box-margin-right: var(--seed-box-margin-right-base, initial);
+    margin-top: var(--seed-box-margin-top, calc(var(--seed-box-bleed-top) * -1));
+    margin-bottom: var(--seed-box-margin-bottom, calc(var(--seed-box-bleed-bottom) * -1));
+    margin-left: var(--seed-box-margin-left, calc(var(--seed-box-bleed-left) * -1));
+    margin-right: var(--seed-box-margin-right, calc(var(--seed-box-bleed-right) * -1));
+    --seed-box-min-height-base: auto;
+    --seed-box-min-height-sm: var(--seed-box-min-height-base, initial);
+    --seed-box-min-height-md: var(--seed-box-min-height-sm, initial);
+    --seed-box-min-height-lg: var(--seed-box-min-height-md, initial);
+    --seed-box-min-height-xl: var(--seed-box-min-height-lg, initial);
+    --seed-box-min-height: var(--seed-box-min-height-base, initial);
+    --seed-box-max-height-base: none;
+    --seed-box-max-height-sm: var(--seed-box-max-height-base, initial);
+    --seed-box-max-height-md: var(--seed-box-max-height-sm, initial);
+    --seed-box-max-height-lg: var(--seed-box-max-height-md, initial);
+    --seed-box-max-height-xl: var(--seed-box-max-height-lg, initial);
+    --seed-box-max-height: var(--seed-box-max-height-base, initial);
+    --seed-box-height-base: auto;
+    --seed-box-height-sm: var(--seed-box-height-base, initial);
+    --seed-box-height-md: var(--seed-box-height-sm, initial);
+    --seed-box-height-lg: var(--seed-box-height-md, initial);
+    --seed-box-height-xl: var(--seed-box-height-lg, initial);
+    --seed-box-height: var(--seed-box-height-base, initial);
+    --seed-box-min-width-base: auto;
+    --seed-box-min-width-sm: var(--seed-box-min-width-base, initial);
+    --seed-box-min-width-md: var(--seed-box-min-width-sm, initial);
+    --seed-box-min-width-lg: var(--seed-box-min-width-md, initial);
+    --seed-box-min-width-xl: var(--seed-box-min-width-lg, initial);
+    --seed-box-min-width: var(--seed-box-min-width-base, initial);
+    --seed-box-max-width-base: none;
+    --seed-box-max-width-sm: var(--seed-box-max-width-base, initial);
+    --seed-box-max-width-md: var(--seed-box-max-width-sm, initial);
+    --seed-box-max-width-lg: var(--seed-box-max-width-md, initial);
+    --seed-box-max-width-xl: var(--seed-box-max-width-lg, initial);
+    --seed-box-max-width: var(--seed-box-max-width-base, initial);
+    --seed-box-width-base: auto;
+    --seed-box-width-sm: var(--seed-box-width-base, initial);
+    --seed-box-width-md: var(--seed-box-width-sm, initial);
+    --seed-box-width-lg: var(--seed-box-width-md, initial);
+    --seed-box-width-xl: var(--seed-box-width-lg, initial);
+    --seed-box-width: var(--seed-box-width-base, initial);
     min-height: var(--seed-box-min-height);
     max-height: var(--seed-box-max-height);
     height: var(--seed-box-height);
@@ -156,7 +301,12 @@
     border-top-right-radius: var(--seed-box-border-top-right-radius);
     --seed-box-box-shadow: initial;
     box-shadow: var(--seed-box-box-shadow);
-    --seed-box-display: block;
+    --seed-box-display-base: block;
+    --seed-box-display-sm: var(--seed-box-display-base, initial);
+    --seed-box-display-md: var(--seed-box-display-sm, initial);
+    --seed-box-display-lg: var(--seed-box-display-md, initial);
+    --seed-box-display-xl: var(--seed-box-display-lg, initial);
+    --seed-box-display: var(--seed-box-display-base, initial);
     --seed-box-position: initial;
     display: var(--seed-box-display);
     position: var(--seed-box-position);
@@ -172,14 +322,24 @@
     --seed-box-flex-shrink: initial;
     flex-grow: var(--seed-box-flex-grow);
     flex-shrink: var(--seed-box-flex-shrink);
-    --seed-box-flex-direction: initial;
+    --seed-box-flex-direction-base: row;
+    --seed-box-flex-direction-sm: var(--seed-box-flex-direction-base, initial);
+    --seed-box-flex-direction-md: var(--seed-box-flex-direction-sm, initial);
+    --seed-box-flex-direction-lg: var(--seed-box-flex-direction-md, initial);
+    --seed-box-flex-direction-xl: var(--seed-box-flex-direction-lg, initial);
+    --seed-box-flex-direction: var(--seed-box-flex-direction-base, initial);
     --seed-box-flex-wrap: initial;
     --seed-box-justify-content: initial;
     --seed-box-justify-self: auto;
     --seed-box-align-items: stretch;
     --seed-box-align-content: stretch;
     --seed-box-align-self: auto;
-    --seed-box-gap: initial;
+    --seed-box-gap-base: 0px;
+    --seed-box-gap-sm: var(--seed-box-gap-base, initial);
+    --seed-box-gap-md: var(--seed-box-gap-sm, initial);
+    --seed-box-gap-lg: var(--seed-box-gap-md, initial);
+    --seed-box-gap-xl: var(--seed-box-gap-lg, initial);
+    --seed-box-gap: var(--seed-box-gap-base, initial);
     flex-direction: var(--seed-box-flex-direction);
     flex-wrap: var(--seed-box-flex-wrap);
     justify-content: var(--seed-box-justify-content);
@@ -199,9 +359,19 @@
   }
 
   .seed-grid {
-    --seed-grid-columns: initial;
+    --seed-grid-columns-base: none;
+    --seed-grid-columns-sm: var(--seed-grid-columns-base, initial);
+    --seed-grid-columns-md: var(--seed-grid-columns-sm, initial);
+    --seed-grid-columns-lg: var(--seed-grid-columns-md, initial);
+    --seed-grid-columns-xl: var(--seed-grid-columns-lg, initial);
+    --seed-grid-columns: var(--seed-grid-columns-base, initial);
     grid-template-columns: var(--seed-grid-columns);
-    --seed-grid-rows: initial;
+    --seed-grid-rows-base: none;
+    --seed-grid-rows-sm: var(--seed-grid-rows-base, initial);
+    --seed-grid-rows-md: var(--seed-grid-rows-sm, initial);
+    --seed-grid-rows-lg: var(--seed-grid-rows-md, initial);
+    --seed-grid-rows-xl: var(--seed-grid-rows-lg, initial);
+    --seed-grid-rows: var(--seed-grid-rows-base, initial);
     grid-template-rows: var(--seed-grid-rows);
     --seed-grid-auto-flow: initial;
     grid-auto-flow: var(--seed-grid-auto-flow);
@@ -211,7 +381,6 @@
     grid-auto-rows: var(--seed-grid-auto-rows);
     --seed-grid-justify-items: stretch;
     justify-items: var(--seed-grid-justify-items);
-    display: grid;
   }
 
   .seed-consistent-width:before {
@@ -230,17 +399,72 @@
     display: block;
   }
 
+  .seed-scale-feedback {
+    --seed-dynamic-scale-basis: max(var(--seed-element-height), var(--seed-element-width) / 4, 24);
+    --seed-dynamic-scale: calc((var(--seed-dynamic-scale-basis) - 2) / var(--seed-dynamic-scale-basis));
+    --seed-feedback-scale: var(--seed-dynamic-scale, 1);
+    --seed-content-scale: 1;
+    scale: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .seed-scale-feedback {
+      --seed-feedback-scale: 1;
+    }
+  }
+
+  .seed-content-scale {
+    display: inherit;
+    flex-direction: inherit;
+    flex-wrap: inherit;
+    align-items: inherit;
+    align-content: inherit;
+    justify-content: inherit;
+    justify-items: inherit;
+    gap: inherit;
+    grid-template-columns: inherit;
+    grid-template-rows: inherit;
+    grid-template-areas: inherit;
+    grid-auto-flow: inherit;
+    grid-auto-columns: inherit;
+    grid-auto-rows: inherit;
+    min-width: 0;
+    min-height: 0;
+    scale: var(--seed-content-scale);
+    transition: var(--seed-feedback-scale-transition);
+    flex: auto;
+    grid-area: 1 / 1 / -1 / -1;
+    place-self: stretch stretch;
+  }
+
   :root, [data-seed-color-mode="system"] {
+    --lightningcss-light: initial;
+    --lightningcss-dark: ;
     color-scheme: light dark;
   }
 
+  @media (prefers-color-scheme: dark) {
+    :root, [data-seed-color-mode="system"] {
+      --lightningcss-light: ;
+      --lightningcss-dark: initial;
+    }
+  }
+
   [data-seed-color-mode="light-only"] {
+    --lightningcss-light: initial;
+    --lightningcss-dark: ;
     color-scheme: light;
+    --lightningcss-light: initial;
+    --lightningcss-dark: ;
     color-scheme: light only;
   }
 
   [data-seed-color-mode="dark-only"] {
+    --lightningcss-light: ;
+    --lightningcss-dark: initial;
     color-scheme: dark;
+    --lightningcss-light: ;
+    --lightningcss-dark: initial;
     color-scheme: dark only;
   }
 
@@ -277,49 +501,66 @@
     --seed-duration-d5: .25s;
     --seed-duration-d6: .3s;
     --seed-duration-color-transition: var(--seed-duration-d3);
-    --seed-font-size-t1: clamp(calc(var(--seed-font-size-t1-static) * var(--seed-font-size-limit-min, .8)), calc(.6875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t1-static) * var(--seed-font-size-limit-max, 1.5)));
-    --seed-font-size-t2: clamp(calc(var(--seed-font-size-t2-static) * var(--seed-font-size-limit-min, .8)), calc(.75rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t2-static) * var(--seed-font-size-limit-max, 1.5)));
-    --seed-font-size-t3: clamp(calc(var(--seed-font-size-t3-static) * var(--seed-font-size-limit-min, .8)), calc(.8125rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t3-static) * var(--seed-font-size-limit-max, 1.5)));
-    --seed-font-size-t4: clamp(calc(var(--seed-font-size-t4-static) * var(--seed-font-size-limit-min, .8)), calc(.875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t4-static) * var(--seed-font-size-limit-max, 1.5)));
-    --seed-font-size-t5: clamp(calc(var(--seed-font-size-t5-static) * var(--seed-font-size-limit-min, .8)), calc(1rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t5-static) * var(--seed-font-size-limit-max, 1.5)));
-    --seed-font-size-t6: clamp(calc(var(--seed-font-size-t6-static) * var(--seed-font-size-limit-min, .8)), calc(1.125rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t6-static) * var(--seed-font-size-limit-max, 1.5)));
-    --seed-font-size-t7: clamp(calc(var(--seed-font-size-t7-static) * var(--seed-font-size-limit-min, .8)), calc(1.25rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t7-static) * var(--seed-font-size-limit-max, 1.5)));
-    --seed-font-size-t8: clamp(calc(var(--seed-font-size-t8-static) * var(--seed-font-size-limit-min, .8)), calc(1.375rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t8-static) * var(--seed-font-size-limit-max, 1.5)));
-    --seed-font-size-t9: clamp(calc(var(--seed-font-size-t9-static) * var(--seed-font-size-limit-min, .8)), calc(1.5rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t9-static) * var(--seed-font-size-limit-max, 1.5)));
-    --seed-font-size-t10: clamp(calc(var(--seed-font-size-t10-static) * var(--seed-font-size-limit-min, .8)), calc(1.625rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t10-static) * var(--seed-font-size-limit-max, 1.5)));
-    --seed-font-size-t1-static: 11px;
-    --seed-font-size-t2-static: 12px;
-    --seed-font-size-t3-static: 13px;
-    --seed-font-size-t4-static: 14px;
-    --seed-font-size-t5-static: 16px;
-    --seed-font-size-t6-static: 18px;
-    --seed-font-size-t7-static: 20px;
-    --seed-font-size-t8-static: 22px;
-    --seed-font-size-t9-static: 24px;
-    --seed-font-size-t10-static: 26px;
+    --seed-duration-pressed-scale: var(--seed-duration-d3);
+    --seed-font-size-t1: clamp(calc(var(--seed-font-size-t1-static) * var(--seed-font-size-limit-min, 1)), calc(.6875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t1-static) * var(--seed-font-size-limit-max, 1)));
+    --seed-font-size-t2: clamp(calc(var(--seed-font-size-t2-static) * var(--seed-font-size-limit-min, 1)), calc(.75rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t2-static) * var(--seed-font-size-limit-max, 1)));
+    --seed-font-size-t3: clamp(calc(var(--seed-font-size-t3-static) * var(--seed-font-size-limit-min, 1)), calc(.8125rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t3-static) * var(--seed-font-size-limit-max, 1)));
+    --seed-font-size-t4: clamp(calc(var(--seed-font-size-t4-static) * var(--seed-font-size-limit-min, 1)), calc(.875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t4-static) * var(--seed-font-size-limit-max, 1)));
+    --seed-font-size-t5: clamp(calc(var(--seed-font-size-t5-static) * var(--seed-font-size-limit-min, 1)), calc(1rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t5-static) * var(--seed-font-size-limit-max, 1)));
+    --seed-font-size-t6: clamp(calc(var(--seed-font-size-t6-static) * var(--seed-font-size-limit-min, 1)), calc(1.125rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t6-static) * var(--seed-font-size-limit-max, 1)));
+    --seed-font-size-t7: clamp(calc(var(--seed-font-size-t7-static) * var(--seed-font-size-limit-min, 1)), calc(1.25rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t7-static) * var(--seed-font-size-limit-max, 1)));
+    --seed-font-size-t8: clamp(calc(var(--seed-font-size-t8-static) * var(--seed-font-size-limit-min, 1)), calc(1.375rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t8-static) * var(--seed-font-size-limit-max, 1)));
+    --seed-font-size-t9: clamp(calc(var(--seed-font-size-t9-static) * var(--seed-font-size-limit-min, 1)), calc(1.5rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t9-static) * var(--seed-font-size-limit-max, 1)));
+    --seed-font-size-t10: clamp(calc(var(--seed-font-size-t10-static) * var(--seed-font-size-limit-min, 1)), calc(1.625rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t10-static) * var(--seed-font-size-limit-max, 1)));
+    --seed-font-size-t11: clamp(calc(var(--seed-font-size-t11-static) * var(--seed-font-size-limit-min, 1)), calc(1.75rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t11-static) * var(--seed-font-size-limit-max, 1)));
+    --seed-font-size-t12: clamp(calc(var(--seed-font-size-t12-static) * var(--seed-font-size-limit-min, 1)), calc(2rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t12-static) * var(--seed-font-size-limit-max, 1)));
+    --seed-font-size-t13: clamp(calc(var(--seed-font-size-t13-static) * var(--seed-font-size-limit-min, 1)), calc(2.5rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t13-static) * var(--seed-font-size-limit-max, 1)));
+    --seed-font-size-t14: clamp(calc(var(--seed-font-size-t14-static) * var(--seed-font-size-limit-min, 1)), calc(3rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-font-size-t14-static) * var(--seed-font-size-limit-max, 1)));
+    --seed-font-size-t1-static: calc(11px / var(--seed-static-font-scale, 1));
+    --seed-font-size-t2-static: calc(12px / var(--seed-static-font-scale, 1));
+    --seed-font-size-t3-static: calc(13px / var(--seed-static-font-scale, 1));
+    --seed-font-size-t4-static: calc(14px / var(--seed-static-font-scale, 1));
+    --seed-font-size-t5-static: calc(16px / var(--seed-static-font-scale, 1));
+    --seed-font-size-t6-static: calc(18px / var(--seed-static-font-scale, 1));
+    --seed-font-size-t7-static: calc(20px / var(--seed-static-font-scale, 1));
+    --seed-font-size-t8-static: calc(22px / var(--seed-static-font-scale, 1));
+    --seed-font-size-t9-static: calc(24px / var(--seed-static-font-scale, 1));
+    --seed-font-size-t10-static: calc(26px / var(--seed-static-font-scale, 1));
+    --seed-font-size-t11-static: calc(28px / var(--seed-static-font-scale, 1));
+    --seed-font-size-t12-static: calc(32px / var(--seed-static-font-scale, 1));
+    --seed-font-size-t13-static: calc(40px / var(--seed-static-font-scale, 1));
+    --seed-font-size-t14-static: calc(48px / var(--seed-static-font-scale, 1));
     --seed-font-weight-regular: 400;
     --seed-font-weight-medium: 500;
     --seed-font-weight-bold: 700;
-    --seed-line-height-t1: clamp(calc(var(--seed-line-height-t1-static) * var(--seed-line-height-limit-min, .8)), calc(.9375rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t1-static) * var(--seed-line-height-limit-max, 1.5)));
-    --seed-line-height-t2: clamp(calc(var(--seed-line-height-t2-static) * var(--seed-line-height-limit-min, .8)), calc(1rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t2-static) * var(--seed-line-height-limit-max, 1.5)));
-    --seed-line-height-t3: clamp(calc(var(--seed-line-height-t3-static) * var(--seed-line-height-limit-min, .8)), calc(1.125rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t3-static) * var(--seed-line-height-limit-max, 1.5)));
-    --seed-line-height-t4: clamp(calc(var(--seed-line-height-t4-static) * var(--seed-line-height-limit-min, .8)), calc(1.1875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t4-static) * var(--seed-line-height-limit-max, 1.5)));
-    --seed-line-height-t5: clamp(calc(var(--seed-line-height-t5-static) * var(--seed-line-height-limit-min, .8)), calc(1.375rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t5-static) * var(--seed-line-height-limit-max, 1.5)));
-    --seed-line-height-t6: clamp(calc(var(--seed-line-height-t6-static) * var(--seed-line-height-limit-min, .8)), calc(1.5rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t6-static) * var(--seed-line-height-limit-max, 1.5)));
-    --seed-line-height-t7: clamp(calc(var(--seed-line-height-t7-static) * var(--seed-line-height-limit-min, .8)), calc(1.6875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t7-static) * var(--seed-line-height-limit-max, 1.5)));
-    --seed-line-height-t8: clamp(calc(var(--seed-line-height-t8-static) * var(--seed-line-height-limit-min, .8)), calc(1.875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t8-static) * var(--seed-line-height-limit-max, 1.5)));
-    --seed-line-height-t9: clamp(calc(var(--seed-line-height-t9-static) * var(--seed-line-height-limit-min, .8)), calc(2rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t9-static) * var(--seed-line-height-limit-max, 1.5)));
-    --seed-line-height-t10: clamp(calc(var(--seed-line-height-t10-static) * var(--seed-line-height-limit-min, .8)), calc(2.1875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t10-static) * var(--seed-line-height-limit-max, 1.5)));
-    --seed-line-height-t1-static: 15px;
-    --seed-line-height-t2-static: 16px;
-    --seed-line-height-t3-static: 18px;
-    --seed-line-height-t4-static: 19px;
-    --seed-line-height-t5-static: 22px;
-    --seed-line-height-t6-static: 24px;
-    --seed-line-height-t7-static: 27px;
-    --seed-line-height-t8-static: 30px;
-    --seed-line-height-t9-static: 32px;
-    --seed-line-height-t10-static: 35px;
+    --seed-line-height-t1: clamp(calc(var(--seed-line-height-t1-static) * var(--seed-line-height-limit-min, 1)), calc(.9375rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t1-static) * var(--seed-line-height-limit-max, 1)));
+    --seed-line-height-t2: clamp(calc(var(--seed-line-height-t2-static) * var(--seed-line-height-limit-min, 1)), calc(1rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t2-static) * var(--seed-line-height-limit-max, 1)));
+    --seed-line-height-t3: clamp(calc(var(--seed-line-height-t3-static) * var(--seed-line-height-limit-min, 1)), calc(1.125rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t3-static) * var(--seed-line-height-limit-max, 1)));
+    --seed-line-height-t4: clamp(calc(var(--seed-line-height-t4-static) * var(--seed-line-height-limit-min, 1)), calc(1.1875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t4-static) * var(--seed-line-height-limit-max, 1)));
+    --seed-line-height-t5: clamp(calc(var(--seed-line-height-t5-static) * var(--seed-line-height-limit-min, 1)), calc(1.375rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t5-static) * var(--seed-line-height-limit-max, 1)));
+    --seed-line-height-t6: clamp(calc(var(--seed-line-height-t6-static) * var(--seed-line-height-limit-min, 1)), calc(1.5rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t6-static) * var(--seed-line-height-limit-max, 1)));
+    --seed-line-height-t7: clamp(calc(var(--seed-line-height-t7-static) * var(--seed-line-height-limit-min, 1)), calc(1.6875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t7-static) * var(--seed-line-height-limit-max, 1)));
+    --seed-line-height-t8: clamp(calc(var(--seed-line-height-t8-static) * var(--seed-line-height-limit-min, 1)), calc(1.875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t8-static) * var(--seed-line-height-limit-max, 1)));
+    --seed-line-height-t9: clamp(calc(var(--seed-line-height-t9-static) * var(--seed-line-height-limit-min, 1)), calc(2rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t9-static) * var(--seed-line-height-limit-max, 1)));
+    --seed-line-height-t10: clamp(calc(var(--seed-line-height-t10-static) * var(--seed-line-height-limit-min, 1)), calc(2.1875rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t10-static) * var(--seed-line-height-limit-max, 1)));
+    --seed-line-height-t11: clamp(calc(var(--seed-line-height-t11-static) * var(--seed-line-height-limit-min, 1)), calc(2.375rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t11-static) * var(--seed-line-height-limit-max, 1)));
+    --seed-line-height-t12: clamp(calc(var(--seed-line-height-t12-static) * var(--seed-line-height-limit-min, 1)), calc(2.625rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t12-static) * var(--seed-line-height-limit-max, 1)));
+    --seed-line-height-t13: clamp(calc(var(--seed-line-height-t13-static) * var(--seed-line-height-limit-min, 1)), calc(3.25rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t13-static) * var(--seed-line-height-limit-max, 1)));
+    --seed-line-height-t14: clamp(calc(var(--seed-line-height-t14-static) * var(--seed-line-height-limit-min, 1)), calc(3.75rem * var(--seed-font-size-multiplier, 1)), calc(var(--seed-line-height-t14-static) * var(--seed-line-height-limit-max, 1)));
+    --seed-line-height-t1-static: calc(15px / var(--seed-static-font-scale, 1));
+    --seed-line-height-t2-static: calc(16px / var(--seed-static-font-scale, 1));
+    --seed-line-height-t3-static: calc(18px / var(--seed-static-font-scale, 1));
+    --seed-line-height-t4-static: calc(19px / var(--seed-static-font-scale, 1));
+    --seed-line-height-t5-static: calc(22px / var(--seed-static-font-scale, 1));
+    --seed-line-height-t6-static: calc(24px / var(--seed-static-font-scale, 1));
+    --seed-line-height-t7-static: calc(27px / var(--seed-static-font-scale, 1));
+    --seed-line-height-t8-static: calc(30px / var(--seed-static-font-scale, 1));
+    --seed-line-height-t9-static: calc(32px / var(--seed-static-font-scale, 1));
+    --seed-line-height-t10-static: calc(35px / var(--seed-static-font-scale, 1));
+    --seed-line-height-t11-static: calc(38px / var(--seed-static-font-scale, 1));
+    --seed-line-height-t12-static: calc(42px / var(--seed-static-font-scale, 1));
+    --seed-line-height-t13-static: calc(52px / var(--seed-static-font-scale, 1));
+    --seed-line-height-t14-static: calc(60px / var(--seed-static-font-scale, 1));
     --seed-radius-r0_5: 2px;
     --seed-radius-r1: 4px;
     --seed-radius-r1_5: 6px;
@@ -337,6 +578,7 @@
     --seed-timing-function-exit: cubic-bezier(.35, 0, 1, 1);
     --seed-timing-function-enter-expressive: cubic-bezier(.03, .4, .1, 1);
     --seed-timing-function-exit-expressive: cubic-bezier(.35, 0, .95, .55);
+    --seed-timing-function-pressed-scale: cubic-bezier(0, 0, .15, 1);
   }
 
   :root, :root[data-seed-color-mode="system"][data-seed-user-color-scheme="light"], :root[data-seed-color-mode="light-only"], :root [data-seed-color-mode="light-only"] {
@@ -351,6 +593,16 @@
     --seed-color-palette-gray-800: #555d6d;
     --seed-color-palette-gray-900: #2a3038;
     --seed-color-palette-gray-1000: #1a1c20;
+    --seed-color-palette-gray-alpha-100: #00204008;
+    --seed-color-palette-gray-alpha-200: #14273b0d;
+    --seed-color-palette-gray-alpha-300: #000f2d11;
+    --seed-color-palette-gray-alpha-400: #000f3323;
+    --seed-color-palette-gray-alpha-500: #05102b2f;
+    --seed-color-palette-gray-alpha-600: #000a204f;
+    --seed-color-palette-gray-alpha-700: #000b1e79;
+    --seed-color-palette-gray-alpha-800: #010d25ab;
+    --seed-color-palette-gray-alpha-900: #000711d5;
+    --seed-color-palette-gray-alpha-1000: #000207e5;
     --seed-color-palette-carrot-100: #fff2ec;
     --seed-color-palette-carrot-200: #ffe8db;
     --seed-color-palette-carrot-300: #ffd5c0;
@@ -445,6 +697,12 @@
     --seed-color-fg-neutral-inverted: var(--seed-color-palette-gray-00);
     --seed-color-fg-neutral-muted: var(--seed-color-palette-gray-800);
     --seed-color-fg-neutral-subtle: var(--seed-color-palette-gray-700);
+    --seed-color-fg-on-brand-solid: var(--seed-color-palette-static-white);
+    --seed-color-fg-on-critical-solid: var(--seed-color-palette-static-white);
+    --seed-color-fg-on-informative-solid: var(--seed-color-palette-static-white);
+    --seed-color-fg-on-neutral-solid: var(--seed-color-palette-gray-00);
+    --seed-color-fg-on-positive-solid: var(--seed-color-palette-static-white);
+    --seed-color-fg-on-warning-solid: var(--seed-color-palette-static-black-alpha-900);
     --seed-color-fg-placeholder: var(--seed-color-palette-gray-600);
     --seed-color-fg-positive: var(--seed-color-palette-green-700);
     --seed-color-fg-positive-contrast: var(--seed-color-palette-green-900);
@@ -466,15 +724,17 @@
     --seed-color-bg-layer-basement: var(--seed-color-palette-gray-200);
     --seed-color-bg-layer-default: var(--seed-color-palette-gray-00);
     --seed-color-bg-layer-default-pressed: var(--seed-color-palette-gray-100);
-    --seed-color-bg-layer-fill: var(--seed-color-palette-gray-100);
     --seed-color-bg-layer-floating: var(--seed-color-palette-gray-00);
     --seed-color-bg-layer-floating-pressed: var(--seed-color-palette-gray-100);
     --seed-color-bg-magic-weak: #f9f2ee;
     --seed-color-bg-neutral-inverted: var(--seed-color-palette-gray-900);
     --seed-color-bg-neutral-inverted-pressed: var(--seed-color-palette-gray-800);
-    --seed-color-bg-neutral-solid: var(--seed-color-palette-gray-1000);
+    --seed-color-bg-neutral-muted: var(--seed-color-palette-gray-100);
+    --seed-color-bg-neutral-solid: var(--seed-color-palette-gray-900);
+    --seed-color-bg-neutral-solid-pressed: var(--seed-color-palette-gray-800);
     --seed-color-bg-neutral-solid-muted: var(--seed-color-palette-gray-800);
     --seed-color-bg-neutral-solid-muted-pressed: var(--seed-color-palette-gray-900);
+    --seed-color-bg-neutral-subtle: var(--seed-color-palette-gray-00);
     --seed-color-bg-neutral-weak: var(--seed-color-palette-gray-200);
     --seed-color-bg-neutral-weak-alpha: var(--seed-color-palette-static-black-alpha-200);
     --seed-color-bg-neutral-weak-alpha-pressed: var(--seed-color-palette-static-black-alpha-300);
@@ -487,6 +747,8 @@
     --seed-color-bg-positive-weak-pressed: var(--seed-color-palette-green-200);
     --seed-color-bg-transparent: #0000;
     --seed-color-bg-transparent-pressed: var(--seed-color-palette-static-black-alpha-100);
+    --seed-color-bg-transparent-selected: var(--seed-color-palette-static-black-alpha-200);
+    --seed-color-bg-transparent-selected-pressed: var(--seed-color-palette-static-black-alpha-300);
     --seed-color-bg-warning-solid: var(--seed-color-palette-yellow-300);
     --seed-color-bg-warning-solid-pressed: var(--seed-color-palette-yellow-400);
     --seed-color-bg-warning-weak: var(--seed-color-palette-yellow-100);
@@ -495,6 +757,7 @@
     --seed-color-stroke-brand-weak: var(--seed-color-palette-carrot-300);
     --seed-color-stroke-critical-solid: var(--seed-color-palette-red-700);
     --seed-color-stroke-critical-weak: var(--seed-color-palette-red-300);
+    --seed-color-stroke-focus-ring: var(--seed-color-palette-blue-600);
     --seed-color-stroke-informative-solid: var(--seed-color-palette-blue-700);
     --seed-color-stroke-informative-weak: var(--seed-color-palette-blue-300);
     --seed-color-stroke-neutral-contrast: var(--seed-color-palette-gray-1000);
@@ -506,7 +769,6 @@
     --seed-color-stroke-positive-weak: var(--seed-color-palette-green-300);
     --seed-color-stroke-warning-solid: var(--seed-color-palette-yellow-700);
     --seed-color-stroke-warning-weak: var(--seed-color-palette-yellow-300);
-    --seed-color-stroke-focus-ring: var(--seed-color-palette-blue-600);
     --seed-color-manner-temp-l1-bg: #f1f2f3;
     --seed-color-manner-temp-l1-text: #757b85;
     --seed-color-manner-temp-l10-bg: #ffebee;
@@ -537,8 +799,7 @@
     --seed-color-banner-teal: #e6faf6;
     --seed-color-banner-warm-gray: #f2f0ee;
     --seed-color-banner-yellow: #fffae1;
-    --seed-gradient-fade-layer-floating: #fff0 0%, #000 100%;
-    --seed-gradient-fade-layer-default: #000 0%, #fff0 100%;
+    --seed-gradient-fade-mask: #0000 0%, #00000003 8%, #00000005 16%, #0000000d 22%, #00000014 29.0%, #00000021 35%, #0000002e 41%, #00000040 47%, #00000052 53%, #0006 59%, #0000007a 65%, #00000094 71%, #000000ab 78%, #000000c7 84%, #000000e3 92%, #000 100%;
     --seed-gradient-glow-magic: #fef6f7 0%, #fef0e7 80%, #f9f7f5 100%;
     --seed-gradient-glow-magic-pressed: #fbf0f2 0%, #ffe8db 80%, #f5f2ef 100%;
     --seed-gradient-highlight-magic: #f60 20%, #d25aca 100%;
@@ -562,6 +823,16 @@
     --seed-color-palette-gray-800: #dcdee3;
     --seed-color-palette-gray-900: #e9eaec;
     --seed-color-palette-gray-1000: #f3f4f5;
+    --seed-color-palette-gray-alpha-100: #d0d9ff1b;
+    --seed-color-palette-gray-alpha-200: #c8ddff25;
+    --seed-color-palette-gray-alpha-300: #cfddff35;
+    --seed-color-palette-gray-alpha-400: #d0deff46;
+    --seed-color-palette-gray-alpha-500: #dbe7ff6a;
+    --seed-color-palette-gray-alpha-600: #e7efff94;
+    --seed-color-palette-gray-alpha-700: #f1f5ffba;
+    --seed-color-palette-gray-alpha-800: #f7f9ffe3;
+    --seed-color-palette-gray-alpha-900: #fcfdffec;
+    --seed-color-palette-gray-alpha-1000: #fdfefff5;
     --seed-color-palette-carrot-100: #31241f;
     --seed-color-palette-carrot-200: #4b291c;
     --seed-color-palette-carrot-300: #6b311c;
@@ -656,6 +927,12 @@
     --seed-color-fg-neutral-inverted: var(--seed-color-palette-gray-100);
     --seed-color-fg-neutral-muted: var(--seed-color-palette-gray-800);
     --seed-color-fg-neutral-subtle: var(--seed-color-palette-gray-700);
+    --seed-color-fg-on-brand-solid: var(--seed-color-palette-static-white);
+    --seed-color-fg-on-critical-solid: var(--seed-color-palette-static-white);
+    --seed-color-fg-on-informative-solid: var(--seed-color-palette-static-white);
+    --seed-color-fg-on-neutral-solid: var(--seed-color-palette-gray-100);
+    --seed-color-fg-on-positive-solid: var(--seed-color-palette-static-white);
+    --seed-color-fg-on-warning-solid: var(--seed-color-palette-static-black-alpha-900);
     --seed-color-fg-placeholder: var(--seed-color-palette-gray-600);
     --seed-color-fg-positive: var(--seed-color-palette-green-700);
     --seed-color-fg-positive-contrast: var(--seed-color-palette-green-900);
@@ -677,15 +954,17 @@
     --seed-color-bg-layer-basement: var(--seed-color-palette-gray-00);
     --seed-color-bg-layer-default: var(--seed-color-palette-gray-100);
     --seed-color-bg-layer-default-pressed: var(--seed-color-palette-gray-300);
-    --seed-color-bg-layer-fill: var(--seed-color-palette-gray-200);
     --seed-color-bg-layer-floating: var(--seed-color-palette-gray-200);
     --seed-color-bg-layer-floating-pressed: var(--seed-color-palette-gray-300);
     --seed-color-bg-magic-weak: #201f1f;
     --seed-color-bg-neutral-inverted: var(--seed-color-palette-gray-1000);
     --seed-color-bg-neutral-inverted-pressed: var(--seed-color-palette-gray-800);
-    --seed-color-bg-neutral-solid: var(--seed-color-palette-gray-300);
+    --seed-color-bg-neutral-muted: var(--seed-color-palette-gray-200);
+    --seed-color-bg-neutral-solid: var(--seed-color-palette-gray-1000);
+    --seed-color-bg-neutral-solid-pressed: var(--seed-color-palette-gray-800);
     --seed-color-bg-neutral-solid-muted: var(--seed-color-palette-gray-400);
     --seed-color-bg-neutral-solid-muted-pressed: var(--seed-color-palette-gray-500);
+    --seed-color-bg-neutral-subtle: var(--seed-color-palette-gray-100);
     --seed-color-bg-neutral-weak: var(--seed-color-palette-gray-300);
     --seed-color-bg-neutral-weak-alpha: var(--seed-color-palette-static-white-alpha-200);
     --seed-color-bg-neutral-weak-alpha-pressed: var(--seed-color-palette-static-white-alpha-300);
@@ -698,6 +977,8 @@
     --seed-color-bg-positive-weak-pressed: var(--seed-color-palette-green-200);
     --seed-color-bg-transparent: #fff0;
     --seed-color-bg-transparent-pressed: var(--seed-color-palette-static-white-alpha-50);
+    --seed-color-bg-transparent-selected: var(--seed-color-palette-static-white-alpha-100);
+    --seed-color-bg-transparent-selected-pressed: var(--seed-color-palette-static-white-alpha-200);
     --seed-color-bg-warning-solid: var(--seed-color-palette-yellow-800);
     --seed-color-bg-warning-solid-pressed: var(--seed-color-palette-yellow-900);
     --seed-color-bg-warning-weak: var(--seed-color-palette-yellow-100);
@@ -706,6 +987,7 @@
     --seed-color-stroke-brand-weak: var(--seed-color-palette-carrot-300);
     --seed-color-stroke-critical-solid: var(--seed-color-palette-red-700);
     --seed-color-stroke-critical-weak: var(--seed-color-palette-red-300);
+    --seed-color-stroke-focus-ring: var(--seed-color-palette-blue-600);
     --seed-color-stroke-informative-solid: var(--seed-color-palette-blue-700);
     --seed-color-stroke-informative-weak: var(--seed-color-palette-blue-300);
     --seed-color-stroke-neutral-contrast: var(--seed-color-palette-gray-1000);
@@ -717,7 +999,6 @@
     --seed-color-stroke-positive-weak: var(--seed-color-palette-green-300);
     --seed-color-stroke-warning-solid: var(--seed-color-palette-yellow-700);
     --seed-color-stroke-warning-weak: var(--seed-color-palette-yellow-300);
-    --seed-color-stroke-focus-ring: var(--seed-color-palette-blue-600);
     --seed-color-manner-temp-l1-bg: #292929;
     --seed-color-manner-temp-l1-text: #b8b8b9;
     --seed-color-manner-temp-l10-bg: #34040a;
@@ -748,8 +1029,7 @@
     --seed-color-banner-teal: #143633;
     --seed-color-banner-warm-gray: #2f2b27;
     --seed-color-banner-yellow: #3e2b00;
-    --seed-gradient-fade-layer-floating: #1d202500 0%, #000 100%;
-    --seed-gradient-fade-layer-default: #000 0%, #16171b00 100%;
+    --seed-gradient-fade-mask: #0000 0%, #00000003 8%, #00000005 16%, #0000000d 22%, #00000014 29.0%, #00000021 35%, #0000002e 41%, #00000040 47%, #00000052 53%, #0006 59%, #0000007a 65%, #00000094 71%, #000000ab 78%, #000000c7 84%, #000000e3 92%, #000 100%;
     --seed-gradient-glow-magic: #2d252d 0%, #3a312b 80%, #333232 100%;
     --seed-gradient-glow-magic-pressed: #3e333e 0%, #51453e 80%, #434242 100%;
     --seed-gradient-highlight-magic: #f60 20%, #d25aca 100%;
@@ -761,17 +1041,35 @@
     --seed-shadow-s3: 0px 4px 16px 0px #000c;
   }
 
+  :root {
+    --seed-scale-s95: .95;
+    --seed-scale-s97: .97;
+    --seed-scale-s98: .98;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --seed-scale-s95: 1;
+      --seed-scale-s97: 1;
+      --seed-scale-s98: 1;
+    }
+  }
+
   @keyframes seed-enter {
     from {
       opacity: var(--seed-enter-opacity, 1);
-      transform: translate3d(var(--seed-enter-translate-x, 0), var(--seed-enter-translate-y, 0), 0) scale3d(var(--seed-enter-scale, 1), var(--seed-enter-scale, 1), var(--seed-enter-scale, 1)) rotate(var(--seed-enter-rotate, 0));
+      transform: translate3d(var(--seed-enter-translate-x, 0), var(--seed-enter-translate-y, 0), 0)
+      scale3d(var(--seed-enter-scale, 1), var(--seed-enter-scale, 1), var(--seed-enter-scale, 1))
+      rotate(var(--seed-enter-rotate, 0));
     }
   }
 
   @keyframes seed-exit {
     to {
       opacity: var(--seed-exit-opacity, 1);
-      transform: translate3d(var(--seed-exit-translate-x, 0), var(--seed-exit-translate-y, 0), 0) scale3d(var(--seed-exit-scale, 1), var(--seed-exit-scale, 1), var(--seed-exit-scale, 1)) rotate(var(--seed-exit-rotate, 0));
+      transform: translate3d(var(--seed-exit-translate-x, 0), var(--seed-exit-translate-y, 0), 0)
+      scale3d(var(--seed-exit-scale, 1), var(--seed-exit-scale, 1), var(--seed-exit-scale, 1))
+      rotate(var(--seed-exit-rotate, 0));
     }
   }
 
@@ -839,6 +1137,12 @@
     }
   }
 
+  @keyframes caret-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
   @keyframes drawer-slide-from-bottom {
     from {
       transform: translate3d(0, var(--initial-transform, 100%), 0);
@@ -852,6 +1156,154 @@
   @keyframes drawer-slide-to-bottom {
     to {
       transform: translate3d(0, var(--initial-transform, 100%), 0);
+    }
+  }
+
+  @media (min-width: 480px) {
+    .seed-box {
+      --seed-box-padding: var(--seed-box-padding-sm, initial);
+      --seed-box-padding-y: var(--seed-box-padding-y-sm, initial);
+      --seed-box-padding-x: var(--seed-box-padding-x-sm, initial);
+      --seed-box-padding-bottom: var(--seed-box-padding-bottom-sm, initial);
+      --seed-box-padding-top: var(--seed-box-padding-top-sm, initial);
+      --seed-box-padding-left: var(--seed-box-padding-left-sm, initial);
+      --seed-box-padding-right: var(--seed-box-padding-right-sm, initial);
+      --seed-box-bleed-bottom: var(--seed-box-bleed-bottom-sm, initial);
+      --seed-box-bleed-top: var(--seed-box-bleed-top-sm, initial);
+      --seed-box-bleed-left: var(--seed-box-bleed-left-sm, initial);
+      --seed-box-bleed-right: var(--seed-box-bleed-right-sm, initial);
+      --seed-box-margin: var(--seed-box-margin-sm, initial);
+      --seed-box-margin-y: var(--seed-box-margin-y-sm, initial);
+      --seed-box-margin-x: var(--seed-box-margin-x-sm, initial);
+      --seed-box-margin-top: var(--seed-box-margin-top-sm, initial);
+      --seed-box-margin-bottom: var(--seed-box-margin-bottom-sm, initial);
+      --seed-box-margin-left: var(--seed-box-margin-left-sm, initial);
+      --seed-box-margin-right: var(--seed-box-margin-right-sm, initial);
+      --seed-box-min-height: var(--seed-box-min-height-sm, initial);
+      --seed-box-max-height: var(--seed-box-max-height-sm, initial);
+      --seed-box-height: var(--seed-box-height-sm, initial);
+      --seed-box-min-width: var(--seed-box-min-width-sm, initial);
+      --seed-box-max-width: var(--seed-box-max-width-sm, initial);
+      --seed-box-width: var(--seed-box-width-sm, initial);
+      --seed-box-display: var(--seed-box-display-sm, initial);
+      --seed-box-flex-direction: var(--seed-box-flex-direction-sm, initial);
+      --seed-box-gap: var(--seed-box-gap-sm, initial);
+    }
+
+    .seed-grid {
+      --seed-grid-columns: var(--seed-grid-columns-sm, initial);
+      --seed-grid-rows: var(--seed-grid-rows-sm, initial);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .seed-box {
+      --seed-box-padding: var(--seed-box-padding-md, initial);
+      --seed-box-padding-y: var(--seed-box-padding-y-md, initial);
+      --seed-box-padding-x: var(--seed-box-padding-x-md, initial);
+      --seed-box-padding-bottom: var(--seed-box-padding-bottom-md, initial);
+      --seed-box-padding-top: var(--seed-box-padding-top-md, initial);
+      --seed-box-padding-left: var(--seed-box-padding-left-md, initial);
+      --seed-box-padding-right: var(--seed-box-padding-right-md, initial);
+      --seed-box-bleed-bottom: var(--seed-box-bleed-bottom-md, initial);
+      --seed-box-bleed-top: var(--seed-box-bleed-top-md, initial);
+      --seed-box-bleed-left: var(--seed-box-bleed-left-md, initial);
+      --seed-box-bleed-right: var(--seed-box-bleed-right-md, initial);
+      --seed-box-margin: var(--seed-box-margin-md, initial);
+      --seed-box-margin-y: var(--seed-box-margin-y-md, initial);
+      --seed-box-margin-x: var(--seed-box-margin-x-md, initial);
+      --seed-box-margin-top: var(--seed-box-margin-top-md, initial);
+      --seed-box-margin-bottom: var(--seed-box-margin-bottom-md, initial);
+      --seed-box-margin-left: var(--seed-box-margin-left-md, initial);
+      --seed-box-margin-right: var(--seed-box-margin-right-md, initial);
+      --seed-box-min-height: var(--seed-box-min-height-md, initial);
+      --seed-box-max-height: var(--seed-box-max-height-md, initial);
+      --seed-box-height: var(--seed-box-height-md, initial);
+      --seed-box-min-width: var(--seed-box-min-width-md, initial);
+      --seed-box-max-width: var(--seed-box-max-width-md, initial);
+      --seed-box-width: var(--seed-box-width-md, initial);
+      --seed-box-display: var(--seed-box-display-md, initial);
+      --seed-box-flex-direction: var(--seed-box-flex-direction-md, initial);
+      --seed-box-gap: var(--seed-box-gap-md, initial);
+    }
+
+    .seed-grid {
+      --seed-grid-columns: var(--seed-grid-columns-md, initial);
+      --seed-grid-rows: var(--seed-grid-rows-md, initial);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .seed-box {
+      --seed-box-padding: var(--seed-box-padding-lg, initial);
+      --seed-box-padding-y: var(--seed-box-padding-y-lg, initial);
+      --seed-box-padding-x: var(--seed-box-padding-x-lg, initial);
+      --seed-box-padding-bottom: var(--seed-box-padding-bottom-lg, initial);
+      --seed-box-padding-top: var(--seed-box-padding-top-lg, initial);
+      --seed-box-padding-left: var(--seed-box-padding-left-lg, initial);
+      --seed-box-padding-right: var(--seed-box-padding-right-lg, initial);
+      --seed-box-bleed-bottom: var(--seed-box-bleed-bottom-lg, initial);
+      --seed-box-bleed-top: var(--seed-box-bleed-top-lg, initial);
+      --seed-box-bleed-left: var(--seed-box-bleed-left-lg, initial);
+      --seed-box-bleed-right: var(--seed-box-bleed-right-lg, initial);
+      --seed-box-margin: var(--seed-box-margin-lg, initial);
+      --seed-box-margin-y: var(--seed-box-margin-y-lg, initial);
+      --seed-box-margin-x: var(--seed-box-margin-x-lg, initial);
+      --seed-box-margin-top: var(--seed-box-margin-top-lg, initial);
+      --seed-box-margin-bottom: var(--seed-box-margin-bottom-lg, initial);
+      --seed-box-margin-left: var(--seed-box-margin-left-lg, initial);
+      --seed-box-margin-right: var(--seed-box-margin-right-lg, initial);
+      --seed-box-min-height: var(--seed-box-min-height-lg, initial);
+      --seed-box-max-height: var(--seed-box-max-height-lg, initial);
+      --seed-box-height: var(--seed-box-height-lg, initial);
+      --seed-box-min-width: var(--seed-box-min-width-lg, initial);
+      --seed-box-max-width: var(--seed-box-max-width-lg, initial);
+      --seed-box-width: var(--seed-box-width-lg, initial);
+      --seed-box-display: var(--seed-box-display-lg, initial);
+      --seed-box-flex-direction: var(--seed-box-flex-direction-lg, initial);
+      --seed-box-gap: var(--seed-box-gap-lg, initial);
+    }
+
+    .seed-grid {
+      --seed-grid-columns: var(--seed-grid-columns-lg, initial);
+      --seed-grid-rows: var(--seed-grid-rows-lg, initial);
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .seed-box {
+      --seed-box-padding: var(--seed-box-padding-xl, initial);
+      --seed-box-padding-y: var(--seed-box-padding-y-xl, initial);
+      --seed-box-padding-x: var(--seed-box-padding-x-xl, initial);
+      --seed-box-padding-bottom: var(--seed-box-padding-bottom-xl, initial);
+      --seed-box-padding-top: var(--seed-box-padding-top-xl, initial);
+      --seed-box-padding-left: var(--seed-box-padding-left-xl, initial);
+      --seed-box-padding-right: var(--seed-box-padding-right-xl, initial);
+      --seed-box-bleed-bottom: var(--seed-box-bleed-bottom-xl, initial);
+      --seed-box-bleed-top: var(--seed-box-bleed-top-xl, initial);
+      --seed-box-bleed-left: var(--seed-box-bleed-left-xl, initial);
+      --seed-box-bleed-right: var(--seed-box-bleed-right-xl, initial);
+      --seed-box-margin: var(--seed-box-margin-xl, initial);
+      --seed-box-margin-y: var(--seed-box-margin-y-xl, initial);
+      --seed-box-margin-x: var(--seed-box-margin-x-xl, initial);
+      --seed-box-margin-top: var(--seed-box-margin-top-xl, initial);
+      --seed-box-margin-bottom: var(--seed-box-margin-bottom-xl, initial);
+      --seed-box-margin-left: var(--seed-box-margin-left-xl, initial);
+      --seed-box-margin-right: var(--seed-box-margin-right-xl, initial);
+      --seed-box-min-height: var(--seed-box-min-height-xl, initial);
+      --seed-box-max-height: var(--seed-box-max-height-xl, initial);
+      --seed-box-height: var(--seed-box-height-xl, initial);
+      --seed-box-min-width: var(--seed-box-min-width-xl, initial);
+      --seed-box-max-width: var(--seed-box-max-width-xl, initial);
+      --seed-box-width: var(--seed-box-width-xl, initial);
+      --seed-box-display: var(--seed-box-display-xl, initial);
+      --seed-box-flex-direction: var(--seed-box-flex-direction-xl, initial);
+      --seed-box-gap: var(--seed-box-gap-xl, initial);
+    }
+
+    .seed-grid {
+      --seed-grid-columns: var(--seed-grid-columns-xl, initial);
+      --seed-grid-rows: var(--seed-grid-rows-xl, initial);
     }
   }
 }

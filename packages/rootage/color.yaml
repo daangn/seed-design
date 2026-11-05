@@ -2,7 +2,7 @@ kind: Tokens
 metadata:
   id: color
   name: Color
-  lastUpdated: 26-01-15
+  lastUpdated: 26-06-15
 data:
   collection: color
   tokens:
@@ -50,6 +50,46 @@ data:
       values:
         theme-light: "#1a1c20"
         theme-dark: "#f3f4f5"
+    $color.palette.gray-alpha-100:
+      values:
+        theme-light: "#00204008"
+        theme-dark: "#d0d9ff1b"
+    $color.palette.gray-alpha-200:
+      values:
+        theme-light: "#14273b0d"
+        theme-dark: "#c8ddff25"
+    $color.palette.gray-alpha-300:
+      values:
+        theme-light: "#000f2d11"
+        theme-dark: "#cfddff35"
+    $color.palette.gray-alpha-400:
+      values:
+        theme-light: "#000f3323"
+        theme-dark: "#d0deff46"
+    $color.palette.gray-alpha-500:
+      values:
+        theme-light: "#05102b2f"
+        theme-dark: "#dbe7ff6a"
+    $color.palette.gray-alpha-600:
+      values:
+        theme-light: "#000a204f"
+        theme-dark: "#e7efff94"
+    $color.palette.gray-alpha-700:
+      values:
+        theme-light: "#000b1e79"
+        theme-dark: "#f1f5ffba"
+    $color.palette.gray-alpha-800:
+      values:
+        theme-light: "#010d25ab"
+        theme-dark: "#f7f9ffe3"
+    $color.palette.gray-alpha-900:
+      values:
+        theme-light: "#000711d5"
+        theme-dark: "#fcfdffec"
+    $color.palette.gray-alpha-1000:
+      values:
+        theme-light: "#000207e5"
+        theme-dark: "#fdfefff5"
     $color.palette.carrot-100:
       values:
         theme-light: "#fff2ec"
@@ -422,7 +462,7 @@ data:
         theme-light: $color.palette.gray-1000
         theme-dark: $color.palette.gray-1000
     $color.fg.neutral-inverted:
-      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted)
+      description: "@deprecated `$color.fg.on-neutral-solid`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0과 이에 대응하는 @seed-design/lynx-css 버전에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 반전 전경색입니다."
       values:
         theme-light: $color.palette.gray-00
         theme-dark: $color.palette.gray-100
@@ -436,6 +476,36 @@ data:
       values:
         theme-light: $color.palette.gray-700
         theme-dark: $color.palette.gray-700
+    $color.fg.on-brand-solid:
+      description: 브랜드 Solid 배경 위의 전경 요소에 사용됩니다.
+      values:
+        theme-light: $color.palette.static-white
+        theme-dark: $color.palette.static-white
+    $color.fg.on-critical-solid:
+      description: Critical Solid 배경 위의 전경 요소에 사용됩니다.
+      values:
+        theme-light: $color.palette.static-white
+        theme-dark: $color.palette.static-white
+    $color.fg.on-informative-solid:
+      description: Informative Solid 배경 위의 전경 요소에 사용됩니다.
+      values:
+        theme-light: $color.palette.static-white
+        theme-dark: $color.palette.static-white
+    $color.fg.on-neutral-solid:
+      description: Neutral Solid 배경 위의 전경 요소에 사용됩니다.
+      values:
+        theme-light: $color.palette.gray-00
+        theme-dark: $color.palette.gray-100
+    $color.fg.on-positive-solid:
+      description: Positive Solid 배경 위의 전경 요소에 사용됩니다.
+      values:
+        theme-light: $color.palette.static-white
+        theme-dark: $color.palette.static-white
+    $color.fg.on-warning-solid:
+      description: Warning Solid 배경 위의 전경 요소에 사용됩니다.
+      values:
+        theme-light: $color.palette.static-black-alpha-900
+        theme-dark: $color.palette.static-black-alpha-900
     $color.fg.placeholder:
       values:
         theme-light: $color.palette.gray-600
@@ -539,11 +609,6 @@ data:
       values:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-300
-    $color.bg.layer-fill:
-      description: "@deprecated `@seed-design/css@1.3.0`에서 제거될 예정입니다."
-      values:
-        theme-light: $color.palette.gray-100
-        theme-dark: $color.palette.gray-200
     $color.bg.layer-floating:
       description: 화면의 모든 콘텐츠 위를 덮으며(floating) 나타나는 임시 레이어입니다. 사용자의 상호작용을 필요로 하는 모달(Modal)성 요소들이 여기에 속합니다.
       values:
@@ -559,30 +624,47 @@ data:
         theme-light: "#f9f2ee"
         theme-dark: "#201f1f"
     $color.bg.neutral-inverted:
-      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted)
+      description: "@deprecated `$color.bg.neutral-solid`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0과 이에 대응하는 @seed-design/lynx-css 버전에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 반전 배경색입니다."
       values:
         theme-light: $color.palette.gray-900
         theme-dark: $color.palette.gray-1000
     $color.bg.neutral-inverted-pressed:
-      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted-pressed)
+      description: "@deprecated `$color.bg.neutral-solid-pressed`을 사용하세요. 이 토큰은 @seed-design/css@4.0.0과 이에 대응하는 @seed-design/lynx-css 버전에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 기본 색상입니다. (inverted-pressed)"
       values:
         theme-light: $color.palette.gray-800
         theme-dark: $color.palette.gray-800
+    $color.bg.neutral-muted:
+      description: "`$color.bg.layer-default` 위에서 영역이나 섹션을 구분하는 표면 색상입니다. (muted)"
+      values:
+        theme-light: $color.palette.gray-100
+        theme-dark: $color.palette.gray-200
     $color.bg.neutral-solid:
       description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid)
       values:
-        theme-light: $color.palette.gray-1000
-        theme-dark: $color.palette.gray-300
+        theme-light: $color.palette.gray-900
+        theme-dark: $color.palette.gray-1000
+    $color.bg.neutral-solid-pressed:
+      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-pressed)
+      values:
+        theme-light: $color.palette.gray-800
+        theme-dark: $color.palette.gray-800
     $color.bg.neutral-solid-muted:
-      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted)
+      description: "@deprecated 이 토큰은 @seed-design/css@4.0.0과 이에 대응하는 @seed-design/lynx-css 버전에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted)"
+      excludeFromExchange: true
       values:
         theme-light: $color.palette.gray-800
         theme-dark: $color.palette.gray-400
     $color.bg.neutral-solid-muted-pressed:
-      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted-pressed)
+      description: "@deprecated 이 토큰은 @seed-design/css@4.0.0과 이에 대응하는 @seed-design/lynx-css 버전에서 제거될 예정입니다. 일반적인 콘텐츠에 사용되는 기본 색상입니다. (solid-muted-pressed)"
+      excludeFromExchange: true
       values:
         theme-light: $color.palette.gray-900
         theme-dark: $color.palette.gray-500
+    $color.bg.neutral-subtle:
+      description: 표면과 같은 색상입니다. 회색 표면 위에서 주변과 구분되는 영역에 사용됩니다. (subtle)
+      values:
+        theme-light: $color.palette.gray-00
+        theme-dark: $color.palette.gray-100
     $color.bg.neutral-weak:
       description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak)
       values:
@@ -639,6 +721,14 @@ data:
       values:
         theme-light: $color.palette.static-black-alpha-100
         theme-dark: $color.palette.static-white-alpha-50
+    $color.bg.transparent-selected:
+      values:
+        theme-light: $color.palette.static-black-alpha-200
+        theme-dark: $color.palette.static-white-alpha-100
+    $color.bg.transparent-selected-pressed:
+      values:
+        theme-light: $color.palette.static-black-alpha-300
+        theme-dark: $color.palette.static-white-alpha-200
     $color.bg.warning-solid:
       description: 사용자의 주의가 필요한 경고 메시지나 안내 사항을 전달하는 데 사용됩니다. (solid)
       values:
@@ -679,6 +769,10 @@ data:
       values:
         theme-light: $color.palette.red-300
         theme-dark: $color.palette.red-300
+    $color.stroke.focus-ring:
+      values:
+        theme-light: $color.palette.blue-600
+        theme-dark: $color.palette.blue-600
     $color.stroke.informative-solid:
       description: 사용자에게 유용한 정보를 제공하거나 상태를 설명할 때 사용됩니다. (solid)
       values:
@@ -695,7 +789,7 @@ data:
         theme-light: $color.palette.gray-1000
         theme-dark: $color.palette.gray-1000
     $color.stroke.neutral-muted:
-      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (muted)
+      description: 의미 단위가 바뀌는 경계를 나누는 선입니다. 섹션과 섹션 사이, 콘텐츠와 액션 영역 사이, 헤더와 본문 경계처럼 한 화면에 한두 번만 등장하는 구분에 사용됩니다. (muted)
       values:
         theme-light: $color.palette.static-black-alpha-300
         theme-dark: $color.palette.static-white-alpha-100
@@ -705,12 +799,12 @@ data:
         theme-light: $color.palette.gray-800
         theme-dark: $color.palette.gray-800
     $color.stroke.neutral-subtle:
-      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (subtle)
+      description: 반복되는 동일한 성격의 항목 사이를 나누는 선입니다. 리스트 아이템, 테이블 row, 설정 메뉴 항목처럼 한 화면에 여러 번 등장하는 구분에 사용됩니다. (subtle)
       values:
         theme-light: $color.palette.static-black-alpha-200
         theme-dark: $color.palette.static-white-alpha-50
     $color.stroke.neutral-weak:
-      description: 일반적인 콘텐츠에 사용되는 기본 색상입니다. (weak)
+      description: 요소의 외곽을 그려 형태를 만드는 선입니다. 카드, 인풋 필드, 아웃라인 버튼처럼 선 자체가 요소의 경계를 정의할 때 사용됩니다. (weak)
       values:
         theme-light: $color.palette.gray-400
         theme-dark: $color.palette.gray-400
@@ -734,10 +828,6 @@ data:
       values:
         theme-light: $color.palette.yellow-300
         theme-dark: $color.palette.yellow-300
-    $color.stroke.focus-ring:
-      values:
-        theme-light: $color.palette.blue-600
-        theme-dark: $color.palette.blue-600
     $color.manner-temp.l1.bg:
       values:
         theme-light: "#f1f2f3"

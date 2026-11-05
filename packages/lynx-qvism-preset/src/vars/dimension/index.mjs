@@ -1,0 +1,22 @@
+export const x0_5 = "var(--seed-dimension-x0_5)";
+export const x1 = "var(--seed-dimension-x1)";
+export const x1_5 = "var(--seed-dimension-x1_5)";
+export const x2 = "var(--seed-dimension-x2)";
+export const x2_5 = "var(--seed-dimension-x2_5)";
+export const x3 = "var(--seed-dimension-x3)";
+export const x3_5 = "var(--seed-dimension-x3_5)";
+export const x4 = "var(--seed-dimension-x4)";
+export const x4_5 = "var(--seed-dimension-x4_5)";
+export const x5 = "var(--seed-dimension-x5)";
+export const x6 = "var(--seed-dimension-x6)";
+export const x7 = "var(--seed-dimension-x7)";
+export const x8 = "var(--seed-dimension-x8)";
+export const x9 = "var(--seed-dimension-x9)";
+export const x10 = "var(--seed-dimension-x10)";
+export const x12 = "var(--seed-dimension-x12)";
+export const x13 = "var(--seed-dimension-x13)";
+export const x14 = "var(--seed-dimension-x14)";
+export const x16 = "var(--seed-dimension-x16)";
+
+export * as spacingX from "./spacing-x.mjs";
+export * as spacingY from "./spacing-y.mjs";

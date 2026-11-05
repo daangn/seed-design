@@ -1,4 +1,4 @@
-import { getRootage } from "@/components/rootage";
+import { getRootage } from "@/lib/rootage";
 import { FoundationTokenMapping } from "@seed-design/migration-index";
 import { typographyMappings } from "@seed-design/migration-index/typography";
 import { Text, TextProps } from "@seed-design/react";
@@ -49,8 +49,8 @@ export async function TypographyMigrationIndex() {
       </colgroup>
       <thead>
         <tr>
-          <th>V2</th>
-          <th>V3</th>
+          <th>이전</th>
+          <th>SEED</th>
           <th>비고</th>
         </tr>
       </thead>

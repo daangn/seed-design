@@ -10,23 +10,26 @@ env:
 on:
   push:
     paths:
-      - "docs/registry/**"
+      - "docs/registry/react/**"
       - "docs/stories/**"
       - "docs/.storybook/**"
       - "packages/react/**"
       - "packages/css/**"
       - ".github/workflows/chromatic.yml"
       - ".github/actions/setup/action.yml"
+      - ".bun-version"
 
 # List of jobs
 jobs:
   chromatic-deployment:
+    # Kapture로 시각 회귀 검증을 전환해 비활성화한다. 복구하려면 이 조건을 제거한다.
+    if: ${{ false }}
     # Operating System
     runs-on: ubuntu-latest
     # Job steps
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
 
@@ -35,7 +38,7 @@ jobs:
           build-packages: true
 
       - name: Publish to Chromatic
-        uses: chromaui/action@v15
+        uses: chromaui/action@v17
         # Chromatic GitHub Action options
         with:
           # 👇 Chromatic projectToken, refer to the manage page to obtain it.

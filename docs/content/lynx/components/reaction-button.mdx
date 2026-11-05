@@ -1,0 +1,87 @@
+---
+title: Reaction Button
+description: 콘텐츠에 좋아요나 관심 등의 반응을 남기는 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "3.5"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.6.0, @seed-design/lynx-css@0.10.0" />
+
+## Installation
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+## Usage
+
+<LynxComponentExample name="lynx/reaction-button/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/reaction-button/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Props
+
+<react-type-table path="../packages/lynx-react/src/components/ReactionButton/ReactionButton.tsx" name="ReactionButtonProps" />
+
+## Examples
+
+### Small
+
+<LynxComponentExample name="lynx/reaction-button/small">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/reaction-button/small.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Xsmall
+
+<LynxComponentExample name="lynx/reaction-button/xsmall">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/reaction-button/xsmall.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Disabled
+
+<LynxComponentExample name="lynx/reaction-button/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/reaction-button/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Loading
+
+<LynxComponentExample name="lynx/reaction-button/loading">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/reaction-button/loading.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+`loading` 중에는 탭과 `onPressedChange`를 처리하지 않으며 pressed 상태도 바뀌지 않습니다. 작업이 끝난 뒤 `pressed`를 갱신하세요.
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+- `onClick` 대신 `bindtap`을 사용합니다.
+- 선택 상태는 `accessibility-role-description="toggle button"`과 `accessibility-value`로 전달합니다.
+- button과 form 속성, 키보드 focus, `asChild`는 지원하지 않습니다.
+- `loading` 중에는 탭을 막고 비활성 상태로 노출합니다.
+</Callout>

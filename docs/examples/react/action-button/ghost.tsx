@@ -1,21 +1,21 @@
 import { HStack, PrefixIcon, VStack } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
-import { IconTagLine } from "@karrotmarket/react-monochrome-icon";
+import { IconTagFill } from "@karrotmarket/react-monochrome-icon";
 
 export default function ActionButtonGhost() {
   return (
     <VStack gap="spacingY.componentDefault" align="center">
       <HStack gap="x2">
         <ActionButton variant="ghost">
-          <PrefixIcon svg={<IconTagLine />} />
+          <PrefixIcon svg={<IconTagFill />} />
           Default (fg.neutral)
         </ActionButton>
         <ActionButton variant="ghost" color="fg.neutralSubtle">
-          <PrefixIcon svg={<IconTagLine />} />
+          <PrefixIcon svg={<IconTagFill />} />
           Neutral Subtle
         </ActionButton>
         <ActionButton variant="ghost" color="fg.brand">
-          <PrefixIcon svg={<IconTagLine />} />
+          <PrefixIcon svg={<IconTagFill />} />
           Brand
         </ActionButton>
       </HStack>

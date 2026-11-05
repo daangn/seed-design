@@ -15,7 +15,7 @@ function shouldInsertPreviewHeading(node: MdxJsxFlowElement, context: RuleContex
   return typeof exampleName === "string" && exampleName.endsWith("/preview");
 }
 
-export const componentExampleRule: Rule = {
+export const componentExampleRule: Rule<MdxJsxFlowElement> = {
   name: "ComponentExample",
   match: (node): node is MdxJsxFlowElement =>
     node.type === "mdxJsxFlowElement" && node.name === "ComponentExample",

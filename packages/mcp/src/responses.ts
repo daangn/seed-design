@@ -1,4 +1,4 @@
-import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
+import type { CallToolResult } from "@modelcontextprotocol/server";
 import { formatError } from "./logger";
 
 /**
@@ -46,15 +46,23 @@ export function formatImageResponse(imageData: string, mimeType = "image/png"): 
 
 /**
  * Format an error response
+ *
+ * `isError` is what lets a client tell a failed call from a successful one — without it the
+ * message reads as ordinary output and the model has to notice the "Error in" prefix itself.
  */
-export function formatErrorResponse(toolName: string, error: unknown): CallToolResult {
+export function formatErrorResponse(
+  toolName: string,
+  error: unknown,
+  hint?: string,
+): CallToolResult {
   return {
     content: [
       {
         type: "text",
-        text: `Error in ${toolName}: ${formatError(error)}`,
+        text: `Error in ${toolName}: ${formatError(error)}${hint ? `\n\n${hint}` : ""}`,
       },
     ],
+    isError: true,
   };
 }
 

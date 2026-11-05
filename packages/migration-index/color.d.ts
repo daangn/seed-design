@@ -1,4 +1,4 @@
-import type { FoundationTokenMapping } from "./types";
+import type { FoundationTokenMapping } from "./types.js";
 
 export declare const semanticColorMappings: FoundationTokenMapping[];
 export declare const scaleColorMappings: FoundationTokenMapping[];

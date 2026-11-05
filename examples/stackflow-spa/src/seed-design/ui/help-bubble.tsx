@@ -12,7 +12,7 @@ export interface HelpBubbleTriggerProps extends Omit<SeedHelpBubble.RootProps, "
 
   children?: React.ReactNode;
 
-  contentProps?: SeedHelpBubble.ContentProps;
+  contentProps?: Omit<SeedHelpBubble.ContentProps, "children" | "asChild">;
 
   zIndexOffset?: number;
 }
@@ -60,6 +60,7 @@ export const HelpBubbleTrigger = forwardRef<HTMLButtonElement, HelpBubbleTrigger
     );
   },
 );
+HelpBubbleTrigger.displayName = "HelpBubbleTrigger";
 
 export interface HelpBubbleAnchorProps extends Omit<SeedHelpBubble.RootProps, "children"> {
   title: React.ReactNode;
@@ -70,7 +71,7 @@ export interface HelpBubbleAnchorProps extends Omit<SeedHelpBubble.RootProps, "c
 
   children?: React.ReactNode;
 
-  contentProps?: SeedHelpBubble.ContentProps;
+  contentProps?: Omit<SeedHelpBubble.ContentProps, "children" | "asChild">;
 
   zIndexOffset?: number;
 }
@@ -118,3 +119,4 @@ export const HelpBubbleAnchor = forwardRef<HTMLDivElement, HelpBubbleAnchorProps
     );
   },
 );
+HelpBubbleAnchor.displayName = "HelpBubbleAnchor";

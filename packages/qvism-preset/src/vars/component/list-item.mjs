@@ -12,7 +12,7 @@ export const vars = {
         "borderRadiusDuration": "var(--seed-duration-d3)",
         "borderRadiusTimingFunction": "var(--seed-timing-function-easing)"
       },
-      "content": {
+      "body": {
         "gap": "var(--seed-dimension-x0_5)",
         "paddingRight": "var(--seed-dimension-x2_5)"
       },

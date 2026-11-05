@@ -8,6 +8,7 @@ import {
   addAnnotations,
   cloneNode,
   exportNodeAsImage,
+  exportNodeAsSvg,
   getAnnotations,
   getDocumentInfo,
   getNodeInfo,
@@ -86,6 +87,9 @@ async function executeCommand(command: string, params: any): Promise<any> {
 
     case "export_node_as_image":
       return await exportNodeAsImage(params);
+
+    case "export_node_as_svg":
+      return await exportNodeAsSvg(params);
 
     case "clone_node":
       return await cloneNode(params);

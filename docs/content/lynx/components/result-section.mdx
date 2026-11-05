@@ -1,0 +1,94 @@
+---
+title: Result Section
+description: 작업 결과를 안내하고 다음 액션을 제공하는 템플릿입니다.
+compatibility:
+  lynx:
+    engine: "3.5"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.6.0, @seed-design/lynx-css@0.10.0" />
+
+<LynxComponentExample name="lynx/result-section/preview" height={544}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/result-section/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:result-section
+```
+
+<LynxManualInstallation name="result-section" />
+
+## Props
+
+<react-type-table
+  path="./registry/lynx/ui/result-section.tsx"
+  name="ResultSectionProps"
+/>
+
+`ResultSection`은 `VStack`의 레이아웃·스타일 prop도 받습니다.
+
+## Examples
+
+### Sizes
+
+#### Large
+
+전체 화면을 차지하는 상태를 표현할 때 사용합니다.
+
+<LynxComponentExample name="lynx/result-section/large" height={544}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/result-section/large.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Medium
+
+카드나 섹션처럼 화면의 일부 영역에서 상태를 표현할 때 사용합니다.
+
+<LynxComponentExample name="lynx/result-section/medium" height={544}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/result-section/medium.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### With CTA & Progress Circle
+
+주요 액션을 화면 하단에 둘 때는 Result Section 밖에 Action Button을 배치할 수 있습니다.
+
+<LynxComponentExample name="lynx/result-section/with-cta-progress-circle" height={704}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/result-section/with-cta-progress-circle.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Success Example
+
+SEED는 Lynx용 Lottie 컴포넌트를 제공하지 않아 Success Example을 실행 예제로 제공하지 않습니다. 앱에서 사용하는 Lottie 노드를 `asset`에 전달하고, 확인 액션은 `primaryActionProps`로 연결합니다.
+
+## 웹 버전과의 차이
+
+| 영역 | React Web | Lynx |
+| --- | --- | --- |
+| 네이티브 요소 | `div`, `span`, `button` | `view`, `text` |
+| 이벤트 | `onClick` | `bindtap`, `main-thread:bindtap` |
+| 루트 속성 | HTML 속성 | Lynx 네이티브 요소 속성과 `accessibility-*` |
+| 보조 액션 기본값 | `ghost`, `small`, `color="fg.neutral"`, `fontWeight="bold"`, `bleedX/bleedY="asPadding"` | `ghost`, `small`; 기본 bleed 없음 |
+| 보조 액션 bleed 값 | 토큰과 `"asPadding"` 지원 | px 길이, `0`, `"safeArea"` 지원 |
+
+버튼의 접근 가능한 이름과 탭 이벤트는 `primaryActionProps`와 `secondaryActionProps`로 전달합니다.

@@ -1,0 +1,216 @@
+import { segmentedControl } from "@seed-design/lynx-css/recipes/segmented-control";
+import * as React from "@lynx-js/react";
+import clsx from "clsx";
+import {
+  SegmentedControlProvider,
+  useSegmentedControl,
+  useSegmentedControlContext,
+  useSegmentedControlItem,
+  type UseSegmentedControlProps,
+} from "@seed-design/lynx-react-segmented-control";
+
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import type { LynxHostProps, LynxViewRef } from "../../types";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+  useLabelTextAccessibilityProps,
+} from "../../utils/accessibility";
+import { HStack } from "../Stack";
+import { mergeProps } from "../../utils/merge-props";
+
+/**
+ * @platform Lynx
+ *
+ * `@seed-design/lynx-react-segmented-control`의 선택 값·Item 등록·`--segment-count`/`--segment-index`
+ * 입력 위에 SEED recipe, Scale Feedback, label·notification·Indicator 표현을 조립한다.
+ *
+ * 웹 대비 미지원 기능:
+ * - HiddenInput, name, form: Lynx에 HTML form 제출 모델이 없음
+ * - focus, focusVisible: Lynx에 키보드 포커스 모델이 없음
+ * - raw DOM change event: 선택 변경은 onValueChange로 노출
+ */
+export interface SegmentedControlRootProps
+  extends Pick<UseSegmentedControlProps, "value" | "defaultValue" | "disabled" | "onValueChange">,
+    LynxHostProps<"view"> {}
+
+export const SegmentedControlRoot = React.forwardRef<unknown, SegmentedControlRootProps>(
+  (props, ref) => {
+    const {
+      children,
+      className,
+      style,
+      value,
+      defaultValue,
+      disabled,
+      onValueChange,
+      "accessibility-element": accessibilityElement,
+      "accessibility-role-description": accessibilityRoleDescription,
+      ...nativeProps
+    } = props;
+    const api = useSegmentedControl({
+      value,
+      defaultValue,
+      disabled,
+      onValueChange,
+      "accessibility-element": accessibilityElement,
+      "accessibility-role-description": accessibilityRoleDescription,
+    });
+    const rootClassName = segmentedControl({ hasSelection: api.segmentIndex >= 0 }).root;
+
+    return (
+      <SegmentedControlProvider value={api}>
+        <view
+          {...mergeProps(
+            api.rootProps,
+            nativeProps,
+            ref ? { ref: ref as LynxViewRef } : {},
+            style ? { style } : {},
+          )}
+          className={clsx(rootClassName, className)}
+        >
+          {children}
+        </view>
+      </SegmentedControlProvider>
+    );
+  },
+);
+SegmentedControlRoot.displayName = "SegmentedControlRoot";
+
+export interface SegmentedControlItemProps extends Omit<LynxHostProps<"view">, "children"> {
+  children: string | number;
+  notification?: React.ReactNode;
+  value: string;
+  disabled?: boolean;
+}
+
+function SegmentedControlItemLabel({
+  children,
+  className,
+}: Pick<LynxHostProps<"text">, "children" | "className">) {
+  const accessibilityProps = useLabelTextAccessibilityProps();
+  return (
+    <text {...accessibilityProps} className={className}>
+      {children}
+    </text>
+  );
+}
+
+export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlItemProps>(
+  (props, ref) => {
+    const {
+      children,
+      notification,
+      className,
+      style,
+      value,
+      disabled,
+      bindtap,
+      "main-thread:bindtap": mainThreadBindtap,
+      "accessibility-element": accessibilityElement,
+      "accessibility-label": accessibilityLabel,
+      "accessibility-role-description": accessibilityRoleDescription,
+      "accessibility-traits": accessibilityTraits,
+      ...nativeProps
+    } = props;
+    const insideAccessibilityElement = useInsideAccessibilityElement();
+    const api = useSegmentedControlItem({
+      value,
+      disabled,
+      bindtap,
+      "main-thread:bindtap": mainThreadBindtap,
+      "accessibility-element": accessibilityElement,
+      "accessibility-role-description": accessibilityRoleDescription,
+      "accessibility-traits": accessibilityTraits,
+    });
+    // The pressed overlays use the `:active` selector, so the Background press state is not wired.
+    const { bindtouchstart, bindtouchend, bindtouchcancel, ...itemProps } = api.itemProps;
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+      disabled: api.disabled,
+    });
+    const classes = segmentedControl({ selected: api.checked, disabled: api.disabled });
+    const label = accessibilityLabel ?? getAccessibleText(children);
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !insideAccessibilityElement &&
+      itemProps["accessibility-element"] === true &&
+      !label
+    ) {
+      console.warn(
+        "SegmentedControlItem: `accessibility-label` is required when children have no text.",
+      );
+    }
+
+    return (
+      <view
+        {...mergeProps(
+          { flatten: false },
+          itemProps,
+          ref ? { ref: ref as LynxViewRef } : {},
+          scaleFeedbackTriggerProps,
+          nativeProps,
+        )}
+        accessibility-label={label}
+        className={clsx(classes.item, className)}
+        style={style}
+      >
+        <AccessibilityElementScope>
+          <view accessibility-elements-hidden={true} className={classes.itemBackground} />
+          <view accessibility-elements-hidden={true} className={classes.itemSelectedBackground} />
+          <view className={classes.itemContent} {...scaleFeedbackTargetProps}>
+            {notification ? (
+              <HStack position="relative" align="flex-start">
+                <SegmentedControlItemLabel className={classes.label}>
+                  {children}
+                </SegmentedControlItemLabel>
+                <view accessibility-elements-hidden={true}>{notification}</view>
+              </HStack>
+            ) : (
+              <SegmentedControlItemLabel className={classes.label}>
+                {children}
+              </SegmentedControlItemLabel>
+            )}
+          </view>
+        </AccessibilityElementScope>
+      </view>
+    );
+  },
+);
+SegmentedControlItem.displayName = "SegmentedControlItem";
+
+export interface SegmentedControlIndicatorProps extends LynxHostProps<"view"> {}
+
+export const SegmentedControlIndicator = React.forwardRef<unknown, SegmentedControlIndicatorProps>(
+  (props, ref) => {
+    const { children, className, style, ...nativeProps } = props;
+    const { segmentCount, segmentIndex } = useSegmentedControlContext();
+    const registered = segmentCount > 0;
+    // Items register after the first render. Lynx animates a property change that lands in the
+    // same update as the transition enable, so enable transitions one update after registration.
+    const [transitionEnabled, setTransitionEnabled] = React.useState(false);
+    React.useEffect(() => {
+      "background only";
+      setTransitionEnabled(registered);
+    }, [registered]);
+    const indicatorClassName = segmentedControl({
+      hasSelection: segmentIndex >= 0,
+      transitionEnabled: transitionEnabled && registered,
+    }).indicator;
+
+    return (
+      <view
+        {...mergeProps(
+          { "accessibility-elements-hidden": true },
+          nativeProps,
+          ref ? { ref: ref as LynxViewRef } : {},
+        )}
+        className={clsx(indicatorClassName, className)}
+        style={style}
+      >
+        {children}
+      </view>
+    );
+  },
+);
+SegmentedControlIndicator.displayName = "SegmentedControlIndicator";

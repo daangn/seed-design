@@ -2,6 +2,35 @@ import { type AST, factory, visitEachChild, visitNode } from "../parser";
 import type { Node, TokenRef } from "../parser/ast";
 import type { ComponentSpecRef, ResolvedTokenResult, RootageCtx } from "./types";
 
+/**
+ * Creates a resolver that expands a token reference into one resolved value per collection mode.
+ * Values follow the collection's declared mode order. The resolver returns `undefined` when the
+ * token or its collection cannot be resolved for every mode.
+ */
+export function createTokenValuesResolver(ctx: RootageCtx) {
+  return (token: AST.TokenLit): AST.ValueLit[] | undefined => {
+    const node = ctx.dependencyGraph[token.identifier];
+
+    if (!node) return undefined;
+
+    const collection = ctx.tokenCollectionEntities[node.collection];
+
+    if (!collection) return undefined;
+
+    const values: AST.ValueLit[] = [];
+
+    for (const mode of collection.modes) {
+      try {
+        values.push(resolveToken(ctx, token.identifier, { [node.collection]: mode.id }).value);
+      } catch {
+        return undefined;
+      }
+    }
+
+    return values;
+  };
+}
+
 export function resolveToken(
   rootage: Pick<RootageCtx, "dependencyGraph" | "tokenEntities">,
   tokenId: TokenRef,
@@ -110,14 +139,20 @@ export function transformResolvedType<T extends AST.Node | AST.Node[]>(
         }
       }) as AST.TokenDeclaration["values"];
 
-      return factory.createTokenDeclaration(node.collection, node.token, values, node.description);
+      return factory.createTokenDeclaration(
+        node.collection,
+        node.token,
+        values,
+        node.description,
+        node.excludeFromExchange,
+      );
     }
 
     if (node.kind === "UnresolvedPropertyDeclaration") {
       const resolved = resolveToken(ctx, node.value.identifier, {
         [ctx.dependencyGraph[node.value.identifier]!.collection]:
           ctx.tokenCollectionEntities[ctx.dependencyGraph[node.value.identifier]!.collection]!
-            .modes[0]!,
+            .modes[0]!.id,
       });
       switch (resolved.value.kind) {
         case "ColorHexLit":

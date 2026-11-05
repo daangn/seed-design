@@ -1,0 +1,204 @@
+---
+title: Callout
+description: 사용자에게 중요한 정보나 팁을 시각적으로 강조하여 전달하는 메시지 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "3.6"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.5.0, @seed-design/lynx-css@0.9.0" />
+
+<LynxComponentExample name="lynx/callout/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## 설치
+
+```package-install
+npx @seed-design/cli@latest add ui:callout
+```
+
+<LynxManualInstallation name="callout" />
+
+## 속성
+
+### `Callout`
+
+<react-type-table path="./registry/lynx/ui/callout.tsx" name="CalloutProps" />
+
+### `ActionableCallout`
+
+<react-type-table
+  path="./registry/lynx/ui/callout.tsx"
+  name="ActionableCalloutProps"
+/>
+
+### `DismissibleCallout`
+
+<react-type-table
+  path="./registry/lynx/ui/callout.tsx"
+  name="DismissibleCalloutProps"
+/>
+
+## 사용법
+
+
+```tsx
+import { Callout } from "@/components/ui/callout";
+
+export function App() {
+  return <Callout title="알림" description="새로운 소식을 확인해 보세요." />;
+}
+```
+
+
+## 예시
+
+### 콘텐츠 구성
+
+#### 텍스트만
+
+<LynxComponentExample name="lynx/callout/text-only">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/text-only.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### 아이콘 포함
+
+<LynxComponentExample name="lynx/callout/with-icon">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/with-icon.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### 제목 텍스트 포함
+
+<LynxComponentExample name="lynx/callout/with-title-text">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/with-title-text.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### 링크 레이블 포함
+
+<Callout type="warn">
+`ActionableCallout`에서는 `linkProps`를 제공하지 않습니다.
+</Callout>
+
+<LynxComponentExample name="lynx/callout/with-link-label">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/with-link-label.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### 모든 요소 포함
+
+<LynxComponentExample name="lynx/callout/with-all">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/with-all.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+
+### 톤
+
+`tone`은 `neutral`, `informative`, `positive`, `warning`, `critical`, `magic`을 지원합니다. 기본값은 `neutral`입니다.
+
+#### 중립 (기본값)
+
+<LynxComponentExample name="lynx/callout/neutral">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/neutral.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### 정보
+
+<LynxComponentExample name="lynx/callout/informative">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/informative.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### 긍정
+
+<LynxComponentExample name="lynx/callout/positive">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/positive.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### 경고
+
+<LynxComponentExample name="lynx/callout/warning">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/warning.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### 위험
+
+<LynxComponentExample name="lynx/callout/critical">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/critical.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### 매직
+
+<LynxComponentExample name="lynx/callout/magic">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/callout/magic.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+
+## 웹 버전과의 차이
+
+- 탭 이벤트는 `onClick` 대신 `bindtap` 또는 `main-thread:bindtap`으로 받습니다.
+- 접근성은 HTML 의미 요소와 ARIA 대신 Lynx의 `accessibility-*` 속성을 사용합니다.
+- `ActionableCallout`은 `bindtap`이 없어도 눌림 피드백과 `button` 역할을 적용합니다.
+
+## Lynx 미지원 기능
+
+- `asChild`를 지원하지 않습니다.
+- 링크 문구는 `linkProps.children`, 탭 동작은 `linkProps.bindtap`으로 전달하세요.

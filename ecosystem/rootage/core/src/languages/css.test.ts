@@ -2,7 +2,7 @@ import { expect, test } from "bun:test";
 import { factory, Authoring } from "../parser";
 import { createStringifier, getTokenCss } from "./css";
 
-const { value, tokenReference } = createStringifier({
+const { value, tokenReference, valueOrToken } = createStringifier({
   prefix: "test",
 });
 
@@ -41,6 +41,47 @@ test("stringifier.value should stringify gradient expression", () => {
   expect(result).toEqual("#000000 0%, #ffffff 100%");
 });
 
+test("stringifier.value should stringify enum expression", () => {
+  const result = value(factory.createEnumLit("content"));
+
+  expect(result).toEqual("content");
+});
+
+test("stringifier.value should stringify an enum parsed from a component spec", () => {
+  const spec: Authoring.ComponentSpecModel = {
+    kind: "ComponentSpec",
+    metadata: { id: "test", name: "test" },
+    data: {
+      schema: {
+        slots: {
+          root: {
+            properties: {
+              scaleScope: { type: "enum", values: ["self", "content"] },
+            },
+          },
+        },
+      },
+      definitions: {
+        base: { pressed: { root: { scaleScope: "content" } } },
+      },
+    },
+  };
+
+  const propertyDecl =
+    Authoring.parseComponentSpecDocument(spec).data.body[0]?.body[0]?.body[0]?.body[0];
+  if (propertyDecl?.kind !== "EnumPropertyDeclaration") {
+    throw new Error("expected the spec to parse into an enum property");
+  }
+
+  expect(value(propertyDecl.value)).toEqual("content");
+});
+
+test("stringifier.valueOrToken should reject an enum", () => {
+  expect(() => valueOrToken(factory.createEnumLit("content"))).toThrow(
+    "Enum values cannot be emitted as CSS",
+  );
+});
+
 test("getTokenCss should generate css code", () => {
   const collections: Authoring.TokenCollectionsModel[] = [
     {
@@ -52,11 +93,11 @@ test("getTokenCss should generate css code", () => {
       data: [
         {
           name: "color",
-          modes: ["light", "dark"],
+          modes: [{ id: "light" }, { id: "dark" }],
         },
         {
           name: "global",
-          modes: ["default"],
+          modes: [{ id: "default" }],
         },
       ],
     },
@@ -140,4 +181,91 @@ test("getTokenCss should generate css code", () => {
       --test-dimension-s1: 4px;
     }"
   `);
+});
+
+test("getTokenCss skips a mode whose selector is null", () => {
+  const collections: Authoring.TokenCollectionsModel[] = [
+    {
+      kind: "TokenCollections",
+      metadata: { id: "1", name: "collection" },
+      data: [{ name: "motion", modes: [{ id: "preferred" }, { id: "reduced" }] }],
+    },
+  ];
+  const tokens: Authoring.TokensModel[] = [
+    {
+      kind: "Tokens",
+      metadata: { id: "2", name: "scale" },
+      data: {
+        collection: "motion",
+        tokens: {
+          "$scale.s95": { values: { preferred: 0.95, reduced: 1 } },
+        },
+      },
+    },
+  ];
+
+  const result = getTokenCss(
+    {
+      tokenCollections: collections.flatMap((x) => Authoring.parseTokenCollectionsDocument(x).data),
+      tokens: tokens.flatMap((x) => Authoring.parseTokensDocument(x).data),
+    },
+    {
+      prefix: "test",
+      banner: "",
+      selectors: {
+        motion: {
+          preferred: ":root",
+          reduced: null,
+        },
+      },
+    },
+  );
+
+  expect(result).toMatchInlineSnapshot(`
+    ":root {
+      --test-scale-s95: 0.95;
+    }"
+  `);
+});
+
+test("getTokenCss throws when a mode has no selector entry", () => {
+  const collections: Authoring.TokenCollectionsModel[] = [
+    {
+      kind: "TokenCollections",
+      metadata: { id: "1", name: "collection" },
+      data: [{ name: "motion", modes: [{ id: "preferred" }, { id: "reduced" }] }],
+    },
+  ];
+  const tokens: Authoring.TokensModel[] = [
+    {
+      kind: "Tokens",
+      metadata: { id: "2", name: "scale" },
+      data: {
+        collection: "motion",
+        tokens: {
+          "$scale.s95": { values: { preferred: 0.95, reduced: 1 } },
+        },
+      },
+    },
+  ];
+
+  expect(() =>
+    getTokenCss(
+      {
+        tokenCollections: collections.flatMap(
+          (x) => Authoring.parseTokenCollectionsDocument(x).data,
+        ),
+        tokens: tokens.flatMap((x) => Authoring.parseTokensDocument(x).data),
+      },
+      {
+        prefix: "test",
+        banner: "",
+        selectors: {
+          motion: {
+            preferred: ":root",
+          },
+        },
+      },
+    ),
+  ).toThrow("Selector for collection motion and mode reduced is not defined");
 });

@@ -1,7 +1,10 @@
 import { describe, it, expect, mock, beforeEach } from "bun:test";
+import * as clientMock from "../api/__mocks__/client";
 import type { PipelineContext } from "../pipeline/builder";
 
-mock.module("../api/client", () => import("../api/__mocks__/client"));
+// Keep this factory synchronous. One returning a pending promise (`() => import(...)`) hangs bun
+// once another test file has already loaded "../api/client".
+mock.module("../api/client", () => clientMock);
 
 const { createPipeline } = await import("../pipeline/builder");
 const { createApiClient } = await import("../api/client");

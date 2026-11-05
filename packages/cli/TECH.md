@@ -1,71 +1,28 @@
 # @seed-design/cli TECH
 
-## 개요
+CLI의 설정·오류·telemetry·빌드 동작 계약이다. 이 동작을 바꾸면 사용자 문서와 테스트(`src/tests/`)를 함께 고친다. 런타임 하한(`engines.node`)과 의존성은 `package.json`이 원천이다.
 
-- 패키지: `@seed-design/cli`
-- 런타임: Node.js >= 18
-- 언어/모듈: TypeScript, ESM
-- 핵심 의존성: `cac`, `@clack/prompts@1`, `cosmiconfig`, `zod`, `execa`
-- 빌드: `esbuild` (`build.mjs`, `dev.mjs`)
+## 설정 bootstrap
 
-## 아키텍처
+- `src/utils/get-config.ts`가 `seed-design.json`을 읽고, 없으면 사용자 확인 뒤 `src/utils/init-config.ts`의 내부 로직으로 만든다.
+- 기본값은 `init-config.ts`의 `DEFAULT_INIT_CONFIG`(`rsc=false`, `tsx=true`, `framework="react"`, `path="./seed-design"`, `telemetry=true`)다. 기본값을 바꾸면 `docs/content/react/getting-started/cli/configuration.mdx`도 고친다.
+- `detectFramework(cwd)`가 프로젝트 의존성으로 `react`와 `lynx` 중 하나를 고른다.
 
-```text
-src/index.ts
-  ├─ commands/init.ts
-  ├─ commands/add.ts
-  └─ commands/add-all.ts
+## 오류 출력
 
-src/utils/*
-  ├─ get-config.ts / init-config.ts
-  ├─ fetch.ts / write.ts / resolve-dependencies.ts / install.ts
-  ├─ analytics.ts
-  └─ error.ts
-```
+- 기본 출력은 실패 메시지·원인·힌트다(`handleCliError`). `--verbose`일 때만 stack trace를 덧붙인다.
+- `execa` 실패는 `error.ts`가 실행 명령, 종료 코드, stderr(없으면 stdout)를 원인 항목으로 풀어 쓴다.
 
-## 기술적 결정
+## Telemetry
 
-### 1) 설정 파일 부트스트랩을 내부 로직으로 처리
+- `init`, `add`, `add-all`, `compat`, `docs`의 결과를 best-effort로 보낸다. 전송 실패가 명령의 성공·실패를 바꾸지 않는다.
+- 전송은 await되고 요청마다 5초 timeout이 걸린다(`src/utils/analytics.ts`). 명령 종료가 최대 5초 늦어질 수 있으므로 전송 호출을 늘릴 때 고려한다.
+- 끄는 조건은 `DISABLE_TELEMETRY=true` → `SEED_DISABLE_TELEMETRY=true` → `seed-design.json`의 `telemetry=false` 순으로 확인한다.
+- `NODE_ENV`가 `"dev"`인 번들은 전송하지 않는다. `POSTHOG_HOST`나 `POSTHOG_API_KEY`가 비어 있어도 전송하지 않는다.
 
-- 파일: `src/utils/get-config.ts`, `src/utils/init-config.ts`
-- `seed-design.json`이 없을 때 외부 명령(`seed-design init`)을 `execa`로 재호출하지 않는다.
-- 사용자 확인 후 기본값(`rsc=false`, `tsx=true`, `path="./seed-design"`, `telemetry=true`)으로 내부 생성한다.
+## 빌드
 
-### 2) 에러 처리 책임 분리
-
-- 파일: `src/utils/error.ts`, `src/commands/*.ts`
-- 유틸 레이어는 에러를 `throw`만 하고 종료하지 않는다.
-- 커맨드 레이어만 `process.exit(0/1)`을 결정한다.
-- 기본 실패 출력은 `실패 메시지 + 원인 + 힌트`, `--verbose`에서 stack trace를 추가 출력한다.
-
-### 3) 명령 성공 경로에서 telemetry는 비핵심(Non-blocking)
-
-- 파일: `src/utils/analytics.ts`, `src/commands/*.ts`
-- `init`, `add`, `add-all` 이벤트를 전송한다.
-- telemetry 실패는 명령 성공/실패 판정에 영향을 주지 않는다(실패는 무시 또는 verbose 로그).
-
-### 4) telemetry opt-out 우선순위 고정
-
-- 파일: `src/utils/analytics.ts`
-- 우선순위:
-  1. `DISABLE_TELEMETRY=true`
-  2. `SEED_DISABLE_TELEMETRY=true`
-  3. `seed-design.json`의 `telemetry=false`
-
-## 패키지 로컬 스크립트
-
-| 스크립트 | 설명 |
-|---|---|
-| `bun dev` | dev 번들 (`NODE_ENV=dev`) |
-| `bun build` | prod 번들 (`bin/index.mjs`) |
-| `bun lint:publish` | publint 검사 |
-
-## 주요 환경 변수
-
-| 변수 | 설명 |
-|---|---|
-| `NODE_ENV` | dev/prod 분기 (`build.mjs`, `dev.mjs`에서 주입) |
-| `POSTHOG_API_KEY` | telemetry 전송 API 키 |
-| `POSTHOG_HOST` | telemetry 전송 호스트 |
-| `DISABLE_TELEMETRY` | telemetry 비활성화 |
-| `SEED_DISABLE_TELEMETRY` | telemetry 비활성화(대체 키) |
+- `bun --filter @seed-design/cli build`로 실행한다. 패키지 폴더의 `bun build`는 script가 아니라 Bun 내장 번들러를 실행한다.
+- prod 빌드(`build.mjs`)는 `.env`를 읽고(`dotenv/config`) `NODE_ENV`를 `"prod"`로, `POSTHOG_API_KEY`·`POSTHOG_HOST`를 빌드 시점 값으로 번들에 치환한다. 값 없이 빌드한 `bin/`은 실행 환경에 값이 있어도 이벤트를 보내지 않는다.
+- dev 빌드(`dev.mjs`, `bun cli:watch`)는 `NODE_ENV`만 `"dev"`로 치환한다.
+- 두 빌드 모두 gitignore된 `bin/index.mjs`를 쓴다. snippet의 TSX→JSX, RSC 변환은 `src/utils/transformers/`에 있다.

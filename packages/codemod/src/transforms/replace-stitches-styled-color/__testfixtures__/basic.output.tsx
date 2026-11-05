@@ -18,7 +18,7 @@ const SemanticColorTestComponent = styled("div", {
   color: "$bg-layer-floating",
   color: "$bg-layer-floating",
   color: "$bg-layer-floating",
-  color: "$bg-layer-fill",
+  color: "$bg-neutral-weak",
   color: "$bg-layer-default",
   color: "$bg-layer-basement",
   color: "$palette-carrot-100",
@@ -188,7 +188,7 @@ const ComplexPropertyTestComponent = styled("div", {
   // 네스팅된 속성 테스트
   "&:before": {
     borderBottom: "1px solid $stroke-neutral-subtle",
-    background: "$bg-layer-fill",
+    background: "$bg-neutral-weak",
   },
 
   // 변형 테스트

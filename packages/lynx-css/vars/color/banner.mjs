@@ -1,0 +1,10 @@
+export const blue = "var(--seed-color-banner-blue)";
+export const coolGray = "var(--seed-color-banner-cool-gray)";
+export const green = "var(--seed-color-banner-green)";
+export const orange = "var(--seed-color-banner-orange)";
+export const pink = "var(--seed-color-banner-pink)";
+export const purple = "var(--seed-color-banner-purple)";
+export const red = "var(--seed-color-banner-red)";
+export const teal = "var(--seed-color-banner-teal)";
+export const warmGray = "var(--seed-color-banner-warm-gray)";
+export const yellow = "var(--seed-color-banner-yellow)";

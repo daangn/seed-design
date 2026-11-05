@@ -11,10 +11,6 @@ declare interface AppBarVariant {
   * @default "layer"
   */
   tone: "layer" | "transparent";
-/**
-  * @default false
-  */
-  divider: boolean;
 }
 
 declare type AppBarVariantMap = {
@@ -23,7 +19,7 @@ declare type AppBarVariantMap = {
 
 export declare type AppBarVariantProps = Partial<AppBarVariant>;
 
-export declare type AppBarSlotName = "root" | "left" | "right" | "iconButton" | "icon" | "custom";
+export declare type AppBarSlotName = "root" | "background" | "left" | "right" | "iconButton" | "icon" | "textButton" | "textButtonLabel" | "custom";
 
 export declare const appBarVariantMap: AppBarVariantMap;
 

@@ -6,6 +6,7 @@ export {
   AppBarRoot,
   AppBarSlot,
   AppBarSubtitle,
+  AppBarTextButton,
   AppBarTitle,
 } from "./AppBar";
 
@@ -17,6 +18,7 @@ export type {
   AppBarRightProps,
   AppBarSlotProps,
   AppBarSubtitleProps,
+  AppBarTextButtonProps,
   AppBarTitleProps,
 } from "./AppBar";
 

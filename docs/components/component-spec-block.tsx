@@ -1,7 +1,7 @@
 import type { AST } from "@seed-design/rootage-core";
 import { Fragment } from "react";
 import { ComponentVariantTable } from "./component-variant-table";
-import { getRootage } from "./rootage";
+import { getRootage } from "@/lib/rootage";
 import { stringifyVariants } from "./rootage";
 
 interface ComponentSpecBlockProps {

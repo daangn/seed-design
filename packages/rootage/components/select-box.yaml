@@ -25,6 +25,9 @@ data:
             description: enabled 상태의 stroke 위에 selected 상태의 stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다.
           strokeTimingFunction:
             type: cubicBezier
+          scaleScope:
+            type: enum
+            values: [self, content]
       trigger:
         properties:
           gap:
@@ -103,7 +106,7 @@ data:
         root:
           cornerRadius: $radius.r3
           color: $color.bg.transparent
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-weak
           strokeWidth: 1px
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
@@ -146,7 +149,7 @@ data:
           strokeColor: $color.stroke.neutral-contrast
       disabled:
         root:
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-weak
         prefixIcon:
           color: $color.fg.disabled
         label:
@@ -157,6 +160,9 @@ data:
       enabled,pressed:
         root:
           color: $color.bg.transparent-pressed
+      pressed:
+        root:
+          scaleScope: content
 
     layout=horizontal:
       enabled:

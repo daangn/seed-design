@@ -1,0 +1,104 @@
+import type { Page } from "../App.jsx";
+
+export type HomeCategory = "docs" | "playground" | "tools";
+export type LegacyPage = Exclude<Page, "home">;
+
+export interface LegacyItem {
+  page: LegacyPage;
+  title: string;
+}
+
+export interface LegacySection {
+  title: string;
+  items: readonly LegacyItem[];
+}
+
+export const PLAYGROUND_SECTIONS: readonly LegacySection[] = [
+  {
+    title: "Components",
+    items: [
+      { page: "layout-primitives", title: "Box / VStack / HStack" },
+      { page: "text-primitive", title: "Text" },
+      { page: "accordion", title: "Accordion" },
+      { page: "action-button", title: "ActionButton" },
+      { page: "app-bar", title: "AppBar" },
+      { page: "attachment-display-headless", title: "AttachmentDisplay (Headless)" },
+      { page: "badge", title: "Badge" },
+      { page: "bottom-sheet", title: "BottomSheet" },
+      { page: "callout", title: "Callout" },
+      { page: "checkbox", title: "Checkbox" },
+      { page: "dialog-headless", title: "Dialog (Headless)" },
+      { page: "file-upload-headless", title: "FileUpload (Headless)" },
+      {
+        page: "keyboard-avoiding-scroll-view-headless",
+        title: "KeyboardAvoidingScrollView (Headless)",
+      },
+      { page: "list-headless", title: "List (Headless)" },
+      { page: "content-placeholder", title: "ContentPlaceholder" },
+      { page: "manner-temp", title: "Manner Temp" },
+      { page: "menu-headless", title: "Menu (Headless)" },
+      { page: "page-banner", title: "PageBanner" },
+      { page: "page-banner-headless", title: "PageBanner (Headless)" },
+      { page: "progress-circle", title: "ProgressCircle" },
+      { page: "progress-circle-headless", title: "ProgressCircle (Headless)" },
+      { page: "pull-to-refresh-headless", title: "PullToRefresh (Headless)" },
+      { page: "radio-group", title: "RadioGroup" },
+      { page: "radio-group-headless", title: "RadioGroup (Headless)" },
+      { page: "select-headless", title: "Select (Headless)" },
+      { page: "select-box-headless", title: "SelectBox (Headless)" },
+      { page: "switch", title: "Switch" },
+      { page: "switch-headless", title: "Switch (Headless)" },
+      { page: "tabs", title: "Tabs" },
+      { page: "tabs-headless", title: "Tabs (Headless)" },
+      { page: "tag-group", title: "TagGroup" },
+      { page: "text-field", title: "TextField" },
+      { page: "text-field-headless", title: "TextField (Headless)" },
+    ],
+  },
+];
+
+export const TOOL_SECTIONS: readonly LegacySection[] = [
+  { title: "Getting Started", items: [{ page: "theming", title: "Theming" }] },
+  {
+    title: "Foundation",
+    items: [
+      { page: "foundation-color", title: "Color" },
+      { page: "foundation-monochrome-icon", title: "Monochrome Icon" },
+      { page: "foundation-multicolor-icon", title: "Multicolor Icon" },
+      { page: "foundation-typography", title: "Typography" },
+    ],
+  },
+  { title: "Tailwind", items: [{ page: "tailwind-demo", title: "Tailwind Demo" }] },
+  {
+    title: "Hooks",
+    items: [
+      { page: "use-controllable-state", title: "useControllableState" },
+      { page: "use-press-tap", title: "usePressTap" },
+      { page: "use-image", title: "useImage" },
+      { page: "use-toggle", title: "useToggle" },
+    ],
+  },
+  {
+    title: "Test",
+    items: [
+      { page: "layout-stress-tailwind", title: "Layout Stress: Tailwind" },
+      { page: "layout-stress-style", title: "Layout Stress: Inline Style" },
+      { page: "layout-stress-seed-primitives", title: "Layout Stress: SEED Primitives" },
+      { page: "safe-area-debug", title: "Safe Area Debug" },
+      { page: "margin-bleed-test", title: "Margin / Bleed Test" },
+      { page: "nested-vars-test", title: "Nested Vars Test (Lynx 3.6+)" },
+      { page: "css-selector-test", title: "CSS Selector Test" },
+      { page: "icon-color-poc", title: "Icon Color POC" },
+    ],
+  },
+];
+
+const ALL_LEGACY_SECTIONS = [...PLAYGROUND_SECTIONS, ...TOOL_SECTIONS];
+
+export function legacyPageTitle(page: LegacyPage): string {
+  for (const section of ALL_LEGACY_SECTIONS) {
+    const item = section.items.find((candidate) => candidate.page === page);
+    if (item) return item.title;
+  }
+  return page;
+}

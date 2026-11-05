@@ -1,0 +1,69 @@
+import "./styles";
+
+import IconExclamationmarkCircleFill from "@karrotmarket/lynx-monochrome-icon/IconExclamationmarkCircleFill";
+
+import {
+  ActionablePageBanner,
+  DismissiblePageBanner,
+  PageBanner,
+  PageBannerButton,
+} from "@/components/ui/page-banner";
+
+export default function Example() {
+  function handleTap() {
+    "background only";
+  }
+
+  return (
+    <view className="page-banner-preview">
+      <PageBanner
+        tone="critical"
+        variant="weak"
+        prefixIcon={<IconExclamationmarkCircleFill />}
+        title="미노출"
+        description="사업자 정보를 등록해주세요."
+        suffix={<PageBannerButton>등록하기</PageBannerButton>}
+      />
+      <PageBanner
+        tone="critical"
+        variant="solid"
+        prefixIcon={<IconExclamationmarkCircleFill />}
+        title="미노출"
+        description="사업자 정보를 등록해주세요."
+        suffix={<PageBannerButton>등록하기</PageBannerButton>}
+      />
+      <ActionablePageBanner
+        tone="critical"
+        variant="weak"
+        prefixIcon={<IconExclamationmarkCircleFill />}
+        title="미노출"
+        description="사업자 정보를 등록해주세요."
+        bindtap={handleTap}
+        accessibility-label="미노출, 사업자 정보를 등록해주세요."
+      />
+      <ActionablePageBanner
+        tone="critical"
+        variant="solid"
+        prefixIcon={<IconExclamationmarkCircleFill />}
+        title="미노출"
+        description="사업자 정보를 등록해주세요."
+        bindtap={handleTap}
+        accessibility-label="미노출, 사업자 정보를 등록해주세요."
+      />
+      <DismissiblePageBanner
+        tone="critical"
+        variant="weak"
+        prefixIcon={<IconExclamationmarkCircleFill />}
+        title="미노출"
+        description="사업자 정보를 등록해주세요."
+      />
+      <DismissiblePageBanner
+        tone="critical"
+        variant="solid"
+        prefixIcon={<IconExclamationmarkCircleFill />}
+        title="미노출"
+        description="사업자 정보를 등록해주세요."
+      />
+    </view>
+  );
+}

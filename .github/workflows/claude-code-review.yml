@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Get PR details
         id: pr
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const pr = await github.rest.pulls.get({
@@ -34,13 +34,13 @@ jobs:
             core.setOutput('base_ref', pr.data.base.ref);
 
       - name: Checkout PR branch
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ steps.pr.outputs.sha }}
           fetch-depth: 0
 
       - name: Add reaction
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             github.rest.reactions.createForIssueComment({
@@ -88,7 +88,10 @@ jobs:
 
             <step-1-deep-understanding>
             먼저 다음을 통해 완전히 이해하세요:
-            1. AGENTS.md 전체 읽기 - 특히 "PR Review Guidelines" 섹션 숙지
+            1. 루트와 변경 경로의 AGENTS.md 읽기
+               - .agents/learnings/AGENTS.md의 읽기 절차로 변경 경로·키워드에 맞는 활성 교훈만 확인
+               - 학습 기록은 과거 근거이므로 현재 코드·조건과 대조하고, 비활성 기록을 현재 규칙으로 적용하지 않기
+               - 이번 리뷰에서는 파일 수정·학습 기록 갱신·커밋을 하지 않고 필요한 제안만 리뷰에 남기기
             2. PR 제목과 설명 - 사용자의 의도와 목적 파악
             3. 변경 파일들의 전체 그림 - 무엇을 하려는지 이해
             4. git log --oneline -10 - 최근 개발 방향과 패턴 확인
@@ -199,7 +202,7 @@ jobs:
             <no-repetition>
             - 이전 PR에서 거절/무시된 제안 반복
             - 사용자가 의도적으로 선택한 패턴 비판
-            - AGENTS.md에 명시된 "알려진 기술 부채" 언급
+            - 현재 문서·PR에서 이미 알려진 문제나 의도한 제약으로 확인된 사항을 새 결함처럼 반복 지적
             </no-repetition>
 
             <stay-in-scope>
@@ -216,8 +219,8 @@ jobs:
             </absolute-dont-do>
 
             <project-specific-context>
-            AGENTS.md의 "프로젝트별 특수 컨텍스트" 섹션을 반드시 참조하여
-            프로젝트별 특수사항과 알려진 기술 부채를 이해하고 리뷰하세요.
+            변경 경로의 AGENTS.md, 관련 ARCHITECTURE.md·TECH.md 절과 활성 교훈을 참조하여
+            프로젝트별 제약을 현재 코드와 대조하고 리뷰하세요.
             </project-specific-context>
 
             건설적이고 실용적인 리뷰로 프로젝트 발전에 기여해주세요.
@@ -226,20 +229,12 @@ jobs:
             To see the diff that needs to be reviewed, you must run this exact command. Note that the PR branch is already checked out in the current working directory.
 
             git diff $(git merge-base ${{ steps.pr.outputs.base_ref }} HEAD) -- . \
+            ':(exclude,attr:linguist-generated)' \
             ':(exclude)**/package.json' \
             ':(exclude)**/archive/**/*' \
             ':(exclude)**/.next/**/*' \
             ':(exclude)**/__testfixtures__/**/*' \
-            ':(exclude)**/__generated__/**/*' \
-            ':(exclude)**/__registry__/**/*' \
-            ':(exclude)**/public/**/*' \
-            ':(exclude)packages/css/**/*' \
-            ':(exclude)**/schema.json' \
-            ':(exclude)packages/qvism-preset/src/vars/**/*' \
-            ':(exclude)packages/qvism-preset/src/token.css' \
-            ':(exclude)packages/qvism-preset/src/tokens.ts' \
-            ':(exclude)packages/tailwind3-plugin/src/index.ts' \
-            ':(exclude)packages/tailwind4-theme/src/index.css'
+            ':(exclude)**/public/**/*'
 
             Use `gh pr comment` for *concise* top-level feedback.
             Use `mcp__github_inline_comment__create_inline_comment` to highlight specific code issues.
@@ -296,7 +291,7 @@ jobs:
 
       - name: Add success reaction
         if: success()
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             github.rest.reactions.createForIssueComment({
@@ -308,7 +303,7 @@ jobs:
 
       - name: Add failure reaction
         if: failure()
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             github.rest.reactions.createForIssueComment({

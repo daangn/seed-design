@@ -1,13 +1,25 @@
 import type { PublicRegistry } from "@/src/schema";
-import { getPackageInfo } from "@/src/utils/get-package-info";
+import { getInstalledPackageJson, getPackageInfo } from "@/src/utils/get-package-info";
 import * as p from "@clack/prompts";
 import fs from "fs-extra";
 import path from "path";
 import { intersects, satisfies, valid, validRange } from "semver";
 import { highlight } from "./color";
 
-export const COMPAT_PACKAGE_NAMES = ["@seed-design/react", "@seed-design/css"] as const;
-export type CompatPackageName = (typeof COMPAT_PACKAGE_NAMES)[number];
+const REACT_COMPAT_PACKAGES = [
+  "@seed-design/react",
+  "@seed-design/css",
+  "@seed-design/stackflow",
+] as const;
+const LYNX_COMPAT_PACKAGES = ["@seed-design/lynx-react", "@seed-design/lynx-css"] as const;
+
+export type CompatPackageName =
+  | (typeof REACT_COMPAT_PACKAGES)[number]
+  | (typeof LYNX_COMPAT_PACKAGES)[number];
+
+export function getCompatPackageNames(framework: string): readonly CompatPackageName[] {
+  return framework === "lynx" ? LYNX_COMPAT_PACKAGES : REACT_COMPAT_PACKAGES;
+}
 
 const WORKSPACE_VERSION_PREFIX = "workspace:";
 const NPM_ALIAS_PREFIX = "npm:";
@@ -28,6 +40,7 @@ export interface CompatibilityReport {
 
 export function getProjectSeedPackageVersionSpecs(
   cwd: string,
+  framework = "react",
 ): Partial<Record<CompatPackageName, string>> {
   try {
     const packageInfo = getPackageInfo(cwd);
@@ -38,8 +51,17 @@ export function getProjectSeedPackageVersionSpecs(
       ...packageInfo.optionalDependencies,
     };
     const result: Partial<Record<CompatPackageName, string>> = {};
+    const compatPackages = getCompatPackageNames(framework);
 
-    for (const packageName of COMPAT_PACKAGE_NAMES) {
+    for (const packageName of compatPackages) {
+      // 해소된 설치본 버전을 먼저 써요. `^2.0.6` 같은 선언 범위는 `^2.1.0`과 겹쳐서
+      // 2.0.6이 설치돼 있어도 호환으로 보이고, 모노레포처럼 선언이 상위 package.json에
+      // 있으면 여기선 선언이 안 잡혀요.
+      const installed = getInstalledPackageJson(packageName, cwd)?.version;
+      if (typeof installed === "string") {
+        result[packageName] = installed;
+        continue;
+      }
       const value = packageDeps[packageName];
       if (typeof value === "string") {
         result[packageName] = value;
@@ -56,10 +78,12 @@ export function analyzeRegistryItemCompatibility({
   publicRegistries,
   itemKeys,
   projectPackageVersions,
+  framework = "react",
 }: {
   publicRegistries: PublicRegistry[];
   itemKeys: string[];
   projectPackageVersions: Partial<Record<CompatPackageName, string>>;
+  framework?: string;
 }): CompatibilityReport {
   const checkedItemKeys = Array.from(new Set(itemKeys));
   const itemMap = new Map<string, PublicRegistry["items"][number]>(
@@ -69,14 +93,15 @@ export function analyzeRegistryItemCompatibility({
   );
 
   const issues: CompatibilityIssue[] = [];
+  const compatPackages = getCompatPackageNames(framework);
 
   for (const itemKey of checkedItemKeys) {
     const item = itemMap.get(itemKey);
     if (!item) continue;
 
-    const requiredRangesByPackage = collectRequiredRangesByPackage(item);
+    const requiredRangesByPackage = collectRequiredRangesByPackage(item, framework);
 
-    for (const packageName of COMPAT_PACKAGE_NAMES) {
+    for (const packageName of compatPackages) {
       const requiredRanges = Array.from(requiredRangesByPackage[packageName] ?? []);
 
       if (!requiredRanges.length) continue;
@@ -135,15 +160,19 @@ export function analyzeRegistryItemCompatibility({
 export function logCompatibilityReport({
   report,
   title,
+  framework = "react",
 }: {
   report: CompatibilityReport;
   title: string;
+  framework?: string;
 }) {
   if (!report.issues.length) return;
 
+  const compatPackages = getCompatPackageNames(framework);
+
   p.log.warn(title);
   p.log.info(
-    `현재 프로젝트 버전: ${COMPAT_PACKAGE_NAMES.map((packageName) => `${packageName}@${highlight(report.projectPackageVersions[packageName] ?? "미설치")}`).join(", ")}`,
+    `현재 프로젝트 버전: ${compatPackages.map((packageName) => `${packageName}@${highlight(report.projectPackageVersions[packageName] ?? "미설치")}`).join(", ")}`,
   );
 
   const issuesByItem = new Map<string, CompatibilityIssue[]>();
@@ -207,14 +236,18 @@ export function findInstalledSnippetItemKeys({
   return installedItemKeys;
 }
 
-function collectRequiredRangesByPackage(item: PublicRegistry["items"][number]) {
+function collectRequiredRangesByPackage(
+  item: PublicRegistry["items"][number],
+  framework = "react",
+) {
+  const compatPackages = getCompatPackageNames(framework);
   const requiredRangesByPackage = Object.fromEntries(
-    COMPAT_PACKAGE_NAMES.map((packageName) => [packageName, new Set<string>()]),
+    compatPackages.map((packageName) => [packageName, new Set<string>()]),
   ) as Record<CompatPackageName, Set<string>>;
 
   for (const snippet of item.snippets) {
     for (const [packageName, requiredRange] of Object.entries(snippet.dependencies ?? {})) {
-      if (!isCompatPackageName(packageName)) continue;
+      if (!isCompatPackageName(packageName, framework)) continue;
       requiredRangesByPackage[packageName].add(requiredRange);
     }
   }
@@ -286,6 +319,9 @@ function getSnippetPathCandidates(originalPath: string): string[] {
   return Array.from(candidates);
 }
 
-function isCompatPackageName(packageName: string): packageName is CompatPackageName {
-  return COMPAT_PACKAGE_NAMES.includes(packageName as CompatPackageName);
+function isCompatPackageName(
+  packageName: string,
+  framework = "react",
+): packageName is CompatPackageName {
+  return (getCompatPackageNames(framework) as readonly string[]).includes(packageName);
 }

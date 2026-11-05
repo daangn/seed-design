@@ -1,11 +1,12 @@
 {
   "name": "@seed-design/react-primitive",
-  "version": "1.0.0",
+  "version": "2.0.2",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/react-headless/primitive"
   },
+  "license": "Apache-2.0",
   "sideEffects": false,
   "type": "module",
   "exports": {
@@ -19,7 +20,9 @@
   "main": "./lib/index.cjs",
   "files": [
     "lib",
-    "src"
+    "src",
+    "LICENSE",
+    "NOTICE"
   ],
   "scripts": {
     "clean": "rm -rf lib",
@@ -27,7 +30,7 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "^1.2.3"
+    "@radix-ui/react-slot": "^1.2.5"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

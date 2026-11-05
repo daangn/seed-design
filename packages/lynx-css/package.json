@@ -1,0 +1,70 @@
+{
+  "name": "@seed-design/lynx-css",
+  "version": "1.2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/lynx-css"
+  },
+  "license": "Apache-2.0",
+  "sideEffects": [
+    "*.css"
+  ],
+  "type": "module",
+  "exports": {
+    "./base.css": "./base.css",
+    "./base.min.css": "./base.min.css",
+    "./all.css": "./all.css",
+    "./all.min.css": "./all.min.css",
+    "./recipes/*.css": "./recipes/*.css",
+    "./recipes/*": {
+      "types": "./recipes/*.d.ts",
+      "default": {
+        "import": "./recipes/*.mjs"
+      }
+    },
+    "./vars": {
+      "types": "./vars/index.d.ts",
+      "import": "./vars/index.mjs"
+    },
+    "./vars/*": {
+      "types": "./vars/*.d.ts",
+      "import": "./vars/*.mjs"
+    },
+    "./vars/component": {
+      "types": "./vars/component/index.d.ts",
+      "import": "./vars/component/index.mjs"
+    },
+    "./vars/component/*": {
+      "types": "./vars/component/*.d.ts",
+      "import": "./vars/component/*.mjs"
+    },
+    "./scale-feedback": {
+      "types": "./scale-feedback/index.d.ts",
+      "import": "./scale-feedback/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "package.json",
+    "recipes",
+    "scale-feedback",
+    "vars",
+    "*.css",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "scripts": {
+    "rootage:generate": "bun rootage token-ts ./vars --prefix seed && rootage component-spec ./vars/component --prefix seed",
+    "qvism:generate": "bun qvism ./ ./recipes && bun run ./scripts/generate-scale-feedback.mjs",
+    "lint:publish": "bun publint"
+  },
+  "devDependencies": {
+    "@seed-design/qvism-cli": "0.0.0",
+    "@seed-design/lynx-qvism-preset": "0.0.0",
+    "@seed-design/rootage-artifacts": "3.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

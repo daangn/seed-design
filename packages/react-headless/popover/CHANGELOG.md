@@ -1,5 +1,56 @@
 # @seed-design/react-popover
 
+## 3.0.0
+
+### Major Changes
+
+- 78f0bc1: (BREAKING CHANGE: `Popover.Positioner` 안의 내용을 `Popover.Content`로 감싸야 합니다. `role="dialog"`와 aria 속성이 `Popover.Content`로 이동했으므로, 직접 지정한 `aria-label`·`aria-labelledby`·`aria-describedby`도 `Popover.Content`에 전달해야 합니다.) `Popover.Content`, `Popover.Title`, `Popover.Description`을 추가합니다.
+  
+  - 열릴 때 Content로 포커스를 옮기고, 내부에 포커스가 있는 상태에서 닫히면 trigger로 포커스를 되돌리도록 수정합니다. Root의 `autoFocus={false}`로 열릴 때 포커스를 옮기지 않게 할 수 있습니다.
+  - `closeOnInteractOutside={false}`인 경우를 제외하고, 포커스가 Popover 밖으로 나가면 Popover가 닫히도록 수정합니다.
+  - Dialog, Bottom Sheet 등 다른 레이어 안에서 연 Popover를 Escape 키나 바깥 영역을 눌러 닫을 때, 바깥 레이어까지 함께 닫히던 문제를 수정합니다.
+  - Root에 `lazyMount`, `unmountOnExit` 옵션을 추가합니다.
+  - `onOpenChange`의 두 번째 인자로 `reason`과 원인 이벤트를 전달합니다.
+
+### Patch Changes
+
+- Updated dependencies [78f0bc1]
+- Updated dependencies [474fa4a]
+  - @seed-design/react-floating@1.1.0
+  - @seed-design/react-primitive@2.0.2
+
+## 2.0.1
+
+### Patch Changes
+
+- 270c93d: 라이선스를 Apache-2.0으로 명시했습니다. 기존에는 `license` 필드가 비어 있어 저장소 루트의 Apache License 2.0과 일치하지 않았고, 배포물에 `LICENSE`와 `NOTICE`가 포함되지 않아 이용 조건을 확인할 수 없었습니다.
+
+  당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+- Updated dependencies [270c93d]
+  - @seed-design/dom-utils@2.0.1
+  - @seed-design/react-floating@1.0.1
+  - @seed-design/react-primitive@2.0.1
+
+## 2.0.0
+
+### Major Changes
+
+- 029d052: Help Bubble Tooltip 컴포넌트를 추가합니다.
+
+### Patch Changes
+
+- Updated dependencies [029d052]
+- Updated dependencies [ec33023]
+  - @seed-design/react-floating@1.0.0
+  - @seed-design/react-primitive@2.0.0
+
+## 1.0.4
+
+### Patch Changes
+
+- e48f021: HelpBubble이 좁은 화면에서 화면 밖으로 잘리던 문제를 수정합니다. (Popover의 floating 요소 너비를 viewport에 맞게 동적으로 제한하고, 긴 텍스트가 Help Bubble 밖으로 넘치지 않도록 긴 단어 중간 줄바꿈을 허용합니다.)
+
 ## 1.0.3
 
 ### Patch Changes

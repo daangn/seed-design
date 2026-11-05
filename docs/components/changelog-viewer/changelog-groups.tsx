@@ -18,23 +18,17 @@ function ChangelogGroupHeader({
   onCopyLink: (url: string) => void;
 }) {
   return (
-    <div
-      className={[
-        "flex items-center justify-between gap-2 flex-wrap border-b border-fd-border px-4 h-10 bg-fd-card/95 backdrop-blur supports-[backdrop-filter]:bg-fd-card/80",
-        "rounded-t-xl",
-      ].join(" ")}
-    >
-      <div className="group/copy inline-flex items-center gap-1.5 min-w-0">
-        <span className="text-fd-muted-foreground">📦</span>
+    <header className="mb-x3 flex min-w-0 flex-wrap items-baseline justify-between gap-x3 gap-y-x2">
+      <h2 className="group/copy m-0 inline-flex min-w-0 items-center gap-x2">
         <a
           href={groupQueryHref}
-          className="truncate text-xs md:text-sm font-semibold font-mono hover:text-fd-primary transition-colors"
+          className="min-w-0 truncate font-mono text-[0.9375rem] font-semibold leading-6 text-fg-neutral underline decoration-fd-border underline-offset-4 transition-colors hover:text-fd-primary"
         >
           {group.packageName}@{group.version}
         </a>
         <button
           type="button"
-          className="ml-0.5 shrink-0 text-sm text-fd-muted-foreground opacity-0 group-hover/copy:opacity-100 focus:opacity-100 hover:text-fd-foreground transition-opacity"
+          className="shrink-0 rounded-r1 p-1 text-fg-neutral-muted opacity-0 transition-[opacity,background-color,color] hover:bg-bg-transparent-pressed hover:text-fg-neutral group-hover/copy:opacity-100 focus:opacity-100"
           onClick={() => {
             onCopyLink(absoluteGroupHref);
           }}
@@ -43,13 +37,11 @@ function ChangelogGroupHeader({
         >
           <IconSquare2StackedLine size={14} aria-hidden />
         </button>
-      </div>
-      <div className="inline-flex items-center gap-2">
-        <span className="text-xs text-fd-muted-foreground shrink-0">
-          {group.entries.length}개 변경사항
-        </span>
-      </div>
-    </div>
+      </h2>
+      <span className="t3-regular shrink-0 text-fg-neutral-muted">
+        {group.entries.length}개 변경사항
+      </span>
+    </header>
   );
 }
 
@@ -63,22 +55,21 @@ function RelatedPackageEntries({
   if (packages.length === 0) return null;
 
   return (
-    <div className="mt-2 space-y-2">
-      <p className="text-xs text-fd-muted-foreground">{title}</p>
-      <div className="space-y-2">
+    <div className="mt-x3 min-w-0 space-y-x2">
+      <p className="t3-regular m-0 text-fg-neutral-muted">{title}</p>
+      <div className="min-w-0 space-y-x2 pl-x3">
         {packages.map((pkg) => (
-          <div
-            key={`${pkg.name}@${pkg.version}`}
-            className="rounded-lg border border-fd-border/80 bg-fd-card/40 px-3 py-2"
-          >
+          <div key={`${pkg.name}@${pkg.version}`} className="min-w-0 overflow-hidden">
             <a
               href={getChangelogHref(pkg.name, pkg.version)}
-              className="inline-flex items-center rounded-md border border-fd-border px-2 py-0.5 text-[11px] font-mono text-fd-muted-foreground hover:text-fd-foreground hover:bg-fd-accent/60 transition-colors"
+              className="inline-flex max-w-full min-w-0 items-center font-mono text-[11px] text-fg-neutral-muted underline decoration-fd-border underline-offset-4 transition-colors hover:text-fg-neutral"
             >
-              {pkg.name}@{pkg.version}
+              <span className="truncate">
+                {pkg.name}@{pkg.version}
+              </span>
             </a>
             {pkg.resolvedEntries.length > 0 && (
-              <div className="mt-2 divide-y divide-fd-border/50">
+              <div className="mt-x2 min-w-0 space-y-x2">
                 {pkg.resolvedEntries.map((resolvedEntry) => (
                   <ChangelogEntryItem
                     key={resolvedEntry.order}
@@ -111,7 +102,7 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex min-w-0 flex-col gap-x8">
       {groupedEntries.map((group) => {
         const groupAnchorId = getGroupAnchorId(group.packageName, group.version);
         const groupQueryHref = getChangelogHref(group.packageName, group.version);
@@ -126,7 +117,7 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
             key={groupKey}
             id={groupAnchorId}
             data-changelog-group-key={groupKey}
-            className="rounded-xl border border-fd-border scroll-mt-24 overflow-clip"
+            className="min-w-0 scroll-mt-28 overflow-hidden"
           >
             <ChangelogGroupHeader
               group={group}
@@ -136,15 +127,18 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
                 void copyDeepLink(url);
               }}
             />
-            <div className="px-3 py-1">
-              <ul className="list-disc pl-5 pr-1 marker:text-fd-muted-foreground">
+            <div className="min-w-0">
+              <ul className="m-0 min-w-0 list-disc space-y-x3 pl-x5 pr-x1 marker:text-fg-neutral-muted">
                 {group.entries.map((entry, index) => {
                   const { resolvedRelatedPackages } = entry;
 
                   if (entry.isDependencyOnly) {
                     return (
-                      <li key={`${group.packageName}@${group.version}-${entry.order}-${index}`}>
-                        <span className="text-xs text-fd-muted-foreground">
+                      <li
+                        key={`${group.packageName}@${group.version}-${entry.order}-${index}`}
+                        className="min-w-0"
+                      >
+                        <span className="t3-regular text-fg-neutral-muted">
                           하위 패키지 업데이트에 의한 버전 변경
                         </span>
                         <RelatedPackageEntries
@@ -156,7 +150,10 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
                   }
 
                   return (
-                    <li key={`${group.packageName}@${group.version}-${entry.order}-${index}`}>
+                    <li
+                      key={`${group.packageName}@${group.version}-${entry.order}-${index}`}
+                      className="min-w-0"
+                    >
                       <ChangelogEntryItem
                         entry={entry}
                         hidePackages
@@ -176,7 +173,7 @@ export function ChangelogGroups({ groupedEntries }: { groupedEntries: GroupedCha
         );
       })}
       {groupedEntries.length === 0 && (
-        <div className="text-sm text-fd-muted-foreground px-1">
+        <div className="min-w-0 text-sm text-fg-neutral-muted">
           조건에 맞는 변경사항이 없습니다.
         </div>
       )}

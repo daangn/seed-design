@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lynx 컴포넌트 검증"
+  short_description: "Lynx 문서와 런타임 결과를 환경별 증거로 검증합니다"
+  default_prompt: "$seed-verify-lynx-component를 사용해 Lynx 컴포넌트의 문서, bundle, 브라우저, 런타임을 검증하고 환경별 증거와 미검증 범위를 보고하세요."

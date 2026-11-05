@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { createContext, forwardRef, useContext } from "react";
+import { restoreDefaultProps } from "./restoreDefaultProps";
 
 type SlotRecipe<
   Props extends Record<string, string | boolean | undefined>,
@@ -55,6 +56,9 @@ export function createSlotRecipeContext<
     const StyledComponent = (innerProps: any) => {
       const props = { ...(defaultProps ?? {}), ...useProps(), ...innerProps } as Props &
         React.HTMLAttributes<HTMLElement>;
+
+      restoreDefaultProps(props as Record<string, unknown>, defaultProps);
+
       const [variantProps, otherProps] = recipe.splitVariantProps(props);
       const classNames = recipe(variantProps); // TODO: should we memoize this?
 
@@ -83,6 +87,9 @@ export function createSlotRecipeContext<
     const StyledComponent = forwardRef<any, any>((innerProps, ref) => {
       const props = { ...(defaultProps ?? {}), ...useProps(), ...innerProps } as Props &
         React.HTMLAttributes<HTMLElement>;
+
+      restoreDefaultProps(props as Record<string, unknown>, defaultProps);
+
       const [variantProps, otherProps] = recipe.splitVariantProps(props);
       const classNames = recipe(variantProps); // TODO: should we memoize this?
       const className = classNames[slot as keyof typeof classNames];

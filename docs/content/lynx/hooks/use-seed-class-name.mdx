@@ -1,0 +1,86 @@
+---
+title: useSeedClassName
+description: root `<page>`에 적용할 테마 className을 반환하고 테마 변경을 구독하는 훅입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.3.0" />
+
+## Import
+
+```ts
+import { useSeedClassName } from "@seed-design/lynx-react";
+```
+
+`useSeedClassName`은 `@seed-design/lynx-react` 패키지에 포함되어 있습니다. `getSeedClassName()`의 reactive 버전으로, `SeedProvider`의 `preferredColorScheme`이 바뀌면 갱신된 className을 반환합니다.
+
+## Usage
+
+### 기본 사용
+
+root `<page>` 요소에 적용합니다.
+
+```tsx
+import { root } from "@lynx-js/react";
+import { SeedProvider, useSeedClassName } from "@seed-design/lynx-react";
+
+function Page() {
+  const seedClassName = useSeedClassName({ colorMode: "system" });
+  return (
+    <page className={seedClassName}>
+      <App />
+    </page>
+  );
+}
+
+root.render(
+  <SeedProvider preferredColorScheme="dark">
+    <Page />
+  </SeedProvider>,
+);
+```
+
+호스트 설정을 `preferredColorScheme`으로 넘기는 방법은 [Host Integration](/lynx/getting-started/host-integration)을 참고하세요.
+
+### `colorMode` 옵션
+
+| `colorMode` 설정 | 색상 스킴 | 반환되는 테마 클래스 |
+|---|---|---|
+| `system` (기본값) | `"light"` 또는 생략 | `seed-user-color-scheme-light` |
+| `system` | `"dark"` | `seed-user-color-scheme-dark` |
+| `light-only` | (무관) | `seed-user-color-scheme-light` |
+| `dark-only` | (무관) | `seed-user-color-scheme-dark` |
+
+`system`일 때 색상 스킴은 `colorScheme` 옵션, `SeedProvider`의 `preferredColorScheme`, `lynx.__globalProps.theme` 순서로 정하고, 모두 없으면 `"light"`입니다. Global props에서 읽는 동작은 다음 메이저 버전에서 제거될 예정입니다.
+
+## 동작 방식
+
+`useSeedClassName()`은 `useSeedContext()`로 `SeedProvider` 값을 구독합니다. 앱이 `preferredColorScheme`을 바꾸면 이 훅을 사용하는 컴포넌트가 리렌더되어, 갱신된 테마에 맞는 className을 반환합니다.
+
+className 매핑 로직은 `getSeedClassName()`과 동일합니다. 차이는 `SeedProvider` 값 구독 여부뿐입니다.
+
+- `useSeedClassName()`: `SeedProvider` 값을 구독하는 훅. root `<page>`처럼 테마 변경에 반응해야 하는 곳에 사용합니다.
+- `getSeedClassName()`: 넘긴 `colorScheme`으로 한 번 계산하는 함수. 훅을 쓸 수 없는 정적 컨텍스트에서 사용합니다.
+
+<Callout>
+웹(React) 환경에서는 번들러 플러그인이 테마를 자동으로 처리하지만, Lynx에서는 `useSeedClassName()`으로 명시적으로 구독합니다. 테마 시스템 전반은 [Theming](/lynx/getting-started/styling/theming) 문서를 참고하세요.
+</Callout>
+
+## API
+
+### Parameters
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `colorMode` | `"system" \| "light-only" \| "dark-only"` | `"system"` | 테마 결정 방식입니다. `system`은 색상 스킴을 따르고, `light-only` / `dark-only`는 테마를 고정합니다. |
+| `colorScheme` | `"light" \| "dark"` | `SeedProvider`의 `preferredColorScheme` | `colorMode`가 `system`일 때 적용할 색상 스킴입니다. |
+
+### Return
+
+| Type | Description |
+|------|-------------|
+| `string` | 적용할 테마 클래스(`seed-user-color-scheme-light` 또는 `seed-user-color-scheme-dark`)입니다. |
+
+## 사용 시 주의사항
+
+- `SeedProvider` 안에서 호출해야 `preferredColorScheme`을 읽습니다. Provider 밖에서는 `lynx.__globalProps.theme`이나 `"light"`로 동작합니다.
+- 훅이므로 컴포넌트 본문에서만 호출할 수 있습니다. 테마 변경에 반응할 필요가 없다면 순수 함수인 `getSeedClassName()`을 사용하세요.

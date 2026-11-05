@@ -1,11 +1,12 @@
 import { tablist as vars, tab as triggerVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
+import { active, disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 
 const tabs = defineSlotRecipe({
   name: "tabs",
@@ -21,6 +22,9 @@ const tabs = defineSlotRecipe({
       flexWrap: "nowrap",
       alignItems: "stretch",
       alignContent: "stretch",
+
+      paddingLeft: "var(--tabs-list-padding-left)",
+      paddingRight: "var(--tabs-list-padding-right)",
 
       overflowX: "auto",
       msOverflowStyle: "none",
@@ -64,7 +68,9 @@ const tabs = defineSlotRecipe({
       transitionProperty: "left, width",
       transitionDuration: vars.base.enabled.indicator.transformDuration,
       transitionTimingFunction: vars.base.enabled.indicator.transformTimingFunction,
-      left: "var(--indicator-left, 0px)",
+      // `--indicator-left` is measured from the list's content box, so a padding change such as
+      // a safe area inset moves the indicator without a re-measure.
+      left: "calc(var(--indicator-left, 0px) + var(--tabs-list-padding-left, 0px))",
       width: "var(--indicator-width, 0px)",
       color: vars.base.enabled.indicator.color,
       borderBottom: `${vars.base.enabled.indicator.height} solid ${vars.base.enabled.indicator.color}`,
@@ -85,6 +91,7 @@ const tabs = defineSlotRecipe({
       boxSizing: "border-box",
       backgroundColor: "transparent",
       whiteSpace: "nowrap",
+      scrollMarginInline: triggerVars.base.enabled.root.scrollMarginX,
 
       color: triggerVars.base.enabled.label.color,
 
@@ -105,7 +112,9 @@ const tabs = defineSlotRecipe({
         backgroundColor: vars.base.enabled.indicator.color,
       },
 
-      transition: FOCUS_RING_TRANSITION,
+      [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
+
+      transition: `${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },
@@ -114,37 +123,35 @@ const tabs = defineSlotRecipe({
     triggerLayout: {
       fill: {
         list: {
-          paddingLeft: vars.layoutFill.enabled.root.paddingX,
-          paddingRight: vars.layoutFill.enabled.root.paddingX,
+          "--tabs-list-padding-left": vars.layoutFill.enabled.root.paddingX,
+          "--tabs-list-padding-right": vars.layoutFill.enabled.root.paddingX,
           justifyContent: "space-around",
         },
         indicator: {
-          left: `calc(var(--indicator-left, 0px) + ${vars.layoutFill.enabled.indicator.insetX})`,
+          left: `calc(var(--indicator-left, 0px) + var(--tabs-list-padding-left, 0px) + ${vars.layoutFill.enabled.indicator.insetX})`,
           width: `calc(var(--indicator-width, 0px) - 2 * ${vars.layoutFill.enabled.indicator.insetX})`,
         },
         trigger: {
           flex: 1,
 
           [pseudo(selected, "[data-ssr]:after")]: {
-            left: vars.layoutFill.enabled.indicator.insetX,
-            right: vars.layoutFill.enabled.indicator.insetX,
+            insetInline: vars.layoutFill.enabled.indicator.insetX,
           },
         },
       },
       hug: {
         list: {
-          paddingLeft: vars.layoutHug.enabled.root.paddingX,
-          paddingRight: vars.layoutHug.enabled.root.paddingX,
+          "--tabs-list-padding-left": vars.layoutHug.enabled.root.paddingX,
+          "--tabs-list-padding-right": vars.layoutHug.enabled.root.paddingX,
           justifyContent: "flex-start",
         },
         indicator: {
-          left: `calc(var(--indicator-left, 0px) + ${vars.layoutHug.enabled.indicator.insetX})`,
+          left: `calc(var(--indicator-left, 0px) + var(--tabs-list-padding-left, 0px) + ${vars.layoutHug.enabled.indicator.insetX})`,
           width: `calc(var(--indicator-width, 0px) - 2 * ${vars.layoutHug.enabled.indicator.insetX})`,
         },
         trigger: {
           [pseudo(selected, "[data-ssr]:after")]: {
-            left: 0,
-            right: 0,
+            insetInline: 0,
           },
         },
       },
@@ -180,10 +187,8 @@ const tabs = defineSlotRecipe({
         },
         trigger: {
           minHeight: triggerVars.sizeSmall.enabled.root.minHeight,
-          paddingLeft: triggerVars.sizeSmall.enabled.root.paddingX,
-          paddingRight: triggerVars.sizeSmall.enabled.root.paddingX,
-          paddingTop: triggerVars.sizeSmall.enabled.root.paddingY,
-          paddingBottom: triggerVars.sizeSmall.enabled.root.paddingY,
+          paddingInline: triggerVars.sizeSmall.enabled.root.paddingX,
+          paddingBlock: triggerVars.sizeSmall.enabled.root.paddingY,
 
           fontSize: triggerVars.sizeSmall.enabled.label.fontSize,
           lineHeight: triggerVars.sizeSmall.enabled.label.lineHeight,
@@ -199,10 +204,8 @@ const tabs = defineSlotRecipe({
         },
         trigger: {
           minHeight: triggerVars.sizeMedium.enabled.root.minHeight,
-          paddingLeft: triggerVars.sizeMedium.enabled.root.paddingX,
-          paddingRight: triggerVars.sizeMedium.enabled.root.paddingX,
-          paddingTop: triggerVars.sizeMedium.enabled.root.paddingY,
-          paddingBottom: triggerVars.sizeMedium.enabled.root.paddingY,
+          paddingInline: triggerVars.sizeMedium.enabled.root.paddingX,
+          paddingBlock: triggerVars.sizeMedium.enabled.root.paddingY,
 
           fontSize: triggerVars.sizeMedium.enabled.label.fontSize,
           lineHeight: triggerVars.sizeMedium.enabled.label.lineHeight,
@@ -223,12 +226,54 @@ const tabs = defineSlotRecipe({
       },
       false: {},
     },
+    extendSafeAreaX: {
+      true: {
+        root: {
+          marginLeft: "calc(var(--seed-safe-area-left) * -1)",
+          marginRight: "calc(var(--seed-safe-area-right) * -1)",
+        },
+        list: {
+          // Keeps a selected or focused tab from stopping under the inset the list extends into
+          scrollPaddingLeft: "var(--seed-safe-area-left)",
+          scrollPaddingRight: "var(--seed-safe-area-right)",
+        },
+        content: {
+          boxSizing: "border-box",
+          paddingLeft: "var(--seed-safe-area-left)",
+          paddingRight: "var(--seed-safe-area-right)",
+        },
+      },
+      false: {},
+    },
   },
+  compoundVariants: [
+    {
+      triggerLayout: "fill",
+      extendSafeAreaX: true,
+      css: {
+        list: {
+          "--tabs-list-padding-left": `calc(${vars.layoutFill.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          "--tabs-list-padding-right": `calc(${vars.layoutFill.enabled.root.paddingX} + var(--seed-safe-area-right))`,
+        },
+      },
+    },
+    {
+      triggerLayout: "hug",
+      extendSafeAreaX: true,
+      css: {
+        list: {
+          "--tabs-list-padding-left": `calc(${vars.layoutHug.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          "--tabs-list-padding-right": `calc(${vars.layoutHug.enabled.root.paddingX} + var(--seed-safe-area-right))`,
+        },
+      },
+    },
+  ],
   defaultVariants: {
     triggerLayout: "fill",
     contentLayout: "hug",
     size: "small",
     stickyList: false,
+    extendSafeAreaX: false,
   },
 });
 

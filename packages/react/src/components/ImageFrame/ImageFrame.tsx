@@ -11,43 +11,46 @@ import {
   type ImageFrameIndicatorVariantProps,
 } from "@seed-design/css/recipes/image-frame-indicator";
 import { imageFrameReactionButton } from "@seed-design/css/recipes/image-frame-reaction-button";
-import { imageFrameFloater as floaterVars } from "@seed-design/css/vars/component";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Image } from "@seed-design/react-image";
 import { Toggle as TogglePrimitive, useToggleContext } from "@seed-design/react-toggle";
+import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import clsx from "clsx";
 import * as React from "react";
+import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { handleDimension, resolveResponsive, type DistributiveOmit } from "../../utils/styled";
 import { AspectRatio, type AspectRatioProps } from "../AspectRatio/AspectRatio";
-import { Badge, type BadgeProps } from "../Badge/Badge";
+import { BadgeLabel, BadgeRoot, type BadgeRootProps } from "../Badge/Badge";
 import { Float, type FloatProps } from "../Float/Float";
 import { Icon } from "../Icon/Icon";
 import { InternalIcon } from "../private/Icon";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ImageFrameProps
-  extends Omit<AspectRatioProps, "children">,
-    ImageFrameVariantProps {
-  /**
-   * @deprecated Deprecated in `@seed-design/react@1.2.x`; will be removed in 1.3.0.
-   * Use borderRadius="r2" instead.
-   * Reason: 모서리 스타일은 borderRadius prop으로 통일합니다.
-   */
-  rounded?: ImageFrameVariantProps["rounded"];
-  src: string;
-  alt: string;
-  fallback?: React.ReactNode;
-  loading?: "eager" | "lazy";
-  decoding?: "async" | "auto" | "sync";
-  crossOrigin?: "anonymous" | "use-credentials" | "";
-  referrerPolicy?: React.HTMLAttributeReferrerPolicy;
-  sizes?: string;
-  srcSet?: string;
-  onLoad?: React.ReactEventHandler<HTMLImageElement>;
-  onError?: React.ReactEventHandler<HTMLImageElement>;
-  children?: React.ReactNode;
+function resolveSafeAreaBleed(side: "left" | "right", bleed: AspectRatioProps["bleedLeft"]) {
+  if (bleed === undefined) return {};
+
+  return resolveResponsive(`--seed-image-frame-safe-area-${side}`, bleed, (value) =>
+    value === "safeArea" ? `var(--seed-safe-area-${side})` : "0px",
+  );
 }
+
+export type ImageFrameProps = DistributiveOmit<AspectRatioProps, "children"> &
+  ImageFrameVariantProps & {
+    src: string;
+    alt: string;
+    fallback?: React.ReactNode;
+    loading?: "eager" | "lazy";
+    decoding?: "async" | "auto" | "sync";
+    crossOrigin?: "anonymous" | "use-credentials" | "";
+    referrerPolicy?: React.HTMLAttributeReferrerPolicy;
+    sizes?: string;
+    srcSet?: string;
+    onLoad?: React.ReactEventHandler<HTMLImageElement>;
+    onError?: React.ReactEventHandler<HTMLImageElement>;
+    children?: React.ReactNode;
+  };
 
 export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
   (
@@ -65,6 +68,7 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
       srcSet,
       onLoad,
       onError,
+      borderRadius = "r2",
       children,
       ...rest
     },
@@ -73,9 +77,26 @@ export const ImageFrame = React.forwardRef<HTMLDivElement, ImageFrameProps>(
     const [variantProps, restProps] = imageFrameRecipe.splitVariantProps(rest);
     const classNames = imageFrameRecipe(variantProps);
 
+    const { bleed, bleedX, bleedLeft, bleedRight } = rest;
+
     return (
-      <AspectRatio ref={ref} ratio={ratio} className={className} {...restProps}>
-        <Image.Root className={classNames.root}>
+      // TODO: `asChild` arrives from `AspectRatioProps` but slots onto `Image.Root` below, so it
+      // never swaps this component's own element. Support it via `Slottable`, or omit it from the props.
+      <AspectRatio
+        ref={ref}
+        ratio={ratio}
+        className={className}
+        borderRadius={borderRadius}
+        // splitVariantProps collapses the margin/bleed union; re-assert the shape.
+        {...(restProps as AspectRatioProps)}
+      >
+        <Image.Root
+          className={classNames.root}
+          style={{
+            ...resolveSafeAreaBleed("left", bleedLeft ?? bleedX ?? bleed),
+            ...resolveSafeAreaBleed("right", bleedRight ?? bleedX ?? bleed),
+          }}
+        >
           <Image.Content
             className={classNames.content}
             src={src}
@@ -103,34 +124,51 @@ ImageFrame.displayName = "ImageFrame";
 
 export interface ImageFrameFloaterProps extends FloatProps {}
 
+// The fallbacks cover a floater rendered outside an ImageFrame, where the variables are never declared.
+const SAFE_AREA_LEFT = "var(--seed-image-frame-safe-area-left, 0px)";
+const SAFE_AREA_RIGHT = "var(--seed-image-frame-safe-area-right, 0px)";
+
+/**
+ * Keeps floaters inside the safe area the frame bleeds into.
+ * `start` and `end` push away from their own edge; `center` re-centers on the safe area.
+ */
+function getSafeAreaInset(placement: FloatProps["placement"]) {
+  if (placement.endsWith("-start")) return SAFE_AREA_LEFT;
+  if (placement.endsWith("-end")) return SAFE_AREA_RIGHT;
+
+  return `(${SAFE_AREA_LEFT} - ${SAFE_AREA_RIGHT}) / 2`;
+}
+
 /**
  * ImageFrame 내에서 오버레이 요소를 배치하기 위한 컴포넌트
- *
- * @remarks
- * offsetX, offsetY 기본값은 rootage 스펙(image-frame-floater)에서 가져옵니다.
  */
 export const ImageFrameFloater = React.forwardRef<HTMLDivElement, ImageFrameFloaterProps>(
-  (
-    {
-      offsetX = floaterVars.base.enabled.root.offset,
-      offsetY = floaterVars.base.enabled.root.offset,
-      ...rest
-    },
-    ref,
-  ) => {
-    return <Float ref={ref} offsetX={offsetX} offsetY={offsetY} {...rest} />;
-  },
+  ({ placement, offsetX = "x1_5", offsetY = "x1_5", ...rest }, ref) => (
+    <Float
+      ref={ref}
+      placement={placement}
+      offsetX={`calc(${handleDimension(offsetX)} + ${getSafeAreaInset(placement)})`}
+      offsetY={offsetY}
+      {...rest}
+    />
+  ),
 );
 
 ImageFrameFloater.displayName = "ImageFrameFloater";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface ImageFrameBadgeProps extends BadgeProps {}
+export interface ImageFrameBadgeProps extends BadgeRootProps {}
 
 export const ImageFrameBadge = React.forwardRef<HTMLSpanElement, ImageFrameBadgeProps>(
-  (props, ref) => {
-    return <Badge ref={ref} {...props} />;
+  ({ children, ...props }, ref) => {
+    return (
+      // FIXME: `asChild` slots onto `BadgeLabel` below, not `BadgeRoot`, so the caller's element
+      // lands inside the badge without its class or ref. Route `children` through `Slottable`.
+      <BadgeRoot ref={ref} {...props}>
+        <BadgeLabel>{children}</BadgeLabel>
+      </BadgeRoot>
+    );
   },
 );
 
@@ -215,6 +253,7 @@ const HeartFillSvg = (props: React.SVGAttributes<SVGSVGElement>) => {
           y2="10.5391"
           gradientUnits="userSpaceOnUse"
         >
+          {/* NOTE: see image-frame-reaction-button.yaml for the colors */}
           <stop stopColor="#FF9A56" />
           <stop offset="1" stopColor="#FF6600" />
         </linearGradient>
@@ -233,6 +272,8 @@ const HeartLineSvg = (props: React.SVGAttributes<SVGSVGElement>) => (
     aria-hidden="true"
     {...props}
   >
+    {/* NOTE: see image-frame-reaction-button.yaml for the color */}
+    <path d={HeartFillPath} fill="#0000004c" />
     <path fillRule="evenodd" clipRule="evenodd" d={HeartOutlineStrokePath} fill="currentColor" />
   </svg>
 );
@@ -255,10 +296,15 @@ export const ImageFrameReactionButton = React.forwardRef<
   ImageFrameReactionButtonProps
 >(({ className, ...rest }, ref) => {
   const classNames = imageFrameReactionButton();
+  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
   return (
     <ImageFrameReactionButtonClassNamesProvider value={classNames}>
-      <TogglePrimitive.Root ref={ref} className={clsx(classNames.root, className)} {...rest}>
+      <TogglePrimitive.Root
+        ref={useComposedRefs(scaleFeedbackRef, ref)}
+        className={clsx(classNames.root, scaleFeedbackClassName, className)}
+        {...rest}
+      >
         <ReactionButtonIcon />
       </TogglePrimitive.Root>
     </ImageFrameReactionButtonClassNamesProvider>

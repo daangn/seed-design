@@ -1,0 +1,25 @@
+{
+  "id": "search-bar",
+  "dependencies": [
+    "@stackflow/react"
+  ],
+  "innerDependencies": [
+    {
+      "registryId": "ui",
+      "itemIds": [
+        "app-screen",
+        "search-input"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "search-bar.tsx",
+      "content": "/**\n * @file ui:search-bar\n * @requires @seed-design/react@^3.1.0\n * @requires @seed-design/css@^3.1.0\n **/\n\n\"use client\";\n\nimport { useActivity } from \"@stackflow/react\";\nimport * as React from \"react\";\nimport {\n  AppBar,\n  AppBarBackButton,\n  AppBarLeft,\n  AppBarRight,\n  AppBarSlot,\n  AppBarTextButton,\n} from \"./app-bar\";\nimport { SearchInput, type SearchInputProps } from \"./search-input\";\n\nexport interface SearchBarProps extends SearchInputProps {\n  /**\n   * Shows the back button, which pops the current activity. Hidden on the root activity.\n   * @default false\n   */\n  showBackButton?: boolean;\n\n  /**\n   * Called when the close button is clicked.\n   */\n  onClose: () => void;\n\n  /**\n   * @default \"닫기\"\n   */\n  closeLabel?: React.ReactNode;\n}\n\n/**\n * @see https://seed-design.io/react/stackflow/search-bar\n */\nexport const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(\n  ({ showBackButton = false, onClose, closeLabel = \"닫기\", ...otherProps }, ref) => {\n    const activity = useActivity();\n    const renderBackButton = showBackButton && !!activity && !activity.isRoot;\n\n    return (\n      <AppBar>\n        {renderBackButton && (\n          // The search input starts right at the back button's touch area, so drop the gap and the\n          // inner offset that App Bar keeps for a title.\n          <AppBarLeft style={{ paddingRight: 0 }}>\n            <AppBarBackButton style={{ marginRight: 0 }} />\n          </AppBarLeft>\n        )}\n        <AppBarSlot>\n          <SearchInput\n            ref={ref}\n            {...otherProps}\n            // fills the space between the left and right areas, centered in the bar\n            style={{ flex: 1, minWidth: 0, alignSelf: \"center\", ...otherProps.style }}\n          />\n        </AppBarSlot>\n        <AppBarRight>\n          {/* Without the inner offset, the close button's touch area does not cover the clear button. */}\n          <AppBarTextButton style={{ marginLeft: 0 }} onClick={onClose}>\n            {closeLabel}\n          </AppBarTextButton>\n        </AppBarRight>\n      </AppBar>\n    );\n  },\n);\nSearchBar.displayName = \"SearchBar\";\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "^3.1.0",
+        "@seed-design/css": "^3.1.0"
+      }
+    }
+  ]
+}

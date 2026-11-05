@@ -1,6 +1,7 @@
 import { helpBubble as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { hidden, not, pseudo, open, focusVisible } from "../utils/pseudo";
+import { active, focus, hidden, not, pseudo, open, focusVisible } from "../utils/pseudo";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { onlyIcon } from "../utils/icon";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import {
@@ -25,20 +26,22 @@ const helpBubble = defineSlotRecipe({
     positioner: {
       "--popover-z-index": "99",
       zIndex: "calc(var(--popover-z-index) + var(--z-index-offset, 0))",
+
+      maxWidth: "var(--seed-popover-available-width, none)",
     },
     content: {
       display: "flex",
       alignItems: "flex-start",
+      boxSizing: "border-box",
 
       background: vars.base.enabled.root.color,
 
-      paddingLeft: vars.base.enabled.root.paddingX,
-      paddingRight: vars.base.enabled.root.paddingX,
-      paddingTop: vars.base.enabled.root.paddingY,
-      paddingBottom: vars.base.enabled.root.paddingY,
+      paddingInline: vars.base.enabled.root.paddingX,
+      paddingBlock: vars.base.enabled.root.paddingY,
       borderRadius: vars.base.enabled.root.cornerRadius,
 
-      "--seed-box-max-width": "initial",
+      // real value, not `initial` — see https://webkit.org/b/241433
+      "--seed-box-max-width--responsive": vars.base.enabled.root.maxWidth,
       maxWidth: "var(--seed-box-max-width)",
 
       [pseudo(open)]: {
@@ -59,8 +62,18 @@ const helpBubble = defineSlotRecipe({
         }),
       },
 
+      // Skip the enter/exit animation while a `TooltipDelayGroup` is switching
+      // between tooltips, so the swap reads as instant.
+      [pseudo("[data-instant]")]: {
+        animationDuration: "0s",
+      },
+
       [pseudo(hidden)]: {
         display: "none !important",
+      },
+
+      [pseudo(focus)]: {
+        outline: "none",
       },
     },
     arrow: {
@@ -83,6 +96,11 @@ const helpBubble = defineSlotRecipe({
       gap: vars.base.enabled.body.gap,
 
       wordBreak: "keep-all",
+      overflowWrap: "break-word",
+      // As a flex item the body won't shrink below its content's min-content width,
+      // so a long unbreakable run overflows the size()-constrained bubble. min-width: 0
+      // releases that floor so overflow-wrap can break the run to keep it in view.
+      minWidth: 0,
     },
     title: {
       color: vars.base.enabled.title.color,
@@ -111,8 +129,7 @@ const helpBubble = defineSlotRecipe({
 
       marginLeft: `calc(${vars.base.enabled.root.gap} - ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2))`,
       marginRight: `calc(-1 * ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2))`,
-      marginTop: `calc(-1 * ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2) + ${vars.base.enabled.closeButton.marginTop})`,
-      marginBottom: `calc(-1 * ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2) + ${vars.base.enabled.closeButton.marginTop})`,
+      marginBlock: `calc(-1 * ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2) + ${vars.base.enabled.closeButton.marginTop})`,
 
       color: vars.base.enabled.closeButton.color,
 
@@ -122,7 +139,10 @@ const helpBubble = defineSlotRecipe({
       }),
 
       borderRadius: vars.base.enabled.root.cornerRadius,
-      transition: FOCUS_RING_TRANSITION,
+
+      [pseudo(active)]: { ...createScaleFeedbackStyles() },
+
+      transition: `${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
       ...createFocusRingRestStyles({ position: "inside" }),
       [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },

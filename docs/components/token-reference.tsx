@@ -1,5 +1,6 @@
 import { resolveToken } from "@seed-design/rootage-core";
-import { getRootage, stringifyValueLit } from "./rootage";
+import { getRootage } from "@/lib/rootage";
+import { getDefaultModes, stringifyValueLit } from "./rootage";
 import { TokenValue } from "./token-cell";
 import { TokenTable, TokenTableItem } from "./token-table";
 
@@ -11,16 +12,14 @@ interface TokenReferenceProps {
 export async function TokenReference(props: TokenReferenceProps) {
   const rootage = await getRootage();
   const groups = props.groups ?? [];
+  const modes = getDefaultModes(rootage);
 
   const filterFn = props.regex
     ? (id: string) => props.regex!.test(id)
     : (id: string) => id.startsWith(`$${groups.join(".")}`);
 
   const tableItems: TokenTableItem[] = rootage.tokenIds.filter(filterFn).map((tokenId) => {
-    const { path, value } = resolveToken(rootage, tokenId, {
-      global: "default",
-      color: "theme-light",
-    });
+    const { path, value } = resolveToken(rootage, tokenId, modes);
 
     const valuesWithDescription: TokenValue[] = path.slice(1).map((tokenRef) => ({
       ref: tokenRef,

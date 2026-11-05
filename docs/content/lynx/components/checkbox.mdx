@@ -1,0 +1,193 @@
+---
+title: Checkbox
+description: 사용자가 하나 이상의 옵션을 선택할 수 있게 해주는 컴포넌트입니다. 목록에서 여러 항목을 선택하거나 약관 동의와 같은 선택적 작업에 사용됩니다.
+compatibility:
+  lynx:
+    engine: "3.6"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
+
+<LynxComponentExample name="lynx/checkbox/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/checkbox/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:checkbox
+```
+
+<LynxManualInstallation name="checkbox" />
+
+## Props
+
+### `CheckboxGroup`
+
+<react-type-table path="./registry/lynx/ui/checkbox.tsx" name="CheckboxGroupProps" />
+
+### `Checkbox`
+
+<react-type-table path="./registry/lynx/ui/checkbox.tsx" name="CheckboxProps" />
+
+### `Checkmark`
+
+<react-type-table path="./registry/lynx/ui/checkbox.tsx" name="CheckmarkProps" />
+
+### 접근성 이름
+
+`Checkbox`에서 직접 작성한 `<text>`를 쓰거나 `Checkmark`로 직접 구성할 때는 상태를 가진 Root에 `accessibility-label`을 지정하세요. 컴포넌트 children의 문자열과 숫자는 접근성 이름으로 사용되지만, raw `<text>`의 정적 텍스트는 이름을 만들 수 없습니다. `indeterminate` 상태는 `mixed`로 전달됩니다.
+
+## Examples
+
+### Sizes
+
+<LynxComponentExample name="lynx/checkbox/size">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/checkbox/size.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Tones and Variants
+
+#### Brand
+
+<LynxComponentExample name="lynx/checkbox/brand">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/checkbox/brand.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Neutral
+
+<LynxComponentExample name="lynx/checkbox/neutral">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/checkbox/neutral.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Indeterminate
+
+<LynxComponentExample name="lynx/checkbox/indeterminate">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/checkbox/indeterminate.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Weights
+
+<LynxComponentExample name="lynx/checkbox/weights">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/checkbox/weights.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Long Label
+
+<LynxComponentExample name="lynx/checkbox/long-label">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/checkbox/long-label.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Disabled
+
+<LynxComponentExample name="lynx/checkbox/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/checkbox/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Listening to Value Changes
+
+`onCheckedChange`로 체크박스의 선택 상태 변경을 감지할 수 있습니다.
+
+<LynxComponentExample name="lynx/checkbox/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/checkbox/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Use Cases
+
+#### Using `Checkmark`
+
+`Checkmark`는 상위 `Checkbox.Root`의 상태를 표시하는 체크 마크입니다. 커스텀 레이아웃이 필요하면 `@seed-design/lynx-react`의 `Checkbox.Root` 안에 `Checkmark`와 문구를 배치하고, Root에 `accessibility-label`을 지정하세요.
+
+<LynxComponentExample name="lynx/checkbox/checkmark">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/checkbox/checkmark.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Fieldset Integration
+
+`CheckboxGroup`을 사용하여 여러 체크박스를 그룹화하고 `label`, `description`, `errorMessage` 등의 Fieldset 관련 prop을 사용할 수 있습니다.
+
+<LynxComponentExample name="lynx/checkbox/fieldset">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/checkbox/fieldset.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+
+- 값 변경은 `onChange`가 아닌 `onCheckedChange`로 받습니다.
+- `invalid` 상태에서는 `description`을 제외하고 `errorMessage`만 화면과 접근성 트리에 표시합니다.
+- Registry가 Lynx용 check와 minus 아이콘을 넣습니다. raw `<svg>` 아이콘은 지원하지 않습니다.
+- 직접 만든 Scale Feedback에서 축소를 끄는 React의 `--seed-checkmark-feedback-scale` CSS 변수는 제공하지 않습니다.
+
+</Callout>
+
+## Lynx 미지원 기능
+
+현재 Lynx 플랫폼 제약으로 다음 기능이 지원되지 않습니다.
+
+### 런타임 모델 차이로 제외
+
+| 기능 | 웹 대응 | 설명 |
+| --- | --- | --- |
+| `CheckboxHiddenInput` | `<input type="checkbox">` | Lynx에 HTML form 제출 모델 없음 |
+| `inputProps` | hidden input props | Lynx snippet은 hidden input을 렌더링하지 않음 |
+| 개별 `Checkbox`의 `name` / `value` / `required` / `invalid` | form field props | Lynx에 native form 제출 모델 없음 |
+| React Hook Form 예제 | HTML form과 hidden input 연동 | 앱 상태와 `checked` / `onCheckedChange`를 직접 연결해야 함 |
+| `focus` / `focusVisible` | 키보드 포커스 | Lynx에 키보드 포커스 개념 없음 |
+| `onChange` (raw DOM event) | `React.ChangeEvent` | 의미 없음. `onCheckedChange`로 대체 |
+| `weight="default"` / `"stronger"` | deprecated 호환 매핑 | Lynx는 `"regular"` / `"bold"`만 노출 |

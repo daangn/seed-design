@@ -7,6 +7,7 @@ export {
   RadioGroupItemHiddenInput,
   type RadioGroupRootProps,
   type RadioGroupItemProps,
+  type RadioGroupItemPrimitiveProps,
   type RadioGroupItemLabelProps,
   type RadioGroupItemControlProps,
   type RadioGroupItemIndicatorProps,

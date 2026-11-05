@@ -1,4 +1,5 @@
-import type { Parameters, StoryObj } from "@storybook/nextjs";
+import { breakpointNames, breakpoints } from "@seed-design/css/breakpoints";
+import type { KaptureStoryParameters } from "@kaptures/storybook";
 
 export const FONT_SCALE_MAP = {
   "Extra Small": "14px",
@@ -12,33 +13,44 @@ export const FONT_SCALE_MAP = {
 
 export type FontScales = keyof typeof FONT_SCALE_MAP;
 
-// TODO: Replace with @seed-design/css/breakpoints when responsive styling lands
-export const VIEWPORT_MODES = {
-  base: { viewport: "base" },
-  sm: { viewport: "sm" },
-  md: { viewport: "md" },
-  lg: { viewport: "lg" },
-  xl: { viewport: "xl" },
+export type StoryParameters = {
+  theme?: "light" | "dark";
+  fontScale?: FontScales;
+  kapture?: KaptureStoryParameters;
 };
 
-export const CHROMATIC_PARAMETERS = {
+export const VISUAL_VIEWPORT_PARAMETERS = {
+  chromatic: {
+    modes: Object.fromEntries(breakpointNames.map((name) => [name, { viewport: name }])),
+  },
+  kapture: {
+    // Capture at SEED's minimum breakpoint widths, independently of Storybook's viewport options.
+    captureViewports: (["sm", "md", "lg"] as const).map((name) => ({
+      name,
+      width: breakpoints[name],
+      height: 800,
+    })),
+  },
+} satisfies { kapture: KaptureStoryParameters; chromatic: { modes: object } };
+
+const VISUAL_TEST_PARAMETERS = {
   chromatic: {
     diffThreshold: 0.2, // 20% 미만의 픽셀 차이는 무시
     delay: 300, // 렌더링 안정화를 위한 딜레이 (ms)
     pauseAnimationAtEnd: true, // 애니메이션 종료 시점에서 스냅샷
   },
-};
-
-export function createStoryWithParameters<T>(
-  story: StoryObj<T> & {
-    parameters?: Parameters & { theme?: "light" | "dark"; fontScale?: FontScales };
+  kapture: {
+    diff: { pixelColorThreshold: 0.2 },
+    captureDelayMs: 300,
+    animationState: "end",
   },
-): StoryObj<T> {
+} satisfies { kapture: KaptureStoryParameters; chromatic: object };
+
+export function withVisualTestParameters<R>(
+  parameters: R,
+): Omit<typeof VISUAL_TEST_PARAMETERS, keyof R> & R {
   return {
-    ...story,
-    parameters: {
-      ...CHROMATIC_PARAMETERS,
-      ...story.parameters,
-    },
+    ...VISUAL_TEST_PARAMETERS,
+    ...parameters,
   };
 }

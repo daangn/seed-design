@@ -65,12 +65,72 @@ data:
             description: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
           t7StaticBold:
             description: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+          t8StaticRegular:
+            description: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+          t8StaticMedium:
+            description: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
           t8StaticBold:
+            description: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+          t9StaticRegular:
+            description: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+          t9StaticMedium:
             description: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
           t9StaticBold:
             description: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+          t10StaticRegular:
+            description: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+          t10StaticMedium:
+            description: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
           t10StaticBold:
             description: 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다.
+          t11Regular:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다."
+          t11Medium:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다."
+          t11Bold:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다."
+          t12Regular:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다."
+          t12Medium:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다."
+          t12Bold:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다."
+          t13Regular:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다."
+          t13Medium:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다."
+          t13Bold:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다."
+          t14Regular:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다."
+          t14Medium:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다."
+          t14Bold:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다."
+          t11StaticRegular:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+          t11StaticMedium:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+          t11StaticBold:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+          t12StaticRegular:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+          t12StaticMedium:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+          t12StaticBold:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+          t13StaticRegular:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+          t13StaticMedium:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+          t13StaticBold:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+          t14StaticRegular:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+          t14StaticMedium:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
+          t14StaticBold:
+            description: "`sm` breakpoint 이상에서만 사용하는 것을 권장합니다. 폰트 스케일링에 반응하지 않도록 static text size와 static line height 토큰을 사용합니다."
   definitions:
     textStyle=screenTitle:
       enabled:
@@ -216,23 +276,131 @@ data:
           fontSize: $font-size.t7
           lineHeight: $line-height.t7
           fontWeight: $font-weight.bold
+    textStyle=t8Regular:
+      enabled:
+        root:
+          fontSize: $font-size.t8
+          lineHeight: $line-height.t8
+          fontWeight: $font-weight.regular
+    textStyle=t8Medium:
+      enabled:
+        root:
+          fontSize: $font-size.t8
+          lineHeight: $line-height.t8
+          fontWeight: $font-weight.medium
     textStyle=t8Bold:
       enabled:
         root:
           fontSize: $font-size.t8
           lineHeight: $line-height.t8
           fontWeight: $font-weight.bold
+    textStyle=t9Regular:
+      enabled:
+        root:
+          fontSize: $font-size.t9
+          lineHeight: $line-height.t9
+          fontWeight: $font-weight.regular
+    textStyle=t9Medium:
+      enabled:
+        root:
+          fontSize: $font-size.t9
+          lineHeight: $line-height.t9
+          fontWeight: $font-weight.medium
     textStyle=t9Bold:
       enabled:
         root:
           fontSize: $font-size.t9
           lineHeight: $line-height.t9
           fontWeight: $font-weight.bold
+    textStyle=t10Regular:
+      enabled:
+        root:
+          fontSize: $font-size.t10
+          lineHeight: $line-height.t10
+          fontWeight: $font-weight.regular
+    textStyle=t10Medium:
+      enabled:
+        root:
+          fontSize: $font-size.t10
+          lineHeight: $line-height.t10
+          fontWeight: $font-weight.medium
     textStyle=t10Bold:
       enabled:
         root:
           fontSize: $font-size.t10
           lineHeight: $line-height.t10
+          fontWeight: $font-weight.bold
+    textStyle=t11Regular:
+      enabled:
+        root:
+          fontSize: $font-size.t11
+          lineHeight: $line-height.t11
+          fontWeight: $font-weight.regular
+    textStyle=t11Medium:
+      enabled:
+        root:
+          fontSize: $font-size.t11
+          lineHeight: $line-height.t11
+          fontWeight: $font-weight.medium
+    textStyle=t11Bold:
+      enabled:
+        root:
+          fontSize: $font-size.t11
+          lineHeight: $line-height.t11
+          fontWeight: $font-weight.bold
+    textStyle=t12Regular:
+      enabled:
+        root:
+          fontSize: $font-size.t12
+          lineHeight: $line-height.t12
+          fontWeight: $font-weight.regular
+    textStyle=t12Medium:
+      enabled:
+        root:
+          fontSize: $font-size.t12
+          lineHeight: $line-height.t12
+          fontWeight: $font-weight.medium
+    textStyle=t12Bold:
+      enabled:
+        root:
+          fontSize: $font-size.t12
+          lineHeight: $line-height.t12
+          fontWeight: $font-weight.bold
+    textStyle=t13Regular:
+      enabled:
+        root:
+          fontSize: $font-size.t13
+          lineHeight: $line-height.t13
+          fontWeight: $font-weight.regular
+    textStyle=t13Medium:
+      enabled:
+        root:
+          fontSize: $font-size.t13
+          lineHeight: $line-height.t13
+          fontWeight: $font-weight.medium
+    textStyle=t13Bold:
+      enabled:
+        root:
+          fontSize: $font-size.t13
+          lineHeight: $line-height.t13
+          fontWeight: $font-weight.bold
+    textStyle=t14Regular:
+      enabled:
+        root:
+          fontSize: $font-size.t14
+          lineHeight: $line-height.t14
+          fontWeight: $font-weight.regular
+    textStyle=t14Medium:
+      enabled:
+        root:
+          fontSize: $font-size.t14
+          lineHeight: $line-height.t14
+          fontWeight: $font-weight.medium
+    textStyle=t14Bold:
+      enabled:
+        root:
+          fontSize: $font-size.t14
+          lineHeight: $line-height.t14
           fontWeight: $font-weight.bold
     textStyle=t1StaticRegular:
       enabled:
@@ -360,21 +528,129 @@ data:
           fontSize: $font-size.t7-static
           lineHeight: $line-height.t7-static
           fontWeight: $font-weight.bold
+    textStyle=t8StaticRegular:
+      enabled:
+        root:
+          fontSize: $font-size.t8-static
+          lineHeight: $line-height.t8-static
+          fontWeight: $font-weight.regular
+    textStyle=t8StaticMedium:
+      enabled:
+        root:
+          fontSize: $font-size.t8-static
+          lineHeight: $line-height.t8-static
+          fontWeight: $font-weight.medium
     textStyle=t8StaticBold:
       enabled:
         root:
           fontSize: $font-size.t8-static
           lineHeight: $line-height.t8-static
           fontWeight: $font-weight.bold
+    textStyle=t9StaticRegular:
+      enabled:
+        root:
+          fontSize: $font-size.t9-static
+          lineHeight: $line-height.t9-static
+          fontWeight: $font-weight.regular
+    textStyle=t9StaticMedium:
+      enabled:
+        root:
+          fontSize: $font-size.t9-static
+          lineHeight: $line-height.t9-static
+          fontWeight: $font-weight.medium
     textStyle=t9StaticBold:
       enabled:
         root:
           fontSize: $font-size.t9-static
           lineHeight: $line-height.t9-static
           fontWeight: $font-weight.bold
+    textStyle=t10StaticRegular:
+      enabled:
+        root:
+          fontSize: $font-size.t10-static
+          lineHeight: $line-height.t10-static
+          fontWeight: $font-weight.regular
+    textStyle=t10StaticMedium:
+      enabled:
+        root:
+          fontSize: $font-size.t10-static
+          lineHeight: $line-height.t10-static
+          fontWeight: $font-weight.medium
     textStyle=t10StaticBold:
       enabled:
         root:
           fontSize: $font-size.t10-static
           lineHeight: $line-height.t10-static
+          fontWeight: $font-weight.bold
+    textStyle=t11StaticRegular:
+      enabled:
+        root:
+          fontSize: $font-size.t11-static
+          lineHeight: $line-height.t11-static
+          fontWeight: $font-weight.regular
+    textStyle=t11StaticMedium:
+      enabled:
+        root:
+          fontSize: $font-size.t11-static
+          lineHeight: $line-height.t11-static
+          fontWeight: $font-weight.medium
+    textStyle=t11StaticBold:
+      enabled:
+        root:
+          fontSize: $font-size.t11-static
+          lineHeight: $line-height.t11-static
+          fontWeight: $font-weight.bold
+    textStyle=t12StaticRegular:
+      enabled:
+        root:
+          fontSize: $font-size.t12-static
+          lineHeight: $line-height.t12-static
+          fontWeight: $font-weight.regular
+    textStyle=t12StaticMedium:
+      enabled:
+        root:
+          fontSize: $font-size.t12-static
+          lineHeight: $line-height.t12-static
+          fontWeight: $font-weight.medium
+    textStyle=t12StaticBold:
+      enabled:
+        root:
+          fontSize: $font-size.t12-static
+          lineHeight: $line-height.t12-static
+          fontWeight: $font-weight.bold
+    textStyle=t13StaticRegular:
+      enabled:
+        root:
+          fontSize: $font-size.t13-static
+          lineHeight: $line-height.t13-static
+          fontWeight: $font-weight.regular
+    textStyle=t13StaticMedium:
+      enabled:
+        root:
+          fontSize: $font-size.t13-static
+          lineHeight: $line-height.t13-static
+          fontWeight: $font-weight.medium
+    textStyle=t13StaticBold:
+      enabled:
+        root:
+          fontSize: $font-size.t13-static
+          lineHeight: $line-height.t13-static
+          fontWeight: $font-weight.bold
+    textStyle=t14StaticRegular:
+      enabled:
+        root:
+          fontSize: $font-size.t14-static
+          lineHeight: $line-height.t14-static
+          fontWeight: $font-weight.regular
+    textStyle=t14StaticMedium:
+      enabled:
+        root:
+          fontSize: $font-size.t14-static
+          lineHeight: $line-height.t14-static
+          fontWeight: $font-weight.medium
+    textStyle=t14StaticBold:
+      enabled:
+        root:
+          fontSize: $font-size.t14-static
+          lineHeight: $line-height.t14-static
           fontWeight: $font-weight.bold

@@ -3,6 +3,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "types": ["node"],
     "rootDir": "src",
     "outDir": "lib"
   }

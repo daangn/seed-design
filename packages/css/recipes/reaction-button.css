@@ -21,8 +21,11 @@
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: var(--seed-dimension-x0_5);
 }
+.seed-reaction-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    scale: var(--seed-feedback-scale);
+}
 .seed-reaction-button {
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), box-shadow var(--seed-duration-color-transition) var(--seed-timing-function-easing), scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
     background: var(--seed-color-bg-transparent);
     font-weight: var(--seed-font-weight-medium);
     color: var(--seed-color-fg-neutral);
@@ -32,12 +35,12 @@
     --seed-count-font-weight: var(--seed-font-weight-bold);
     --seed-count-color: var(--seed-color-fg-neutral);
 }
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .seed-reaction-button:is(:hover, [data-hover]) {
         background: var(--seed-color-bg-transparent-pressed);
     }
 }
-@media (hover: none) {
+@media not all and (hover: hover) and (pointer: fine) {
     .seed-reaction-button:is(:active, [data-active]) {
         background: var(--seed-color-bg-transparent-pressed);
     }
@@ -49,12 +52,12 @@
     --seed-prefix-icon-color: var(--seed-color-fg-brand);
     --seed-count-color: var(--seed-color-fg-brand);
 }
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
     .seed-reaction-button:is([aria-pressed=true], [data-pressed]):is(:hover, [data-hover]) {
         background: var(--seed-color-bg-transparent-pressed);
     }
 }
-@media (hover: none) {
+@media not all and (hover: hover) and (pointer: fine) {
     .seed-reaction-button:is([aria-pressed=true], [data-pressed]):is(:active, [data-active]) {
         background: var(--seed-color-bg-transparent-pressed);
     }
@@ -78,10 +81,8 @@
 }
 .seed-reaction-button--size_xsmall {
     height: var(--seed-dimension-x8);
-    padding-left: var(--seed-dimension-x3);
-    padding-right: var(--seed-dimension-x3);
-    padding-top: var(--seed-dimension-x1_5);
-    padding-bottom: var(--seed-dimension-x1_5);
+    padding-inline: var(--seed-dimension-x3);
+    padding-block: var(--seed-dimension-x1_5);
     gap: var(--seed-dimension-x1);
     border-radius: var(--seed-radius-full);
     font-size: var(--seed-font-size-t3);
@@ -94,10 +95,8 @@
 }
 .seed-reaction-button--size_small {
     height: var(--seed-dimension-x9);
-    padding-left: var(--seed-dimension-x3_5);
-    padding-right: var(--seed-dimension-x3_5);
-    padding-top: var(--seed-dimension-x2);
-    padding-bottom: var(--seed-dimension-x2);
+    padding-inline: var(--seed-dimension-x3_5);
+    padding-block: var(--seed-dimension-x2);
     gap: var(--seed-dimension-x1);
     border-radius: var(--seed-radius-full);
     font-size: var(--seed-font-size-t3);

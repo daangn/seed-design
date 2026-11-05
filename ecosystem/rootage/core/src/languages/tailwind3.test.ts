@@ -162,4 +162,22 @@ describe("getTailwind3PluginCode", () => {
       expect(result).toContain("var(--color-fg-brand)");
     });
   });
+
+  describe("Scale tokens", () => {
+    test("should map scale tokens to the scale theme key", () => {
+      const tokens = [
+        factory.createNumberTokenDeclaration("motion", factory.createTokenLit("$scale.s95"), [
+          {
+            kind: "NumberTokenValueDeclaration",
+            mode: "preferred",
+            value: factory.createNumberLit(0.95),
+          },
+        ]),
+      ];
+
+      const result = getTailwind3PluginCode(tokens, [], { prefix: "seed" });
+
+      expect(result).toContain('"s95": "var(--seed-scale-s95)"');
+    });
+  });
 });

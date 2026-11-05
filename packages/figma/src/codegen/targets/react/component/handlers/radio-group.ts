@@ -23,7 +23,7 @@ export const createRadioGroupItemHandler = (_ctx: ComponentHandlerDeps) =>
     ({ componentProperties: props }) => {
       const tone = match(props.Tone.value)
         .with("Neutral", () => "neutral")
-        .with("🚫[Deprecated]Brand", () => "brand")
+        .with("Brand", () => "brand")
         .exhaustive();
 
       const commonProps = {
@@ -49,7 +49,7 @@ export const createRadioGroupFieldHandler = (ctx: ComponentHandlerDeps) => {
   const fieldFooterHandler = createFieldFooterHandler(ctx);
 
   return defineComponentHandler<RadioGroupFieldProperties>(
-    metadata.templateRadioField.key,
+    metadata.componentRadioField.key,
     (node, traverse) => {
       const { componentProperties: props } = node;
 

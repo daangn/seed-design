@@ -1,0 +1,68 @@
+/* SEED recipe·token 없이 @seed-design/lynx-react-text-field만 소비하는 화면의 스타일 */
+
+.tf-headless-root {
+  flex: 1;
+  min-height: 0;
+  padding: 16px;
+  background-color: #ffffff;
+}
+
+.tf-headless-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tf-headless-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #212124;
+}
+
+.tf-headless-meta {
+  font-size: 13px;
+  color: #6b6e75;
+}
+
+.tf-headless-spacer {
+  height: 320px;
+  border-radius: 8px;
+  background-color: #f2f3f6;
+}
+
+.tf-headless-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tf-headless-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #212124;
+}
+
+.tf-headless-control {
+  display: flex;
+  flex-direction: row;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #dcdee3;
+  border-radius: 8px;
+}
+
+.tf-headless-input {
+  flex-grow: 1;
+  height: 44px;
+  padding: 0px 12px;
+  font-size: 16px;
+  color: #212124;
+}
+
+.tf-headless-textarea {
+  flex-grow: 1;
+  min-height: 88px;
+  padding: 10px 12px;
+  font-size: 16px;
+  color: #212124;
+}

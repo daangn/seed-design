@@ -10,6 +10,16 @@
   --color-palette-gray-800: var(--seed-color-palette-gray-800);
   --color-palette-gray-900: var(--seed-color-palette-gray-900);
   --color-palette-gray-1000: var(--seed-color-palette-gray-1000);
+  --color-palette-gray-alpha-100: var(--seed-color-palette-gray-alpha-100);
+  --color-palette-gray-alpha-200: var(--seed-color-palette-gray-alpha-200);
+  --color-palette-gray-alpha-300: var(--seed-color-palette-gray-alpha-300);
+  --color-palette-gray-alpha-400: var(--seed-color-palette-gray-alpha-400);
+  --color-palette-gray-alpha-500: var(--seed-color-palette-gray-alpha-500);
+  --color-palette-gray-alpha-600: var(--seed-color-palette-gray-alpha-600);
+  --color-palette-gray-alpha-700: var(--seed-color-palette-gray-alpha-700);
+  --color-palette-gray-alpha-800: var(--seed-color-palette-gray-alpha-800);
+  --color-palette-gray-alpha-900: var(--seed-color-palette-gray-alpha-900);
+  --color-palette-gray-alpha-1000: var(--seed-color-palette-gray-alpha-1000);
   --color-palette-carrot-100: var(--seed-color-palette-carrot-100);
   --color-palette-carrot-200: var(--seed-color-palette-carrot-200);
   --color-palette-carrot-300: var(--seed-color-palette-carrot-300);
@@ -104,6 +114,12 @@
   --color-fg-neutral-inverted: var(--seed-color-fg-neutral-inverted);
   --color-fg-neutral-muted: var(--seed-color-fg-neutral-muted);
   --color-fg-neutral-subtle: var(--seed-color-fg-neutral-subtle);
+  --color-fg-on-brand-solid: var(--seed-color-fg-on-brand-solid);
+  --color-fg-on-critical-solid: var(--seed-color-fg-on-critical-solid);
+  --color-fg-on-informative-solid: var(--seed-color-fg-on-informative-solid);
+  --color-fg-on-neutral-solid: var(--seed-color-fg-on-neutral-solid);
+  --color-fg-on-positive-solid: var(--seed-color-fg-on-positive-solid);
+  --color-fg-on-warning-solid: var(--seed-color-fg-on-warning-solid);
   --color-fg-placeholder: var(--seed-color-fg-placeholder);
   --color-fg-positive: var(--seed-color-fg-positive);
   --color-fg-positive-contrast: var(--seed-color-fg-positive-contrast);
@@ -125,15 +141,17 @@
   --color-bg-layer-basement: var(--seed-color-bg-layer-basement);
   --color-bg-layer-default: var(--seed-color-bg-layer-default);
   --color-bg-layer-default-pressed: var(--seed-color-bg-layer-default-pressed);
-  --color-bg-layer-fill: var(--seed-color-bg-layer-fill);
   --color-bg-layer-floating: var(--seed-color-bg-layer-floating);
   --color-bg-layer-floating-pressed: var(--seed-color-bg-layer-floating-pressed);
   --color-bg-magic-weak: var(--seed-color-bg-magic-weak);
   --color-bg-neutral-inverted: var(--seed-color-bg-neutral-inverted);
   --color-bg-neutral-inverted-pressed: var(--seed-color-bg-neutral-inverted-pressed);
+  --color-bg-neutral-muted: var(--seed-color-bg-neutral-muted);
   --color-bg-neutral-solid: var(--seed-color-bg-neutral-solid);
+  --color-bg-neutral-solid-pressed: var(--seed-color-bg-neutral-solid-pressed);
   --color-bg-neutral-solid-muted: var(--seed-color-bg-neutral-solid-muted);
   --color-bg-neutral-solid-muted-pressed: var(--seed-color-bg-neutral-solid-muted-pressed);
+  --color-bg-neutral-subtle: var(--seed-color-bg-neutral-subtle);
   --color-bg-neutral-weak: var(--seed-color-bg-neutral-weak);
   --color-bg-neutral-weak-alpha: var(--seed-color-bg-neutral-weak-alpha);
   --color-bg-neutral-weak-alpha-pressed: var(--seed-color-bg-neutral-weak-alpha-pressed);
@@ -146,6 +164,8 @@
   --color-bg-positive-weak-pressed: var(--seed-color-bg-positive-weak-pressed);
   --color-bg-transparent: var(--seed-color-bg-transparent);
   --color-bg-transparent-pressed: var(--seed-color-bg-transparent-pressed);
+  --color-bg-transparent-selected: var(--seed-color-bg-transparent-selected);
+  --color-bg-transparent-selected-pressed: var(--seed-color-bg-transparent-selected-pressed);
   --color-bg-warning-solid: var(--seed-color-bg-warning-solid);
   --color-bg-warning-solid-pressed: var(--seed-color-bg-warning-solid-pressed);
   --color-bg-warning-weak: var(--seed-color-bg-warning-weak);
@@ -154,6 +174,7 @@
   --color-stroke-brand-weak: var(--seed-color-stroke-brand-weak);
   --color-stroke-critical-solid: var(--seed-color-stroke-critical-solid);
   --color-stroke-critical-weak: var(--seed-color-stroke-critical-weak);
+  --color-stroke-focus-ring: var(--seed-color-stroke-focus-ring);
   --color-stroke-informative-solid: var(--seed-color-stroke-informative-solid);
   --color-stroke-informative-weak: var(--seed-color-stroke-informative-weak);
   --color-stroke-neutral-contrast: var(--seed-color-stroke-neutral-contrast);
@@ -165,7 +186,6 @@
   --color-stroke-positive-weak: var(--seed-color-stroke-positive-weak);
   --color-stroke-warning-solid: var(--seed-color-stroke-warning-solid);
   --color-stroke-warning-weak: var(--seed-color-stroke-warning-weak);
-  --color-stroke-focus-ring: var(--seed-color-stroke-focus-ring);
   --color-manner-temp-l1-bg: var(--seed-color-manner-temp-l1-bg);
   --color-manner-temp-l1-text: var(--seed-color-manner-temp-l1-text);
   --color-manner-temp-l10-bg: var(--seed-color-manner-temp-l10-bg);
@@ -228,6 +248,7 @@
   --duration-d5: var(--seed-duration-d5);
   --duration-d6: var(--seed-duration-d6);
   --duration-color-transition: var(--seed-duration-color-transition);
+  --duration-pressed-scale: var(--seed-duration-pressed-scale);
   --font-size-t1: var(--seed-font-size-t1);
   --font-size-t2: var(--seed-font-size-t2);
   --font-size-t3: var(--seed-font-size-t3);
@@ -238,6 +259,10 @@
   --font-size-t8: var(--seed-font-size-t8);
   --font-size-t9: var(--seed-font-size-t9);
   --font-size-t10: var(--seed-font-size-t10);
+  --font-size-t11: var(--seed-font-size-t11);
+  --font-size-t12: var(--seed-font-size-t12);
+  --font-size-t13: var(--seed-font-size-t13);
+  --font-size-t14: var(--seed-font-size-t14);
   --font-size-t1-static: var(--seed-font-size-t1-static);
   --font-size-t2-static: var(--seed-font-size-t2-static);
   --font-size-t3-static: var(--seed-font-size-t3-static);
@@ -248,11 +273,14 @@
   --font-size-t8-static: var(--seed-font-size-t8-static);
   --font-size-t9-static: var(--seed-font-size-t9-static);
   --font-size-t10-static: var(--seed-font-size-t10-static);
+  --font-size-t11-static: var(--seed-font-size-t11-static);
+  --font-size-t12-static: var(--seed-font-size-t12-static);
+  --font-size-t13-static: var(--seed-font-size-t13-static);
+  --font-size-t14-static: var(--seed-font-size-t14-static);
   --font-weight-regular: var(--seed-font-weight-regular);
   --font-weight-medium: var(--seed-font-weight-medium);
   --font-weight-bold: var(--seed-font-weight-bold);
-  --gradient-fade-layer-floating: var(--seed-gradient-fade-layer-floating);
-  --gradient-fade-layer-default: var(--seed-gradient-fade-layer-default);
+  --gradient-fade-mask: var(--seed-gradient-fade-mask);
   --gradient-glow-magic: var(--seed-gradient-glow-magic);
   --gradient-glow-magic-pressed: var(--seed-gradient-glow-magic-pressed);
   --gradient-highlight-magic: var(--seed-gradient-highlight-magic);
@@ -269,6 +297,10 @@
   --line-height-t8: var(--seed-line-height-t8);
   --line-height-t9: var(--seed-line-height-t9);
   --line-height-t10: var(--seed-line-height-t10);
+  --line-height-t11: var(--seed-line-height-t11);
+  --line-height-t12: var(--seed-line-height-t12);
+  --line-height-t13: var(--seed-line-height-t13);
+  --line-height-t14: var(--seed-line-height-t14);
   --line-height-t1-static: var(--seed-line-height-t1-static);
   --line-height-t2-static: var(--seed-line-height-t2-static);
   --line-height-t3-static: var(--seed-line-height-t3-static);
@@ -279,6 +311,10 @@
   --line-height-t8-static: var(--seed-line-height-t8-static);
   --line-height-t9-static: var(--seed-line-height-t9-static);
   --line-height-t10-static: var(--seed-line-height-t10-static);
+  --line-height-t11-static: var(--seed-line-height-t11-static);
+  --line-height-t12-static: var(--seed-line-height-t12-static);
+  --line-height-t13-static: var(--seed-line-height-t13-static);
+  --line-height-t14-static: var(--seed-line-height-t14-static);
   --radius-r0_5: var(--seed-radius-r0_5);
   --radius-r1: var(--seed-radius-r1);
   --radius-r1_5: var(--seed-radius-r1_5);
@@ -290,6 +326,9 @@
   --radius-r5: var(--seed-radius-r5);
   --radius-r6: var(--seed-radius-r6);
   --radius-full: var(--seed-radius-full);
+  --scale-s95: var(--seed-scale-s95);
+  --scale-s97: var(--seed-scale-s97);
+  --scale-s98: var(--seed-scale-s98);
   --shadow-s1: var(--seed-shadow-s1);
   --shadow-s2: var(--seed-shadow-s2);
   --shadow-s3: var(--seed-shadow-s3);
@@ -299,78 +338,81 @@
   --timing-function-exit: var(--seed-timing-function-exit);
   --timing-function-enter-expressive: var(--seed-timing-function-enter-expressive);
   --timing-function-exit-expressive: var(--seed-timing-function-exit-expressive);
-  --gradient-stops-fade-layer-floating: #ffffff00 0.00%, #000000 100.00%;
-  --gradient-stops-fade-layer-default: #000000 0.00%, #ffffff00 100.00%;
-  --gradient-stops-glow-magic: #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%;
-  --gradient-stops-glow-magic-pressed: #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%;
-  --gradient-stops-highlight-magic: #ff6600 20.00%, #d25aca 100.00%;
-  --gradient-stops-highlight-magic-pressed: #e14f00 20.00%, #ae58bf 100.00%;
-  --gradient-stops-shimmer-magic: #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%;
-  --gradient-stops-shimmer-neutral: #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%;
-  --gradient-fade-layer-floating-to-t: linear-gradient(to top, #ffffff00 0.00%, #000000 100.00%);
-  --gradient-fade-layer-floating-to-tr: linear-gradient(to top right, #ffffff00 0.00%, #000000 100.00%);
-  --gradient-fade-layer-floating-to-r: linear-gradient(to right, #ffffff00 0.00%, #000000 100.00%);
-  --gradient-fade-layer-floating-to-br: linear-gradient(to bottom right, #ffffff00 0.00%, #000000 100.00%);
-  --gradient-fade-layer-floating-to-b: linear-gradient(to bottom, #ffffff00 0.00%, #000000 100.00%);
-  --gradient-fade-layer-floating-to-bl: linear-gradient(to bottom left, #ffffff00 0.00%, #000000 100.00%);
-  --gradient-fade-layer-floating-to-l: linear-gradient(to left, #ffffff00 0.00%, #000000 100.00%);
-  --gradient-fade-layer-floating-to-tl: linear-gradient(to top left, #ffffff00 0.00%, #000000 100.00%);
-  --gradient-fade-layer-default-to-t: linear-gradient(to top, #000000 0.00%, #ffffff00 100.00%);
-  --gradient-fade-layer-default-to-tr: linear-gradient(to top right, #000000 0.00%, #ffffff00 100.00%);
-  --gradient-fade-layer-default-to-r: linear-gradient(to right, #000000 0.00%, #ffffff00 100.00%);
-  --gradient-fade-layer-default-to-br: linear-gradient(to bottom right, #000000 0.00%, #ffffff00 100.00%);
-  --gradient-fade-layer-default-to-b: linear-gradient(to bottom, #000000 0.00%, #ffffff00 100.00%);
-  --gradient-fade-layer-default-to-bl: linear-gradient(to bottom left, #000000 0.00%, #ffffff00 100.00%);
-  --gradient-fade-layer-default-to-l: linear-gradient(to left, #000000 0.00%, #ffffff00 100.00%);
-  --gradient-fade-layer-default-to-tl: linear-gradient(to top left, #000000 0.00%, #ffffff00 100.00%);
-  --gradient-glow-magic-to-t: linear-gradient(to top, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
-  --gradient-glow-magic-to-tr: linear-gradient(to top right, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
-  --gradient-glow-magic-to-r: linear-gradient(to right, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
-  --gradient-glow-magic-to-br: linear-gradient(to bottom right, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
-  --gradient-glow-magic-to-b: linear-gradient(to bottom, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
-  --gradient-glow-magic-to-bl: linear-gradient(to bottom left, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
-  --gradient-glow-magic-to-l: linear-gradient(to left, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
-  --gradient-glow-magic-to-tl: linear-gradient(to top left, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
-  --gradient-glow-magic-pressed-to-t: linear-gradient(to top, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
-  --gradient-glow-magic-pressed-to-tr: linear-gradient(to top right, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
-  --gradient-glow-magic-pressed-to-r: linear-gradient(to right, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
-  --gradient-glow-magic-pressed-to-br: linear-gradient(to bottom right, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
-  --gradient-glow-magic-pressed-to-b: linear-gradient(to bottom, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
-  --gradient-glow-magic-pressed-to-bl: linear-gradient(to bottom left, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
-  --gradient-glow-magic-pressed-to-l: linear-gradient(to left, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
-  --gradient-glow-magic-pressed-to-tl: linear-gradient(to top left, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
-  --gradient-highlight-magic-to-t: linear-gradient(to top, #ff6600 20.00%, #d25aca 100.00%);
-  --gradient-highlight-magic-to-tr: linear-gradient(to top right, #ff6600 20.00%, #d25aca 100.00%);
-  --gradient-highlight-magic-to-r: linear-gradient(to right, #ff6600 20.00%, #d25aca 100.00%);
-  --gradient-highlight-magic-to-br: linear-gradient(to bottom right, #ff6600 20.00%, #d25aca 100.00%);
-  --gradient-highlight-magic-to-b: linear-gradient(to bottom, #ff6600 20.00%, #d25aca 100.00%);
-  --gradient-highlight-magic-to-bl: linear-gradient(to bottom left, #ff6600 20.00%, #d25aca 100.00%);
-  --gradient-highlight-magic-to-l: linear-gradient(to left, #ff6600 20.00%, #d25aca 100.00%);
-  --gradient-highlight-magic-to-tl: linear-gradient(to top left, #ff6600 20.00%, #d25aca 100.00%);
-  --gradient-highlight-magic-pressed-to-t: linear-gradient(to top, #e14f00 20.00%, #ae58bf 100.00%);
-  --gradient-highlight-magic-pressed-to-tr: linear-gradient(to top right, #e14f00 20.00%, #ae58bf 100.00%);
-  --gradient-highlight-magic-pressed-to-r: linear-gradient(to right, #e14f00 20.00%, #ae58bf 100.00%);
-  --gradient-highlight-magic-pressed-to-br: linear-gradient(to bottom right, #e14f00 20.00%, #ae58bf 100.00%);
-  --gradient-highlight-magic-pressed-to-b: linear-gradient(to bottom, #e14f00 20.00%, #ae58bf 100.00%);
-  --gradient-highlight-magic-pressed-to-bl: linear-gradient(to bottom left, #e14f00 20.00%, #ae58bf 100.00%);
-  --gradient-highlight-magic-pressed-to-l: linear-gradient(to left, #e14f00 20.00%, #ae58bf 100.00%);
-  --gradient-highlight-magic-pressed-to-tl: linear-gradient(to top left, #e14f00 20.00%, #ae58bf 100.00%);
-  --gradient-shimmer-magic-to-t: linear-gradient(to top, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
-  --gradient-shimmer-magic-to-tr: linear-gradient(to top right, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
-  --gradient-shimmer-magic-to-r: linear-gradient(to right, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
-  --gradient-shimmer-magic-to-br: linear-gradient(to bottom right, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
-  --gradient-shimmer-magic-to-b: linear-gradient(to bottom, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
-  --gradient-shimmer-magic-to-bl: linear-gradient(to bottom left, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
-  --gradient-shimmer-magic-to-l: linear-gradient(to left, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
-  --gradient-shimmer-magic-to-tl: linear-gradient(to top left, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
-  --gradient-shimmer-neutral-to-t: linear-gradient(to top, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
-  --gradient-shimmer-neutral-to-tr: linear-gradient(to top right, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
-  --gradient-shimmer-neutral-to-r: linear-gradient(to right, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
-  --gradient-shimmer-neutral-to-br: linear-gradient(to bottom right, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
-  --gradient-shimmer-neutral-to-b: linear-gradient(to bottom, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
-  --gradient-shimmer-neutral-to-bl: linear-gradient(to bottom left, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
-  --gradient-shimmer-neutral-to-l: linear-gradient(to left, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
-  --gradient-shimmer-neutral-to-tl: linear-gradient(to top left, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
+  --timing-function-pressed-scale: var(--seed-timing-function-pressed-scale);
+  --gradient-stops-fade-mask: var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%);
+  --gradient-stops-glow-magic: var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%);
+  --gradient-stops-glow-magic-pressed: var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%);
+  --gradient-stops-highlight-magic: var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%);
+  --gradient-stops-highlight-magic-pressed: var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%);
+  --gradient-stops-shimmer-magic: var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%);
+  --gradient-stops-shimmer-neutral: var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%);
+  --gradient-fade-mask-to-t: linear-gradient(to top, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+  --gradient-fade-mask-to-tr: linear-gradient(to top right, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+  --gradient-fade-mask-to-r: linear-gradient(to right, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+  --gradient-fade-mask-to-br: linear-gradient(to bottom right, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+  --gradient-fade-mask-to-b: linear-gradient(to bottom, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+  --gradient-fade-mask-to-bl: linear-gradient(to bottom left, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+  --gradient-fade-mask-to-l: linear-gradient(to left, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+  --gradient-fade-mask-to-tl: linear-gradient(to top left, var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+  --gradient-glow-magic-to-t: linear-gradient(to top, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+  --gradient-glow-magic-to-tr: linear-gradient(to top right, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+  --gradient-glow-magic-to-r: linear-gradient(to right, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+  --gradient-glow-magic-to-br: linear-gradient(to bottom right, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+  --gradient-glow-magic-to-b: linear-gradient(to bottom, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+  --gradient-glow-magic-to-bl: linear-gradient(to bottom left, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+  --gradient-glow-magic-to-l: linear-gradient(to left, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+  --gradient-glow-magic-to-tl: linear-gradient(to top left, var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+  --gradient-glow-magic-pressed-to-t: linear-gradient(to top, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+  --gradient-glow-magic-pressed-to-tr: linear-gradient(to top right, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+  --gradient-glow-magic-pressed-to-r: linear-gradient(to right, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+  --gradient-glow-magic-pressed-to-br: linear-gradient(to bottom right, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+  --gradient-glow-magic-pressed-to-b: linear-gradient(to bottom, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+  --gradient-glow-magic-pressed-to-bl: linear-gradient(to bottom left, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+  --gradient-glow-magic-pressed-to-l: linear-gradient(to left, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+  --gradient-glow-magic-pressed-to-tl: linear-gradient(to top left, var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+  --gradient-highlight-magic-to-t: linear-gradient(to top, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+  --gradient-highlight-magic-to-tr: linear-gradient(to top right, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+  --gradient-highlight-magic-to-r: linear-gradient(to right, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+  --gradient-highlight-magic-to-br: linear-gradient(to bottom right, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+  --gradient-highlight-magic-to-b: linear-gradient(to bottom, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+  --gradient-highlight-magic-to-bl: linear-gradient(to bottom left, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+  --gradient-highlight-magic-to-l: linear-gradient(to left, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+  --gradient-highlight-magic-to-tl: linear-gradient(to top left, var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+  --gradient-highlight-magic-pressed-to-t: linear-gradient(to top, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+  --gradient-highlight-magic-pressed-to-tr: linear-gradient(to top right, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+  --gradient-highlight-magic-pressed-to-r: linear-gradient(to right, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+  --gradient-highlight-magic-pressed-to-br: linear-gradient(to bottom right, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+  --gradient-highlight-magic-pressed-to-b: linear-gradient(to bottom, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+  --gradient-highlight-magic-pressed-to-bl: linear-gradient(to bottom left, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+  --gradient-highlight-magic-pressed-to-l: linear-gradient(to left, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+  --gradient-highlight-magic-pressed-to-tl: linear-gradient(to top left, var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+  --gradient-shimmer-magic-to-t: linear-gradient(to top, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+  --gradient-shimmer-magic-to-tr: linear-gradient(to top right, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+  --gradient-shimmer-magic-to-r: linear-gradient(to right, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+  --gradient-shimmer-magic-to-br: linear-gradient(to bottom right, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+  --gradient-shimmer-magic-to-b: linear-gradient(to bottom, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+  --gradient-shimmer-magic-to-bl: linear-gradient(to bottom left, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+  --gradient-shimmer-magic-to-l: linear-gradient(to left, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+  --gradient-shimmer-magic-to-tl: linear-gradient(to top left, var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+  --gradient-shimmer-neutral-to-t: linear-gradient(to top, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
+  --gradient-shimmer-neutral-to-tr: linear-gradient(to top right, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
+  --gradient-shimmer-neutral-to-r: linear-gradient(to right, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
+  --gradient-shimmer-neutral-to-br: linear-gradient(to bottom right, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
+  --gradient-shimmer-neutral-to-b: linear-gradient(to bottom, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
+  --gradient-shimmer-neutral-to-bl: linear-gradient(to bottom left, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
+  --gradient-shimmer-neutral-to-l: linear-gradient(to left, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
+  --gradient-shimmer-neutral-to-tl: linear-gradient(to top left, var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
+}
+
+@theme inline {
+  --gradient-direction-to-t: to top;
+  --gradient-direction-to-tr: to top right;
+  --gradient-direction-to-r: to right;
+  --gradient-direction-to-br: to bottom right;
+  --gradient-direction-to-b: to bottom;
+  --gradient-direction-to-bl: to bottom left;
+  --gradient-direction-to-l: to left;
+  --gradient-direction-to-tl: to top left;
 }
 
 @utility screen-title {
@@ -517,10 +559,34 @@
     font-weight: var(--seed-font-weight-bold);
   }
 
+@utility t8-regular {
+    font-size: var(--seed-font-size-t8);
+    line-height: var(--seed-line-height-t8);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t8-medium {
+    font-size: var(--seed-font-size-t8);
+    line-height: var(--seed-line-height-t8);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
 @utility t8-bold {
     font-size: var(--seed-font-size-t8);
     line-height: var(--seed-line-height-t8);
     font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t9-regular {
+    font-size: var(--seed-font-size-t9);
+    line-height: var(--seed-line-height-t9);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t9-medium {
+    font-size: var(--seed-font-size-t9);
+    line-height: var(--seed-line-height-t9);
+    font-weight: var(--seed-font-weight-medium);
   }
 
 @utility t9-bold {
@@ -529,9 +595,93 @@
     font-weight: var(--seed-font-weight-bold);
   }
 
+@utility t10-regular {
+    font-size: var(--seed-font-size-t10);
+    line-height: var(--seed-line-height-t10);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t10-medium {
+    font-size: var(--seed-font-size-t10);
+    line-height: var(--seed-line-height-t10);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
 @utility t10-bold {
     font-size: var(--seed-font-size-t10);
     line-height: var(--seed-line-height-t10);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t11-regular {
+    font-size: var(--seed-font-size-t11);
+    line-height: var(--seed-line-height-t11);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t11-medium {
+    font-size: var(--seed-font-size-t11);
+    line-height: var(--seed-line-height-t11);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t11-bold {
+    font-size: var(--seed-font-size-t11);
+    line-height: var(--seed-line-height-t11);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t12-regular {
+    font-size: var(--seed-font-size-t12);
+    line-height: var(--seed-line-height-t12);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t12-medium {
+    font-size: var(--seed-font-size-t12);
+    line-height: var(--seed-line-height-t12);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t12-bold {
+    font-size: var(--seed-font-size-t12);
+    line-height: var(--seed-line-height-t12);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t13-regular {
+    font-size: var(--seed-font-size-t13);
+    line-height: var(--seed-line-height-t13);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t13-medium {
+    font-size: var(--seed-font-size-t13);
+    line-height: var(--seed-line-height-t13);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t13-bold {
+    font-size: var(--seed-font-size-t13);
+    line-height: var(--seed-line-height-t13);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t14-regular {
+    font-size: var(--seed-font-size-t14);
+    line-height: var(--seed-line-height-t14);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t14-medium {
+    font-size: var(--seed-font-size-t14);
+    line-height: var(--seed-line-height-t14);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t14-bold {
+    font-size: var(--seed-font-size-t14);
+    line-height: var(--seed-line-height-t14);
     font-weight: var(--seed-font-weight-bold);
   }
 
@@ -661,10 +811,34 @@
     font-weight: var(--seed-font-weight-bold);
   }
 
+@utility t8-static-regular {
+    font-size: var(--seed-font-size-t8-static);
+    line-height: var(--seed-line-height-t8-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t8-static-medium {
+    font-size: var(--seed-font-size-t8-static);
+    line-height: var(--seed-line-height-t8-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
 @utility t8-static-bold {
     font-size: var(--seed-font-size-t8-static);
     line-height: var(--seed-line-height-t8-static);
     font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t9-static-regular {
+    font-size: var(--seed-font-size-t9-static);
+    line-height: var(--seed-line-height-t9-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t9-static-medium {
+    font-size: var(--seed-font-size-t9-static);
+    line-height: var(--seed-line-height-t9-static);
+    font-weight: var(--seed-font-weight-medium);
   }
 
 @utility t9-static-bold {
@@ -673,9 +847,93 @@
     font-weight: var(--seed-font-weight-bold);
   }
 
+@utility t10-static-regular {
+    font-size: var(--seed-font-size-t10-static);
+    line-height: var(--seed-line-height-t10-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t10-static-medium {
+    font-size: var(--seed-font-size-t10-static);
+    line-height: var(--seed-line-height-t10-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
 @utility t10-static-bold {
     font-size: var(--seed-font-size-t10-static);
     line-height: var(--seed-line-height-t10-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t11-static-regular {
+    font-size: var(--seed-font-size-t11-static);
+    line-height: var(--seed-line-height-t11-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t11-static-medium {
+    font-size: var(--seed-font-size-t11-static);
+    line-height: var(--seed-line-height-t11-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t11-static-bold {
+    font-size: var(--seed-font-size-t11-static);
+    line-height: var(--seed-line-height-t11-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t12-static-regular {
+    font-size: var(--seed-font-size-t12-static);
+    line-height: var(--seed-line-height-t12-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t12-static-medium {
+    font-size: var(--seed-font-size-t12-static);
+    line-height: var(--seed-line-height-t12-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t12-static-bold {
+    font-size: var(--seed-font-size-t12-static);
+    line-height: var(--seed-line-height-t12-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t13-static-regular {
+    font-size: var(--seed-font-size-t13-static);
+    line-height: var(--seed-line-height-t13-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t13-static-medium {
+    font-size: var(--seed-font-size-t13-static);
+    line-height: var(--seed-line-height-t13-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t13-static-bold {
+    font-size: var(--seed-font-size-t13-static);
+    line-height: var(--seed-line-height-t13-static);
+    font-weight: var(--seed-font-weight-bold);
+  }
+
+@utility t14-static-regular {
+    font-size: var(--seed-font-size-t14-static);
+    line-height: var(--seed-line-height-t14-static);
+    font-weight: var(--seed-font-weight-regular);
+  }
+
+@utility t14-static-medium {
+    font-size: var(--seed-font-size-t14-static);
+    line-height: var(--seed-line-height-t14-static);
+    font-weight: var(--seed-font-weight-medium);
+  }
+
+@utility t14-static-bold {
+    font-size: var(--seed-font-size-t14-static);
+    line-height: var(--seed-line-height-t14-static);
     font-weight: var(--seed-font-weight-bold);
   }
 
@@ -792,34 +1050,58 @@
   box-shadow: --value(--shadow-*);
 }
 
-@utility bg-gradient-fade-layer-floating-* {
-  background-image: linear-gradient(--value([angle]), var(--gradient-stops-fade-layer-floating));
+@utility bg-fade-mask-to-* {
+  background-image: linear-gradient(--value(--gradient-direction-to-*), var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
 }
 
-@utility bg-gradient-fade-layer-default-* {
-  background-image: linear-gradient(--value([angle]), var(--gradient-stops-fade-layer-default));
+@utility bg-gradient-fade-mask-* {
+  background-image: linear-gradient(--value(--gradient-direction-*, [angle]), var(--seed-gradient-fade-mask, #00000000 0.00%, #00000003 8.00%, #00000005 16.00%, #0000000d 22.00%, #00000014 29.00%, #00000021 35.00%, #0000002e 41.00%, #00000040 47.00%, #00000052 53.00%, #00000066 59.00%, #0000007a 65.00%, #00000094 71.00%, #000000ab 78.00%, #000000c7 84.00%, #000000e3 92.00%, #000000ff 100.00%));
+}
+
+@utility bg-glow-magic-to-* {
+  background-image: linear-gradient(--value(--gradient-direction-to-*), var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
 }
 
 @utility bg-gradient-glow-magic-* {
-  background-image: linear-gradient(--value([angle]), var(--gradient-stops-glow-magic));
+  background-image: linear-gradient(--value(--gradient-direction-*, [angle]), var(--seed-gradient-glow-magic, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%));
+}
+
+@utility bg-glow-magic-pressed-to-* {
+  background-image: linear-gradient(--value(--gradient-direction-to-*), var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
 }
 
 @utility bg-gradient-glow-magic-pressed-* {
-  background-image: linear-gradient(--value([angle]), var(--gradient-stops-glow-magic-pressed));
+  background-image: linear-gradient(--value(--gradient-direction-*, [angle]), var(--seed-gradient-glow-magic-pressed, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%));
+}
+
+@utility bg-highlight-magic-to-* {
+  background-image: linear-gradient(--value(--gradient-direction-to-*), var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
 }
 
 @utility bg-gradient-highlight-magic-* {
-  background-image: linear-gradient(--value([angle]), var(--gradient-stops-highlight-magic));
+  background-image: linear-gradient(--value(--gradient-direction-*, [angle]), var(--seed-gradient-highlight-magic, #ff6600 20.00%, #d25aca 100.00%));
+}
+
+@utility bg-highlight-magic-pressed-to-* {
+  background-image: linear-gradient(--value(--gradient-direction-to-*), var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
 }
 
 @utility bg-gradient-highlight-magic-pressed-* {
-  background-image: linear-gradient(--value([angle]), var(--gradient-stops-highlight-magic-pressed));
+  background-image: linear-gradient(--value(--gradient-direction-*, [angle]), var(--seed-gradient-highlight-magic-pressed, #e14f00 20.00%, #ae58bf 100.00%));
+}
+
+@utility bg-shimmer-magic-to-* {
+  background-image: linear-gradient(--value(--gradient-direction-to-*), var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
 }
 
 @utility bg-gradient-shimmer-magic-* {
-  background-image: linear-gradient(--value([angle]), var(--gradient-stops-shimmer-magic));
+  background-image: linear-gradient(--value(--gradient-direction-*, [angle]), var(--seed-gradient-shimmer-magic, #fff9f500 0.00%, #fff9f5cc 46.00%, #fff9f5cc 54.00%, #fff9f500 100.00%));
+}
+
+@utility bg-shimmer-neutral-to-* {
+  background-image: linear-gradient(--value(--gradient-direction-to-*), var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
 }
 
 @utility bg-gradient-shimmer-neutral-* {
-  background-image: linear-gradient(--value([angle]), var(--gradient-stops-shimmer-neutral));
+  background-image: linear-gradient(--value(--gradient-direction-*, [angle]), var(--seed-gradient-shimmer-neutral, #ffffff00 0.00%, #ffffffab 46.00%, #ffffffab 54.00%, #ffffff00 100.00%));
 }

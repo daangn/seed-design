@@ -1,0 +1,49 @@
+declare const artifact: {
+  "kind": "Tokens";
+  "metadata": {
+    "id": "scale";
+    "name": "Scale";
+  };
+  "data": {
+    "collection": "motion";
+    "tokens": {
+      "$scale.s95": {
+        "values": {
+          "preferred": {
+            "type": "number";
+            "value": 0.95;
+          };
+          "reduced": {
+            "type": "number";
+            "value": 1;
+          };
+        };
+      };
+      "$scale.s97": {
+        "values": {
+          "preferred": {
+            "type": "number";
+            "value": 0.97;
+          };
+          "reduced": {
+            "type": "number";
+            "value": 1;
+          };
+        };
+      };
+      "$scale.s98": {
+        "values": {
+          "preferred": {
+            "type": "number";
+            "value": 0.98;
+          };
+          "reduced": {
+            "type": "number";
+            "value": 1;
+          };
+        };
+      };
+    };
+  };
+};
+export default artifact;

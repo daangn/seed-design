@@ -3,6 +3,8 @@ title: Divider
 description: 시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.
 ---
 
+<AvailableSince packages="@seed-design/react@0.0.14, @seed-design/css@0.0.14" />
+
 <ComponentExample name="react/divider/preview">
   ```json doc-gen:file
   {
@@ -28,7 +30,7 @@ import { Divider } from "@seed-design/react";
 
 ## Screen Reader Behavior
 
-Divider는 기본적으로 `<hr />`을 렌더링합니다. **`<hr />`은 의미를 가진(semantic) 구분선이며, 스크린 리더 역시 해당 요소를 "수평(수직) 분할선"으로 읽습니다.**
+Divider는 기본적으로 `<hr />`을 렌더링합니다. `<hr />`은 의미를 가진(semantic) 구분선이며, 스크린 리더 역시 해당 요소를 "수평(수직) 분할선"으로 읽습니다.
 
 Divider가 의미를 가지지 않은 장식적 요소라면, `as` prop을 활용해 `<div>` 등으로 렌더링하여 스크린 리더가 해당 요소를 읽지 않도록 해야 합니다.
 

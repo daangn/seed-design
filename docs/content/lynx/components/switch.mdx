@@ -1,0 +1,150 @@
+---
+title: Switch
+description: 특정 설정 및 상태를 즉시 켜거나 끌 수 있도록 하는 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "3.6"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
+
+<LynxComponentExample name="lynx/switch/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/switch/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:switch
+```
+
+<LynxManualInstallation name="switch" />
+
+## Props
+
+### `Switch`
+
+<react-type-table path="./registry/lynx/ui/switch.tsx" name="SwitchProps" />
+
+### `Switchmark`
+
+<react-type-table path="./registry/lynx/ui/switch.tsx" name="SwitchmarkProps" />
+
+## Examples
+
+### Sizes
+
+<LynxComponentExample name="lynx/switch/sizes">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/switch/sizes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Tones
+
+#### Brand
+
+<LynxComponentExample name="lynx/switch/brand">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/switch/brand.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Neutral
+
+<LynxComponentExample name="lynx/switch/neutral">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/switch/neutral.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Long Label
+
+<LynxComponentExample name="lynx/switch/long-label">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/switch/long-label.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Disabled
+
+<LynxComponentExample name="lynx/switch/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/switch/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Listening to Value Changes
+
+`onCheckedChange`를 사용하여 스위치의 선택 상태 변경을 감지할 수 있습니다.
+
+<LynxComponentExample name="lynx/switch/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/switch/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Use Cases
+
+#### Using `Switchmark`
+
+`Switchmark`로 레이블 배치를 바꿀 수 있습니다. 예제처럼 스위치의 `accessibility-label`을 직접 지정하세요.
+
+<LynxComponentExample name="lynx/switch/switchmark">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/switch/switchmark.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+<Callout type="warning">
+
+- 값 변경은 `onChange`가 아닌 `onCheckedChange`로 받습니다.
+- HTML `<label>`과 `<input>` 대신 네이티브 `<view>`와 `<text>`를 렌더링합니다.
+- 직접 작성한 `<text>`, 텍스트 없는 `Switchmark`, prop으로만 렌더링한 문구는 접근성 이름을 만들 수 없습니다. `accessibility-label`을 직접 지정하세요.
+
+</Callout>
+
+## Scale Feedback
+
+Lynx `Switch`는 누르는 동안 스위치 모양을 줄입니다. 콘텐츠를 축소하는 SEED 컴포넌트 안에서는 이 효과를 생략합니다. React의 `--seed-switchmark-feedback-scale` CSS 변수는 제공하지 않습니다.
+
+## Lynx 미지원 기능
+
+현재 Lynx 플랫폼 제약으로 다음 기능이 지원되지 않습니다.
+
+### 런타임 모델 차이로 제외
+
+| 기능 | 웹 대응 | 설명 |
+|------|---------|------|
+| `SwitchHiddenInput` | `<input type="checkbox">` | Lynx에 HTML form 제출 모델 없음 |
+| `name` / `value` / `required` / `invalid` | form field props | Lynx에 native form 제출 모델 없음 |
+| `focus` / `focusVisible` | 키보드 포커스 | Lynx에 키보드 포커스 개념 없음 |
+| `onChange` (raw DOM event) | `React.ChangeEvent` | 의미 없음. `onCheckedChange`로 대체 |

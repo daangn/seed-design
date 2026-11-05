@@ -7,6 +7,10 @@ const appBarSlotNames = [
     "seed-app-bar__root"
   ],
   [
+    "background",
+    "seed-app-bar__background"
+  ],
+  [
     "left",
     "seed-app-bar__left"
   ],
@@ -23,6 +27,14 @@ const appBarSlotNames = [
     "seed-app-bar__icon"
   ],
   [
+    "textButton",
+    "seed-app-bar__textButton"
+  ],
+  [
+    "textButtonLabel",
+    "seed-app-bar__textButtonLabel"
+  ],
+  [
     "custom",
     "seed-app-bar__custom"
   ]
@@ -31,8 +43,7 @@ const appBarSlotNames = [
 const defaultVariant = {
   "theme": "cupertino",
   "transitionStyle": "slideFromRightIOS",
-  "tone": "layer",
-  "divider": false
+  "tone": "layer"
 };
 
 const compoundVariants = [];
@@ -50,9 +61,6 @@ export const appBarVariantMap = {
   "tone": [
     "layer",
     "transparent"
-  ],
-  "divider": [
-    true
   ]
 };
 

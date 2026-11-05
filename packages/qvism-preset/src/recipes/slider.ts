@@ -72,6 +72,10 @@ const slider = defineSlotRecipe({
 
       borderRadius: vars.base.enabled.track.cornerRadius,
       overflow: "hidden",
+
+      [pseudo(disabled)]: {
+        backgroundColor: vars.base.disabled.track.color,
+      },
     },
     range: {
       position: "absolute",
@@ -130,10 +134,7 @@ const slider = defineSlotRecipe({
         content: '""',
         position: "absolute",
 
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        inset: 0,
 
         backgroundColor: thumbVars.base.enabled.root.color,
         borderRadius: thumbVars.base.enabled.root.cornerRadius,
@@ -191,10 +192,8 @@ const slider = defineSlotRecipe({
 
       background: vars.base.enabled.valueIndicatorRoot.color,
 
-      paddingLeft: vars.base.enabled.valueIndicatorRoot.paddingX,
-      paddingRight: vars.base.enabled.valueIndicatorRoot.paddingX,
-      paddingTop: vars.base.enabled.valueIndicatorRoot.paddingY,
-      paddingBottom: vars.base.enabled.valueIndicatorRoot.paddingY,
+      paddingInline: vars.base.enabled.valueIndicatorRoot.paddingX,
+      paddingBlock: vars.base.enabled.valueIndicatorRoot.paddingY,
 
       borderRadius: vars.base.enabled.valueIndicatorRoot.cornerRadius,
 
@@ -322,8 +321,7 @@ const sliderMarker = defineRecipe({
   base: {
     position: "absolute",
 
-    top: 0,
-    bottom: 0,
+    insetBlock: 0,
 
     width: "max-content",
 

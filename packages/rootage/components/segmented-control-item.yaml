@@ -30,6 +30,9 @@ data:
             type: dimension
           strokeColor:
             type: color
+          scaleScope:
+            type: enum
+            values: [self, content]
       label:
         properties:
           fontSize:
@@ -68,6 +71,7 @@ data:
           color: $color.bg.neutral-weak-pressed
           strokeWidth: 1px
           strokeColor: $color.stroke.neutral-muted
+          scaleScope: content
       selected:
         label:
           color: $color.fg.neutral

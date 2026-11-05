@@ -1,32 +1,32 @@
-import { Tab, Tabs } from "fumadocs-ui/components/tabs";
-import * as React from "react";
+import { SeedTab as Tab, SeedTabs as Tabs } from "@/components/tabs/seed-tabs";
+import type * as React from "react";
 
 import ErrorBoundary from "./error-boundary";
 
-import { StackflowPreview } from "./stackflow-preview";
 import { StackflowIframePreview } from "./stackflow-iframe-preview";
 import { Box } from "@seed-design/react";
 
-type StackflowExampleProps = (
-  | { names: string[]; path?: never }
-  | { names?: never; path: string }
-) & {
+interface StackflowExampleProps {
+  /**
+   * Path into the stackflow-spa app to load inside the isolated iframe preview.
+   *
+   * Inline previews are intentionally not supported: rendering a stackflow
+   * activity inline (e.g. an `defaultOpen` modal) mutates the shared
+   * `document.body` — scroll lock, focus trap — and freezes the surrounding
+   * docs page. The iframe scopes those global effects to its own document.
+   */
+  path: string;
   children?: React.ReactNode;
-};
+}
 
-export function StackflowExample(props: StackflowExampleProps) {
-  const { names, path, children } = props;
-
+export function StackflowExample({ path, children }: StackflowExampleProps) {
   return (
     <ErrorBoundary>
-      <Tabs items={["미리보기", "코드"]}>
+      <Tabs card items={["미리보기", "코드"]}>
         <Tab value="미리보기">
-          {names && <StackflowPreview names={names} />}
-          {path && (
-            <Box p="x2">
-              <StackflowIframePreview path={path} />
-            </Box>
-          )}
+          <Box p="x5">
+            <StackflowIframePreview path={path} />
+          </Box>
         </Tab>
         <Tab value="코드">{children}</Tab>
       </Tabs>

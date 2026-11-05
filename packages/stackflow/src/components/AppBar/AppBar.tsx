@@ -4,8 +4,9 @@ import { appBarMain, type AppBarMainVariantProps } from "@seed-design/css/recipe
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
-import { forwardRef } from "react";
+import { cloneElement, forwardRef, isValidElement } from "react";
 import { AppBar as AppBarPrimitive } from "../../primitive";
+import { appBarAnatomy } from "../../primitive/AppBar/anatomy";
 import { useAppBarContext } from "../../primitive/AppBar/useAppBarContext";
 import { createStyleContext } from "../../utils/createStyleContext";
 import { useTopActivity } from "../../primitive/private/useTopActivity";
@@ -49,14 +50,18 @@ export const AppBarRoot = forwardRef<HTMLDivElement, AppBarProps>((props, ref) =
   };
 
   const classNames = appBar(resolvedVariantProps);
+  const { children, ...restProps } = otherProps;
 
   return (
     <ClassNamesProvider value={classNames}>
       <MainPropsProvider value={resolvedVariantProps}>
         <AppBarPrimitive.Root
           ref={ref}
-          {...mergeProps({ className: classNames.root, style: boxStyle }, otherProps)}
-        />
+          {...mergeProps({ className: classNames.root, style: boxStyle }, restProps)}
+        >
+          <div aria-hidden data-part={appBarAnatomy.background} className={classNames.background} />
+          {children}
+        </AppBarPrimitive.Root>
       </MainPropsProvider>
     </ClassNamesProvider>
   );
@@ -116,7 +121,7 @@ export const AppBarIconButton = forwardRef<HTMLButtonElement, AppBarIconButtonPr
         className={clsx(classNames.iconButton, className)}
         {...mergeProps(stateProps, otherProps)}
       >
-        <Slot className={classNames.icon} {...stateProps}>
+        <Slot className={classNames.icon} data-part={appBarAnatomy.icon} {...stateProps}>
           {children}
         </Slot>
       </Primitive.button>
@@ -124,6 +129,43 @@ export const AppBarIconButton = forwardRef<HTMLButtonElement, AppBarIconButtonPr
   },
 );
 AppBarIconButton.displayName = "IconButton";
+
+export interface AppBarTextButtonProps
+  extends PrimitiveProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export const AppBarTextButton = forwardRef<HTMLButtonElement, AppBarTextButtonProps>(
+  ({ asChild, children, className, ...otherProps }, ref) => {
+    const { stateProps } = useAppBarContext();
+    const classNames = useClassNames();
+
+    const renderLabel = (content: React.ReactNode) => (
+      <span
+        className={classNames.textButtonLabel}
+        data-part={appBarAnatomy.textButtonLabel}
+        {...stateProps}
+      >
+        {content}
+      </span>
+    );
+
+    return (
+      <Primitive.button
+        ref={ref}
+        type="button"
+        asChild={asChild}
+        className={clsx(classNames.textButton, className)}
+        {...mergeProps(stateProps, otherProps)}
+      >
+        {/* With `asChild`, the button props go to the child, so the label goes inside it. */}
+        {asChild && isValidElement<{ children?: React.ReactNode }>(children)
+          ? cloneElement(children, undefined, renderLabel(children.props.children))
+          : renderLabel(children)}
+      </Primitive.button>
+    );
+  },
+);
+AppBarTextButton.displayName = "AppBarTextButton";
 
 export interface AppBarSlotProps extends PrimitiveProps, React.HTMLAttributes<HTMLElement> {}
 
@@ -136,6 +178,7 @@ export const AppBarSlot = forwardRef<HTMLElement, AppBarSlotProps>(
       <Slot
         ref={ref}
         className={clsx(classNames.custom, className)}
+        data-part={appBarAnatomy.custom}
         {...mergeProps(stateProps, otherProps)}
       >
         {children}

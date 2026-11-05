@@ -7,12 +7,15 @@ import type { ComponentHandlerDeps } from "../deps.interface";
 import { handleSizeProp } from "../size";
 
 export const createBadgeHandler = (_ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<BadgeProperties>(metadata.componentBadge.key, ({ componentProperties: props }) => {
-    const commonProps = {
-      size: handleSizeProp(props.Size.value),
-      tone: camelCase(props.Tone.value),
-      variant: camelCase(props.Variant.value),
-    };
+  defineComponentHandler<BadgeProperties>(
+    metadata.componentBadge.key,
+    ({ componentProperties: props }) => {
+      const commonProps = {
+        size: handleSizeProp(props.Size.value),
+        tone: camelCase(props.Tone.value),
+        variant: camelCase(props.Variant.value),
+      };
 
-    return createSeedReactElement("Badge", commonProps, props["Label#1584:0"].value);
-  });
+      return createSeedReactElement("Badge", commonProps, props["Label#1584:0"].value);
+    },
+  );

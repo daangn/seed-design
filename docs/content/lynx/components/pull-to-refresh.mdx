@@ -1,0 +1,110 @@
+---
+title: Pull To Refresh
+description: 사용자가 화면을 아래로 당겨 콘텐츠를 새로고침하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@1.0.0, @seed-design/lynx-css@1.0.0" />
+
+<LynxComponentExample name="lynx/pull-to-refresh/preview" height={800}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/pull-to-refresh/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:pull-to-refresh
+```
+
+<LynxManualInstallation name="pull-to-refresh" />
+
+### 요구 사항
+
+SEED의 최소 지원 Lynx Engine은 `3.6`입니다. PullToRefresh는 `@lynx-js/gesture-runtime`의 `NativeGesture`를 사용하므로 앱의 기존 React 플러그인 설정에 `enableNewGesture: true`를 추가하세요.
+
+```ts title="lynx.config.ts"
+pluginReactLynx({
+  engineVersion: "3.6",
+  enableNewGesture: true,
+});
+```
+
+`enableNewGesture`의 Since `2.16`은 엔진 설정의 도입 기록입니다. SEED의 최소 지원 엔진을 뜻하지 않습니다. 설정 위치와 생략 조건은 [Feature Flags](/lynx/getting-started/feature-flags#이벤트와-제스처)에서 확인하세요.
+
+## Props
+
+### `PullToRefreshRoot`
+
+<react-type-table path="./registry/lynx/ui/pull-to-refresh.tsx" name="PullToRefreshRootProps" />
+
+`onPtrRefresh`에 새로고침 작업을 반환하는 비동기 함수를 전달하세요. `threshold`의 기본값은 `88`, `displacementMultiplier`의 기본값은 `0.75`입니다. 당긴 변위가 threshold를 넘은 상태에서 놓으면 새로고침을 시작합니다. Promise가 완료되거나 실패하면 콘텐츠가 원래 위치로 돌아옵니다.
+
+### `PullToRefreshIndicator`
+
+고유 prop이 없습니다.
+
+
+### `PullToRefreshContent`
+
+<react-type-table path="./registry/lynx/ui/pull-to-refresh.tsx" name="PullToRefreshContentProps" />
+
+Content는 세로 `<scroll-view>`입니다. 항목이 많아 가상화가 필요하면 Content 대신 `PullToRefreshListContent`를 사용하세요. Root에 높이를 지정하고 화면의 세로 스크롤은 Content나 ListContent 하나로 구성하세요. 중첩된 세로 스크롤 컨테이너는 당김 제스처와 경합할 수 있습니다.
+
+### `PullToRefreshListContent`
+
+<react-type-table path="./registry/lynx/ui/pull-to-refresh.tsx" name="PullToRefreshListContentProps" />
+
+ListContent는 세로 `<list>`입니다. children은 `<list-item>`으로 구성하세요. `<list>`의 나머지 속성은 그대로 전달됩니다.
+
+- `custom-list-name`의 기본값은 `"list-container"`입니다. iOS의 기본 list 구현은 당김 제스처가 native 스크롤을 막지 못해 당기는 중 list가 함께 스크롤될 수 있습니다. 다른 값으로 바꾸면 iOS에서 이 문제가 다시 생길 수 있습니다.
+- Content와 같이 `bounces`의 기본값은 `false`이며 iOS 아래쪽 경계의 bounce도 꺼집니다.
+- 최상단 판정은 list의 `scroll` 이벤트가 보내는 `scrollTop`을 따르고 `scrolltoupper` 이벤트로 보완합니다. list의 `scroll` 이벤트는 간격을 두고 보내져 최상단에 닿은 마지막 값이 빠질 수 있습니다. 두 이벤트가 모두 늦게 오면 빠르게 최상단까지 스크롤한 직후의 당김이 시작되지 않을 수 있습니다. `scroll-event-throttle`을 낮춰도 iOS list-container에서는 적용이 보장되지 않습니다.
+
+## Examples
+
+### PTR in Tabs
+
+가로로 넘길 수 있는 Tabs Carousel의 Tab 1에만 PullToRefresh를 배치합니다. Tab 2에서는 새로고침하지 않습니다.
+
+<LynxComponentExample name="lynx/pull-to-refresh/tabs" height={800}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/pull-to-refresh/tabs.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### List
+
+`PullToRefreshListContent`로 `<list>`를 당겨서 새로고침합니다.
+
+<LynxComponentExample name="lynx/pull-to-refresh/list" height={800}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/pull-to-refresh/list.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Disabled
+
+`disabled` 속성으로 PTR을 비활성화할 수 있습니다. 당기는 도중 비활성화하면 당김이 취소됩니다. 이미 시작한 새로고침은 반환한 Promise가 끝날 때까지 유지됩니다.
+
+<LynxComponentExample name="lynx/pull-to-refresh/disabled" height={700}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/pull-to-refresh/disabled.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Prevent Pull
+
+Root 안의 특정 영역에서 당김을 막으려면 `usePullToRefreshPreventPull()`이 반환한 props를 해당 `<view>`에 전달하세요. 같은 요소에 `main-thread:bindtouchstart`를 함께 지정하지 마세요.
+
+<LynxComponentExample name="lynx/pull-to-refresh/prevent-pull" height={700}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/pull-to-refresh/prevent-pull.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+- Lynx는 Root가 배치와 clipping을 맡고 Content(`<scroll-view>`)나 ListContent(`<list>`)가 세로 스크롤을 담당합니다. `asChild`는 지원하지 않습니다.
+- Content 내부의 중첩 스크롤 영역을 자동으로 탐지하지 않습니다.
+- 스크롤하다 최상단에 도달한 경우 손을 뗀 뒤 다시 당겨야 새로고침이 시작됩니다.

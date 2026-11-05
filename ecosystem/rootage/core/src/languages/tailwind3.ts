@@ -13,6 +13,7 @@ interface TokenCollections {
   duration: Record<string, string>;
   timingFunction: Record<string, string>;
   boxShadow: Record<string, string>;
+  scale: Record<string, string>;
   typography: Record<string, Record<string, string>>;
 }
 
@@ -60,6 +61,7 @@ function processFoundationTokens(
     duration: {},
     timingFunction: {},
     boxShadow: {},
+    scale: {},
     typography: {},
   };
 
@@ -88,10 +90,16 @@ function processFoundationTokens(
       if (token.kind === "GradientTokenDeclaration") {
         const themeLight = token.values.find((v) => v.mode === "theme-light");
         if (themeLight?.value && themeLight.value.kind === "GradientLit") {
-          const colorStops = gradientToColorStops(
+          const fallbackStops = gradientToColorStops(
             themeLight.value,
             options?.sourcePrefix || options?.prefix,
           );
+          const sourceVar = createCssVarName(
+            tokenGroup,
+            token.token.key || "",
+            options?.sourcePrefix || options?.prefix,
+          );
+          const colorStops = `var(${sourceVar}, ${fallbackStops})`;
           collections.gradients[gradientKey] = colorStops;
 
           // 방향성 유틸리티들 추가
@@ -130,6 +138,8 @@ function processFoundationTokens(
       collections.timingFunction[tokenKey.substring(16)] = cssVarValue;
     } else if (tokenKey.startsWith("shadow-")) {
       collections.boxShadow[tokenKey.substring(7)] = cssVarValue;
+    } else if (tokenKey.startsWith("scale-")) {
+      collections.scale[tokenKey.substring(6)] = cssVarValue;
     }
   }
 
@@ -302,7 +312,16 @@ export default plugin(
         },
         {
           type: 'any',
-          values: {}
+          values: {
+            'to-t': 'to top',
+            'to-tr': 'to top right',
+            'to-r': 'to right',
+            'to-br': 'to bottom right',
+            'to-b': 'to bottom',
+            'to-bl': 'to bottom left',
+            'to-l': 'to left',
+            'to-tl': 'to top left',
+          }
         }
       );
     });
@@ -321,6 +340,7 @@ export default plugin(
         transitionDuration: ${serializeJson(collections.duration)},
         transitionTimingFunction: ${serializeJson(collections.timingFunction)},
         boxShadow: ${serializeJson(collections.boxShadow)},
+        scale: ${serializeJson(collections.scale)},
       },
     },
   },

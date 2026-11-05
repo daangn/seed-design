@@ -26,6 +26,7 @@
 
     /* If your code doesn't run in the DOM: */
     "lib": ["es2022"],
+    "types": ["node", "bun"],
     "rootDir": "src",
     "outDir": "lib"
   },

@@ -1,64 +1,85 @@
 "use client";
 
 import { ALL } from "@/components/changelog-viewer/constants";
-import { IconCheckmarkFill, IconChevronDownLine } from "@karrotmarket/react-monochrome-icon";
-import { buttonVariants } from "fumadocs-ui/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "fumadocs-ui/components/ui/popover";
+import {
+  DocsMenuContent,
+  DocsMenuGroup,
+  DocsMenuItem,
+  DocsMenuRoot,
+  DocsMenuTrigger,
+  DocsMenuTriggerButton,
+} from "@/components/docs-menu";
+import { IconCheckmarkLine, IconChevronDownLine } from "@karrotmarket/react-monochrome-icon";
+import clsx from "clsx";
+import { type CSSProperties, useState } from "react";
 
 type QueryStateSetter = (value: string | null) => unknown;
-
-type PackageRailProps = {
-  selectedPackage: string;
-  packages: string[];
-  switchCompareTab: (pkg: string) => void;
-};
 
 type FilterBarProps = {
   filteredEntryCount: number;
   selectedPackage: string;
+  packages: string[];
   setVersionFrom: QueryStateSetter;
   setVersionFromOpen: (open: boolean) => void;
+  switchCompareTab: (pkg: string) => void;
   versionLabel: string;
   versionFrom: string;
   versionFromOpen: boolean;
   versionsForPackage: string[];
 };
 
-export function ChangelogPackageRail({
+const packageMenuContentClassName =
+  "max-h-[min(28rem,calc(100dvh-8rem))] w-[min(22rem,calc(100vw-2rem))]";
+const packageMenuContentStyle = {
+  "--seed-menu-available-height": "min(28rem, calc(100dvh - 8rem))",
+} as CSSProperties;
+const versionMenuContentClassName = "max-h-72";
+const versionMenuContentStyle = {
+  "--seed-menu-available-height": "18rem",
+} as CSSProperties;
+
+function PackageMenu({
   selectedPackage,
   packages,
   switchCompareTab,
-}: PackageRailProps) {
-  return (
-    <div className="rounded-xl border border-fd-border bg-fd-card p-3 lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
-      <div className="mb-3 text-xs font-medium text-fd-muted-foreground">패키지</div>
-      <div className="flex flex-wrap gap-2 lg:flex-col">
-        {packages.map((pkg) => {
-          const isActive = selectedPackage === pkg;
-          const label = pkg;
+}: Pick<FilterBarProps, "selectedPackage" | "packages" | "switchCompareTab">) {
+  const [open, setOpen] = useState(false);
 
-          return (
-            <button
-              key={pkg}
-              type="button"
-              className={`rounded-md border px-2.5 py-2 text-left text-xs font-mono transition-colors lg:w-full ${
-                isActive
-                  ? "border-fd-border bg-fd-accent text-fd-accent-foreground"
-                  : "border-fd-border text-fd-muted-foreground hover:text-fd-foreground"
-              }`}
-              onClick={() => switchCompareTab(pkg)}
-            >
-              {label}
-            </button>
-          );
-        })}
-      </div>
-    </div>
+  return (
+    <DocsMenuRoot open={open} onOpenChange={setOpen} placement="bottom-start">
+      <DocsMenuTrigger asChild>
+        <DocsMenuTriggerButton className="max-w-full justify-between md:max-w-[320px]">
+          <span className="min-w-0 truncate text-left font-mono text-xs">{selectedPackage}</span>
+          <IconChevronDownLine
+            className={clsx("shrink-0 transition-transform", open && "rotate-180")}
+          />
+        </DocsMenuTriggerButton>
+      </DocsMenuTrigger>
+      <DocsMenuContent className={packageMenuContentClassName} style={packageMenuContentStyle}>
+        <DocsMenuGroup>
+          {packages.map((pkg) => {
+            const active = selectedPackage === pkg;
+
+            return (
+              <DocsMenuItem
+                key={pkg}
+                aria-current={active ? "true" : undefined}
+                label={<span className="font-mono text-xs">{pkg}</span>}
+                suffixIcon={active ? <IconCheckmarkLine /> : undefined}
+                onClick={() => {
+                  if (!active) switchCompareTab(pkg);
+                  setOpen(false);
+                }}
+              />
+            );
+          })}
+        </DocsMenuGroup>
+      </DocsMenuContent>
+    </DocsMenuRoot>
   );
 }
 
-export function ChangelogFilterBar({
-  filteredEntryCount,
+function VersionMenu({
   selectedPackage,
   setVersionFrom,
   setVersionFromOpen,
@@ -66,69 +87,105 @@ export function ChangelogFilterBar({
   versionFrom,
   versionFromOpen,
   versionsForPackage,
+}: Pick<
+  FilterBarProps,
+  | "selectedPackage"
+  | "setVersionFrom"
+  | "setVersionFromOpen"
+  | "versionLabel"
+  | "versionFrom"
+  | "versionFromOpen"
+  | "versionsForPackage"
+>) {
+  const disabled = selectedPackage === ALL;
+
+  return (
+    <DocsMenuRoot
+      open={disabled ? false : versionFromOpen}
+      onOpenChange={(open) => {
+        if (!disabled) setVersionFromOpen(open);
+      }}
+      placement="bottom-start"
+      matchReferenceWidth
+    >
+      <DocsMenuTrigger asChild>
+        <DocsMenuTriggerButton
+          disabled={disabled}
+          className="max-w-full justify-between md:max-w-[220px]"
+        >
+          <span className="min-w-0 truncate text-left font-mono text-xs">{versionLabel}</span>
+          <IconChevronDownLine
+            className={clsx(
+              "shrink-0 transition-transform",
+              !disabled && versionFromOpen && "rotate-180",
+            )}
+          />
+        </DocsMenuTriggerButton>
+      </DocsMenuTrigger>
+      <DocsMenuContent className={versionMenuContentClassName} style={versionMenuContentStyle}>
+        <DocsMenuGroup>
+          <DocsMenuItem
+            aria-current={versionFrom === ALL ? "true" : undefined}
+            label="전체 변경사항"
+            suffixIcon={versionFrom === ALL ? <IconCheckmarkLine /> : undefined}
+            onClick={() => {
+              void setVersionFrom(null);
+              setVersionFromOpen(false);
+            }}
+          />
+          {versionsForPackage.map((version) => (
+            <DocsMenuItem
+              key={version}
+              aria-current={versionFrom === version ? "true" : undefined}
+              label={<span className="font-mono text-xs">{version}</span>}
+              suffixIcon={versionFrom === version ? <IconCheckmarkLine /> : undefined}
+              onClick={() => {
+                void setVersionFrom(version);
+                setVersionFromOpen(false);
+              }}
+            />
+          ))}
+        </DocsMenuGroup>
+      </DocsMenuContent>
+    </DocsMenuRoot>
+  );
+}
+
+export function ChangelogFilterBar({
+  filteredEntryCount,
+  selectedPackage,
+  packages,
+  setVersionFrom,
+  setVersionFromOpen,
+  switchCompareTab,
+  versionLabel,
+  versionFrom,
+  versionFromOpen,
+  versionsForPackage,
 }: FilterBarProps) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-fd-border bg-fd-card px-4 py-3">
-      <div className="min-w-0">
-        <div className="text-xs font-medium text-fd-muted-foreground">버전 필터</div>
-      </div>
-      <div className="flex items-center gap-2 self-start">
-        {selectedPackage !== ALL && (
-          <Popover open={versionFromOpen} onOpenChange={setVersionFromOpen}>
-            <PopoverTrigger
-              className={buttonVariants({
-                color: "secondary",
-                size: "sm",
-                className: "gap-2 items-center font-mono",
-              })}
-            >
-              <span>{versionLabel}</span>
-              <IconChevronDownLine className="size-3.5 shrink-0 text-fd-muted-foreground" />
-            </PopoverTrigger>
-            <PopoverContent className="flex max-h-72 w-44 flex-col overflow-auto p-1">
-              <button
-                type="button"
-                className={`flex items-center gap-2 rounded-md p-2 text-left text-sm ${
-                  versionFrom === ALL
-                    ? "bg-fd-accent text-fd-accent-foreground"
-                    : "text-fd-muted-foreground hover:text-fd-foreground"
-                }`}
-                onClick={() => {
-                  void setVersionFrom(null);
-                  setVersionFromOpen(false);
-                }}
-              >
-                <IconCheckmarkFill
-                  className={`size-3.5 shrink-0 ${versionFrom === ALL ? "opacity-100" : "opacity-0"}`}
-                />
-                전체 변경사항
-              </button>
-              {versionsForPackage.map((version) => (
-                <button
-                  key={version}
-                  type="button"
-                  className={`flex items-center gap-2 rounded-md p-2 text-left text-sm ${
-                    versionFrom === version
-                      ? "bg-fd-accent text-fd-accent-foreground"
-                      : "text-fd-muted-foreground hover:text-fd-foreground"
-                  }`}
-                  onClick={() => {
-                    void setVersionFrom(version);
-                    setVersionFromOpen(false);
-                  }}
-                >
-                  <IconCheckmarkFill
-                    className={`size-3.5 shrink-0 ${versionFrom === version ? "opacity-100" : "opacity-0"}`}
-                  />
-                  <span className="text-xs font-mono">{version}</span>
-                </button>
-              ))}
-            </PopoverContent>
-          </Popover>
-        )}
-        {selectedPackage !== ALL && (
-          <span className="text-sm text-fd-muted-foreground">{filteredEntryCount}개 항목</span>
-        )}
+    <div className="sticky top-14 z-30 -mx-1 mb-x6 bg-fd-background/95 py-x3 backdrop-blur min-[1120px]:top-[76px]">
+      <div className="flex min-w-0 flex-col gap-x2 md:flex-row md:items-center md:justify-between">
+        <div className="flex min-w-0 flex-wrap items-center gap-x2">
+          <span className="t3-regular text-fg-neutral-muted">필터</span>
+          <PackageMenu
+            selectedPackage={selectedPackage}
+            packages={packages}
+            switchCompareTab={switchCompareTab}
+          />
+          <VersionMenu
+            selectedPackage={selectedPackage}
+            setVersionFrom={setVersionFrom}
+            setVersionFromOpen={setVersionFromOpen}
+            versionLabel={versionLabel}
+            versionFrom={versionFrom}
+            versionFromOpen={versionFromOpen}
+            versionsForPackage={versionsForPackage}
+          />
+        </div>
+        <span className="t3-regular shrink-0 text-fg-neutral-muted">
+          {filteredEntryCount.toLocaleString()}개 항목
+        </span>
       </div>
     </div>
   );

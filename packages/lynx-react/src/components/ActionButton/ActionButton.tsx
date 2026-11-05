@@ -1,0 +1,359 @@
+import { actionButton } from "@seed-design/lynx-css/recipes/action-button";
+import type { ActionButtonVariantProps } from "@seed-design/lynx-css/recipes/action-button";
+import { useActionButton, type UseActionButtonProps } from "@seed-design/lynx-react-action-button";
+import { progressCircleVariantMap } from "@seed-design/lynx-css/recipes/progress-circle";
+import { actionButton as actionButtonVars } from "@seed-design/lynx-css/vars/component";
+import clsx from "clsx";
+import * as React from "@lynx-js/react";
+import { useMemo } from "@lynx-js/react";
+
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import type {
+  LynxElementProps,
+  LynxHostProps,
+  LynxPressableProps,
+  LynxTextRef,
+  LynxViewRef,
+} from "../../types";
+import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
+import { toArray } from "../../utils/children";
+import { capitalize, resolveRecipeToken } from "../../utils/resolve-recipe-token";
+import { useStyleProps, type MarginBleedStyleProps, type StyleProps } from "../../utils/styled";
+import {
+  ProgressCircleRange,
+  ProgressCircleRoot,
+  ProgressCircleTrack,
+  type ProgressCircleRootProps,
+} from "../ProgressCircle";
+import { IconRequired, IconSlotProvider, getIconSlotName } from "../Icon/Icon";
+import { mergeProps } from "../../utils/merge-props";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+  useLabelTextAccessibilityProps,
+} from "../../utils/accessibility";
+
+// Root/TextSlot 은 `withProvider("view", ...)` / `withContext("text", ...)` 를 쓰지 않는다.
+// intrinsic string 인자는 `React.createElement("view", ...)` 로 컴파일되어 Lynx 컴파일러의
+// 리터럴 JSX 정적 분석을 우회하고 `BackgroundSnapshot not found: view` 런타임 에러를 유발한다.
+// (자세한 내용: `packages/lynx-react/AGENTS.md` 의 "Native tag literal JSX constraint" 섹션)
+const { ClassNamesProvider, useClassNames, PropsProvider } = createSlotRecipeContext(actionButton);
+
+////////////////////////////////////////////////////////////////////////////////////
+
+interface ActionButtonContentProps extends LynxElementProps {
+  isIconOnly: boolean;
+}
+
+interface ActionButtonRootOwnProps extends LynxHostProps<"view"> {}
+
+interface ActionButtonRootProps extends ActionButtonVariantProps, ActionButtonRootOwnProps {}
+
+function resolveProgressCircleSize(
+  actionButtonSize: ActionButtonVariantProps["size"],
+): ProgressCircleRootProps["size"] {
+  const size = actionButtonSize ?? "medium";
+  const token = resolveRecipeToken(actionButtonVars, [
+    `size${capitalize(size)}`,
+    "enabled",
+    "progressCircle",
+    "size",
+  ]);
+  const normalized = token?.endsWith("px") ? token.slice(0, -2) : token;
+
+  return progressCircleVariantMap.size.find((size) => size === normalized) ?? "16";
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+const ActionButtonRoot = React.forwardRef<unknown, ActionButtonRootProps>((innerProps, ref) => {
+  const props = { layout: "withText" as const, ...innerProps };
+  const [variantProps, otherProps] = actionButton.splitVariantProps(props);
+  const classNames = actionButton(variantProps);
+  const {
+    className: userClassName,
+    children,
+    ...rest
+  } = otherProps as ActionButtonRootOwnProps & Record<string, unknown>;
+  const propsForContext = useMemo(
+    () => variantProps,
+    [
+      variantProps.variant,
+      variantProps.size,
+      variantProps.layout,
+      variantProps.pressed,
+      variantProps.disabled,
+      variantProps.loading,
+    ],
+  );
+  const iconSlotContextValue = useMemo(
+    () => ({
+      classNames: {
+        icon: classNames.icon,
+        prefixIcon: classNames.prefixIcon,
+        suffixIcon: classNames.suffixIcon,
+      },
+      deps: [
+        variantProps.variant ?? null,
+        variantProps.disabled ?? false,
+        variantProps.loading ?? false,
+        variantProps.pressed ?? false,
+      ],
+    }),
+    [
+      classNames.icon,
+      classNames.prefixIcon,
+      classNames.suffixIcon,
+      variantProps.variant,
+      variantProps.disabled,
+      variantProps.loading,
+      variantProps.pressed,
+    ],
+  );
+  return (
+    <ClassNamesProvider value={classNames}>
+      <PropsProvider value={propsForContext}>
+        <IconSlotProvider value={iconSlotContextValue}>
+          <view
+            {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, rest)}
+            className={clsx(classNames.root, userClassName)}
+          >
+            {rest["accessibility-element"] ? (
+              <AccessibilityElementScope>{children as React.ReactNode}</AccessibilityElementScope>
+            ) : (
+              (children as React.ReactNode)
+            )}
+          </view>
+        </IconSlotProvider>
+      </PropsProvider>
+    </ClassNamesProvider>
+  );
+});
+ActionButtonRoot.displayName = "ActionButtonRoot";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+interface ActionButtonTextSlotProps extends LynxHostProps<"text"> {}
+
+const ActionButtonTextSlot = React.forwardRef<unknown, ActionButtonTextSlotProps>((props, ref) => {
+  const { children, className: userClassName, ...rest } = props;
+  const classNames = useClassNames();
+  const labelAccessibilityProps = useLabelTextAccessibilityProps();
+  return (
+    <text
+      {...mergeProps(labelAccessibilityProps, ref ? { ref: ref as LynxTextRef } : {}, rest)}
+      className={clsx(classNames.text, userClassName)}
+    >
+      {children}
+    </text>
+  );
+});
+ActionButtonTextSlot.displayName = "ActionButtonTextSlot";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+function ActionButtonContent({ children, isIconOnly }: ActionButtonContentProps) {
+  const childArray = toArray(children);
+  const prefixIconChildren: React.ReactNode[] = [];
+  const suffixIconChildren: React.ReactNode[] = [];
+  const iconChildren: React.ReactNode[] = [];
+  const textChildren: React.ReactNode[] = [];
+
+  for (const child of childArray) {
+    const slotName = getIconSlotName(child);
+
+    if (slotName === "prefixIcon") {
+      prefixIconChildren.push(child);
+      continue;
+    }
+    if (slotName === "suffixIcon") {
+      suffixIconChildren.push(child);
+      continue;
+    }
+    if (slotName === "icon") {
+      iconChildren.push(child);
+      continue;
+    }
+
+    textChildren.push(child);
+  }
+
+  if (isIconOnly) {
+    return iconChildren.length > 0 ? <>{iconChildren}</> : null;
+  }
+
+  return (
+    <>
+      {prefixIconChildren}
+      {textChildren.length > 0 ? <ActionButtonTextSlot>{textChildren}</ActionButtonTextSlot> : null}
+      {suffixIconChildren}
+    </>
+  );
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+function ActionButtonLoadingContent(props: ActionButtonContentProps) {
+  const classNames = useClassNames();
+
+  return (
+    <view className={classNames.content}>
+      <ActionButtonContent {...props} />
+    </view>
+  );
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+function ActionButtonLoadingIndicator({ size }: { size: ActionButtonVariantProps["size"] }) {
+  const classNames = useClassNames();
+  const progressCircleSize = resolveProgressCircleSize(size);
+
+  return (
+    <view className={classNames.loadingIndicator}>
+      <ProgressCircleRoot size={progressCircleSize} tone="inherit">
+        <ProgressCircleTrack />
+        <ProgressCircleRange />
+      </ProgressCircleRoot>
+    </view>
+  );
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @platform Lynx
+ *
+ * 웹 대비 차이:
+ * - 아이콘 렌더링: 웹의 SVG `currentColor` 대신 Lynx `<image>` 의 `tint-color` 를
+ *   `Icon` / `PrefixIcon` / `SuffixIcon` wrapper 가 동기화한다.
+ * - 미지원 prop: `color`, `fontWeight` (CSS variable 동적 주입 제한)
+ * - bleed prop: px 길이, `0`, `"safeArea"` 지원. SEED 토큰과 `"asPadding"` 미지원
+ *
+ * ```tsx
+ * import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
+ * import IconChevronDownFill from "@karrotmarket/lynx-monochrome-icon/IconChevronDownFill";
+ * import { Icon, PrefixIcon, SuffixIcon } from "@seed-design/lynx-react";
+ *
+ * // withText (기본)
+ * <ActionButton variant="brandSolid">
+ *   <PrefixIcon icon={<IconPlusFill />} />
+ *   라벨
+ *   <SuffixIcon icon={<IconChevronDownFill />} />
+ * </ActionButton>
+ *
+ * // iconOnly — `<Icon />` child 와 `accessibility-label` 필수
+ * <ActionButton
+ *   layout="iconOnly"
+ *   variant="neutralSolid"
+ *   accessibility-label="추가"
+ * >
+ *   <Icon icon={<IconPlusFill />} />
+ * </ActionButton>
+ * ```
+ */
+export interface ActionButtonProps
+  extends Omit<ActionButtonVariantProps, "pressed" | "disabled" | "loading">,
+    Pick<UseActionButtonProps, "disabled" | "loading">,
+    Pick<StyleProps, "flexGrow">,
+    Pick<MarginBleedStyleProps, "bleed" | "bleedX" | "bleedY">,
+    Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
+    LynxPressableProps {}
+
+export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props, ref) => {
+  const { style, restProps } = useStyleProps(props);
+  const {
+    children,
+    layout,
+    disabled,
+    loading,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "accessibility-element": accessibilityElement,
+    "accessibility-label": accessibilityLabel,
+    "accessibility-traits": accessibilityTraits,
+    ...variantAndRest
+  } = restProps;
+  const insideAccessibilityElement = useInsideAccessibilityElement();
+  const api = useActionButton({
+    disabled,
+    loading,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "accessibility-element": accessibilityElement ?? !insideAccessibilityElement,
+    "accessibility-traits": accessibilityTraits,
+  });
+  // Press state follows the Scale Feedback Main Thread touch handlers, as before the split.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
+  const isIconOnly = layout === "iconOnly";
+  const size = variantAndRest.size;
+  const label =
+    accessibilityLabel ??
+    (insideAccessibilityElement || isIconOnly
+      ? undefined
+      : getAccessibleText(toArray(children).filter((child) => !getIconSlotName(child))));
+
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    isIconOnly &&
+    rootProps["accessibility-element"] &&
+    !accessibilityLabel
+  ) {
+    console.warn(
+      'ActionButton: `layout="iconOnly"` requires `accessibility-label` for accessibility.',
+    );
+  }
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    !isIconOnly &&
+    rootProps["accessibility-element"] &&
+    !label
+  ) {
+    console.warn("ActionButton: `accessibility-label` is required when children have no text.");
+  }
+
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled: !api.interactive,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
+  });
+
+  return (
+    <IconRequired enabled={isIconOnly}>
+      <ActionButtonRoot
+        {...mergeProps(
+          {
+            flatten: false,
+            style,
+          },
+          ref ? { ref } : {},
+          scaleFeedbackTargetProps,
+          scaleFeedbackTriggerProps,
+          rootProps,
+          variantAndRest,
+          { "accessibility-label": label || undefined },
+        )}
+        layout={layout}
+        disabled={api.disabled}
+        loading={api.loading}
+        pressed={api.pressed}
+      >
+        {api.loading ? (
+          <>
+            <ActionButtonLoadingIndicator size={size} />
+            <ActionButtonLoadingContent isIconOnly={isIconOnly}>
+              {children}
+            </ActionButtonLoadingContent>
+          </>
+        ) : (
+          <ActionButtonContent isIconOnly={isIconOnly}>{children}</ActionButtonContent>
+        )}
+      </ActionButtonRoot>
+    </IconRequired>
+  );
+});
+ActionButton.displayName = "ActionButton";

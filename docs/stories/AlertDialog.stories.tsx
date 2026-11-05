@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
-import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { dialogVariantMap } from "@seed-design/css/recipes/dialog";
+import preview from "../.storybook/preview";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
+import { alertDialogVariantMap } from "@seed-design/css/recipes/alert-dialog";
 import { Box, ResponsivePair, VStack } from "@seed-design/react";
 import {
   AlertDialogRoot,
@@ -28,14 +27,14 @@ const AlertDialogPreview = ({
   return (
     <Box width="400px" p="x4">
       <style>{`
-        .seed-dialog__positioner {
+        .seed-alert-dialog__positioner {
           position: relative !important;
           inset: unset !important;
         }
-        .seed-dialog__backdrop {
+        .seed-alert-dialog__backdrop {
           display: none !important;
         }
-        .seed-dialog__content {
+        .seed-alert-dialog__content {
           animation: none !important;
         }
       `}</style>
@@ -52,16 +51,11 @@ const AlertDialogPreview = ({
   );
 };
 
-const meta = {
+const meta = preview.meta({
   component: AlertDialogPreview,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof AlertDialogPreview>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-const { skipAnimation: _skipAnimation, ...restVariantMap } = dialogVariantMap;
+});
+const { skipAnimation: _skipAnimation, ...restVariantMap } = alertDialogVariantMap;
 
 const conditionMap = {
   body: {
@@ -115,30 +109,27 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
-  render: (args) => (
+const CommonStoryTemplate = meta.story({
+  render: (args, { component }) => (
     <VariantTable
-      Component={meta.component}
+      Component={component!}
       variantMap={restVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

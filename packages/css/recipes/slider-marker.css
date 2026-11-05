@@ -1,7 +1,6 @@
 .seed-slider-marker {
     position: absolute;
-    top: 0;
-    bottom: 0;
+    inset-block: 0;
     width: max-content;
     color: var(--seed-color-fg-neutral-muted);
     font-weight: var(--seed-font-weight-regular);

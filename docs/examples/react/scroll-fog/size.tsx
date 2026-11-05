@@ -5,7 +5,7 @@ export default function ScrollFogSize() {
     <div
       style={{
         maxWidth: "400px",
-        maxHeight: "300px",
+        height: "300px",
         border: "1px solid var(--seed-color-stroke-neutral-weak)",
         borderRadius: "8px",
       }}

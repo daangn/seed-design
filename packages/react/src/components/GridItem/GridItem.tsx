@@ -1,7 +1,8 @@
 import * as React from "react";
+import type { DistributiveOmit } from "../../utils/styled";
 import { Box, type BoxProps } from "../Box/Box";
 
-export interface GridItemProps extends Omit<BoxProps, "gridColumn" | "gridRow" | "gridArea"> {
+export type GridItemProps = DistributiveOmit<BoxProps, "gridColumn" | "gridRow" | "gridArea"> & {
   /**
    * If true, the component will render its children directly without a wrapper element.
    * @default false
@@ -39,7 +40,7 @@ export interface GridItemProps extends Omit<BoxProps, "gridColumn" | "gridRow" |
   rowEnd?: number;
 
   // NOTE: grid-area is not currently supported here: see Grid.tsx
-}
+};
 
 export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>((props, ref) => {
   const { asChild = false, colSpan, colStart, colEnd, rowSpan, rowStart, rowEnd, ...rest } = props;

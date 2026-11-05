@@ -1,0 +1,113 @@
+---
+title: Scroll Fog
+description: 스크롤 가능한 영역에서 사용자에게 추가 콘텐츠가 있음을 시각적으로 알려주는 힌트 역할을 합니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.8.0, @seed-design/lynx-css@0.12.0" />
+
+<LynxComponentExample name="lynx/scroll-fog/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/scroll-fog/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+Scroll Fog는 지정한 가장자리에 mask를 적용하며 직접 스크롤하지 않습니다. 스크롤할 콘텐츠를 자식으로 배치하세요.
+
+## Installation
+
+```package-install
+@seed-design/lynx-react
+```
+
+
+## Usage
+
+`ScrollFog` 안에 스크롤 방향과 같은 축의 `<scroll-view>`를 배치하세요. `placement`는 세로 또는 가로 한 축의 방향만 받습니다. `size`와 `sizes`로 fog 크기를 조절할 수 있습니다.
+
+```tsx
+import { ScrollFog } from "@seed-design/lynx-react";
+
+export function App() {
+  return (
+    <view style={{ height: "300px" }}>
+      <ScrollFog placement={["top", "bottom"]} style={{ width: "100%", height: "100%" }}>
+        <scroll-view
+          scroll-orientation="vertical"
+          style={{ width: "100%", height: "100%", padding: "20px 0 80px" }}
+        >
+          <text>스크롤할 콘텐츠</text>
+        </scroll-view>
+      </ScrollFog>
+    </view>
+  );
+}
+```
+
+## Props
+
+### Scroll Fog
+
+<react-type-table path="../packages/lynx-react/src/components/ScrollFog/ScrollFog.tsx" name="ScrollFogProps" />
+
+## Examples
+
+### Padding
+
+ScrollFog는 항상 fog를 표시하므로 `<scroll-view>`의 지정 방향에 충분한 padding을 두세요. 최소 20px을 권장하며, 화면 전체를 차지하는 세로 스크롤은 하단 80px을 권장합니다.
+
+```tsx
+<ScrollFog placement={["top", "bottom"]}>
+  <scroll-view scroll-orientation="vertical" style={{ padding: "20px 0 80px" }}>
+    ...
+  </scroll-view>
+</ScrollFog>
+
+<ScrollFog placement={["left", "right"]}>
+  <scroll-view scroll-orientation="horizontal" style={{ padding: "0 20px" }}>
+    ...
+  </scroll-view>
+</ScrollFog>
+```
+
+### Horizontal Scroll
+
+
+<LynxComponentExample name="lynx/scroll-fog/horizontal">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/scroll-fog/horizontal.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Size
+
+`size`를 사용해 지정한 방향의 fog 크기를 한 번에 조절할 수 있습니다. `sizes`를 사용하면 각 방향의 크기를 다르게 지정할 수 있습니다.
+
+<LynxComponentExample name="lynx/scroll-fog/size">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/scroll-fog/size.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<LynxComponentExample name="lynx/scroll-fog/sizes">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/scroll-fog/sizes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+- 웹과 달리 Lynx `<scroll-view>`는 한 축만 스크롤하므로 `placement`도 같은 축의 방향만 받습니다.
+- `ScrollFog`는 스크롤하지 않습니다. 스크롤 위치와 `bindscroll`은 자식 `<scroll-view>`에서 제어하세요.
+- 스크롤바를 숨기려면 자식 `<scroll-view>`에 `scroll-bar-enable={false}`를 지정하세요.

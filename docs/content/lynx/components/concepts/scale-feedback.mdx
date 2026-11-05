@@ -1,0 +1,175 @@
+---
+title: Scale Feedback
+description: Lynx에서 Main Thread 기반의 SEED Scale Feedback을 적용하는 방법을 알아봅니다.
+compatibility:
+  lynx:
+    engine: "3.6"
+---
+
+SEED의 Scale Feedback은 누르는 동안 요소를 살짝 줄여 입력이 도달했음을 즉시 전달합니다. 고정된 배율을 쓰지 않고 렌더된 크기에서 배율을 계산하므로 작은 아이콘 버튼과 화면 폭을 채우는 요소가 비슷한 눌림 거리로 반응합니다.
+
+`@seed-design/lynx-react`는 `ScaleFeedback`과 `useScaleFeedback`을 공개합니다. 하나의 영역을 줄일 때는 `ScaleFeedback`을, 터치 영역과 축소할 요소가 다를 때는 `useScaleFeedback`을 사용하세요.
+
+## Scale 계산 방식
+
+렌더링된 폭과 높이를 기준으로 배율을 계산합니다. 아직 보이지 않아 크기가 0인 요소는 처음 누를 때 다시 측정합니다.
+
+```text
+basis = max(height, width / 4, 24)
+scale = (basis - 2) / basis
+```
+
+축소량, 폭 보정값, 최소 기준 길이의 의미는 [Scale Foundation](/foundations/feedback/scale)에서 확인할 수 있습니다.
+
+## ScaleFeedback으로 Self Scale 적용하기
+
+하나의 시각 영역에 Self Scale을 적용할 때는 `ScaleFeedback`으로 감쌉니다.
+
+```tsx
+import { ScaleFeedback } from "@seed-design/lynx-react";
+
+function Pressable() {
+  return (
+    <ScaleFeedback>
+      <view>
+        <text>눌러 보세요</text>
+      </view>
+    </ScaleFeedback>
+  );
+}
+```
+
+`ScaleFeedback`은 animation target인 native `view`를 렌더링하며 `flatten={false}`를 적용합니다.
+
+wrapper의 크기나 이벤트 전파가 원하는 터치 영역과 다르면 `useScaleFeedback`으로 trigger와 target을 직접 지정하세요.
+
+## useScaleFeedback으로 Self와 Content Scale 적용하기
+
+훅은 터치를 받는 요소와 축소할 요소의 props를 나누어 반환합니다.
+
+```tsx
+import { mergeProps, useScaleFeedback } from "@seed-design/lynx-react";
+
+function Pressable() {
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
+
+  return (
+    <view {...mergeProps(scaleFeedbackTriggerProps, scaleFeedbackTargetProps)}>
+      <text>눌러 보세요</text>
+    </view>
+  );
+}
+```
+
+<LynxComponentExample name="lynx/scale-feedback/self-and-content">
+  ```json doc-gen:file
+  { "file": "examples/lynx/scale-feedback/self-and-content.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+`scaleFeedbackTargetProps`에는 `flatten={false}`가 포함됩니다. target에 객체를 그대로 전달하세요.
+
+### 기존 이벤트와 ref 합성하기
+
+같은 요소에 여러 props 객체를 전달할 때는 `mergeProps()`를 사용하세요. 같은 이름의 이벤트와 ref를 덮어쓰지 않고 합성합니다.
+
+```tsx
+<view
+  {...mergeProps(scaleFeedbackTriggerProps, scaleFeedbackTargetProps, userProps)}
+  flatten={false}
+/>
+```
+
+사용자 props는 마지막에 전달합니다. 같은 이름의 사용자 이벤트가 먼저 실행되고, 일반 값은 뒤의 값이 우선합니다. animation target의 `flatten={false}`는 유지하세요.
+
+`mergeProps()`는 이벤트의 전파 방식이나 실행 스레드를 바꾸지 않습니다. Background callback은 `useScaleFeedback` 옵션으로 전달하세요.
+
+<Callout>
+브라우저 미리보기는 구조와 기본 상호작용을 확인하는 용도입니다. 실제 Scale Feedback 동작은 Lynx Explorer에서 확인하세요.
+</Callout>
+
+## Self와 Content 선택하기
+
+두 방식의 차이는 target 위치입니다.
+
+| 방식 | Trigger | Target |
+|---|---|---|
+| Self | 액션 영역 | 같은 액션 영역 |
+| Content | 바깥 액션 영역 | 안쪽 콘텐츠 |
+
+Self Scale은 두 props를 같은 요소에 전달합니다. Content Scale은 trigger props를 바깥 요소에, target props를 안쪽 콘텐츠에 전달합니다.
+
+```tsx
+const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
+
+return (
+  <view {...scaleFeedbackTriggerProps}>
+    <view {...scaleFeedbackTargetProps}>{children}</view>
+  </view>
+);
+```
+
+Checkbox, Radio, Switch처럼 넓은 영역이 터치를 받고 일부 요소만 줄어드는 경우에도 Content Scale을 사용합니다.
+
+## Main Thread와 Background Thread
+
+Main Thread는 레이아웃 측정, 터치 처리, animation 실행을 담당합니다. Background Thread callback에는 비즈니스 로직을 둡니다.
+
+Main Thread 함수 안에서는 React state, 네트워크 요청, NativeModule을 사용하지 마세요.
+
+## 애니메이션과 Rootage 값
+
+Scale은 `Element.animate()`로 실행하므로 target에 선언된 색상 transition을 덮어쓰지 않습니다.
+
+| 값 | Rootage source | 현재 값 |
+|---|---|---|
+| Duration | `$duration.pressed-scale` | `150ms` |
+| Easing | `$timing-function.pressed-scale` | `cubic-bezier(0, 0, 0.15, 1)` |
+
+터치를 끝내거나 취소하면 현재 지점에서 `scale(1)`로 돌아갑니다.
+
+## 동작 줄이기
+
+`useScaleFeedback`은 [`SeedProvider`](/lynx/getting-started/host-integration)의 `preferredMotion`을 따릅니다.
+
+| `preferredMotion` | 동작 |
+|---|---|
+| `"reduced"` | 배율을 `1`로 유지 |
+| `"default"` 또는 생략 | Scale Feedback 적용 |
+
+누르는 도중 `"reduced"`로 바뀌거나 컴포넌트가 비활성화되면 `scale(1)`로 돌아갑니다.
+
+`preferredMotion`을 생략하면 `GlobalProps.motion`을 읽고, 값이 있으면 개발 빌드에서 한 번 경고합니다. Global props에서 읽는 동작은 다음 메이저 버전에서 제거될 예정입니다.
+
+## disabled, loading, 중첩 target
+
+- `disabled: true`이면 축소하지 않습니다. Loading 상태에도 같은 값을 전달하세요.
+- 이미 축소되는 상위 요소 안에는 Scale Feedback을 중복 적용하지 않습니다.
+- 훅이 target의 `transform`을 사용합니다. 기존 transform을 유지하려면 전용 콘텐츠 layer를 target으로 두세요.
+
+## React와의 차이
+
+- React는 CSS `:active`와 변수를 사용하고, Lynx는 `Element.animate()`를 사용합니다.
+- Lynx는 일부 컴포넌트의 안쪽 콘텐츠만 축소하므로 웹과 눌림 표현이 다를 수 있습니다.
+- React의 `ScaleFeedback`은 wrapper를 만들지 않지만 Lynx는 native `view` wrapper를 렌더링합니다.
+- 직접 만든 Scale Feedback의 중첩 축소를 끄는 API는 없습니다.
+- 프로젝트 전체에서 끄려면 `SeedProvider`에 `preferredMotion="reduced"`를 넘깁니다.
+
+## API
+
+### ScaleFeedback
+
+<react-type-table path="../packages/utils/lynx-react-scale-feedback/src/ScaleFeedback.tsx" name="ScaleFeedbackProps" />
+
+### useScaleFeedback
+
+<react-type-table path="../packages/utils/lynx-react-scale-feedback/src/useScaleFeedback.ts" name="UseScaleFeedbackOptions" />
+
+<react-type-table path="../packages/utils/lynx-react-scale-feedback/src/useScaleFeedback.ts" name="UseScaleFeedbackReturn" />
+
+## 참고 자료
+
+- [Lynx 3.6 Main Thread Script](https://lynxjs.org/3.6/react/main-thread-script.html)
+- [Lynx Rendering Process and Lifecycle](https://lynxjs.org/3.6/react/lifecycle.html)
+- [SEED Scale Foundation](/foundations/feedback/scale)
+- [React Scale Feedback](/react/components/concepts/scale-feedback)

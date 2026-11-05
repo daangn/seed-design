@@ -18,10 +18,10 @@ export default defineConfig({
     target: "esnext",
     minify: false,
     lib: {
-      entry: globbySync(["src/**/index.ts", "src/vars.ts", "src/primitive.ts"]),
+      entry: globbySync(["src/**/index.ts", "src/vars.ts"]),
     },
     outDir: "lib",
-    rollupOptions: {
+    rolldownOptions: {
       logLevel: "silent",
       external: [
         ...Object.keys(pkg.dependencies ?? {}),
@@ -60,6 +60,6 @@ const renderBanner = (fileName: string) => {
   return `'use client';`;
 };
 
-const isBarrelFile = (file: path.ParsedPath) => ["index", "primitive", "vars"].includes(file.name);
+const isBarrelFile = (file: path.ParsedPath) => ["index", "vars"].includes(file.name);
 
 const isNamespaceFile = (file: path.ParsedPath) => file.name.includes("namespace");

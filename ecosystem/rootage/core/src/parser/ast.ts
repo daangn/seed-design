@@ -23,6 +23,15 @@ export interface NumberLit {
   value: number;
 }
 
+/**
+ * One of the values a property's `enum` schema lists. Carries no CSS-expressible
+ * value, so it never reaches the style output.
+ */
+export interface EnumLit {
+  kind: "EnumLit";
+  value: string;
+}
+
 export interface CubicBezierLit {
   kind: "CubicBezierLit";
   value: readonly [number, number, number, number];
@@ -58,6 +67,7 @@ export type ValueLit =
   | DimensionLit
   | DurationLit
   | NumberLit
+  | EnumLit
   | CubicBezierLit
   | ShadowLit
   | GradientLit;
@@ -88,6 +98,7 @@ export interface ColorTokenDeclaration {
   token: TokenLit;
   values: ColorTokenValueDeclaration[];
   description?: string;
+  excludeFromExchange?: boolean;
 }
 
 export interface ColorTokenValueDeclaration {
@@ -102,6 +113,7 @@ export interface DimensionTokenDeclaration {
   token: TokenLit;
   values: DimensionTokenValueDeclaration[];
   description?: string;
+  excludeFromExchange?: boolean;
 }
 
 export interface DimensionTokenValueDeclaration {
@@ -116,6 +128,7 @@ export interface NumberTokenDeclaration {
   token: TokenLit;
   values: NumberTokenValueDeclaration[];
   description?: string;
+  excludeFromExchange?: boolean;
 }
 
 export interface NumberTokenValueDeclaration {
@@ -130,6 +143,7 @@ export interface DurationTokenDeclaration {
   token: TokenLit;
   values: DurationTokenValueDeclaration[];
   description?: string;
+  excludeFromExchange?: boolean;
 }
 
 export interface DurationTokenValueDeclaration {
@@ -144,6 +158,7 @@ export interface CubicBezierTokenDeclaration {
   token: TokenLit;
   values: CubicBezierTokenValueDeclaration[];
   description?: string;
+  excludeFromExchange?: boolean;
 }
 
 export interface CubicBezierTokenValueDeclaration {
@@ -158,6 +173,7 @@ export interface ShadowTokenDeclaration {
   token: TokenLit;
   values: ShadowTokenValueDeclaration[];
   description?: string;
+  excludeFromExchange?: boolean;
 }
 
 export interface ShadowTokenValueDeclaration {
@@ -172,6 +188,7 @@ export interface GradientTokenDeclaration {
   token: TokenLit;
   values: GradientTokenValueDeclaration[];
   description?: string;
+  excludeFromExchange?: boolean;
 }
 
 export interface GradientTokenValueDeclaration {
@@ -188,6 +205,7 @@ export interface UnresolvedTokenDeclaration {
   token: TokenLit;
   values: UnresolvedTokenValueDeclaration[];
   description?: string;
+  excludeFromExchange?: boolean;
 }
 
 export interface UnresolvedTokenValueDeclaration {
@@ -213,10 +231,16 @@ export interface TokensDocument {
 }
 
 // TokenCollections
+export interface ModeDeclaration {
+  kind: "ModeDeclaration";
+  id: string;
+  description?: string;
+}
+
 export interface TokenCollectionDeclaration {
   kind: "TokenCollectionDeclaration";
   name: string;
-  modes: string[];
+  modes: ModeDeclaration[];
 }
 
 export interface TokenCollectionsDocument {
@@ -250,6 +274,16 @@ export interface DurationPropertyDeclaration {
   value: DurationLit | TokenLit;
 }
 
+/**
+ * No `TokenLit` alternative: no token collection has an enum type, so an alias can
+ * never resolve to one. Writing one is caught as a type mismatch by the analyzer.
+ */
+export interface EnumPropertyDeclaration {
+  kind: "EnumPropertyDeclaration";
+  property: string;
+  value: EnumLit;
+}
+
 export interface CubicBezierPropertyDeclaration {
   kind: "CubicBezierPropertyDeclaration";
   property: string;
@@ -279,6 +313,7 @@ export type PropertyDeclaration =
   | DimensionPropertyDeclaration
   | NumberPropertyDeclaration
   | DurationPropertyDeclaration
+  | EnumPropertyDeclaration
   | CubicBezierPropertyDeclaration
   | ShadowPropertyDeclaration
   | GradientPropertyDeclaration
@@ -320,12 +355,22 @@ export interface SlotSchemaDeclaration {
   description?: string;
 }
 
-export interface PropertySchemaDeclaration {
+/**
+ * Named separately from the declaration so it can be passed around — and spread —
+ * without the correlation between `type` and `values` collapsing.
+ */
+export type PropertySchema =
+  | {
+      type: "color" | "dimension" | "number" | "duration" | "cubicBezier" | "shadow" | "gradient";
+      values?: never;
+      description?: string;
+    }
+  | { type: "enum"; values: string[]; description?: string };
+
+export type PropertySchemaDeclaration = {
   kind: "PropertySchemaDeclaration";
   name: string;
-  type: "color" | "dimension" | "number" | "duration" | "cubicBezier" | "shadow" | "gradient";
-  description?: string;
-}
+} & PropertySchema;
 
 export interface VariantSchemaDeclaration {
   kind: "VariantSchemaDeclaration";
@@ -366,6 +411,7 @@ export type Node =
   | DimensionLit
   | DurationLit
   | NumberLit
+  | EnumLit
   | CubicBezierLit
   | ShadowLayerLit
   | ShadowLit
@@ -391,12 +437,14 @@ export type Node =
   | UnresolvedTokenDeclaration
   | UnresolvedTokenValueDeclaration
   | TokensDocument
+  | ModeDeclaration
   | TokenCollectionDeclaration
   | TokenCollectionsDocument
   | ColorPropertyDeclaration
   | DimensionPropertyDeclaration
   | NumberPropertyDeclaration
   | DurationPropertyDeclaration
+  | EnumPropertyDeclaration
   | CubicBezierPropertyDeclaration
   | ShadowPropertyDeclaration
   | GradientPropertyDeclaration

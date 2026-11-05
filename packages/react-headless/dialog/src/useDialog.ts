@@ -1,13 +1,14 @@
 import { useControllableState } from "@seed-design/react-use-controllable-state";
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
-import { useId, useMemo } from "react";
+import { useCallback, useId, useMemo, useState } from "react";
 
 interface DialogReasonToDetailMap {
-  // we might add synthetic events later if needed; currently we aim consistency; DismissableLayer gives us native events
+  // we might add synthetic events later if needed; currently we aim consistency; DismissibleLayer gives us native events
   trigger: { event: MouseEvent };
   closeButton: { event: MouseEvent };
   escapeKeyDown: { event: KeyboardEvent };
-  interactOutside: { event: PointerEvent | FocusEvent };
+  interactOutside: { event: PointerEvent | TouchEvent | FocusEvent };
+  cascadeDismiss: { dismissedParent: HTMLElement };
 }
 
 type DialogChangeDetails = {
@@ -46,6 +47,16 @@ export interface UseDialogProps extends UseDialogStateProps {
   role?: "dialog" | "alertdialog";
 
   /**
+   * Whether the dialog should behave as a modal overlay.
+   * When true, focus is trapped, background content is hidden from assistive technology,
+   * and `aria-modal` is set.
+   * Set to `false` to temporarily suspend modal behavior (e.g., when a Stackflow Activity
+   * is pushed on top of a mounted dialog).
+   * @default true
+   */
+  modal?: boolean;
+
+  /**
    * Whether to close the dialog when the outside is clicked
    * @default true
    */
@@ -74,9 +85,23 @@ export type UseDialogReturn = ReturnType<typeof useDialog>;
 export function useDialog(props: UseDialogProps = {}) {
   const { open, onOpenChange } = useDialogState(props);
 
+  const modal = props.modal ?? true;
   const id = useId();
   const titleId = `${id}-title`;
   const descriptionId = `${id}-description`;
+
+  // Presence-aware aria wiring: the content references a title/description id only
+  // when that part is actually rendered, mirroring useField/usePopover — a dialog
+  // without a DialogTitle/DialogDescription must not point aria-labelledby/
+  // aria-describedby at a missing id.
+  const [isTitleRendered, setIsTitleRendered] = useState(false);
+  const titleRef = useCallback((node: HTMLElement | null) => {
+    setIsTitleRendered(!!node);
+  }, []);
+  const [isDescriptionRendered, setIsDescriptionRendered] = useState(false);
+  const descriptionRef = useCallback((node: HTMLElement | null) => {
+    setIsDescriptionRendered(!!node);
+  }, []);
 
   const stateProps = useMemo(
     () =>
@@ -90,12 +115,17 @@ export function useDialog(props: UseDialogProps = {}) {
   return useMemo(
     () => ({
       open,
+      modal,
       setOpen: onOpenChange,
       closeOnInteractOutside: props.closeOnInteractOutside ?? true,
       closeOnEscape: props.closeOnEscape ?? true,
       lazyMount: props.lazyMount ?? false,
       unmountOnExit: props.unmountOnExit ?? false,
       stateProps,
+      refs: {
+        title: titleRef,
+        description: descriptionRef,
+      },
       triggerProps: buttonProps({
         "aria-haspopup": "dialog",
         "aria-expanded": open,
@@ -117,9 +147,9 @@ export function useDialog(props: UseDialogProps = {}) {
       contentProps: elementProps({
         ...stateProps,
         role: props.role ?? "dialog",
-        "aria-modal": true,
-        "aria-labelledby": titleId,
-        "aria-describedby": descriptionId,
+        "aria-modal": modal,
+        ...(isTitleRendered && { "aria-labelledby": titleId }),
+        ...(isDescriptionRendered && { "aria-describedby": descriptionId }),
       }),
       titleProps: elementProps({
         id: titleId,
@@ -139,10 +169,15 @@ export function useDialog(props: UseDialogProps = {}) {
     }),
     [
       open,
+      modal,
       onOpenChange,
       stateProps,
       titleId,
       descriptionId,
+      isTitleRendered,
+      isDescriptionRendered,
+      titleRef,
+      descriptionRef,
       props.role,
       props.closeOnInteractOutside,
       props.closeOnEscape,

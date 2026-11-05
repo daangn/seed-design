@@ -1,0 +1,129 @@
+import * as React from "@lynx-js/react";
+import clsx from "clsx";
+import { tagGroup, type TagGroupVariantProps } from "@seed-design/lynx-css/recipes/tag-group";
+import {
+  tagGroupItem,
+  type TagGroupItemVariantProps,
+} from "@seed-design/lynx-css/recipes/tag-group-item";
+
+import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
+import { toArray } from "../../utils/children";
+import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
+import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
+import { useStyleProps, type StyleProps } from "../../utils/styled";
+import { mergeProps } from "../../utils/merge-props";
+
+const { PropsProvider, useProps, ClassNamesProvider, useClassNames } =
+  createSlotRecipeContext(tagGroupItem);
+
+////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @platform Lynx
+ *
+ * 웹 대비 미지원 기능:
+ * - `truncate` prop: Lynx flex 모델에서는 item 단위 wrap만 가능해 웹 수준의
+ *   "한 줄 유지 + label ellipsis" 조합을 재현할 수 없음
+ * - `asChild` prop: Lynx Slot 미지원
+ */
+export interface TagGroupRootProps
+  extends TagGroupVariantProps,
+    TagGroupItemVariantProps,
+    LynxHostProps<"view"> {
+  /**
+   * children 사이에 삽입되는 구분자. 기본값 `"·"`.
+   * 문자열을 전달하면 앞뒤 공백을 제거합니다.
+   */
+  separator?: React.ReactNode;
+}
+
+export const TagGroupRoot = React.forwardRef<unknown, TagGroupRootProps>((props, ref) => {
+  const [{ tagGroup: tagGroupVariantProps, tagGroupItem: tagGroupItemVariantProps }, otherProps] =
+    splitMultipleVariantsProps(props, { tagGroup, tagGroupItem });
+  const { children, className, separator = " · ", ...nativeProps } = otherProps;
+  const classes = tagGroup(tagGroupVariantProps);
+  const normalizedSeparator = typeof separator === "string" ? separator.trim() : separator;
+
+  // React TagGroup과 같이 조건부 렌더링의 `""`·`0` 같은 falsy child는 항목으로 보지 않는다.
+  const visibleChildren = toArray(children).filter(Boolean);
+
+  return (
+    <PropsProvider value={tagGroupItemVariantProps}>
+      <view
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        className={clsx(classes.root, className)}
+      >
+        {visibleChildren.map((child, index) => {
+          if (index === 0) return child;
+          // Lynx <text> separator는 개별 flex item이라 wrap이 발동하면 separator가
+          // 이전 row 끝에 남는다. separator와 뒤따르는 item을 하나의 flex-row wrapper로
+          // 묶어 같은 wrap 단위로 함께 이동시킨다.
+          return (
+            <view
+              key={(child as React.ReactElement).key ?? index}
+              className={classes.separatorWrapper}
+            >
+              <text accessibility-elements-hidden={true} className={classes.separator}>
+                {normalizedSeparator}
+              </text>
+              {child}
+            </view>
+          );
+        })}
+      </view>
+    </PropsProvider>
+  );
+});
+TagGroupRoot.displayName = "TagGroupRoot";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @platform Lynx
+ *
+ * 웹 대비 미지원 기능:
+ * - `asChild` prop: Lynx Slot 미지원
+ */
+export interface TagGroupItemProps
+  extends TagGroupItemVariantProps,
+    Pick<StyleProps, "flexShrink">,
+    LynxHostProps<"view"> {}
+
+export const TagGroupItem = React.forwardRef<unknown, TagGroupItemProps>((props, ref) => {
+  const parentVariantProps = useProps();
+  const [localVariantProps, otherProps] = tagGroupItem.splitVariantProps(props);
+  const classes = tagGroupItem({ ...parentVariantProps, ...localVariantProps });
+  const { style, restProps } = useStyleProps(otherProps);
+  const { children, className, ...nativeProps } = restProps;
+
+  return (
+    <ClassNamesProvider value={classes}>
+      <view
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        className={clsx(classes.root, className)}
+        style={style}
+      >
+        {children}
+      </view>
+    </ClassNamesProvider>
+  );
+});
+TagGroupItem.displayName = "TagGroupItem";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface TagGroupItemLabelProps extends LynxHostProps<"text"> {}
+
+export const TagGroupItemLabel = React.forwardRef<unknown, TagGroupItemLabelProps>((props, ref) => {
+  const classes = useClassNames();
+  const { children, className, ...nativeProps } = props;
+  return (
+    <text
+      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+      className={clsx(classes.label, className)}
+    >
+      {children}
+    </text>
+  );
+});
+TagGroupItemLabel.displayName = "TagGroupItemLabel";

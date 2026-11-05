@@ -1,5 +1,89 @@
 # @seed-design/figma
 
+## 2.1.0
+
+### Minor Changes
+
+- 86f74d7: 라이선스를 MIT에서 Apache-2.0으로 변경합니다. 저장소 루트의 Apache License 2.0과 표기가 달랐던 것을 일치시킵니다.
+
+  - 배포물에 `LICENSE`와 `NOTICE`를 포함해, 설치한 패키지에서 바로 이용 조건을 확인할 수 있습니다.
+  - MIT와 달리 재배포할 때 라이선스 사본과 `NOTICE`의 귀속 고지를 함께 전달해야 하고, 수정한 파일에는 변경 사실을 표시해야 합니다.
+  - 당근 로고를 비롯한 브랜드 리소스는 별도 가이드라인을 따르며, 당근을 사칭하거나 당근 서비스와 관련이 있는 것처럼 오인하게 하는 사용은 허용되지 않습니다. 자세한 내용은 `NOTICE` 파일을 참고해주세요.
+
+## 2.0.0
+
+이 패키지의 코드 변경은 없으며, SEED React 2 릴리즈에 맞춰 앞으로의 semver 정합성을 위해 버전을 올립니다.
+
+## 1.3.18
+
+### Patch Changes
+
+- Updated dependencies [234e8c7]
+  - @seed-design/css@1.2.16
+
+## 1.3.17
+
+### Patch Changes
+
+- Updated dependencies [26b1de5]
+  - @seed-design/css@1.2.15
+
+## 1.3.16
+
+### Patch Changes
+
+- Updated dependencies [8dc8f4f]
+- Updated dependencies [e48f021]
+  - @seed-design/css@1.2.14
+
+## 1.3.15
+
+### Patch Changes
+
+- Updated dependencies [9cacf29]
+  - @seed-design/css@1.2.13
+
+## 1.3.14
+
+### Patch Changes
+
+- 546f1fc: Figma 코드젠 컴포넌트 핸들러 및 아이콘 데이터를 업데이트합니다.
+- Updated dependencies [d8860f4]
+- Updated dependencies [7588e59]
+  - @seed-design/css@1.2.12
+
+## 1.3.13
+
+### Patch Changes
+
+- 87f6f45: Figma 엔티티 및 Codegen을 업데이트합니다.
+- Updated dependencies [be7022a]
+  - @seed-design/css@1.2.11
+
+## 1.3.12
+
+### Patch Changes
+
+- Updated dependencies [46bdf17]
+- Updated dependencies [79c7aa3]
+  - @seed-design/css@1.2.10
+
+## 1.3.11
+
+### Patch Changes
+
+- 41cd943: 아이콘 데이터 및 Figma Codegen 컴포넌트 핸들러를 최신 버전으로 업데이트합니다.
+- Updated dependencies [5bf2e8a]
+  - @seed-design/css@1.2.9
+
+## 1.3.10
+
+### Patch Changes
+
+- Updated dependencies [c02bfba]
+- Updated dependencies [f391668]
+  - @seed-design/css@1.2.8
+
 ## 1.3.9
 
 ### Patch Changes

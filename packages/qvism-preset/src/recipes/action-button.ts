@@ -1,13 +1,15 @@
+import spec from "@seed-design/rootage-artifacts/components/action-button";
 import { actionButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
-import { engaged, disabled, focusVisible, loading, pseudo } from "../utils/pseudo";
+import { active, engaged, disabled, focusVisible, loading, not, pseudo } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 
 const actionButton = defineRecipe({
   name: "action-button",
@@ -43,10 +45,10 @@ const actionButton = defineRecipe({
     paddingLeft: "var(--seed-box-padding-left)",
     paddingRight: "var(--seed-box-padding-right)",
 
-    "--seed-box-bleed-bottom": "0px",
-    "--seed-box-bleed-top": "0px",
-    "--seed-box-bleed-left": "0px",
-    "--seed-box-bleed-right": "0px",
+    "--seed-box-bleed-bottom--responsive": "0px",
+    "--seed-box-bleed-top--responsive": "0px",
+    "--seed-box-bleed-left--responsive": "0px",
+    "--seed-box-bleed-right--responsive": "0px",
     marginTop: "calc(var(--seed-box-bleed-top) * -1)",
     marginBottom: "calc(var(--seed-box-bleed-bottom) * -1)",
     marginLeft: "calc(var(--seed-box-bleed-left) * -1)",
@@ -59,7 +61,9 @@ const actionButton = defineRecipe({
       cursor: "not-allowed",
     },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
+
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
   },
   variants: {
     variant: {
@@ -529,6 +533,9 @@ const actionButton = defineRecipe({
     variant: "brandSolid",
     size: "medium",
     layout: "withText",
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
   },
 });
 

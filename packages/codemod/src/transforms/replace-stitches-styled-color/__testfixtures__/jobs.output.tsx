@@ -66,7 +66,7 @@ const Container = styled("div", {
         background: "$bg-layer-default",
       },
       false: {
-        background: "$bg-layer-fill",
+        background: "$bg-neutral-weak",
       },
     },
     achievement: {

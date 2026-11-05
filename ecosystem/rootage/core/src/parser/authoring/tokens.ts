@@ -48,6 +48,7 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
               factory.createColorTokenValueDeclaration(mode, value as ColorHexLit | TokenLit),
             ),
             tokenData.description,
+            tokenData.excludeFromExchange,
           ),
         );
         break;
@@ -60,6 +61,7 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
               factory.createDimensionTokenValueDeclaration(mode, value as DimensionLit | TokenLit),
             ),
             tokenData.description,
+            tokenData.excludeFromExchange,
           ),
         );
         break;
@@ -72,6 +74,7 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
               factory.createNumberTokenValueDeclaration(mode, value as NumberLit | TokenLit),
             ),
             tokenData.description,
+            tokenData.excludeFromExchange,
           ),
         );
         break;
@@ -84,6 +87,7 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
               factory.createDurationTokenValueDeclaration(mode, value as DurationLit | TokenLit),
             ),
             tokenData.description,
+            tokenData.excludeFromExchange,
           ),
         );
         break;
@@ -99,6 +103,7 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
               ),
             ),
             tokenData.description,
+            tokenData.excludeFromExchange,
           ),
         );
         break;
@@ -111,6 +116,7 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
               factory.createShadowTokenValueDeclaration(mode, value as ShadowLit | TokenLit),
             ),
             tokenData.description,
+            tokenData.excludeFromExchange,
           ),
         );
         break;
@@ -123,6 +129,7 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
               factory.createGradientTokenValueDeclaration(mode, value as GradientLit | TokenLit),
             ),
             tokenData.description,
+            tokenData.excludeFromExchange,
           ),
         );
         break;
@@ -135,6 +142,7 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
               factory.createUnresolvedTokenValueDeclaration(mode, value as TokenLit),
             ),
             tokenData.description,
+            tokenData.excludeFromExchange,
           ),
         );
     }
