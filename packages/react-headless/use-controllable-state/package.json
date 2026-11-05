@@ -42,7 +42,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@radix-ui/react-use-effect-event": "^0.0.2",
+    "@radix-ui/react-use-effect-event": "^0.0.5",
     "@radix-ui/react-use-layout-effect": "^1.1.1"
   }
 }
