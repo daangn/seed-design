@@ -923,6 +923,31 @@ describe("useMenu", () => {
     });
   });
 
+  describe("safe area", () => {
+    // Collision padding is read back from these declarations as px, so a positioner that
+    // loses them positions against the bare viewport edge again.
+    it("re-declares every safe-area inset on the positioner", async () => {
+      const { getByTestId } = render(
+        <Menu>
+          <MenuTrigger>Open Menu</MenuTrigger>
+          <MenuPositioner data-testid="positioner">
+            <MenuContent>
+              <MenuItem>Item 1</MenuItem>
+            </MenuContent>
+          </MenuPositioner>
+        </Menu>,
+      );
+      await waitForPositioning();
+
+      const { style } = getByTestId("positioner");
+      for (const side of ["top", "right", "bottom", "left"]) {
+        expect(style.getPropertyValue(`--seed-safe-area-${side}`)).toBe(
+          `env(safe-area-inset-${side})`,
+        );
+      }
+    });
+  });
+
   // The content stays mounted while closing so the exit transition can play, and it
   // has to keep the very same DOM nodes: a remount hands that transition a fresh
   // scroll container starting at scrollTop 0, so a long menu visibly snaps back to

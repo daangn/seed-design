@@ -1,0 +1,16 @@
+{
+  "name": "@seed-design/extract-api-surface",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare": "skills-npm --cwd . --no-gitignore",
+    "test": "bun test src",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@optique/core": "1.2.4",
+    "@optique/run": "1.2.4",
+    "skills-npm": "1.2.0"
+  }
+}

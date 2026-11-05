@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { AvailableSince } from "@/components/available-since";
 import { ColorGrid } from "@/components/color-grid";
 import { Badge } from "@/components/mdx-badge";
@@ -36,11 +37,13 @@ import type { MDXComponents } from "mdx/types";
 import type { ComponentProps, ReactNode } from "react";
 import { BreezeManualInstallation } from "./breeze-manual-installation";
 import { LynxManualInstallation } from "./lynx-manual-installation";
+import { LynxComponentExample } from "./lynx-example";
 import { DoImage } from "./guideline/do-image";
 import { DontImage } from "./guideline/dont-image";
 import { Image } from "./guideline/image";
 import { IconComponent, IconTerminal } from "./icons";
 import { IconLibrary } from "./iconography/icon-library-lazy";
+import { InlineCode } from "./inline-code";
 import { ColorMigrationIndex } from "./migration/color-migration-index";
 import { IconographyMigrationIndex, V2Icon, V2IconColor, V3Icon } from "./migration/lazy";
 import { TypographyMigrationIndex } from "./migration/typography-migration-index";
@@ -48,8 +51,13 @@ import { ProgressBoardTable } from "./progress-board-table";
 import { DocsCard, DocsCards } from "./mdx-card";
 import { TableRoot } from "./table";
 
+const MdxLink = defaultMdxComponents.a!;
+
 export const mdxComponents: MDXComponents = {
   ...defaultMdxComponents,
+
+  code: InlineCode,
+  a: ({ href, ...props }) => <MdxLink {...props} href={href ? archivePaths.link(href) : href} />,
 
   // All fenced code blocks (```) render as the SEED "Codeblock" (Shiki colors preserved).
   // Inside a tabbed code card (`CodeBlockTabs`), SeedCodeBlockAuto renders the code bare.
@@ -74,6 +82,7 @@ export const mdxComponents: MDXComponents = {
       )}
       // biome-ignore lint/suspicious/noExplicitAny: fumadocs recommends this: https://www.fumadocs.dev/docs/ui/components/image-zoom#usage
       {...(rest as any)}
+      src={typeof rest.src === "string" ? archivePaths.asset(rest.src) : rest.src}
     />
   ),
 
@@ -101,6 +110,7 @@ export const mdxComponents: MDXComponents = {
   ComponentSpecBlock,
   BreezeManualInstallation,
   LynxManualInstallation,
+  LynxComponentExample,
   Tab,
   Tabs,
   Step,
@@ -141,7 +151,9 @@ export const mdxComponents: MDXComponents = {
   DontImage,
   Image,
 
-  ImageZoom,
+  ImageZoom: ({ src, ...props }) => (
+    <ImageZoom {...props} src={typeof src === "string" ? archivePaths.asset(src) : src} />
+  ),
 
   FigmaImage: () => null,
 };

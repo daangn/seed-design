@@ -38,6 +38,13 @@ declare const artifact: {
             "opacity": {
               "type": "number";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "thumbnail": {
@@ -261,6 +268,19 @@ declare const artifact: {
                 "size": {
                   "type": "dimension";
                   "value": "$dimension.x6";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

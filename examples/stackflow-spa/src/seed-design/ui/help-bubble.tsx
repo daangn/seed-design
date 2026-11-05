@@ -12,7 +12,7 @@ export interface HelpBubbleTriggerProps extends Omit<SeedHelpBubble.RootProps, "
 
   children?: React.ReactNode;
 
-  contentProps?: SeedHelpBubble.ContentProps;
+  contentProps?: Omit<SeedHelpBubble.ContentProps, "children" | "asChild">;
 
   zIndexOffset?: number;
 }
@@ -71,7 +71,7 @@ export interface HelpBubbleAnchorProps extends Omit<SeedHelpBubble.RootProps, "c
 
   children?: React.ReactNode;
 
-  contentProps?: SeedHelpBubble.ContentProps;
+  contentProps?: Omit<SeedHelpBubble.ContentProps, "children" | "asChild">;
 
   zIndexOffset?: number;
 }

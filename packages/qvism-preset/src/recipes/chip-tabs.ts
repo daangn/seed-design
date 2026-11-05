@@ -1,11 +1,12 @@
 import { chipTablist as vars, chip as chipVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
+import { active, engaged, disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 
 const chipTabs = defineSlotRecipe({
   name: "chip-tabs",
@@ -71,10 +72,19 @@ const chipTabs = defineSlotRecipe({
       // chips shrink past their text + padding, so the label bleeds into the padding.
       flexShrink: 0,
 
+      // A chip scrolled into view stops as far from the edge as the list's padding
+      scrollMarginInline: vars.base.enabled.root.paddingX,
+
       borderRadius: chipVars.base.enabled.root.cornerRadius,
       fontWeight: chipVars.base.enabled.label.fontWeight,
 
-      transition: `background-color ${chipVars.base.enabled.root.colorDuration} ${chipVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
+
+      transition: [
+        `background-color ${chipVars.base.enabled.root.colorDuration} ${chipVars.base.enabled.root.colorTimingFunction}`,
+        FEEDBACK_SCALE_TRANSITION,
+        FOCUS_RING_TRANSITION,
+      ].join(", "),
 
       ...createFocusRingRestStyles(),
       [pseudo(focusVisible)]: createFocusRingStyles(),
@@ -195,12 +205,34 @@ const chipTabs = defineSlotRecipe({
       },
       false: {},
     },
+    extendSafeAreaX: {
+      true: {
+        root: {
+          marginLeft: "calc(var(--seed-safe-area-left) * -1)",
+          marginRight: "calc(var(--seed-safe-area-right) * -1)",
+        },
+        list: {
+          paddingLeft: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-right))`,
+          // Keeps a selected or focused chip from stopping under the inset the list extends into
+          scrollPaddingLeft: "var(--seed-safe-area-left)",
+          scrollPaddingRight: "var(--seed-safe-area-right)",
+        },
+        content: {
+          boxSizing: "border-box",
+          paddingLeft: "var(--seed-safe-area-left)",
+          paddingRight: "var(--seed-safe-area-right)",
+        },
+      },
+      false: {},
+    },
   },
   defaultVariants: {
     size: "medium",
     variant: "neutralSolid",
     contentLayout: "hug",
     stickyList: false,
+    extendSafeAreaX: false,
   },
 });
 

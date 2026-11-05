@@ -1,5 +1,9 @@
 declare interface QuantityPickerVariant {
   /**
+  * @default "hug"
+  */
+  layout: "hug" | "fill";
+/**
   * @default "medium"
   */
   size: "small" | "medium" | "large";

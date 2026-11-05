@@ -1,0 +1,10 @@
+.seed-select-box-group {
+    display: grid;
+    width: 100%;
+    row-gap: var(--seed-dimension-spacing-y-component-default);
+    column-gap: var(--seed-dimension-x3)
+}
+.seed-select-box-group--multiColumn_true {
+    grid-auto-rows: 1fr
+}
+.seed-select-box-group--multiColumn_false {}

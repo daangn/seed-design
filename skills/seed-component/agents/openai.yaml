@@ -1,0 +1,4 @@
+interface:
+  display_name: "SEED 컴포넌트"
+  short_description: "컴포넌트 경로·API·색상 토큰 조회, 구현 변경, React·Lynx 문서 작업을 분기합니다"
+  default_prompt: "$seed-component를 사용해 요청 결과에 맞는 분기를 고르고, 조회·비교·토큰 조사는 읽기 전용으로 끝내세요."

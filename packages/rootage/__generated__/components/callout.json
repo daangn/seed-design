@@ -31,6 +31,13 @@
             },
             "gradient": {
               "type": "gradient"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         },
@@ -97,9 +104,6 @@
         "suffixIcon": {
           "properties": {
             "size": {
-              "type": "dimension"
-            },
-            "targetSize": {
               "type": "dimension"
             },
             "color": {
@@ -220,10 +224,19 @@
                 "size": {
                   "type": "dimension",
                   "value": "$dimension.x4"
-                },
-                "targetSize": {
-                  "type": "dimension",
-                  "value": "$dimension.x10"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "self"
                 }
               }
             }

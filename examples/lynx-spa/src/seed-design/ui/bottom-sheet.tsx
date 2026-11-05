@@ -1,4 +1,6 @@
+import IconXmarkLine from "@karrotmarket/lynx-monochrome-icon/IconXmarkLine";
 import {
+  Icon,
   BottomSheet as SeedBottomSheet,
   type BottomSheetBodyProps as SeedBottomSheetBodyProps,
   type BottomSheetContentProps as SeedBottomSheetContentProps,
@@ -38,6 +40,15 @@ export interface BottomSheetContentProps extends Omit<SeedBottomSheetContentProp
 
   description?: ReactNode;
 
+  container?: SeedBottomSheet.PositionerProps["container"];
+
+  overlayLevel?: SeedBottomSheet.PositionerProps["overlayLevel"];
+
+  /**
+   * @default true
+   */
+  showCloseButton?: boolean;
+
   /**
    * @default false
    */
@@ -45,20 +56,28 @@ export interface BottomSheetContentProps extends Omit<SeedBottomSheetContentProp
 }
 
 /**
- * Positioner / Backdrop / Handle / Header / Title / Description을 내부에서 조립해
- * 사용자가 단일 컴포넌트로 콘텐츠를 구성할 수 있도록 한다.
+ * Positioner / Backdrop / Handle / Header / Title / Description / CloseButton을 내부에서
+ * 조립해 사용자가 단일 컴포넌트로 콘텐츠를 구성할 수 있도록 한다.
  *
  * 웹 BottomSheetContent와 달리 아래는 Lynx에서 미지원:
- * - `showCloseButton` (Tier B: SVG 지원 후 추가 예정)
  * - `accessibility-label` 기반 VisuallyHidden 제목 fallback (VisuallyHidden 미구현)
  */
 export const BottomSheetContent = (props: BottomSheetContentProps) => {
-  const { children, title, description, showHandle = false, ...otherProps } = props;
+  const {
+    children,
+    title,
+    description,
+    container,
+    overlayLevel,
+    showCloseButton = true,
+    showHandle = false,
+    ...otherProps
+  } = props;
 
   const shouldRenderHeader = title || description;
 
   return (
-    <SeedBottomSheet.Positioner>
+    <SeedBottomSheet.Positioner container={container} overlayLevel={overlayLevel}>
       <SeedBottomSheet.Backdrop />
       <SeedBottomSheet.Content {...otherProps}>
         {showHandle && <SeedBottomSheet.Handle />}
@@ -71,6 +90,12 @@ export const BottomSheetContent = (props: BottomSheetContentProps) => {
           </SeedBottomSheet.Header>
         )}
         {children}
+        {showCloseButton && (
+          // You may implement your own i18n for dismiss label
+          <SeedBottomSheet.CloseButton accessibility-label="닫기">
+            <Icon icon={<IconXmarkLine />} />
+          </SeedBottomSheet.CloseButton>
+        )}
       </SeedBottomSheet.Content>
     </SeedBottomSheet.Positioner>
   );

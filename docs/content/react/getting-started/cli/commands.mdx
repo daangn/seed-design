@@ -5,10 +5,11 @@ description: "@seed-design/cli 명령어를 안내해요."
 
 ## 공통 동작
 
+- CLI 실행에는 Node.js 20.19.0 이상이 필요해요.
 - `add`, `add-all`은 `seed-design.json` 설정 파일을 사용해요.
 - 설정 파일이 없거나 읽을 수 없으면 생성할지 먼저 물어봐요.
 - 항목 추가 시 필요한 npm 패키지 의존성은 자동으로 설치돼요.
-- `add`, `add-all` 실행 시 스니펫이 요구하는 seed-design 패키지 버전과 현재 프로젝트 버전이 다르면 경고를 보여줘요. (React: `@seed-design/react`, `@seed-design/css` / Lynx: `@seed-design/lynx-react`, `@seed-design/lynx-css`)
+- `add`, `add-all` 실행 시 스니펫이 요구하는 seed-design 패키지 버전과 현재 프로젝트 버전이 다르면 경고를 보여줘요. (React: `@seed-design/react`, `@seed-design/css`, `@seed-design/stackflow` / Lynx: `@seed-design/lynx-react`, `@seed-design/lynx-css`)
 - 기존 파일과 내용이 다르면 기본적으로 `덮어쓰기 / 백업 후 교체 / 건너뛰기`를 선택할 수 있어요.
 - `--on-diff` 옵션을 주면 충돌 처리 방식을 미리 고정할 수 있어요.
 - 실패 원인을 자세히 확인하려면 `--verbose` 옵션을 사용할 수 있어요.
@@ -118,7 +119,7 @@ npx @seed-design/cli@latest add ui:action-button ui:alert-dialog
 |------|------|
 | `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
-| `--seed-react-version <version>` | 지정한 SEED React 버전의 레지스트리 사용 (예: `1.2`). `--baseUrl`/`--framework`보다 우선 |
+| `--seed-react-version <version>` | 지정한 SEED React 버전의 레지스트리 사용 (`1.0`, `1.1`, `1.2`, `2`). `--baseUrl`/`--framework`보다 우선 |
 | `-f, --framework <framework>` | 대상 프레임워크 (`react` 또는 `lynx`). config의 `framework` 값을 덮어씀 |
 | `--on-diff <mode>` | 파일 충돌 처리 방식 지정 (`overwrite` 또는 `backup`) |
 | `-a, --all` | **Deprecated**. 현재는 에러를 출력하고 `add-all` 사용을 안내 |
@@ -130,8 +131,12 @@ npx @seed-design/cli@latest add ui:action-button ui:alert-dialog
 프로젝트에 설치된 SEED 패키지 버전과 호환되는 스니펫이 필요하면 버전 옵션을 사용하세요. 해당 버전이 배포된 레지스트리 주소를 CLI가 자동으로 찾아줍니다.
 
 ```package-install
-npx @seed-design/cli@latest add --seed-react-version 1.2 ui:action-button
+npx @seed-design/cli@latest add --seed-react-version 2 ui:action-button
 ```
+
+`2`는 React 2.x 아카이브 레지스트리(`https://seed-design.io/react/v2`)를 사용해요. 기존 `1.0`, `1.1`, `1.2` 옵션도 계속 사용할 수 있어요.
+
+1.x 버전은 `/react/v1.0`, `/react/v1.1`, `/react/v1.2`에서, v2는 `/react/v2`에서 registry를 가져와요.
 
 버전 옵션은 base URL과 프레임워크(react)를 함께 결정하므로 `--baseUrl` / `--framework`보다 우선해요.
 
@@ -140,7 +145,7 @@ npx @seed-design/cli@latest add --seed-react-version 1.2 ui:action-button
 레지스트리 주소를 직접 지정하려면 `--baseUrl`을 사용하세요. 기본값은 배포 환경 기준 [`https://seed-design.io`](https://seed-design.io)입니다.
 
 ```package-install
-npx @seed-design/cli@latest add --baseUrl https://v1-2.seed-design.io
+npx @seed-design/cli@latest add --baseUrl https://seed-design.io/react/v1.2
 ```
 
 ### 파일 충돌 처리
@@ -186,7 +191,7 @@ npx @seed-design/cli@latest add-all ui --include-deprecated # ui 레지스트리
 | `--include-deprecated` | deprecated 항목 포함 |
 | `-c, --cwd <cwd>` | 작업 디렉토리. 기본값은 현재 디렉토리 |
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
-| `--seed-react-version <version>` | 지정한 SEED React 버전의 레지스트리 사용 (예: `1.2`). `--baseUrl`/`--framework`보다 우선 |
+| `--seed-react-version <version>` | 지정한 SEED React 버전의 레지스트리 사용 (`1.0`, `1.1`, `1.2`, `2`). `--baseUrl`/`--framework`보다 우선 |
 | `-f, --framework <framework>` | 대상 프레임워크 (`react` 또는 `lynx`). config의 `framework` 값을 덮어씀 |
 | `--on-diff <mode>` | 파일 충돌 처리 방식 지정 (`overwrite` 또는 `backup`) |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
@@ -194,7 +199,7 @@ npx @seed-design/cli@latest add-all ui --include-deprecated # ui 레지스트리
 
 ## compat
 
-현재 프로젝트의 seed-design 패키지 버전과 스니펫 요구 버전이 호환되는지 검사해요. 플랫폼에 따라 검사 대상 패키지가 달라요. (React: `@seed-design/react`, `@seed-design/css` / Lynx: `@seed-design/lynx-react`, `@seed-design/lynx-css`)
+현재 프로젝트의 seed-design 패키지 버전과 스니펫 요구 버전이 호환되는지 검사해요. 플랫폼에 따라 검사 대상 패키지가 달라요. (React: `@seed-design/react`, `@seed-design/css`, `@seed-design/stackflow` / Lynx: `@seed-design/lynx-react`, `@seed-design/lynx-css`)
 
 ```package-install
 npx @seed-design/cli@latest compat
@@ -327,3 +332,5 @@ npx @seed-design/cli@latest docs react/updates/changelog/react/1.2.5 --raw
 | `-u, --baseUrl <baseUrl>` | 레지스트리 base URL |
 | `--verbose` | 실패 시 stack trace 등 상세 오류 정보 출력 |
 | `-h, --help` | 도움말 출력 |
+
+React 보관 문서는 `docs --baseUrl https://seed-design.io/react/v1.2 react action-button`으로 조회할 수 있어요. `compat --baseUrl https://seed-design.io/react/v1.2`도 해당 버전의 registry를 사용해요.

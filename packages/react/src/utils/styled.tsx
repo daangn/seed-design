@@ -71,11 +71,15 @@ export function handleDimension(dimension: string | 0 | undefined): string | und
 }
 
 function handleBleed(
-  dimension: "asPadding" | string | 0 | undefined,
+  dimension: "asPadding" | "safeArea" | string | 0 | undefined,
   direction: "top" | "right" | "bottom" | "left",
 ) {
   if (dimension === "asPadding") {
     return `var(--seed-box-padding-${direction})`;
+  }
+
+  if (dimension === "safeArea") {
+    return `var(--seed-safe-area-${direction})`;
   }
 
   return handleDimension(dimension);
@@ -92,7 +96,7 @@ function handleShadow(shadow: Shadow | (string & {}) | undefined) {
 
 function handlePaddingWithSafeArea(
   padding: string | 0 | undefined,
-  direction: "top" | "bottom",
+  direction: "top" | "right" | "bottom" | "left",
 ): string | undefined {
   if (padding === "safeArea") {
     return `var(--seed-safe-area-${direction})`;
@@ -257,71 +261,120 @@ interface BleedStyleProps {
   /**
    * Negative margin on all four sides to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   * If set to "safeArea", it will use the safe area inset in the same direction.
    *
    * Cannot be combined with any `margin*` prop.
    */
   bleed?: ResponsiveValue<
-    "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    | "asPadding"
+    | "safeArea"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {})
   >;
 
   /**
    * Negative x-axis margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   * If set to "safeArea", it will use the safe area inset in the same direction.
    *
    * Cannot be combined with any `margin*` prop.
    */
   bleedX?: ResponsiveValue<
-    "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    | "asPadding"
+    | "safeArea"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {})
   >;
 
   /**
    * Negative y-axis margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   * If set to "safeArea", it will use the safe area inset in the same direction.
    *
    * Cannot be combined with any `margin*` prop.
    */
   bleedY?: ResponsiveValue<
-    "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    | "asPadding"
+    | "safeArea"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {})
   >;
 
   /**
    * Negative top margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   * If set to "safeArea", it will use the safe area inset in the same direction.
    *
    * Cannot be combined with any `margin*` prop.
    */
   bleedTop?: ResponsiveValue<
-    "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    | "asPadding"
+    | "safeArea"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {})
   >;
 
   /**
    * Negative right margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   * If set to "safeArea", it will use the safe area inset in the same direction.
    *
    * Cannot be combined with any `margin*` prop.
    */
   bleedRight?: ResponsiveValue<
-    "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    | "asPadding"
+    | "safeArea"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {})
   >;
 
   /**
    * Negative bottom margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   * If set to "safeArea", it will use the safe area inset in the same direction.
    *
    * Cannot be combined with any `margin*` prop.
    */
   bleedBottom?: ResponsiveValue<
-    "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    | "asPadding"
+    | "safeArea"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {})
   >;
 
   /**
    * Negative left margin to extend the element outside its parent.
    * If set to "asPadding", it will use the padding value in the same direction.
+   * If set to "safeArea", it will use the safe area inset in the same direction.
    *
    * Cannot be combined with any `margin*` prop.
    */
   bleedLeft?: ResponsiveValue<
-    "asPadding" | Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    | "asPadding"
+    | "safeArea"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {})
   >;
 }
 
@@ -479,14 +532,14 @@ export type StyleProps = {
   >;
 
   paddingRight?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {})
   >;
 
   /**
    * Shorthand for `paddingRight`.
    */
   pr?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {})
   >;
 
   paddingBottom?: ResponsiveValue<
@@ -501,14 +554,14 @@ export type StyleProps = {
   >;
 
   paddingLeft?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {})
   >;
 
   /**
    * Shorthand for `paddingLeft`.
    */
   pl?: ResponsiveValue<
-    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {})
+    Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {})
   >;
 
   display?: ResponsiveValue<
@@ -747,13 +800,17 @@ export function useStyleProps<T extends UseStyleProps>(
           handlePaddingWithSafeArea(v, "top"),
         )),
       ...((paddingRight ?? pr) !== undefined &&
-        resolveResponsive("--seed-box-padding-right", paddingRight ?? pr, handleDimension)),
+        resolveResponsive("--seed-box-padding-right", paddingRight ?? pr, (v) =>
+          handlePaddingWithSafeArea(v, "right"),
+        )),
       ...((paddingBottom ?? pb) !== undefined &&
         resolveResponsive("--seed-box-padding-bottom", paddingBottom ?? pb, (v) =>
           handlePaddingWithSafeArea(v, "bottom"),
         )),
       ...((paddingLeft ?? pl) !== undefined &&
-        resolveResponsive("--seed-box-padding-left", paddingLeft ?? pl, handleDimension)),
+        resolveResponsive("--seed-box-padding-left", paddingLeft ?? pl, (v) =>
+          handlePaddingWithSafeArea(v, "left"),
+        )),
       ...((bleedTop ?? bleedY ?? bleed) !== undefined &&
         resolveResponsive("--seed-box-bleed-top", bleedTop ?? bleedY ?? bleed, (v) =>
           handleBleed(v, "top"),

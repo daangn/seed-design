@@ -14,6 +14,25 @@ declare const artifact: {
             "size": {
               "type": "dimension";
             };
+            "cornerRadius": {
+              "type": "dimension";
+            };
+            "color": {
+              "type": "color";
+            };
+            "colorDuration": {
+              "type": "duration";
+            };
+            "colorTimingFunction": {
+              "type": "cubicBezier";
+            };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "icon": {
@@ -54,6 +73,22 @@ declare const artifact: {
                     "unit": "px";
                   };
                 };
+                "cornerRadius": {
+                  "type": "dimension";
+                  "value": "$radius.r2";
+                };
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.transparent";
+                };
+                "colorDuration": {
+                  "type": "duration";
+                  "value": "$duration.color-transition";
+                };
+                "colorTimingFunction": {
+                  "type": "cubicBezier";
+                  "value": "$timing-function.easing";
+                };
               };
               "icon": {
                 "size": {
@@ -62,6 +97,23 @@ declare const artifact: {
                     "value": 24;
                     "unit": "px";
                   };
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.transparent-pressed";
+                };
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

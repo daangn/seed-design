@@ -204,6 +204,12 @@ function Navigation({ url }: { url: string | null }) {
 
 function getStackflowSpaUrl(path: string): string {
   const baseURL = (() => {
+    // Points previews at a stackflow-spa you run yourself. A local production build otherwise loads
+    // QA, which is deployed from `dev` and shows 404 for activities that are not merged yet.
+    if (process.env.NEXT_PUBLIC_STACKFLOW_SPA_URL) {
+      return process.env.NEXT_PUBLIC_STACKFLOW_SPA_URL;
+    }
+
     if (process.env.NODE_ENV === "development") {
       // TODO: this can be better
       // 1. dev server can be at any host in a local network

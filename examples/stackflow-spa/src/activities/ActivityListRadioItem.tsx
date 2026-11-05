@@ -1,5 +1,4 @@
-import { Icon } from "@seed-design/react";
-import { RadioGroup } from "@seed-design/react/primitive";
+import { Icon, List as SeedList } from "@seed-design/react";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { Fragment } from "react";
@@ -90,7 +89,7 @@ const ActivityListRadioItem: StaticActivityComponentType<"ActivityListRadioItem"
         }}
       >
         <List asChild>
-          <RadioGroup.Root
+          <SeedList.RadioRoot
             defaultValue="prefix-title-unchecked-suffix-none"
             aria-label="ListRadioItem 예시"
           >
@@ -174,7 +173,7 @@ const ActivityListRadioItem: StaticActivityComponentType<"ActivityListRadioItem"
                 }),
               ),
             )}
-          </RadioGroup.Root>
+          </SeedList.RadioRoot>
         </List>
       </AppScreenContent>
     </AppScreen>

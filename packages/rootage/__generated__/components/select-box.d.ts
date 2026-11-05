@@ -36,6 +36,13 @@ declare const artifact: {
             "strokeTimingFunction": {
               "type": "cubicBezier";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "trigger": {
@@ -182,7 +189,7 @@ declare const artifact: {
                 };
                 "strokeColor": {
                   "type": "color";
-                  "value": "$color.stroke.neutral-muted";
+                  "value": "$color.stroke.neutral-weak";
                 };
                 "strokeWidth": {
                   "type": "dimension";
@@ -360,7 +367,7 @@ declare const artifact: {
               "root": {
                 "strokeColor": {
                   "type": "color";
-                  "value": "$color.stroke.neutral-muted";
+                  "value": "$color.stroke.neutral-weak";
                 };
               };
               "prefixIcon": {
@@ -393,6 +400,19 @@ declare const artifact: {
                 "color": {
                   "type": "color";
                   "value": "$color.bg.transparent-pressed";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "content";
                 };
               };
             };

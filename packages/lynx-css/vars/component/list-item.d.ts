@@ -10,9 +10,7 @@ export declare const vars: {
         "marginDuration": "var(--seed-duration-d3)",
         "marginTimingFunction": "var(--seed-timing-function-easing)",
         "borderRadiusDuration": "var(--seed-duration-d3)",
-        "borderRadiusTimingFunction": "var(--seed-timing-function-easing)",
-        "contentScaleDuration": "var(--seed-duration-pressed-scale)",
-        "contentScaleTimingFunction": "var(--seed-timing-function-pressed-scale)"
+        "borderRadiusTimingFunction": "var(--seed-timing-function-easing)"
       },
       "body": {
         "gap": "var(--seed-dimension-x0_5)",
@@ -56,9 +54,7 @@ export declare const vars: {
         "color": "var(--seed-color-bg-transparent-pressed)",
         /** pressed 시 배경 레이어는 좌우 폭이 marginX만큼 줄어들고, 배경 레이어 위 요소들이 위치하는 레이아웃 레이어는 scale로 인해 전체적으로 줄어드는 형태로 두 레이어가 별개로 작동합니다. 이 값은 OS 동작 줄이기 설정의 영향을 받지 않습니다. */
         "marginX": "var(--seed-dimension-x1_5)",
-        "cornerRadius": "var(--seed-dimension-x2_5)",
-        /** pressed 시 배경 레이어는 좌우 폭이 marginX만큼 줄어들고, 배경 레이어 위 요소들이 위치하는 레이아웃 레이어는 scale로 인해 전체적으로 줄어드는 형태로 두 레이어가 별개로 작동합니다. */
-        "contentScale": "var(--seed-scale-s97)"
+        "cornerRadius": "var(--seed-dimension-x2_5)"
       }
     },
     "highlighted": {

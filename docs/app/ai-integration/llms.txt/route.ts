@@ -1,7 +1,7 @@
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
 import { sortCategories } from "@/app/_llms/utils";
-import { aiIntegrationSource } from "@/app/source";
+import { getAiIntegrationSource } from "@/app/source";
 
 export const revalidate = false;
 
@@ -14,6 +14,7 @@ const categoryDescriptions: Record<string, string> = {
 };
 
 export async function GET() {
+  const aiIntegrationSource = await getAiIntegrationSource();
   const pages = aiIntegrationSource.getPages() as LLMPage[];
 
   const categories = new Map<string, LLMPage[]>();

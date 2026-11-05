@@ -24,6 +24,9 @@ data:
             type: dimension
           paddingY:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       label:
         properties:
           color:
@@ -71,19 +74,22 @@ data:
           colorTimingFunction: $timing-function.easing
         label:
           fontWeight: $font-weight.bold
+      pressed:
+        root:
+          scaleScope: self
     variant=brandSolid:
       enabled:
         root:
           color: $color.bg.brand-solid
         label:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
         prefixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
         suffixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
         progressCircle:
           trackColor: $color.palette.static-white-alpha-300
-          rangeColor: $color.palette.static-white
+          rangeColor: $color.fg.on-brand-solid
       pressed:
         root:
           color: $color.bg.brand-solid-pressed

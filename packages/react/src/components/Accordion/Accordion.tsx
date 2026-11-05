@@ -9,6 +9,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { withContentScale } from "../../utils/withContentScale";
 
 const { withProvider, withContext } = createSlotRecipeContext(accordion);
 const withStateProps = createWithStateProps([useAccordionItemContext]);
@@ -47,9 +48,8 @@ AccordionHeader.displayName = "AccordionHeader";
 
 export interface AccordionTriggerProps extends AccordionPrimitive.TriggerProps {}
 
-export const AccordionTrigger = withContext<HTMLButtonElement, AccordionTriggerProps>(
-  AccordionPrimitive.Trigger,
-  "trigger",
+export const AccordionTrigger = withContentScale(
+  withContext<HTMLButtonElement, AccordionTriggerProps>(AccordionPrimitive.Trigger, "trigger"),
 );
 AccordionTrigger.displayName = "AccordionTrigger";
 

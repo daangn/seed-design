@@ -1,6 +1,5 @@
 import { useCallback } from "react";
-import { VStack } from "@seed-design/react";
-import type { FileStatusDetails } from "@seed-design/react/primitive";
+import { VStack, type AttachmentInputFileStatusDetails } from "@seed-design/react";
 import {
   AttachmentField,
   AttachmentInput,
@@ -30,7 +29,7 @@ export default function AttachmentFieldStatus() {
     (
       file: File,
       id: string,
-      updateFileEntryStatus: (id: string, details: FileStatusDetails) => void,
+      updateFileEntryStatus: (id: string, details: AttachmentInputFileStatusDetails) => void,
     ) => {
       updateFileEntryStatus(id, { status: "uploading", progress: 0 });
 

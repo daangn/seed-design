@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import * as V3Icons from "@karrotmarket/react-monochrome-icon";
 import * as V3ColorIcons from "@karrotmarket/react-multicolor-icon";
 import * as V2Icons from "@seed-design/react-icon";
@@ -23,7 +24,9 @@ export const V3Icon = ({
     <div className="flex items-center gap-2">
       <NewIcon size={20} />
       <Link
-        href={`/foundations/iconography/library?icon=${snakeCase}${type !== "monochrome" ? `&style=${type}` : ""}`}
+        href={archivePaths.link(
+          `/foundations/iconography/library?icon=${snakeCase}${type !== "monochrome" ? `&style=${type}` : ""}`,
+        )}
       >
         <code>{name}</code>
       </Link>

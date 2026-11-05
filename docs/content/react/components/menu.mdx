@@ -185,6 +185,8 @@ import {
 
 `MenuRoot`의 `placement` prop으로 메뉴의 위치를 설정합니다. 기본값은 `"bottom"`입니다.
 
+메뉴의 최대 높이는 지정된 최대 높이와 트리거(또는 `MenuAnchor`) 주변에 남은 화면 공간 중 더 작은 값으로 정해지고, 항목이 많으면 메뉴 안에서 스크롤됩니다. 메뉴는 노치와 홈 인디케이터 영역을 피해 배치됩니다.
+
 <ComponentExample name="react/menu/placement">
   ```json doc-gen:file
   {

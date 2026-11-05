@@ -1,9 +1,20 @@
 ---
 title: Bottom Sheet
 description: 화면 하단에서 올라오는 시트 컴포넌트로, 드래그·snap·dismiss 상호작용을 제공합니다.
+compatibility:
+  lynx:
+    engine: "3.5"
+    x-elements:
+      - overlay
 ---
 
 <AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
+
+<LynxComponentExample name="lynx/bottom-sheet/preview" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
 
 ## Installation
 
@@ -12,8 +23,6 @@ npx @seed-design/cli add ui:bottom-sheet
 ```
 
 <LynxManualInstallation name="bottom-sheet" />
-
-`@seed-design/lynx-react`의 `BottomSheet`는 [`@lynx-js/lynx-ui-sheet`](https://github.com/lynx-family/lynx-ui/tree/main/packages/lynx-ui-sheet)를 래핑합니다. 드래그·스프링·snap·presence 로직은 lynx-ui-sheet가 담당하고, SEED는 공개 API와 recipe 슬롯 스타일만 제공합니다. `@seed-design/lynx-react`를 설치하면 `@lynx-js/lynx-ui-sheet`도 함께 설치됩니다.
 
 ## Usage
 
@@ -45,24 +54,13 @@ export function App() {
 }
 ```
 
-snippet의 `BottomSheetContent`는 내부에서 Positioner, Backdrop, Content, Header, Title, Description을 조립합니다. `BottomSheetTrigger`는 Content 밖에 두어야 탭으로 시트를 열 수 있습니다.
+`BottomSheetTrigger`는 Content 밖에 두세요.
 
-본문 콘텐츠가 길어지는 경우 `BottomSheetBody`에 넣으면 세로 스크롤 영역으로 렌더링됩니다. 스크롤 가능한 긴 본문에서는 `BottomSheetRoot`에 `handleOnly`를 함께 사용해 시트 드래그를 handle로 제한하고, 본문 위의 세로 제스처는 body 스크롤에 사용하세요.
-
-```tsx
-<BottomSheetRoot handleOnly snapPoints={["80%"]}>
-  <BottomSheetTrigger>
-    <text>긴 본문 열기</text>
-  </BottomSheetTrigger>
-  <BottomSheetContent title="제목" showHandle>
-    <BottomSheetBody>{/* 긴 본문 */}</BottomSheetBody>
-  </BottomSheetContent>
-</BottomSheetRoot>
-```
+`container`를 지정하지 않으면 Bottom Sheet는 Lynx view 안에 렌더링됩니다. `container="window"`처럼 native container 이름을 지정하면 host 화면까지 덮는 native overlay에 렌더링됩니다. `overlayLevel`은 overlay의 표시 순서를 정합니다. 이 기능을 사용할 때는 앱의 Lynx Engine이 `<overlay>`를 지원해야 합니다.
 
 ### Imperative 제어
 
-`BottomSheetRoot`에 `ref`를 전달하면 `open`, `close`, `snapTo`, `expand`, `collapse` 메서드를 호출할 수 있습니다.
+`BottomSheetRoot`에 `ref`를 전달하면 `open`, `close`, `snapTo`, `expand`, `collapse` 메서드를 호출할 수 있습니다. 이 메서드로 바꾼 열림 상태는 `onOpenChange`로 알리지 않습니다. `open`을 제어하는 경우에는 메서드 대신 `open` 값을 바꾸세요.
 
 ```tsx
 import { useRef } from "@lynx-js/react";
@@ -87,7 +85,7 @@ export function App() {
 
 ### `BottomSheetTrigger`
 
-<react-type-table path="./registry/lynx/ui/bottom-sheet.tsx" name="BottomSheetTriggerProps" />
+고유 prop이 없습니다. `className`, `style`, `children`, `bindtap`을 받습니다.
 
 ### `BottomSheetContent`
 
@@ -95,45 +93,152 @@ export function App() {
 
 ### `BottomSheetBody`
 
-<react-type-table path="./registry/lynx/ui/bottom-sheet.tsx" name="BottomSheetBodyProps" />
+고유 prop이 없습니다. `className`, `style`, `children`을 받습니다.
 
 ### `BottomSheetFooter`
 
-<react-type-table path="./registry/lynx/ui/bottom-sheet.tsx" name="BottomSheetFooterProps" />
+고유 prop이 없습니다. `className`, `style`, `children`을 받습니다.
+
+## Examples
+
+### Trigger
+
+`<BottomSheetTrigger>`를 탭하면 Bottom Sheet가 열립니다. Lynx는 `asChild`를 지원하지 않습니다. Trigger는 자식 요소를 감싸는 `<view>`를 렌더링합니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/trigger" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/trigger.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Controlled
+
+Trigger 외의 방식으로 Bottom Sheet를 열고 닫으려면 `open`과 `onOpenChange`로 상태를 제어합니다. 다음 예제는 버튼을 탭한 뒤 1초 후 Bottom Sheet를 엽니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/controlled" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/controlled.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### `onOpenChange` Details
+
+`onOpenChange`의 두 번째 인자는 `{ reason }`입니다. Trigger로 열면 `"trigger"`, 닫기 버튼으로 닫으면 `"closeButton"`, 배경을 탭해 닫으면 `"interactOutside"`, 시트를 끌어 닫으면 `"drag"`입니다. 닫히는 중에 시트를 다시 끌어 올리면 `open`이 `true`인 `"drag"`가 전달됩니다. Root ref의 메서드나 `open` prop으로 바꾼 상태에는 호출되지 않습니다. React 버전의 `escapeKeyDown`처럼 Lynx에 해당 입력이 없는 reason은 제공하지 않습니다.
+
+### Header Align
+
+`<BottomSheetRoot>`의 `headerAlign`으로 title과 description을 왼쪽 또는 가운데에 정렬할 수 있습니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/header-align" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/header-align.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Long Content
+
+내용에 맞춰 높이가 정해지는 시트는 화면 높이의 90%를 넘지 않고, 위쪽 inset이 그보다 크면 inset 아래까지로 제한됩니다. 제한에 닿으면 `BottomSheetBody`가 스크롤됩니다. Body가 스크롤된 상태에서 시작한 제스처는 Body만 움직이고, Body가 맨 위에 있을 때 아래로 끌어야 시트가 움직입니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/long-content" height={600}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/long-content.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Max Height
+
+`BottomSheetBody`는 내용이 넘치면 세로로 스크롤합니다. 스크롤 영역을 최대 300px로 제한하려면 Body에 `maxHeight`를 지정하세요.
+
+<LynxComponentExample name="lynx/bottom-sheet/max-height" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/max-height.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Snap Points
+
+`snapPoints`에는 픽셀 숫자, 백분율, 콘텐츠 크기에 맞추는 `"fit"`을 사용할 수 있습니다. 백분율은 LynxView 높이([`useViewport`](/lynx/hooks/use-viewport))를 기준으로 하고, `screenHeight`를 지정하면 그 값을 기준으로 합니다. 배열 순서가 snap index가 되며, `initialSnap`으로 처음 열릴 높이를 정합니다.
+
+`onSnapChange`에서는 현재 index와 픽셀로 계산된 높이를 받을 수 있습니다. ref의 `snapTo` 메서드를 사용하면 원하는 높이로 이동할 수 있습니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/snap-points" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/snap-points.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+<Callout type="info">
+드래그와 snap 애니메이션의 최종 동작은 QR 코드 패널에서 Lynx Explorer로 확인하세요. 문서 미리보기에서는 기기와 제스처 처리 결과가 다를 수 있습니다.
+</Callout>
+
+### Fade From Index
+
+Lynx는 `fadeFromIndex`를 지원하지 않습니다. snap index에 따른 Backdrop 투명도 변경도 지원하지 않습니다.
+
+### Show Handle
+
+`<BottomSheetContent>`에 `showHandle`을 전달하면 Handle을 표시합니다. 기본값은 `false`입니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/show-handle" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/show-handle.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Show Close Button
+
+`<BottomSheetContent>`에 `showCloseButton` prop을 전달하여 닫기 버튼을 표시할 수 있습니다.
+기본 값은 `true`입니다.
+
+showCloseButton을 `false`로 설정하면 닫기 버튼이 표시되지 않습니다.
+이 경우 유저가 BottomSheet를 닫을 수 있는 방법을 제공해야 합니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/show-close-button" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/show-close-button.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Dismissible
+
+Lynx에는 배경 탭, 드래그, ESC 닫기를 한 번에 제어하는 `dismissible` prop이 없습니다. `enableDragToClose={false}`로 드래그 닫기만 막을 수 있으며, Registry에서는 배경 탭 닫기를 끌 수 없습니다. ESC 키 닫기도 지원하지 않습니다. 닫기 동작을 막았다면 Footer 등에 닫기 버튼을 제공하세요.
+
+### With Scroll Fog
+
+스크롤 힌트가 필요하면 Body 안에 [Scroll Fog](/lynx/components/scroll-fog)와 세로 `<scroll-view>`를 배치하세요. Body의 스크롤 영역 안에서는 `height: "100%"`가 기준으로 삼을 높이가 없으므로, `ScrollFog`에 고정 높이를 지정해야 합니다. fog 방향과 크기는 `ScrollFog`의 `placement`·`size`로, 스크롤바와 스크롤 동작은 `<scroll-view>` prop으로 제어합니다. 다만 이 `<scroll-view>`의 스크롤은 시트 드래그와 조정되지 않아, 스크롤한 상태에서 아래로 끌면 시트도 함께 움직입니다.
+
+ScrollFog는 스크롤 위치와 관계없이 항상 효과를 표시하므로, `<scroll-view>`에 권장 padding인 상단 `20px`, 하단 `80px`을 지정해야 합니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/with-scroll-fog" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/with-scroll-fog.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Handle Only
+
+`<BottomSheetRoot>`에 `handleOnly`를 전달하면 Bottom Sheet를 움직이는 세로 제스처 영역이 Handle로 제한됩니다. 이 옵션은 `<BottomSheetContent showHandle>`과 함께 사용하세요. 본문이 길 때는 Body 안의 스크롤 영역과 시트 드래그가 겹치지 않도록 이 조합을 권장합니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/handle-only" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/handle-only.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Skip Animation
+
+`skipAnimation`을 전달하면 Bottom Sheet의 enter, exit, snap 애니메이션을 건너뜁니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/skip-animation" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/skip-animation.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
 
 ## 웹 버전과의 차이
 
-<Callout type="warning">
-Lynx `BottomSheet`는 React `BottomSheet`와 다음과 같은 차이가 있습니다.
-
-- **이벤트 핸들링**: `onClick` 대신 `bindtap`을 사용합니다.
-- **렌더링 요소**: HTML `<div>` 대신 네이티브 `<view>`/`<text>` 요소를 렌더링합니다.
-- **내부 엔진**: Radix `Drawer` 대신 `@lynx-js/lynx-ui-sheet`를 래핑합니다.
-</Callout>
-
-| 항목 | 웹 | Lynx |
-|---|---|---|
-| 상태 prop | `open`/`defaultOpen`/`onOpenChange` | 동일 (내부에서 lynx-ui-sheet의 `show`/`defaultShow`/`onShowChange`로 매핑) |
-| 마운트 제어 | `lazyMount`, `unmountOnExit` | **미지원** — `forceMount`로 대체 |
-| `BottomSheetPositioner` | 존재 | 동일 (lynx-ui-sheet의 `SheetView` 래핑) — 첫 open 전까지 Backdrop/Content 마운트 지연 |
-| `BottomSheetCloseButton` | 존재 | **미포함** — Tier B (SVG 지원 후 추가 예정) |
-| `snapPoints` | 없음 | 지원 (`(number \| string)[]`, 기본값 `["fit"]`) |
-| `BottomSheetTrigger`의 `asChild` | 지원 | **미지원** (기본 `<view>`로만 렌더링) |
-| imperative ref API | — | `BottomSheetRootRef.{open, close, snapTo, expand, collapse}` |
-
-## Lynx 미지원 기능
-
-현재 Lynx 플랫폼 제약으로 다음 기능이 지원되지 않습니다.
-
-### Lynx SVG 지원 후 추가 예정
-
-| 기능 | 웹 대응 | 설명 |
-|------|---------|------|
-| `BottomSheetCloseButton` | `BottomSheet.CloseButton` | X 아이콘 SVG 필요 |
-
-### 마운트 수명주기
-
-| 기능 | 웹 대응 | 대체 방법 |
-|------|---------|------|
-| `lazyMount` | `BottomSheet.Root` prop | `forceMount={false}` (기본값) — 기본적으로 열릴 때만 마운트 |
-| `unmountOnExit` | `BottomSheet.Root` prop | `forceMount`로 제어 — lynx-ui-sheet의 presence 상태 머신이 자연스럽게 언마운트 처리 |
+- `onOpenChange`의 `reason`은 `trigger`, `closeButton`, `interactOutside`, `drag`만 제공합니다.
+- Trigger는 자식을 native `view`로 감싸며 `asChild`를 제공하지 않습니다.
+- Root ref의 `open`, `close`, `snapTo`, `expand`, `collapse`로 시트를 제어할 수 있습니다. ref로 바꾼 상태는 `onOpenChange`로 알리지 않습니다.
+- `container`와 `overlayLevel`로 native overlay의 위치와 표시 순서를 지정합니다.
+- Registry에서는 `lazyMount`와 `unmountOnExit`을 지원하지 않습니다.

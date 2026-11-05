@@ -15,8 +15,7 @@ import {
 } from "../utils/error";
 import type { DocsCategory, DocsItem, DocsSection } from "../schema";
 
-const GITHUB_SNIPPET_BASE =
-  "https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry";
+import { docsSource } from "../utils/docs-source";
 
 const docsOptionsSchema = z.object({
   query: z
@@ -33,13 +32,10 @@ const docsOptionsSchema = z.object({
   raw: z.boolean(),
 });
 
-function buildSnippetUrl(registryPath: string, snippetPath: string): string {
-  return `${GITHUB_SNIPPET_BASE}/${registryPath}/${snippetPath}`;
-}
-
 function printDocsResult(item: DocsItem, baseUrl: string) {
-  const docLink = `${baseUrl}${item.docUrl}`;
-  const llmsLink = `${baseUrl}/llms${item.docUrl}.txt`;
+  const source = docsSource(baseUrl);
+  const docLink = source.document(item.docUrl);
+  const llmsLink = source.llms(item.docUrl);
 
   const lines = [item.id, `- docs: ${docLink}`, `- llms.txt: ${llmsLink}`];
 
@@ -47,11 +43,11 @@ function printDocsResult(item: DocsItem, baseUrl: string) {
     const [registryPath] = item.snippetKey.split(":");
     if (registryPath) {
       if (item.snippets.length === 1) {
-        lines.push(`- snippet: ${buildSnippetUrl(registryPath, item.snippets[0].path)}`);
+        lines.push(`- snippet: ${source.snippet(registryPath, item.snippets[0].path)}`);
       } else {
         lines.push("- snippet:");
         for (const snippet of item.snippets) {
-          lines.push(`   - ${snippet.label}: ${buildSnippetUrl(registryPath, snippet.path)}`);
+          lines.push(`   - ${snippet.label}: ${source.snippet(registryPath, snippet.path)}`);
         }
       }
     }
@@ -505,7 +501,7 @@ export const docsCommand = (cli: CAC) => {
         if (raw) {
           let content: string;
           if (selectedItem) {
-            const llmsUrl = `${baseUrl}/llms${selectedItem.docUrl}.txt`;
+            const llmsUrl = docsSource(baseUrl).llms(selectedItem.docUrl);
             content = await fetchLlmsTxt({ url: llmsUrl });
           } else {
             content = await tryFetchLlmsTxt({ baseUrl, query: docsQuery! });

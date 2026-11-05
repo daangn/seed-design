@@ -1,9 +1,10 @@
 import { baseUrl } from "@/app/metadata";
-import { breezeSource } from "@/app/source";
+import { getBreezeSource } from "@/app/source";
 
 export const revalidate = false;
 
 export async function GET() {
+  const breezeSource = await getBreezeSource();
   const pages = breezeSource.getPages().filter((page) => page.slugs.length > 0);
 
   const pageList = pages

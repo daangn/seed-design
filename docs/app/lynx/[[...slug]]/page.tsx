@@ -1,66 +1,93 @@
+import { archivePaths } from "@/lib/docs-archive";
 import { getLLMMarkdownUrl } from "@/app/_llms/config";
-import { lynxSource } from "@/app/source";
+import { getLynxSource } from "@/app/source";
+import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
+import { LynxCompatibilityBadges } from "@/components/lynx-compatibility";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
-import { mdxComponents } from "@/components/mdx-components";
+import { loadMarkdownPage } from "@/lib/load-markdown-page";
+import { findTabbedFolder, tabbedFolderLabel } from "@/lib/tabbed";
 import { buildDocsPageJsonLd, buildDocsPageMetadata, resolveCoverImage } from "@/lib/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 export const dynamic = "force-static";
 
+const routes = archivePaths.routes("lynx");
+
 export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
-  const params = await props.params;
-  const page = lynxSource.getPage(params.slug ?? []);
+  const { slug } = await props.params;
+  const lynxSource = await getLynxSource();
+  const page = lynxSource.getPage(routes.contentSlug(slug));
   if (!page) notFound();
 
-  const { body: MDX, toc, lastModified } = await page.data.load();
+  const { body, toc, lastModified } = await loadMarkdownPage(page);
   const markdownUrl = getLLMMarkdownUrl("lynx", page.slugs);
-  const cover = page.data.coverImage ? resolveCoverImage(page.data.coverImage) : null;
-  const displayTitle = page.data.heading ?? page.data.title;
+  const cover = page.data.frontmatter.coverImage
+    ? resolveCoverImage(page.data.frontmatter.coverImage)
+    : null;
+  const tabbedFolder = findTabbedFolder(lynxSource.pageTree.children, page.url);
+  const folderLabel = tabbedFolder ? tabbedFolderLabel(tabbedFolder) : undefined;
+  const displayTitle = folderLabel ?? page.data.frontmatter.heading ?? page.data.title;
+  const displayDescription = tabbedFolder?.description ?? page.data.description;
+  const isChangelog = page.slugs.join("/") === "updates/changelog";
 
   return (
     <DocsPageRenderer
       jsonLd={buildDocsPageJsonLd(page)}
       title={displayTitle}
-      description={page.data.description}
+      description={displayDescription}
       coverImage={
         cover
           ? {
-              src: cover.thumbnail,
+              src: archivePaths.asset(cover.thumbnail),
               alt: `${displayTitle} cover image`,
               width: cover.og.width,
               height: cover.og.height,
             }
           : undefined
       }
-      layout={page.data.layout}
-      full={page.data.full}
-      toc={toc}
+      layout={page.data.frontmatter.layout}
+      full={isChangelog ? true : page.data.frontmatter.full}
+      meta={<LynxCompatibilityBadges compatibility={page.data.frontmatter.compatibility?.lynx} />}
+      toc={isChangelog ? [] : toc}
       lastUpdate={lastModified}
+      tableOfContent={isChangelog ? { enabled: false } : { single: false }}
       showPageActions={page.slugs.length > 0}
+      section="lynx"
       markdownUrl={markdownUrl}
+      llmOptions={
+        isChangelog ? <ChangelogLLMOptions platform="lynx" fallbackUrl={markdownUrl} /> : undefined
+      }
     >
-      <MDX components={mdxComponents} />
+      {body}
     </DocsPageRenderer>
   );
 }
 
 export async function generateStaticParams() {
-  return lynxSource.generateParams();
+  const lynxSource = await getLynxSource();
+  return lynxSource.generateParams().map((params) => ({
+    ...params,
+    slug: routes.routeSlug(params.slug),
+  }));
 }
 
 export async function generateMetadata(props: {
   params: Promise<{ slug?: string[] }>;
 }): Promise<Metadata> {
-  const params = await props.params;
-  const page = lynxSource.getPage(params.slug ?? []);
+  const { slug } = await props.params;
+  const lynxSource = await getLynxSource();
+  const page = lynxSource.getPage(routes.contentSlug(slug));
   if (!page) notFound();
+
+  const tabbedFolder = findTabbedFolder(lynxSource.pageTree.children, page.url);
+  const folderLabel = tabbedFolder ? tabbedFolderLabel(tabbedFolder) : undefined;
 
   return buildDocsPageMetadata({
     url: page.url,
     title: page.data.title,
-    heading: page.data.heading,
+    heading: folderLabel ?? page.data.frontmatter.heading,
     description: page.data.description,
-    coverImage: page.data.coverImage,
+    coverImage: page.data.frontmatter.coverImage,
   });
 }

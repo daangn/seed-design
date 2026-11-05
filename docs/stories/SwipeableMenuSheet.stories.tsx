@@ -1,6 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import preview from "../.storybook/preview";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
 import { IconEyeSlashLine } from "@karrotmarket/react-monochrome-icon";
 import { menuSheetVariantMap } from "@seed-design/css/recipes/menu-sheet";
 import { Box } from "@seed-design/react";
@@ -35,6 +34,9 @@ const SwipeableMenuSheetPreview = ({
         }
         .seed-menu-sheet__content {
           animation: none !important;
+          /* 입력창이 없는 정적 표에서는 캡처 중 키보드 위치 보정값을 적용하지 않는다. */
+          height: auto !important;
+          bottom: 0 !important;
         }
       `}</style>
       <SwipeableMenuSheetRoot open>
@@ -62,15 +64,10 @@ const SwipeableMenuSheetPreview = ({
   );
 };
 
-const meta = {
+const meta = preview.meta({
   component: SwipeableMenuSheetPreview,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof SwipeableMenuSheetPreview>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const { skipAnimation: _skipAnimation, ...restVariantMap } = menuSheetVariantMap;
 
 const conditionMap = {
@@ -93,30 +90,27 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
-  render: (args) => (
+const CommonStoryTemplate = meta.story({
+  render: (args, { component }) => (
     <VariantTable
-      Component={meta.component}
+      Component={component!}
       variantMap={restVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

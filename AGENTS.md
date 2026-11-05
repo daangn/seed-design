@@ -1,67 +1,77 @@
----
-description: General instructions for agents
-alwaysApply: true
----
+# SEED Design
 
-# AGENTS.md
+디자인 토큰(Rootage)·Recipe(qvism)·CSS·React·Lynx 구현과 문서·Figma·MCP·CLI 도구를 함께 관리하는 Bun 모노레포다.
 
-AI 어시스턴트가 이 저장소에서 작업할 때 참고하는 가이드.
+## 시작
 
-## 프로젝트 개요
+1. [학습 기록 관리 규칙](.agents/learnings/AGENTS.md)을 읽고, 작업 경로·키워드로 메타데이터를 조회한 뒤 관련 활성 교훈만 읽어 계획에 반영한다.
+2. 루트부터 대상 경로까지의 `AGENTS.md`를 모두 읽는다. 하위 문서가 더 좁은 규칙과 검증 명령을 둔다.
+3. 여러 패키지에 걸친 변경이거나 어디서 시작할지 모르면 [`ARCHITECTURE.md`](ARCHITECTURE.md)를 읽는다.
+4. 테스트·TypeScript 코드를 쓰거나 의존성·changeset·릴리스를 다루면 [`TECH.md`](TECH.md)를 읽는다.
+5. 요청과 직접 관련된 코드·설정·문서만 연다.
 
-SEED Design은 당근의 디자인 시스템이다. 기술적 상세는 @TECH.md 참고.
+## 검증
 
-## AGENTS.md 역할
+변경 경로의 명령만 실행한다. 하위 `AGENTS.md`에 검증 명령이 있으면 그것을 따른다. 문서·`AGENTS.md`·Skill처럼 실행 동작이 없는 변경은 내용·링크·형식 검토로 끝낸다.
 
-각 폴더의 `AGENTS.md`는 **해당 폴더의 개요와 컨벤션**을 설명한다. 기술 상세는 TECH.md에, 사용자 대상 설명은 README.md에 작성한다.
+- `packages/react-headless/*/` → `bun headless:test`
+- `packages/react/` → `bun react:test`
+- `packages/lynx-react/`, `packages/lynx-react-headless/*/` → `bun test:lynx-react`
+- `packages/rootage/`, `ecosystem/rootage/` → `bun rootage:test`
+- `docs/` → `bun docs:test`
+- `tools/extract-api-surface/` → `bun --filter @seed-design/extract-api-surface test && bun --filter @seed-design/extract-api-surface typecheck`
+- `.github/scripts/build-api-surface-diff-comment.ts`, `.github/scripts/list-public-packages.ts` → `bun test ./.github/scripts/build-api-surface-diff-comment.test.ts ./.github/scripts/list-public-packages.test.ts`
+- 그 밖에 테스트가 있는 경로 → `bun test <경로>`. 예: `bun test packages/cli`, `bun test ecosystem/qvism`
+- 여러 패키지에 걸친 변경을 마칠 때 → `bun test:all`
 
-### 필수 3섹션
+함정:
 
-- **디렉토리 개요**: 폴더의 역할을 1-2문장으로 설명하고 상/하위 연결만 간단히 언급한다.
-- **파일 작성 컨벤션**: 파일/디렉토리 네이밍 규칙과 barrel file 사용 원칙을 적는다.
-- **코드 작성 컨벤션**: 해당 폴더에 적용되는 패턴과 import/export 규칙을 정리한다.
+- React 테스트는 headless 패키지의 `lib/` 빌드를 import한다. headless를 고쳤거나 `lib/`가 없으면 CI처럼 `bun utils:build && bun headless:build`를 먼저 실행한다. Lynx는 `bun lynx-headless:build`다.
+- 루트 `bun test`는 `**/lynx-react*/**`를 제외한다. Lynx 패키지는 `bun test:lynx-react`(typecheck + Vitest)로 돌린다.
+- `bun rootage:test`의 validator는 미사용 schema property를 지우며 원본 YAML을 다시 쓸 수 있다. 실행 뒤 `git diff`로 의도한 변경만 남았는지 확인한다.
 
-### 계층 원칙
+## 생성
 
-- **상위 AGENTS는 얕고 넓게**: 폴더군의 역할과 연결 흐름만
-- **하위 AGENTS는 깊고 좁게**: 해당 폴더에 국한된 구조와 컨벤션
-- 중복 없이 계층적으로 작성
+생성물은 직접 고치지 않는다. `git check-attr linguist-generated -- <파일>`이 `set`이면 생성물이다. 원천은 `.gitattributes`이고, 수동 관리 예외는 해당 패키지 `AGENTS.md`에 있다.
 
-### AGENTS.md가 필요한 디렉토리
+1. 원천을 고친다.
+2. 영향받는 단계만 실행한다.
+   - `packages/rootage/` YAML → `bun rootage:generate && bun qvism:generate`
+   - `packages/qvism-preset/src/recipes/`, `packages/lynx-qvism-preset/src/recipes/` → `bun qvism:generate`
+   - `docs/registry/` → `bun docs:generate`
+   - 범위가 넓거나 불확실함 → `bun generate:all`
+3. `git diff`로 의도한 생성물만 바뀌었는지 확인한다.
 
-핵심 도메인/패키지 폴더에는 AGENTS.md를 두고, 생성물/의존성 폴더(`node_modules`, `dist` 등)에는 두지 않는다.
+생성 명령이 성공했는데 생성물이 그대로면 `bun ecosystem:build && bun install` 후 다시 실행한다. workspace bin 링크가 없으면 다른 CLI가 조용히 실행된다. 원천과 산출물의 대응은 `ARCHITECTURE.md`「생성 파이프라인」에 있다.
 
-## 문서 역할 분리
+## 경계
 
-| 문서        | 역할                           | 대상        |
-| ----------- | ------------------------------ | ----------- |
-| `AGENTS.md` | 폴더 개요 + 컨벤션             | AI 에이전트 |
-| `TECH.md`   | 기술 상세, 아키텍처, 명령어    | AI 에이전트 |
-| `README.md` | 패키지 소개, 사용법, 개발 방법 | 사람        |
+사용자에게 먼저 확인할 작업:
 
-각 패키지/폴더별 세부 규칙은 해당 디렉토리의 `AGENTS.md`에 명시되어 있으며, 해당 경로에서 작업할 때만 읽힌다.
+- 새 패키지나 외부 의존성 추가
+- `tsconfig`, `biome.json`, `.github/workflows/` 변경
+- 데이터 삭제, Git 복원·브랜치 전환, 외부 서비스 쓰기, publish, merge
+- 요청받지 않은 commit, push, PR 생성·갱신. 단, [학습 기록 관리 규칙](.agents/learnings/AGENTS.md)에 따른 학습 항목 커밋은 확인 없이 한다.
 
-## Boundaries
+그 밖의 읽기·로컬 수정·테스트·생성은 묻지 않고 진행한다. 확인이 필요한 작업도 준비와 로컬 검증은 먼저 끝낸다.
 
-- ✅ **Always:**
-  - `bun generate:all` 실행 후 변경사항 확인
-  - 테스트 실행 후 커밋 (`bun test:all`)
+- 패키지 매니저는 `bun`만 쓴다. 의존성은 `bun add`로 바꾸고 `bun.lock`은 손으로 고치지 않는다.
+- 포맷은 변경한 파일만 `bun biome format --write <파일>`로 맞춘다.
+- `.env`, API key, secret은 읽거나 커밋하지 않는다.
+- 사용자 요청이 Skill 지침보다 우선한다. Skill 지침 때문에 멈추거나 방향을 바꾸면 근거가 된 `SKILL.md` 경로와 문장을 사용자에게 밝힌다.
+- Lynx 기기에서 `open`·reload·화면 조작을 하기 전에 [session 소유권과 Card 수명](skills/seed-verify-lynx-component/references/concurrency/session-ownership.md)을 읽고 따른다. 여러 에이전트·worktree가 같은 client를 공유한다.
 
-- ⚠️ **Ask first:**
-  - 새 패키지 추가
-  - tsconfig/biome.json 설정 변경
-  - CI 워크플로우 수정
-  - 외부 의존성 추가
+## 학습 기록
 
-- 🚫 **Never:**
-  - `packages/css/vars/`, `packages/css/recipes/` 직접 수정
-  - `packages/qvism-preset/src/vars/` 직접 수정
-  - `.env`, API 키, 시크릿 커밋
-  - `npm`/`pnpm`/`yarn` 사용 (`bun` 전용)
-  - `dist/`, `node_modules/` 수정
+학습 기록은 [`.agents/learnings/`](.agents/learnings/AGENTS.md)에서 관리한다. 에이전트가 작성·관리하고 사람이 검토할 수 있는 저장소 내부 기록이며, 읽기·기록·정리·커밋 절차는 해당 경로의 `AGENTS.md`를 따른다.
 
-## Git 규칙
+## 문서
 
-- **커밋 메시지는 반드시 영어로 작성**한다. Conventional Commits 형식을 따른다: `type(scope): subject`
-  - 예: `feat(button): add loading state`, `fix(tooltip): correct z-index`, `docs: update component rules`
-- **PR 제목도 반드시 영어로 작성**한다. 커밋 메시지와 동일한 Conventional Commits 형식을 따른다.
+- `AGENTS.md`: 에이전트 규칙·명령·경계. `.agents/learnings/`: 에이전트가 쌓는 교훈. `ARCHITECTURE.md`: 패키지 경계·생성 파이프라인·변경 유형별 시작 경로. `TECH.md`: 저장소 공통 기술 규칙. `README.md`·`CONTRIBUTING.md`: 사람용.
+- 새 규칙은 가장 좁은 적용 경로의 `AGENTS.md`에 두고 상위 문서에 반복하지 않는다.
+- 하위 `AGENTS.md`는 `# <경로>` 제목과 1–2문장 개요로 시작하고, 내용이 있는 섹션만 둔다. 검증 명령이 있으면 `## 검증`을 맨 앞에 두고, 그 밖에는 `## 규칙`·`## 작업 절차`를 쓴다. 코드·설정으로 알 수 있는 내용과 일반론은 쓰지 않는다.
+- 에이전트 문서는 표 대신 짧은 목록, 한다체로 쓴다. 금지 규칙에는 대신 할 행동을 함께 쓴다.
+
+## Git
+
+커밋 메시지와 PR 제목은 영어 Conventional Commits(`type(scope): subject`)로 쓴다. 예: `feat(button): add loading state`.

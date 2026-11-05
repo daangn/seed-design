@@ -1,4 +1,8 @@
 import "@testing-library/jest-dom";
+import * as React from "@lynx-js/react";
+import type { MainThread } from "@lynx-js/types";
+import type { LynxIconElementProps } from "../../types";
+import { Fragment, useEffect } from "@lynx-js/react";
 import {
   act,
   fireEvent,
@@ -9,6 +13,7 @@ import {
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import * as AppBar from "./AppBar.namespace";
+import { Icon } from "../Icon/Icon";
 
 type TestSystemInfo = { platform?: string };
 
@@ -17,7 +22,9 @@ interface TestLynxGlobal {
   lynx?: {
     __globalProps?: {
       safeAreaInsetTop?: number;
+      safeAreaInsetRight?: number;
       safeAreaInsetBottom?: number;
+      safeAreaInsetLeft?: number;
     };
   };
   lynxTestingEnv?: {
@@ -148,8 +155,19 @@ describe("AppBar", () => {
     render(<AppBar.Root theme="cupertino" />);
 
     expectStyle(getAppBarRoot().style, {
-      height: "calc(91px)",
+      height: "calc(103px)",
       "padding-top": "47px",
+    });
+  });
+
+  it("adds left and right safe area insets to the root padding", () => {
+    setGlobalProps({ safeAreaInsetRight: 0, safeAreaInsetLeft: 59 });
+
+    render(<AppBar.Root theme="cupertino" />);
+
+    expectStyle(getAppBarRoot().style, {
+      "padding-left": "calc(75px)",
+      "padding-right": "calc(16px)",
     });
   });
 
@@ -164,7 +182,7 @@ describe("AppBar", () => {
     );
 
     expectStyle(getAppBarRoot().style, {
-      height: "calc(91px)",
+      height: "calc(103px)",
       "padding-top": "47px",
     });
   });
@@ -234,7 +252,56 @@ describe("AppBar", () => {
     expect(iconButton).toHaveAttribute("accessibility-traits", "button");
   });
 
+  it("labels a text button with its text and bleeds it at the trailing edge", () => {
+    render(
+      <AppBar.Root>
+        <AppBar.Right>
+          <AppBar.IconButton accessibility-label="Share" />
+          <AppBar.TextButton>닫기</AppBar.TextButton>
+        </AppBar.Right>
+      </AppBar.Root>,
+    );
+
+    const { getByText } = getRenderedQueries();
+    const textButton = getAppBarRoot().querySelector(".seed-app-bar__textButton");
+
+    expect(getByText("닫기")).toHaveClass("seed-app-bar__textButtonLabel");
+    expect(textButton).toHaveAttribute("accessibility-label", "닫기");
+    expect(textButton).toHaveAttribute("accessibility-element", "true");
+    expect(textButton).toHaveAttribute("accessibility-traits", "button");
+    expect(textButton).toHaveClass("seed-app-bar__text-button-edge-trailing");
+    expect(textButton).not.toHaveClass("seed-app-bar__text-button-edge-leading");
+  });
+
+  it("blocks taps and announces a disabled text button", () => {
+    const handleTap = vi.fn();
+    const handleCatchTap = vi.fn();
+    render(
+      <AppBar.Root>
+        <AppBar.Right>
+          <AppBar.TextButton disabled bindtap={handleTap} catchtap={handleCatchTap}>
+            완료
+          </AppBar.TextButton>
+        </AppBar.Right>
+      </AppBar.Root>,
+    );
+
+    const { getByText } = getRenderedQueries();
+    const textButton = getAppBarRoot().querySelector(".seed-app-bar__textButton");
+    if (!textButton) throw new Error("Expected AppBar text button to exist.");
+    fireEvent.tap(textButton);
+    fireEvent.tap(textButton, { eventType: "catchEvent" });
+
+    expect(handleTap).not.toHaveBeenCalled();
+    expect(handleCatchTap).not.toHaveBeenCalled();
+    expect(textButton).toHaveClass("seed-app-bar__text-button-disabled");
+    expect(textButton).toHaveAttribute("accessibility-traits", "disabled");
+    expect(getByText("완료")).toHaveClass("seed-app-bar__text-button-label-disabled");
+  });
+
   it("updates centered title padding from left and right layout widths", async () => {
+    setGlobalProps({ safeAreaInsetRight: 0, safeAreaInsetLeft: 59 });
+
     render(
       <AppBar.Root>
         <AppBar.Left>
@@ -264,7 +331,262 @@ describe("AppBar", () => {
     });
 
     await waitFor(() => {
-      expect(main).toHaveStyle({ paddingLeft: "72px", paddingRight: "72px" });
+      expect(main).toHaveStyle({
+        paddingLeft: "calc(59px + 88px)",
+        paddingRight: "calc(0px + 88px)",
+      });
     });
+  });
+
+  it.each([
+    "left",
+    "right",
+  ] as const)("bleeds both sides of a single button in the %s slot", (side) => {
+    const Slot = side === "left" ? AppBar.Left : AppBar.Right;
+    render(
+      <AppBar.Root>
+        <Slot>
+          <AppBar.IconButton accessibility-label="Back" />
+        </Slot>
+      </AppBar.Root>,
+    );
+    const button = getAppBarRoot().querySelector(".seed-app-bar__iconButton");
+    expect(button).toHaveClass("seed-app-bar__icon-button-edge-leading");
+    expect(button).toHaveClass("seed-app-bar__icon-button-edge-trailing");
+  });
+
+  it.each([
+    "left",
+    "right",
+  ] as const)("bleeds only the outer sides of buttons in the %s slot", (side) => {
+    const Slot = side === "left" ? AppBar.Left : AppBar.Right;
+    render(
+      <AppBar.Root>
+        <Slot>
+          <AppBar.IconButton accessibility-label="Search" />
+          <AppBar.IconButton accessibility-label="Share" />
+          <AppBar.IconButton accessibility-label="Close" />
+        </Slot>
+      </AppBar.Root>,
+    );
+    const buttons = getAppBarRoot().querySelectorAll(".seed-app-bar__iconButton");
+    expect(buttons).toHaveLength(3);
+    expect(buttons[0]).toHaveClass("seed-app-bar__icon-button-edge-leading");
+    expect(buttons[0]).not.toHaveClass("seed-app-bar__icon-button-edge-trailing");
+    expect(buttons[1]).not.toHaveClass("seed-app-bar__icon-button-edge-leading");
+    expect(buttons[1]).not.toHaveClass("seed-app-bar__icon-button-edge-trailing");
+    expect(buttons[2]).not.toHaveClass("seed-app-bar__icon-button-edge-leading");
+    expect(buttons[2]).toHaveClass("seed-app-bar__icon-button-edge-trailing");
+  });
+
+  it("updates both edges when a conditional sibling changes without remounting the button", () => {
+    const mount = vi.fn();
+    function WrappedButton() {
+      useEffect(() => {
+        mount();
+      }, []);
+      return <AppBar.IconButton accessibility-label="Back" />;
+    }
+    function Example({ showCustom }: { showCustom: boolean }) {
+      return (
+        <AppBar.Root>
+          <AppBar.Left>
+            <WrappedButton />
+            {showCustom && (
+              <AppBar.Slot>
+                <text>Done</text>
+              </AppBar.Slot>
+            )}
+          </AppBar.Left>
+        </AppBar.Root>
+      );
+    }
+    const { rerender } = render(<Example showCustom={false} />);
+    const button = () => getAppBarRoot().querySelector(".seed-app-bar__iconButton");
+    expect(button()).toHaveClass("seed-app-bar__icon-button-edge-leading");
+    expect(button()).toHaveClass("seed-app-bar__icon-button-edge-trailing");
+    rerender(<Example showCustom />);
+    expect(button()).toHaveClass("seed-app-bar__icon-button-edge-leading");
+    expect(button()).not.toHaveClass("seed-app-bar__icon-button-edge-trailing");
+    rerender(<Example showCustom={false} />);
+    expect(button()).toHaveClass("seed-app-bar__icon-button-edge-trailing");
+    expect(mount).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not bleed a custom slot sitting at the slot edge", () => {
+    render(
+      <AppBar.Root>
+        <AppBar.Right>
+          <AppBar.Slot>
+            <text>Done</text>
+          </AppBar.Slot>
+        </AppBar.Right>
+      </AppBar.Root>,
+    );
+
+    const custom = getAppBarRoot().querySelector<HTMLElement>(".seed-app-bar__custom");
+    expect(custom).toBeInTheDocument();
+    expect(custom!.style.getPropertyValue("margin-left")).toBe("");
+    expect(custom!.style.getPropertyValue("margin-right")).toBe("");
+  });
+
+  it("bleeds the trailing icon button but not a preceding custom slot", () => {
+    render(
+      <AppBar.Root>
+        <AppBar.Right>
+          <AppBar.Slot>
+            <text>Done</text>
+          </AppBar.Slot>
+          <AppBar.IconButton accessibility-label="Close" />
+        </AppBar.Right>
+      </AppBar.Root>,
+    );
+
+    const root = getAppBarRoot();
+    const custom = root.querySelector<HTMLElement>(".seed-app-bar__custom");
+    const iconButton = root.querySelector<HTMLElement>(".seed-app-bar__iconButton");
+    expect(custom!.style.getPropertyValue("margin-right")).toBe("");
+    expect(iconButton).toHaveClass("seed-app-bar__icon-button-edge-trailing");
+  });
+
+  it.each([
+    "leading",
+    "trailing",
+    "both",
+  ] as const)("respects explicit edge=%s over automatic edges", (edge) => {
+    render(
+      <AppBar.Root>
+        <AppBar.Left>
+          <AppBar.IconButton accessibility-label="Back" edge={edge} />
+        </AppBar.Left>
+      </AppBar.Root>,
+    );
+    const button = getAppBarRoot().querySelector(".seed-app-bar__iconButton");
+    expect(button?.classList.contains("seed-app-bar__icon-button-edge-leading")).toBe(
+      edge !== "trailing",
+    );
+    expect(button?.classList.contains("seed-app-bar__icon-button-edge-trailing")).toBe(
+      edge !== "leading",
+    );
+  });
+
+  it("preserves caller styles when automatic edge compensation applies", () => {
+    render(
+      <AppBar.Root>
+        <AppBar.Left>
+          <AppBar.IconButton
+            accessibility-label="Back"
+            {...{ style: { width: "60px", opacity: 0.5 } }}
+          />
+        </AppBar.Left>
+      </AppBar.Root>,
+    );
+    const button = getAppBarRoot().querySelector<HTMLElement>(".seed-app-bar__iconButton");
+    expect(button).toHaveClass("seed-app-bar__icon-button-edge-leading");
+    expectStyle(button!.style, { width: "60px", opacity: "0.5" });
+  });
+
+  it("finds the physical edge through nested fragments and conditional children", () => {
+    render(
+      <AppBar.Root>
+        <AppBar.Right>
+          <Fragment>
+            {false && <AppBar.IconButton accessibility-label="Hidden" />}
+            <AppBar.IconButton accessibility-label="Search" />
+            <Fragment key="actions">
+              <AppBar.IconButton accessibility-label="Close" />
+              {null}
+              <Fragment />
+            </Fragment>
+          </Fragment>
+        </AppBar.Right>
+      </AppBar.Root>,
+    );
+    const buttons = getAppBarRoot().querySelectorAll<HTMLElement>(".seed-app-bar__iconButton");
+    expect(buttons).toHaveLength(2);
+    expect(buttons[0]).toHaveClass("seed-app-bar__icon-button-edge-leading");
+    expect(buttons[0]).not.toHaveClass("seed-app-bar__icon-button-edge-trailing");
+    expect(buttons[1]).not.toHaveClass("seed-app-bar__icon-button-edge-leading");
+    expect(buttons[1]).toHaveClass("seed-app-bar__icon-button-edge-trailing");
+  });
+
+  it("does not leak edge to native children or bleed buttons inside custom layout boxes", () => {
+    render(
+      <AppBar.Root>
+        <AppBar.Left>
+          <view id="native-edge">
+            <AppBar.IconButton accessibility-label="Nested" />
+          </view>
+        </AppBar.Left>
+        <AppBar.Right>
+          <AppBar.Slot>
+            <AppBar.IconButton accessibility-label="Custom" />
+          </AppBar.Slot>
+        </AppBar.Right>
+      </AppBar.Root>,
+    );
+    const root = getAppBarRoot();
+    expect(root.querySelector("#native-edge")).not.toHaveAttribute("edge");
+    expect(root.querySelector("[edge]")).toBeNull();
+    for (const button of root.querySelectorAll(".seed-app-bar__iconButton")) {
+      expect(button).not.toHaveClass("seed-app-bar__icon-button-edge-leading");
+      expect(button).not.toHaveClass("seed-app-bar__icon-button-edge-trailing");
+    }
+  });
+
+  it("passes edge through wrapper components without changing their props or remounting", () => {
+    const mount = vi.fn();
+    const received = vi.fn();
+    function WrappedButton(props: { edge?: "leading" | "trailing" }) {
+      received(props);
+      useEffect(() => {
+        mount();
+      }, []);
+      return <AppBar.IconButton accessibility-label="Wrapped" {...props} />;
+    }
+    const { rerender } = render(
+      <AppBar.Root>
+        <AppBar.Left>
+          <WrappedButton />
+        </AppBar.Left>
+      </AppBar.Root>,
+    );
+    expect(getAppBarRoot().querySelector(".seed-app-bar__iconButton")).toHaveClass(
+      "seed-app-bar__icon-button-edge-leading",
+    );
+    expect(received.mock.lastCall?.[0]).not.toHaveProperty("edge");
+    rerender(
+      <AppBar.Root>
+        <AppBar.Left>
+          <WrappedButton edge="trailing" />
+        </AppBar.Left>
+      </AppBar.Root>,
+    );
+    expect(getAppBarRoot().querySelector(".seed-app-bar__iconButton")).toHaveClass(
+      "seed-app-bar__icon-button-edge-trailing",
+    );
+    expect(mount).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("AppBar icon recipe ownership", () => {
+  const TestIcon = React.forwardRef<MainThread.Element, LynxIconElementProps>((props, ref) => (
+    <image {...props} {...(ref ? { "main-thread:ref": ref } : {})} />
+  ));
+  it.each(["prop", "children"])("connects the %s icon without fallback styles", (mode) => {
+    const icon = <TestIcon />;
+    const { container } = render(
+      <AppBar.Root theme="cupertino">
+        <AppBar.Left>
+          <AppBar.IconButton accessibility-label="Close" {...(mode === "prop" ? { icon } : {})}>
+            {mode === "children" ? <Icon icon={icon} /> : null}
+          </AppBar.IconButton>
+        </AppBar.Left>
+      </AppBar.Root>,
+    );
+    const wrapper = container.querySelector(".seed-app-bar__icon")!;
+    expect(wrapper).not.toBeNull();
+    expect(wrapper.classList.contains("seed-icon-slot")).toBe(true);
+    expect(wrapper.classList.contains("seed-icon")).toBe(false);
   });
 });

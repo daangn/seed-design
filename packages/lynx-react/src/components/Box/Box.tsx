@@ -1,8 +1,9 @@
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
 
-import type { LynxPressableProps, LynxStyledElementProps, LynxViewRef } from "../../types";
-import { useStyleProps, type StyleProps } from "../../utils/styled";
+import type { LynxHostProps, LynxViewRef } from "../../types";
+import { useStyleProps, type MarginBleedStyleProps, type StyleProps } from "../../utils/styled";
+import { mergeProps } from "../../utils/merge-props";
 
 /**
  * @platform Lynx
@@ -14,11 +15,9 @@ import { useStyleProps, type StyleProps } from "../../utils/styled";
  * 컴포넌트 내부에서는 native tag와 recipe className을 사용하고, inline style은
  * 런타임 값이 필요한 경우에만 제한적으로 사용합니다.
  */
-export interface BoxProps extends StyleProps, LynxStyledElementProps, LynxPressableProps {
-  bindtouchstart?: () => void;
-  bindtouchend?: () => void;
-  bindtouchcancel?: () => void;
-}
+export type BoxProps = StyleProps &
+  MarginBleedStyleProps &
+  Omit<LynxHostProps<"view">, keyof StyleProps>;
 
 export const Box = React.forwardRef<unknown, BoxProps>((props, ref) => {
   const { style, restProps } = useStyleProps(props);
@@ -26,8 +25,7 @@ export const Box = React.forwardRef<unknown, BoxProps>((props, ref) => {
 
   return (
     <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
-      {...nativeProps}
+      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
       className={clsx(className)}
       style={style}
     >

@@ -8,7 +8,7 @@ export interface TagGroupRootProps extends SeedTagGroup.RootProps {}
  */
 export const TagGroupRoot = SeedTagGroup.Root;
 
-export interface TagGroupItemProps extends Omit<SeedTagGroup.ItemProps, "children"> {
+export interface TagGroupItemProps extends Omit<SeedTagGroup.ItemProps, "children" | "asChild"> {
   prefixIcon?: React.ReactNode;
 
   label: React.ReactNode;

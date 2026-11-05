@@ -1,9 +1,12 @@
 // import Seed Design
+import { definePreview } from "@storybook/nextjs-vite";
+import kapture from "@kaptures/storybook";
+
 import "@seed-design/css/all.css";
 
-import type { Preview } from "@storybook/nextjs";
 import { breakpoints } from "@seed-design/css/breakpoints";
 import { ViewportMap } from "storybook/viewport";
+import type { StoryParameters } from "../stories/utils/parameters";
 
 const breakpointValues = Object.values(breakpoints);
 
@@ -25,8 +28,16 @@ const viewportMap: ViewportMap = Object.fromEntries(
   }),
 );
 
-const preview: Preview = {
+export default definePreview({
   parameters: {
+    kapture: {
+      waitForFonts: true,
+      // Exclude story scaffolding without hiding it in snapshots.
+      diffIgnoreSelectors: ['[data-kapture="ignore"]'],
+      diff: {
+        maxChangedPixelPercentage: 0.1,
+      },
+    },
     viewport: {
       options: viewportMap,
     },
@@ -37,6 +48,6 @@ const preview: Preview = {
       },
     },
   },
-};
 
-export default preview;
+  addons: [kapture()],
+}).type<{ parameters: StoryParameters }>();

@@ -53,7 +53,7 @@ data:
         root:
           color: $color.bg.brand-solid
         label:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
     size=large:
       enabled:
         root:

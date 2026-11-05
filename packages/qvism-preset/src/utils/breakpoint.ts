@@ -1,5 +1,6 @@
 // the pixel values are duplicated from packages/css/breakpoints/index.mjs
 // since qvism-preset cannot depend on @seed-design/css (css is generated from qvism-preset)
+// edit both together — nothing checks, and drift silently splits the generated media queries from the runtime store that reads the same names
 
 import type collections from "@seed-design/rootage-artifacts/collections";
 

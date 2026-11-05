@@ -1,0 +1,24 @@
+.tag-group-preview {
+  display: flex;
+  flex-direction: column;
+  max-width: 350px;
+  align-items: center;
+}
+
+.tag-group-preview__group {
+  max-width: 280px;
+}
+
+.tag-group-preview__wrapping-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 350px;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: var(--seed-color-bg-neutral-weak);
+}
+
+.tag-group-preview__wrapping-group {
+  justify-content: flex-start;
+}

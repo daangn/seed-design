@@ -1,0 +1,11 @@
+.checkbox-preview {
+  display: flex;
+  width: 100%;
+  max-width: 360px;
+  align-items: center;
+}
+
+.checkbox-preview__status {
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: 14px;
+}

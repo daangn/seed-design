@@ -47,6 +47,13 @@ declare const artifact: {
             "size": {
               "type": "dimension";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "icon": {
@@ -138,7 +145,7 @@ declare const artifact: {
               "icon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-brand-solid";
                 };
                 "sizeDuration": {
                   "type": "duration";
@@ -160,6 +167,10 @@ declare const artifact: {
                 "color": {
                   "type": "color";
                   "value": "$color.bg.brand-solid-pressed";
+                };
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };
@@ -206,7 +217,7 @@ declare const artifact: {
               "label": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-brand-solid";
                 };
                 "fontSize": {
                   "type": "dimension";

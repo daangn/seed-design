@@ -19,12 +19,13 @@ interface LLMTextRouteSource {
  * export const revalidate = false;
  * export const { GET, generateStaticParams } = createLLMTextRoute(componentsSource, "components");
  */
-export function createLLMTextRoute(source: LLMTextRouteSource, section: Section) {
+export function createLLMTextRoute(getSource: () => Promise<LLMTextRouteSource>, section: Section) {
   async function GET(_request: Request, context: { params: Promise<{ slug: string[] }> }) {
     const { slug } = await context.params;
 
     const actualSlug = slug.map((s, i) => (i === slug.length - 1 ? s.replace(/\.txt$/, "") : s));
 
+    const source = await getSource();
     const page = source.getPage(actualSlug);
 
     if (!page) notFound();
@@ -36,7 +37,8 @@ export function createLLMTextRoute(source: LLMTextRouteSource, section: Section)
     });
   }
 
-  function generateStaticParams() {
+  async function generateStaticParams() {
+    const source = await getSource();
     return source
       .generateParams()
       .filter((p) => p.slug && p.slug.length > 0)

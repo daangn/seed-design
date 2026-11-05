@@ -6,10 +6,10 @@ import {
   IconPersonFill,
   IconWrenchFill,
 } from "@karrotmarket/react-monochrome-icon";
-import { Badge, Box, HStack, Layout, Text, VStack } from "@seed-design/react";
-import { useSideNavigationContext } from "@seed-design/react/primitive";
+import { Box, HStack, Layout, Text, VStack, useSideNavigationContext } from "@seed-design/react";
 import { useState } from "react";
 
+import { Badge } from "../ui/badge";
 import { Avatar } from "../ui/avatar";
 import { IdentityPlaceholder } from "../ui/identity-placeholder";
 import { MenuContent, MenuGroup, MenuItem, MenuRoot, MenuTrigger } from "../ui/menu";

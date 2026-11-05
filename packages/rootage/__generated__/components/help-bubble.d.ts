@@ -26,6 +26,10 @@ declare const artifact: {
             "gap": {
               "type": "dimension";
             };
+            "maxWidth": {
+              "type": "dimension";
+              "description": "가용 너비(overflowPadding 참고)가 이보다 작으면 가용 너비로 축소됩니다.";
+            };
             "enterScale": {
               "type": "number";
             };
@@ -49,6 +53,10 @@ declare const artifact: {
             };
             "exitTimingFunction": {
               "type": "cubicBezier";
+            };
+            "overflowPadding": {
+              "type": "dimension";
+              "description": "말풍선과 안전 영역 경계 사이의 최소 간격을 정의합니다. 말풍선은 화면 끝에서 inset + overflowPadding만큼 안쪽에 배치되며, 가용 너비도 같은 기준으로 계산합니다.";
             };
           };
         };
@@ -129,6 +137,13 @@ declare const artifact: {
             "marginTop": {
               "type": "dimension";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
       };
@@ -146,7 +161,7 @@ declare const artifact: {
               "root": {
                 "color": {
                   "type": "color";
-                  "value": "$color.bg.neutral-inverted";
+                  "value": "$color.bg.neutral-solid";
                 };
                 "cornerRadius": {
                   "type": "dimension";
@@ -163,6 +178,13 @@ declare const artifact: {
                 "gap": {
                   "type": "dimension";
                   "value": "$dimension.x1";
+                };
+                "maxWidth": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 280;
+                    "unit": "px";
+                  };
                 };
                 "enterScale": {
                   "type": "number";
@@ -196,11 +218,15 @@ declare const artifact: {
                   "type": "cubicBezier";
                   "value": "$timing-function.easing";
                 };
+                "overflowPadding": {
+                  "type": "dimension";
+                  "value": "$dimension.x4";
+                };
               };
               "arrow": {
                 "color": {
                   "type": "color";
-                  "value": "$color.bg.neutral-inverted";
+                  "value": "$color.bg.neutral-solid";
                 };
                 "width": {
                   "type": "dimension";
@@ -247,7 +273,7 @@ declare const artifact: {
               "title": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
                 "fontSize": {
                   "type": "dimension";
@@ -265,7 +291,7 @@ declare const artifact: {
               "description": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
                 "fontSize": {
                   "type": "dimension";
@@ -283,7 +309,7 @@ declare const artifact: {
               "closeButton": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
                 "size": {
                   "type": "dimension";
@@ -299,6 +325,19 @@ declare const artifact: {
                 "marginTop": {
                   "type": "dimension";
                   "value": "$dimension.x0_5";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "closeButton": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

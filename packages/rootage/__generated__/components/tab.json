@@ -19,6 +19,16 @@
             },
             "paddingY": {
               "type": "dimension"
+            },
+            "scrollMarginX": {
+              "type": "dimension"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         },
@@ -58,6 +68,12 @@
               "enabled"
             ],
             "slots": {
+              "root": {
+                "scrollMarginX": {
+                  "type": "dimension",
+                  "value": "$dimension.spacing-x.global-gutter"
+                }
+              },
               "label": {
                 "color": {
                   "type": "color",
@@ -88,6 +104,19 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.disabled"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "self"
                 }
               }
             }

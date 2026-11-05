@@ -43,6 +43,13 @@
             },
             "strokeColor": {
               "type": "color"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         },
@@ -168,6 +175,10 @@
                 "strokeColor": {
                   "type": "color",
                   "value": "$color.stroke.neutral-muted"
+                },
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "content"
                 }
               }
             }

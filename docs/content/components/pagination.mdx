@@ -1,0 +1,91 @@
+---
+title: Pagination
+description: 여러 페이지로 나뉜 콘텐츠를 탐색할 수 있도록 돕는 네비게이션 컴포넌트입니다.
+coverImage: /og/components/pagination
+---
+
+## Anatomy
+
+- **Root:** 전체 Pagination을 감싸는 최상위 컨테이너입니다. 접근성을 위해 `<nav>` 요소로 렌더링됩니다.
+- **Previous Button:** 이전 페이지로 이동합니다. 첫 번째 페이지에서는 비활성화됩니다.
+- **Next Button:** 다음 페이지로 이동합니다. 마지막 페이지에서는 비활성화됩니다.
+- **Page Link:** 특정 페이지 번호로 직접 이동하는 링크입니다. 현재 페이지는 Selected 상태로 표시됩니다.
+- **Ellipsis:** 표시할 수 없는 페이지 범위를 …으로 축약하여 나타냅니다. 인터랙션이 없는 요소입니다.
+
+<FigmaImage
+  id="4044:39"
+  alt="Pagination의 Anatomy 이미지. Root, Previous Button, Next Button, Page Link, Ellipsis로 구성됩니다."
+/>
+
+## Properties
+
+### State
+
+- **Enabled:** 기본 상태입니다.
+- **Hover:** 커서가 올라간 상태입니다.
+- **Focus:** 키보드 탐색 시 포커스를 받은 상태입니다.
+- **Pressed:** 클릭하는 순간의 상태입니다.
+
+<FigmaImage id="4044:109" alt="Pagination의 Enabled, Hover, Focus, Pressed 상태" />
+
+## Guidelines
+
+### Pagination 사용하기
+
+콘텐츠가 여러 페이지로 나뉘어 있고, 사용자가 특정 페이지로 직접 이동하거나 현재 위치를 파악해야 할 때 사용합니다. 검색결과, 게시판 목록이 대표적인 사용 맥락입니다.
+
+Pagination은 콘텐츠 목록 하단에 배치하며, 가운데 정렬을 기본으로 합니다.
+
+아래와 같은 경우에는 Pagination 대신 다른 방법을 고려합니다.
+
+- 데이터 테이블: [Table Pagination](/components/table-pagination)을 사용합니다.
+- 단계적 흐름 (온보딩, 폼 진행 등): 스텝 인디케이터나 버튼 조합을 사용합니다.
+- 콘텐츠 양이 적은 경우: 전체 길이가 화면 3~4개 분량 이하라면 페이지 분리 없이 한 번에 표시하는 것을 권장합니다.
+
+<FigmaImage id="4044:179" alt="콘텐츠 목록 하단 가운데에 Pagination을 배치한 예시" />
+
+### 슬롯 수와 Ellipsis 처리
+
+총 슬롯 수는 화살표와 빈 내비게이션 슬롯을 포함해 화면 크기별로 고정합니다. 첫 페이지와 마지막 페이지에서는 사용할 수 없는 화살표 대신 40px 빈 슬롯을 유지해 페이지가 바뀌어도 버튼 위치와 전체 너비가 흔들리지 않습니다.
+
+- 기본 (480px 이상): 총 슬롯 9개
+- 좁은 화면 (480px 미만): 총 슬롯 7개
+
+<FigmaImage
+  id="4053:54419"
+  alt="480px 이상 화면에서 총 슬롯 9개로 Ellipsis를 처리하는 Pagination 예시"
+/>
+
+<FigmaImage
+  id="4053:54436"
+  alt="480px 미만 화면에서 총 슬롯 7개로 Ellipsis를 처리하는 Pagination 예시"
+/>
+
+## Pagination VS Table Pagination
+
+데이터 테이블에서는 Pagination 대신 [Table Pagination](/components/table-pagination)을 사용합니다.
+
+데이터 테이블에서 사용자의 주요 행동은 페이지 번호로 이동하는 것보다 정렬, 필터로 원하는 데이터를 찾거나 순차적으로 훑어보는 것이기 때문에, 한 번에 몇 개를 볼지(Rows Per Page)와 현재 범위(Page Range)를 제어할 수 있는 별도 컴포넌트가 필요합니다.
+
+|                    | Pagination                           | Table Pagination                      |
+| ------------------ | ------------------------------------ | ------------------------------------- |
+| 사용 맥락          | 검색 결과, 게시판, 콘텐츠 목록       | 데이터 테이블                         |
+| 핵심 컨트롤        | Page Link + Previous/Next Button     | Rows Per Page + Page Range Select     |
+| 현재 위치 표시     | Page Link에 Selected 상태 표시       | Page Range Select                     |
+| 페이지 이동        | Page Link 클릭                       | Page Range Select로 선택              |
+| 이전/다음 끝 처리  | hidden                               | disabled                              |
+
+<Grid>
+  <FigmaImage id="4053:55136" alt="콘텐츠 목록에 Pagination을 사용한 예시" />
+  <FigmaImage id="4053:55167" alt="데이터 테이블에 Table Pagination을 사용한 예시" />
+</Grid>
+
+## Specification
+
+### Pagination Button
+
+<ComponentSpecBlock id="pagination-button" headingComponent="h4" />
+
+### Pagination Page Item
+
+<ComponentSpecBlock id="pagination-page-item" headingComponent="h4" />

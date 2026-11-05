@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import preview from "../.storybook/preview";
 
 import { Box, HStack, Text } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -10,7 +10,7 @@ import {
 } from "seed-design/ui/responsive-side-panel";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { VIEWPORT_MODES } from "./utils/parameters";
+import { VISUAL_VIEWPORT_PARAMETERS } from "./utils/parameters";
 
 const ResponsiveSidePanelPreview = ({
   showCloseButton,
@@ -27,6 +27,9 @@ const ResponsiveSidePanelPreview = ({
       .seed-bottom-sheet__positioner {
         position: relative !important;
         inset: unset !important;
+      }
+      .seed-bottom-sheet__positioner {
+        display: block !important;
       }
       .seed-side-panel__backdrop,
       .seed-bottom-sheet__backdrop {
@@ -45,19 +48,23 @@ const ResponsiveSidePanelPreview = ({
       }
       .seed-bottom-sheet__content {
         animation: none !important;
+        width: 100% !important;
+        height: auto !important;
+        flex: none !important;
       }
       .seed-bottom-sheet__content::after {
         height: unset !important;
       }
     `}</style>
-    <ResponsiveSidePanelRoot open>
+    {/* Full-page capture resizes the viewport; this static preview has no keyboard inputs. */}
+    <ResponsiveSidePanelRoot open bottomSheetRootProps={{ repositionInputs: false }}>
       <ResponsiveSidePanelContent
         title="Responsive Side Panel"
         description="md 이상에서는 Side Panel, sm 이하에서는 Bottom Sheet로 렌더링됩니다."
         showCloseButton={showCloseButton}
         showHandle={showHandle}
       >
-        <ResponsiveSidePanelBody minHeight="x16">
+        <ResponsiveSidePanelBody>
           <Text textStyle="articleBody">Body content area</Text>
         </ResponsiveSidePanelBody>
         {showFooter && (
@@ -73,14 +80,10 @@ const ResponsiveSidePanelPreview = ({
   </Box>
 );
 
-const meta = {
+const meta = preview.meta({
   component: ResponsiveSidePanelPreview,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof ResponsiveSidePanelPreview>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+});
 
 const conditionMap = {
   showCloseButton: {
@@ -102,16 +105,11 @@ const conditionMap = {
  * 테마/폰트 스케일은 분기되는 SidePanel, BottomSheet 각 story가 이미 덮으므로,
  * 여기서는 브레이크포인트 전환만 뷰포트별로 스냅샷한다.
  */
-export const LightTheme: Story = {
-  render: (args) => (
-    <VariantTable
-      Component={meta.component}
-      variantMap={{}}
-      conditionMap={conditionMap}
-      {...args}
-    />
+export const LightTheme = meta.story({
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={{}} conditionMap={conditionMap} {...args} />
   ),
   parameters: {
-    chromatic: { modes: VIEWPORT_MODES },
+    ...VISUAL_VIEWPORT_PARAMETERS,
   },
-};
+});

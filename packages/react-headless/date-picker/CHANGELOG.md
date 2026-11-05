@@ -1,0 +1,53 @@
+# @seed-design/react-date-picker
+
+## 1.3.0
+
+### Minor Changes
+
+- dcefde3: Week의 연·월 Wheel Picker 동작을 보강합니다.
+  
+  - `useDatePicker`에 `closeWheel` action을 추가합니다. 바깥 누르기나 `Escape`처럼 제목 버튼이 아닌 경로로 Wheel Picker를 닫을 때 사용하며, 제목 버튼으로 닫을 때와 같이 고른 연·월을 표시 날짜에 반영합니다. Wheel Picker가 닫혀 있으면 아무것도 하지 않습니다.
+  - Week가 두 달에 걸치면 제목과 Wheel Picker가 다음 달을 기준으로 표시합니다. 다음 달이 이동 가능한 월 범위 밖이면 이전 달을 표시합니다.
+
+## 1.2.0
+
+### Minor Changes
+
+- e5e557b: `ContinuousDatePicker`의 노출 범위를 월 단위로 제한할 수 있습니다.
+
+  - `monthRange`로 처음과 마지막 노출 월을 지정할 수 있습니다.
+  - `monthRange`를 생략하면 기존처럼 `yearRange`의 시작 연도 1월부터 종료 연도 12월까지 노출합니다.
+  - 날짜별 선택 가능 여부는 기존 `constraints`와 함께 설정할 수 있습니다.
+
+## 1.1.0
+
+### Minor Changes
+
+- ebb4eae: Date Picker에서 시작일을 유지하고 종료일만 변경할 수 있는 기능을 추가합니다.
+
+  - `selectionMode="range"`에서 `rangeStartReadOnly` prop을 사용할 수 있습니다.
+  - 시작일보다 늦은 날짜만 새 종료일로 선택할 수 있습니다.
+  - 읽기 전용 시작일의 시각적 상태와 접근성 이름을 제공합니다.
+
+  ```tsx
+  <DatePicker
+    selectionMode="range"
+    rangeStartReadOnly
+    value={{
+      start: { year: 2026, month: 8, day: 7 },
+      end: { year: 2026, month: 8, day: 9 },
+    }}
+  />
+  ```
+
+## 1.0.0
+
+### Major Changes
+
+- c9acaa6: `DatePicker` 컴포넌트를 추가합니다.
+
+  - Single, Range, Multiple 선택 모드를 지원합니다.
+  - Month, Two Months, Week, Continuous 레이아웃을 각각 `DatePicker`, `TwoMonthDatePicker`, `WeekDatePicker`, `ContinuousDatePicker`로 제공합니다.
+  - 날짜 constraints와 예약·가격 표시를 위한 `renderDateCellSupplement`, 내부 콘텐츠 전체를 교체하는 `renderDateCellContent`를 제공합니다.
+  - `actionsRef`를 통해 특정 날짜로 이동하거나 날짜 셀에 포커스할 수 있습니다.
+  - locale 기반 달력, 키보드·스크린 리더 접근성, Wheel Picker를 이용한 월·연도 이동을 지원합니다.

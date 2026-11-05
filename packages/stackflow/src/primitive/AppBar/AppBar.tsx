@@ -17,10 +17,7 @@ export const AppBarRoot = forwardRef<HTMLDivElement, AppBarRootProps>((props, re
 
   return (
     <AppBarProvider value={api}>
-      <Primitive.div
-        ref={composeRefs(api.refs.root, ref)}
-        {...mergeProps(api.rootProps, otherProps)}
-      />
+      <Primitive.div ref={ref} {...mergeProps(api.rootProps, otherProps)} />
     </AppBarProvider>
   );
 });

@@ -4,6 +4,9 @@ export interface IconProps {
   size?: string;
   color?: string;
 
+  fontSize?: Property.FontSize;
+  fontWeight?: string;
+
   marginLeft?: Property.MarginLeft;
   marginRight?: Property.MarginRight;
   marginTop?: Property.MarginTop;
@@ -22,6 +25,14 @@ export function prefixIcon(props: IconProps) {
 
   if (props.color) {
     result["--seed-prefix-icon-color"] = props.color;
+  }
+
+  if (props.fontSize) {
+    result["--seed-prefix-icon-font-size"] = props.fontSize;
+  }
+
+  if (props.fontWeight) {
+    result["--seed-prefix-icon-font-weight"] = props.fontWeight;
   }
 
   if (props.marginLeft) {
@@ -62,6 +73,14 @@ export function suffixIcon(props: IconProps) {
     result["--seed-suffix-icon-color"] = props.color;
   }
 
+  if (props.fontSize) {
+    result["--seed-suffix-icon-font-size"] = props.fontSize;
+  }
+
+  if (props.fontWeight) {
+    result["--seed-suffix-icon-font-weight"] = props.fontWeight;
+  }
+
   if (props.marginLeft) {
     result["--seed-suffix-icon-margin-left"] = props.marginLeft;
   }
@@ -89,7 +108,7 @@ export function suffixIcon(props: IconProps) {
   return result;
 }
 
-export function onlyIcon(props: Pick<IconProps, "size" | "color">) {
+export function onlyIcon(props: IconProps) {
   const result: Record<`--${string}`, string> = {};
 
   if (props.size) {
@@ -98,6 +117,14 @@ export function onlyIcon(props: Pick<IconProps, "size" | "color">) {
 
   if (props.color) {
     result["--seed-icon-color"] = props.color;
+  }
+
+  if (props.fontSize) {
+    result["--seed-icon-font-size"] = props.fontSize;
+  }
+
+  if (props.fontWeight) {
+    result["--seed-icon-font-weight"] = props.fontWeight;
   }
 
   return result;

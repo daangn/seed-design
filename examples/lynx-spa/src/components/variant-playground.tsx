@@ -170,7 +170,7 @@ export function VariantPlayground<
       </view>
 
       {/* Controls: fixed to the bottom with its own scroll area. */}
-      <view className="shrink-0 max-h-[45%] border-t border-stroke-neutral-muted bg-bg-layer-fill">
+      <view className="shrink-0 max-h-[45%] border-t border-stroke-neutral-muted bg-bg-neutral-muted">
         <scroll-view scroll-y className="max-h-full">
           <view className="flex flex-col gap-x2_5 py-x3 px-x4">
             {variants.map((variant) =>
@@ -230,7 +230,7 @@ function VariantRow({
               <text
                 className={clsx(
                   "t2-regular",
-                  active ? "text-fg-neutral-inverted" : "text-fg-neutral",
+                  active ? "text-fg-on-neutral-solid" : "text-fg-neutral",
                 )}
               >
                 {label}
@@ -265,7 +265,7 @@ function BooleanRow({
         )}
       >
         <text
-          className={clsx("t2-regular", current ? "text-fg-neutral-inverted" : "text-fg-neutral")}
+          className={clsx("t2-regular", current ? "text-fg-on-neutral-solid" : "text-fg-neutral")}
         >
           {current ? "true" : "false"}
         </text>

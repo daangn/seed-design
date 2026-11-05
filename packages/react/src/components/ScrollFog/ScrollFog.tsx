@@ -15,20 +15,18 @@ export interface ScrollFogProps
   extends ScrollFogVariantProps,
     React.HTMLAttributes<HTMLDivElement> {
   /**
-   * Placement of fog effect
+   * Fog 효과를 표시할 방향입니다.
    * @default ["top", "bottom"]
    */
   placement?: ScrollPlacement[];
 
   /**
-   * Size of the fog effect in pixels
+   * Fog 효과의 크기입니다. 숫자는 px 단위로 처리하며 CSS 길이 또는 계산식도 사용할 수 있습니다.
    * @default 20
    */
-  size?: number;
+  size?: number | string;
 
-  /**
-   * Size of the fog effect for each direction in pixels
-   */
+  /** 방향별 Fog 효과의 크기입니다. */
   sizes?: SizesConfig;
 }
 
@@ -42,7 +40,7 @@ export const ScrollFog = forwardRef<HTMLDivElement, ScrollFogProps>(
       ...props,
     });
     const scrollFogClassName = scrollFog(variantProps);
-    const sizePx = typeof size === "number" ? `${size}px` : size; // TODO: redundant typeof?
+    const sizePx = typeof size === "number" ? `${size}px` : size;
 
     const sizeStyle = useMemo(() => {
       const finalSizes = {

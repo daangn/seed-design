@@ -23,7 +23,8 @@
             "offsetTimingFunction": {
               "type": "cubicBezier"
             }
-          }
+          },
+          "description": "region은 좌우와 하단 안전 영역 경계 안쪽에 배치되므로, paddingX와 하단 쪽 paddingY는 안전 영역 경계부터 잽니다."
         },
         "root": {
           "properties": {
@@ -129,6 +130,13 @@
             },
             "fontWeight": {
               "type": "number"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         }
@@ -174,7 +182,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-inverted"
+                  "value": "$color.bg.neutral-solid"
                 },
                 "cornerRadius": {
                   "type": "dimension",
@@ -190,7 +198,7 @@
                 "maxWidth": {
                   "type": "dimension",
                   "value": {
-                    "value": 560,
+                    "value": 464,
                     "unit": "px"
                   }
                 },
@@ -248,7 +256,7 @@
               "message": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral-inverted"
+                  "value": "$color.fg.on-neutral-solid"
                 },
                 "fontSize": {
                   "type": "dimension",
@@ -303,6 +311,19 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.bold"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "actionButton": {
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "self"
                 }
               }
             }

@@ -24,7 +24,7 @@ export interface MenuTriggerProps extends SeedMenu.TriggerProps {}
  */
 export const MenuTrigger = SeedMenu.Trigger;
 
-export interface MenuContentProps extends SeedMenu.ContentProps {
+export interface MenuContentProps extends Omit<SeedMenu.ContentProps, "asChild"> {
   positionerContainer?: SeedMenu.PositionerProps["container"];
 }
 
@@ -58,7 +58,7 @@ export interface MenuGroupLabelProps extends SeedMenu.GroupLabelProps {}
  */
 export const MenuGroupLabel = SeedMenu.GroupLabel;
 
-export interface MenuItemProps extends Omit<SeedMenu.ItemProps, "children"> {
+export interface MenuItemProps extends Omit<SeedMenu.ItemProps, "children" | "asChild"> {
   prefixIcon?: React.ReactNode;
 
   label: React.ReactNode;

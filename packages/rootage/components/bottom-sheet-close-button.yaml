@@ -16,6 +16,9 @@ data:
             type: dimension
           size:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       icon:
         properties:
           color:
@@ -36,3 +39,4 @@ data:
       pressed:
         root:
           color: $color.bg.neutral-weak-pressed
+          scaleScope: self

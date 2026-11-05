@@ -44,7 +44,7 @@
   }
 
   .seed-select__scrollArea {
-    max-height: min(480px, var(--seed-select-available-height, 480px));
+    max-height: min(var(--seed-select-max-height, 480px), var(--seed-select-available-height, var(--seed-select-max-height, 480px)));
     box-sizing: border-box;
     padding-block: var(--seed-dimension-x2);
     gap: var(--seed-dimension-x2);
@@ -96,7 +96,7 @@
     font-weight: var(--seed-font-weight-medium);
   }
 
-  @media (width >= 1280px) {
+  @media (min-width: 1280px) {
     .seed-select__groupLabel--size_responsive {
       padding-block: var(--seed-dimension-x2);
       padding-inline: var(--seed-dimension-x4);

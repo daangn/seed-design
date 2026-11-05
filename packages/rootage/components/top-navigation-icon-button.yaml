@@ -10,6 +10,17 @@ data:
         properties:
           size:
             type: dimension
+          cornerRadius:
+            type: dimension
+          color:
+            type: color
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          scaleScope:
+            type: enum
+            values: [self, content]
       icon:
         properties:
           size:
@@ -21,8 +32,16 @@ data:
       enabled:
         root:
           size: 44px
+          cornerRadius: $radius.r2
+          color: $color.bg.transparent
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
         icon:
           size: 24px
+      pressed:
+        root:
+          color: $color.bg.transparent-pressed
+          scaleScope: self
     tone=layer:
       enabled:
         icon:

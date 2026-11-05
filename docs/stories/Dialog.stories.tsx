@@ -1,10 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
-import { createStoryWithParameters } from "@/stories/utils/parameters";
-import {
-  contentDialogVariantMap,
-  type ContentDialogVariantProps,
-} from "@seed-design/css/recipes/content-dialog";
+import preview from "../.storybook/preview";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
+import { dialogVariantMap, type DialogVariantProps } from "@seed-design/css/recipes/dialog";
 import { Box, HStack, Text, VStack } from "@seed-design/react";
 import type { ReactNode } from "react";
 import {
@@ -29,7 +25,7 @@ const DialogPreview = ({
   showCloseButton,
   overflow,
   showFooter,
-}: Pick<ContentDialogVariantProps, "size"> & {
+}: Pick<DialogVariantProps, "size"> & {
   title?: ReactNode;
   description?: ReactNode;
   showCloseButton?: boolean;
@@ -38,22 +34,22 @@ const DialogPreview = ({
 }) => (
   <Box p="x4">
     <style>{`
-      .seed-content-dialog__positioner {
+      .seed-dialog__positioner {
         position: relative !important;
         inset: unset !important;
       }
-      .seed-content-dialog__backdrop {
+      .seed-dialog__backdrop {
         display: none !important;
       }
-      .seed-content-dialog__content {
+      .seed-dialog__content {
         animation: none !important;
       }
     `}</style>
     <DialogRoot open size={size}>
       <DialogContent title={title} description={description} showCloseButton={showCloseButton}>
-        {/* Body의 기본 스크롤 캡은 뷰포트 높이 기준이라 스냅샷이 캔버스 높이에 좌우된다.
-            maxHeight를 고정하고 본문 길이로만 overflow 여부를 만들어 결정적으로 찍히게 한다. */}
-        <DialogBody maxHeight="120px">
+        {/* overflow 예제에만 높이 상한을 둔다. 짧은 본문은 자연 높이로 배치해
+            정적 표에서 상한까지 늘어나는 flex 레이아웃을 만들지 않는다. */}
+        <DialogBody maxHeight={overflow ? "120px" : undefined} style={{ flex: "none" }}>
           <VStack gap="x4" align="stretch">
             {BODY_LINES.slice(0, overflow ? BODY_LINES.length : 1).map((line) => (
               <Text key={line} textStyle="articleBody">
@@ -75,15 +71,10 @@ const DialogPreview = ({
   </Box>
 );
 
-const meta = {
+const meta = preview.meta({
   component: DialogPreview,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof DialogPreview>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const TITLE = "이것은 매우 긴 제목 텍스트입니다. 여러 줄에 걸쳐 표시될 수 있습니다.";
 const DESCRIPTION =
   "이것은 매우 긴 설명 텍스트입니다. Deserunt id enim quis nisi est tempor officia.";
@@ -107,30 +98,27 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
-  render: (args) => (
+const CommonStoryTemplate = meta.story({
+  render: (args, { component }) => (
     <VariantTable
-      Component={meta.component}
-      variantMap={contentDialogVariantMap}
+      Component={component!}
+      variantMap={dialogVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

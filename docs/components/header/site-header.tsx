@@ -1,7 +1,9 @@
 "use client";
 
+import { archivePaths } from "@/lib/docs-archive";
+
 import clsx from "clsx";
-import Link from "next/link";
+import { SiteLink } from "@/components/site-link";
 import { SeedMark } from "../landing/seed-mark";
 import { SeedWordmark } from "../landing/seed-wordmark";
 import { SearchButton, ThemeToggle } from "./header-actions";
@@ -44,8 +46,8 @@ export function SiteHeader({
         className,
       )}
     >
-      <Link
-        href="/"
+      <SiteLink
+        href={archivePaths.link("/")}
         aria-label="SEED Design System 홈"
         className="flex items-center justify-self-start text-palette-gray-1000 dark:text-palette-static-white"
       >
@@ -62,7 +64,7 @@ export function SiteHeader({
               "min-[968px]:ml-1.5 min-[968px]:h-8 min-[1120px]:ml-2 min-[1120px]:h-9 min-[1280px]:h-10",
           )}
         />
-      </Link>
+      </SiteLink>
 
       <SiteNav density={density} />
 

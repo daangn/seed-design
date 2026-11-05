@@ -2560,12 +2560,13 @@ describe("useSelect positioning", () => {
     expect(positioner.style.getPropertyValue("--seed-select-reference-width")).toBe("0px");
   });
 
-  // y from side, x from alignment
   it.each([
     ["bottom", "center top"],
     ["bottom-start", "left top"],
-    ["bottom-end", "right top"],
-    ["right", "center center"],
+    ["top-end", "right bottom"],
+    ["right", "left center"],
+    ["right-end", "left bottom"],
+    ["left-start", "right top"],
   ] as const)("derives --seed-select-transform-origin from the resolved placement (%s)", async (placement, expected) => {
     const user = userEvent.setup();
     const { getByRole } = render(<BasicSelect placement={placement} />);
@@ -2608,17 +2609,18 @@ describe("useSelect positioning", () => {
     expect(getByTestId("portal-root")).toContainElement(getByRole("listbox"));
   });
 
-  it("declares the safe-area inset custom properties on the positioner", async () => {
+  // Collision padding is read back from these declarations as px, so a positioner that
+  // loses them positions against the bare viewport edge again.
+  it("re-declares every safe-area inset on the positioner", async () => {
     const { getByTestId } = render(<BasicSelect />);
     await waitForPositioning();
 
-    const positioner = getByTestId("positioner");
-    expect(positioner.style.getPropertyValue("--seed-safe-area-top")).toBe(
-      "env(safe-area-inset-top)",
-    );
-    expect(positioner.style.getPropertyValue("--seed-safe-area-bottom")).toBe(
-      "env(safe-area-inset-bottom)",
-    );
+    const { style } = getByTestId("positioner");
+    for (const side of ["top", "right", "bottom", "left"]) {
+      expect(style.getPropertyValue(`--seed-safe-area-${side}`)).toBe(
+        `env(safe-area-inset-${side})`,
+      );
+    }
   });
 });
 

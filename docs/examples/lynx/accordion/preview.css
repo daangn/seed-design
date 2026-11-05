@@ -1,0 +1,21 @@
+.accordion-preview {
+  width: 100%;
+}
+
+.accordion-preview__content {
+  padding: 16px;
+  color: var(--seed-color-fg-neutral);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.accordion-preview__value-changes {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.accordion-preview__history {
+  width: 100%;
+  max-width: 100%;
+}

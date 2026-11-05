@@ -1,18 +1,18 @@
 "use client";
 
-import type { DisplayItemEntry } from "@seed-design/react/primitive";
+import type { AttachmentDisplayItemEntry } from "@seed-design/react";
 import { useState } from "react";
 import { AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
 import { AttachmentDisplayReorderable } from "seed-design/ui/attachment-display-field-reorderable";
 
-const defaultEntries: DisplayItemEntry[] = [
+const defaultEntries: AttachmentDisplayItemEntry[] = [
   { id: "1", thumbnailUrl: "https://picsum.photos/seed/reorder1/200/200", status: "success" },
   { id: "2", thumbnailUrl: "https://picsum.photos/seed/reorder2/200/200", status: "success" },
   { id: "3", thumbnailUrl: "https://picsum.photos/seed/reorder3/200/200", status: "success" },
 ];
 
 // 외부 미디어 피커 모킹. 실제 환경에서는 네이티브 브릿지/모달/서버 호출 등으로 교체하세요.
-async function openMediaPicker(): Promise<DisplayItemEntry[]> {
+async function openMediaPicker(): Promise<AttachmentDisplayItemEntry[]> {
   const id = crypto.randomUUID();
   return [
     {
@@ -24,7 +24,7 @@ async function openMediaPicker(): Promise<DisplayItemEntry[]> {
 }
 
 export default function AttachmentDisplayReorderableExample() {
-  const [entries, setEntries] = useState<DisplayItemEntry[]>(defaultEntries);
+  const [entries, setEntries] = useState<AttachmentDisplayItemEntry[]>(defaultEntries);
 
   return (
     <AttachmentDisplayField entries={entries} onEntriesChange={setEntries} maxEntries={5}>

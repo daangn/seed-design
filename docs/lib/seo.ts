@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 import type { Metadata } from "next";
 import { baseUrl } from "@/app/metadata";
 import {
@@ -165,12 +166,12 @@ export function buildSeoMetadata({
       locale: SITE_LOCALE,
       ...(url !== undefined ? { url } : {}),
       ...shared,
-      images: [image],
+      images: [{ ...image, url: archivePaths.asset(image.url) }],
     },
     twitter: {
       card: "summary_large_image",
       ...shared,
-      images: [image.url],
+      images: [archivePaths.asset(image.url)],
     },
   };
 }
@@ -241,9 +242,14 @@ export function buildDocsPageMetadata({
  */
 export function buildDocsPageJsonLd(page: {
   url: string;
-  data: { title: string; heading?: string; description?: string; publishedAt?: string | Date };
+  data: {
+    title: string;
+    description?: string;
+    frontmatter: Record<string, unknown> & { heading?: string; publishedAt?: string | Date };
+  };
 }) {
-  const { title, heading, description, publishedAt } = page.data;
+  const { title, description } = page.data;
+  const { heading, publishedAt } = page.data.frontmatter;
   const absoluteUrl = new URL(page.url, baseUrl).toString();
   const datePublished =
     publishedAt instanceof Date ? publishedAt.toISOString() : (publishedAt ?? undefined);

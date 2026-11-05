@@ -1,22 +1,26 @@
 import { Callout as SeedSnippetCallout } from "seed-design/ui/callout";
 import clsx from "clsx";
-import type { ReactNode } from "react";
+import type { CalloutType } from "fumadocs-ui/components/callout";
+import type { ComponentProps, ReactNode } from "react";
+import { match } from "ts-pattern";
 
-type FumadocsCalloutType = "info" | "warn" | "warning" | "error" | "success" | "idea";
-type SeedTone = "neutral" | "informative" | "positive" | "warning" | "critical" | "magic";
+type SeedTone = NonNullable<ComponentProps<typeof SeedSnippetCallout>["tone"]>;
 
-/** Map Fumadocs callout `type` to a SEED Callout `tone`. */
-const TONE_BY_TYPE: Record<FumadocsCalloutType, SeedTone> = {
-  info: "informative",
-  warn: "warning",
-  warning: "warning",
-  error: "critical",
-  success: "positive",
-  idea: "magic",
-};
+/**
+ * Map Fumadocs callout `type` to a SEED Callout `tone`. A type added upstream fails the build
+ * here, and an MDX author's typo — MDX isn't type-checked — throws during the static export.
+ */
+const toneOf = (type: CalloutType) =>
+  match<CalloutType, SeedTone>(type)
+    .with("info", () => "informative")
+    .with("warn", "warning", () => "warning")
+    .with("error", () => "critical")
+    .with("success", () => "positive")
+    .with("idea", () => "magic")
+    .exhaustive();
 
 interface CalloutProps {
-  type?: FumadocsCalloutType;
+  type?: CalloutType;
   title?: ReactNode;
   /** Accepted for Fumadocs MDX compat; SEED conveys meaning through `tone`. */
   icon?: ReactNode;
@@ -31,7 +35,7 @@ interface CalloutProps {
 export function Callout({ type = "info", title, className, children }: CalloutProps) {
   return (
     <SeedSnippetCallout
-      tone={TONE_BY_TYPE[type] ?? "neutral"}
+      tone={toneOf(type)}
       title={title}
       description={children}
       className={clsx("my-4", className)}

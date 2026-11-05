@@ -47,6 +47,13 @@ declare const artifact: {
             "gap": {
               "type": "dimension";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "prefixIcon": {
@@ -210,6 +217,10 @@ declare const artifact: {
                 "cornerRadius": {
                   "type": "dimension";
                   "value": "$radius.r3";
+                };
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "content";
                 };
               };
             };

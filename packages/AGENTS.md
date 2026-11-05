@@ -1,17 +1,8 @@
 # packages
 
-## 디렉토리 개요
+배포·내부 라이브러리 workspace 모음이다. 패키지 사이 의존 방향은 `ARCHITECTURE.md`「패키지 의존 방향」에, 패키지별 검증과 규칙은 각 패키지 `AGENTS.md`에 있다.
 
-SEED Design의 핵심 패키지들이 위치하며, 디자인 토큰 정의부터 스타일 생성, React 컴포넌트 제공까지의 전체 흐름을 구성한다. 하위 패키지별 상세 규칙은 각 패키지의 `AGENTS.md`를 우선 적용한다.
+## 규칙
 
-## 파일 작성 컨벤션
-
-- 패키지 단위로 책임을 분리하고, 공개 진입점은 각 패키지의 엔트리 파일을 통해 노출한다.
-- 자동 생성 경로(`css/vars`, `css/recipes`, `qvism-preset/src/vars`)는 출력물로 취급하고 직접 수정하지 않는다.
-- 패키지 문서(`README.md`, `AGENTS.md`)는 실제 코드/스크립트 기준으로만 갱신한다.
-
-## 코드 작성 컨벤션
-
-- 패키지 의존 흐름은 `rootage -> qvism-preset/css -> react-headless -> react`와 `rootage -> lynx-qvism-preset/lynx-css -> lynx-react`를 기본으로 유지한다.
-- 토큰/레시피/스타일 변경은 source 패키지를 수정한 뒤 `bun generate:all`로 결과물을 재생성한다.
-- 교차 패키지 import는 내부 경로 대신 공개 엔트리포인트를 우선 사용한다.
+- 다른 workspace 패키지는 패키지 이름과 그 패키지 `package.json`의 `exports` 경로로 import한다. 상대 경로로 다른 패키지의 `src/`를 가리키지 않는다 → 필요한 심볼이 공개되지 않았으면 대상 패키지의 `exports`와 진입점에 추가한다.
+- 의존 패키지를 고친 뒤 소비 패키지를 검증할 때 → 의존 패키지를 `bun --filter <패키지 이름> build`로 먼저 빌드한다. 대부분의 `exports`가 `lib/` 빌드를 가리키므로 빌드하지 않으면 이전 코드로 검증된다.

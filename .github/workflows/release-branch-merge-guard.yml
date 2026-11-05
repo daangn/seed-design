@@ -1,0 +1,29 @@
+name: Release branch merge guard
+
+on:
+  pull_request:
+    branches: [dev]
+    types: [opened, reopened, synchronize, edited]
+
+concurrency:
+  group: release-branch-merge-guard-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  guard:
+    # The dev ruleset requires this job name as a status check. `/ff-merge`
+    # moves dev through the Daangn Bud app, which the ruleset lets bypass it.
+    name: Merge minor and major with /ff-merge
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+
+    steps:
+      - name: Reject merging a release branch from the GitHub UI
+        if: >-
+          contains(fromJson('["minor", "major"]'), github.event.pull_request.head.ref) &&
+          github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          echo "::error::minor·major → dev PR은 GitHub UI로 머지할 수 없습니다. PR에 \`/ff-merge\` 코멘트를 남겨 fast-forward로 머지하세요."
+          exit 1

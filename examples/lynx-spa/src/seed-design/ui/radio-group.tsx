@@ -1,17 +1,75 @@
 import * as React from "@lynx-js/react";
-import { RadioGroup as SeedRadioGroup } from "@seed-design/lynx-react";
+import {
+  RadioGroup as SeedRadioGroup,
+  RadioGroupField as SeedRadioGroupField,
+} from "@seed-design/lynx-react";
 
-export interface RadioGroupProps extends SeedRadioGroup.RootProps {}
+export interface RadioGroupProps extends SeedRadioGroupField.RootProps {
+  label?: React.ReactNode;
+  /**
+   * @default "medium"
+   */
+  labelWeight?: SeedRadioGroupField.LabelProps["weight"];
+  indicator?: React.ReactNode;
+  showRequiredIndicator?: boolean;
+
+  description?: React.ReactNode;
+  errorMessage?: React.ReactNode;
+}
 
 /**
  * @see https://seed-design.io/lynx/components/radio-group
  */
 export const RadioGroup = React.forwardRef<unknown, RadioGroupProps>(
-  ({ children, ...otherProps }, ref) => {
+  (
+    {
+      label,
+      labelWeight,
+      indicator,
+      showRequiredIndicator,
+      description,
+      errorMessage,
+      children,
+      "accessibility-label": accessibilityLabel,
+      ...props
+    },
+    ref,
+  ) => {
+    const renderHeader = label != null || indicator != null;
+    const renderErrorMessage = props.invalid && errorMessage != null;
+    const renderDescription = description != null && !renderErrorMessage;
+    const renderFooter = renderDescription || renderErrorMessage;
+    const defaultAccessibilityLabel = typeof label === "string" ? label : undefined;
+
     return (
-      <SeedRadioGroup.Root ref={ref} {...otherProps}>
-        {children}
-      </SeedRadioGroup.Root>
+      <SeedRadioGroupField.Root
+        ref={ref}
+        accessibility-label={accessibilityLabel ?? defaultAccessibilityLabel}
+        {...props}
+      >
+        {renderHeader ? (
+          <SeedRadioGroupField.Header>
+            <SeedRadioGroupField.Label weight={labelWeight}>
+              {label}
+              {showRequiredIndicator ? <SeedRadioGroupField.RequiredIndicator /> : null}
+              {indicator != null ? (
+                <SeedRadioGroupField.IndicatorText>{indicator}</SeedRadioGroupField.IndicatorText>
+              ) : null}
+            </SeedRadioGroupField.Label>
+          </SeedRadioGroupField.Header>
+        ) : null}
+        <SeedRadioGroup.Root>{children}</SeedRadioGroup.Root>
+        {renderFooter ? (
+          <SeedRadioGroupField.Footer>
+            {renderDescription ? (
+              <SeedRadioGroupField.Description>{description}</SeedRadioGroupField.Description>
+            ) : null}
+            {renderErrorMessage ? (
+              <SeedRadioGroupField.ErrorMessage>{errorMessage}</SeedRadioGroupField.ErrorMessage>
+            ) : null}
+          </SeedRadioGroupField.Footer>
+        ) : null}
+      </SeedRadioGroupField.Root>
     );
   },
 );
@@ -25,9 +83,15 @@ export interface RadioGroupItemProps extends SeedRadioGroup.ItemProps {
  * @see https://seed-design.io/lynx/components/radio-group
  */
 export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>(
-  ({ label, children, ...otherProps }, ref) => {
+  ({ label, children, "accessibility-label": accessibilityLabel, ...otherProps }, ref) => {
+    const defaultAccessibilityLabel = typeof label === "string" ? label : undefined;
+
     return (
-      <SeedRadioGroup.Item ref={ref} {...otherProps}>
+      <SeedRadioGroup.Item
+        ref={ref}
+        accessibility-label={accessibilityLabel ?? defaultAccessibilityLabel}
+        {...otherProps}
+      >
         <SeedRadioGroup.ItemControl>
           <SeedRadioGroup.ItemIndicator />
         </SeedRadioGroup.ItemControl>

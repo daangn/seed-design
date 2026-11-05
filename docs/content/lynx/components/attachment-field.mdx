@@ -1,0 +1,282 @@
+---
+title: Attachment Field
+description: 호스트 네이티브 파일 선택 결과를 받아 첨부 항목을 표시하고 관리하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.8.0, @seed-design/lynx-css@0.12.0" />
+
+<LynxComponentExample name="lynx/attachment-field/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/attachment-field/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+### Default
+
+순서 변경이 필요하지 않은 경우 기본 snippet을 설치합니다.
+
+```package-install
+npx @seed-design/cli@latest add ui:attachment-field
+```
+
+<LynxManualInstallation name="attachment-field" />
+
+### Reorderable
+
+네이티브 가로 long-press gesture로 첨부 항목 순서를 변경하려면 별도 snippet을 설치합니다. 기본 snippet에는 reorder gesture가 포함되지 않습니다. 프로젝트에 `@seed-design/lynx-react-sortable` 의존성이 추가됩니다.
+
+```package-install
+npx @seed-design/cli@latest add ui:attachment-field-reorderable
+```
+
+<LynxManualInstallation name="attachment-field-reorderable" />
+
+<Callout>
+  Lynx `AttachmentField`는 브라우저 파일 input을 만들지 않습니다. 호스트가 제공하는 네이티브 파일 선택 adapter를 `onSelectFiles`로 전달해야 합니다. 이 문서의 `fixture://` URI와 고정 이미지는 실행 가능한 picker가 아닌 문서 fixture입니다.
+</Callout>
+
+## Props
+
+### `AttachmentField`
+
+<react-type-table path="./registry/lynx/ui/attachment-field.tsx" name="AttachmentFieldProps" />
+
+### `AttachmentInput`
+
+<react-type-table path="./registry/lynx/ui/attachment-field.tsx" name="AttachmentInputProps" />
+
+### `AttachmentInputItem`
+
+<react-type-table path="./registry/lynx/ui/attachment-field.tsx" name="AttachmentInputItemProps" />
+
+## Usage
+
+`onSelectFiles`의 호스트 adapter는 `NativeFile[]` 또는 `Promise<NativeFile[]>`를 반환합니다. 선택을 취소하면 빈 배열을 반환해야 하며, adapter 오류는 `onSelectError`로 전달됩니다.
+
+```tsx
+import { AttachmentField, AttachmentInput } from "@/components/ui/attachment-field";
+
+<AttachmentField
+  maxFiles={3}
+  label="파일 업로드"
+  onSelectFiles={openNativeFilePicker}
+  onSelectError={handleFilePickerError}
+>
+  <AttachmentInput />
+</AttachmentField>;
+```
+
+`NativeFile`은 `uri`, `name`, `type`, `size`와 선택적인 `previewUrl`로 구성됩니다. `File`, `Blob`, HTML `<input type="file">`, object URL은 사용할 수 없습니다. 이미지 모드에서 `previewUrl`이 없으면 `uri`를 사용하며, 일반 파일 모드에서는 파일 아이콘과 이름·크기를 표시합니다.
+
+`AttachmentInput`은 호스트 adapter가 반환한 파일을 `accept`, `maxFiles`, `minFileSize`, `maxFileSize`, `validate` 조건으로 검증합니다. picker의 MIME filter는 UI를 위한 보조 수단이므로 앱과 업로드 서버에서도 검증해야 합니다. adapter가 빈 배열을 반환하면 목록은 변경되지 않습니다.
+
+## Uploading Files
+
+### Trigger
+
+기본 `AttachmentInput`은 파일 선택 trigger와 첨부 항목 목록을 함께 제공합니다. trigger를 탭하면 호스트 adapter가 호출되고 반환된 파일이 목록에 추가됩니다.
+
+<LynxComponentExample name="lynx/attachment-field/trigger">
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/trigger.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Listening to Accepted File Changes
+
+`acceptedFileEntries`는 검증을 통과한 파일 목록입니다. `onAcceptedFileEntriesChange`는 추가·삭제·상태·순서 변경을 포함한 목록 변화를 전달합니다.
+
+<LynxComponentExample name="lynx/attachment-field/value-changes">
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/value-changes.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+## Validating Files
+
+### Max Files
+
+`maxFiles`는 최종 파일 개수를 제한합니다. picker에 상한이나 filter를 전달해도 초과 결과는 `TOO_MANY_FILES`로 reject됩니다.
+
+<LynxComponentExample name="lynx/attachment-field/max-files">
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/max-files.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Invalid File Type
+
+`accept`는 MIME type(`image/png`, `image/*`) 또는 확장자 패턴을 받을 수 있습니다. 호스트 picker가 제한을 우회해 반환한 파일도 검증하며, 유효하지 않으면 `INVALID_TYPE`과 함께 `onFileReject`가 호출됩니다.
+
+<LynxComponentExample name="lynx/attachment-field/invalid-file-type">
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/invalid-file-type.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### File Size
+
+`minFileSize`, `maxFileSize`는 `NativeFile.size`(bytes)를 검증합니다. 범위를 벗어나면 각각 `FILE_TOO_SMALL`, `FILE_TOO_LARGE`로 reject됩니다.
+
+<LynxComponentExample name="lynx/attachment-field/validation">
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/validation.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Custom Validation
+
+`validate`는 각 `NativeFile`에 대해 custom error code 배열 또는 `null`을 반환합니다. 앱은 `onFileReject`에서 이 값을 오류 메시지로 변환합니다.
+
+<LynxComponentExample name="lynx/attachment-field/custom-validation">
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/custom-validation.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+## Managing File Status
+
+각 항목은 `pending`, `uploading`, `success`, `error` 상태를 갖습니다. 새 항목은 `pending`으로 시작합니다. 앱은 `onFileAccept`에서 업로드를 시작하고 helper로 진행률과 상태를 갱신합니다. 실제 업로드 API와 재시도 정책은 호스트 앱이 소유합니다.
+
+<LynxComponentExample name="lynx/attachment-field/status">
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/status.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+- `uploading`: `ProgressCircle`이 표시됩니다. progress가 없으면 indeterminate 상태입니다.
+- `error`: `onRetry`가 있으면 재시도 action이 표시됩니다. 재시도할 때 같은 id를 `uploading`으로 바꾸고 업로드를 다시 시작합니다.
+- picker가 동기 throw 또는 rejected Promise를 반환하면 `onSelectError`가 호출되고 기존 목록은 유지됩니다.
+
+## Reordering Files
+
+`ui:attachment-field-reorderable`은 브라우저 `dnd-kit` 대신 네이티브 가로 long-press gesture로 목록 순서를 변경합니다. `disabled`와 `readOnly`에서는 정렬할 수 없습니다.
+
+사용자 지정 항목을 렌더링할 때는 `SortableAttachmentInputItem`에 현재 `index`를 전달해야 합니다. 스크린 리더는 항목의 파일 이름, 순서, 업로드 상태를 읽고 앞·뒤 이동과 파일 제거 동작을 제공합니다. error 상태에 `onRetry`가 있으면 재시도 동작도 제공합니다. iOS에서는 항목 내부 버튼 대신 이 사용자 지정 접근성 동작을 사용합니다. `readOnly`에서는 이동과 제거가, `disabled`에서는 이동만 비활성화됩니다.
+
+<LynxComponentExample name="lynx/attachment-field/reorderable">
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/reorderable.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+## Examples
+
+### Showing Thumbnails
+
+`accept="image/*"`으로 이미지 파일만 허용하고, 호스트가 반환한 `previewUrl`로 썸네일을 표시합니다.
+
+<LynxComponentExample name="lynx/attachment-field/accept-image">
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/accept-image.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Disabled
+
+`disabled`는 trigger와 추가·정렬을 막지만 기존 항목 삭제는 허용합니다. 삭제까지 막으려면 `readOnly` 또는 앱 정책을 사용해야 합니다.
+
+<LynxComponentExample name="lynx/attachment-field/disabled">
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/disabled.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Read Only
+
+`readOnly`는 trigger, 추가, 삭제, clear, 정렬을 모두 막습니다. 외부에서 controlled 상태를 hydrate하거나 갱신하는 것은 허용됩니다.
+
+<LynxComponentExample name="lynx/attachment-field/readonly">
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/readonly.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Controlled
+
+`acceptedFileEntries`와 `onAcceptedFileEntriesChange`로 목록을 외부에서 제어할 수 있습니다.
+
+<LynxComponentExample name="lynx/attachment-field/controlled">
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/controlled.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Custom Inset
+
+`--seed-attachment-input-extend-x` style 변수를 사용하면 항목 가로 목록이 global gutter 바깥까지 확장됩니다. 실제 파일 metadata와 nested field를 함께 사용하는 예제입니다.
+
+<LynxComponentExample name="lynx/attachment-field/custom-inset">
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/custom-inset.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Field Integration
+
+`Field`와 함께 안내 문구와 오류 상태를 표시할 수 있습니다. HTML form submit 대신 앱의 validation 결과로 `invalid`와 `errorMessage`를 관리합니다.
+
+<LynxComponentExample name="lynx/attachment-field/field">
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/field.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+### Customizing Items
+
+기본 항목 구성을 바꾸는 방법은 다음 예제에서 확인할 수 있습니다. 대표 사진 배지는 앱의 순서 정책에 맞춰 표시합니다.
+
+<LynxComponentExample name="lynx/attachment-field/customizing-items">
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/customizing-items.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
+## Lynx 미지원 기능과 앱 대안
+
+### Dropzone
+
+Lynx는 React `AttachmentDropzone`의 브라우저 drag-and-drop 이벤트와 HTML file input을 지원하지 않습니다. 네이티브 파일 picker는 `onSelectFiles`에 연결하며, 목록 순서 변경에는 `ui:attachment-field-reorderable`을 사용합니다.
+
+### HTML form
+
+Lynx에는 브라우저 `form`, `FormData`, `input[type=file]` 제출 경로가 없습니다. 앱은 `onAcceptedFileEntriesChange` 또는 `onFileAccept`로 상태를 유지하고, submit action에서 `NativeFile[]`를 호스트 upload adapter에 전달합니다. 서버 검증 오류는 Field의 `invalid`와 `errorMessage`에 반영합니다.
+
+### react-hook-form
+
+`react-hook-form`을 사용하는 React 예제는 브라우저 파일 입력과 form 제출 경로에 의존하므로 그대로 실행할 수 없습니다. Lynx에서는 앱 state에 `acceptedFileEntries`와 `onAcceptedFileEntriesChange`를 연결하고, 제출할 때 목록 길이와 업로드 상태를 검증한 뒤 Field 오류 상태를 갱신합니다.
+
+### Browser file APIs
+
+`File`, `Blob`, `FileList`, object URL, `window.alert`는 Native 예제에서 사용할 수 없습니다. 호스트 adapter가 `NativeFile`의 `uri`, metadata, 선택적인 `previewUrl`을 제공해야 합니다. 취소하면 `[]`를 반환하며 선택기 또는 권한 오류는 `onSelectError`로 전달됩니다.
+
+## Extending to Safe Area
+
+`AttachmentField`에 `extendSafeAreaX`를 지정하면 가로 스크롤 영역이 좌우 safe area까지 확장됩니다. 기존 `--seed-attachment-input-extend-x`에 inset을 더하므로, 화면 여백 확장과 함께 사용할 수 있습니다. 첫 항목과 마지막 항목은 안전 영역 안에 남고, label·description은 기존 위치를 유지합니다. 기본값은 `false`입니다.
+
+`Box pl="safeArea" pr="safeArea"`처럼 좌우 inset을 이미 확보한 컨테이너 바로 안에서 사용하세요. inset을 확보하지 않은 곳에 적용하면 화면 밖으로 넘칠 수 있습니다.
+
+최신 Registry snippet은 확장된 목록이 Field에 잘리지 않도록 처리합니다. 직접 컴포넌트를 조합하면 목록을 감싸는 안전 영역 안쪽 부모에 `style={{ overflow: "visible" }}`을 지정하세요.
+
+### 확장 전 / 확장 후
+
+| 비교 | 확장 전 (AS IS) | 확장 후 (TO BE) |
+| --- | --- | --- |
+| 배경·스크롤 영역 | 첨부 목록의 스크롤 영역이 안전 영역 안에서 끝남 | 첨부 목록의 스크롤 영역이 좌우 끝까지 이어짐 |
+| 콘텐츠 | 안전 영역 안에 배치 | label·description과 처음·마지막 항목의 여백은 유지 |
+
+아래 스위치를 켜고 끄며 같은 예제에서 비교할 수 있습니다. 브라우저에는 비교용 좌우 inset을 적용합니다. 붉은 빗금은 콘텐츠를 피해야 하는 inset 영역이며, 두 경계선 사이는 안전 영역입니다. QR로 연 기기에서는 실제 inset을 사용하므로, 좌우 inset이 모두 `0`이면 차이가 보이지 않을 수 있습니다. 적용 조건은 [Safe Area 가이드](/lynx/getting-started/safe-area)를 참고하세요.
+
+<LynxComponentExample name="lynx/attachment-field/extend-safe-area" safeAreaInsets={{ left: 24, right: 48 }}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/attachment-field/extend-safe-area.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>

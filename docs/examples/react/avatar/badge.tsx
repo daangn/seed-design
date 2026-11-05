@@ -23,7 +23,7 @@ export default function () {
       >
         <AvatarBadge asChild>
           <img
-            src="/flower_green_checkmark.svg"
+            src="https://seed-design.io/flower_green_checkmark.svg"
             alt="뱃지를 설명하는 대체 텍스트를 제공해야 합니다."
           />
         </AvatarBadge>
@@ -36,7 +36,7 @@ export default function () {
       >
         <AvatarBadge asChild>
           <img
-            src="/shield_blue_checkmark.svg"
+            src="https://seed-design.io/shield_blue_checkmark.svg"
             alt="뱃지를 설명하는 대체 텍스트를 제공해야 합니다."
           />
         </AvatarBadge>

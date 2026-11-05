@@ -1,6 +1,6 @@
 @layer seed-components {
   .seed-pull-to-refresh__root {
-    --ptr-size: 44px;
+    --ptr-size: calc(var(--seed-dimension-x6) + var(--seed-dimension-x8) * 2);
     --ptr-transition-duration: var(--seed-duration-d6);
     height: 100%;
   }

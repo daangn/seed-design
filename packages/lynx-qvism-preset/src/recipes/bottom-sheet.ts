@@ -1,5 +1,5 @@
 import { defineSlotRecipe } from "../utils/define";
-import { bottomSheet as vars } from "../vars/component";
+import { bottomSheetCloseButton as closeButtonVars, bottomSheet as vars } from "../vars/component";
 
 /**
  * Lynx-전용 BottomSheet recipe.
@@ -15,10 +15,13 @@ const bottomSheet = defineSlotRecipe({
     "content",
     "header",
     "body",
+    "scrollArea",
+    "scrollContent",
     "footer",
     "title",
     "description",
     "closeButton",
+    "closeButtonIcon",
   ],
   base: {
     positioner: {
@@ -56,6 +59,7 @@ const bottomSheet = defineSlotRecipe({
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,
+      maxWidth: vars.base.enabled.content.maxWidth,
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
 
@@ -65,6 +69,9 @@ const bottomSheet = defineSlotRecipe({
     header: {
       display: "flex",
       flexDirection: "column",
+      // Lynx gives flex items no `min-height: auto`, so without this the header and footer shrink
+      // along with the body once the content reaches its max height.
+      flexShrink: 0,
 
       gap: vars.base.enabled.header.gap,
       paddingTop: vars.base.enabled.header.paddingTop,
@@ -92,15 +99,29 @@ const bottomSheet = defineSlotRecipe({
     body: {
       display: "flex",
       flexDirection: "column",
-      flex: 1,
+      // Shrinks without growing: the body keeps its content height and gives way only when the
+      // sheet reaches its height cap, which is when its scroll area scrolls. Not `flex: 1`, whose
+      // zero basis collapses a fitted sheet's body to nothing.
+      flexShrink: 1,
       minHeight: "0",
 
       paddingLeft: vars.base.enabled.body.paddingX,
       paddingRight: vars.base.enabled.body.paddingX,
     },
+    // Lynx drops `gap` on a `scroll-view`, so `scrollContent` lays the children out inside it.
+    scrollArea: {
+      width: "100%",
+      flexShrink: 1,
+      minHeight: "0",
+    },
+    scrollContent: {
+      display: "flex",
+      flexDirection: "column",
+    },
     footer: {
       display: "flex",
       flexDirection: "column",
+      flexShrink: 0,
 
       paddingLeft: vars.base.enabled.footer.paddingX,
       paddingRight: vars.base.enabled.footer.paddingX,
@@ -109,13 +130,23 @@ const bottomSheet = defineSlotRecipe({
       paddingBottom: vars.base.enabled.footer.paddingBottom,
     },
     closeButton: {
-      // Tier B placeholder: Lynx SVG support pending. Kept so the slot exists
-      // in the generated recipe output and can be filled in later without a
-      // schema change.
       position: "absolute",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+
+      top: vars.base.enabled.closeButton.fromTop,
+      right: vars.base.enabled.closeButton.fromRight,
+      width: closeButtonVars.base.enabled.root.size,
+      height: closeButtonVars.base.enabled.root.size,
+      borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
+      backgroundColor: closeButtonVars.base.enabled.root.color,
+    },
+    closeButtonIcon: {
+      flexShrink: 0,
+      width: closeButtonVars.base.enabled.icon.size,
+      height: closeButtonVars.base.enabled.icon.size,
+      color: closeButtonVars.base.enabled.icon.color,
     },
   },
   variants: {
@@ -146,10 +177,38 @@ const bottomSheet = defineSlotRecipe({
       true: {},
       false: {},
     },
+    // Set by Root while a CloseButton is rendered, so the title leaves room for it.
+    closeButton: {
+      true: {},
+      false: {},
+    },
   },
+  compoundVariants: [
+    {
+      headerAlign: "left",
+      closeButton: true,
+      css: {
+        title: {
+          paddingLeft: vars.headerAlignmentLeftCloseButtonTrue.enabled.title.paddingLeft,
+          paddingRight: vars.headerAlignmentLeftCloseButtonTrue.enabled.title.paddingRight,
+        },
+      },
+    },
+    {
+      headerAlign: "center",
+      closeButton: true,
+      css: {
+        title: {
+          paddingLeft: vars.headerAlignmentCenterCloseButtonTrue.enabled.title.paddingLeft,
+          paddingRight: vars.headerAlignmentCenterCloseButtonTrue.enabled.title.paddingRight,
+        },
+      },
+    },
+  ],
   defaultVariants: {
     headerAlign: "left",
     skipAnimation: false,
+    closeButton: false,
   },
 });
 

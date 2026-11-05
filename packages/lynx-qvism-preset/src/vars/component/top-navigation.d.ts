@@ -1,21 +1,25 @@
 export declare const vars: {
+  "base": {
+    "enabled": {
+      "root": {
+        "height": "56px",
+        "paddingX": "var(--seed-dimension-x1_5)"
+      }
+    }
+  },
   "themeIos": {
     "enabled": {
       "root": {
-        "height": "44px",
-        "paddingX": "var(--seed-dimension-x4)"
+        /** main과 left/right 영역 간 최소 간격입니다. */
+        "titleMinGap": "var(--seed-dimension-x2)"
       }
     }
   },
   "themeAndroid": {
     "enabled": {
-      "root": {
-        "height": "56px",
-        "paddingX": "var(--seed-dimension-x4)"
-      },
       /** title과 subtitle을 포함하는 영역입니다. */
       "main": {
-        "paddingLeft": "16px"
+        "paddingLeft": "var(--seed-dimension-x1_5)"
       }
     }
   },
@@ -58,7 +62,19 @@ export declare const vars: {
   "toneTransparentGradientTrue": {
     "enabled": {
       "root": {
-        "gradient": "#00000059 0%, #00000000 100%",
+        "gradient": {
+          "serialized": "#00000059 0%, #00000000 100%",
+          "stops": [
+            {
+              "color": "#00000059",
+              "position": 0
+            },
+            {
+              "color": "#00000000",
+              "position": 1
+            }
+          ]
+        },
         /** gradient가 표시될 때 하단 아래로 gradient가 확장되는 길이입니다. */
         "bleedBottom": "var(--seed-dimension-x5)"
       }

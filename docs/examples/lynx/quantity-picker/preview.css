@@ -1,0 +1,62 @@
+.quantity-picker-example {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.quantity-picker-example-title {
+  color: var(--seed-color-fg-neutral);
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.quantity-picker-example-status {
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: 14px;
+  text-align: center;
+  margin-top: 12px;
+}
+
+.quantity-picker-example-controls {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-picker-example-control {
+  margin-right: 4px;
+  margin-left: 4px;
+}
+
+.quantity-picker-layout-host {
+  display: flex;
+  width: 100%;
+  max-width: 360px;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.quantity-picker-layout-row {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 16px;
+}
+
+.quantity-picker-layout-row .quantity-picker-example-controls {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.quantity-picker-layout-label {
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: 14px;
+  margin-bottom: 8px;
+}

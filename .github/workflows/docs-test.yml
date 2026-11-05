@@ -4,7 +4,13 @@ on:
   push:
     paths:
       - "docs/**/*"
+      - "scripts/docs-archive/**"
+      - "packages/css/**"
+      - "packages/lynx-react/**"
+      - "packages/lynx-css/**"
       - ".github/workflows/docs-test.yml"
+      - ".github/workflows/deploy-docs-archive-worker.yml"
+      - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -17,12 +23,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: ./.github/actions/setup
 
       - name: Build dependencies
-        run: bun ecosystem:build && bun install && bun packages:build
+        run: bun packages:build
 
       - name: Run tests
         run: bun docs:test
+
+      - name: Validate archive Worker
+        run: |
+          bun tsc --ignoreConfig --noEmit --skipLibCheck --types bun --lib es2022,dom --moduleResolution bundler --module esnext --target es2022 scripts/docs-archive/worker.ts scripts/docs-archive/worker.test.ts scripts/docs-archive/worker-configuration.d.ts scripts/docs-archive/deploy.ts scripts/docs-archive/build-target.ts scripts/docs-archive/verify-preview.ts
+          bun wrangler deploy --dry-run --config scripts/docs-archive/wrangler.jsonc

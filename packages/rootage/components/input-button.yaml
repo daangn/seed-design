@@ -31,6 +31,9 @@ data:
             description: enabled 상태의 stroke 위에 invalid 상태의 stroke가 fade in/out 되는 데에 걸리는 시간입니다. stroke 두께나 색상 자체를 transition하지 않습니다.
           strokeTimingFunction:
             type: cubicBezier
+          scaleScope:
+            type: enum
+            values: [self, content]
       value:
         properties:
           fontSize:
@@ -89,6 +92,9 @@ data:
             type: dimension
           color:
             type: color
+          scaleScope:
+            type: enum
+            values: [self, content]
     variants:
       size:
         values:
@@ -137,6 +143,9 @@ data:
       pressed:
         root:
           color: $color.bg.transparent-pressed
+          scaleScope: content
+        clearButton:
+          scaleScope: self
 
       invalid:
         root:

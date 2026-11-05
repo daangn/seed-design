@@ -3,22 +3,30 @@ title: usePressTap
 description: Lynx 요소의 press/tap 인터랙션 상태를 관리하는 훅입니다.
 ---
 
-<AvailableSince packages="@seed-design/lynx-react@0.1.0" />
+<AvailableSince packages="@seed-design/lynx-react-use-press-tap@0.1.0" />
+
+## Installation
+
+```package-install
+bun add @seed-design/lynx-react-use-press-tap
+```
 
 ## Import
 
 ```ts
-import { usePressTap } from "@seed-design/lynx-react";
+import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
 ```
 
-`usePressTap`은 `@seed-design/lynx-react` 패키지에 포함되어 있습니다.
+`usePressTap`은 스타일 없이 사용할 수 있는 독립 패키지입니다. `@seed-design/lynx-react`를 설치하지 않아도 사용할 수 있습니다.
+
+기존 `@seed-design/lynx-react`의 `usePressTap` 재export도 유지됩니다. 새 코드에서는 위 독립 패키지에서 직접 가져오는 방식을 권장합니다.
 
 ## Usage
 
 ### 기본 사용
 
 ```tsx
-import { usePressTap } from "@seed-design/lynx-react";
+import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
 
 function TappableCard() {
   const { pressed, ...handlers } = usePressTap({
@@ -48,14 +56,16 @@ function DisabledButton({ disabled }: { disabled: boolean }) {
     },
   });
 
-  return <view {...handlers}><text>Button</text></view>;
+  return <view {...handlers}><text>{pressed ? "Pressing..." : "Button"}</text></view>;
 }
 ```
+
+누르는 도중 `disabled`가 `true`로 바뀌면 `pressed`는 해제되고 두 스레드의 tap 처리가 차단됩니다.
 
 ### Main Thread 이벤트
 
 ```tsx
-import { usePressTap } from "@seed-design/lynx-react";
+import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
 
 function AnimatedButton() {
   const mainThreadTap = () => {
@@ -71,7 +81,7 @@ function AnimatedButton() {
     mainThreadOnTap: mainThreadTap,
   });
 
-  return <view {...handlers}><text>Animated</text></view>;
+  return <view {...handlers}><text>{pressed ? "Pressing..." : "Animated"}</text></view>;
 }
 ```
 
@@ -82,36 +92,30 @@ function AnimatedButton() {
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `disabled` | `boolean` | `false` | `true`일 때 press 상태 변경과 tap 이벤트가 차단됩니다. |
-| `onTap` | `() => void` | - | 탭 시 호출되는 콜백입니다. |
-| `mainThreadOnTap` | `() => void` | - | Main thread에서 실행되는 탭 콜백입니다. `disabled` 시 바인딩되지 않습니다. |
+| `onTap` | `EventHandler<BaseTouchEvent<Target>>` | - | Background Thread의 tap 이벤트를 그대로 받습니다. |
+| `mainThreadOnTap` | `IntrinsicElements["view"]["main-thread:bindtap"]` | - | `"main thread"` 지시어가 필요한 콜백입니다. `disabled` 시 바인딩되지 않습니다. |
 
 ### Return
 
 | Property | Type | Description |
 |----------|------|-------------|
 | `pressed` | `boolean` | 현재 press 상태입니다. |
-| `bindtap` | `(e: TouchEvent) => void` | 탭 이벤트 핸들러입니다. |
-| `bindtouchstart` | `(e: TouchEvent) => void` | 터치 시작 핸들러입니다. |
-| `bindtouchend` | `(e: TouchEvent) => void` | 터치 종료 핸들러입니다. |
-| `bindtouchcancel` | `(e: TouchEvent) => void` | 터치 취소 핸들러입니다. |
-| `main-thread:bindtap` | `(() => void) \| undefined` | Main thread 탭 핸들러입니다. `disabled`이거나 `mainThreadOnTap`이 미제공이면 포함되지 않습니다. |
+| `bindtap` | `EventHandler<BaseTouchEvent<Target>>` | 탭 이벤트 핸들러입니다. |
+| `bindtouchstart` | `EventHandler<BaseTouchEvent<Target>>` | 터치 시작 핸들러입니다. |
+| `bindtouchend` | `EventHandler<BaseTouchEvent<Target>>` | 터치 종료 핸들러입니다. |
+| `bindtouchcancel` | `EventHandler<BaseTouchEvent<Target>>` | 터치 취소 핸들러입니다. |
+| `main-thread:bindtap` | `IntrinsicElements["view"]["main-thread:bindtap"]` | Main thread 탭 핸들러입니다. `disabled`이거나 `mainThreadOnTap`이 미제공이면 포함되지 않습니다. |
 
-## CSS 스타일링 참고
+## 상태와 스타일링
 
-SEED Lynx 컴포넌트는 `pressed` 상태를 recipe의 boolean variant로 전달하고, 생성된 className 조합으로 press 스타일을 표현합니다. Web처럼 `:active` pseudo-class나 `data-active` selector에 기대지 않습니다.
+`pressed`를 제외한 반환값을 native 요소에 펼칩니다. `pressed`는 터치 시작에 켜지고 터치 종료·취소·tap 또는 비활성화 시 해제되는 일시적인 눌림 상태입니다. 선택 여부를 유지하는 토글 상태와는 다릅니다.
 
-```tsx
-const { pressed, ...pressHandlers } = usePressTap({ onTap });
-const classNames = actionButton({ pressed });
-```
+훅 자체는 CSS class나 스타일을 적용하지 않습니다. 직접 만드는 UI에서는 `pressed`에 맞는 className을 선택할 수 있습니다. 기존 SEED 컴포넌트의 Recipe가 `pressed` variant를 제공한다고 가정하지 마세요. Main Thread의 즉각적인 시각 피드백은 컴포넌트가 사용하는 `:active` 또는 ScaleFeedback 경로와 구분됩니다.
 
-## 웹 버전과의 차이
+사용자 handler를 같은 `bindtap` 등에 추가할 때 뒤에서 덮어쓰면 훅의 처리가 사라집니다. 하나의 handler에서 훅의 handler와 사용자 동작을 함께 호출하거나, tap 부가 동작은 `onTap`으로 전달하세요.
 
-| 항목 | Lynx (`usePressTap`) | Web (`usePress` 등) |
-|------|----------------------|---------------------|
-| 이벤트 모델 | `bindtap`, `bindtouchstart/end/cancel` | `onPointerDown/Up/Move`, `onClick` |
-| Press 감지 | 터치 이벤트 기반 | 포인터 이벤트 기반 |
-| Hover 지원 | 없음 (모바일 전용) | `isHovered` 상태 포함 |
-| Focus 지원 | 없음 | `isFocused`, `isFocusVisible` 포함 |
-| Main thread | `main-thread:bindtap` 지원 | 해당 없음 |
-| CSS 연동 | 네이티브 `:active` 자동 적용 | `data-active` attribute selector |
+## 웹과의 차이
+
+- DOM의 `onClick`·포인터 이벤트 대신 Lynx의 `bindtap`·`bindtouchstart/end/cancel`을 사용합니다.
+- Hover·focus 상태, 키보드 입력, 접근성 속성은 이 훅이 제공하지 않습니다. 소비하는 컴포넌트에서 별도로 구성합니다.
+- `mainThreadOnTap`을 제공하면 Main Thread handler를 함께 반환합니다. 두 콜백을 모두 지정하면 각각 자기 스레드에서 실행되므로 같은 부수 효과를 중복 처리하지 않도록 합니다.

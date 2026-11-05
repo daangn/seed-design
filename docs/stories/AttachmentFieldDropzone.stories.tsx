@@ -1,10 +1,9 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import preview from "../.storybook/preview";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { AttachmentField, AttachmentDropzone } from "seed-design/ui/attachment-field";
-import type { FileEntry } from "@seed-design/react/primitive";
+import type { AttachmentInputFileEntry } from "@seed-design/react";
 import { attachmentInputVariantMap } from "@seed-design/css/recipes/attachment-input";
 
 // 1x1 pixel PNG (valid image so ItemImage renders without broken icon)
@@ -24,15 +23,10 @@ const AttachmentInputForStory = (props: AttachmentInputStoryProps) => (
   </AttachmentField>
 );
 
-const meta = {
+const meta = preview.meta({
   component: AttachmentInputForStory,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof AttachmentInputForStory>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const conditionMap = {
   accept: {
     "image/*": { accept: "image/*" },
@@ -47,7 +41,7 @@ const conditionMap = {
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
           status: "pending",
         },
-      ] satisfies FileEntry[],
+      ] satisfies AttachmentInputFileEntry[],
     },
     "1 uploading": {
       defaultAcceptedFileEntries: [
@@ -56,7 +50,7 @@ const conditionMap = {
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
           status: "uploading",
         },
-      ] satisfies FileEntry[],
+      ] satisfies AttachmentInputFileEntry[],
     },
     "1 success": {
       defaultAcceptedFileEntries: [
@@ -65,7 +59,7 @@ const conditionMap = {
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
           status: "success",
         },
-      ] satisfies FileEntry[],
+      ] satisfies AttachmentInputFileEntry[],
     },
     "1 error": {
       defaultAcceptedFileEntries: [
@@ -74,7 +68,7 @@ const conditionMap = {
           file: createMockImageFile("summer-vacation-photo-of-the-year.png"),
           status: "error",
         },
-      ] satisfies FileEntry[],
+      ] satisfies AttachmentInputFileEntry[],
     },
     "3": {
       defaultAcceptedFileEntries: [
@@ -85,7 +79,7 @@ const conditionMap = {
         },
         { id: "mock-2", file: createMockImageFile("profile-picture-2024.png"), status: "success" },
         { id: "mock-3", file: createMockImageFile("team-meeting-notes.png"), status: "success" },
-      ] satisfies FileEntry[],
+      ] satisfies AttachmentInputFileEntry[],
     },
   },
   disabled: {
@@ -98,30 +92,27 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
-  render: (args) => (
+const CommonStoryTemplate = meta.story({
+  render: (args, { component }) => (
     <VariantTable
-      Component={meta.component}
+      Component={component!}
       variantMap={attachmentInputVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

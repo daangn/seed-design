@@ -17,6 +17,10 @@ declare const artifact: {
             "paddingX": {
               "type": "dimension";
             };
+            "titleMinGap": {
+              "type": "dimension";
+              "description": "main과 left/right 영역 간 최소 간격입니다.";
+            };
             "color": {
               "type": "color";
             };
@@ -140,36 +144,7 @@ declare const artifact: {
     };
     "definitions": readonly [
       {
-        "variants": {
-          "theme": "ios";
-        };
-        "definitions": readonly [
-          {
-            "states": readonly [
-              "enabled",
-            ];
-            "slots": {
-              "root": {
-                "height": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 44;
-                    "unit": "px";
-                  };
-                };
-                "paddingX": {
-                  "type": "dimension";
-                  "value": "$dimension.x4";
-                };
-              };
-            };
-          },
-        ];
-      },
-      {
-        "variants": {
-          "theme": "android";
-        };
+        "variants": {};
         "definitions": readonly [
           {
             "states": readonly [
@@ -186,16 +161,47 @@ declare const artifact: {
                 };
                 "paddingX": {
                   "type": "dimension";
-                  "value": "$dimension.x4";
+                  "value": "$dimension.x1_5";
                 };
               };
+            };
+          },
+        ];
+      },
+      {
+        "variants": {
+          "theme": "ios";
+        };
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
+              "root": {
+                "titleMinGap": {
+                  "type": "dimension";
+                  "value": "$dimension.x2";
+                };
+              };
+            };
+          },
+        ];
+      },
+      {
+        "variants": {
+          "theme": "android";
+        };
+        "definitions": readonly [
+          {
+            "states": readonly [
+              "enabled",
+            ];
+            "slots": {
               "main": {
                 "paddingLeft": {
                   "type": "dimension";
-                  "value": {
-                    "value": 16;
-                    "unit": "px";
-                  };
+                  "value": "$dimension.x1_5";
                 };
               };
             };

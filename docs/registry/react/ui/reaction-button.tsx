@@ -19,7 +19,7 @@ export const ReactionButton = React.forwardRef<
 >(({ loading = false, children, ...otherProps }, ref) => {
   return (
     <SeedReactionButton ref={ref} loading={loading} {...otherProps}>
-      {loading ? <LoadingIndicator>{children}</LoadingIndicator> : children}
+      {loading && !otherProps.asChild ? <LoadingIndicator>{children}</LoadingIndicator> : children}
     </SeedReactionButton>
   );
 });

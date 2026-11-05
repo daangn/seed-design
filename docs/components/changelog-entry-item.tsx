@@ -1,8 +1,8 @@
 import type { ChangelogEntry } from "@/lib/parse-changelog";
 import { SeedClientCodeBlock } from "@/components/codeblock/client-code-block";
+import { INLINE_CODE_DESCENDANT_CLASS_NAME } from "./inline-code";
 
-const PROSE_CLASS =
-  "prose prose-sm dark:prose-invert max-w-none min-w-0 break-words prose-p:my-0 prose-li:my-0.5 prose-a:text-fd-primary prose-code:text-fd-primary prose-code:bg-fd-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-xs [&>*:last-child]:mb-0 [&_a]:break-words [&_code]:break-words";
+const PROSE_CLASS = `prose prose-sm dark:prose-invert max-w-none min-w-0 break-words prose-p:my-0 prose-li:my-0.5 prose-a:text-fd-primary [&>*:last-child]:mb-0 [&_a]:break-words ${INLINE_CODE_DESCENDANT_CLASS_NAME}`;
 
 export function ChangelogEntryItem({
   entry,

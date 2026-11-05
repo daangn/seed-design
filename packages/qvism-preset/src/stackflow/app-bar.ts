@@ -4,10 +4,22 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { pseudo, focusVisible } from "../utils/pseudo";
+import { pseudo, focusVisible, disabled, engaged, not } from "../utils/pseudo";
 import { topNavigation as vars } from "../vars/component";
 import { topNavigationIconButton as iconButtonVars } from "../vars/component";
+import { topNavigationTextButton as textButtonVars } from "../vars/component";
 import { vars as tokens } from "../vars/";
+
+// The spec moved Top Navigation to button-box-based spacing (`root.paddingX` and
+// `main.paddingLeft` are now `$dimension.x1_5`). Following it here would render identically —
+// the negative margins below exist only to undo the old icon-based basis — but it rewrites the
+// emitted CSS, so both stay as they were until DES-2511 settles the platform difference.
+const PINNED_ROOT_PADDING_X = tokens.$dimension.x4;
+const PINNED_LEFT_PADDING_RIGHT = "16px";
+const ICON_BASIS_OFFSET = `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`;
+// Text buttons follow the spec's button-box basis: an edge button's box sits at the spec's
+// `root.paddingX` from the bar edge instead of the pinned padding.
+const TEXT_BUTTON_EDGE_OFFSET = `calc(${vars.base.enabled.root.paddingX} - ${PINNED_ROOT_PADDING_X})`;
 
 export const appBarMain = defineSlotRecipe({
   name: "app-bar-main",
@@ -63,7 +75,20 @@ export const appBarMain = defineSlotRecipe({
           top: "var(--seed-safe-area-top)",
           bottom: 0,
           insetInline: 0,
-          paddingInline: "var(--centered-title-padding-x, 0)",
+          // The title keeps the same distance past each side's safe-area inset, so it stays centered
+          // in the safe area. That distance is the bar's padding plus `--app-bar-area-extent`: how
+          // far the further-reaching left/right area extends from the bar's content edge, as
+          // `useAppBar` measures it. With no area the variable is unset, and the fallback cancels the
+          // padding so the title clears nothing.
+          // `@seed-design/stackflow` <= 2.0.4 sets `--centered-title-padding-x` instead: the padding
+          // itself, measured from the bar's padding edge. The fallback resolves to
+          // `max(var(--centered-title-padding-x, 0px), <safe-area inset>)`, so those versions keep
+          // the title clear of the left/right areas.
+          // NOTE: the spec's `root.titleMinGap` (the minimum gap between the title and the left/right
+          // areas) is not applied yet; consuming it means adding
+          // `${vars.themeIos.enabled.root.titleMinGap}` to `--app-bar-area-extent`.
+          paddingLeft: `calc(var(--seed-safe-area-left) + max(calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-area-extent, calc(var(--centered-title-padding-x, 0px) - var(--seed-safe-area-left) - ${PINNED_ROOT_PADDING_X}))), 0px))`,
+          paddingRight: `calc(var(--seed-safe-area-right) + max(calc(${PINNED_ROOT_PADDING_X} + var(--app-bar-area-extent, calc(var(--centered-title-padding-x, 0px) - var(--seed-safe-area-right) - ${PINNED_ROOT_PADDING_X}))), 0px))`,
           pointerEvents: "none",
         },
       },
@@ -120,7 +145,17 @@ export const appBarMain = defineSlotRecipe({
 
 export const appBar = defineSlotRecipe({
   name: "app-bar",
-  slots: ["root", "background", "left", "right", "iconButton", "icon", "custom"],
+  slots: [
+    "root",
+    "background",
+    "left",
+    "right",
+    "iconButton",
+    "icon",
+    "textButton",
+    "textButtonLabel",
+    "custom",
+  ],
   base: {
     root: {
       zIndex: "var(--z-index-app-bar)",
@@ -168,13 +203,57 @@ export const appBar = defineSlotRecipe({
       display: "inline-block",
       flexShrink: 0,
     },
+    textButton: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      // `asChild` can render a link, which defaults to `content-box`; keep `maxWidth` including padding.
+      boxSizing: "border-box",
+      minWidth: 0,
+      height: textButtonVars.base.enabled.root.height,
+
+      border: "none",
+      background: "none",
+      fontFamily: "inherit",
+      // `asChild` can render a link; drop its default underline so it matches the button.
+      textDecoration: "none",
+      paddingBlock: 0,
+      paddingInline: textButtonVars.base.enabled.root.paddingX,
+
+      borderRadius: textButtonVars.base.enabled.root.cornerRadius,
+      backgroundColor: textButtonVars.base.enabled.root.color,
+      transition: `background-color ${textButtonVars.base.enabled.root.colorDuration} ${textButtonVars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      ...createFocusRingRestStyles({ position: "inside" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
+      [pseudo(not(disabled), engaged)]: {
+        backgroundColor: textButtonVars.base.pressed.root.color,
+      },
+
+      "&:first-child": {
+        marginLeft: TEXT_BUTTON_EDGE_OFFSET,
+      },
+      "&:last-child": {
+        marginRight: TEXT_BUTTON_EDGE_OFFSET,
+      },
+    },
+    // The label inherits the tone color from `textButton`, which also owns the disabled state.
+    // NOTE: when updating vars, update static token references accordingly (see appBarMain's title)
+    textButtonLabel: {
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      fontSize: `clamp(calc(${tokens.$fontSize.t5Static} * ${textButtonVars.base.enabled.label.minFontSizeScale}), ${textButtonVars.base.enabled.label.fontSize}, calc(${tokens.$fontSize.t5Static} * ${textButtonVars.base.enabled.label.maxFontSizeScale}))`,
+      lineHeight: `clamp(calc(${tokens.$lineHeight.t5Static} * ${textButtonVars.base.enabled.label.minLineHeightScale}), ${textButtonVars.base.enabled.label.lineHeight}, calc(${tokens.$lineHeight.t5Static} * ${textButtonVars.base.enabled.label.maxLineHeightScale}))`,
+      fontWeight: textButtonVars.base.enabled.label.fontWeight,
+    },
   },
   variants: {
     theme: {
       cupertino: {
         root: {
-          height: `calc(${vars.themeIos.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingInline: vars.themeIos.enabled.root.paddingX,
+          height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
+          paddingLeft: `calc(${PINNED_ROOT_PADDING_X} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${PINNED_ROOT_PADDING_X} + var(--seed-safe-area-right))`,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
@@ -184,10 +263,10 @@ export const appBar = defineSlotRecipe({
           // cursor: "pointer"; // we might need this later
 
           "&:first-child": {
-            marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+            marginLeft: ICON_BASIS_OFFSET,
           },
           "&:last-child": {
-            marginRight: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+            marginRight: ICON_BASIS_OFFSET,
           },
         },
         // Instead of making another `icon` slot, defining the icon style using ...onlyIcon({}) inside the `iconButton` slot sounds better
@@ -196,12 +275,16 @@ export const appBar = defineSlotRecipe({
           width: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
           height: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
         },
+        textButton: {
+          maxWidth: textButtonVars.themeIos.enabled.root.maxWidth,
+        },
       },
       // TODO: most of these can be shared with cupertino, we can just override the necessary styles
       android: {
         root: {
-          height: `calc(${vars.themeAndroid.enabled.root.height} + var(--seed-safe-area-top))`,
-          paddingInline: vars.themeAndroid.enabled.root.paddingX,
+          height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
+          paddingLeft: `calc(${PINNED_ROOT_PADDING_X} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${PINNED_ROOT_PADDING_X} + var(--seed-safe-area-right))`,
           paddingTop: "var(--seed-safe-area-top)",
         },
         iconButton: {
@@ -209,10 +292,10 @@ export const appBar = defineSlotRecipe({
           height: iconButtonVars.base.enabled.root.size,
 
           "&:first-child": {
-            marginLeft: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+            marginLeft: ICON_BASIS_OFFSET,
           },
           "&:last-child": {
-            marginRight: `calc(-1 * (${iconButtonVars.base.enabled.root.size} - ${iconButtonVars.base.enabled.icon.size}) / 2)`,
+            marginRight: ICON_BASIS_OFFSET,
           },
         },
         icon: {
@@ -220,7 +303,7 @@ export const appBar = defineSlotRecipe({
           height: `var(--seed-icon-size, ${iconButtonVars.base.enabled.icon.size})`,
         },
         left: {
-          paddingRight: vars.themeAndroid.enabled.main.paddingLeft,
+          paddingRight: PINNED_LEFT_PADDING_RIGHT,
         },
       },
     },
@@ -237,6 +320,12 @@ export const appBar = defineSlotRecipe({
         icon: {
           color: `var(--seed-icon-color, ${iconButtonVars.toneLayer.enabled.icon.color})`,
         },
+        textButton: {
+          color: textButtonVars.toneLayer.enabled.label.color,
+          [pseudo(disabled)]: {
+            color: textButtonVars.toneLayer.disabled.label.color,
+          },
+        },
       },
       transparent: {
         root: {
@@ -245,6 +334,12 @@ export const appBar = defineSlotRecipe({
         },
         icon: {
           color: `var(--seed-icon-color, ${iconButtonVars.toneTransparent.enabled.icon.color})`,
+        },
+        textButton: {
+          color: textButtonVars.toneTransparent.enabled.label.color,
+          [pseudo(disabled)]: {
+            color: textButtonVars.toneTransparent.disabled.label.color,
+          },
         },
       },
     },

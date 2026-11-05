@@ -55,12 +55,31 @@ Lynx에서는 텍스트가 반드시 `<text>` 요소 안에 있어야 합니다.
 
 `fontSize`만 지정하고 `lineHeight`를 생략하면 같은 단계의 line-height 토큰을 함께 사용합니다.
 
+## Text Decoration Lines
+
+`textDecorationLine`으로 밑줄 또는 취소선을 추가할 수 있습니다.
+
+```tsx
+<Text textDecorationLine="underline">밑줄</Text>
+<Text textDecorationLine="line-through">취소선</Text>
+```
+
+## Max Lines
+
+`maxLines`로 텍스트가 차지하는 최대 줄 수를 제한할 수 있습니다. 지정한 줄 수를 넘는 텍스트는 생략 부호 `…`로 표시됩니다.
+
+```tsx
+<Text maxLines={2}>긴 텍스트</Text>
+```
+
+`Text`는 native `text-maxline` 속성과 `overflow: hidden`, `text-overflow: ellipsis`를 함께 적용합니다. 생략 부호가 보이려면 `Text`의 너비가 부모에 의해 제한되어야 합니다. 가로 배치에서는 `flex-1`처럼 남는 너비를 차지하게 하세요.
+
 ## 웹 버전과의 차이
 
 <Callout type="warning">
 Lynx `Text`는 React `Text`와 다음과 같은 차이가 있습니다.
 
 - `as`, `asChild`를 지원하지 않습니다. 항상 Lynx 네이티브 `<text>`를 렌더링합니다.
-- `maxLines`, `whiteSpace`, `userSelect`, `textDecorationLine`은 아직 제공하지 않습니다.
-- CSS `inherit`에 기대는 웹 `.seed-text` 패턴을 사용하지 않고, `color`, `fontSize`, `lineHeight`, `fontWeight`, `textAlign`을 직접 object style로 적용합니다.
+- `whiteSpace`, `userSelect`는 아직 제공하지 않습니다.
+- CSS `inherit`에 기대는 웹 `.seed-text` 패턴을 사용하지 않고, `color`, `fontSize`, `lineHeight`, `fontWeight`, `textAlign`, `textDecoration`을 직접 object style로 적용합니다.
 </Callout>

@@ -1,10 +1,12 @@
+import { archivePaths } from "@/lib/docs-archive";
 import "./layer-order.css";
-import "@seed-design/css/base.layered.min.css";
+import "@seed-design/css/base.layered.css";
 import "simple-reveal/index.css";
 import "./global.css";
 
 import GoogleAnalytics from "@/components/google-analytics";
 import { LatestVersionBanner } from "@/components/latest-version-banner";
+import { SiteAnnouncementBanner } from "@/components/site-announcement-banner";
 import { type ReactNode, Suspense } from "react";
 import ThemeSync from "@/components/theme-sync";
 import { RecentPagesRecorder } from "@/components/recent-pages-recorder";
@@ -27,10 +29,10 @@ export default function Layout({ children }: { children: ReactNode }) {
     >
       <head>
         <meta name="color-scheme" content="light dark" />
-        <link rel="icon" href="/favicon.ico" sizes="32x32" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="icon" href={archivePaths.asset("/favicon.ico")} sizes="32x32" />
+        <link rel="icon" href={archivePaths.asset("/favicon.svg")} type="image/svg+xml" />
+        <link rel="apple-touch-icon" href={archivePaths.asset("/apple-touch-icon.png")} />
+        <link rel="manifest" href={archivePaths.asset("/site.webmanifest")} />
         {/* Pretendard (dynamic-subset variable weight 100–900). Rebrand PoC font,
             served from jsDelivr for now — self-host before daangn/prod. Applied as the
             base font-family in app/global.css. */}
@@ -48,6 +50,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           <RecentPagesRecorder />
         </Suspense>
         <NuqsAdapter>{children}</NuqsAdapter>
+        <SiteAnnouncementBanner />
       </body>
     </html>
   );

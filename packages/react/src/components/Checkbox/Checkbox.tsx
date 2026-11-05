@@ -8,6 +8,7 @@ import clsx from "clsx";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import { InternalIcon } from "../private/Icon";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import {
@@ -40,6 +41,8 @@ export interface CheckboxRootProps
     CheckmarkVariantProps,
     CheckboxPrimitive.RootProps {}
 
+export interface CheckboxRootPrimitiveProps extends CheckboxPrimitive.RootProps {}
+
 export const CheckboxRoot = Object.assign(
   forwardRef<HTMLLabelElement, CheckboxRootProps>(({ className, ...props }, ref) => {
     const [{ checkbox: checkboxVariantProps, checkmark: checkmarkVariantProps }, otherProps] =
@@ -67,7 +70,7 @@ export const CheckboxRoot = Object.assign(
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * CheckboxControl combines Checkbox.Primitive with checkmark.root styling
+ * CheckboxControl combines Checkbox.Root.Primitive with checkmark.root styling
  * This enables standalone usage of Checkbox.Control with variants
  */
 
@@ -75,9 +78,8 @@ export interface CheckboxControlProps
   extends CheckmarkVariantProps,
     CheckboxPrimitive.ControlProps {}
 
-export const CheckboxControl = withCheckmarkProvider<HTMLDivElement, CheckboxControlProps>(
-  CheckboxPrimitive.Control,
-  "root",
+export const CheckboxControl = withScaleFeedback(
+  withCheckmarkProvider<HTMLDivElement, CheckboxControlProps>(CheckboxPrimitive.Control, "root"),
 );
 
 ////////////////////////////////////////////////////////////////////////////////////

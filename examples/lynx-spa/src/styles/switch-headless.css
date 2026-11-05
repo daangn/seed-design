@@ -1,0 +1,83 @@
+/* SEED recipe·token 없이 @seed-design/lynx-react-switch만 소비하는 화면의 스타일 */
+
+.switch-headless-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.switch-headless-root {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0px;
+}
+
+.switch-headless-control {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 44px;
+  height: 26px;
+  padding: 3px;
+  border-radius: 13px;
+  background-color: #dcdee3;
+}
+
+.switch-headless-control-pressed {
+  background-color: #c6c8cd;
+}
+
+.switch-headless-control-checked {
+  justify-content: flex-end;
+  background-color: #212124;
+}
+
+.switch-headless-control-checked-pressed {
+  justify-content: flex-end;
+  background-color: #3a3a3c;
+}
+
+.switch-headless-control-disabled {
+  opacity: 0.4;
+}
+
+.switch-headless-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+.switch-headless-label {
+  font-size: 15px;
+  color: #1a1c20;
+}
+
+.switch-headless-label-disabled {
+  font-size: 15px;
+  color: #d1d3d8;
+}
+
+.switch-headless-description {
+  font-size: 13px;
+  color: #868b94;
+}
+
+.switch-headless-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.switch-headless-button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: #f3f4f5;
+}
+
+.switch-headless-button-text {
+  font-size: 13px;
+  color: #1a1c20;
+}

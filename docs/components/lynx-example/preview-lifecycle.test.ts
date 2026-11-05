@@ -1,0 +1,160 @@
+import { describe, expect, it } from "bun:test";
+import {
+  configureLynxView,
+  DEFAULT_LYNX_PREVIEW_MIN_HEIGHT,
+  getLynxPreviewSizing,
+  initializeLynxView,
+  isLynxPageReady,
+} from "./preview-lifecycle";
+
+describe("Lynx 미리보기 lifecycle", () => {
+  it("기본 미리보기는 최소 높이를 유지하면서 Lynx 콘텐츠 높이에 맞춰 늘어난다", () => {
+    expect(getLynxPreviewSizing()).toEqual({
+      autoHeight: true,
+      containerStyle: { minHeight: DEFAULT_LYNX_PREVIEW_MIN_HEIGHT },
+      viewStyle: { height: "auto" },
+    });
+  });
+
+  it("명시한 높이가 있으면 고정 높이 미리보기를 유지한다", () => {
+    expect(getLynxPreviewSizing(480)).toEqual({
+      autoHeight: false,
+      containerStyle: { height: 480 },
+      viewStyle: { height: 480 },
+    });
+  });
+
+  it("theme을 바꿔도 렌더할 예제 ID를 globalProps에 유지한다", () => {
+    const element: { globalProps: unknown } = { globalProps: {} };
+
+    configureLynxView(element, { theme: "dark", example: "lynx/badge/preview" });
+
+    expect(element.globalProps).toEqual({ theme: "dark", example: "lynx/badge/preview" });
+  });
+
+  it("web-core의 page part가 생긴 뒤에만 준비 상태로 본다", () => {
+    expect(isLynxPageReady({ querySelector: () => null })).toBe(false);
+    expect(
+      isLynxPageReady({
+        querySelector: (selector) => (selector === '[part="page"]' ? {} : null),
+      }),
+    ).toBe(true);
+  });
+
+  it("비교용 inset을 첫 로드와 theme 변경에 유지하고 설정을 제거하면 초기화한다", () => {
+    const element: { globalProps: unknown; transformVH: boolean; transformVW: boolean } = {
+      globalProps: {},
+      transformVH: false,
+      transformVW: false,
+    };
+    initializeLynxView(element, {
+      theme: "light",
+      example: "lynx/tabs/extend-safe-area",
+      safeAreaInsets: { left: 24, right: 48 },
+      styleRules: [],
+      transformVH: false,
+      url: "/tabs.web.bundle",
+    });
+    expect(element.globalProps).toEqual({
+      theme: "light",
+      example: "lynx/tabs/extend-safe-area",
+      safeAreaInsetLeft: 24,
+      safeAreaInsetRight: 48,
+    });
+    configureLynxView(element, {
+      theme: "dark",
+      example: "lynx/tabs/extend-safe-area",
+      safeAreaInsets: { left: 24, right: 48 },
+    });
+    expect(element.globalProps).toEqual({
+      theme: "dark",
+      example: "lynx/tabs/extend-safe-area",
+      safeAreaInsetLeft: 24,
+      safeAreaInsetRight: 48,
+    });
+    configureLynxView(element, { theme: "dark", example: "lynx/badge/preview" });
+    expect(element.globalProps).toEqual({ theme: "dark", example: "lynx/badge/preview" });
+  });
+
+  it("자동 높이에서는 transformVH를 비활성화한 다음 url을 설정한다", () => {
+    const assignments: string[] = [];
+    const element = {
+      set browserConfig(value: Record<string, unknown>) {
+        assignments.push(`browserConfig:${value.lynxSdkVersion}`);
+      },
+      set transformVH(value: boolean) {
+        assignments.push(`transformVH:${value}`);
+      },
+      set transformVW(value: boolean) {
+        assignments.push(`transformVW:${value}`);
+      },
+      set globalProps(_value: unknown) {
+        assignments.push("globalProps");
+      },
+      set injectStyleRules(_value: string[]) {
+        assignments.push("injectStyleRules");
+      },
+      set url(_value: string) {
+        assignments.push("url");
+      },
+    };
+
+    initializeLynxView(element, {
+      theme: "light",
+      example: "lynx/badge/preview",
+      styleRules: ["* { box-sizing: border-box; }"],
+      transformVH: false,
+      url: "/preview.web.bundle",
+    });
+
+    expect(assignments).toEqual([
+      "browserConfig:3.5",
+      "transformVW:true",
+      "transformVH:false",
+      "globalProps",
+      "injectStyleRules",
+      "url",
+    ]);
+  });
+
+  it("고정 높이에서는 transformVH를 활성화한 다음 url을 설정한다", () => {
+    const assignments: string[] = [];
+    const element = {
+      set browserConfig(value: Record<string, unknown>) {
+        assignments.push(`browserConfig:${value.lynxSdkVersion}`);
+      },
+      set transformVH(value: boolean) {
+        assignments.push(`transformVH:${value}`);
+      },
+      set transformVW(value: boolean) {
+        assignments.push(`transformVW:${value}`);
+      },
+      set globalProps(_value: unknown) {
+        assignments.push("globalProps");
+      },
+      set injectStyleRules(_value: string[]) {
+        assignments.push("injectStyleRules");
+      },
+      set url(_value: string) {
+        assignments.push("url");
+      },
+    };
+
+    initializeLynxView(element, {
+      theme: "light",
+      example: "lynx/badge/preview",
+      styleRules: ["* { box-sizing: border-box; }"],
+      transformVH: true,
+      url: "/preview.web.bundle",
+    });
+
+    expect(assignments).toEqual([
+      "browserConfig:3.5",
+      "transformVW:true",
+      "transformVH:true",
+      "globalProps",
+      "injectStyleRules",
+      "url",
+    ]);
+  });
+});

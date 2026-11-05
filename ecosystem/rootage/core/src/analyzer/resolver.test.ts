@@ -1,7 +1,12 @@
 import { describe, expect, it } from "bun:test";
-import { Authoring, visitEachChild, visitNode, type AST } from "../parser";
+import { Authoring, factory, visitEachChild, visitNode, type AST } from "../parser";
 import { buildContext } from "./context";
-import { transformResolvedType, resolveReferences, resolveToken } from "./resolver";
+import {
+  createTokenValuesResolver,
+  transformResolvedType,
+  resolveReferences,
+  resolveToken,
+} from "./resolver";
 import type { ResolvedTokenResult, SourceFile } from "./types";
 import type { Node } from "../parser/ast";
 
@@ -143,6 +148,107 @@ describe("resolveToken", () => {
       path: ["$color.bg.layer-default", "$color.bg.layer-1", "$color.palette.gray-00"],
       value: { kind: "ColorHexLit", value: "#000000" },
     } satisfies ResolvedTokenResult);
+  });
+});
+
+describe("createTokenValuesResolver", () => {
+  it("should resolve a token reference once per collection mode in declaration order", () => {
+    const ctx = buildContext([
+      {
+        fileName: "collection",
+        ast: Authoring.fromObject({
+          kind: "TokenCollections",
+          metadata: {
+            name: "collection",
+            id: "id",
+          },
+          data: [
+            {
+              name: "color",
+              modes: [{ id: "light" }, { id: "dark" }],
+            },
+          ],
+        }),
+      },
+      {
+        fileName: "tokens",
+        ast: Authoring.fromObject({
+          kind: "Tokens",
+          metadata: {
+            name: "tokens",
+            id: "id",
+          },
+          data: {
+            collection: "color",
+            tokens: {
+              "$color.palette.neutral": {
+                values: {
+                  light: "#ffffff",
+                  dark: "#000000",
+                },
+              },
+              "$color.bg.neutral": {
+                values: {
+                  light: "$color.palette.neutral",
+                  dark: "$color.palette.neutral",
+                },
+              },
+            },
+          },
+        }),
+      },
+    ]);
+    const resolveTokenValues = createTokenValuesResolver(ctx);
+
+    expect(resolveTokenValues(factory.createTokenLit("$color.bg.neutral"))).toEqual([
+      { kind: "ColorHexLit", value: "#ffffff" },
+      { kind: "ColorHexLit", value: "#000000" },
+    ]);
+  });
+
+  it("should return undefined when a token cannot be resolved for every mode", () => {
+    const ctx = buildContext([
+      {
+        fileName: "collection",
+        ast: Authoring.fromObject({
+          kind: "TokenCollections",
+          metadata: {
+            name: "collection",
+            id: "id",
+          },
+          data: [
+            {
+              name: "color",
+              modes: [{ id: "light" }, { id: "dark" }],
+            },
+          ],
+        }),
+      },
+      {
+        fileName: "tokens",
+        ast: Authoring.fromObject({
+          kind: "Tokens",
+          metadata: {
+            name: "tokens",
+            id: "id",
+          },
+          data: {
+            collection: "color",
+            tokens: {
+              "$color.incomplete": {
+                values: {
+                  light: "#ffffff",
+                },
+              },
+            },
+          },
+        }),
+      },
+    ]);
+    const resolveTokenValues = createTokenValuesResolver(ctx);
+
+    expect(resolveTokenValues(factory.createTokenLit("$color.incomplete"))).toBeUndefined();
+    expect(resolveTokenValues(factory.createTokenLit("$color.unknown"))).toBeUndefined();
   });
 });
 

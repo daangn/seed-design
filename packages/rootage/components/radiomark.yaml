@@ -22,6 +22,10 @@ data:
             type: color
           cornerRadius:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
+            description: 감싸는 컴포넌트가 자체 pressed 피드백을 주는 경우(List Item, Select Box 등)에는 이 값이 적용되지 않습니다.
       icon:
         properties:
           size:
@@ -48,13 +52,16 @@ data:
         root:
           strokeWidth: 0px
           strokeColor: "#00000000"
+      pressed:
+        root:
+          scaleScope: self
 
     tone=brand:
       enabled,selected:
         root:
           color: $color.bg.brand-solid
         icon:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
       enabled,selected,pressed:
         root:
           color: $color.bg.brand-solid-pressed
@@ -71,12 +78,12 @@ data:
     tone=neutral:
       enabled,selected:
         root:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
         icon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
       enabled,selected,pressed:
         root:
-          color: $color.bg.neutral-inverted-pressed
+          color: $color.bg.neutral-solid-pressed
       disabled:
         root:
           color: $color.palette.gray-300

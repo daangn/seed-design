@@ -44,6 +44,13 @@ declare const artifact: {
             "strokeColor": {
               "type": "color";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "label": {
@@ -168,6 +175,10 @@ declare const artifact: {
                 "strokeColor": {
                   "type": "color";
                   "value": "$color.stroke.neutral-muted";
+                };
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "content";
                 };
               };
             };

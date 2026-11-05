@@ -1,0 +1,245 @@
+---
+title: Attachment Display Field
+description: 외부 소스에서 제공된 미디어를 표시하고 호스트 동작으로 관리하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.8.0, @seed-design/lynx-css@0.12.0" />
+
+<LynxComponentExample name="lynx/attachment-display-field/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/attachment-display-field/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+기본 항목 표시에는 다음 패키지와 기본 snippet을 설치합니다.
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+<LynxManualInstallation name="attachment-display-field" />
+
+### Reorderable
+
+항목 순서를 변경하려면 네이티브 가로 long-press gesture를 포함한 별도 snippet을 설치합니다. 프로젝트에 `@seed-design/lynx-react-sortable` 의존성이 추가됩니다.
+
+```package-install
+npx @seed-design/cli@latest add ui:attachment-display-field-reorderable
+```
+
+<LynxManualInstallation name="attachment-display-field-reorderable" />
+
+<Callout>
+  Lynx `AttachmentDisplayField`는 미디어 picker나 업로드 API를 호출하지 않습니다. 호스트 picker가 반환한 `AttachmentDisplayEntry[]`를 `onTriggerTap` callback의 `addEntries`에 전달해야 합니다. 문서의 `picsum.photos` URL은 demo fixture이며 실제 앱의 native bridge API를 가정하지 않습니다.
+</Callout>
+
+## Props
+
+### `AttachmentDisplayField`
+<react-type-table path="./registry/lynx/ui/attachment-display-field.tsx" name="AttachmentDisplayFieldProps" />
+
+### `AttachmentDisplay`
+<react-type-table path="./registry/lynx/ui/attachment-display-field.tsx" name="AttachmentDisplayProps" />
+
+### `AttachmentDisplayItem`
+<react-type-table path="./registry/lynx/ui/attachment-display-field.tsx" name="AttachmentDisplayItemProps" />
+
+## Usage
+
+`onTriggerTap`에서 호스트 미디어 picker를 호출하고 반환된 entries를 `addEntries`에 전달합니다.
+
+```tsx
+<AttachmentDisplayField defaultEntries={[]} maxEntries={10}>
+  <AttachmentDisplay
+    onTriggerTap={async ({ addEntries }) => {
+      const entries = await hostMediaPicker();
+      addEntries(entries);
+    }}
+  />
+</AttachmentDisplayField>
+```
+
+`hostMediaPicker`는 앱이 소유한 adapter이며, 취소하면 `[]`를 반환해야 합니다. Display entry는 URL 기반 모델로 `id`, `thumbnailUrl`, `status`를 사용하고 `uploading` 상태에서는 `progress`를 전달할 수 있습니다. `AttachmentDisplay`는 `File`, `Blob`을 다루지 않으며 파일 유효성도 검증하지 않습니다.
+
+## Adding Entries
+
+### Trigger
+
+기본 `AttachmentDisplay`의 trigger를 탭하면 `onTriggerTap({ addEntries, updateEntryStatus })`가 호출됩니다. picker 결과를 `addEntries`에 전달하면 `maxEntries` 상한과 single mode(`maxEntries={1}`) 치환이 적용됩니다.
+
+<LynxComponentExample name="lynx/attachment-display-field/trigger">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/attachment-display-field/trigger.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Listening to Entry Changes
+
+`entries`와 `onEntriesChange`로 목록을 외부에서 관리할 수 있습니다. 추가와 삭제 결과는 모두 `onEntriesChange`로 전달됩니다.
+
+<LynxComponentExample name="lynx/attachment-display-field/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/attachment-display-field/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Managing Item Status
+
+항목의 status는 `pending`, `uploading`, `success`, `error` 중 하나입니다. 호스트 앱은 `updateEntryStatus`로 업로드 진행률과 최종 상태를 갱신합니다.
+
+- `uploading`: `ProgressCircle`이 표시되며 `progress`가 있으면 해당 값(0–100)을 표시합니다.
+- `error`: `onRetry`가 있으면 재시도 action이 표시됩니다. 재시도할 때 같은 id를 `uploading`으로 바꾸고 업로드를 다시 시작합니다.
+- `success`: 완료된 thumbnail을 표시합니다.
+
+예제의 상태 전이는 demo fixture입니다. 실제 앱에서는 호스트 업로드 결과로 상태를 갱신합니다.
+
+<LynxComponentExample name="lynx/attachment-display-field/status">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/attachment-display-field/status.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Reordering Entries
+
+`ui:attachment-display-field-reorderable`은 브라우저 `dnd-kit` 대신 네이티브 가로 long-press gesture로 목록 순서를 변경합니다. `disabled`와 `readOnly`에서는 정렬할 수 없습니다.
+
+사용자 지정 항목을 렌더링할 때는 `SortableAttachmentDisplayItem`에 현재 `index`를 전달해야 합니다. 스크린 리더는 항목 이름, 순서, 업로드 상태를 읽고 앞·뒤 이동과 파일 제거 동작을 제공합니다. error 상태에 `onRetry`가 있으면 재시도 동작도 제공합니다. iOS에서는 항목 내부 버튼 대신 이 사용자 지정 접근성 동작을 사용합니다. `readOnly`에서는 이동과 제거가, `disabled`에서는 이동만 비활성화됩니다.
+
+<LynxComponentExample name="lynx/attachment-display-field/reorderable">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/attachment-display-field/reorderable.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Examples
+
+### Disabled
+
+`disabled`는 trigger 추가와 정렬 gesture를 막지만, 기존 항목의 remove action은 허용합니다.
+
+<LynxComponentExample name="lynx/attachment-display-field/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/attachment-display-field/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Read Only
+
+`readOnly`는 trigger, remove, 정렬 gesture를 모두 막습니다. 외부에서 `entries`를 갱신하거나 초기 목록을 hydrate하는 것은 허용됩니다.
+
+<LynxComponentExample name="lynx/attachment-display-field/readonly">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/attachment-display-field/readonly.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Controlled
+
+`entries`와 `onEntriesChange`를 사용하여 외부에서 아이템 목록을 제어할 수 있습니다. 외부 reset은 `setEntries([])`처럼 앱 state를 갱신하여 수행합니다.
+
+<LynxComponentExample name="lynx/attachment-display-field/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/attachment-display-field/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Custom Inset
+
+`--seed-attachment-input-extend-x` CSS 변수를 사용하면 가로 목록을 global gutter 바깥으로 확장할 수 있습니다.
+
+<LynxComponentExample name="lynx/attachment-display-field/custom-inset">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/attachment-display-field/custom-inset.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Field Integration
+
+`Field`와 함께 안내 문구와 오류 상태를 표시할 수 있습니다. 예제는 목록이 비었을 때 `invalid`와 error footer를 표시합니다.
+
+<LynxComponentExample name="lynx/attachment-display-field/field">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/attachment-display-field/field.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Customizing Items
+
+기본 항목 구성을 바꾸는 방법은 다음 예제에서 확인할 수 있습니다. 첫 번째 항목에는 대표 사진 badge가 표시됩니다.
+
+<LynxComponentExample name="lynx/attachment-display-field/customizing-items">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/attachment-display-field/customizing-items.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## State and accessibility
+
+기본 trigger와 remove action에는 접근성 label이 제공됩니다. 사용자 지정 action에는 의미를 설명하는 `accessibility-label`을 지정해야 합니다.
+
+## Lynx 미지원 기능
+
+- 브라우저 drag-and-drop 및 React `dnd-kit`은 네이티브 long-press reorder snippet으로 대체합니다.
+- HTML `<input type="file">`, `File`, `Blob`, object URL 대신 호스트 media picker가 URL 기반 `AttachmentDisplayEntry`를 반환해야 합니다.
+- HTML form 제출 및 `react-hook-form` 대신 앱 state와 submit adapter를 사용합니다.
+
+## Extending to Safe Area
+
+`AttachmentDisplayField`의 `controlProps`에 `extendSafeAreaX`를 지정하면 가로 스크롤 영역이 좌우 safe area까지 확장됩니다. 기존 `--seed-attachment-input-extend-x`에 inset을 더하며, 첫 항목과 마지막 항목은 안전 영역 안에 남습니다. label·description은 기존 위치를 유지합니다. 기본값은 `false`입니다.
+
+`Box pl="safeArea" pr="safeArea"`처럼 좌우 inset을 이미 확보한 컨테이너 바로 안에서 사용하세요. inset을 확보하지 않은 곳에 적용하면 화면 밖으로 넘칠 수 있습니다.
+
+최신 Registry snippet은 확장된 목록이 Field에 잘리지 않도록 처리합니다. 직접 `AttachmentDisplay.Control`을 조합하면 목록을 감싸는 안전 영역 안쪽 부모에 `style={{ overflow: "visible" }}`을 지정하세요.
+
+### 확장 전 / 확장 후
+
+| 비교 | 확장 전 (AS IS) | 확장 후 (TO BE) |
+| --- | --- | --- |
+| 배경·스크롤 영역 | 이미지 목록의 스크롤 영역이 안전 영역 안에서 끝남 | 이미지 목록의 스크롤 영역이 좌우 끝까지 이어짐 |
+| 콘텐츠 | 안전 영역 안에 배치 | label·description과 처음·마지막 이미지의 여백은 유지 |
+
+아래 스위치를 켜고 끄며 같은 예제에서 비교할 수 있습니다. 브라우저에는 비교용 좌우 inset을 적용합니다. 붉은 빗금은 콘텐츠를 피해야 하는 inset 영역이며, 두 경계선 사이는 안전 영역입니다. QR로 연 기기에서는 실제 inset을 사용하므로, 좌우 inset이 모두 `0`이면 차이가 보이지 않을 수 있습니다. 적용 조건은 [Safe Area 가이드](/lynx/getting-started/safe-area)를 참고하세요.
+
+<LynxComponentExample name="lynx/attachment-display-field/extend-safe-area" safeAreaInsets={{ left: 24, right: 48 }}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/attachment-display-field/extend-safe-area.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>

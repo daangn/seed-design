@@ -1,36 +1,52 @@
 import type * as React from "@lynx-js/react";
 import {
-  createContext,
   forwardRef,
   runOnMainThread,
-  useContext,
   useEffect,
   useMemo,
   useMainThreadRef,
+  type MainThreadRef,
 } from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
 import clsx from "clsx";
 import { progressCircle } from "@seed-design/lynx-css/recipes/progress-circle";
-import type { ProgressCircleVariantProps } from "@seed-design/lynx-css/recipes/progress-circle";
-import type { LynxStyledElementProps, LynxViewRef } from "../../types";
+import type {
+  ProgressCircleSlotName,
+  ProgressCircleVariantProps,
+} from "@seed-design/lynx-css/recipes/progress-circle";
+import {
+  ProgressCircleProvider,
+  ProgressCircleTrack as HeadlessProgressCircleTrack,
+  useProgress,
+  useProgressCircleContext,
+  type UseProgressCircleContext,
+  type UseProgressProps,
+} from "@seed-design/lynx-react-progress";
+import type { LynxHostProps, LynxViewRef } from "../../types";
+import { mergeProps } from "../../utils/merge-props";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-interface ProgressCircleContextValue {
+type Classes = Record<ProgressCircleSlotName, string>;
+
+interface StyledProgressCircleContextValue extends UseProgressCircleContext {
+  mainThreadProgress?: MainThreadRef<MainThreadProgress>;
   numSize: number;
-  isDeterminate: boolean;
-  progress: number;
-  classes: ReturnType<typeof progressCircle>;
+  classes: Classes;
 }
 
-const ProgressCircleContext = createContext<ProgressCircleContextValue | null>(null);
+function isStyledProgressCircleContext(
+  context: UseProgressCircleContext,
+): context is StyledProgressCircleContextValue {
+  return "classes" in context;
+}
 
-function useProgressCircleContext() {
-  const ctx = useContext(ProgressCircleContext);
-  if (!ctx) {
-    throw new Error("ProgressCircle compound components must be used within ProgressCircle.Root");
+function useStyledProgressCircleContext(consumer: string): StyledProgressCircleContextValue {
+  const context = useProgressCircleContext();
+  if (!isStyledProgressCircleContext(context)) {
+    throw new Error(`<${consumer}/> must be rendered inside a styled <ProgressCircleRoot/>.`);
   }
-  return ctx;
+  return context;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -43,6 +59,37 @@ function computeRingGeometry(numSize: number) {
   const ringCenterR = (halfSize + innerR) / 2;
   const capSize = halfSize - innerR;
   return { halfSize, innerR, ringCenterR, capSize };
+}
+
+function bgCubicBezier(rawT: number, x1: number, y1: number, x2: number, y2: number): number {
+  const t = Math.max(0, Math.min(1, rawT));
+  const cx = 3 * x1;
+  const bx = 3 * (x2 - x1) - cx;
+  const ax = 1 - cx - bx;
+  let currentT = t;
+  for (let i = 0; i < 8; i++) {
+    const currentX = ((ax * currentT + bx) * currentT + cx) * currentT - t;
+    const currentDx = (3 * ax * currentT + 2 * bx) * currentT + cx;
+    if (Math.abs(currentDx) < 1e-6) break;
+    currentT = currentT - currentX / currentDx;
+  }
+  const cy = 3 * y1;
+  const by = 3 * (y2 - y1) - cy;
+  const ay = 1 - cy - by;
+  return ((ay * currentT + by) * currentT + cy) * currentT;
+}
+
+function bgSampleIndeterminate(t: number) {
+  const containerEased = bgCubicBezier(t, 0.35, 0.25, 0.65, 0.75);
+  const headEased = bgCubicBezier(t, 0.35, 0, 0.65, 1);
+  const tailEased = bgCubicBezier(t, 0.35, 0, 0.65, 0.6);
+
+  const headLength = headEased <= 0.75 ? (headEased / 0.75) * 360 : 360;
+  const tailOffset = tailEased <= 1 / 3 ? 0 : ((tailEased - 1 / 3) / (2 / 3)) * 360;
+  const arcLength = Math.max(0, headLength - tailOffset);
+  const containerDeg = containerEased * 360 + tailOffset;
+
+  return { containerDeg, arcLength };
 }
 
 function bgPieClipPath(size: number, angleDeg: number): string | undefined {
@@ -94,37 +141,52 @@ function pieClipPath(size: number, angleDeg: number): string | undefined {
   return `path("M ${c} ${c} L ${c} ${c - r} A ${r} ${r} 0 ${largeArc} 1 ${endX} ${endY} Z")`;
 }
 
-function sampleIndeterminate(t: number) {
-  "main thread";
-  const containerEased = cubicBezier(t, 0.35, 0.25, 0.65, 0.75);
-  const headEased = cubicBezier(t, 0.35, 0, 0.65, 1);
-  const tailEased = cubicBezier(t, 0.35, 0, 0.65, 0.6);
-
-  const headLength = headEased <= 0.75 ? (headEased / 0.75) * 360 : 360;
-  const tailOffset = tailEased <= 1 / 3 ? 0 : ((tailEased - 1 / 3) / (2 / 3)) * 360;
-  const arcLength = Math.max(0, headLength - tailOffset);
-  const containerDeg = containerEased * 360 + tailOffset;
-
-  return { containerDeg, arcLength };
-}
-
 ////////////////////////////////////////////////////////////////////////////////////
 
 // --- Animation constants ---
 
 const INDETERMINATE_DURATION = 1200;
+const INDETERMINATE_INITIAL_PHASE = 1 / 6;
 const TRANSITION_DURATION = 300;
+
+// clip-path는 보간되지 않으므로 고정 반원 두 개와 cap을 회전한다.
+// 10ms 간격의 기존 곡선을 한 번만 샘플링하고 프레임 간 보간은 엔진에 맡긴다.
+const INDETERMINATE_KEYFRAMES = (() => {
+  const container: { transform: string }[] = [];
+  const firstHalf: { transform: string }[] = [];
+  const secondHalf: { transform: string }[] = [];
+  const head: { transform: string }[] = [];
+  const intervals = INDETERMINATE_DURATION / 10;
+  for (let i = 0; i <= intervals; i++) {
+    const phase = INDETERMINATE_INITIAL_PHASE + i / intervals;
+    const state = bgSampleIndeterminate(phase % 1);
+    container.push({ transform: `rotate(${state.containerDeg + Math.floor(phase) * 720}deg)` });
+    firstHalf.push({ transform: `rotate(${Math.min(180, state.arcLength)}deg)` });
+    secondHalf.push({ transform: `rotate(${Math.max(0, state.arcLength - 180)}deg)` });
+    head.push({ transform: `rotate(${state.arcLength}deg)` });
+  }
+  return { container, firstHalf, secondHalf, head };
+})();
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 // --- Components ---
 
+interface MainThreadProgress {
+  value: number;
+  onChange?: (value: number) => void;
+}
+
 export interface ProgressCircleRootProps
   extends ProgressCircleVariantProps,
-    LynxStyledElementProps {
-  minValue?: number;
-  maxValue?: number;
-  value?: number;
+    UseProgressProps,
+    Omit<LynxHostProps<"view">, keyof UseProgressProps> {
+  /**
+   * @platform Lynx
+   * MT에서 value와 같은 척도로 원호를 즉시 갱신하는 단일 구독 채널입니다.
+   * determinate일 때 BG value보다 우선하며 indeterminate·unmount 때 구독을 해제합니다.
+   */
+  mainThreadProgress?: MainThreadRef<MainThreadProgress>;
 }
 
 export type RootProps = ProgressCircleRootProps;
@@ -132,60 +194,96 @@ export type RootProps = ProgressCircleRootProps;
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Lynx에서 SVG를 사용할 수 없어 CSS clip-path 기반 pie sector로 구현.
+ * `@seed-design/lynx-react-progress`의 진행률·접근성 위에 SEED recipe와 Lynx 전용 원형 표현을 조립한다.
  *
- * **Known Issues:**
- * - clip-path가 Lynx에서 animatable이 아니라 JS RAF로 매 프레임 SVG path 생성
- * - Lynx main thread에서 모듈 레벨 Map 미지원으로 인스턴스 간 RAF 공유 불가
- * - 다수 인스턴스 동시 렌더링 시 성능 저하 가능
- *
- * Lynx SVG + stroke-dasharray 지원 시 CSS-only 애니메이션으로 전환 예정.
+ * Lynx에서 SVG를 사용할 수 없어 고정 clip-path로 링을 그린다.
+ * Indeterminate는 반원·cap의 transform을 엔진에서 보간하고,
+ * determinate는 Main Thread에서 pie sector를 갱신한다.
  */
 export const ProgressCircleRoot = forwardRef<unknown, ProgressCircleRootProps>((props, ref) => {
   const [variantProps, otherProps] = progressCircle.splitVariantProps(props);
-  const { children, className, style, minValue, maxValue, value } = otherProps;
+  const {
+    children,
+    className,
+    style,
+    minValue,
+    maxValue,
+    value,
+    mainThreadProgress,
+    ...nativeProps
+  } = otherProps;
   const size = variantProps.size ?? "40";
   const tone = variantProps.tone ?? "neutral";
   const numSize = Number(size);
 
-  const isDeterminate = minValue !== undefined && maxValue !== undefined && value !== undefined;
-
-  const range = (maxValue ?? 1) - (minValue ?? 0);
-  const progress = isDeterminate ? (range === 0 ? 0 : ((value ?? 0) - (minValue ?? 0)) / range) : 0;
-
-  const classes = progressCircle({ tone, size });
-
-  const ctx = useMemo(
-    () => ({ numSize, isDeterminate, progress, classes }),
-    [numSize, isDeterminate, progress, classes],
+  const api = useProgress({ value, minValue, maxValue });
+  const classes = useMemo(() => progressCircle({ tone, size }), [tone, size]);
+  const contextValue = useMemo<StyledProgressCircleContextValue>(
+    () => ({ ...api, numSize, classes, mainThreadProgress }),
+    [api, numSize, classes, mainThreadProgress],
   );
 
   return (
-    <ProgressCircleContext.Provider value={ctx}>
+    <ProgressCircleProvider value={contextValue}>
       <view
-        {...(ref ? { ref: ref as LynxViewRef } : {})}
+        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, api.rootProps, nativeProps)}
         className={clsx(classes.root, className)}
-        style={{ ...style, width: `${numSize}px`, height: `${numSize}px` }}
+        style={{ width: `${numSize}px`, height: `${numSize}px`, ...style }}
       >
         {children}
       </view>
-    </ProgressCircleContext.Provider>
+    </ProgressCircleProvider>
   );
 });
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export const ProgressCircleRange = () => {
-  const { numSize, isDeterminate, progress, classes } = useProgressCircleContext();
+export interface ProgressCircleTrackProps extends LynxHostProps<"view"> {}
 
-  if (!isDeterminate) {
-    return <IndeterminateRange numSize={numSize} classes={classes} />;
+/**
+ * 진행률과 관계없이 전체 링을 tone의 트랙 색으로 그린다. Range보다 먼저 렌더링한다.
+ */
+export const ProgressCircleTrack = forwardRef<unknown, ProgressCircleTrackProps>((props, ref) => {
+  const { children, className, ...nativeProps } = props;
+  const { classes } = useStyledProgressCircleContext("ProgressCircleTrack");
+
+  return (
+    <HeadlessProgressCircleTrack
+      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      className={clsx(classes.track, className)}
+    >
+      {children}
+    </HeadlessProgressCircleTrack>
+  );
+});
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface ProgressCircleRangeProps extends LynxHostProps<"view"> {}
+
+export const ProgressCircleRange = forwardRef<unknown, ProgressCircleRangeProps>((props, ref) => {
+  const { numSize, indeterminate, percent, classes, minValue, maxValue, mainThreadProgress } =
+    useStyledProgressCircleContext("ProgressCircleRange");
+
+  if (indeterminate) {
+    return (
+      <IndeterminateRange numSize={numSize} classes={classes} hostProps={props} hostRef={ref} />
+    );
   }
 
-  return <DeterminateRange numSize={numSize} progress={progress} classes={classes} />;
-};
-
-type Classes = ReturnType<typeof progressCircle>;
+  return (
+    <DeterminateRange
+      numSize={numSize}
+      progress={percent / 100}
+      classes={classes}
+      minValue={minValue}
+      maxValue={maxValue}
+      mainThreadProgress={mainThreadProgress}
+      hostProps={props}
+      hostRef={ref}
+    />
+  );
+});
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -193,11 +291,22 @@ function DeterminateRange({
   numSize,
   progress,
   classes,
+  minValue,
+  maxValue,
+  mainThreadProgress,
+  hostProps,
+  hostRef,
 }: {
   numSize: number;
   progress: number;
   classes: Classes;
+  minValue: number;
+  maxValue: number;
+  mainThreadProgress?: MainThreadRef<MainThreadProgress>;
+  hostProps: ProgressCircleRangeProps;
+  hostRef: React.ForwardedRef<unknown>;
 }) {
+  const { children, className, style, ...nativeProps } = hostProps;
   const rangeRef = useMainThreadRef<MainThread.Element>(null);
   const startCapRef = useMainThreadRef<MainThread.Element>(null);
   const endCapRef = useMainThreadRef<MainThread.Element>(null);
@@ -210,84 +319,102 @@ function DeterminateRange({
   const initialClipPath = bgPieClipPath(numSize, initialAngle);
   const initialEndRad = (initialAngle * Math.PI) / 180;
 
+  function cancelAnimation() {
+    "main thread";
+    if (cancelRef.current) cancelAnimationFrame(cancelRef.current);
+    cancelRef.current = 0;
+  }
+
+  function applyProgress(p: number) {
+    "main thread";
+    const angleDeg = p * 360;
+    rangeRef.current?.setStyleProperty("clip-path", pieClipPath(numSize, angleDeg) ?? "none");
+    const rad = (angleDeg * Math.PI) / 180;
+    endCapRef.current?.setStyleProperties({
+      left: `${halfSize + ringCenterR * Math.sin(rad) - capSize / 2}px`,
+      top: `${halfSize - ringCenterR * Math.cos(rad) - capSize / 2}px`,
+    });
+  }
+
+  function updateFromMainThread(value: number) {
+    "main thread";
+    cancelAnimation();
+    const normalized =
+      maxValue === minValue
+        ? 0
+        : Math.max(0, Math.min(1, (value - minValue) / (maxValue - minValue)));
+    prevProgressRef.current = normalized;
+    applyProgress(normalized);
+  }
+
   function startAnimation(newProgress: number) {
     "main thread";
-
-    if (cancelRef.current) {
-      cancelAnimationFrame(cancelRef.current);
-      cancelRef.current = 0;
-    }
-
+    cancelAnimation();
     const from = prevProgressRef.current ?? 0;
     prevProgressRef.current = newProgress;
     if (from === newProgress) return;
-
-    const rangeEl = rangeRef.current;
-    const endCapEl = endCapRef.current;
-    let startTs = 0;
-
-    function applyProgress(p: number): void {
-      const angleDeg = p * 360;
-      const cp = pieClipPath(numSize, angleDeg);
-      if (cp) {
-        rangeEl?.setStyleProperty("clip-path", cp);
-      } else {
-        rangeEl?.setStyleProperty("clip-path", "none");
-      }
-
-      const rad = (angleDeg * Math.PI) / 180;
-      endCapEl?.setStyleProperties({
-        left: `${halfSize + ringCenterR * Math.sin(rad) - capSize / 2}px`,
-        top: `${halfSize - ringCenterR * Math.cos(rad) - capSize / 2}px`,
-      });
-    }
-
-    function step(ts: number): void {
-      if (!startTs) startTs = Number(ts);
-      const elapsed = ts - startTs;
+    const startTs = Date.now();
+    function step() {
+      const elapsed = Date.now() - startTs;
       if (elapsed >= TRANSITION_DURATION) {
         applyProgress(newProgress);
         cancelRef.current = 0;
         return;
       }
-      const t = elapsed / TRANSITION_DURATION;
-      const eased = cubicBezier(t, 0, 0, 0.15, 1);
-      applyProgress(from + (newProgress - from) * eased);
+      applyProgress(
+        from + (newProgress - from) * cubicBezier(elapsed / TRANSITION_DURATION, 0, 0, 0.15, 1),
+      );
       cancelRef.current = requestAnimationFrame(step);
     }
-
     applyProgress(from);
     cancelRef.current = requestAnimationFrame(step);
   }
 
-  function cancelAnimation() {
+  function subscribe() {
     "main thread";
-    if (cancelRef.current) {
-      cancelAnimationFrame(cancelRef.current);
-      cancelRef.current = 0;
+    if (!mainThreadProgress) return;
+    mainThreadProgress.current.onChange = updateFromMainThread;
+    updateFromMainThread(mainThreadProgress.current.value);
+  }
+
+  function unsubscribe() {
+    "main thread";
+    if (mainThreadProgress) {
+      mainThreadProgress.current.onChange = undefined;
     }
+    cancelAnimation();
   }
 
   useEffect(() => {
-    runOnMainThread(startAnimation)(progress);
+    if (mainThreadProgress) runOnMainThread(subscribe)();
+    else runOnMainThread(startAnimation)(progress);
     return () => {
-      runOnMainThread(cancelAnimation)();
+      runOnMainThread(unsubscribe)();
     };
-  }, [progress, numSize]);
+  }, [progress, numSize, minValue, maxValue, mainThreadProgress]);
 
   return (
     <>
       <view
-        main-thread:ref={rangeRef}
-        className={classes.range}
-        style={{
-          position: "absolute",
-          width: `${numSize}px`,
-          height: `${numSize}px`,
-          borderRadius: "50%",
-          clipPath: initialClipPath,
-        }}
-      />
+        {...mergeProps(
+          {
+            "main-thread:ref": rangeRef,
+            style: {
+              position: "absolute" as const,
+              width: `${numSize}px`,
+              height: `${numSize}px`,
+              borderRadius: "50%",
+              clipPath: initialClipPath,
+            },
+          },
+          nativeProps,
+          { style },
+          hostRef ? { ref: hostRef as LynxViewRef } : {},
+        )}
+        className={clsx(classes.range, className)}
+      >
+        {children}
+      </view>
       <view
         main-thread:ref={startCapRef}
         className={classes.cap}
@@ -314,111 +441,108 @@ function DeterminateRange({
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-function IndeterminateRange({ numSize, classes }: { numSize: number; classes: Classes }) {
+function IndeterminateRange({
+  numSize,
+  classes,
+  hostProps,
+  hostRef,
+}: {
+  numSize: number;
+  classes: Classes;
+  hostProps: ProgressCircleRangeProps;
+  hostRef: React.ForwardedRef<unknown>;
+}) {
+  const { children, className, style, ...nativeProps } = hostProps;
   const containerRef = useMainThreadRef<MainThread.Element>(null);
-  const rangeRef = useMainThreadRef<MainThread.Element>(null);
-  const headCapRef = useMainThreadRef<MainThread.Element>(null);
-  const tailCapRef = useMainThreadRef<MainThread.Element>(null);
-  const rafIdRef = useMainThreadRef<number>(0);
-
+  const firstHalfRef = useMainThreadRef<MainThread.Element>(null);
+  const secondHalfRef = useMainThreadRef<MainThread.Element>(null);
+  const headRef = useMainThreadRef<MainThread.Element>(null);
+  const animationsRef = useMainThreadRef<MainThread.Animation[]>([]);
   const { halfSize, ringCenterR, capSize } = computeRingGeometry(numSize);
+  const capStyle = {
+    width: `${capSize}px`,
+    height: `${capSize}px`,
+    left: `${halfSize - capSize / 2}px`,
+    top: `${halfSize - ringCenterR - capSize / 2}px`,
+  };
 
-  function startLoop() {
+  function stopAnimations() {
     "main thread";
-
-    const containerEl = containerRef.current;
-    const rangeEl = rangeRef.current;
-    const headCapEl = headCapRef.current;
-    let startTs = 0;
-
-    function tick(ts: number): void {
-      if (!startTs) startTs = Number(ts);
-
-      const elapsed = ts - startTs;
-      const t = (elapsed % INDETERMINATE_DURATION) / INDETERMINATE_DURATION;
-      const state = sampleIndeterminate(t);
-
-      containerEl?.setStyleProperty("transform", `rotate(${state.containerDeg}deg)`);
-
-      const clipPath = pieClipPath(numSize, state.arcLength);
-      if (clipPath) {
-        rangeEl?.setStyleProperty("clip-path", clipPath);
-      } else {
-        rangeEl?.setStyleProperty("clip-path", "none");
-      }
-
-      const headRad = (state.arcLength * Math.PI) / 180;
-      headCapEl?.setStyleProperties({
-        left: `${halfSize + ringCenterR * Math.sin(headRad) - capSize / 2}px`,
-        top: `${halfSize - ringCenterR * Math.cos(headRad) - capSize / 2}px`,
-      });
-      rafIdRef.current = requestAnimationFrame(tick);
-    }
-
-    rafIdRef.current = requestAnimationFrame(tick);
+    for (const animation of animationsRef.current) animation.cancel();
+    animationsRef.current = [];
   }
 
-  function stopLoop() {
+  function startAnimations() {
     "main thread";
-    if (rafIdRef.current) {
-      cancelAnimationFrame(rafIdRef.current);
-      rafIdRef.current = 0;
+    stopAnimations();
+    const options = {
+      duration: INDETERMINATE_DURATION,
+      iterations: Infinity,
+      easing: "linear",
+    };
+    const targets = [
+      containerRef.current,
+      firstHalfRef.current,
+      secondHalfRef.current,
+      headRef.current,
+    ];
+    const keyframes = [
+      INDETERMINATE_KEYFRAMES.container,
+      INDETERMINATE_KEYFRAMES.firstHalf,
+      INDETERMINATE_KEYFRAMES.secondHalf,
+      INDETERMINATE_KEYFRAMES.head,
+    ];
+    for (let i = 0; i < targets.length; i++) {
+      const target = targets[i];
+      if (target) animationsRef.current.push(target.animate(keyframes[i]!, options));
     }
   }
 
   useEffect(() => {
-    runOnMainThread(startLoop)();
+    runOnMainThread(startAnimations)();
     return () => {
-      runOnMainThread(stopLoop)();
+      runOnMainThread(stopAnimations)();
     };
   }, [numSize]);
-
-  const initialClipPath = 'path("M 0 0 Z")';
 
   return (
     <view
       main-thread:ref={containerRef}
-      style={{
-        position: "absolute",
-        width: `${numSize}px`,
-        height: `${numSize}px`,
-        transform: "rotate(0deg)",
-      }}
+      className="seed-progress-circle__spinner"
+      style={INDETERMINATE_KEYFRAMES.container[0]}
     >
       <view
-        main-thread:ref={rangeRef}
-        className={classes.range}
-        style={{
-          position: "absolute",
-          width: `${numSize}px`,
-          height: `${numSize}px`,
-          borderRadius: "50%",
-          clipPath: initialClipPath,
-        }}
-      />
+        {...mergeProps(nativeProps, { style }, hostRef ? { ref: hostRef as LynxViewRef } : {})}
+        className={clsx(classes.range, "seed-progress-circle__indeterminate-range", className)}
+      >
+        <view className="seed-progress-circle__half seed-progress-circle__half--first">
+          <view
+            main-thread:ref={firstHalfRef}
+            className={clsx(classes.range, "seed-progress-circle__semicircle--first")}
+            style={INDETERMINATE_KEYFRAMES.firstHalf[0]}
+          />
+        </view>
+        <view className="seed-progress-circle__half seed-progress-circle__half--second">
+          <view
+            main-thread:ref={secondHalfRef}
+            className={clsx(classes.range, "seed-progress-circle__semicircle--second")}
+            style={INDETERMINATE_KEYFRAMES.secondHalf[0]}
+          />
+        </view>
+        {children}
+      </view>
+      <view className={classes.cap} style={capStyle} />
       <view
-        main-thread:ref={tailCapRef}
-        className={classes.cap}
-        style={{
-          width: `${capSize}px`,
-          height: `${capSize}px`,
-          left: `${halfSize - capSize / 2}px`,
-          top: `${halfSize - ringCenterR - capSize / 2}px`,
-        }}
-      />
-      <view
-        main-thread:ref={headCapRef}
-        className={classes.cap}
-        style={{
-          width: `${capSize}px`,
-          height: `${capSize}px`,
-          left: `${halfSize - capSize / 2}px`,
-          top: `${halfSize - ringCenterR - capSize / 2}px`,
-        }}
-      />
+        main-thread:ref={headRef}
+        className="seed-progress-circle__spinner"
+        style={INDETERMINATE_KEYFRAMES.head[0]}
+      >
+        <view className={classes.cap} style={capStyle} />
+      </view>
     </view>
   );
 }
 
 ProgressCircleRoot.displayName = "ProgressCircleRoot";
+ProgressCircleTrack.displayName = "ProgressCircleTrack";
 ProgressCircleRange.displayName = "ProgressCircleRange";

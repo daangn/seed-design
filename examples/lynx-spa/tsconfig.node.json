@@ -1,18 +1,8 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "../../docs/tsconfig.lynx-node.json",
   "compilerOptions": {
-    "composite": true,
-
-    // Rspeedy uses Node.js's module resolution
-    "module": "node16",
-    "moduleResolution": "node16",
-    "erasableSyntaxOnly": true,
-
-    // Node.js 18+
-    "lib": ["es2023"],
-    "target": "es2022",
-
-    "noEmit": true
+    "noEmit": true,
+    "types": ["bun"]
   },
-  "include": ["./lynx.config.ts"]
+  "include": ["./lynx.config.ts", "../../docs/scripts/lynx-examples/**/*.ts"]
 }

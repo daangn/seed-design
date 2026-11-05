@@ -8,6 +8,7 @@ import { registryUI as reactRegistryUI } from "../registry/react/registry-ui.js"
 import { registryBlock as reactRegistryBlock } from "../registry/react/registry-block.js";
 import { registryIcon as reactRegistryIcon } from "../registry/react/registry-icon.js";
 import { registryUI as lynxRegistryUI } from "../registry/lynx/registry-ui.js";
+import { registryLib as lynxRegistryLib } from "../registry/lynx/registry-lib.js";
 import type { Framework } from "../registry/schema.js";
 
 // remove leading & trailing newline and add a new ending newline
@@ -66,7 +67,7 @@ const frameworks = [
     name: "lynx" satisfies Framework,
     registryPath: path.join(process.cwd(), "registry", "lynx"),
     outputPath: path.join(process.cwd(), "public", "__registry__", "lynx"),
-    registries: [lynxRegistryUI],
+    registries: [lynxRegistryUI, lynxRegistryLib],
     innateDeps: new Set(["@lynx-js/react", "react", "react-dom"]),
   },
 ];

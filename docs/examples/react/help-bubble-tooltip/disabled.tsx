@@ -13,11 +13,7 @@ export default function HelpBubbleTooltipDisabled() {
       <HStack gap="x10" align="center">
         <VStack gap="x2" align="center">
           <HelpBubbleTooltipTrigger title="권한이 없어 사용할 수 없어요." placement="bottom">
-            <ActionButton
-              variant="neutralWeak"
-              size="small"
-              disabled={disabled}
-            >
+            <ActionButton variant="neutralWeak" size="small" disabled={disabled}>
               <PrefixIcon svg={<IconPencilFill />} />
               글쓰기
             </ActionButton>
@@ -29,11 +25,7 @@ export default function HelpBubbleTooltipDisabled() {
         <VStack gap="x2" align="center">
           <HelpBubbleTooltipTrigger title="권한이 없어 사용할 수 없어요." placement="bottom">
             <span tabIndex={disabled ? 0 : undefined} style={{ display: "inline-flex" }}>
-              <ActionButton
-                variant="neutralWeak"
-                size="small"
-                disabled={disabled}
-              >
+              <ActionButton variant="neutralWeak" size="small" disabled={disabled}>
                 <PrefixIcon svg={<IconPencilFill />} />
                 글쓰기
               </ActionButton>

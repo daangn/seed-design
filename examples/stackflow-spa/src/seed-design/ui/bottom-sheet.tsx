@@ -6,7 +6,7 @@ import { forwardRef } from "react";
 export interface BottomSheetRootProps extends SeedBottomSheet.RootProps {}
 
 /**
- * @see https://seed-design.io/react/components/action-sheet
+ * @see https://seed-design.io/react/components/bottom-sheet
  */
 export const BottomSheetRoot = (props: BottomSheetRootProps) => {
   const { children, ...otherProps } = props;
@@ -17,7 +17,8 @@ export interface BottomSheetTriggerProps extends SeedBottomSheet.TriggerProps {}
 
 export const BottomSheetTrigger = SeedBottomSheet.Trigger;
 
-export interface BottomSheetContentProps extends Omit<SeedBottomSheet.ContentProps, "title"> {
+export interface BottomSheetContentProps
+  extends Omit<SeedBottomSheet.ContentProps, "title" | "asChild"> {
   title?: React.ReactNode;
 
   description?: React.ReactNode;

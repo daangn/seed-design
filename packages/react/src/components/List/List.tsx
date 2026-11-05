@@ -6,10 +6,13 @@ import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { handleRadius, withStyleProps, type StyleProps } from "../../utils/styled";
 import { VStack, type VStackProps } from "../Stack";
-import { useCheckboxContext } from "@seed-design/react-checkbox";
+import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@seed-design/react-checkbox";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { useRadioGroupItemContext } from "@seed-design/react-radio-group";
-import { useSwitchContext } from "@seed-design/react-switch";
+import {
+  RadioGroup as RadioGroupPrimitive,
+  useRadioGroupItemContext,
+} from "@seed-design/react-radio-group";
+import { Switch as SwitchPrimitive, useSwitchContext } from "@seed-design/react-switch";
 
 const { withContext, withProvider } = createSlotRecipeContext(listItem);
 const withStateProps = createWithStateProps([
@@ -54,6 +57,43 @@ export const ListItem = withProvider<HTMLLIElement, ListItemProps>(
   withStateProps(withStyleProps(Primitive.li)),
   "root",
 );
+
+export interface ListCheckItemProps
+  extends ListItemVariantProps,
+    Pick<StyleProps, "alignItems">,
+    CheckboxPrimitive.RootProps {}
+
+export const ListCheckItem = withProvider<HTMLLabelElement, ListCheckItemProps>(
+  withStyleProps(CheckboxPrimitive.Root),
+  "root",
+);
+ListCheckItem.displayName = "List.CheckItem";
+
+export interface ListRadioRootProps extends RadioGroupPrimitive.RootProps {}
+
+export const ListRadioRoot = RadioGroupPrimitive.Root;
+
+export interface ListRadioItemProps
+  extends ListItemVariantProps,
+    Pick<StyleProps, "alignItems">,
+    RadioGroupPrimitive.ItemProps {}
+
+export const ListRadioItem = withProvider<HTMLLabelElement, ListRadioItemProps>(
+  withStyleProps(RadioGroupPrimitive.Item),
+  "root",
+);
+ListRadioItem.displayName = "List.RadioItem";
+
+export interface ListSwitchItemProps
+  extends ListItemVariantProps,
+    Pick<StyleProps, "alignItems">,
+    SwitchPrimitive.RootProps {}
+
+export const ListSwitchItem = withProvider<HTMLLabelElement, ListSwitchItemProps>(
+  withStyleProps(SwitchPrimitive.Root),
+  "root",
+);
+ListSwitchItem.displayName = "List.SwitchItem";
 
 export interface ListContentProps
   extends PrimitiveProps,

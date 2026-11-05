@@ -15,6 +15,10 @@ declare interface ChipTabsVariant {
   * @default false
   */
   stickyList: boolean;
+/**
+  * @default false
+  */
+  extendSafeAreaX: boolean;
 }
 
 declare type ChipTabsVariantMap = {

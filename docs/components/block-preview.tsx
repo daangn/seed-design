@@ -1,5 +1,7 @@
 "use client";
 
+import { archivePaths } from "@/lib/docs-archive";
+
 import {
   IconArrowUpRightArrowDownLeftLine,
   IconLaptopLine,
@@ -47,7 +49,9 @@ export function BlockPreview({ name, iframeHeight = 400, children }: BlockPrevie
     });
   };
 
-  const iframeSrc = `/blocks/${name}`;
+  const iframeSrc = archivePaths.prefix
+    ? `${archivePaths.prefix}/_examples/blocks/${name}`
+    : `/blocks/${name}`;
 
   return (
     <ErrorBoundary>
@@ -88,13 +92,15 @@ export function BlockPreview({ name, iframeHeight = 400, children }: BlockPrevie
                   <IconMobileLine size={16} />
                 </ViewportButton>
                 <div className="mx-0.5 h-4 w-px bg-fd-border" />
-                <ViewportButton
-                  active={false}
-                  onClick={() => window.open(iframeSrc, "_blank")}
-                  label="새 탭에서 열기"
+                <a
+                  href={iframeSrc}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={viewportButtonClassName(false)}
+                  title="새 탭에서 열기"
                 >
                   <IconArrowUpRightArrowDownLeftLine size={16} />
-                </ViewportButton>
+                </a>
               </div>
             )}
           </div>
@@ -158,6 +164,13 @@ function TabButton({
   );
 }
 
+const viewportButtonClassName = (active: boolean) =>
+  `rounded-md p-1.5 transition-colors ${
+    active
+      ? "bg-fd-accent text-fd-accent-foreground"
+      : "text-fd-muted-foreground hover:text-fd-foreground"
+  }`;
+
 function ViewportButton({
   active,
   onClick,
@@ -173,11 +186,7 @@ function ViewportButton({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-md p-1.5 transition-colors ${
-        active
-          ? "bg-fd-accent text-fd-accent-foreground"
-          : "text-fd-muted-foreground hover:text-fd-foreground"
-      }`}
+      className={viewportButtonClassName(active)}
       title={label}
     >
       {children}

@@ -112,32 +112,6 @@ export const SelectPositioner = forwardRef<HTMLDivElement, SelectPositionerProps
 );
 SelectPositioner.displayName = "SelectPositioner";
 
-/**
- * Holds a Radix FocusScope registration for as long as the listbox is open, so
- * parent FocusScopes (Dialog, BottomSheet, Drawer) pause their trap and focus can
- * reach content rendered in a portal.
- *
- * The scope needs no behavior of its own — trapping and the tab loop stay off and
- * both autofocus events are prevented — so all it does is enter Radix's
- * focusScopesStack, which is keyed on mount, not on the element it wraps. Hence
- * this empty hidden element rather than a wrapper around the content: wrapping
- * swaps the element type at the content's position on every open/close, and React
- * responds by remounting the whole listbox subtree, handing the exit transition a
- * scroll container freshly reset to the top.
- *
- * Mounting only while open is what lands it on top of the stack — a permanently
- * mounted scope would register at page load, below any Dialog opened later.
- */
-const FocusScopeRegistration = () => (
-  <FocusScope
-    hidden
-    trapped={false}
-    loop={false}
-    onMountAutoFocus={(event) => event.preventDefault()}
-    onUnmountAutoFocus={(event) => event.preventDefault()}
-  />
-);
-
 export interface SelectContentProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>((props, ref) => {
@@ -179,7 +153,31 @@ export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>((pro
           </DismissibleLayer>
         </FloatingList>
       </FloatingFocusManager>
-      {open && <FocusScopeRegistration />}
+      {/*
+        Holds a Radix FocusScope registration for as long as the listbox is open, so
+        parent FocusScopes (Dialog, BottomSheet, Drawer) pause their trap and focus can
+        reach content rendered in a portal.
+
+        The scope needs no behavior of its own — trapping and the tab loop stay off and
+        both autofocus events are prevented — so all it does is enter Radix's
+        focusScopesStack, which is keyed on mount, not on the element it wraps. Hence
+        this empty hidden element rather than a wrapper around the content: wrapping
+        swaps the element type at the content's position on every open/close, and React
+        responds by remounting the whole listbox subtree, handing the exit transition a
+        scroll container freshly reset to the top.
+
+        Mounting only while open is what lands it on top of the stack — a permanently
+        mounted scope would register at page load, below any Dialog opened later.
+      */}
+      {open && (
+        <FocusScope
+          hidden
+          trapped={false}
+          loop={false}
+          onMountAutoFocus={(event) => event.preventDefault()}
+          onUnmountAutoFocus={(event) => event.preventDefault()}
+        />
+      )}
     </>
   );
 });

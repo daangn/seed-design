@@ -31,7 +31,6 @@ export const vars = {
       },
       "suffixIcon": {
         "size": "var(--seed-dimension-x4)",
-        "targetSize": "var(--seed-dimension-x10)",
         "marginLeft": "var(--seed-dimension-x2)"
       }
     }
@@ -66,27 +65,27 @@ export const vars = {
   "toneNeutralVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "title": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "description": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "button": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--seed-color-bg-neutral-solid-pressed)"
       }
     }
   },
@@ -123,19 +122,19 @@ export const vars = {
         "color": "var(--seed-color-bg-positive-solid)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-positive-solid)"
       },
       "title": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-positive-solid)"
       },
       "description": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-positive-solid)"
       },
       "button": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-positive-solid)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-positive-solid)"
       }
     },
     "pressed": {
@@ -177,19 +176,19 @@ export const vars = {
         "color": "var(--seed-color-bg-informative-solid)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-informative-solid)"
       },
       "title": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-informative-solid)"
       },
       "description": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-informative-solid)"
       },
       "button": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-informative-solid)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-informative-solid)"
       }
     },
     "pressed": {
@@ -231,19 +230,19 @@ export const vars = {
         "color": "var(--seed-color-bg-warning-solid)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-black-alpha-900)"
+        "color": "var(--seed-color-fg-on-warning-solid)"
       },
       "title": {
-        "color": "var(--seed-color-palette-static-black-alpha-900)"
+        "color": "var(--seed-color-fg-on-warning-solid)"
       },
       "description": {
-        "color": "var(--seed-color-palette-static-black-alpha-900)"
+        "color": "var(--seed-color-fg-on-warning-solid)"
       },
       "button": {
-        "color": "var(--seed-color-palette-static-black-alpha-900)"
+        "color": "var(--seed-color-fg-on-warning-solid)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-black-alpha-900)"
+        "color": "var(--seed-color-fg-on-warning-solid)"
       }
     },
     "pressed": {
@@ -285,19 +284,19 @@ export const vars = {
         "color": "var(--seed-color-bg-critical-solid)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       },
       "title": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       },
       "description": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       },
       "button": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-critical-solid)"
       }
     },
     "pressed": {
@@ -309,7 +308,9 @@ export const vars = {
   "toneMagicVariantWeak": {
     "enabled": {
       "root": {
-        "gradient": "var(--seed-gradient-glow-magic)"
+        "gradient": {
+          "serialized": "var(--seed-gradient-glow-magic)"
+        }
       },
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
@@ -329,7 +330,9 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "gradient": "var(--seed-gradient-glow-magic-pressed)"
+        "gradient": {
+          "serialized": "var(--seed-gradient-glow-magic-pressed)"
+        }
       }
     }
   }

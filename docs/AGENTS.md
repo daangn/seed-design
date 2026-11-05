@@ -1,58 +1,54 @@
 # docs
 
-## 디렉토리 개요
+Next.js·Fumadocs 기반 SEED 문서 사이트다. `content/`가 문서 원천이고 `registry/`가 CLI로 배포하는 snippet 원천이며, `packages/docs-mcp/src/config.ts`가 `content/` 구조를 MCP section으로 매핑한다.
 
-SEED Design **문서 사이트**. Next.js + Fumadocs 기반. 컴포넌트 문서, 디자인 가이드라인, Storybook을 제공한다. `content/` 구조 변경 시 `packages/docs-mcp/src/config.ts` 동기화 필수.
+## 검증
 
-## 파일 작성 컨벤션
+- `bun docs:test`는 웹 앱 타입을 검사하지 않는다 → `app/`·`components/`·`lib/`·`examples/react/`·`registry/react/`의 TS·TSX를 바꿨으면 `bun --filter @seed-design/docs typecheck:web`도 실행한다.
+- `registry/`를 바꿨으면 루트 `AGENTS.md`「생성」대로 `bun docs:generate`를 실행한다. `generate:docs-index`가 `public/__registry__/` index를 읽어 `public/__docs__/`를 만들므로 `generate:registry`만 따로 돌리지 않는다.
 
-- 문서는 역할 중심 도메인으로 분리하고, 새로운 문서 영역 추가 시 관련 매핑/동기화 규칙을 함께 갱신한다.
-- MDX 파일명은 `kebab-case`를 사용한다.
+## 규칙
 
-## 코드 작성 컨벤션
+### 콘텐츠 구조
 
-- Frontmatter에 `title`, `description`을 필수로 포함한다.
-- 문서 UI와 스토리는 문서 본문과 분리된 참조 계층으로 관리한다.
-- **`docs/registry/{react,lynx}/ui/`의 snippet 레이어 변경은 최소한으로 한다.** snippet은 사용자가 직접 커스터마이징하는 레이어이므로, 불필요한 변경은 사용자 코드에 영향을 줄 수 있다.
-- `docs/registry/{react,lynx}/ui/` snippet은 단순 예제가 아니라 stable user API로 취급한다. snippet을 만들 때는 low-level re-export보다 convenience wrapper를 우선 검토한다.
-- snippet을 추가하거나 바꿀 때는 먼저 사용자가 작성할 **minimal user code** 예시를 떠올리고, 그 예시에 맞춰 API를 정한다.
-- snippet 변경 후에는 source 파일만 보지 말고 generated registry(`docs/public/__registry__/`)가 함께 갱신됐는지 확인한다.
-- vendored snippet consumer가 있으면 그 경로도 함께 확인한다. 현재는 `examples/stackflow-spa/src/seed-design/ui/`가 대표적이다.
-- **`content/` 하위에 AGENTS.md를 두지 않는다.** fumadocs가 `content/` 전체를 스캔하여 `.md` 파일을 문서 콘텐츠로 인식하므로 frontmatter 에러가 발생한다.
+- `content/` 아래에는 `AGENTS.md`를 두지 않는다. Fumadocs가 문서 콘텐츠로 인식한다 → 콘텐츠 규칙은 이 파일에 쓴다.
+- 문서 영역을 추가하거나 문서를 이동·이름 변경·삭제하면 `packages/docs-mcp/src/config.ts`의 `SECTIONS` 매핑을 함께 고친다.
+- 새 MDX 컴포넌트를 문서에 도입하면 `app/_llms/AGENTS.md` 절차로 룰과 fixture를 추가한다. 문서 내용만 바꿀 때는 해당하지 않는다.
 
-### 스타일링 컨벤션
+### MDX 작성
 
-특정 컴포넌트/위젯을 겨냥한 시각 스타일은 `app/global.css`가 아니라 **그 컴포넌트 안에서 inline Tailwind(className)** 로 처리한다. 대상 컴포넌트가 없으면 만들어서 거기서 스타일링한다. `global.css`는 아래 "문서 전체 예외"만 담는다.
+- MDX 파일명은 kebab-case, frontmatter에는 `title`과 `description`을 넣는다.
+- 새 컴포넌트·훅 문서는 frontmatter 바로 뒤에 `<AvailableSince />`를 넣는다. 버전은 SEED 패키지 출시 버전이다. 패키지는 다음과 같다.
+  - React component → `react` + `css`
+  - React Stackflow → `stackflow` + `css`
+  - Lynx component → `lynx-react` + `lynx-css`
+  - Lynx hook → 훅을 실제로 제공하는 공개 패키지. 독립 훅 패키지가 있으면 그 출시 버전을 쓰고, 기존 `lynx-react` 재export는 본문에서 따로 설명한다.
+- 다른 컴포넌트의 컨텍스트 안에서만 유효한 React 종속 컴포넌트는 별도 문서를 만들지 않고 상위 컴포넌트 문서의 하위 섹션으로 쓴다. 예: `AppBar`는 `AppScreen` 문서에서 다룬다.
+- 산문에서는 `SEED Design` 대신 `SEED` 또는 `SEED Design System`을 쓴다.
+- `featured: true`는 동시에 소수의 최신 문서에만 붙인다.
 
-- **`global.css`에 남기는 것(예외)만:**
-  - 빌드 설정(`@import`/`@source`), 디자인 토큰(`:root`/`.dark`/섹션 색상 변수), 루트 `html` 폰트
-  - `<html>`/`<body>` 레벨·외부 라이브러리(Lenis)·fumadocs가 소유해 붙일 컴포넌트가 없는 DOM(`#nd-toc`)
-  - 문서 전체 base reset·타이포(`strong`, 코드 `user-select`, `.prose` 제목 굵기, `article .prose` 여백)
-- **컴포넌트-지정 스타일에 `global.css`의 `!important`로 recipe를 이기지 않는다.** SEED recipe는 unlayered이므로 아래 방법으로 specificity를 확보한다:
-  - 상태/토큰 override → inline `style` prop (예: `components/tabs/chip-tab-trigger.tsx` — hover/active는 Tailwind로 표현 안 되면 controlled state로 계산)
-  - 마크다운이 생성한 native 자식(`th/td/tr` 등) → arbitrary child selector `[&_...]` (예: `components/table.tsx`의 `TableRoot`)
-  - SEED preset에 없는 유틸(`scale-*`/transform) → arbitrary property `[transform:scale(1.05)]` (예: `components/catalog/card.tsx`)
-- 마크다운 원소 타입 전체(모든 표/제목/코드 등)를 겨냥해야 하면 `components/mdx-components.tsx`에서 그 원소를 오버라이드하고 거기서 Tailwind로 스타일링한다. 단, 문서 전체 base 성격이면 위 예외로 `global.css`에 둔다.
-- **함정 (cascade layer):** Fumadocs/base가 **unlayered**로 건 규칙(예: `.shiki`의 `--padding-*`, `article .prose` 여백)은 `@layer utilities`로 컴파일되는 Tailwind 유틸(arbitrary 포함)로 못 이긴다(unlayered가 모든 `@layer`를 이김). 이때는 inline `style`(specificity 1000, unlayered)로 얹거나, 그 규칙이 문서 전체 레이아웃이면 짝이 되는 override도 `global.css`에 unlayered로 둔다(예: `article .prose` 여백을 상쇄하는 `.changelog-page .prose`). 옮기기 전에 실제로 이겨서 렌더가 바뀌는지 확인할 것.
-- **회색은 SEED 토큰·hue-free 우선:** SEED Docs의 회색 표면은 푸른기가 없어야 한다. fumadocs `fd-*`는 기본이 Tailwind **slate(쿨)** 라 `app/global.css`의 `:root`/`.dark`에서 SEED 중립 토큰으로 매핑해 둠(surface→`bg-neutral-weak`, border/input→`stroke-neutral-muted`, ring→`stroke-neutral-weak`, text→`fg-neutral(-muted)`). 새 회색을 넣을 때:
-  - **인터랙션 상태(hover/active/selected/pressed)·보더**는 완전 hue-0인 SEED **static-alpha**(`bg-transparent-selected`/`-pressed`, `stroke-neutral-muted`)를 쓴다(예: prev/next·SideNavigation active, 검색/헤더 버튼).
-  - SEED `palette-gray` **불투명 fill은 다크에서 쿨**(B>G>R)이다 → `bg-neutral-weak`·`bg-layer-floating`을 다크 표면 배경으로 쓰지 말 것. 다크에 hue-0 불투명 표면이 필요하면 중립인 `bg-fd-popover`/`bg-fd-card`.
-  - 공유 SEED recipe가 칠하는 표면(예: NavigationMenu flyout = `--seed-color-bg-layer-floating`)은 recipe를 고치지 말고, docs 래퍼에서 그 변수만 중립으로 재정의한다(예: `components/header/docs-nav-menu-content.tsx`의 `[--seed-color-bg-layer-floating:var(--color-fd-popover)]`).
+### `content/lynx/`
 
-### Lynx 문서 작성 가이드 (`content/lynx/`)
+- 웹과 다른 렌더링 방식, API, 누락 기능을 문서에 적는다.
+- frontmatter `compatibility.lynx`에는 확정된 값만 넣는다: `engine`(실제 요구하는 Lynx Engine 최소 버전), `x-elements`(사용하는 XElement 이름의 kebab-case 배열). 스키마는 `lib/lynx-compatibility.ts`다. 확인하지 못한 값은 추정해 넣지 말고 비워 둔다.
+- `engine`에 `<AvailableSince />`의 SEED 패키지 버전을 쓰지 않는다 → Engine 요구 버전만 쓴다.
+- Props 표(`<react-type-table>`)는 SEED가 직접 선언한 prop만 보인다. `@lynx-js/types`에서 온 native 속성, `packages/lynx-react/src/types.ts`의 공통 요소 속성(`className`·`style`·`children`·`bindtap`), 통째로 상속한 StyleProps(Box·Stack 문서 제외)는 `components/type-table/generator.ts`가 뺀다 → native 속성을 그대로 넘기는 prop은 `Pick<IntrinsicElements[...], ...>`으로 선언하고, 표에 보여야 하는 prop은 SEED 고유 동작을 JSDoc으로 적어 직접 선언한다. 표가 비면 "고유 prop이 없습니다."와 받는 공통 속성을 한 줄로 쓴다.
+- 컴포넌트 문서에 Headless 패키지(`@seed-design/lynx-react-<name>`)의 섹션·설치 안내·예제·props 표를 넣지 않는다. 사용자가 Headless를 styled 컴포넌트 대신 쓰도록 오해한다 → Headless API는 패키지 JSDoc에, Headless consumer 검증은 `examples/lynx-spa` 페이지에 둔다. Registry snippet이 의존성으로 추가하는 패키지는 사실 한 줄로만 적는다.
 
-Lynx 컴포넌트 문서를 작성할 때는 **웹 버전과의 차이점을 반드시 문서화**한다. 사용자가 웹에서 Lynx로 전환할 때 혼란을 줄이기 위해 다음 관점을 확인한다:
+### Registry snippet
 
-- **렌더링 방식 차이**: Lynx에서 지원하지 않는 웹 기능(SVG, 특정 CSS 속성 등)으로 인한 대체 구현
-- **API 차이**: props 차이, 컴파운드 컴포넌트 구조 차이, 이벤트 핸들링(`bindtap` 등)
-- **누락 기능**: 웹에는 있지만 Lynx에서 미지원인 기능
+- `registry/{react,lynx}/ui/`는 사용자가 복사해 커스터마이즈하는 공개 API다. API를 바꾸기 전에 최소 사용 코드와 convenience wrapper가 필요한지 `skills/seed-component/references/api-design.md` 기준으로 먼저 정한다. React snippet 절차는 `registry/react/ui/AGENTS.md`에 있다.
+- React snippet을 바꾸면 vendored copy `examples/stackflow-spa/src/seed-design/ui/`도 `examples/stackflow-spa/AGENTS.md`「Snippet 동기화」대로 맞춘다.
 
-## 콘텐츠 작성 룰 (`content/`)
+### Tailwind
 
-- 컴포넌트/훅 문서를 신설하면 frontmatter 직후에 `<AvailableSince />`를 넣는다.
-  - 형식: `<AvailableSince packages="@seed-design/react@2.1.0, @seed-design/css@2.3.0" />` (콤마로 구분)
-  - 패키지 매핑: react components → react + css / react stackflow → stackflow + css / lynx components → lynx-react + lynx-css / lynx hooks → lynx-react
-  - 버전은 **그 항목이 처음 사용 가능해진 버전**이다. 새로 만드는 컴포넌트/훅이면 그게 곧 문서와 함께 나갈 다음 릴리스(현재 버전 + changeset bump)이고, 이미 릴리스된 항목의 문서를 뒤늦게 추가하는 경우에는 문서가 나갈 버전이 아니라 그 항목이 실제로 나갔던 버전을 적는다.
-- 문서에 새 MDX 컴포넌트를 도입하면 llms 변환 룰과 fixture를 함께 추가한다 ([app/\_llms/AGENTS.md](app/_llms/AGENTS.md) 참조). 룰이 없으면 llms.txt에 raw JSX가 그대로 새어나간다.
-- "SEED"는 "SEED Design System"의 줄임말이다. 풀어 쓰거나 "SEED"로 줄여 쓰고, 중간 표기인 "SEED Design"은 산문에서 쓰지 않는다 (패키지명·저장소명은 예외).
-- `featured: true`(사이드바 강조 dot)는 동시에 3개 안팎으로 유지하고 오래된 것부터 뗀다. 개수가 늘면 강조가 의미를 잃는다.
+- `@seed-design/tailwind4-theme`가 등록한 변수는 theme utility로 쓴다: `shadow-[var(--seed-shadow-s2)]` 대신 `shadow-s2`. utility는 `@utility`가 정의된 namespace에만 생긴다(`px-*`는 있고 `left-*`는 없다).
+- utility가 없는 자리는 v4 축약 문법으로 넘긴다: `bg-[var(--x)]` 대신 `bg-(--x)`, fallback은 `right-(--x,0px)`.
+- `font-`·`text-`처럼 한 namespace가 여러 속성에 걸리면 타입을 붙인다: `font-(family-name:--x)`, `text-(length:--x)`.
+
+### `app/global.css`
+
+- 컴포넌트·위젯 전용 스타일은 넣지 않는다 → 해당 컴포넌트의 Tailwind `className`으로 처리한다. `global.css`에는 빌드 설정, 디자인 토큰, 루트 요소, 외부 라이브러리, 문서 전체 reset·타이포만 둔다.
+- recipe override에 전역 `!important`를 쓰지 않는다 → 상태는 inline style이나 component-local Tailwind로, 마크다운 자식 selector는 `components/mdx-components.tsx`나 component-local selector로 처리한다.
+- Fumadocs의 unlayered 규칙을 덮어야 하면 실제 cascade를 확인한 뒤 inline style이나 대응하는 unlayered global rule을 쓴다.
+- 회색 표면은 기존 SEED 중립 토큰을 쓴다. 공유 recipe를 고치지 말고 문서 wrapper에서 변수를 override한다.

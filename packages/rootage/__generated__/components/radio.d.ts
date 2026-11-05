@@ -18,6 +18,7 @@ declare const artifact: {
               "type": "dimension";
             };
           };
+          "description": "root 전체가 누르는 영역이며, pressed 피드백은 Radiomark의 축소로 표현됩니다.";
         };
         "label": {
           "properties": {

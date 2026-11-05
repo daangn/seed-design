@@ -1,5 +1,7 @@
+// A URL's first matching prefix names its section, so order matters. Nothing under /react is
+// carved out: /react/updates holds the React package's own changelog and upgrade guides, which
+// belong to React, not to the design system news at /updates.
 export const DOCS_SECTIONS = [
-  { href: "/react/updates", label: "Updates" },
   { href: "/get-started", label: "Get Started" },
   { href: "/foundations", label: "Foundations" },
   { href: "/components", label: "Components" },

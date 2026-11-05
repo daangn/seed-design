@@ -29,7 +29,7 @@ declare type BadgeVariantMap = {
 
 export declare type BadgeVariantProps = Partial<BadgeVariant>;
 
-export declare type BadgeSlotName = "root" | "label";
+export declare type BadgeSlotName = "root" | "prefix" | "label" | "action";
 
 export declare const badgeVariantMap: BadgeVariantMap;
 

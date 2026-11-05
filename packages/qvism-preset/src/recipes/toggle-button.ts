@@ -3,12 +3,22 @@ import { toggleButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
 import { prefixIcon, suffixIcon } from "../utils/icon";
-import { engaged, disabled, focusVisible, loading, pressed, pseudo } from "../utils/pseudo";
+import {
+  active,
+  engaged,
+  disabled,
+  focusVisible,
+  loading,
+  not,
+  pressed,
+  pseudo,
+} from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 
 const toggleButton = defineRecipe({
   name: "toggle-button",
@@ -35,7 +45,9 @@ const toggleButton = defineRecipe({
       cursor: "not-allowed",
     },
 
-    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    [pseudo(not(disabled), active)]: { ...createScaleFeedbackStyles() },
+
+    transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
     fontWeight: vars.base.enabled.label.fontWeight,
   },
   variants: {

@@ -10,7 +10,7 @@ import {
 import { IconChevronDownSmallLine } from "@karrotmarket/react-monochrome-icon";
 import { DocsNavigationMenuContent } from "./docs-nav-menu-content";
 import clsx from "clsx";
-import Link from "next/link";
+import { SiteLink } from "@/components/site-link";
 import { usePathname, useRouter } from "next/navigation";
 import { NAV_ITEMS, type NavItem } from "./nav-items";
 
@@ -73,7 +73,10 @@ function DropdownItem({
               key={child.label}
               className="cursor-pointer"
               label={child.label}
-              onClick={() => router.push(child.href)}
+              onClick={() => {
+                if (child.href.startsWith("https://")) window.location.assign(child.href);
+                else router.push(child.href);
+              }}
             />
           ))}
         </NavigationMenuGroup>
@@ -135,13 +138,13 @@ export function SiteNav({
           }
 
           return (
-            <Link
+            <SiteLink
               key={item.label}
               href={item.href}
               className={clsx(itemBase, itemInteractiveState, itemState(active))}
             >
               {item.label}
-            </Link>
+            </SiteLink>
           );
         })}
       </nav>

@@ -13,6 +13,7 @@ export const vars = {
       "content": {
         "color": "var(--seed-color-bg-layer-floating)",
         "maxWidth": "480px",
+        "maxHeightFraction": "0.9",
         "paddingX": "var(--seed-dimension-spacing-x-global-gutter)",
         "paddingTop": "var(--seed-dimension-x6)",
         "paddingBottom": "var(--seed-dimension-x4)",

@@ -82,7 +82,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
         <SeedCheckbox.HiddenInput ref={ref} {...inputProps} />
       </SeedCheckbox.Root>
     );
-  }
+  },
 );
 ```
 
@@ -94,7 +94,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
 Snippet을 통해 복잡한 compound components를 간단하게 사용할 수 있습니다:
 
 ```tsx
-import { Checkbox } from "@/seed-design/ui/checkbox";
+import { Checkbox } from "seed-design/ui/checkbox";
 
 const Demo = () => <Checkbox>Click me</Checkbox>;
 ```

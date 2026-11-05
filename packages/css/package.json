@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/css",
-  "version": "2.3.0",
+  "version": "3.2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -18,7 +18,6 @@
   ],
   "type": "module",
   "exports": {
-    "./*.css": "./*.css",
     "./base.css": "./base.css",
     "./base.min.css": "./base.min.css",
     "./base.layered.css": "./base.layered.css",
@@ -45,14 +44,12 @@
       "types": "./vars/*.d.ts",
       "import": "./vars/*.mjs"
     },
-    "./vars/component": {
-      "types": "./vars/component/index.d.ts",
-      "import": "./vars/component/index.mjs"
+    "./vars/component": null,
+    "./vars/component/typography": {
+      "types": "./vars/component/typography.d.ts",
+      "import": "./vars/component/typography.mjs"
     },
-    "./vars/component/*": {
-      "types": "./vars/component/*.d.ts",
-      "import": "./vars/component/*.mjs"
-    },
+    "./vars/component/*": null,
     "./theming": {
       "types": "./theming/index.d.ts",
       "import": "./theming/index.mjs",
@@ -62,6 +59,10 @@
       "types": "./breakpoints/index.d.ts",
       "import": "./breakpoints/index.mjs"
     },
+    "./scale-feedback": {
+      "types": "./scale-feedback/index.d.ts",
+      "import": "./scale-feedback/index.mjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -70,14 +71,15 @@
     "vars",
     "theming",
     "breakpoints",
-    "utils",
+    "scale-feedback",
     "*.css",
     "LICENSE",
     "NOTICE"
   ],
   "devDependencies": {
     "@seed-design/qvism-cli": "0.0.0",
-    "@seed-design/qvism-preset": "0.0.0"
+    "@seed-design/qvism-preset": "0.0.0",
+    "@seed-design/rootage-cli": "0.0.0"
   },
   "publishConfig": {
     "access": "public"

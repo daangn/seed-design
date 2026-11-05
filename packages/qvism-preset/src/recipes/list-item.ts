@@ -47,6 +47,10 @@ const listItem = defineSlotRecipe({
       paddingRight: "var(--seed-box-padding-right)",
 
       "--seed-focus-ring": "none",
+      // the engaged background on the row is enough press feedback; nested marks shouldn't scale
+      "--seed-checkmark-feedback-scale": "1",
+      "--seed-radiomark-feedback-scale": "1",
+      "--seed-switchmark-feedback-scale": "1",
 
       ...onlyIcon({
         color: vars.base.enabled.prefixIcon.color,
@@ -70,6 +74,10 @@ const listItem = defineSlotRecipe({
       gap: "var(--seed-box-gap)",
 
       "--seed-focus-ring": "none",
+      // the engaged background on the row is enough press feedback; nested marks shouldn't scale
+      "--seed-checkmark-feedback-scale": "1",
+      "--seed-radiomark-feedback-scale": "1",
+      "--seed-switchmark-feedback-scale": "1",
 
       fontSize: vars.base.enabled.suffixText.fontSize,
       lineHeight: vars.base.enabled.suffixText.lineHeight,

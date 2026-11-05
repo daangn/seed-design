@@ -1,11 +1,12 @@
 import { getLLMMarkdownUrl, sectionConfigs, shouldIncludeInFullText } from "@/app/_llms/config";
 import { getDisplayTitle } from "@/app/_llms/utils";
 import { baseUrl } from "@/app/metadata";
-import { foundationsSource } from "@/app/source";
+import { getFoundationsSource } from "@/app/source";
 
 export const revalidate = false;
 
 export async function GET() {
+  const foundationsSource = await getFoundationsSource();
   // 섹션 인덱스는 sectionConfigs.excludePaths가 이미 걸러준다.
   const pages = foundationsSource
     .getPages()

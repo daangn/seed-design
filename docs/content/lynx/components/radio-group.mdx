@@ -1,9 +1,21 @@
 ---
-title: RadioGroup
+title: Radio Group
 description: 사용자가 여러 옵션 중 하나만 선택할 수 있게 하는 라디오 그룹 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "3.6"
 ---
 
 <AvailableSince packages="@seed-design/lynx-react@0.1.0, @seed-design/lynx-css@0.1.0" />
+
+<LynxComponentExample name="lynx/radio-group/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/radio-group/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
 
 ## Installation
 
@@ -15,77 +27,25 @@ npx @seed-design/cli add ui:radio-group
 
 ## Usage
 
-설치한 snippet은 기본 사용 경로인 `RadioGroup`과 `RadioGroupItem`, 커스텀 레이아웃에서 item context 안의 마크만 조합할 때 쓰는 `Radiomark`를 함께 export 합니다.
-
 ```tsx
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-export function App() {
+export function ContactMethod() {
   return (
-    <RadioGroup defaultValue="small">
-      <RadioGroupItem value="small" label="Small" />
-      <RadioGroupItem value="medium" label="Medium" />
-      <RadioGroupItem value="large" label="Large" />
+    <RadioGroup
+      label="선호하는 연락 방법"
+      indicator="필수"
+      description="연락받을 방법을 선택해 주세요."
+      defaultValue="chat"
+    >
+      <RadioGroupItem value="chat" label="채팅" />
+      <RadioGroupItem value="phone" label="전화" />
     </RadioGroup>
   );
 }
 ```
 
-Controlled 모드는 `value`와 `onValueChange`를 함께 전달합니다.
-
-```tsx
-import { useState } from "@lynx-js/react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-
-export function ControlledRadioGroup() {
-  const [value, setValue] = useState("small");
-
-  return (
-    <RadioGroup value={value} onValueChange={setValue}>
-      <RadioGroupItem value="small" label="Small" />
-      <RadioGroupItem value="medium" label="Medium" />
-      <RadioGroupItem value="large" label="Large" />
-    </RadioGroup>
-  );
-}
-```
-
-### Disabled
-
-`RadioGroup`의 `disabled` prop은 모든 item을 한꺼번에 비활성화합니다. 개별 item에도 `disabled`를 전달할 수 있고, 둘 중 하나라도 `true`면 해당 item은 비활성화됩니다.
-
-```tsx
-<RadioGroup defaultValue="small" disabled>
-  <RadioGroupItem value="small" label="Small" />
-  <RadioGroupItem value="medium" label="Medium" />
-</RadioGroup>
-
-<RadioGroup defaultValue="small">
-  <RadioGroupItem value="small" label="Small" />
-  <RadioGroupItem value="medium" label="Medium" disabled />
-</RadioGroup>
-```
-
-### Custom Item Content
-
-`RadioGroupItem`은 `label` 뒤에 추가 children을 렌더합니다. 라벨 옆에 보조 정보를 붙이는 정도의 커스텀 구성은 snippet API 안에서 처리할 수 있습니다.
-
-```tsx
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-
-export function CustomRadioGroup() {
-  return (
-    <RadioGroup defaultValue="regular">
-      <RadioGroupItem value="regular" label="Regular">
-        <text>기본 두께</text>
-      </RadioGroupItem>
-      <RadioGroupItem value="bold" label="Bold">
-        <text>강한 두께</text>
-      </RadioGroupItem>
-    </RadioGroup>
-  );
-}
-```
+`invalid`가 `true`이면 `description` 대신 `errorMessage`를 표시합니다. `weight`, `size`, `tone`은 `RadioGroupItem`에 지정하며, 이전 버전에서 그룹에 지정한 값도 각 항목으로 옮겨야 합니다. Registry `RadioGroup`은 React와 같이 `required`와 `readOnly`를 받지 않습니다.
 
 ## Props
 
@@ -101,18 +61,142 @@ export function CustomRadioGroup() {
 
 <react-type-table path="./registry/lynx/ui/radio-group.tsx" name="RadiomarkProps" />
 
+## 접근성
+
+`RadioGroup`의 문자열 `label`은 그룹의 접근성 이름으로도 사용됩니다. `RadioGroupItem`의 문자열 `label`은 항목 이름으로 연결되며 선택 상태와 비활성 상태도 전달됩니다.
+
+raw `<text>`를 사용하거나 항목에 텍스트가 없으면 `accessibility-label`을 지정하세요. raw `<text>`의 정적 텍스트는 접근성 이름을 만들 수 없습니다.
+
+## Examples
+
+### Sizes
+
+<LynxComponentExample name="lynx/radio-group/size">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/radio-group/size.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Tones
+
+#### Brand
+
+<LynxComponentExample name="lynx/radio-group/brand">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/radio-group/brand.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Neutral
+
+<LynxComponentExample name="lynx/radio-group/neutral">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/radio-group/neutral.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Weights
+
+<LynxComponentExample name="lynx/radio-group/weights">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/radio-group/weights.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Long Label
+
+<LynxComponentExample name="lynx/radio-group/long-label">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/radio-group/long-label.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Disabled
+
+<LynxComponentExample name="lynx/radio-group/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/radio-group/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Listening to Value Changes
+
+`RadioGroup`의 `onValueChange`로 선택 값 변경을 감지할 수 있습니다. Controlled 모드에서는 `value`와 `onValueChange`를 함께 사용합니다.
+
+<LynxComponentExample name="lynx/radio-group/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/radio-group/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Use Cases
+
+#### Using `Radiomark`
+
+`Radiomark`는 `RadioGroupItem` 안에서만 사용할 수 있습니다.
+
+<LynxComponentExample name="lynx/radio-group/radiomark">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/radio-group/radiomark.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### RadioGroupField Integration
+
+<LynxComponentExample name="lynx/radio-group/radio-group-field">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/radio-group/radio-group-field.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Scale Feedback
+
+Lynx `RadioGroupItem`은 누르는 동안 `Radiomark`를 줄입니다. 콘텐츠를 축소하는 SEED 컴포넌트 안에서는 이 효과를 생략합니다. React의 `--seed-radiomark-feedback-scale` CSS 변수는 제공하지 않습니다.
+
 ## 웹 버전과의 차이
 
 <Callout type="warning">
-Lynx `RadioGroup`은 React `RadioGroup`과 다음과 같은 차이가 있습니다.
 
-- **Field wrapper 없음**: React snippet의 `label`, `description`, `errorMessage`, `indicator`, `showRequiredIndicator` 같은 field 관련 prop은 Lynx snippet에서 제공하지 않습니다.
-- **아이콘 렌더링 방식**: 기본 `RadioGroup.ItemIndicator`는 `<view>` dot으로 렌더됩니다. custom icon을 전달할 때는 `@karrotmarket/lynx-monochrome-icon`의 monochrome icon 컴포넌트를 사용해야 하며 raw `<svg>` 주입은 Lynx 범위 밖입니다.
-- **이벤트 핸들링**: `onChange` 대신 `onValueChange(value: string)`만 노출합니다. tap 핸들러는 item 내부에서 소유합니다.
-- **Pressed 상태**: 웹의 `data-active` 대신 내부 press state를 `radiomark` recipe의 `pressed` boolean variant로 전달합니다.
-- **렌더링 요소**: HTML `<label>` / `<input type="radio">` 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다.
-- **Strict containment**: `RadioGroupItem`, `Radiomark`, `RadioGroup.ItemControl`, `RadioGroup.ItemIndicator`, `RadioGroup.ItemLabel`은 반드시 `RadioGroup.Root`와 `RadioGroup.Item`의 적절한 context 안에서 사용해야 합니다. `Radiomark`는 standalone primitive가 아니라 item context 안에서 `ItemControl`과 `ItemIndicator`를 묶는 snippet helper입니다.
+- `invalid` 상태에서는 `description`을 제외하고 `errorMessage`만 화면과 접근성 트리에 표시합니다.
+- 사용자 지정 아이콘은 Lynx 단색 아이콘 컴포넌트를 사용해야 합니다. raw `<svg>` 아이콘은 지원하지 않습니다.
+- 값 변경은 `onChange`가 아닌 `onValueChange(value: string)`로 받습니다.
+- HTML `<label>`과 `<input type="radio">` 대신 네이티브 `<view>`와 `<text>`를 렌더링합니다.
+- `RadioGroupItem`은 `RadioGroup` 안에서, `Radiomark`는 해당 항목 안에서 사용해야 합니다.
+
 </Callout>
+
+사용자 지정 아이콘 패키지는 Registry 기본 설치에 포함되지 않습니다.
+
+```sh
+bun add @karrotmarket/lynx-monochrome-icon@^1.20.0
+```
 
 ## Lynx 미지원 기능
 
@@ -122,9 +206,8 @@ Lynx `RadioGroup`은 React `RadioGroup`과 다음과 같은 차이가 있습니�
 
 | 기능 | 웹 대응 | 설명 |
 |------|---------|------|
+| React Hook Form | HTML form 라이브러리 | `value`와 `onValueChange` 및 앱 수준 제출 로직으로 대체 |
 | `RadioGroupItemHiddenInput` | `<input type="radio">` | Lynx에 HTML form 제출 모델 없음 |
-| `name` / `required` / `invalid` | form field props | Lynx에 native form 제출 모델 없음 |
-| `inputProps` | 내부 input prop 전달 | Lynx에는 전달할 HTML input이 없음 |
-| `label` / `description` / `errorMessage` on `RadioGroup` | field wrapper props | Lynx에 대응 field wrapper snippet을 제공하지 않음 |
+| `name` | native form field name | Lynx에 native form 제출 모델 없음 |
 | `focus` / `focusVisible` | 키보드 포커스 | Lynx에 키보드 포커스 개념 없음 |
 | `onChange` (raw DOM event) | `React.ChangeEvent` | 의미 없음. `onValueChange`로 대체 |

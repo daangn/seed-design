@@ -1,0 +1,6 @@
+.progress-circle-preview--dark {
+  display: flex;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: var(--seed-color-palette-static-black);
+}

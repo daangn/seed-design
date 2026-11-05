@@ -1,0 +1,112 @@
+import * as React from "@lynx-js/react";
+import { useState } from "@lynx-js/react";
+import { Box, HStack, Text, VStack } from "@seed-design/lynx-react";
+import { HelpBubbleAnchor } from "@/components/ui/help-bubble";
+import { SegmentedControl, SegmentedControlItem } from "@/components/ui/segmented-control";
+
+type SegmentedControlStyle = NonNullable<React.ComponentProps<typeof SegmentedControl>["style"]> & {
+  "--segment-min-width": string;
+};
+
+// 6개 항목이 좁은 화면에 들어가도록 Item·Indicator 공통 최소 폭을 없앤다.
+const COMPACT_SEGMENTED_CONTROL_STYLE: SegmentedControlStyle = {
+  width: "100%",
+  "--segment-min-width": "0px",
+};
+
+const AVATAR_SRC = "https://avatars.githubusercontent.com/u/54893898?v=4";
+const OFFSET_OPTIONS = ["0", "1", "2", "3", "4", "5"] as const;
+
+function Avatar() {
+  const [hasImageError, setHasImageError] = useState(false);
+
+  function handleImageError() {
+    "background only";
+    setHasImageError(true);
+  }
+
+  return (
+    <Box
+      width="64px"
+      height="64px"
+      style={{ display: "flex" }}
+      alignItems="center"
+      justifyContent="center"
+      overflowX="hidden"
+      overflowY="hidden"
+      borderRadius="full"
+      bg="bg.neutralWeak"
+    >
+      {hasImageError ? (
+        <Text textStyle="t2Bold">L</Text>
+      ) : (
+        <image
+          src={AVATAR_SRC}
+          mode="aspectFill"
+          style={{ width: "64px", height: "64px" }}
+          binderror={handleImageError}
+        />
+      )}
+    </Box>
+  );
+}
+
+export default function Example() {
+  const [zIndexOffset, setZIndexOffset] = useState(5);
+
+  function handleOffsetChange(nextOffset: string) {
+    "background only";
+    setZIndexOffset(Number(nextOffset));
+  }
+
+  return (
+    <VStack width="full" gap="x8" align="center">
+      <HStack width="full" gap="x2" style={{ display: "flex", flexWrap: "wrap" }}>
+        {Array.from({ length: 5 }, (_, index) => (
+          <Box
+            key={index}
+            width="64px"
+            height="64px"
+            borderRadius="r2"
+            style={{ display: "flex" }}
+            alignItems="center"
+            justifyContent="center"
+            bg="bg.neutralWeak"
+            borderColor="stroke.neutralWeak"
+            borderWidth={1}
+            zIndex={index + 100}
+          >
+            <Text>{index + 100}</Text>
+          </Box>
+        ))}
+      </HStack>
+      <HelpBubbleAnchor
+        defaultOpen
+        title={`default: 99, current: ${99 + zIndexOffset}`}
+        description="Et ullamco laborum voluptate ipsum labore ea nostrud sunt ipsum."
+        zIndexOffset={zIndexOffset}
+        closeOnInteractOutside={false}
+      >
+        <Avatar />
+      </HelpBubbleAnchor>
+      <VStack width="full" gap="x1" align="center">
+        <SegmentedControl
+          value={String(zIndexOffset)}
+          onValueChange={handleOffsetChange}
+          accessibility-label="zIndexOffset"
+          style={COMPACT_SEGMENTED_CONTROL_STYLE}
+        >
+          {OFFSET_OPTIONS.map((option) => (
+            <SegmentedControlItem key={option} value={option}>
+              {option}
+            </SegmentedControlItem>
+          ))}
+        </SegmentedControl>
+        <HStack width="full" justify="spaceBetween">
+          <Text>0</Text>
+          <Text>5</Text>
+        </HStack>
+      </VStack>
+    </VStack>
+  );
+}

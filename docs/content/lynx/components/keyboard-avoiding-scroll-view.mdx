@@ -1,0 +1,142 @@
+---
+title: Keyboard Avoiding Scroll View
+description: 소프트 키보드가 활성 입력을 가리지 않도록 세로 스크롤 위치와 하단 여백을 조정하는 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "4.1"
+    x-elements:
+      - input
+      - textarea
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.4.0" />
+
+## Installation
+
+```package-install
+@seed-design/lynx-react
+```
+
+아래 예제에서 사용하는 Text Field 레지스트리 스니펫도 추가합니다.
+
+```package-install
+npx @seed-design/cli add ui:text-field
+```
+
+## Props
+
+### `KeyboardAvoidingScrollView.Root`
+
+<react-type-table path="../packages/lynx-react-headless/keyboard-avoiding-scroll-view/src/KeyboardAvoidingScrollView.tsx" name="KeyboardAvoidingScrollViewRootProps" />
+
+### `KeyboardAvoidingScrollView.Content`
+
+<react-type-table path="../packages/lynx-react-headless/keyboard-avoiding-scroll-view/src/KeyboardAvoidingScrollView.tsx" name="KeyboardAvoidingScrollViewContentProps" />
+
+### `KeyboardAvoidingScrollView.Footer`
+
+<react-type-table path="../packages/lynx-react-headless/keyboard-avoiding-scroll-view/src/KeyboardAvoidingScrollView.tsx" name="KeyboardAvoidingScrollViewFooterProps" />
+
+## Usage
+
+AppBar 아래 화면 본문처럼 높이가 정해진 영역에 `KeyboardAvoidingScrollView.Root`를 두고, 입력 화면을 `KeyboardAvoidingScrollView.Content`로 감쌉니다. 키보드 위에 붙여야 하는 하단 버튼은 Content 아래의 `KeyboardAvoidingScrollView.Footer`에 둡니다.
+
+```tsx
+import { KeyboardAvoidingScrollView } from "@seed-design/lynx-react";
+
+export function Screen() {
+  return (
+    <KeyboardAvoidingScrollView.Root className="screen-body">
+      <KeyboardAvoidingScrollView.Content>{/* 입력 화면 */}</KeyboardAvoidingScrollView.Content>
+      <KeyboardAvoidingScrollView.Footer>{/* 하단 버튼 */}</KeyboardAvoidingScrollView.Footer>
+    </KeyboardAvoidingScrollView.Root>
+  );
+}
+```
+
+- Root에는 높이를 지정하고 자식으로 Content와 Footer만 두세요. Footer는 Content 바로 아래에 배치합니다.
+- Content는 focus된 입력이 키보드나 Footer에 가리지 않도록 스크롤과 하단 여백을 조정합니다. `keyboardGap`과 `scrollBehavior`로 간격과 이동 방식을 정할 수 있습니다.
+- Footer는 키보드 위로 이동합니다. 하단 safe area 여백은 Root 바깥의 화면 컨테이너에 두세요.
+- Text Field Registry의 Input과 Textarea는 focus, blur, 높이 변경을 자동으로 전달합니다. [Segmented Text Input](/lynx/components/segmented-text-input)의 Segment도 focus와 blur를 자동으로 전달합니다.
+- Android에서는 이 컴포넌트가 키보드 회피를 맡도록 Text Field와 Segmented Text Input의 입력에 `android-set-soft-input-mode="nothing"`을 기본으로 적용합니다. 직접 등록하는 native 입력에는 이 값을 지정하세요. 입력에 `avoid-keyboard`는 사용하지 마세요.
+
+## Examples
+
+### 한 줄 입력
+
+화면 아래쪽의 `TextField.Input`에 focus하면 입력 영역과 키보드 사이에 24px 간격이 생기도록 자동 스크롤합니다.
+
+<LynxComponentExample name="lynx/keyboard-avoiding-scroll-view/input" height={520}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/keyboard-avoiding-scroll-view/input.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<Callout type="warning">
+이 예제는 네이티브 키보드 동작을 사용합니다. QR 코드 패널에서 Lynx Explorer로 실행한 뒤 화면 아래의 주소 입력 영역을 탭해 확인해 주세요.
+</Callout>
+
+### 자동 높이 조절 textarea
+
+`TextField.Textarea`에 여러 줄을 입력해 높이가 달라지면 활성 입력 영역의 위치를 다시 계산합니다.
+
+<LynxComponentExample name="lynx/keyboard-avoiding-scroll-view/autoresizing-textarea" height={520}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/keyboard-avoiding-scroll-view/autoresizing-textarea.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<Callout type="warning">
+이 예제는 네이티브 입력 요소의 자동 높이 조절과 키보드 회피 동작을 사용합니다. QR 코드 패널에서 Lynx Explorer로 실행한 뒤 여러 줄을 입력해 확인해 주세요.
+</Callout>
+
+### Segmented Text Input
+
+`SegmentedTextInput.Segment`에 focus하면 Segment 하나보다 넓은 영역이 키보드에 가리지 않도록 스크롤합니다. 키보드 위 공간에 들어가면 감싸는 `Field.Root`(label·description 포함), 그다음 `SegmentedTextInput.Root`, 마지막으로 focus한 Segment 순서로 영역을 고릅니다. 채운 Segment에서 다음 Segment로 focus가 넘어가도 회피를 이어받아 스크롤 위치를 유지합니다.
+
+<LynxComponentExample name="lynx/keyboard-avoiding-scroll-view/segmented-text-input" height={520}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/keyboard-avoiding-scroll-view/segmented-text-input.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<Callout type="warning">
+이 예제는 네이티브 키보드 동작을 사용합니다. QR 코드 패널에서 Lynx Explorer로 실행한 뒤 주민등록번호 입력 영역을 탭해 확인해 주세요.
+</Callout>
+
+### 하단 버튼
+
+`KeyboardAvoidingScrollView.Footer`에 둔 버튼은 키보드가 열리면 키보드 바로 위로 올라갑니다. focus된 입력 영역은 올라간 버튼과 16px 간격을 두도록 자동 스크롤합니다.
+
+<LynxComponentExample name="lynx/keyboard-avoiding-scroll-view/footer" height={520}>
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/keyboard-avoiding-scroll-view/footer.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<Callout type="warning">
+이 예제는 네이티브 키보드 동작을 사용합니다. QR 코드 패널에서 Lynx Explorer로 실행한 뒤 닉네임 입력 영역을 탭해 확인해 주세요.
+</Callout>
+
+## 웹 버전과의 차이
+
+- Lynx keyboard event와 native node 위치를 기준으로 세로 스크롤을 조정합니다.
+- 브라우저의 form 제출과 자동 focus 이동은 제공하지 않습니다.
+
+## Lynx 미지원 기능
+
+- 가로 또는 중첩 scroll view
+- 키보드 toolbar 높이와 큰 textarea의 caret 단위 회피
+- 키보드 애니메이션과 정확히 같은 Footer 이동. 닫는 동안 잠시 간격이 생길 수 있습니다.

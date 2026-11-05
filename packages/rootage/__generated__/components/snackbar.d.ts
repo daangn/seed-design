@@ -24,6 +24,7 @@ declare const artifact: {
               "type": "cubicBezier";
             };
           };
+          "description": "region은 좌우와 하단 안전 영역 경계 안쪽에 배치되므로, paddingX와 하단 쪽 paddingY는 안전 영역 경계부터 잽니다.";
         };
         "root": {
           "properties": {
@@ -130,6 +131,13 @@ declare const artifact: {
             "fontWeight": {
               "type": "number";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
       };
@@ -174,7 +182,7 @@ declare const artifact: {
               "root": {
                 "color": {
                   "type": "color";
-                  "value": "$color.bg.neutral-inverted";
+                  "value": "$color.bg.neutral-solid";
                 };
                 "cornerRadius": {
                   "type": "dimension";
@@ -190,7 +198,7 @@ declare const artifact: {
                 "maxWidth": {
                   "type": "dimension";
                   "value": {
-                    "value": 560;
+                    "value": 464;
                     "unit": "px";
                   };
                 };
@@ -248,7 +256,7 @@ declare const artifact: {
               "message": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
                 "fontSize": {
                   "type": "dimension";
@@ -303,6 +311,19 @@ declare const artifact: {
                 "fontWeight": {
                   "type": "number";
                   "value": "$font-weight.bold";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "actionButton": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

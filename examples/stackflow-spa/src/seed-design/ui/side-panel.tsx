@@ -14,7 +14,8 @@ export interface SidePanelTriggerProps extends SeedSidePanel.TriggerProps {}
 
 export const SidePanelTrigger = SeedSidePanel.Trigger;
 
-export interface SidePanelContentProps extends Omit<SeedSidePanel.ContentProps, "title"> {
+export interface SidePanelContentProps
+  extends Omit<SeedSidePanel.ContentProps, "title" | "asChild"> {
   title?: React.ReactNode;
 
   description?: React.ReactNode;

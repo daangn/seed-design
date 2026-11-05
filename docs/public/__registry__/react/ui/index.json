@@ -6,8 +6,7 @@
         {
           "path": "accordion.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -22,8 +21,7 @@
         {
           "path": "action-button.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -43,26 +41,9 @@
     {
       "snippets": [
         {
-          "path": "action-sheet.tsx",
-          "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
-          }
-        }
-      ],
-      "id": "action-sheet",
-      "deprecated": true,
-      "dependencies": [
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
           "path": "alert-dialog.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^3.0.0"
           }
         }
       ],
@@ -84,15 +65,15 @@
         {
           "path": "app-screen.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         },
         {
           "path": "app-bar.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0",
+            "@seed-design/css": "^3.1.0",
+            "@seed-design/stackflow": "^2.1.0"
           }
         }
       ],
@@ -117,15 +98,13 @@
         {
           "path": "attachment-display-field.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^3.0.0"
           }
         }
       ],
       "id": "attachment-display-field",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
-        "@seed-design/css",
         "@seed-design/react"
       ],
       "innerDependencies": [
@@ -142,15 +121,13 @@
         {
           "path": "attachment-display-field.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^3.0.0"
           }
         },
         {
           "path": "attachment-display-field-reorderable.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0",
+            "@seed-design/react": "^3.0.0",
             "@dnd-kit/react": "^0.4.0",
             "@dnd-kit/abstract": "^0.4.0",
             "@dnd-kit/dom": "^0.4.0"
@@ -163,7 +140,6 @@
         "@dnd-kit/dom",
         "@dnd-kit/react",
         "@karrotmarket/react-monochrome-icon",
-        "@seed-design/css",
         "@seed-design/react"
       ],
       "innerDependencies": [
@@ -181,15 +157,13 @@
         {
           "path": "attachment-field.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^3.0.0"
           }
         }
       ],
       "id": "attachment-field",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
-        "@seed-design/css",
         "@seed-design/react"
       ],
       "innerDependencies": [
@@ -213,15 +187,13 @@
         {
           "path": "attachment-field.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^3.0.0"
           }
         },
         {
           "path": "attachment-field-reorderable.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0",
+            "@seed-design/react": "^3.0.0",
             "@dnd-kit/react": "^0.4.0",
             "@dnd-kit/abstract": "^0.4.0",
             "@dnd-kit/dom": "^0.4.0"
@@ -234,7 +206,6 @@
         "@dnd-kit/dom",
         "@dnd-kit/react",
         "@karrotmarket/react-monochrome-icon",
-        "@seed-design/css",
         "@seed-design/react"
       ],
       "innerDependencies": [
@@ -259,8 +230,7 @@
         {
           "path": "avatar.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -272,10 +242,25 @@
     {
       "snippets": [
         {
+          "path": "badge.tsx",
+          "dependencies": {
+            "@karrotmarket/react-monochrome-icon": "^1.17.0",
+            "@seed-design/react": "^3.0.0"
+          }
+        }
+      ],
+      "id": "badge",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "bottom-sheet.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -290,8 +275,7 @@
         {
           "path": "callout.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -304,10 +288,29 @@
     {
       "snippets": [
         {
+          "path": "card-number-field.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.1.0"
+          }
+        }
+      ],
+      "id": "card-number-field",
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "segmented-text-field"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "checkbox.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0",
+            "@seed-design/css": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -323,14 +326,12 @@
         {
           "path": "chip.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^3.0.0"
           }
         }
       ],
       "id": "chip",
       "dependencies": [
-        "@seed-design/css",
         "@seed-design/react"
       ]
     },
@@ -339,8 +340,7 @@
         {
           "path": "chip-tabs.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -354,8 +354,7 @@
         {
           "path": "content-placeholder.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -369,8 +368,7 @@
         {
           "path": "contextual-floating-button.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -390,17 +388,25 @@
     {
       "snippets": [
         {
-          "path": "control-chip.tsx",
+          "path": "date-picker.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@karrotmarket/react-monochrome-icon": "^1.17.0",
+            "@seed-design/react": "^3.0.0"
           }
         }
       ],
-      "id": "control-chip",
-      "deprecated": true,
+      "id": "date-picker",
       "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "wheel-picker"
+          ]
+        }
       ]
     },
     {
@@ -408,8 +414,7 @@
         {
           "path": "dialog.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.1.0",
-            "@seed-design/css": "^2.3.0"
+            "@seed-design/react": "^3.0.0"
           }
         }
       ],
@@ -430,58 +435,15 @@
     {
       "snippets": [
         {
-          "path": "error-state.tsx",
-          "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
-          }
-        }
-      ],
-      "id": "error-state",
-      "deprecated": true,
-      "dependencies": [
-        "@seed-design/css",
-        "@seed-design/react"
-      ],
-      "innerDependencies": [
-        {
-          "registryId": "ui",
-          "itemIds": [
-            "action-button"
-          ]
-        }
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "extended-action-sheet.tsx",
-          "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
-          }
-        }
-      ],
-      "id": "extended-action-sheet",
-      "deprecated": true,
-      "dependencies": [
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
           "path": "field-button.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
       "id": "field-button",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
-        "@seed-design/css",
         "@seed-design/react"
       ]
     },
@@ -490,8 +452,7 @@
         {
           "path": "floating-action-button.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -505,8 +466,7 @@
         {
           "path": "help-bubble.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -521,8 +481,7 @@
         {
           "path": "help-bubble-tooltip.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -536,8 +495,7 @@
         {
           "path": "identity-placeholder.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -549,34 +507,16 @@
     {
       "snippets": [
         {
-          "path": "inline-banner.tsx",
-          "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
-          }
-        }
-      ],
-      "id": "inline-banner",
-      "deprecated": true,
-      "dependencies": [
-        "@karrotmarket/react-monochrome-icon",
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
           "path": "list.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^3.0.0",
+            "@seed-design/css": "^3.0.0"
           }
         },
         {
           "path": "list-header.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -591,8 +531,7 @@
         {
           "path": "loading-indicator.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -614,8 +553,7 @@
         {
           "path": "manner-temp.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -637,8 +575,7 @@
         {
           "path": "manner-temp-badge.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -660,8 +597,7 @@
         {
           "path": "menu.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -675,8 +611,7 @@
         {
           "path": "menu-sheet.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -691,8 +626,7 @@
         {
           "path": "navigation-menu.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -706,8 +640,7 @@
         {
           "path": "page-banner.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -720,10 +653,56 @@
     {
       "snippets": [
         {
+          "path": "pagination.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.0.0"
+          }
+        }
+      ],
+      "id": "pagination",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "lib",
+          "itemIds": [
+            "pagination-button",
+            "pagination-page-item"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "popover.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.0.0"
+          }
+        }
+      ],
+      "id": "popover",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "progress-circle.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -737,8 +716,7 @@
         {
           "path": "pull-to-refresh.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -760,8 +738,7 @@
         {
           "path": "quantity-picker.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.1.0",
-            "@seed-design/css": "^2.3.0"
+            "@seed-design/react": "^2.1.0 || ^3.0.0"
           }
         }
       ],
@@ -784,8 +761,8 @@
         {
           "path": "radio-group.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0",
+            "@seed-design/css": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -801,8 +778,7 @@
         {
           "path": "reaction-button.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -822,10 +798,28 @@
     {
       "snippets": [
         {
+          "path": "resident-number-field.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.1.0"
+          }
+        }
+      ],
+      "id": "resident-number-field",
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "segmented-text-field"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "responsive-dialog.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.1.0",
-            "@seed-design/css": "^2.3.0"
+            "@seed-design/react": "^2.1.0 || ^3.0.0"
           }
         }
       ],
@@ -848,8 +842,7 @@
         {
           "path": "responsive-side-panel.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -864,8 +857,7 @@
         {
           "path": "result-section.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -885,10 +877,49 @@
     {
       "snippets": [
         {
+          "path": "search-bar.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.1.0",
+            "@seed-design/css": "^3.1.0"
+          }
+        }
+      ],
+      "id": "search-bar",
+      "dependencies": [
+        "@stackflow/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "app-screen",
+            "search-input"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "search-input.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.1.0",
+            "@seed-design/css": "^3.1.0"
+          }
+        }
+      ],
+      "id": "search-input",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "segmented-control.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -900,17 +931,30 @@
     {
       "snippets": [
         {
+          "path": "segmented-text-field.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.1.0"
+          }
+        }
+      ],
+      "id": "segmented-text-field",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "select.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.1.0",
-            "@seed-design/css": "^2.3.0"
+            "@seed-design/react": "^2.1.0 || ^3.0.0"
           }
         }
       ],
       "id": "select",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
-        "@seed-design/css",
         "@seed-design/react"
       ]
     },
@@ -919,8 +963,8 @@
         {
           "path": "select-box.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0",
+            "@seed-design/css": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -944,8 +988,7 @@
         {
           "path": "side-navigation.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^3.0.0"
           }
         }
       ],
@@ -969,8 +1012,7 @@
         {
           "path": "side-panel.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -985,15 +1027,13 @@
         {
           "path": "slider.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
       "id": "slider",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
-        "@seed-design/css",
         "@seed-design/react"
       ]
     },
@@ -1002,8 +1042,7 @@
         {
           "path": "snackbar.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -1018,8 +1057,7 @@
         {
           "path": "swipeable-menu-sheet.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -1033,8 +1071,7 @@
         {
           "path": "switch.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -1046,10 +1083,38 @@
     {
       "snippets": [
         {
+          "path": "table-pagination.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.0.0"
+          }
+        }
+      ],
+      "id": "table-pagination",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "lib",
+          "itemIds": [
+            "pagination-button"
+          ]
+        },
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "select"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "tabs.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -1063,8 +1128,7 @@
         {
           "path": "tag-group.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -1078,16 +1142,40 @@
         {
           "path": "text-field.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
       "id": "text-field",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
-        "@seed-design/css",
         "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "time-picker.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.0.0",
+            "@seed-design/css": "^3.0.0",
+            "clsx": "^2.1.1"
+          }
+        }
+      ],
+      "id": "time-picker",
+      "dependencies": [
+        "@seed-design/css",
+        "@seed-design/react",
+        "clsx"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "wheel-picker"
+          ]
+        }
       ]
     },
     {
@@ -1095,8 +1183,7 @@
         {
           "path": "toggle-button.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0"
+            "@seed-design/react": "^2.0.0 || ^3.0.0"
           }
         }
       ],
@@ -1111,6 +1198,20 @@
             "loading-indicator"
           ]
         }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "wheel-picker.tsx",
+          "dependencies": {
+            "@seed-design/react": "^2.4.0 || ^3.0.0"
+          }
+        }
+      ],
+      "id": "wheel-picker",
+      "dependencies": [
+        "@seed-design/react"
       ]
     }
   ]

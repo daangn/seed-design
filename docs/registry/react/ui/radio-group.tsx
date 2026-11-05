@@ -7,16 +7,17 @@ import {
   PrefixIcon,
   VisuallyHidden,
 } from "@seed-design/react";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import { radioGroup, type RadioGroupVariantProps } from "@seed-design/css/recipes/radio-group";
 import * as React from "react";
 
-export interface RadioGroupProps extends SeedRadioGroupField.RootProps, RadioGroupVariantProps {
+export interface RadioGroupProps
+  extends Omit<SeedRadioGroupField.RootProps, "asChild">,
+    RadioGroupVariantProps {
   label?: React.ReactNode;
   /**
    * @default "medium"
    */
-  labelWeight?: FieldLabelVariantProps["weight"];
+  labelWeight?: SeedRadioGroupField.LabelProps["weight"];
   indicator?: React.ReactNode;
   showRequiredIndicator?: boolean;
 
@@ -98,7 +99,8 @@ export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
 );
 RadioGroup.displayName = "RadioGroup";
 
-export interface RadioGroupItemProps extends SeedRadioGroup.ItemProps {
+export interface RadioGroupItemProps
+  extends Omit<SeedRadioGroup.ItemProps, "children" | "asChild"> {
   label?: React.ReactNode;
 
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
@@ -130,7 +132,8 @@ export const RadioGroupItem = React.forwardRef<HTMLInputElement, RadioGroupItemP
 );
 RadioGroupItem.displayName = "RadioGroupItem";
 
-export interface RadiomarkProps extends SeedRadioGroup.ItemControlProps {}
+export interface RadiomarkProps
+  extends Omit<SeedRadioGroup.ItemControlProps, "children" | "asChild"> {}
 
 /**
  * @see https://seed-design.io/react/components/radio-group

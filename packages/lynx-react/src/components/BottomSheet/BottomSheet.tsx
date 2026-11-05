@@ -3,56 +3,59 @@ import {
   type BottomSheetVariantProps,
 } from "@seed-design/lynx-css/recipes/bottom-sheet";
 import { bottomSheetHandle } from "@seed-design/lynx-css/recipes/bottom-sheet-handle";
+import { bottomSheet as bottomSheetVars } from "@seed-design/lynx-css/vars/component";
 import {
-  SheetBackdrop,
-  SheetContent,
-  SheetHandle,
-  SheetRoot,
-  SheetView,
-  type SheetBackdropProps,
-  type SheetContentProps,
-  type SheetHandleProps,
-  type SheetRootProps,
-  type SheetRootRef,
-  type SheetTransition,
-  type SheetViewProps,
-} from "@lynx-js/lynx-ui-sheet";
+  BottomSheetBackdrop as HeadlessBottomSheetBackdrop,
+  BottomSheetContent as HeadlessBottomSheetContent,
+  BottomSheetHandle as HeadlessBottomSheetHandle,
+  BottomSheetPositioner as HeadlessBottomSheetPositioner,
+  BottomSheetRoot as HeadlessBottomSheetRoot,
+  useBottomSheetCloseButton,
+  useBottomSheetContext,
+  useBottomSheetTrigger,
+  type BottomSheetBackdropProps as HeadlessBottomSheetBackdropProps,
+  type BottomSheetContentProps as HeadlessBottomSheetContentProps,
+  type BottomSheetHandleProps as HeadlessBottomSheetHandleProps,
+  type BottomSheetPositionerProps as HeadlessBottomSheetPositionerProps,
+  type BottomSheetRootProps as HeadlessBottomSheetRootProps,
+  type BottomSheetRootRef as HeadlessBottomSheetRootRef,
+} from "@seed-design/lynx-react-bottom-sheet";
 import {
   createContext,
   forwardRef,
-  useCallback,
   useContext,
+  useLayoutEffect,
   useMemo,
-  useRef,
+  useState,
   type ForwardRefExoticComponent,
   type PropsWithoutRef,
   type ReactElement,
-  type RefObject,
   type RefAttributes,
 } from "@lynx-js/react";
 import clsx from "clsx";
 
 import { useSafeArea } from "../../hooks/useSafeArea";
-import type {
-  LynxPressableProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxViewRef,
-} from "../../types";
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import { useViewport } from "../../hooks/useViewport";
+import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
+import { mergeProps } from "../../utils/merge-props";
+import { IconSlotProvider } from "../Icon/Icon";
+import { useSheetScrollGestureProps } from "../private/SheetScrollGesture";
 
 type BottomSheetClassNames = ReturnType<typeof bottomSheet>;
 type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
   PropsWithoutRef<P> & RefAttributes<T>
 >;
+type SheetTransition = NonNullable<HeadlessBottomSheetContentProps["snapAnimation"]>;
 
 const { ClassNamesProvider, useClassNames, withContext } = createSlotRecipeContext(bottomSheet);
 
-const DEFAULT_SNAP_POINTS: Array<number | string> = ["fit"];
-const SKIP_ANIMATION_TRANSITION: SheetTransition = {
-  type: "tween",
-  duration: 0,
-};
+/** Root가 제목 여백을 정할 수 있도록 CloseButton이 렌더링 여부를 알린다. */
+const CloseButtonRenderedContext = createContext<((rendered: boolean) => void) | null>(null);
+
+/** 내용에 맞춰 높이가 정해지는 시트에만 Content가 높이 상한을 둔다. */
+const FitsContentContext = createContext(false);
 
 ////////////////////////////////////////////////////////////////////////////////////
 // SEED Transitions — 웹 SEED BottomSheet (recipe: d6/d4 + enter-expressive/enter/exit)
@@ -69,133 +72,77 @@ const SKIP_ANIMATION_TRANSITION: SheetTransition = {
 // - 웹 d4 + exit               ≈ stiffness 400, damping 40 (close, critically damped)
 ////////////////////////////////////////////////////////////////////////////////////
 
-const SEED_SNAP_ANIMATION: SheetTransition = {
+export const SEED_SNAP_ANIMATION: SheetTransition = {
   type: "spring",
   stiffness: 400,
   damping: 35,
 };
 
-const SEED_ENTER_ANIMATION: SheetTransition = {
+export const SEED_ENTER_ANIMATION: SheetTransition = {
   type: "spring",
   stiffness: 350,
   damping: 32,
 };
 
-const SEED_EXIT_ANIMATION: SheetTransition = {
+export const SEED_EXIT_ANIMATION: SheetTransition = {
   type: "spring",
   stiffness: 400,
   damping: 40,
 };
 
-/**
- * Trigger와 Content가 Root의 imperative API와 동작 옵션을 공유하는 내부 컨텍스트.
- */
-interface BottomSheetContextValue {
-  rootRef: RefObject<SheetRootRef | null>;
-  options: {
-    skipAnimation: boolean;
-  };
-}
-
-const BottomSheetContext = createContext<BottomSheetContextValue | null>(null);
-
-function useBottomSheetContext(): BottomSheetContextValue {
-  const ctx = useContext(BottomSheetContext);
-  if (!ctx) {
-    throw new Error("BottomSheet compound components must be used within BottomSheetRoot");
-  }
-  return ctx;
-}
-
 ////////////////////////////////////////////////////////////////////////////////////
 // Root
 ////////////////////////////////////////////////////////////////////////////////////
 
-export type BottomSheetRootRef = SheetRootRef;
+export type BottomSheetRootRef = HeadlessBottomSheetRootRef;
 
 export interface BottomSheetRootProps
-  extends BottomSheetVariantProps,
-    Omit<SheetRootProps, "show" | "defaultShow" | "onShowChange"> {
-  /**
-   * Whether the sheet is open (controlled mode).
-   * Internally mapped to `show` of `@lynx-js/lynx-ui-sheet`.
-   */
-  open?: boolean;
-  /**
-   * Whether the sheet is open by default (uncontrolled mode).
-   * Internally mapped to `defaultShow`.
-   * @defaultValue false
-   */
-  defaultOpen?: boolean;
-  /**
-   * Called when the sheet's open state is about to change.
-   * Internally mapped to `onShowChange`.
-   */
-  onOpenChange?: (open: boolean) => void;
-}
+  extends Omit<BottomSheetVariantProps, "closeButton">,
+    Omit<HeadlessBottomSheetRootProps, keyof BottomSheetVariantProps> {}
 
 /**
- * @platform Lynx — wraps `@lynx-js/lynx-ui-sheet`
+ * @platform Lynx — `@seed-design/lynx-react-bottom-sheet` 위에 SEED recipe를 조립한다.
  *
  * 웹 대비 미지원 기능:
- * - `lazyMount`, `unmountOnExit`: lynx-ui-sheet의 `forceMount`로 대체
- * - `BottomSheetPositioner`: lynx-ui-sheet의 `SheetView`가 자동 처리하므로 별도 슬롯 없음
- * - `BottomSheetCloseButton`: Tier B (Lynx SVG 지원 후 추가 예정)
+ * - `lazyMount`, `unmountOnExit`: `BottomSheetPositioner`의 `forceMount`로 대체
  * - `BottomSheetTrigger`의 `asChild`: 미지원 (기본 `<view>`만)
  */
-export const BottomSheetRoot: LynxForwardRefComponent<SheetRootRef, BottomSheetRootProps> =
-  forwardRef<SheetRootRef, BottomSheetRootProps>((props, forwardedRef) => {
+export const BottomSheetRoot: LynxForwardRefComponent<BottomSheetRootRef, BottomSheetRootProps> =
+  forwardRef<BottomSheetRootRef, BottomSheetRootProps>((props, ref) => {
     const [variantProps, restProps] = bottomSheet.splitVariantProps(props);
-    const { open, defaultOpen, onOpenChange, snapPoints, children, ...nativeProps } = restProps;
+    const { children, ...rootProps } = restProps;
     const { headerAlign, skipAnimation } = variantProps;
-
-    const internalRef = useRef<SheetRootRef | null>(null);
-
-    // `SheetRoot`에 직접 ref를 넘겨 Trigger 컨텍스트와 외부 ref에 같은 인스턴스를 동기화한다.
-    // `useImperativeHandle([])`은 마운트 시점 값(null)을 고정시키는 함정이 있어 사용하지 않는다.
-    const mergedRef = useCallback(
-      (value: SheetRootRef | null) => {
-        internalRef.current = value;
-        if (typeof forwardedRef === "function") {
-          forwardedRef(value);
-        } else if (forwardedRef) {
-          forwardedRef.current = value;
-        }
-      },
-      [forwardedRef],
-    );
+    const [closeButtonRendered, setCloseButtonRendered] = useState(false);
+    // snap point의 %는 기기 화면이 아니라 BottomSheet가 그려지는 LynxView 크기를 기준으로 한다.
+    const viewport = useViewport();
+    const screenHeight = rootProps.screenHeight ?? viewport.height;
+    const screenWidth = rootProps.screenWidth ?? viewport.width;
 
     const classNames = useMemo(
-      () => bottomSheet(variantProps),
+      () => bottomSheet({ ...variantProps, closeButton: closeButtonRendered }),
       // variantProps 객체는 매 렌더 새로 생성되므로 개별 variant 값으로 의존성을 고정한다.
-      [headerAlign, skipAnimation],
+      [headerAlign, skipAnimation, closeButtonRendered],
     );
-    const shouldSkipAnimation = skipAnimation === true;
-    const context = useMemo(
-      () => ({
-        rootRef: internalRef,
-        options: {
-          skipAnimation: shouldSkipAnimation,
-        },
-      }),
-      [shouldSkipAnimation],
+    const fitsContent = (rootProps.snapPoints ?? ["fit"]).some(
+      (point) => String(point).trim() === "fit",
     );
 
     return (
-      <BottomSheetContext.Provider value={context}>
-        <ClassNamesProvider value={classNames}>
-          <SheetRoot
-            ref={mergedRef}
-            show={open}
-            defaultShow={defaultOpen}
-            onShowChange={onOpenChange}
-            snapPoints={snapPoints ?? DEFAULT_SNAP_POINTS}
-            {...nativeProps}
-          >
-            {children}
-          </SheetRoot>
-        </ClassNamesProvider>
-      </BottomSheetContext.Provider>
+      <ClassNamesProvider value={classNames}>
+        <CloseButtonRenderedContext.Provider value={setCloseButtonRendered}>
+          <FitsContentContext.Provider value={fitsContent}>
+            <HeadlessBottomSheetRoot
+              {...(ref ? { ref } : {})}
+              {...rootProps}
+              screenHeight={screenHeight}
+              screenWidth={screenWidth}
+              skipAnimation={skipAnimation === true}
+            >
+              {children}
+            </HeadlessBottomSheetRoot>
+          </FitsContentContext.Provider>
+        </CloseButtonRenderedContext.Provider>
+      </ClassNamesProvider>
     );
   });
 BottomSheetRoot.displayName = "BottomSheetRoot";
@@ -204,35 +151,22 @@ BottomSheetRoot.displayName = "BottomSheetRoot";
 // Trigger
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetTriggerProps
-  extends LynxStyledElementProps,
-    Pick<LynxPressableProps, "bindtap"> {}
+export interface BottomSheetTriggerProps extends LynxHostProps<"view"> {}
 
 export const BottomSheetTrigger: LynxForwardRefComponent<unknown, BottomSheetTriggerProps> =
   forwardRef<unknown, BottomSheetTriggerProps>((props, ref) => {
-    const { children, className, style, bindtap: userBindtap } = props;
-    const { rootRef, options } = useBottomSheetContext();
-
-    // `bindtap`을 직접 prop으로 쓰면 React DOM `<view>` 타입(SVG)이 적용되어 TS가 거부한다.
-    // Lynx JSX 런타임은 이 prop을 올바르게 처리하므로 spread로 우회한다 (ActionButton과 동일 패턴).
-    const handlers: Pick<LynxPressableProps, "bindtap"> = {
-      bindtap: (event, instance) => {
-        if (options.skipAnimation) {
-          rootRef.current?.open({ animate: false });
-        } else {
-          rootRef.current?.open();
-        }
-
-        userBindtap?.(event, instance);
-      },
-    };
+    const { children, className, style, ...nativeProps } = props;
+    const { triggerProps } = useBottomSheetTrigger();
 
     return (
       <view
-        {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
-        {...handlers}
+        {...mergeProps(
+          triggerProps,
+          { style: style as never },
+          nativeProps,
+          ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {},
+        )}
         className={className}
-        style={style as never}
       >
         {children}
       </view>
@@ -241,10 +175,10 @@ export const BottomSheetTrigger: LynxForwardRefComponent<unknown, BottomSheetTri
 BottomSheetTrigger.displayName = "BottomSheetTrigger";
 
 ////////////////////////////////////////////////////////////////////////////////////
-// Positioner — SheetView를 래핑해 mount gating 담당 (웹 BottomSheetPositioner에 대응)
+// Positioner — mount gating은 lynx-ui-sheet의 SheetView가 담당 (웹 BottomSheetPositioner에 대응)
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetPositionerProps extends SheetViewProps {}
+export interface BottomSheetPositionerProps extends HeadlessBottomSheetPositionerProps {}
 
 /**
  * Backdrop/Content는 반드시 `BottomSheetPositioner` 안에 배치해야 한다.
@@ -257,7 +191,7 @@ export interface BottomSheetPositionerProps extends SheetViewProps {}
  * 뷰포트 커버 레이아웃을 보장한다.
  */
 export const BottomSheetPositioner: LynxForwardRefComponent<unknown, BottomSheetPositionerProps> =
-  withContext<unknown, BottomSheetPositionerProps>(SheetView, "positioner");
+  withContext<unknown, BottomSheetPositionerProps>(HeadlessBottomSheetPositioner, "positioner");
 BottomSheetPositioner.displayName = "BottomSheetPositioner";
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -269,39 +203,68 @@ BottomSheetPositioner.displayName = "BottomSheetPositioner";
 // BackgroundSnapshot 정적 분석을 우회해 런타임 에러가 발생한다 — 하단 slot 참고.)
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetBackdropProps extends SheetBackdropProps {}
+export interface BottomSheetBackdropProps extends HeadlessBottomSheetBackdropProps {}
 
 export const BottomSheetBackdrop: LynxForwardRefComponent<unknown, BottomSheetBackdropProps> =
-  withContext<unknown, BottomSheetBackdropProps>(SheetBackdrop, "backdrop");
+  withContext<unknown, BottomSheetBackdropProps>(HeadlessBottomSheetBackdrop, "backdrop");
 BottomSheetBackdrop.displayName = "BottomSheetBackdrop";
 
-export interface BottomSheetContentProps extends SheetContentProps {}
+export interface BottomSheetContentProps extends HeadlessBottomSheetContentProps {}
 
 export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetContentProps> =
   forwardRef<unknown, BottomSheetContentProps>((props, ref) => {
-    const { className, innerStyle, snapAnimation, enterAnimation, exitAnimation, ...restProps } =
-      props;
+    const {
+      className,
+      style,
+      innerStyle,
+      snapAnimation,
+      enterAnimation,
+      exitAnimation,
+      ...restProps
+    } = props;
     const classNames = useClassNames();
-    const { options } = useBottomSheetContext();
-    const { safeAreaInsetBottom } = useSafeArea();
-
-    const defaultAnimation = options.skipAnimation ? SKIP_ANIMATION_TRANSITION : undefined;
+    const { skipAnimation } = useBottomSheetContext();
+    const fitsContent = useContext(FitsContentContext);
+    const { safeAreaInsetTop, safeAreaInsetRight, safeAreaInsetBottom, safeAreaInsetLeft } =
+      useSafeArea();
 
     return (
-      <SheetContent
-        {...(ref ? { ref } : {})}
-        {...restProps}
+      <HeadlessBottomSheetContent
+        {...mergeProps(ref ? { ref } : {}, restProps)}
         className={clsx(classNames.content, className)}
+        // `SheetContent` pins its outer view with an inline `left: 0` and `width: 100vw`, which a
+        // recipe class cannot outrank. Releasing `left` lets the positioner's
+        // `justify-content: center` place the sheet. Lynx ignores the positioner's padding when
+        // centering an absolute child but centers its margin box, so the side insets go on as
+        // margins and come off the width. `transform` is off-limits here — the main-thread motion
+        // engine owns it.
+        style={{
+          left: "auto",
+          width: `calc(100vw - ${safeAreaInsetLeft} - ${safeAreaInsetRight})`,
+          marginLeft: safeAreaInsetLeft,
+          marginRight: safeAreaInsetRight,
+          // Lynx has no `min()`, so the two height caps are stacked: this padding leaves the inner
+          // view `100vh - top` of the outer view's `150vh` (set by `SheetContent`) to shrink into,
+          // and the inner `maxHeight` holds the fraction. Explicit snap points size the inner view
+          // themselves, so the caps apply only to a fitted sheet.
+          ...(fitsContent && { paddingBottom: `calc(50vh + ${safeAreaInsetTop})` }),
+          ...style,
+        }}
         innerStyle={{
           display: "flex",
           flexDirection: "column",
           minHeight: "0",
+          ...(fitsContent && {
+            flexShrink: 1,
+            maxHeight: `calc(${bottomSheetVars.base.enabled.content.maxHeightFraction} * 100vh)`,
+          }),
           paddingBottom: safeAreaInsetBottom,
           ...innerStyle,
         }}
-        snapAnimation={snapAnimation ?? defaultAnimation ?? SEED_SNAP_ANIMATION}
-        enterAnimation={enterAnimation ?? defaultAnimation ?? SEED_ENTER_ANIMATION}
-        exitAnimation={exitAnimation ?? defaultAnimation ?? SEED_EXIT_ANIMATION}
+        // With `skipAnimation`, leave SEED springs out so headless Content ends transitions immediately.
+        snapAnimation={snapAnimation ?? (skipAnimation ? undefined : SEED_SNAP_ANIMATION)}
+        enterAnimation={enterAnimation ?? (skipAnimation ? undefined : SEED_ENTER_ANIMATION)}
+        exitAnimation={exitAnimation ?? (skipAnimation ? undefined : SEED_EXIT_ANIMATION)}
       />
     );
   });
@@ -311,7 +274,7 @@ BottomSheetContent.displayName = "BottomSheetContent";
 // Handle — 자체 bottomSheetHandle recipe 사용 (Root context 비의존)
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetHandleProps extends SheetHandleProps {}
+export interface BottomSheetHandleProps extends HeadlessBottomSheetHandleProps {}
 
 /**
  * @remarks
@@ -324,11 +287,11 @@ export function BottomSheetHandle(props: BottomSheetHandleProps): ReactElement {
   const classNames = bottomSheetHandle();
 
   return (
-    <SheetHandle className={classNames.touchArea} {...rest}>
+    <HeadlessBottomSheetHandle className={classNames.touchArea} {...rest}>
       <view className={clsx(classNames.root, className)} style={style as never}>
         {children}
       </view>
-    </SheetHandle>
+    </HeadlessBottomSheetHandle>
   );
 }
 BottomSheetHandle.displayName = "BottomSheetHandle";
@@ -343,20 +306,23 @@ BottomSheetHandle.displayName = "BottomSheetHandle";
 // (lynx-ui-sheet 같은 외부 컴포넌트 감싸기엔 withContext를 그대로 사용해도 안전.)
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetSlotProps extends LynxStyledElementProps {}
+export interface BottomSheetSlotProps extends LynxHostProps<"view"> {}
 
 function createViewSlot(
   slotName: keyof BottomSheetClassNames,
 ): LynxForwardRefComponent<unknown, BottomSheetSlotProps> {
   const Slot = forwardRef<unknown, BottomSheetSlotProps>((props, ref) => {
-    const { children, className, style } = props;
+    const { children, className, style, ...nativeProps } = props;
     const classNames = useClassNames();
 
     return (
       <view
-        {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+        {...mergeProps(
+          { style: style as never },
+          nativeProps,
+          ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {},
+        )}
         className={clsx(classNames[slotName], className)}
-        style={style as never}
       >
         {children}
       </view>
@@ -367,16 +333,19 @@ function createViewSlot(
 
 function createTextSlot(
   slotName: keyof BottomSheetClassNames,
-): LynxForwardRefComponent<unknown, BottomSheetSlotProps> {
-  const Slot = forwardRef<unknown, BottomSheetSlotProps>((props, ref) => {
-    const { children, className, style } = props;
+): LynxForwardRefComponent<unknown, LynxHostProps<"text">> {
+  const Slot = forwardRef<unknown, LynxHostProps<"text">>((props, ref) => {
+    const { children, className, style, ...nativeProps } = props;
     const classNames = useClassNames();
 
     return (
       <text
-        {...(ref ? ({ ref: ref as LynxTextRef } as Record<string, unknown>) : {})}
+        {...mergeProps(
+          { style: style as never },
+          nativeProps,
+          ref ? ({ ref: ref as LynxTextRef } as Record<string, unknown>) : {},
+        )}
         className={clsx(classNames[slotName], className)}
-        style={style as never}
       >
         {children}
       </text>
@@ -388,24 +357,36 @@ function createTextSlot(
 export interface BottomSheetHeaderProps extends BottomSheetSlotProps {}
 export const BottomSheetHeader = createViewSlot("header");
 BottomSheetHeader.displayName = "BottomSheetHeader";
-
 export interface BottomSheetBodyProps extends BottomSheetSlotProps {}
+
+/**
+ * Scrolls once the sheet reaches its max height. `className` and `style` go on the view around the
+ * `scroll-view`.
+ */
 export const BottomSheetBody: LynxForwardRefComponent<unknown, BottomSheetBodyProps> = forwardRef<
   unknown,
   BottomSheetBodyProps
 >((props, ref) => {
   const { children, className, style } = props;
   const classNames = useClassNames();
+  const gestureProps = useSheetScrollGestureProps();
 
   return (
-    <scroll-view
+    <view
       {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
-      scroll-y
       className={clsx(classNames.body, className)}
       style={style as never}
     >
-      {children}
-    </scroll-view>
+      <scroll-view
+        {...gestureProps}
+        className={classNames.scrollArea}
+        scroll-orientation="vertical"
+        // The sheet's drag already moves it at the body's edges; a bounce would add to that.
+        bounces={false}
+      >
+        <view className={classNames.scrollContent}>{children}</view>
+      </scroll-view>
+    </view>
   );
 });
 BottomSheetBody.displayName = "BottomSheetBody";
@@ -414,10 +395,69 @@ export interface BottomSheetFooterProps extends BottomSheetSlotProps {}
 export const BottomSheetFooter = createViewSlot("footer");
 BottomSheetFooter.displayName = "BottomSheetFooter";
 
-export interface BottomSheetTitleProps extends BottomSheetSlotProps {}
+export interface BottomSheetTitleProps extends LynxHostProps<"text"> {}
 export const BottomSheetTitle = createTextSlot("title");
 BottomSheetTitle.displayName = "BottomSheetTitle";
 
-export interface BottomSheetDescriptionProps extends BottomSheetSlotProps {}
+export interface BottomSheetDescriptionProps extends LynxHostProps<"text"> {}
 export const BottomSheetDescription = createTextSlot("description");
 BottomSheetDescription.displayName = "BottomSheetDescription";
+
+////////////////////////////////////////////////////////////////////////////////////
+// CloseButton
+////////////////////////////////////////////////////////////////////////////////////
+
+// 보이는 버튼(28px) 주위로 터치 영역을 bottom-sheet-close-button의 targetSize(44px)까지 넓힌다.
+const CLOSE_BUTTON_HIT_SLOP = "8px";
+
+export interface BottomSheetCloseButtonProps extends LynxHostProps<"view"> {}
+
+/**
+ * 탭하면 시트를 닫고 `onOpenChange`에 `"closeButton"` reason을 전달한다.
+ * Content 오른쪽 위에 놓이며, 렌더링되는 동안 Title이 버튼 자리만큼 여백을 둔다.
+ * 아이콘은 `<Icon>`으로 전달하고, 읽어줄 이름은 `accessibility-label`로 지정한다.
+ */
+export const BottomSheetCloseButton: LynxForwardRefComponent<unknown, BottomSheetCloseButtonProps> =
+  forwardRef<unknown, BottomSheetCloseButtonProps>((props, ref) => {
+    const { children, className, style, bindtap, ...nativeProps } = props;
+    const classNames = useClassNames();
+    const setCloseButtonRendered = useContext(CloseButtonRenderedContext);
+    const { closeButtonProps } = useBottomSheetCloseButton({ bindtap });
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
+    const iconSlotContextValue = useMemo(
+      () => ({
+        classNames: { icon: classNames.closeButtonIcon },
+        deps: [classNames.closeButtonIcon],
+      }),
+      [classNames.closeButtonIcon],
+    );
+
+    useLayoutEffect(() => {
+      setCloseButtonRendered?.(true);
+      return () => setCloseButtonRendered?.(false);
+    }, [setCloseButtonRendered]);
+
+    return (
+      <IconSlotProvider value={iconSlotContextValue}>
+        <view
+          {...mergeProps(
+            {
+              "accessibility-element": true,
+              "accessibility-traits": "button",
+              "hit-slop": CLOSE_BUTTON_HIT_SLOP,
+              style: style as never,
+            },
+            closeButtonProps,
+            scaleFeedbackTriggerProps,
+            scaleFeedbackTargetProps,
+            nativeProps,
+            ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {},
+          )}
+          className={clsx(classNames.closeButton, className)}
+        >
+          {children}
+        </view>
+      </IconSlotProvider>
+    );
+  });
+BottomSheetCloseButton.displayName = "BottomSheetCloseButton";

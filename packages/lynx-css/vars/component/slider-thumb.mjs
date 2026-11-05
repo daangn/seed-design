@@ -4,7 +4,7 @@ export const vars = {
       "root": {
         "size": "var(--seed-dimension-x5)",
         "cornerRadius": "var(--seed-radius-full)",
-        "color": "var(--seed-color-bg-neutral-inverted)",
+        "color": "var(--seed-color-bg-neutral-solid)",
         "scaleDuration": "var(--seed-duration-d3)",
         "scaleTimingFunction": "var(--seed-timing-function-easing)",
         "translateDuration": "var(--seed-duration-d3)",

@@ -4,13 +4,17 @@ import { defineSlotRecipe } from "../utils/define";
 /**
  * Lynx-전용 checkmark recipe.
  *
- * `checked`, `disabled`, `indeterminate`, `pressed` 상태를 boolean variant로 받아
- * className 조합으로 반영한다. square는 박스와 아이콘을 함께 그리고, ghost는
- * 아이콘 색상만 상태에 맞게 바꾼다.
+ * `checked`, `disabled`, `indeterminate` 상태를 boolean variant로 받아 className 조합으로
+ * 반영한다. square는 박스와 아이콘을 함께 그리고, ghost는 아이콘 색상만 상태에 맞게 바꾼다.
+ *
+ * 눌림 색상은 variant가 아니라 checkbox root의 `:active` selector가 Main Thread에서 적용한다.
+ * ghost는 선택 전·후 눌림 색을 `background`·`selectedBackground` 두 overlay에 고정하고
+ * 현재 상태에 맞는 overlay의 opacity만 전환한다. 놓는 순간 선택 상태가 바뀌어도
+ * 사라지는 overlay의 색은 바뀌지 않는다.
  */
 const checkmarkRecipe = defineSlotRecipe({
   name: "checkmark",
-  slots: ["root", "icon"],
+  slots: ["root", "background", "selectedBackground", "icon"],
   base: {
     root: {
       position: "relative",
@@ -18,9 +22,24 @@ const checkmarkRecipe = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       flex: "none",
-      marginTop: "var(--checkmark-margin-top, 0)",
-
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+    },
+    background: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      opacity: 0,
+      transition: `opacity ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+    },
+    selectedBackground: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      opacity: 0,
+      transition: `opacity ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
     },
     icon: {
       position: "absolute",
@@ -30,15 +49,19 @@ const checkmarkRecipe = defineSlotRecipe({
     variant: {
       square: {
         root: {
+          "--seed-checkmark-pressed-color": vars.variantSquare.pressed.root.color,
           borderWidth: vars.variantSquare.enabled.root.strokeWidth,
           borderStyle: "solid",
           borderColor: vars.variantSquare.enabled.root.strokeColor,
+          transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
         },
       },
       ghost: {
+        background: {
+          backgroundColor: vars.variantGhost.pressed.root.color,
+        },
         icon: {
           color: vars.variantGhost.enabled.icon.color,
-          transition: `color ${vars.variantGhost.enabled.icon.colorDuration} ${vars.variantGhost.enabled.icon.colorTimingFunction}`,
         },
       },
     },
@@ -53,11 +76,23 @@ const checkmarkRecipe = defineSlotRecipe({
           height: vars.sizeMedium.enabled.root.size,
           borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
         },
+        background: {
+          borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
+        },
+        selectedBackground: {
+          borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
+        },
       },
       large: {
         root: {
           width: vars.sizeLarge.enabled.root.size,
           height: vars.sizeLarge.enabled.root.size,
+          borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
+        },
+        background: {
+          borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
+        },
+        selectedBackground: {
           borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
         },
       },
@@ -71,10 +106,6 @@ const checkmarkRecipe = defineSlotRecipe({
       false: {},
     },
     indeterminate: {
-      true: {},
-      false: {},
-    },
-    pressed: {
       true: {},
       false: {},
     },
@@ -163,7 +194,10 @@ const checkmarkRecipe = defineSlotRecipe({
       checked: true,
       disabled: false,
       css: {
-        root: { backgroundColor: vars.variantSquareToneBrand.enabledSelected.root.color },
+        root: {
+          backgroundColor: vars.variantSquareToneBrand.enabledSelected.root.color,
+          "--seed-checkmark-pressed-color": vars.variantSquareToneBrand.pressedSelected.root.color,
+        },
         icon: { color: vars.variantSquareToneBrand.enabledSelected.icon.color },
       },
     },
@@ -173,7 +207,11 @@ const checkmarkRecipe = defineSlotRecipe({
       checked: true,
       disabled: false,
       css: {
-        root: { backgroundColor: vars.variantSquareToneNeutral.enabledSelected.root.color },
+        root: {
+          backgroundColor: vars.variantSquareToneNeutral.enabledSelected.root.color,
+          "--seed-checkmark-pressed-color":
+            vars.variantSquareToneNeutral.pressedSelected.root.color,
+        },
         icon: { color: vars.variantSquareToneNeutral.enabledSelected.icon.color },
       },
     },
@@ -183,7 +221,10 @@ const checkmarkRecipe = defineSlotRecipe({
       indeterminate: true,
       disabled: false,
       css: {
-        root: { backgroundColor: vars.variantSquareToneBrand.enabledSelected.root.color },
+        root: {
+          backgroundColor: vars.variantSquareToneBrand.enabledSelected.root.color,
+          "--seed-checkmark-pressed-color": vars.variantSquareToneBrand.pressedSelected.root.color,
+        },
         icon: { color: vars.variantSquareToneBrand.enabledSelected.icon.color },
       },
     },
@@ -193,7 +234,11 @@ const checkmarkRecipe = defineSlotRecipe({
       indeterminate: true,
       disabled: false,
       css: {
-        root: { backgroundColor: vars.variantSquareToneNeutral.enabledSelected.root.color },
+        root: {
+          backgroundColor: vars.variantSquareToneNeutral.enabledSelected.root.color,
+          "--seed-checkmark-pressed-color":
+            vars.variantSquareToneNeutral.pressedSelected.root.color,
+        },
         icon: { color: vars.variantSquareToneNeutral.enabledSelected.icon.color },
       },
     },
@@ -227,7 +272,27 @@ const checkmarkRecipe = defineSlotRecipe({
       },
     },
 
-    // ── ghost + tone: enabled,selected 시 아이콘 색상 ────────────────────────
+    // ── ghost + tone: selected 누름 배경 ────────────────────────────────────
+    {
+      variant: "ghost",
+      tone: "brand",
+      css: {
+        selectedBackground: {
+          backgroundColor: vars.variantGhostToneBrand.pressedSelected.root.color,
+        },
+      },
+    },
+    {
+      variant: "ghost",
+      tone: "neutral",
+      css: {
+        selectedBackground: {
+          backgroundColor: vars.variantGhostToneNeutral.pressedSelected.root.color,
+        },
+      },
+    },
+
+    // ── ghost + tone: enabled,selected 아이콘 ───────────────────────────────
     {
       variant: "ghost",
       tone: "brand",
@@ -241,6 +306,24 @@ const checkmarkRecipe = defineSlotRecipe({
       variant: "ghost",
       tone: "neutral",
       checked: true,
+      disabled: false,
+      css: {
+        icon: { color: vars.variantGhostToneNeutral.enabledSelected.icon.color },
+      },
+    },
+    {
+      variant: "ghost",
+      tone: "brand",
+      indeterminate: true,
+      disabled: false,
+      css: {
+        icon: { color: vars.variantGhostToneBrand.enabledSelected.icon.color },
+      },
+    },
+    {
+      variant: "ghost",
+      tone: "neutral",
+      indeterminate: true,
       disabled: false,
       css: {
         icon: { color: vars.variantGhostToneNeutral.enabledSelected.icon.color },
@@ -263,74 +346,13 @@ const checkmarkRecipe = defineSlotRecipe({
         icon: { color: vars.variantGhost.disabledSelected.icon.color },
       },
     },
-
-    // ── pressed: square unchecked ───────────────────────────────────────────
     {
-      variant: "square",
-      pressed: true,
-      checked: false,
-      indeterminate: false,
-      disabled: false,
-      css: { root: { backgroundColor: vars.variantSquare.pressed.root.color } },
-    },
-    // ── pressed: square + tone, selected ────────────────────────────────────
-    {
-      variant: "square",
-      tone: "brand",
-      pressed: true,
-      checked: true,
-      disabled: false,
-      css: { root: { backgroundColor: vars.variantSquareToneBrand.pressedSelected.root.color } },
-    },
-    {
-      variant: "square",
-      tone: "neutral",
-      pressed: true,
-      checked: true,
-      disabled: false,
-      css: { root: { backgroundColor: vars.variantSquareToneNeutral.pressedSelected.root.color } },
-    },
-    {
-      variant: "square",
-      tone: "brand",
-      pressed: true,
+      variant: "ghost",
       indeterminate: true,
-      disabled: false,
-      css: { root: { backgroundColor: vars.variantSquareToneBrand.pressedSelected.root.color } },
-    },
-    {
-      variant: "square",
-      tone: "neutral",
-      pressed: true,
-      indeterminate: true,
-      disabled: false,
-      css: { root: { backgroundColor: vars.variantSquareToneNeutral.pressedSelected.root.color } },
-    },
-    // ── pressed: ghost unchecked ────────────────────────────────────────────
-    {
-      variant: "ghost",
-      pressed: true,
-      checked: false,
-      indeterminate: false,
-      disabled: false,
-      css: { root: { backgroundColor: vars.variantGhost.pressed.root.color } },
-    },
-    // ── pressed: ghost + tone, selected ─────────────────────────────────────
-    {
-      variant: "ghost",
-      tone: "brand",
-      pressed: true,
-      checked: true,
-      disabled: false,
-      css: { root: { backgroundColor: vars.variantGhostToneBrand.pressedSelected.root.color } },
-    },
-    {
-      variant: "ghost",
-      tone: "neutral",
-      pressed: true,
-      checked: true,
-      disabled: false,
-      css: { root: { backgroundColor: vars.variantGhostToneNeutral.pressedSelected.root.color } },
+      disabled: true,
+      css: {
+        icon: { color: vars.variantGhost.disabledSelected.icon.color },
+      },
     },
   ],
   defaultVariants: {
@@ -340,7 +362,6 @@ const checkmarkRecipe = defineSlotRecipe({
     checked: false,
     disabled: false,
     indeterminate: false,
-    pressed: false,
   },
 });
 

@@ -1,231 +1,48 @@
-# SEED Design - 기술 상세
+# SEED Design 공통 기술 규칙
 
-## 기술 스택
+저장소 전체에 적용되는 코드·테스트·의존성·릴리스 규칙이다. 버전은 루트와 각 workspace의 `package.json`이 원천이다.
 
-- 런타임/패키지 관리: Bun
-- UI 라이브러리: React
-- 타입 시스템: TypeScript
-- 패키지 빌드: bunchee, vite
-- 문서 플랫폼: Next.js, Fumadocs, Storybook
-- 린트/포맷: Biome
+## TypeScript
 
-버전 정보는 문서에 중복 기재하지 않는다. 버전 확인은 루트 `package.json`과 각 워크스페이스의 `package.json`을 단일 소스로 사용한다.
+- 새 코드에 `any`, `as unknown`을 쓰지 않는다. Biome은 `noExplicitAny`를 정보 수준으로만 보고하므로 직접 지킨다. 기존 예외는 무관한 변경에서 일괄 정리하지 않는다.
+- 타입 import에는 `type` 키워드를 쓴다.
+- 정적 import가 기본이다. lazy loading, plugin 경계, 런타임 선택이 필요할 때만 동적 import를 쓴다.
+- 주석은 코드만으로 알 수 없는 워크어라운드·외부 제약에만 한국어로 남긴다. 변경 이유와 배경은 PR 본문에 쓴다.
 
-## 공통 규칙
+## 테스트 작성
 
-### TypeScript
+- 생성기·변환기가 만든 문자열은 조각(`toContain`)이 아니라 전체 일치로 검증한다. 조각 단언은 헤더나 행이 빠져도 통과한다. 배열 멤버십 검사에는 `toContain`이 맞다.
+- 생성물이 아니라 동작에 딸린 문구(오류 메시지, 로그, 안내 문장)는 검증하지 않는다. 문구를 고쳐도 동작은 그대로인데 테스트만 깨진다 → 실패는 `toThrow()`로 확인하고, 호출자가 실패 종류를 구분해야 하면 오류 코드나 클래스를 검증한다.
+- 생성물이나 외부 패키지 데이터를 유닛 테스트 입력으로 쓰지 않는다. 데이터가 바뀌면 검증 대상이 멀쩡해도 깨진다 → 순수 함수를 export해 합성 입력으로 검증한다. 실데이터를 지나는 테스트는 데이터에 묶이지 않는 파생값(섹션 목록 등)만 전체 일치로 본다.
+- 유닛 테스트에서 네트워크를 타지 않는다. 모듈 스코프에서 비동기 초기화를 시작하면 그 모듈을 import하는 모든 테스트가 요청을 보낸다 → 초기화를 함수 안으로 옮긴다.
+- `cleanup()`을 직접 호출하지 않는다. `bunfig.toml`의 `[test].preload`가 `scripts/happydom.ts`(DOM)와 `scripts/testing-library.ts`(jest-dom 매처, 전역 `afterEach(cleanup)`)를 이미 로드한다.
 
-- `any`, `as unknown` 사용 금지 (명시적 승인 없이)
-- 타입 import는 항상 `type` 키워드 사용
-- 동적 import보다 정적 import 우선
+## 의존성
 
-### 패키지 관리
+- `bunfig.toml`의 `minimumReleaseAge`가 3일이라 게시된 지 3일이 안 된 버전은 설치되지 않는다 → 더 오래된 버전을 고르거나, 꼭 필요하면 `minimumReleaseAgeExcludes`에 추가할지 사용자에게 묻는다.
+- `package.json`의 script·metadata를 바꾸기 전에 해당 패키지의 기존 구조와 릴리스 설정을 확인한다.
 
-- 항상 `bun` 사용 (`npm`/`yarn` 금지)
-- `package.json` 직접 수정 금지 - `bun add 패키지명`으로 설치
+## 릴리스
 
-### 생성 파일 직접 수정 금지
+- 사용자에게 보이는 변경(기능, 버그 수정, 스타일)에는 changeset이 필요하다. `.changeset/*.md`를 직접 쓰지 않고 `seed-change` Skill의 changeset 분기로 만든다. 문서 수정·내부 리팩터링만 있으면 필요 없다.
+- `bun version`과 `bun release`는 `.github/workflows/release-publish.yml`이 실행한다. 로컬에서는 changeset 작성까지만 한다.
+- PR snapshot 게시·확인은 `seed-snapshot-release` Skill을 따른다. snapshot은 Rootage CDN stable 포인터를 바꾸지 않는다.
+- `minor`·`major` → `dev` PR은 merge 버튼으로 합치지 않는다 → 쓰기 권한자가 `/ff-merge` 댓글을 남기면 `.github/workflows/ff-merge.yml`이 커밋·SHA를 유지한 채 `dev`를 fast-forward한다.
 
-- `packages/css/vars/`, `packages/css/recipes/` → rootage, qvism-preset에서 생성
-- `packages/qvism-preset/src/vars/` → rootage에서 생성
-- 수정 필요 시 원천 파일 수정 후 `bun generate:all` 실행
+## Kapture workflow ownership
 
----
+Kapture 지원 브랜치와 빌드 명령은 `.github/workflows/kapture-capture.yml`에서 관리한다. 캐시 보관 기간은 `KAPTURE_CACHE_RETENTION_DAYS`, CLI 버전은 각 workflow의 `KAPTURE_CLI_VERSION`이며 설치된 adapter와 같은 버전인지 계약 테스트로 확인한다. Capture, Report, Publish, Approve는 실행 이벤트와 권한 경계가 달라 분리한다. CLI 전용 job은 Node.js 24와 npx를 사용하고, 저장소 설치·빌드와 계약 테스트에는 Bun을 사용한다.
 
-## 아키텍처 개요
+Publish의 `publish`와 Approve job은 PR 타임라인 댓글을 생성·갱신하므로 `pull-requests: write`와 `issues: write`를 부여한다. Capture의 모든 job은 read 권한만 사용하고, Publish의 `finalize`는 PR 읽기와 status 쓰기만 허용한다. 댓글 API의 403은 Capture 성공·리포트 배포 성공과 별개로 게시 실패를 만든다.
 
-SEED Design은 **디자인 토큰 → 스타일 → 컴포넌트** 파이프라인을 따른다.
+Capture는 `opened`, `synchronize`, `reopened`에서만 실행한다. 제목·본문 수정의 `edited`는 새 Capture run을 만들지 않으므로 진행 중인 캡처나 최신 실행 소유권을 바꾸지 않는다. base 브랜치를 바꾼 경우 PR을 닫았다가 다시 열어 새 base/head 비교를 시작한다. Report는 이 Capture workflow의 `in_progress`·`completed` 이벤트만 처리한다. read-only `review-context`가 live PR·base를 검증한 뒤 PR별 큐에 들어간다. 조회 오류는 5초 간격으로 최대 3회 시도하고, 계속 실패하면 Report 실행을 실패시킨다. `ready=false`인 오래된 실행·지원하지 않는 PR은 재시도나 게시 없이 종료한다. 조회 실패가 지속되어 상태 마무리가 실행되지 않았다면 실패한 Report를 재실행한다. 큐를 소유한 caller가 Publish reusable workflow의 게시와 finalize 전체를 기다리며, 승인도 같은 PR 큐를 사용한다. 게시·finalize는 `--expected-pr-number`로 큐 대상을 다시 검증한다. Cloudflare secret 두 개만 reusable workflow에 전달한다.
 
-```text
-[Figma] → [rootage YAML] → [qvism-preset] → [css] → [react]
-           ↓                ↓               ↓
-         토큰 정의        Recipe 정의      CSS 생성    React 컴포넌트
-```
+`workflow-tests` job이 `scripts/kapture-workflows.test.ts`를 실행한다. CLI·adapter 버전 일치, base의 정확한 checkout, cache miss 시 빌드 복귀와 현재 실행 artifact 게시, job별 권한·PR 큐·reusable workflow 경계를 검사한다. Capture 실행 시간·캐시 판정은 job summary와 별도 `kapture-execution-*` artifact에 보관한다. 취소되지 않은 실패 실행에서도 생성된 진단 파일을 업로드하며, 파일이 없으면 경고만 남기고 원래 캡처 실패를 유지한다. 시각 리포트·승인 digest에는 실행 진단을 섞지 않으며, stable head cache가 실제 export된 경우에만 게시한다. artifact 다운로드는 Node 24의 download-artifact v8로 digest 불일치를 실패 처리한다.
 
-### 생성 파이프라인
+Kapture의 `github restore-build`가 캐시 탐색·출처·archive digest·Storybook 파일 경계 검증과 복원을 담당한다. 별도 정책 checkout이나 SEED 캐시 스크립트는 없다. `cache-directory`가 비어 있으면 정확한 base를 빌드하고 검증한다. 복원 여부와 무관하게 선택된 빌드를 현재 실행의 base artifact로 게시한다. 재사용 artifact 게시 실패는 비교를 실패시키지 않으며, 보관 만료는 YAML의 retention 설정과 GitHub expired 상태를 따른다.
 
-| 단계 | 입력 | 출력 | 명령어 |
-|------|------|------|--------|
-| 1. Figma 동기화 | Figma 변수 | rootage YAML | `bun figma:sync` |
-| 2. Rootage 생성 | rootage YAML | css/vars, qvism-preset/src/vars | `bun rootage:generate` |
-| 3. Qvism 생성 | qvism-preset recipes | css/recipes | `bun qvism:generate` |
-| 4. 전체 생성 | - | rootage, qvism, docs 산출물 | `bun generate:all` |
+복원 후보는 같은 저장소의 성공한 실행이며 생산 PR이 머지되어야 한다. base/head workflow가 다르면 캐시 게시도 비활성화된다. 초기 도입이나 cache miss에는 새 빌드가 정상이며, 캡처 비교·시각 승인과는 별개다. 지원 브랜치·빌드 명령·보관 기간은 SEED가 소유한다.
 
----
+Kapture CLI와 adapter는 `0.15.2`로 함께 고정한다. 오류 없는 unstable 리포트는 쓰기 권한이 있는 리뷰어가 `/kapture approve <full-head-sha> <report-digest> --allow-unstable`로 전체 리포트를 예외 승인할 수 있다. 사유는 선택이며, 남기려면 명령 뒤에 한 줄 최대 1000자로 덧붙인다. 승인자와 전체 report digest는 항상 기록하고 입력한 사유만 안전하게 처리해 함께 남긴다. 원본 판정·repeat/self-diff PNG·validate exit 3·cache 제외는 유지한다. 캡처·비교 오류는 승인할 수 없다. 일반 시각 승인은 기존처럼 changed 리포트에만 적용한다.
 
-## 핵심 패키지 관계
-
-```text
-rootage (YAML 정의)
-    ↓ generate
-qvism-preset (Recipe 정의) + css/vars (토큰)
-    ↓ generate
-css (CSS 파일 + 타입)
-    ↓ import
-react (스타일드 컴포넌트) ← react-headless (로직)
-```
-
-| 패키지 | 역할 | 소스/생성 |
-|--------|------|-----------|
-| `rootage` | 디자인 토큰/컴포넌트 스키마 (YAML) | **소스** |
-| `qvism-preset` | 스타일 Recipe 정의 | **소스** (일부 생성) |
-| `css` | CSS/타입 생성물 | **생성** |
-| `react-headless` | Headless UI 로직 | **소스** |
-| `react` | 스타일드 React 컴포넌트 | **소스** |
-
----
-
-## 주요 명령어
-
-### 빌드/생성
-
-| 명령어 | 설명 |
-|--------|------|
-| `bun generate:all` | 전체 코드 생성 (rootage + qvism + docs) |
-| `bun rootage:generate` | Rootage에서 타입/변수 생성 |
-| `bun qvism:generate` | qvism-preset에서 CSS 생성 |
-| `bun packages:build` | 모든 패키지 빌드 |
-| `bun headless:build` | react-headless 빌드 |
-
-### 테스트
-
-| 명령어 | 설명 |
-|--------|------|
-| `bun headless:test` | react-headless 테스트 |
-| `bun react:test` | react 패키지 테스트 |
-| `bun test:all` | 전체 테스트 |
-
-**테스트 환경**: `bunfig.toml`의 `[test].preload`가 `scripts/happydom.ts`(DOM 환경)와 `scripts/testing-library.ts`를 로드한다. 후자가 `@testing-library/jest-dom` 매처를 등록하고 `afterEach(cleanup)`을 전역으로 걸어주므로, 테스트에서 `cleanup()`을 직접 호출하지 않는다.
-
-### 개발
-
-| 명령어 | 설명 |
-|--------|------|
-| `bun --filter @seed-design/docs dev` | 문서 사이트 개발 서버 |
-| `bun --filter @seed-design/docs storybook` | Storybook 실행 |
-| `bun figma:sync` | Figma에서 토큰 동기화 |
-
-### 린트/포맷
-
-| 명령어 | 설명 |
-|--------|------|
-| `bun biome format --fix` | 코드 포맷 정리 |
-| `bun lint:knip` | 미사용 코드 검사 |
-
----
-
-## Rootage 스키마 구조
-
-### 토큰 파일 (*.yaml)
-
-```yaml
-kind: Tokens
-metadata:
-  id: color
-  name: Color
-data:
-  collection: color
-  tokens:
-    $color.palette.gray-00:
-      values:
-        theme-light: "#ffffff"
-        theme-dark: "#000000"
-```
-
-### 컴포넌트 스키마 (components/*.yaml)
-
-```yaml
-kind: ComponentSpec
-metadata:
-  id: component-name
-  name: Component Name
-data:
-  schema:
-    slots:           # 컴포넌트 파츠별 속성
-      root: { ... }
-      label: { ... }
-    variants:        # variant, size, layout 등
-      variant: { values: { ... } }
-      size: { values: { ... } }
-  definitions:       # 상태별 실제 값
-    base: { ... }
-    variant=brandSolid: { ... }
-```
-
----
-
-## Recipe 시스템 (qvism-preset)
-
-### 기본 구조
-
-```typescript
-import { componentName as vars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
-import { active, disabled, focus, pseudo } from "../utils/pseudo";
-
-const recipe = defineRecipe({
-  name: "component-name",
-  base: { /* 기본 스타일 */ },
-  variants: {
-    variant: { brandSolid: { ... }, neutralWeak: { ... } },
-    size: { small: { ... }, medium: { ... } },
-  },
-  compoundVariants: [ /* 조합 스타일 */ ],
-  defaultVariants: { variant: "brandSolid", size: "medium" },
-});
-```
-
-### Pseudo 선택자
-
-| 선택자 | 용도 | 비고 |
-|--------|------|------|
-| `active` | hover/pressed | 모바일 우선이므로 hover보다 권장 |
-| `disabled` | 비활성 | |
-| `focus` | 포커스 | |
-| `focusVisible` | 키보드 포커스 | |
-| `loading` | 로딩 중 | |
-| `checked` | 체크됨 | Checkbox 등 |
-| `selected` | 선택됨 | Tab 등 |
-
----
-
-## React 컴포넌트 패턴
-
-### 단일 컴포넌트 (ActionButton 등)
-
-```typescript
-import { recipe } from "@seed-design/css/recipes/component";
-import { Primitive } from "@seed-design/react-primitive";
-
-export const Component = React.forwardRef<HTMLElement, Props>((props, ref) => {
-  const className = recipe({ variant, size });
-  return <Primitive.element ref={ref} className={className} {...props} />;
-});
-```
-
-### 복합 컴포넌트 (Checkbox 등)
-
-```typescript
-// Headless에서 로직 가져옴
-import { CheckboxRoot, CheckboxControl } from "@seed-design/react-checkbox";
-
-// Styled 컴포넌트에서 스타일 적용
-export const Checkbox = { Root, Control, HiddenInput, ... };
-```
-
----
-
-## 버전 관리
-
-- **Changesets** 사용: `.changeset/` 디렉토리
-- `bun changeset` - 변경사항 기록
-- `bun version` - 버전 업데이트
-- `bun release` - 배포
-
----
-
-## 환경 변수
-
-| 변수 | 설명 | 필수 |
-|------|------|------|
-| `FIGMA_ACCESS_TOKEN` | Figma API 토큰 | `figma:sync` 시 |
+버전이 다른 base/head adapter도 지원되는 protocol·캡처 계약이면 같은 CLI와 브라우저 환경에서 정상 비교한다. `--allow-adapter-upgrade`는 사용하지 않으며, 호환되지 않는 계약과 캡처 오류는 실패로 처리한다. 캡처 엔진·계약이 다른 캐시는 재사용하지 않는다. Report·승인은 기본 브랜치 `dev`의 workflow로 실행된다.

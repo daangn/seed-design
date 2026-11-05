@@ -1,7 +1,8 @@
 import { menuSheetItem as vars, menuSheet as rootVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, focusVisible, pseudo } from "../utils/pseudo";
+import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
+import { createContentScaleStyles } from "../utils/scale-feedback";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -33,6 +34,8 @@ const menuSheetItem = defineSlotRecipe({
       [pseudo(engaged)]: {
         backgroundColor: vars.base.pressed.root.color,
       },
+
+      [pseudo(active)]: createContentScaleStyles(),
 
       "&:first-child": {
         // TODO: since we have this, overflow: hidden; from the group slot can be removed

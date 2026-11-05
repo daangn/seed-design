@@ -1,0 +1,68 @@
+name: Kapture Report
+on:
+  workflow_run:
+    workflows:
+      - Kapture Capture
+    types:
+      - in_progress
+      - completed
+permissions: {}
+env:
+  KAPTURE_CLI_VERSION: "0.15.3"
+  npm_config_registry: https://registry.npmjs.org/
+  npm_config_ignore_scripts: "true"
+  YARN_ENABLE_SCRIPTS: "false"
+jobs:
+  context:
+    if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: read
+    outputs:
+      ready: ${{ steps.context.outputs.ready }}
+      pr-number: ${{ steps.context.outputs.pr-number }}
+      base-branch: ${{ steps.context.outputs.base-branch }}
+    steps:
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: "24"
+      - name: Resolve the trusted review PR
+        id: context
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          KAPTURE_BASE_BRANCHES: '["dev","minor","major"]'
+        run: |
+          for attempt in 1 2 3; do
+            if npx --yes --registry=https://registry.npmjs.org/ --@kaptures:registry=https://registry.npmjs.org/ "@kaptures/cli@$KAPTURE_CLI_VERSION" github review-context \
+              --base-branches "$KAPTURE_BASE_BRANCHES" \
+              --capture-workflow-path .github/workflows/kapture-capture.yml; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              exit 1
+            fi
+            sleep 5
+          done
+  review:
+    needs: context
+    if: needs.context.outputs.ready == 'true'
+    permissions:
+      actions: read
+      contents: read
+      issues: write
+      pull-requests: write
+      statuses: write
+    concurrency:
+      group: kapture-review-${{ github.repository }}-pr-${{ needs.context.outputs.pr-number }}
+      cancel-in-progress: false
+      queue: max
+    uses: ./.github/workflows/kapture-publish.yml
+    with:
+      pr-number: ${{ needs.context.outputs.pr-number }}
+      base-branch: ${{ needs.context.outputs.base-branch }}
+    secrets:
+      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}

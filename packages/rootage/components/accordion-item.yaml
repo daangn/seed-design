@@ -34,6 +34,9 @@ data:
             type: dimension
           cornerRadius:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       prefix:
         properties:
           paddingRight:
@@ -142,6 +145,7 @@ data:
           color: $color.bg.transparent-pressed
           marginX: $dimension.x1_5
           cornerRadius: $dimension.x2_5
+          scaleScope: content
 
     size=medium:
       enabled:
@@ -188,6 +192,6 @@ data:
     variant=separated:
       enabled:
         root:
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-weak
           strokeWidth: 1px
           cornerRadius: $radius.r3

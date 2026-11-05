@@ -26,6 +26,13 @@ declare const artifact: {
             "colorTimingFunction": {
               "type": "cubicBezier";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "icon": {
@@ -35,12 +42,6 @@ declare const artifact: {
             };
             "size": {
               "type": "dimension";
-            };
-            "colorDuration": {
-              "type": "duration";
-            };
-            "colorTimingFunction": {
-              "type": "cubicBezier";
             };
           };
         };
@@ -93,14 +94,6 @@ declare const artifact: {
                     "unit": "px";
                   };
                 };
-                "colorDuration": {
-                  "type": "duration";
-                  "value": "$duration.color-transition";
-                };
-                "colorTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
-                };
               };
             };
           },
@@ -113,6 +106,10 @@ declare const artifact: {
                 "color": {
                   "type": "color";
                   "value": "$color.bg.transparent-pressed";
+                };
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

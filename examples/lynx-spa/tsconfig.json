@@ -1,14 +1,29 @@
 {
   "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "jsxImportSource": "@lynx-js/react",
     "strict": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
-
     "esModuleInterop": true,
     "skipLibCheck": true,
-
-    "noEmit": true
+    "noEmit": true,
+    "types": ["@lynx-js/rspeedy/client", "bun"],
+    "paths": {
+      "@/components/ui/*": ["../../docs/registry/lynx/ui/*"]
+    }
   },
-  "references": [{ "path": "./tsconfig.node.json" }, { "path": "./src" }],
-  "files": []
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "../../docs/examples/lynx/**/*.ts",
+    "../../docs/examples/lynx/**/*.tsx",
+    "../../docs/playground/lynx/**/*.ts",
+    "../../docs/registry/lynx/**/*.ts",
+    "../../docs/registry/lynx/**/*.tsx"
+  ]
 }

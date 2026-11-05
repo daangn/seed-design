@@ -35,6 +35,7 @@
   .seed-segmented-control__item {
     text-align: center;
     cursor: pointer;
+    -webkit-user-select: none;
     user-select: none;
     box-sizing: border-box;
     overflow-wrap: break-word;
@@ -105,5 +106,9 @@
       background-color: var(--seed-color-bg-neutral-weak-pressed);
       box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
     }
+  }
+
+  .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
+    --seed-content-scale: var(--seed-feedback-scale);
   }
 }

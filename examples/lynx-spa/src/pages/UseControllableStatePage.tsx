@@ -1,5 +1,5 @@
 import { useState } from "@lynx-js/react";
-import { useControllableState } from "@seed-design/lynx-react";
+import { useControllableState } from "@seed-design/lynx-react-use-controllable-state";
 import clsx from "clsx";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -25,7 +25,7 @@ function UncontrollableToggle() {
         value ? "bg-bg-brand-solid" : "bg-bg-neutral-weak",
       )}
     >
-      <text className={clsx("t4-regular", value ? "text-fg-neutral-inverted" : "text-fg-neutral")}>
+      <text className={clsx("t4-regular", value ? "text-fg-on-brand-solid" : "text-fg-neutral")}>
         {`value: ${String(value)} (tap to toggle)`}
       </text>
     </view>
@@ -52,9 +52,7 @@ function ControlledToggle() {
           value ? "bg-bg-brand-solid" : "bg-bg-neutral-weak",
         )}
       >
-        <text
-          className={clsx("t4-regular", value ? "text-fg-neutral-inverted" : "text-fg-neutral")}
-        >
+        <text className={clsx("t4-regular", value ? "text-fg-on-brand-solid" : "text-fg-neutral")}>
           {`value: ${String(value)} (tap to toggle)`}
         </text>
       </view>

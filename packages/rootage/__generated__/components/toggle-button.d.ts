@@ -35,6 +35,13 @@ declare const artifact: {
             "paddingY": {
               "type": "dimension";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "label": {
@@ -138,6 +145,19 @@ declare const artifact: {
               };
             };
           },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
+                };
+              };
+            };
+          },
         ];
       },
       {
@@ -159,19 +179,19 @@ declare const artifact: {
               "label": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-brand-solid";
                 };
               };
               "prefixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-brand-solid";
                 };
               };
               "suffixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-brand-solid";
                 };
               };
               "progressCircle": {
@@ -181,7 +201,7 @@ declare const artifact: {
                 };
                 "rangeColor": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-brand-solid";
                 };
               };
             };

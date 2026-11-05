@@ -1,5 +1,5 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 
 import { AppBar, AppBarLeft, AppBarMain, AppBarBackButton } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
@@ -298,6 +298,32 @@ const ActivitySelect: StaticActivityComponentType<"ActivitySelect"> = () => {
                 </SelectContent>
               </SelectRoot>
             </div>
+          </VStack>
+
+          <VStack gap="x3">
+            <SectionTitle>Max Height</SectionTitle>
+            <HStack align="center" gap="x4">
+              <div style={{ width: 220 }}>
+                <SelectRoot>
+                  <SelectTrigger aria-label="트랙 높이 제한" placeholder="트랙 선택" />
+                  <SelectContent style={{ "--seed-select-max-height": "160px" } as CSSProperties}>
+                    <SelectGroup>
+                      {Array.from({ length: 30 }, (_, i) => (
+                        <SelectItem
+                          key={`capped-${i}`}
+                          value={`capped-${i}`}
+                          label={`Track ${i + 1}`}
+                        />
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </SelectRoot>
+              </div>
+              <Text fontSize="t3" color="fg.neutralMuted">
+                --seed-select-max-height로 기본 480px 대신 160px까지만 열립니다 · 화면에 남은 공간이
+                더 좁으면 그쪽을 따릅니다
+              </Text>
+            </HStack>
           </VStack>
 
           <VStack gap="x3">

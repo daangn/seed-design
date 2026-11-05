@@ -1,0 +1,14 @@
+{
+  "name": "@seed-design/rootage-cdn",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "bun test src",
+    "typecheck": "tsc --noEmit",
+    "wrangler:dry-run": "wrangler deploy --dry-run --env preview"
+  },
+  "dependencies": {
+    "s3mini": "0.9.5"
+  }
+}

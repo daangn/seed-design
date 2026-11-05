@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "moduleResolution": "Bundler",
+    "verbatimModuleSyntax": true,
+    "typeRoots": ["../../../node_modules/@types", "../../../types"],
+    "types": ["bun", "bun-jest-dom"],
+
+    "strict": true,
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+
+    "jsx": "react-jsx",
+
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "include": ["src"]
+}

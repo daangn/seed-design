@@ -7,6 +7,10 @@ const radioSlotNames = [
     "seed-radio__root"
   ],
   [
+    "control",
+    "seed-radio__control"
+  ],
+  [
     "label",
     "seed-radio__label"
   ]

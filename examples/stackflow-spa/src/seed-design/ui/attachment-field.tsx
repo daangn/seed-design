@@ -5,13 +5,10 @@ import {
   Icon,
   PrefixIcon,
   VisuallyHidden,
+  type AttachmentInputFileEntry,
+  useAttachmentInputContext,
+  type AttachmentInputContextValue,
 } from "@seed-design/react";
-import {
-  useFileUploadContext,
-  type FileEntry,
-  type UseFileUploadReturn,
-} from "@seed-design/react/primitive";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import {
   IconCameraFill,
   IconPaperclipFill,
@@ -36,7 +33,7 @@ export interface AttachmentFieldProps extends Omit<SeedAttachmentInput.RootProps
   /**
    * @default "medium"
    */
-  labelWeight?: FieldLabelVariantProps["weight"];
+  labelWeight?: SeedField.LabelProps["weight"];
 
   indicator?: React.ReactNode;
 
@@ -139,8 +136,8 @@ export type AttachmentInputProps =
   | {
       children?: undefined;
       onRetry?: (
-        fileEntry: FileEntry,
-        helpers: Pick<UseFileUploadReturn, "updateFileEntryStatus">,
+        fileEntry: AttachmentInputFileEntry,
+        helpers: Pick<AttachmentInputContextValue, "updateFileEntryStatus">,
       ) => void;
     };
 
@@ -182,13 +179,13 @@ export type AttachmentDropzoneProps =
   | {
       children?: undefined;
       onRetry?: (
-        fileEntry: FileEntry,
-        helpers: Pick<UseFileUploadReturn, "updateFileEntryStatus">,
+        fileEntry: AttachmentInputFileEntry,
+        helpers: Pick<AttachmentInputContextValue, "updateFileEntryStatus">,
       ) => void;
     };
 
 export const AttachmentDropzone: React.FC<AttachmentDropzoneProps> = ({ children, onRetry }) => {
-  const { triggerProps } = useFileUploadContext();
+  const { triggerProps } = useAttachmentInputContext();
 
   return (
     <>
@@ -222,7 +219,8 @@ export const AttachmentDropzone: React.FC<AttachmentDropzoneProps> = ({ children
 };
 AttachmentDropzone.displayName = "AttachmentDropzone";
 
-export interface AttachmentInputItemProps extends Omit<SeedAttachmentInput.ItemProps, "children"> {
+export interface AttachmentInputItemProps
+  extends Omit<SeedAttachmentInput.ItemProps, "children" | "asChild"> {
   onRetry?: () => void;
 }
 
@@ -231,7 +229,7 @@ export interface AttachmentInputItemProps extends Omit<SeedAttachmentInput.ItemP
  */
 export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInputItemProps>(
   ({ onRetry, ...props }, ref) => {
-    const { acceptType } = useFileUploadContext();
+    const { acceptType } = useAttachmentInputContext();
 
     return (
       <SeedAttachmentInput.Item ref={ref} {...props}>

@@ -1,7 +1,7 @@
 import { baseUrl } from "@/app/metadata";
 import type { LLMPage } from "@/app/_llms/types";
 import { getDisplayTitle, sortCategories } from "@/app/_llms/utils";
-import { docsSource } from "@/app/source";
+import { getDocsSource } from "@/app/source";
 
 export const revalidate = false;
 
@@ -14,6 +14,7 @@ const categoryDescriptions: Record<string, string> = {
 };
 
 export async function GET() {
+  const docsSource = await getDocsSource();
   const pages = docsSource.getPages();
 
   const categories = new Map<string, LLMPage[]>();
@@ -36,7 +37,7 @@ export async function GET() {
           );
           const llmsUrl = new URL(`/llms/docs/${slugsWithExt.join("/")}`, baseUrl);
           const displayTitle = getDisplayTitle(page, categoryPages);
-          const deprecatedLabel = page.data.deprecated ? " (Deprecated)" : "";
+          const deprecatedLabel = page.data.frontmatter.deprecated ? " (Deprecated)" : "";
           return { displayTitle, line: `- [${displayTitle}](${llmsUrl})${deprecatedLabel}` };
         })
         .sort((a, b) => a.displayTitle.localeCompare(b.displayTitle))

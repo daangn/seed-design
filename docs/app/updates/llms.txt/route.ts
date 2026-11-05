@@ -1,16 +1,19 @@
 import { getLLMMarkdownUrl, sectionConfigs, shouldIncludeInFullText } from "@/app/_llms/config";
 import { getDisplayTitle } from "@/app/_llms/utils";
 import { baseUrl } from "@/app/metadata";
-import { updatesSource } from "@/app/source";
+import { getUpdatesSource } from "@/app/source";
 
 export const revalidate = false;
 
 /** 정렬 전용. publishedAt은 프론트매터 파싱에 따라 문자열/Date 양쪽으로 온다. */
-function publishedTime(page: { data: { publishedAt?: string | Date } }): number {
-  return page.data.publishedAt ? new Date(page.data.publishedAt).getTime() : 0;
+function publishedTime(page: { data: { frontmatter: { publishedAt?: string | Date } } }): number {
+  return page.data.frontmatter.publishedAt
+    ? new Date(page.data.frontmatter.publishedAt).getTime()
+    : 0;
 }
 
 export async function GET() {
+  const updatesSource = await getUpdatesSource();
   // updates는 섹션 인덱스 mdx가 없어 excludePaths도 비어있다(랜딩은 app/updates/page.tsx).
   const pages = updatesSource
     .getPages()
@@ -37,7 +40,9 @@ ${pageList}
 
 ## Related Sections
 
-- [Changelog](${new URL("/llms/react/updates/changelog.txt", baseUrl)}): 패키지별/버전별 변경 이력
+- [React Changelog](${new URL("/llms/react/updates/changelog.txt", baseUrl)}): React 패키지별/버전별 변경 이력
+- [Lynx Changelog](${new URL("/llms/lynx/updates/changelog.txt", baseUrl)}): Lynx 패키지별/버전별 변경 이력
 - [React Library](${new URL("/react/llms.txt", baseUrl)}): React 컴포넌트 라이브러리
+- [Lynx Library](${new URL("/lynx/llms.txt", baseUrl)}): Lynx 컴포넌트 라이브러리
 `);
 }

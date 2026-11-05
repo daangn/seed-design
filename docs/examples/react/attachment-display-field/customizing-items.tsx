@@ -1,8 +1,12 @@
 "use client";
 
 import { IconArrowClockwiseCircularFill, IconXmarkFill } from "@karrotmarket/react-monochrome-icon";
-import { AttachmentDisplay as SeedAttachmentDisplay, Icon, VStack } from "@seed-design/react";
-import type { DisplayItemEntry } from "@seed-design/react/primitive";
+import {
+  AttachmentDisplay as SeedAttachmentDisplay,
+  Icon,
+  VStack,
+  type AttachmentDisplayItemEntry,
+} from "@seed-design/react";
 import { AttachmentDisplay, AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
 
@@ -14,7 +18,7 @@ function CustomImageItem({
   isCover,
   onRetry,
 }: {
-  entry: DisplayItemEntry;
+  entry: AttachmentDisplayItemEntry;
   isCover?: boolean;
   onRetry?: () => void;
 }) {
@@ -46,7 +50,7 @@ function CustomImageItem({
   );
 }
 
-const defaultEntries: DisplayItemEntry[] = [
+const defaultEntries: AttachmentDisplayItemEntry[] = [
   { id: "1", thumbnailUrl: "https://picsum.photos/seed/customizing1/200/200", status: "success" },
   { id: "2", thumbnailUrl: "https://picsum.photos/seed/customizing2/200/200", status: "success" },
   { id: "3", thumbnailUrl: "https://picsum.photos/seed/customizing3/200/200", status: "success" },

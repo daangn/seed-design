@@ -1,0 +1,77 @@
+import * as React from "@lynx-js/react";
+
+import type { LynxHostProps } from "../../types";
+import type { StyleProps } from "../../utils/styled";
+import { Box } from "../Box";
+import { mergeProps } from "../../utils/merge-props";
+
+export interface DividerProps extends Omit<LynxHostProps<"view">, "children" | "color"> {
+  /**
+   * @default "stroke.neutralMuted"
+   */
+  color?: StyleProps["borderColor"];
+
+  /**
+   * @default 1
+   */
+  thickness?: StyleProps["borderWidth"];
+
+  /**
+   * @default "horizontal"
+   */
+  orientation?: "horizontal" | "vertical";
+
+  /**
+   * Adds 16px of spacing to both ends of the divider.
+   * @default false
+   */
+  inset?: boolean;
+}
+
+/**
+ * @platform Lynx
+ *
+ * 웹의 `<hr>` 대신 native `<view>`를 렌더링합니다. 구분선은 기본적으로 접근성
+ * 요소로 노출되며 `accessibility-role-description="separator"`를 사용합니다.
+ * 장식용 구분선은 `accessibility-element={false}`로 접근성 트리에서 제외하세요.
+ */
+export const Divider = React.forwardRef<unknown, DividerProps>((props, ref) => {
+  const {
+    color = "stroke.neutralMuted",
+    thickness = 1,
+    orientation = "horizontal",
+    inset = false,
+    style,
+    ...nativeProps
+  } = props;
+
+  const isHorizontal = orientation === "horizontal";
+
+  return (
+    // ReactLynx는 렌더 사이에 빠진 inline style key를 native view에서 지우지 않는다.
+    // 방향·inset이 바뀌면 이전 geometry key가 남지 않도록 view를 다시 만든다.
+    <Box
+      key={`${orientation}-${inset}`}
+      {...mergeProps(
+        { "accessibility-element": true, "accessibility-role-description": "separator" },
+        ref ? { ref } : {},
+        nativeProps,
+      )}
+      borderColor={color}
+      borderWidth={0}
+      borderBottomWidth={isHorizontal ? thickness : 0}
+      borderRightWidth={isHorizontal ? 0 : thickness}
+      style={{
+        width: isHorizontal ? (inset ? "calc(100% - 32px)" : "100%") : undefined,
+        height: isHorizontal ? undefined : inset ? "calc(100% - 32px)" : "100%",
+        marginLeft: inset && isHorizontal ? "16px" : undefined,
+        marginRight: inset && isHorizontal ? "16px" : undefined,
+        marginTop: inset && !isHorizontal ? "16px" : undefined,
+        marginBottom: inset && !isHorizontal ? "16px" : undefined,
+        ...style,
+      }}
+    />
+  );
+});
+
+Divider.displayName = "Divider";

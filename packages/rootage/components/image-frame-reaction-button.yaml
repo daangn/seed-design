@@ -15,6 +15,9 @@ data:
           targetSize:
             type: dimension
             description: 터치 영역 크기입니다.
+          scaleScope:
+            type: enum
+            values: [self, content]
       fillIcon:
         description: lineIcon 아래에 내려가는 하트 아이콘입니다.
         properties:
@@ -68,3 +71,6 @@ data:
                 position: 1
         lineIcon:
           color: $color.bg.transparent
+      pressed:
+        root:
+          scaleScope: self

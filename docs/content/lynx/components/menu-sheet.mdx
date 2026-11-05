@@ -1,0 +1,211 @@
+---
+title: Menu Sheet
+description: 사용자 작업에 관련된 선택지를 화면 하단의 드래그 가능한 시트로 제공합니다.
+compatibility:
+  lynx:
+    engine: "3.5"
+    x-elements:
+      - overlay
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.7.0, @seed-design/lynx-css@0.11.0" />
+
+<LynxComponentExample name="lynx/menu-sheet/preview" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu-sheet/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:menu-sheet
+```
+
+<LynxManualInstallation name="menu-sheet" />
+
+## Usage
+
+`MenuSheetTrigger`는 자식을 native `<view>`로 감싸며 `asChild`를 제공하지 않습니다.
+
+```tsx
+import { useState } from "@lynx-js/react";
+import { ActionButton } from "@seed-design/lynx-react";
+import {
+  MenuSheetContent,
+  MenuSheetGroup,
+  MenuSheetItem,
+  MenuSheetRoot,
+  MenuSheetTrigger,
+} from "@/components/ui/menu-sheet";
+
+export function App() {
+  const [open, setOpen] = useState(false);
+
+  function handleEdit() {
+    "background only";
+    setOpen(false);
+  }
+
+  return (
+    <MenuSheetRoot open={open} onOpenChange={setOpen}>
+      <MenuSheetTrigger accessibility-label="게시글 관리 메뉴 열기">
+        <ActionButton variant="neutralSolid">메뉴 열기</ActionButton>
+      </MenuSheetTrigger>
+      <MenuSheetContent title="게시글 관리">
+        <MenuSheetGroup>
+          <MenuSheetItem label="수정하기" bindtap={handleEdit} />
+          <MenuSheetItem label="삭제하기" tone="critical" />
+        </MenuSheetGroup>
+      </MenuSheetContent>
+    </MenuSheetRoot>
+  );
+}
+```
+
+`Item`의 `bindtap`은 작업만 수행하며 시트를 자동으로 닫지 않습니다. 작업 후 닫아야 하면 위 예제처럼 `open`을 제어하세요. `open`을 제어하지 않는다면 `MenuSheetRoot` ref의 `close()`를 호출합니다. ref 메서드로 바꾼 열림 상태는 `onOpenChange`로 알리지 않으므로, `open`을 제어할 때는 ref 대신 `open` 값을 바꿉니다. `title`을 제공하지 않는 `Content`에는 native 보조 기술이 읽을 이름을 알 수 있도록 `accessibility-label`을 제공해야 합니다.
+
+`container`를 지정하지 않으면 Menu Sheet는 Lynx view 안에 렌더링됩니다. `container="window"`처럼 native container 이름을 지정하면 host 화면까지 덮는 native overlay에 렌더링됩니다. `overlayLevel`은 overlay의 표시 순서를 정합니다.
+
+## Props
+
+### `MenuSheetRoot`
+
+<react-type-table path="./registry/lynx/ui/menu-sheet.tsx" name="MenuSheetRootProps" />
+
+### `MenuSheetTrigger`
+
+고유 prop이 없습니다. `className`, `style`, `children`, `bindtap`을 받습니다.
+
+### `MenuSheetContent`
+
+`showCloseButton`의 기본값은 `false`입니다. 닫기 버튼이 없어도 배경 탭이나 아래 방향 드래그로 닫을 수 있습니다.
+
+<react-type-table path="./registry/lynx/ui/menu-sheet.tsx" name="MenuSheetContentProps" />
+
+### `MenuSheetGroup`
+
+<react-type-table path="./registry/lynx/ui/menu-sheet.tsx" name="MenuSheetGroupProps" />
+
+### `MenuSheetItem`
+
+<react-type-table path="./registry/lynx/ui/menu-sheet.tsx" name="MenuSheetItemProps" />
+
+## Examples
+
+### Trigger
+
+`MenuSheetTrigger`를 탭하면 시트가 열립니다. 열린 상태는 배경 탭, 아래 방향 드래그, 또는 `showCloseButton`으로 표시한 닫기 버튼으로 닫을 수 있습니다.
+
+<LynxComponentExample name="lynx/menu-sheet/preview" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu-sheet/preview.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Controlled
+
+`open`과 `onOpenChange`로 Trigger 외의 방식에서도 열린 상태를 제어합니다. 배경 탭과 드래그로 닫힐 때도 새 `open` 값을 반영해야 합니다.
+
+<LynxComponentExample name="lynx/menu-sheet/controlled" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu-sheet/controlled.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### With Title
+
+<LynxComponentExample name="lynx/menu-sheet/with-title" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu-sheet/with-title.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### With Title and Description
+
+<LynxComponentExample name="lynx/menu-sheet/with-title-and-description" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu-sheet/with-title-and-description.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Long Content
+
+항목이 많으면 시트가 최대 높이에서 멈추고 목록만 스크롤됩니다. 목록이 스크롤된 상태에서 시작한 제스처는 목록만 움직이고, 목록이 맨 위에 있을 때 아래로 끌어야 시트가 움직입니다.
+
+<LynxComponentExample name="lynx/menu-sheet/long-content" height={600}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu-sheet/long-content.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Close Button
+
+<LynxComponentExample name="lynx/menu-sheet/with-close-button" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu-sheet/with-close-button.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Label Align
+
+`labelAlign`은 Item, Group, Content 순서로 적용됩니다.
+
+#### `labelAlign="left"` with Prefix Icon
+
+Prefix icon이 있는 항목은 왼쪽 정렬을 사용할 수 있습니다.
+
+<LynxComponentExample name="lynx/menu-sheet/with-prefix-icon" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu-sheet/with-prefix-icon.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+#### `labelAlign="center"` without Prefix Icon
+
+Prefix icon이 없는 항목은 가운데 정렬을 사용할 수 있습니다.
+
+<LynxComponentExample name="lynx/menu-sheet/without-prefix-icon" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu-sheet/without-prefix-icon.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+#### Overriding `labelAlign`
+
+Group이나 Item의 `labelAlign`으로 상위 정렬을 덮어쓸 수 있습니다.
+
+<LynxComponentExample name="lynx/menu-sheet/overriding-label-align" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu-sheet/overriding-label-align.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### `onOpenChange` Details
+
+`onOpenChange`의 두 번째 인자는 `{ reason }`입니다. 열릴 때는 `"trigger"`이고, 닫힐 때는 `"closeButton"`, `"interactOutside"`, `"drag"` 중 하나입니다. 닫히는 중에 시트를 다시 끌어 올리면 `open`이 `true`인 `"drag"`가 전달됩니다. Item 탭, Root ref의 메서드, `open` prop으로 바꾼 상태에는 호출되지 않습니다.
+
+<LynxComponentExample name="lynx/menu-sheet/open-change-reason" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu-sheet/open-change-reason.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Skip Animation
+
+`skipAnimation`을 설정하면 enter/exit 애니메이션 없이 즉시 열고 닫습니다.
+
+<LynxComponentExample name="lynx/menu-sheet/skip-animation" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/menu-sheet/skip-animation.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+## 웹 버전과의 차이
+
+- Lynx `MenuSheet`는 React의 `SwipeableMenuSheet`에 해당합니다.
+- Trigger는 자식을 native `<view>`로 감싸며 `asChild`를 제공하지 않습니다.
+- Item은 native `bindtap`을 사용하며 탭해도 자동으로 닫히지 않습니다.
+- ESC 키와 상위 레이어 연쇄 닫힘이 없어 `escapeKeyDown`과 `cascadeDismiss` reason을 제공하지 않습니다.
+- `closeOnInteractOutside`, `closeOnEscape`, `lazyMount`, `unmountOnExit`은 제공하지 않습니다.
+- `container`와 `overlayLevel`로 native overlay의 위치와 표시 순서를 지정합니다.

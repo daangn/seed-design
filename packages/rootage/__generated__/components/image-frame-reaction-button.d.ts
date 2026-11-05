@@ -19,6 +19,13 @@ declare const artifact: {
               "type": "dimension";
               "description": "터치 영역 크기입니다.";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
           "description": "하트 아이콘 토글 버튼입니다. 이미지 위에서 좋아요 기능에 사용됩니다.";
         };
@@ -148,6 +155,19 @@ declare const artifact: {
                 "color": {
                   "type": "color";
                   "value": "$color.bg.transparent";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

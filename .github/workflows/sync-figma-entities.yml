@@ -16,13 +16,13 @@ jobs:
 
     steps:
       - name: Checkout dev
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: dev
 
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: "1.3.13"
+          bun-version-file: .bun-version
 
       - name: Install Dependencies
         run: bun install --frozen-lockfile
@@ -267,6 +267,7 @@ jobs:
               ]
             }' > /tmp/slack-payload.json
 
+      # `errors` 기본값이 false라, 켜지 않으면 Slack이 거절해도 스텝이 성공으로 넘어간다.
       - name: Slack에 알려요
         if: steps.check-diff.outputs.has_changes == 'true'
         uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
@@ -274,6 +275,7 @@ jobs:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload-file-path: /tmp/slack-payload.json
+          errors: true
 
       - name: 실패하면 Slack payload를 빌드해요
         if: failure()
@@ -301,3 +303,4 @@ jobs:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload-file-path: /tmp/slack-failure-payload.json
+          errors: true

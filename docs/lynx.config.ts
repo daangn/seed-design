@@ -1,0 +1,104 @@
+import { resolve } from "node:path";
+import { pluginLynxConfig } from "@lynx-js/config-rsbuild-plugin";
+import { pluginReactLynx } from "@lynx-js/react-rsbuild-plugin";
+import type { Rspack } from "@lynx-js/rspeedy";
+import { defineConfig, rspack } from "@lynx-js/rspeedy";
+import { pluginLynxIcon } from "@seed-design/rsbuild-plugin-lynx-icon";
+import {
+  CACHE_DIRECTORY,
+  DEVELOPMENT_DIRECTORY,
+  DOCS_DIRECTORY,
+  REPOSITORY_DIRECTORY,
+  STAGING_DIRECTORY,
+} from "./scripts/lynx-examples/constants.js";
+import { createLynxCacheDigest } from "./scripts/lynx-examples/cache.js";
+import { discoverLynxExamples } from "./scripts/lynx-examples/discovery.js";
+import { createStandaloneModules } from "./scripts/lynx-examples/modules.js";
+
+export default defineConfig(async () => {
+  const entries = await discoverLynxExamples();
+  const standalone = createStandaloneModules(entries);
+  const development = process.env.LYNX_EXAMPLES_DEV_OUTPUT === "1";
+
+  return {
+    source: { entry: standalone.entries },
+    plugins: [
+      pluginLynxIcon({
+        include: /node_modules\/@karrotmarket\/assets-(monochrome|multicolor)\/svg\//,
+      }),
+      pluginReactLynx({
+        targetSdkVersion: "3.9",
+        globalPropsMode: "reactive",
+        enableNewGesture: true,
+      }),
+      pluginLynxConfig({
+        enableCSSInheritance: true,
+        enableCSSInlineVariables: true,
+        fontScaleEffectiveOnlyOnSp: true,
+        enableFixedNew: true,
+      }),
+    ],
+    resolve: {
+      alias: {
+        "@/components/ui": resolve(DOCS_DIRECTORY, "registry/lynx/ui"),
+      },
+    },
+    environments: {
+      web: {
+        resolve: {
+          alias: {
+            "@seed-design/lynx-css/base.css": "@seed-design/css/base.css",
+          },
+        },
+      },
+      lynx: {},
+    },
+    splitChunks: false as const,
+    tools: {
+      rspack(config: Rspack.Configuration) {
+        config.resolve ??= {};
+        config.resolve.modules = [
+          resolve(DOCS_DIRECTORY, "node_modules"),
+          ...(config.resolve.modules ?? ["node_modules"]),
+        ];
+        config.plugins ??= [];
+        config.plugins.push(new rspack.experiments.VirtualModulesPlugin(standalone.modules));
+      },
+    },
+    output: {
+      // 문서 배포는 bundle과 CSS만 게시하므로 작은 이미지도 URL 대신 bundle에 포함한다.
+      dataUriLimit: { image: 8 * 1024 },
+      distPath: {
+        root: process.env.LYNX_EXAMPLES_DEV_OUTPUT ? DEVELOPMENT_DIRECTORY : STAGING_DIRECTORY,
+      },
+      filename: {
+        bundle: development
+          ? "[name].[platform].bundle"
+          : "[name].[contenthash:8].[platform].bundle",
+      },
+      cleanDistPath: !process.env.LYNX_EXAMPLES_DEV_OUTPUT,
+    },
+    performance: {
+      buildCache: {
+        cacheDirectory: CACHE_DIRECTORY,
+        cacheDigest: createLynxCacheDigest(entries),
+        buildDependencies: [
+          resolve(DOCS_DIRECTORY, "lynx.config.ts"),
+          resolve(DOCS_DIRECTORY, "scripts/lynx-examples/discovery.ts"),
+          resolve(DOCS_DIRECTORY, "scripts/lynx-examples/modules.ts"),
+          resolve(DOCS_DIRECTORY, "scripts/lynx-examples/manifest.ts"),
+          resolve(DOCS_DIRECTORY, "scripts/lynx-examples/web-core-styles.ts"),
+          resolve(DOCS_DIRECTORY, "scripts/lynx-examples/cache.ts"),
+          resolve(DOCS_DIRECTORY, "examples/lynx/tsconfig.json"),
+          resolve(DOCS_DIRECTORY, "examples/lynx/standalone.tsx"),
+          resolve(DOCS_DIRECTORY, "examples/lynx/standalone.css"),
+          resolve(DOCS_DIRECTORY, "tsconfig.lynx-node.json"),
+          resolve(DOCS_DIRECTORY, "package.json"),
+          resolve(REPOSITORY_DIRECTORY, "package.json"),
+          resolve(REPOSITORY_DIRECTORY, "bun.lock"),
+          resolve(REPOSITORY_DIRECTORY, "bunfig.toml"),
+        ],
+      },
+    },
+  };
+});

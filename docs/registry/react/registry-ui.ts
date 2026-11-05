@@ -8,7 +8,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "accordion.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -17,21 +17,28 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "app-screen.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
         {
           path: "app-bar.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          // `AppBarTextButton` ships in @seed-design/stackflow 2.1.0 and its recipe in @seed-design/css 3.1.0.
+          dependencies: {
+            "@seed-design/react": "^2.0.0 || ^3.0.0",
+            "@seed-design/css": "^3.1.0",
+            "@seed-design/stackflow": "^2.1.0",
+          },
         },
       ],
     },
     {
-      id: "error-state",
-      deprecated: true,
+      id: "badge",
       snippets: [
         {
-          path: "error-state.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          path: "badge.tsx",
+          dependencies: {
+            "@karrotmarket/react-monochrome-icon": "^1.17.0",
+            "@seed-design/react": "^3.0.0",
+          },
         },
       ],
     },
@@ -40,7 +47,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "field-button.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -49,7 +56,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "manner-temp.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -58,7 +65,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "manner-temp-badge.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -67,7 +74,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "alert-dialog.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^3.0.0" },
         },
       ],
     },
@@ -76,7 +83,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "dialog.tsx",
-          dependencies: { "@seed-design/react": "^2.1.0", "@seed-design/css": "^2.3.0" },
+          dependencies: { "@seed-design/react": "^3.0.0" },
         },
       ],
     },
@@ -85,7 +92,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "responsive-dialog.tsx",
-          dependencies: { "@seed-design/react": "^2.1.0", "@seed-design/css": "^2.3.0" },
+          dependencies: { "@seed-design/react": "^2.1.0 || ^3.0.0" },
         },
       ],
     },
@@ -94,7 +101,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "bottom-sheet.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -103,7 +110,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "side-panel.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -113,38 +120,17 @@ export const registryUI: Registry = {
         {
           path: "responsive-side-panel.tsx",
           dependencies: {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0",
+            "@seed-design/react": "^2.0.0 || ^3.0.0",
           },
         },
       ],
-    },
-    {
-      id: "action-sheet",
-      snippets: [
-        {
-          path: "action-sheet.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
-        },
-      ],
-      deprecated: true,
-    },
-    {
-      id: "extended-action-sheet",
-      snippets: [
-        {
-          path: "extended-action-sheet.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
-        },
-      ],
-      deprecated: true,
     },
     {
       id: "avatar",
       snippets: [
         {
           path: "avatar.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -153,7 +139,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "pull-to-refresh.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -162,7 +148,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "loading-indicator.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -171,7 +157,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "action-button.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -180,7 +166,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "toggle-button.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -189,7 +175,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "reaction-button.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -198,26 +184,16 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "callout.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
-    },
-    {
-      id: "control-chip",
-      snippets: [
-        {
-          path: "control-chip.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
-        },
-      ],
-      deprecated: true,
     },
     {
       id: "chip",
       snippets: [
         {
           path: "chip.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^3.0.0" },
         },
       ],
     },
@@ -226,7 +202,10 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "checkbox.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: {
+            "@seed-design/react": "^2.0.0 || ^3.0.0",
+            "@seed-design/css": "^2.0.0 || ^3.0.0",
+          },
         },
       ],
     },
@@ -235,7 +214,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "content-placeholder.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -244,26 +223,16 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "identity-placeholder.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
-    },
-    {
-      id: "inline-banner",
-      snippets: [
-        {
-          path: "inline-banner.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
-        },
-      ],
-      deprecated: true,
     },
     {
       id: "menu",
       snippets: [
         {
           path: "menu.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -272,7 +241,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "menu-sheet.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
       deprecated: true,
@@ -282,7 +251,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "swipeable-menu-sheet.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -291,7 +260,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "navigation-menu.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -300,7 +269,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "slider.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -309,7 +278,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "snackbar.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -318,7 +287,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "help-bubble.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -327,7 +296,16 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "help-bubble-tooltip.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "popover",
+      snippets: [
+        {
+          path: "popover.tsx",
+          dependencies: { "@seed-design/react": "^3.0.0" },
         },
       ],
     },
@@ -336,7 +314,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "tabs.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -345,7 +323,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "chip-tabs.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -354,7 +332,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "tag-group.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -363,7 +341,18 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "page-banner.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "pagination",
+      snippets: [
+        {
+          path: "pagination.tsx",
+          dependencies: {
+            "@seed-design/react": "^3.0.0",
+          },
         },
       ],
     },
@@ -372,7 +361,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "progress-circle.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -381,7 +370,41 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "quantity-picker.tsx",
-          dependencies: { "@seed-design/react": "^2.1.0", "@seed-design/css": "^2.3.0" },
+          dependencies: { "@seed-design/react": "^2.1.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "date-picker",
+      snippets: [
+        {
+          path: "date-picker.tsx",
+          dependencies: {
+            "@karrotmarket/react-monochrome-icon": "^1.17.0",
+            "@seed-design/react": "^3.0.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "time-picker",
+      snippets: [
+        {
+          path: "time-picker.tsx",
+          dependencies: {
+            "@seed-design/react": "^3.0.0",
+            "@seed-design/css": "^3.0.0",
+            clsx: "^2.1.1",
+          },
+        },
+      ],
+    },
+    {
+      id: "wheel-picker",
+      snippets: [
+        {
+          path: "wheel-picker.tsx",
+          dependencies: { "@seed-design/react": "^2.4.0 || ^3.0.0" },
         },
       ],
     },
@@ -390,7 +413,10 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "radio-group.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: {
+            "@seed-design/react": "^2.0.0 || ^3.0.0",
+            "@seed-design/css": "^2.0.0 || ^3.0.0",
+          },
         },
       ],
     },
@@ -399,7 +425,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "select.tsx",
-          dependencies: { "@seed-design/react": "^2.1.0", "@seed-design/css": "^2.3.0" },
+          dependencies: { "@seed-design/react": "^2.1.0 || ^3.0.0" },
         },
       ],
     },
@@ -408,7 +434,39 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "select-box.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: {
+            "@seed-design/react": "^2.0.0 || ^3.0.0",
+            "@seed-design/css": "^2.0.0 || ^3.0.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "table-pagination",
+      snippets: [
+        {
+          path: "table-pagination.tsx",
+          dependencies: {
+            "@seed-design/react": "^3.0.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "search-bar",
+      snippets: [
+        {
+          path: "search-bar.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0", "@seed-design/css": "^3.1.0" },
+        },
+      ],
+    },
+    {
+      id: "search-input",
+      snippets: [
+        {
+          path: "search-input.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0", "@seed-design/css": "^3.1.0" },
         },
       ],
     },
@@ -417,7 +475,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "segmented-control.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -426,7 +484,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "switch.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -435,7 +493,34 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "text-field.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
+        },
+      ],
+    },
+    {
+      id: "segmented-text-field",
+      snippets: [
+        {
+          path: "segmented-text-field.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0" },
+        },
+      ],
+    },
+    {
+      id: "resident-number-field",
+      snippets: [
+        {
+          path: "resident-number-field.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0" },
+        },
+      ],
+    },
+    {
+      id: "card-number-field",
+      snippets: [
+        {
+          path: "card-number-field.tsx",
+          dependencies: { "@seed-design/react": "^3.1.0" },
         },
       ],
     },
@@ -444,7 +529,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "attachment-display-field.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^3.0.0" },
         },
       ],
     },
@@ -453,13 +538,12 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "attachment-display-field.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^3.0.0" },
         },
         {
           path: "attachment-display-field-reorderable.tsx",
           dependencies: {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0",
+            "@seed-design/react": "^3.0.0",
             "@dnd-kit/react": "^0.4.0",
             "@dnd-kit/abstract": "^0.4.0",
             "@dnd-kit/dom": "^0.4.0",
@@ -472,7 +556,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "attachment-field.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^3.0.0" },
         },
       ],
     },
@@ -481,13 +565,12 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "attachment-field.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^3.0.0" },
         },
         {
           path: "attachment-field-reorderable.tsx",
           dependencies: {
-            "@seed-design/react": "^2.0.0",
-            "@seed-design/css": "^2.0.0",
+            "@seed-design/react": "^3.0.0",
             "@dnd-kit/react": "^0.4.0",
             "@dnd-kit/abstract": "^0.4.0",
             "@dnd-kit/dom": "^0.4.0",
@@ -500,7 +583,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "contextual-floating-button.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -509,7 +592,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "floating-action-button.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -518,11 +601,11 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "list.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^3.0.0", "@seed-design/css": "^3.0.0" },
         },
         {
           path: "list-header.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -531,7 +614,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "result-section.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
     },
@@ -540,7 +623,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "side-navigation.tsx",
-          dependencies: { "@seed-design/react": "^2.0.0", "@seed-design/css": "^2.0.0" },
+          dependencies: { "@seed-design/react": "^3.0.0" },
         },
       ],
     },

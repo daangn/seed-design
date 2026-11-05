@@ -1,5 +1,15 @@
 # @seed-design/figma-extractor
 
+## 2.0.0
+
+### Major Changes
+
+- 8a33b2f: 내부 의존성 `cosmiconfig`를 10으로 올려 TypeScript 7 환경에서 `figma-extractor.config.ts`를 불러오지 못하던 문제를 수정합니다. Node.js를 22.18 이상 또는 24 이상으로 업그레이드해야 합니다.
+
+### Patch Changes
+
+- 894e2b7: `figma-api` 의존성을 업데이트합니다.
+
 ## 1.1.3
 
 ### Patch Changes

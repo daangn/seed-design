@@ -64,6 +64,56 @@ describe("useControllableState", () => {
   });
 
   describe("controlled mode", () => {
+    it.each([false, true])("notifies after an external change from %s", (initialValue) => {
+      const onChange = vi.fn();
+      const { result, rerender } = renderHook(
+        (props: { value: boolean }) =>
+          useControllableState({ value: props.value, defaultValue: false, onChange }),
+        { initialProps: { value: initialValue } },
+      );
+
+      rerender({ value: !initialValue });
+      expect(result.current[0]).toBe(!initialValue);
+      expect(onChange).not.toHaveBeenCalled();
+
+      act(() => result.current[1](!result.current[0]));
+
+      expect(onChange).toHaveBeenCalledExactlyOnceWith(initialValue);
+      rerender({ value: initialValue });
+      act(() => result.current[1](!result.current[0]));
+      expect(onChange).toHaveBeenNthCalledWith(2, !initialValue);
+      expect(onChange).toHaveBeenCalledTimes(2);
+    });
+
+    it("notifies again when the parent does not accept a change", () => {
+      const onChange = vi.fn();
+      const { result } = renderHook(() =>
+        useControllableState({ value: false, defaultValue: false, onChange }),
+      );
+
+      act(() => result.current[1](true));
+      act(() => result.current[1](true));
+
+      expect(result.current[0]).toBe(false);
+      expect(onChange).toHaveBeenCalledTimes(2);
+      expect(onChange).toHaveBeenNthCalledWith(1, true);
+      expect(onChange).toHaveBeenNthCalledWith(2, true);
+    });
+
+    it("does not notify for the current prop after an unaccepted change", () => {
+      const onChange = vi.fn();
+      const { result } = renderHook(() =>
+        useControllableState({ value: false, defaultValue: false, onChange }),
+      );
+
+      act(() => result.current[1](false));
+      expect(onChange).not.toHaveBeenCalled();
+      act(() => result.current[1](true));
+      act(() => result.current[1](false));
+
+      expect(onChange).toHaveBeenCalledExactlyOnceWith(true);
+    });
+
     it("uses the provided value", () => {
       const { result } = renderHook(() =>
         useControllableState({ value: "external", defaultValue: "default" }),

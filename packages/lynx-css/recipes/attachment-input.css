@@ -1,0 +1,44 @@
+.seed-attachment-input__root {
+    display: flex;
+    flex-direction: column;
+    gap: var(--seed-dimension-x2);
+    position: relative;
+    margin-left: calc(var(--seed-attachment-input-extend-x) * -1);
+    margin-right: calc(var(--seed-attachment-input-extend-x) * -1)
+}
+.seed-attachment-input__container {
+    padding-top: var(--seed-dimension-x1_5);
+    margin-top: calc(var(--seed-dimension-x1_5) * -1);
+    padding-left: var(--seed-attachment-input-extend-x);
+    padding-right: var(--seed-attachment-input-extend-x)
+}
+.seed-attachment-input__containerContent {
+    display: flex;
+    flex-direction: row;
+    gap: var(--seed-dimension-x2);
+    width: max-content;
+    min-width: 100%;
+    flex-shrink: 0
+}
+.seed-attachment-input__itemGroup {
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+    gap: var(--seed-dimension-x2);
+    flex-shrink: 0;
+    padding: 0;
+    margin: 0;
+    overflow: visible
+}
+.seed-attachment-input__root--extendSafeAreaX_true {
+    margin-left: calc((var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-left)) * -1);
+    margin-right: calc((var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-right)) * -1)
+}
+.seed-attachment-input__container--extendSafeAreaX_true {
+    padding-left: 0;
+    padding-right: 0
+}
+.seed-attachment-input__containerContent--extendSafeAreaX_true {
+    padding-left: calc(var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-left));
+    padding-right: calc(var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-right))
+}

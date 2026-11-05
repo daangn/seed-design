@@ -1,5 +1,158 @@
 # @seed-design/tailwind4-theme
 
+## 3.1.0
+
+### Minor Changes
+
+- d4ec62d: Gray 램프와 톤이 일치하는 반투명 팔레트 `$color.palette.gray-alpha-100` ~ `gray-alpha-1000`을 추가합니다.
+  
+  - `gray-00` 위에 합성하면 light·dark 테마 각각에서 같은 스텝의 `gray-N`과 같은 색이 됩니다.
+  - CSS 변수 `--seed-color-palette-gray-alpha-100` ~ `--seed-color-palette-gray-alpha-1000`으로 사용할 수 있습니다.
+
+### Patch Changes
+
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+  - @seed-design/css@3.1.0
+  - @seed-design/lynx-css@1.1.0
+
+## 3.0.2
+
+### Patch Changes
+
+- d0ebeed: `@seed-design/lynx-css` `1.0.0`과 함께 설치할 때 optional peer dependency 경고가 발생하던 문제를 수정해 `^0.14.0 || ^1.0.0`을 허용합니다.
+- Updated dependencies [7dae990]
+- Updated dependencies [524ad2f]
+- Updated dependencies [7dae990]
+- Updated dependencies [20d639c]
+- Updated dependencies [7dae990]
+- Updated dependencies [4f1c681]
+- Updated dependencies [f417a4f]
+- Updated dependencies [f164f8b]
+- Updated dependencies [7f51d06]
+- Updated dependencies [3b4d190]
+- Updated dependencies [d4a20aa]
+- Updated dependencies [a5af36f]
+- Updated dependencies [bb2513e]
+- Updated dependencies [46ecb70]
+- Updated dependencies [a1881c3]
+- Updated dependencies [e5ebfb1]
+- Updated dependencies [26bf8c3]
+- Updated dependencies [eb01c01]
+- Updated dependencies [39d5917]
+- Updated dependencies [524ad2f]
+- Updated dependencies [e056828]
+- Updated dependencies [e056828]
+- Updated dependencies [524ad2f]
+- Updated dependencies [34e7691]
+- Updated dependencies [524ad2f]
+- Updated dependencies [7dae990]
+- Updated dependencies [524ad2f]
+- Updated dependencies [7dae990]
+- Updated dependencies [b7cad68]
+- Updated dependencies [a684488]
+- Updated dependencies [ee36625]
+- Updated dependencies [5769ae6]
+- Updated dependencies [ac07387]
+- Updated dependencies [524ad2f]
+- Updated dependencies [7dae990]
+- Updated dependencies [83b5ca4]
+- Updated dependencies [f423482]
+- Updated dependencies [7dae990]
+- Updated dependencies [26fa233]
+- Updated dependencies [7147073]
+  - @seed-design/lynx-css@1.0.0
+
+## 3.0.1
+
+### Major Changes
+
+- 19ecbd6: (BREAKING CHANGE: `@seed-design/css` 3.0.0과 함께 사용하면 `bg-neutral-solid`의 색상이 바뀌므로, 이 색상을 직접 사용하는 화면에서 라이트·다크 모드의 배경색과 전경색 대비를 확인해야 합니다.) Solid 배경에 쓰는 색상을 추가합니다.
+  
+  - Solid 배경 위 전경색 `fg-on-brand-solid`, `fg-on-critical-solid`, `fg-on-informative-solid`, `fg-on-neutral-solid`, `fg-on-positive-solid`, `fg-on-warning-solid`를 추가합니다(예: `text-fg-on-neutral-solid`).
+  - 눌린 상태의 Neutral Solid 배경색 `bg-neutral-solid-pressed`를 추가합니다(예: `bg-bg-neutral-solid-pressed`).
+  - 새 색상은 `@seed-design/css` 3.0.0 이상, Lynx에서는 `@seed-design/lynx-css` 0.14.0 이상이 제공하는 CSS 변수를 참조합니다. 새 색상을 사용하려면 해당 패키지를 함께 업그레이드하세요.
+  - `bg-neutral-solid`는 `@seed-design/css` 3.0.0의 `$color.bg.neutral-solid` 값 변경에 따라 라이트 모드에서 `gray-900`, 다크 모드에서 `gray-1000`으로 표시됩니다.
+  - `bg-neutral-inverted`, `bg-neutral-inverted-pressed`, `fg-neutral-inverted`는 그대로 제공합니다. 세 색상 모두 `@seed-design/css`에서 deprecated된 토큰이므로 같은 값의 `bg-neutral-solid`, `bg-neutral-solid-pressed`, `fg-on-neutral-solid`로 교체하세요.
+- 66c3bd9: (BREAKING CHANGE: `bg-layer-fill` 색상을 같은 값의 `bg-neutral-muted`로 교체해야 합니다.) deprecated 상태였던 `bg-layer-fill` 색상을 제거하고 `bg-neutral-muted`를 추가합니다.
+  
+  - `bg-bg-layer-fill` 같은 클래스를 `bg-bg-neutral-muted`로 교체하세요. 제거된 클래스는 빌드 에러 없이 스타일만 적용되지 않습니다.
+  - 새 색상은 `@seed-design/css` 3.0.0 이상, Lynx에서는 `@seed-design/lynx-css` 0.14.0 이상이 제공하는 CSS 변수를 참조합니다.
+
+### Minor Changes
+
+- 66c3bd9: 표면과 같은 색상의 `$color.bg.neutral-subtle` 토큰을 추가합니다.
+  
+  - 라이트 모드에서 `gray-00`, 다크 모드에서 `gray-100`을 사용하며, 회색 표면 위에서 주변과 구분되는 영역에 사용합니다.
+  - Tailwind에서는 `bg-neutral-subtle` 색상으로 사용할 수 있습니다(예: `bg-bg-neutral-subtle`).
+
+### Patch Changes
+
+- Updated dependencies [19ecbd6]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [d3edadf]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [5e34f78]
+- Updated dependencies [fa3eb46]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [8c70df1]
+- Updated dependencies [78f0bc1]
+- Updated dependencies [66c3bd9]
+- Updated dependencies [78f0bc1]
+- Updated dependencies [ebdc295]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [66c3bd9]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [19ecbd6]
+  - @seed-design/css@3.0.0
+  - @seed-design/lynx-css@0.14.0
+
+## 2.5.0
+
+### Minor Changes
+
+- 31efec5: 파운데이션 gradient 7종의 8방향 유틸리티를 지원합니다. 기존 방향성·대괄호 각도 클래스를 유지하고, light/dark 모드에 맞는 원본 gradient stop을 사용하도록 수정합니다.
+  
+  각도는 기존 `bg-gradient-{token}-[45deg]` 대괄호 문법을 사용하도록 문서 예제를 정정합니다.
+
+### Patch Changes
+
+- Updated dependencies [f43cedd]
+- Updated dependencies [ba7cfa8]
+- Updated dependencies [cb4c4a1]
+  - @seed-design/css@2.9.0
+  - @seed-design/lynx-css@0.13.0
+
+## 3.0.0
+
+### Patch Changes
+
+- Updated dependencies [fa699aa]
+  - @seed-design/lynx-css@0.12.0
+
+## 2.4.1
+
+### Patch Changes
+
+- dcf17cb: 그라디언트 토큰 참조에 필요한 `@seed-design/css`의 peer dependency 범위를 `^2.7.0`으로 수정합니다. 웹에서 사용하는 경우 `--seed-gradient-fade-mask` 토큰이 제공되는 `2.7.0` 이상 2.x 버전을 설치해야 합니다.
+- dcf17cb: Lynx에서 웹용 CSS 패키지를 필수로 요구하던 문제를 수정합니다.
+
+  `@seed-design/css`와 `@seed-design/lynx-css`를 optional peer로 변경합니다. 웹에서는 `@seed-design/css`, Lynx에서는 `@seed-design/lynx-css`를 설치하고 해당 패키지의 토큰 CSS를 불러와야 합니다.
+
+## 2.4.0
+
+### Minor Changes
+
+- 45b827b: `$gradient.fade-mask` 토큰을 추가하고, ScrollFog의 fog 마스크를 easing 그라데이션으로 개선합니다.
+
+  - `$gradient.fade-mask`(`--seed-gradient-fade-mask`)를 추가합니다. 콘텐츠를 부드럽게 가리는 마스크용 불투명도(alpha) easing 곡선이며, 라이트/다크 테마에서 동일합니다.
+  - ScrollFog의 가장자리 페이드가 기존 선형 2단계에서 16단계 easing 곡선으로 바뀌어 더 부드럽게 표현됩니다.
+  - ScrollFog spec의 `fromColor`/`toColor` 프로퍼티가 `gradient` 하나로 대체됩니다.
+
 ## 2.3.0
 
 ### Minor Changes

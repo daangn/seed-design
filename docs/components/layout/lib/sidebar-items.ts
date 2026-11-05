@@ -24,7 +24,10 @@ export interface SidebarFolderItem {
   key: Key;
   label: ReactNode;
   defaultOpen: boolean;
+  collapsible: boolean;
   current: boolean;
+  /** The folder's own page; rendered on the trigger rather than in the child list. */
+  index?: SidebarLeafItem;
   items: SidebarLeafItem[];
 }
 

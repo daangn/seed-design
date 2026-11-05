@@ -37,3 +37,8 @@ export {
 } from "./SideNavigation";
 
 export * as SideNavigation from "./SideNavigation.namespace";
+
+export {
+  useSideNavigationContext,
+  type UseSideNavigationContext as SideNavigationContextValue,
+} from "@seed-design/react-side-navigation";

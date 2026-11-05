@@ -1,295 +1,64 @@
-# AGENTS.md — packages/lynx-react
+# packages/lynx-react
 
-## 디렉토리 개요
+`@seed-design/react`의 Lynx 대응 스타일드 컴포넌트 패키지(`@seed-design/lynx-react`)다. `@seed-design/lynx-css` Recipe와 `packages/lynx-react-headless/*` 로직을 조합하며 Lynx 런타임 제약을 따른다.
 
-Lynx 플랫폼용 스타일드 React 컴포넌트 패키지. `@seed-design/react`의 Lynx 대응 버전으로, Lynx 런타임 제약에 맞춘 구현을 제공한다.
+## 검증
 
-## Lynx 런타임 주의사항
+루트 `bun test:lynx-react`가 기본이다. 이 패키지만 빠르게 돌릴 때:
 
-### children은 nativeProps와 분리
+- `bun --filter @seed-design/lynx-react test`: Vitest와 ReactLynx Testing Library
+- `bun --filter @seed-design/lynx-react typecheck`: 소스와 테스트 tsconfig를 둘 다 검사
 
-`{...nativeProps}`로 spread하면 `children`이 포함되어 Lynx의 `commitPatchUpdate`에서 circular reference 에러 발생. 항상 children을 별도로 추출해서 JSX children으로 전달한다.
+## 규칙
 
-```tsx
-const { children, ...nativeProps } = restProps;
-<view {...nativeProps}>{children}</view>
-```
+### 런타임 불변식
 
-### ref null 가드
+어기면 타입 검사는 통과하고 기기에서만 깨진다.
 
-Lynx의 `applyRef`는 null ref에 `.current`를 설정하려고 에러를 던진다. `forwardRef` 사용 시 ref가 null이면 전달하지 않는다.
+- intrinsic tag(`<view>`, `<text>`, `<image>`) → 컴포넌트 파일 안에서 리터럴 JSX로 렌더링한다. 변수 tag, `React.createElement("view", ...)`, 공통 유틸의 native tag factory, `withProvider`·`withContext`에 intrinsic string 전달을 쓰지 않는다. `React.createElement` 형태로 컴파일되어 Lynx 컴파일러의 리터럴 JSX 정적 분석을 우회하고 `BackgroundSnapshot not found` 런타임 오류를 낸다(`src/utils/create-slot-recipe-context.tsx`의 `assertNotIntrinsicComponent`가 막는다). slot factory가 필요하면 `components/MenuSheet/MenuSheet.tsx`의 `createViewSlot`처럼 파일 안에서 리터럴 JSX를 반환한다.
+- `children` → `{...nativeProps}`에 섞지 않는다. `const { children, ...nativeProps } = restProps`로 분리해 JSX children으로 넘긴다.
+- ref → `forwardRef`에서 null ref를 Lynx primitive에 넘기지 않는다. `{...(ref ? { ref } : {})}`로 있을 때만 전달한다.
+- CSS `inherit` → Lynx가 지원하지 않는다. 필요한 값은 요소에 직접 적용한다.
 
-```tsx
-const mergedProps = {
-  ...(ref ? { ref } : {}),
-  className,
-  style,
-};
-```
+### 파일과 공개 API
 
-### inherit 키워드 미지원
+- 컴포넌트는 `src/components/<ComponentName>/`에 `<ComponentName>.tsx`, `index.ts`, 필요하면 `<ComponentName>.namespace.ts`를 둔다. 훅은 `src/hooks/<useName>.ts`, 유틸은 `src/utils/<util-name>.ts`에 둔다.
+- 테스트는 대상 옆 `<file>.test.{ts,tsx}`에 둔다(`Menu/__tests__/`만 예외).
+- 새 공개 모듈 → 컴포넌트 `index.ts`에서 이름으로 re-export하고 `src/index.ts`까지 연결해야 공개된다.
 
-Lynx는 CSS `inherit` 키워드를 지원하지 않는다. CSS variable을 `inherit`로 초기화하는 패턴(웹의 `.seed-text`)은 Lynx에서 동작하지 않으므로, 스타일을 요소에 직접 적용해야 한다.
+### 컴포넌트 구성
 
-### Runtime intrinsic tag 변수화 금지
+- 모든 컴포넌트는 `React.forwardRef`와 `displayName`을 쓴다.
+- Recipe는 `@seed-design/lynx-css/recipes/<name>`에서 import하고, Recipe className과 사용자 `className`을 `clsx`로 병합한다. React 레이어에 `style`을 직접 쓰지 않는다 → Recipe로 옮긴다.
+- variant props(`size`, `tone`, `variant` 등)를 손으로 destructuring하거나 타입 캐스트로 분리하지 않는다 → 단일 Recipe는 `recipe.splitVariantProps(props)`, 여러 Recipe는 `src/utils/split-multiple-variants-props.ts`의 `splitMultipleVariantsProps(props, recipes)`, compound Recipe는 `createSlotRecipeContext`가 주는 분리 도구를 쓴다.
+- compound Recipe의 className·slot 연결 → `../../utils/create-slot-recipe-context`의 `createSlotRecipeContext`. 이 도구는 className·slot 연결만 맡는다.
+- checked, disabled, 계산된 문자열, ref 같은 런타임 상태 → 컴포넌트 파일의 `React.createContext`로 전달한다. context가 없으면 throw해 잘못된 조합을 드러낸다.
 
-Lynx 컴파일러는 intrinsic tag 를 컴파일 타임에 리터럴 JSX 로 만나야 native element 로 등록한다. 런타임 변수 태그(`<Comp>`, `<Tag>`)로 `<view>` / `<text>` 를 렌더하면 `BackgroundSnapshot not found: view` 런타임 에러를 유발한다. 스타일드 컴포넌트에서는 네이티브 `<view>` / `<text>` 요소를 컴포넌트 파일 안에서 직접 사용한다.
+### floating 레이어
 
-```tsx
-// ❌ 금지 — intrinsic tag 가 런타임 변수로 전달됨
-const Comp = "view";
-<Comp ref={ref} className={className}>{children}</Comp>
+Menu·Select·HelpBubble처럼 화면 위에 뜨는 레이어의 host 규칙이다. iOS 시뮬레이터(LynxExplorer, Lynx SDK 1.4.0)와 Android 실기기(Galaxy SM-F971N, Lynx Go)에서 확인했다. 탭 전달은 Android 실제 터치로만 확인했다.
 
-// ✅ 네이티브 <view> 직접 사용
-<view {...(ref ? { ref } : {})} className={className}>{children}</view>
-```
+- raw `<overlay>`를 쓰지 않는다 → `@lynx-js/lynx-ui-overlay`의 `OverlayView`를 감싸지 않고 직접 쓴다. `container`가 없으면 `<view>`, 있으면 native `<overlay>`로 렌더링한다. Dialog·Sheet 계열이 쓰는 lynx-ui `DialogView`·`SheetView`도 같은 `OverlayView`다.
+- 레이어 host 파트는 `Pick<OverlayViewProps, "container" | "overlayLevel" | "overlayViewProps">`를 공개 Props로 둔다. Dialog 계열의 `dialogViewProps`, Sheet 계열의 `nativeProps`는 native pass-through 이름으로 유지한다. Registry의 단일 조립 컴포넌트는 `container`·`overlayLevel`만 받아 전달한다.
+- `OverlayView`는 배치 스타일을 정하지 않는다. `className`·`style`은 view 모드에서 레이어 `<view>`, overlay 모드에서 `<overlay>` 안의 `<view>`에 붙는다 → view 모드는 `position: fixed`, overlay 모드는 `relative`로 컴포넌트가 바꾼다(`DialogView`·`SheetView`와 같다). view 모드 레이어는 Lynx view 안에만 그려지고, `container="window"` 레이어는 Lynx view 밖 host의 native 내비게이션 바까지 덮는다.
+- 비모달 레이어(HelpBubble)는 view 모드에서 전체 화면 크기를 주지 않는다 → 전체 화면 레이어는 아래 요소의 탭을 가로챈다. 바깥 탭 닫기도 탭 영역을 깔지 않고 레이어 요소의 `global-bindtap`으로 판정한다 → 탭한 요소도 같은 탭을 받는다. 이벤트 `detail.x`·`detail.y`는 page 기준이므로 root rect를 더해 `relativeTo: "screen"` rect와 비교한다(iOS PlayLynx에서 agent-lynx tap으로 view·overlay 모드 모두 확인. overlay 안의 레이어 요소도 page의 탭을 받는다).
+- overlay 모드의 레이어 `<view>`는 `event-through`가 기본 `true`라 backdrop이 탭을 받지 못하고 아래 화면으로 넘긴다. 이 값은 자식에게 상속된다.
+  - 바깥 탭을 막고 backdrop에서 받는 레이어(Menu·Select) → `overlayViewProps`에 `"event-through": false`를 넣는다.
+  - 바깥 탭을 아래 화면에 넘기는 비모달 레이어 → 기본값을 두고, 탭을 받아야 하는 콘텐츠 요소에 `event-through={false}`를 준다. 빠뜨리면 콘텐츠 탭도 아래로 넘어간다.
+- 열린 뒤 측정은 열림 effect에서 한다. 두 모드·두 플랫폼 모두 effect 시점의 `boundingClientRect`가 최종 값과 같았다. `bindshowoverlay`에 기대지 않는다 → iOS는 `visible` 상태로 mount한 `<overlay>`에서 이 이벤트를 보내지 않고, `visible`이 false→true로 바뀔 때만 보낸다(Android는 mount 때도 보낸다).
+- `boundingClientRect`의 `relativeTo: "screen"` 기준이 플랫폼마다 다르다(iOS는 화면, Android는 Lynx view 기준). 위치는 레이어 rect를 뺀 레이어 기준 좌표로 계산한다(Menu·Select의 `overlayRect` 방식).
+- `overlayViewProps.visible`은 `OverlayView`의 `overlayLevel` 지연 표시(첫 2 frame 숨김, lynx-ui가 밝힌 Android 예외 회피)를 덮어쓴다 → 닫힌 동안 mount를 유지할 때만 `visible: false`를 넘기고 열 때는 넘기지 않는다. view 모드는 `visible`이 없으므로 레이어에 `display: none`을 준다. 숨길 때 레이어 안 `bindlayoutchange`가 0 크기로 오므로 측정에 쓰지 않는다.
+- `binddismissoverlay`는 `<overlay>`가 `visible=false`가 될 때마다 온다. 소비자가 `visible: false`로 숨길 때와, iOS에서 `overlayLevel`을 지정해 mount한 직후(지연 표시 전)에도 온다 → 이 둘을 `"dismiss"` reason으로 처리하지 않는다.
+- Android 뒤로 가기는 overlay 모드에서 `bindrequestclose`로 오고 페이지는 남는다. view 모드에는 `binddismissoverlay`·`bindrequestclose`가 없어 레이어를 닫을 수 없고, 뒤로 가기는 host 페이지 자체를 닫는다.
 
-자세한 허용/금지 패턴은 아래 "Native tag literal JSX constraint" 섹션 참조.
+### 애니메이션
 
-### Native tag literal JSX constraint
+- 프레임 기반 → `requestAnimationFrame`을 쓴다. `setInterval`을 쓰지 않는다.
+- main thread 애니메이션 → `useMainThreadRef`, `main-thread:ref`, `"main thread"` directive 같은 기존 패턴을 따른다. thread 사이에 공유하는 함수는 각 실행 환경의 directive 규칙을 확인한다.
+- 반복 애니메이션 → React state 대신 `setStyleProperty`·`setStyleProperties`로 스타일을 직접 갱신한다.
 
-Lynx 컴파일러는 JSX 의 intrinsic 태그(`<view>`, `<text>`, `<image>` 등)를 **컴파일 타임에 리터럴 JSX** 로 만나야 native element 로 등록한다. 조건이 깨지면 runtime 에 `BackgroundSnapshot not found: view` 에러가 난다.
+### 웹과의 차이 문서화
 
-#### 조건을 깨는 패턴 (금지)
-
-- **intrinsic tag 를 runtime 변수로 전달**: `React.createElement("view", ...)` 또는 `const Tag = "view"; <Tag />`. 대표 실패 케이스는 `withContext("view", "header")` 가 `React.createElement(Component, ...)` where `Component === "view"` 로 컴파일되어 **PR #1489 에서 실제 재현 + revert 된 사례**.
-- **소스에 리터럴 intrinsic 태그가 없는 JSX**: 공통 컴포넌트가 `<Comp>` 변수 태그만 렌더하는 패턴 — 사용 금지.
-
-#### 조건을 만족하는 안전한 패턴
-
-- **리터럴 `<view>` / `<text>` JSX 를 `forwardRef` 본문에 직접 작성** — lynx-ui 의 모든 slot 이 쓰는 방식. 이 `forwardRef` 를 생성하는 factory 를 같은 컴포넌트 파일 안에 두는 것도 OK (예: BottomSheet 의 `createViewSlot` / `createTextSlot`).
-- **React 함수 컴포넌트를 `withContext` 에 넘기기**: `withContext(SheetBackdrop, "backdrop")` — Component 인자가 함수 컴포넌트이고 그 컴포넌트 본문에 리터럴 `<view>` / `<text>` 가 있는 경우. intrinsic string 을 인자로 넘기는 것만 금지.
-
-#### 허용 / 금지 요약
-
-| 패턴 | 리터럴 `<view>` 소스에? | 결과 |
-|---|---|---|
-| `forwardRef((p, ref) => <view ...>...</view>)` (컴포넌트 파일 안) | ✅ | 표준 |
-| 같은 컴포넌트 파일 안의 factory (예: BottomSheet `createViewSlot`) | ✅ | 표준 |
-| `withContext(SheetBackdrop, "backdrop")` | ✅ (SheetBackdrop 파일 안에 리터럴 `<view>`) | ship 실증 |
-| `withContext("view", "header")` | ❌ createElement 에 string | PR #1489 실패 재현 |
-| **공통 유틸 파일의 factory (예: createSlotRecipeContext 안의 `withViewContext`)** | ❌ 리터럴 `<view>` 가 **다른 파일**에 있음 | **PR #1503 spike 에서 실패 재현** |
-| `const Tag = "view"; <Tag />` | ❌ | 금지 |
-
-#### ⚠️ 파일-경계 제약 (2026-04-22 PR #1503 spike 로 확인)
-
-리터럴 `<view>` / `<text>` JSX 는 **그 native element 가 최종 렌더되는 컴포넌트 파일과 동일한 파일 안**에 있어야 한다. 공통 유틸 파일(`create-slot-recipe-context.tsx` 등) 에 factory 를 선언해 그 반환값을 컴포넌트에서 export 하는 패턴은 **Lynx 에서 동작하지 않는다** — factory 의 `forwardRef` 본문에 리터럴 `<view>` 가 있어도 Lynx 컴파일러의 정적 분석은 파일 단위로 작동해 해당 native tag 를 컴포넌트 파일의 렌더 트리에 등록하지 못한다.
-
-실증 근거:
-- `createViewSlot(slotName)` (BottomSheet.tsx **안**의 factory) → ✅ ship 되어 작동 중
-- `withViewContext(slotName)` (create-slot-recipe-context.tsx **안**의 구조 동일 factory) → ❌ `BackgroundSnapshot not found: view` 런타임 에러 (PR #1503 spike)
-- 두 factory 의 구조는 완전히 동일, 차이점은 선언 파일 위치뿐.
-
-함의: 여러 컴포넌트가 유사한 native slot 패턴을 공유하려 해도 **공통 helper 로 뽑을 수 없다**. 각 컴포넌트 파일에서 리터럴 JSX 를 (필요하면 파일-내 factory 로) 직접 작성해야 한다. 이는 lynx-ui 가 13 개 compound 패키지에서 helper 없이 slot 을 각자 작성하는 이유와 일치한다.
-
-#### 근본 원인 (ReactLynx 런타임)
-
-에러는 `@lynx-js/react/runtime/lib/backgroundSnapshot.js:28` 에서 `snapshotManager.values: Map<type, snapshot_def>` 레지스트리 lookup 이 실패하면 즉시 throw 된다. 이 Map 은 `@lynx-js/react-rsbuild-plugin` 이 JSX transform 시 **파일 단위로** 리터럴 intrinsic 태그를 스캔하며 `createSnapshot(...)` 호출을 주입해 빌드 타임에 채운다 — 공통 유틸 파일 안의 helper 가 반환하는 컴포넌트는 컴포넌트 파일의 registry 에 포함되지 않아 runtime throw. **끄거나 우회하는 공식 플래그는 없다** (`createSnapshot` 은 public export 이지만 수동 호출은 internal semantics 의존이라 권장 안 됨). 엔진 C++ (`lynx/core/renderer/dom/element_property.cc:33` 의 `ConvertStringTagToEnumTag()`) 는 런타임 레지스트리 lookup 이 성공한 뒤의 후속 단계다.
-
-"BackgroundSnapshot" 은 lynxjs.org 에 공식 문서화되지 않은 ReactLynx 런타임 내부 용어다. 본 제약은 **PR #1489 (intrinsic string) + PR #1503 (다른 파일의 helper) 의 실패 재현**과 현재 ship 된 안전 패턴으로만 검증된다.
-
-### 애니메이션 패턴
-
-Lynx에서 프레임 기반 애니메이션을 구현할 때는 다음 패턴을 따른다. lynx-ui(Lynx 공식 UI 라이브러리)의 패턴과 일치한다.
-
-1. **`requestAnimationFrame` 사용** (`setInterval` 사용 금지)
-   - 디스플레이 refresh rate에 동기화됨
-   - `setInterval`은 프레임 타이밍과 무관하게 실행되어 jank 유발
-
-2. **Main thread 실행** (`'main thread'` directive)
-   - 애니메이션 로직은 main thread에서 실행하여 크로스 스레드 오버헤드 제거
-   - `useMainThreadRef`로 element 참조 획득, `main-thread:ref` 속성으로 바인딩
-
-3. **직접 스타일 변경** (`setStyleProperty` / `setStyleProperties`)
-   - React `setState` 대신 DOM 직접 조작으로 리렌더 제거
-   - 다수 인스턴스가 동시에 애니메이션할 때 성능 차이가 극적
-
-4. **인스턴스별 독립 루프** (현재 제약)
-   - Lynx main thread에서 모듈 레벨 `Map`/`Set` 사용 불가로 공유 루프 구현 불가
-   - 각 인스턴스가 독립 RAF 루프 실행. 다수 인스턴스 시 성능 저하 가능
-   - `clip-path`가 Lynx에서 animatable이 아니라 JS로 매 프레임 SVG path 생성 필요
-
-5. **스레드 간 함수 공유 불가**
-   - `"main thread"` directive 함수는 background thread(render)에서 호출 불가 (worklet 변환됨)
-   - 반대로 directive 없는 함수는 main thread 번들에 미포함
-   - 양쪽에서 필요한 로직은 각 스레드용 복사본 유지 (예: `bgPieClipPath` + `pieClipPath`)
-
-## 미지원 기능 문서화 컨벤션
-
-Lynx 플랫폼 제약으로 웹 대비 미지원 기능이 있을 때, 다음 세 곳에 일관되게 반영한다:
-
-### 1. 컴포넌트 타입 (`Omit` + JSDoc)
-
-미지원 prop은 `Omit`으로 타입에서 제거하고, 인터페이스 위에 `@platform Lynx` JSDoc으로 미지원 목록/사유/지원 조건을 명시한다. 제거된 prop의 기본값은 recipe 호출 시 하드코딩한다.
-
-```tsx
-/**
- * @platform Lynx
- *
- * Lynx 미지원 기능 (Lynx 3.7 SVG 지원 후 추가 예정):
- * - featureName: 미지원 사유
- *
- * 웹 대비 미지원 기능:
- * - featureName: 미지원 사유
- */
-export interface ComponentProps
-  extends Omit<RecipeVariantProps, "unsupportedProp1" | "unsupportedProp2"> {
-  // ...
-}
-```
-
-### 2. docs/content/lynx/ 문서 (MDX)
-
-해당 컴포넌트의 `docs/content/lynx/<component>.mdx`에 미지원 기능 섹션을 포함한다. 컴포넌트 코드 변경 시 문서 동기화를 항상 함께 수행한다.
-
-### 3. 공통 미지원 사유
-
-| 사유 | 영향 받는 기능 예시 |
-|------|---------------------|
-| Lynx 3.7 SVG 지원 대기 | loading spinner, iconOnly layout, PrefixIcon/SuffixIcon |
-| CSS variable 동적 주입 제한 | color, fontWeight, bleedX/bleedY |
-
-## 코드 작성 컨벤션
-
-- 모든 컴포넌트는 `React.forwardRef` 사용 + ref null 가드
-- 네이티브 `<view>` / `<text>` 요소를 컴포넌트 파일 안에서 직접 렌더링
-- `displayName` 필수
-- `clsx`로 recipe className과 사용자 `className` 병합
-- recipe import: `@seed-design/lynx-css/recipes/<name>` (웹의 `@seed-design/css`가 아니다)
-
-## Variant Props 처리 패턴
-
-variant props(`size`, `tone`, `variant` 등)는 반드시 아래 패턴 중 하나로 처리한다.
-
-| 유형 | 도구 | 예시 |
-|------|------|------|
-| 단일 recipe | `recipe.splitVariantProps(props)` | ActionButton |
-| 다중 recipe (한 컴포넌트가 두 개 이상 recipe 사용) | `splitMultipleVariantsProps(props, { a, b })` | Switch |
-
-`splitMultipleVariantsProps`는 `../../utils/split-multiple-variants-props`에서 import 한다. 각 recipe의 variant bucket과 어느 recipe도 claim하지 않은 `restProps`로 분리해 준다. 공유 variant 키(예: 두 recipe 모두 `size`를 받는 경우)는 양쪽 bucket에 복제된다.
-
-```tsx
-const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, restProps] =
-  splitMultipleVariantsProps(props, { switch: switchStyle, switchmark });
-```
-
-### 절대 금지: variant props 수동 destructuring / 타입 캐스트
-
-variant가 추가/변경될 때 누락 위험이 있고 타입 안전성이 깨진다.
-
-```tsx
-// ❌ 함수 인자에서 variant를 직접 꺼내지 않는다
-const { size, tone, ...rest } = props;
-
-// ❌ 특정 prop만 타입 캐스트로 뽑지 않는다
-const { tone, ...rest } = props as { tone?: Tone } & Rest;
-```
-
-## Compound Component Context
-
-Compound 컴포넌트(Root + 하위 슬롯 구조)가 **런타임 상태**(예: `checked`, `disabled`)를 하위에 전파할 때는 React 기본 `createContext`를 **inline으로** 사용한다. lynx-ui의 13개 compound 패키지(switch / checkbox / dialog / radio-group / sheet / popover 등)가 전부 이 패턴을 쓴다. 별도 helper(`createCompoundContext` 등)는 두지 않는다.
-
-역할 구분:
-
-- **`createSlotRecipeContext`**: recipe 호출 결과 **className 맵**을 자동 주입. "스타일" 전용.
-- **inline `React.createContext<T | null>(null)`**: 임의의 **런타임 값/상태**(boolean, 계산된 문자열, ref 등)를 하위 slot에 전파. "스타일 아닌 것" 전용.
-
-두 Context를 한 컴포넌트에서 같이 쓰는 경우가 흔하다(예: Switch).
-
-### 표준 패턴
-
-```tsx
-import * as React from "react";
-
-interface SwitchContextValue {
-  checked: boolean;
-  disabled: boolean;
-  size: SwitchSize;
-  tone: SwitchTone;
-}
-
-const SwitchContext = React.createContext<SwitchContextValue | null>(null);
-
-function useSwitchContext(consumer: string): SwitchContextValue {
-  const ctx = React.useContext(SwitchContext);
-  if (!ctx) {
-    throw new Error(`<${consumer}/> must be rendered inside <SwitchRoot/>.`);
-  }
-  return ctx;
-}
-```
-
-- Root에서 `<SwitchContext.Provider value={useMemo(...)}>` 로 감싼다. value는 `useMemo`로 안정화해서 불필요한 리렌더를 막는다.
-- 하위 slot은 `useSwitchContext("SwitchThumb")` 로 읽고, 인자는 에러 메시지에 사용될 JSX 태그명이다.
-- **Context 누락 시 정책은 throw 통일**. warn + fallback은 금지 — fallback 값이 "정상 렌더링"처럼 보여 버그를 감춘다(웹 SEED의 `createSlotRecipeContext`와 일관).
-
-### 변형 override를 지원할 때
-
-중간 슬롯(예: `SwitchControl`)에서 variant props를 받아 Root의 기본값을 override 하고 싶으면, 그 슬롯이 자체적으로 `recipe()`를 호출해 계산한 className 번들을 두 번째 Context로 하위 슬롯(예: `SwitchThumb`)에 전달한다. Root Context에는 **기본값**만 실어 보내고, 실제 적용 className은 override 가능한 슬롯에서 계산한다.
-
-## Variant Props 처리 패턴
-
-variant props는 반드시 아래 패턴 중 하나로 처리한다. 세 패턴 모두 내부적으로 `splitVariantProps`를 사용하여 variant props와 네이티브 속성을 타입 안전하게 분리한다.
-
-| 유형 | 도구 | Lynx 예시 |
-|------|------|----------|
-| 직접 splitVariantProps | `recipe.splitVariantProps(props)` | ActionButton, ProgressCircle |
-| 복합 슬롯 | `createSlotRecipeContext` → `withContext` | BottomSheet |
-| 다중 Recipe | `splitMultipleVariantsProps` | (추후 포팅 예정 — 별도 PR) |
-
-### 절대 금지: variant props 수동 destructuring
-
-`({ variant, size, ...rest })` 형태로 variant를 함수 인자에서 직접 꺼내거나, `recipe({ variant, size })` 형태로 직접 전달하면 안 된다. variant가 추가/변경될 때 누락 위험이 있고, 타입 안전성이 보장되지 않는다.
-
-### SlotRecipe 사용 패턴
-
-복합 컴포넌트(슬롯이 여러 개인 경우)는 `createSlotRecipeContext`를 사용한다.
-
-- **import 경로**: `../../utils/create-slot-recipe-context`
-- `createSlotRecipeContext(slotRecipe)` 호출 결과에서 `ClassNamesProvider`, `withContext`, `useClassNames` 등을 꺼내 사용한다.
-- **외부 컴포넌트 슬롯** (lynx-ui 등): `withContext(Component, "slotName")` 한 줄로 연결한다.
-- **네이티브 `<view>` / `<text>` 슬롯**: `withContext` 를 사용할 수 없다. 컴포넌트 파일 안에 `forwardRef` 본문에 **리터럴 `<view>` / `<text>` JSX** 를 직접 작성해야 한다. 같은 recipe 의 여러 slot 을 위해서는 **컴포넌트와 동일한 파일 안에** factory (예: `createViewSlot`) 를 두고 반복 호출한다. factory 를 `createSlotRecipeContext` 같은 공통 유틸 파일에 두면 Lynx 컴파일러의 파일-스코프 정적 분석을 통과하지 못해 `BackgroundSnapshot not found: view` 에러를 일으킨다 (PR #1503 spike 로 확인 — 자세한 내용: "Native tag literal JSX constraint" 섹션).
-- Root에 상태(예: Trigger용 imperative ref) context를 추가해야 하면 `ClassNamesProvider`를 수동으로 중첩하고 Root 자체는 `forwardRef`로 직접 구현한다.
-
-### 절대 금지: React 레이어에 style prop 직접 작성
-
-스타일은 반드시 recipe를 통해 className으로 적용한다. `style` prop 직접 작성은 금지.
-
-## 파일 작성 컨벤션
-
-- 컴포넌트: `src/components/<ComponentName>/<ComponentName>.tsx` + `index.ts`
-- 훅: `src/hooks/<useName>.ts` (`useState` / `useEffect` / `useContext` 등 React API 를 직접 호출하는 파일)
-- 유틸리티: `src/utils/<util-name>.ts` (순수 함수 / 팩토리. React 훅은 `src/hooks/` 로 분리)
-- 테스트: `src/<...>/__tests__/<file>.test.{ts,tsx}`
-- 빌드: `tsc`로 `lib/`에 출력 (테스트 파일은 `tsconfig.json`의 `exclude`로 제외)
-
-### Barrel export 컨벤션
-
-- `src/<folder>/index.ts` 에서 폴더 내 모든 모듈을 `export * from "./<file-or-folder>"` 로 재노출한다.
-- 최상위 `src/index.ts` 는 폴더 단위로 `export * from "./<folder>"` 만 작성한다.
-- 새 폴더(예: `contexts/`, `types/`)를 추가할 때도 같은 패턴을 따르고, 최상위 `src/index.ts` 에 한 줄 `export *` 를 추가한다.
-- 새 컴포넌트/훅/유틸 파일을 추가하면 해당 폴더의 `index.ts` 에 `export * from "./<new-file>"` 한 줄만 추가한다 (최상위는 손대지 않는다).
-
-## 테스트
-
-lynx-react는 vitest + ReactLynx Testing Library를 사용한다 (다른 패키지의 bun:test와 다름).
-
-실행:
-
-```bash
-bun run test              # 패키지 내부
-bun lynx-react:test       # 루트에서
-```
-
-훅 테스트는 `@lynx-js/react/testing-library`의 `renderHook` / `act`를 쓴다.
-
-```ts
-import { act, renderHook } from "@lynx-js/react/testing-library";
-import { describe, expect, it } from "vitest";
-
-it("updates value", () => {
-  const { result } = renderHook(() => useSomeHook());
-  act(() => result.current.setValue(42));
-  expect(result.current.value).toBe(42);
-});
-```
+- Lynx가 지원하지 않는 prop → 타입에서 `Omit`하고 `@platform Lynx` JSDoc을 단다.
+- Lynx 지원 범위를 바꿈 → `docs/content/lynx/components/<component>.mdx`도 확인한다.
+- frontmatter `compatibility.lynx` → 확정된 Lynx Engine 최소 버전과 XElement가 있을 때만 쓴다.

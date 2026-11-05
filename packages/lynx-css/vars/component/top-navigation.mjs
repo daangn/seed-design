@@ -1,20 +1,23 @@
 export const vars = {
+  "base": {
+    "enabled": {
+      "root": {
+        "height": "56px",
+        "paddingX": "var(--seed-dimension-x1_5)"
+      }
+    }
+  },
   "themeIos": {
     "enabled": {
       "root": {
-        "height": "44px",
-        "paddingX": "var(--seed-dimension-x4)"
+        "titleMinGap": "var(--seed-dimension-x2)"
       }
     }
   },
   "themeAndroid": {
     "enabled": {
-      "root": {
-        "height": "56px",
-        "paddingX": "var(--seed-dimension-x4)"
-      },
       "main": {
-        "paddingLeft": "16px"
+        "paddingLeft": "var(--seed-dimension-x1_5)"
       }
     }
   },
@@ -51,7 +54,19 @@ export const vars = {
   "toneTransparentGradientTrue": {
     "enabled": {
       "root": {
-        "gradient": "#00000059 0%, #00000000 100%",
+        "gradient": {
+          "serialized": "#00000059 0%, #00000000 100%",
+          "stops": [
+            {
+              "color": "#00000059",
+              "position": 0
+            },
+            {
+              "color": "#00000000",
+              "position": 1
+            }
+          ]
+        },
         "bleedBottom": "var(--seed-dimension-x5)"
       }
     }

@@ -1,8 +1,5 @@
 import { readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { createMDX } from "fumadocs-mdx/next";
-
-const withMDX = createMDX();
 const recipeDirectory = fileURLToPath(new URL("../packages/css/recipes", import.meta.url));
 const layeredRecipeAliases = Object.fromEntries(
   readdirSync(recipeDirectory)
@@ -14,7 +11,15 @@ const layeredRecipeAliases = Object.fromEntries(
 );
 
 /** @type {import('next').NextConfig} */
+const archiveChannel = process.env.NEXT_PUBLIC_DOCS_ARCHIVE_CHANNEL;
+if (archiveChannel && !/^(?:react|lynx)\/v(?:0|[1-9]\d*|1\.(?:0|[1-9]\d*))$/.test(archiveChannel)) {
+  throw new Error(
+    "Archives must use a major channel such as react/v2 or lynx/v0, or retained react/v1.0 channels",
+  );
+}
 const config = {
+  ...(archiveChannel ? { assetPrefix: `/${archiveChannel}/_assets`, trailingSlash: true } : {}),
+  allowedDevOrigins: ["**.test"],
   output: "export",
   reactStrictMode: true,
   typescript: {
@@ -23,6 +28,9 @@ const config = {
   },
   transpilePackages: ["@seed-design/react", "@seed-design/stackflow"],
   serverExternalPackages: [
+    "@fumadocs/satteri",
+    "es-git",
+    "satteri",
     "ts-morph",
     "typescript",
     "oxc-transform",
@@ -38,6 +46,10 @@ const config = {
     // FIXME: temporal use for static export; will remove after image optimization setup
     unoptimized: true,
   },
+  experimental: {
+    // Next.js 16.2에서는 프로덕션 빌드용 Turbopack 파일 캐시가 기본으로 꺼져 있다.
+    turbopackFileSystemCacheForBuild: true,
+  },
   turbopack: {
     // Turbopack은 아직 package exports의 커스텀 condition을 설정할 수 없다.
     // Webpack의 `seed-layered` condition과 동일한 CSS 진입점을 직접 연결한다.
@@ -49,4 +61,4 @@ const config = {
   },
 };
 
-export default withMDX(config);
+export default config;

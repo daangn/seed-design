@@ -1,5 +1,6 @@
 @layer seed-components {
   .seed-article {
+    -webkit-user-select: text;
     user-select: text;
     word-break: normal;
     overflow-wrap: break-word;

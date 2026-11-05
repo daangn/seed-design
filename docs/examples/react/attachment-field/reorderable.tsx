@@ -1,4 +1,4 @@
-import type { FileEntry } from "@seed-design/react/primitive";
+import type { AttachmentInputFileEntry } from "@seed-design/react";
 import { AttachmentField } from "seed-design/ui/attachment-field";
 import { AttachmentInputReorderable } from "seed-design/ui/attachment-field-reorderable";
 
@@ -7,7 +7,7 @@ function createMockImageFile(name: string, base64: string): File {
   return new File([bytes], name, { type: "image/png" });
 }
 
-const defaultAcceptedFileEntries: FileEntry[] = [
+const defaultAcceptedFileEntries: AttachmentInputFileEntry[] = [
   {
     id: "1",
     file: createMockImageFile(

@@ -15,7 +15,8 @@ export interface NavigationMenuTriggerProps extends SeedNavigationMenu.TriggerPr
 
 export const NavigationMenuTrigger = SeedNavigationMenu.Trigger;
 
-export interface NavigationMenuContentProps extends SeedNavigationMenu.ContentProps {
+export interface NavigationMenuContentProps
+  extends Omit<SeedNavigationMenu.ContentProps, "asChild"> {
   positionerContainer?: SeedNavigationMenu.PositionerProps["container"];
 }
 
@@ -40,7 +41,8 @@ export interface NavigationMenuGroupLabelProps extends SeedNavigationMenu.GroupL
 
 export const NavigationMenuGroupLabel = SeedNavigationMenu.GroupLabel;
 
-export interface NavigationMenuItemProps extends Omit<SeedNavigationMenu.ItemProps, "children"> {
+export interface NavigationMenuItemProps
+  extends Omit<SeedNavigationMenu.ItemProps, "children" | "asChild"> {
   prefixIcon?: React.ReactNode;
 
   label: React.ReactNode;

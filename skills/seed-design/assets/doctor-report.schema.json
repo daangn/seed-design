@@ -1,0 +1,239 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://seed-design.io/schemas/doctor-report.json",
+  "title": "SEED Doctor Report",
+  "description": "SEED 사용 상태 진단의 결과. 채팅 요약과 HTML 리포트는 이 파일에서 파생되므로, 이것이 단일 소스다. JSON Schema가 표현할 수 없는 배열 간 rule 관계는 생성 단계에서 의미 검증한다.",
+  "type": "object",
+  "required": ["schemaVersion", "meta", "summary", "checks", "findings", "verdicts", "rejected"],
+  "additionalProperties": true,
+  "properties": {
+    "schemaVersion": {
+      "description": "필드가 깨지는 변경에만 올린다.",
+      "const": 2
+    },
+    "meta": {
+      "type": "object",
+      "required": ["target", "framework", "projectKinds", "date"],
+      "additionalProperties": true,
+      "properties": {
+        "target": { "type": "string", "description": "진단 대상 프로젝트 경로" },
+        "workspace": {
+          "type": "string",
+          "description": "모노레포일 때 SEED를 쓰는 워크스페이스. 단일 패키지면 생략."
+        },
+        "framework": { "enum": ["react", "lynx"] },
+        "projectKinds": {
+          "type": "array",
+          "description": "프로젝트 역할. 앱이면서 소비 가능한 라이브러리일 수 있으므로 비배타적이다.",
+          "uniqueItems": true,
+          "items": { "enum": ["app", "library"] }
+        },
+        "date": { "type": "string", "description": "YYYY-MM-DD" },
+        "seed": {
+          "type": "object",
+          "description": "사실 수집 결과. 판정의 근거이자 재현에 필요한 상태.",
+          "additionalProperties": true,
+          "properties": {
+            "installed": {
+              "type": "object",
+              "description": "선언 범위가 아니라 실제 설치본",
+              "additionalProperties": { "type": "string" }
+            },
+            "latest": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "snippetRoot": { "type": "string" }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "description": "findings의 severity별 개수. 손으로 세지 말고 findings에서 계산한다. 점수나 등급은 두지 않는다.",
+      "required": ["error", "warn", "info"],
+      "additionalProperties": false,
+      "properties": {
+        "error": { "type": "integer", "minimum": 0 },
+        "warn": { "type": "integer", "minimum": 0 },
+        "info": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "description": "이번 실행에서 요청 범위에 들어온 룰 전체. 적용되지 않거나 검증하지 못한 룰도 이유와 함께 남겨 실제 검사 범위를 드러낸다. rule은 리포트 안에서 유일해야 하며 fail check만 같은 rule의 findings를 가진다.",
+      "items": {
+        "type": "object",
+        "required": ["rule", "category", "status", "references"],
+        "additionalProperties": true,
+        "properties": {
+          "rule": {
+            "type": "string",
+            "description": "네임스페이스를 포함한 룰 id. 예: seed/project-config"
+          },
+          "category": {
+            "enum": ["config", "compatibility", "setup", "foundations", "components", "library"]
+          },
+          "status": {
+            "enum": ["pass", "fail", "not-applicable", "not-verified"]
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1,
+            "description": "pass/fail 판정의 대상과 근거. 파일:줄, 설치본 버전, 실행 결과 등을 적는다."
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "description": "not-applicable/not-verified인 이유. 적용 조건 불충족과 검증 실패를 구분한다."
+          },
+          "references": {
+            "type": "array",
+            "description": "판정 또는 적용 제외의 근거가 된 공식 문서 URL.",
+            "minItems": 1,
+            "items": { "type": "string" }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": { "status": { "enum": ["pass", "fail"] } },
+              "required": ["status"]
+            },
+            "then": { "required": ["evidence"] }
+          },
+          {
+            "if": {
+              "properties": {
+                "status": { "enum": ["not-applicable", "not-verified"] }
+              },
+              "required": ["status"]
+            },
+            "then": { "required": ["reason"] }
+          }
+        ]
+      }
+    },
+    "findings": {
+      "type": "array",
+      "description": "고칠 것. 생성 단계에서 같은 rule의 checks.status가 fail임을 의미 검증한 항목만 들어온다. 모든 fail check는 적어도 하나의 finding을 갖고, 다른 상태의 check는 finding을 갖지 않는다.",
+      "items": {
+        "type": "object",
+        "required": ["rule", "severity", "message", "file", "references", "remediation"],
+        "additionalProperties": true,
+        "properties": {
+          "rule": {
+            "type": "string",
+            "description": "네임스페이스 포함 룰 id. 예: seed/component-guidelines/bottom-sheet"
+          },
+          "severity": { "enum": ["error", "warn", "info"] },
+          "message": { "type": "string", "description": "위반 내용 한 문장" },
+          "file": {
+            "type": "string",
+            "description": "target 기준 상대 경로. 대상 파일이 아니라 실제로 고쳐야 할 위치. 원인이 하나여서 여러 파일을 한 건으로 묶었으면 대표 파일이나 그 파일들을 담은 디렉토리를 적고, 전체 목록은 files에 둔다."
+          },
+          "files": {
+            "type": "array",
+            "description": "한 건으로 묶인 파일 전체. 원인이 하나이고 조치도 한 번일 때만 쓴다(패키지가 뒤져 스니펫이 전건 구세대인 경우 등).",
+            "items": { "type": "string" }
+          },
+          "line": { "type": "integer", "minimum": 1 },
+          "criterion": {
+            "type": "string",
+            "description": "2단계(판단 보충) 기준 번호. verdicts의 같은 값과 이어진다. 여러 기준을 묶었으면 콤마로 나열한다. 예: \"1,4,8\""
+          },
+          "criterionIds": {
+            "type": "array",
+            "description": "1단계(기계 수집) 기준에서 나온 finding이면 그 id들. verdicts의 criterionId와 이어진다. criterion에 id 문자열을 섞어 넣지 않는다 — 그쪽은 번호용이다.",
+            "items": { "type": "string" }
+          },
+          "references": {
+            "type": "array",
+            "description": "판정 근거가 된 문서 URL. 필수다 — 무엇을 읽어야 하는지가 빠지면 사용자는 고칠 방법을 찾지 못한다. 리포트에도 접지 않고 노출한다.",
+            "minItems": 1,
+            "items": { "type": "string" }
+          },
+          "remediation": {
+            "type": "string",
+            "minLength": 1,
+            "description": "finding 하나를 별도 수정 요청으로 전달할 수 있는 완결된 프롬프트. 대상 프로젝트와 파일, 문제, 구체적인 수정 요구사항, 관련 없는 변경을 피하는 제약, references 전체, 저장소 지침과 package scripts를 확인한 뒤 변경 범위에 맞게 검증하라는 요청을 포함한다. Doctor는 이 프롬프트를 생성할 뿐 실행하지 않는다."
+          }
+        }
+      }
+    },
+    "verdicts": {
+      "type": "array",
+      "description": "판정 표 전체. 통과한 것과 판정하지 못한 것을 숨기지 않는다 — 무엇을 근거로 통과했는지가 결과의 신뢰도다.",
+      "items": {
+        "type": "object",
+        "required": ["rule", "verdict"],
+        "additionalProperties": true,
+        "properties": {
+          "rule": { "type": "string" },
+          "criterionId": {
+            "type": "string",
+            "description": "1단계(기계 수집) 기준이면 그 id. 예: bottom-sheet.dont-1. 문서 등장 순서로 붙으므로 실행이 달라도 같은 기준은 같은 id다 — 실행 간 비교가 이것으로 된다. 2단계(판단 보충) 기준에는 없다."
+          },
+          "criterion": {
+            "type": "string",
+            "description": "기준 번호. 같은 이유로 묶인 항목들은 콤마로 나열한다. 예: \"1,4,8\""
+          },
+          "text": {
+            "type": "string",
+            "description": "문서에서 도출한 기준 문장 그대로. 도출한 절도 함께."
+          },
+          "verdict": {
+            "description": "not-verified는 도구에 접근하지 못한 것(네트워크 차단 등)이고, unknown은 접근은 됐으나 판정할 수 없는 것이다. 코드 경로를 끝까지 추적했으면 확인한 것이며, 앱을 실행해볼 것을 요구하지 않는다.",
+            "enum": ["pass", "fail", "unknown", "not-verified"]
+          },
+          "unknownReason": {
+            "description": "verdict가 unknown일 때 왜인지. doc-conflict는 SEED 문서 자체의 결함이라 조치 주체가 다르다 — 나머지 셋은 진단 대상 프로젝트의 사정이지만 이것은 SEED가 문서를 고쳐야 한다.",
+            "enum": ["no-threshold", "runtime-dependent", "not-in-code", "doc-conflict"]
+          },
+          "scope": {
+            "type": "string",
+            "description": "여러 기준을 한 행으로 묶었을 때 그 묶음이 성립하는 이유. 예: \"자체 구현에 사용처가 0개라 조건이 성립하지 않음\". 표를 읽는 사람이 왜 한 줄로 뭉쳐 있는지 알 수 있어야 한다."
+          },
+          "evidence": {
+            "type": "string",
+            "description": "파일:줄, 또는 판정하지 못한 이유. 대상이 0개여서 통과했으면 그 사실."
+          }
+        }
+      }
+    },
+    "coverage": {
+      "type": "array",
+      "description": "component-guidelines를 판정한 컴포넌트마다 한 항목. expected(1단계 기계 수집 개수) ≠ judged(verdicts에 실제 나온 1단계 기준 수)면 기준을 건너뛴 실행이다 — 그 자체가 결함이다.",
+      "items": {
+        "type": "object",
+        "required": ["rule", "expected", "judged"],
+        "additionalProperties": true,
+        "properties": {
+          "rule": { "type": "string" },
+          "expected": { "type": "integer", "minimum": 0 },
+          "judged": { "type": "integer", "minimum": 0 },
+          "derived": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "2단계(판단 보충)로 얹은 기준 수"
+          }
+        }
+      }
+    },
+    "rejected": {
+      "type": "array",
+      "description": "위반으로 올릴까 하다 뺀 후보. 실제로 살펴본 것만 적고 칸을 채우려고 지어내지 않는다.",
+      "items": {
+        "type": "object",
+        "required": ["candidate", "reason"],
+        "additionalProperties": true,
+        "properties": {
+          "candidate": { "type": "string" },
+          "reason": { "type": "string" },
+          "file": { "type": "string" }
+        }
+      }
+    }
+  }
+}

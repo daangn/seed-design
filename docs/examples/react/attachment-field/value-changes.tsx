@@ -1,6 +1,5 @@
-import { VStack, Text } from "@seed-design/react";
+import { VStack, Text, type AttachmentInputFileStatusDetails } from "@seed-design/react";
 import { useState } from "react";
-import type { FileStatusDetails } from "@seed-design/react/primitive";
 import {
   AttachmentField,
   AttachmentInput,
@@ -10,7 +9,7 @@ import {
 function simulateUpload(
   _file: File,
   id: string,
-  updateFileEntryStatus: (id: string, details: FileStatusDetails) => void,
+  updateFileEntryStatus: (id: string, details: AttachmentInputFileStatusDetails) => void,
 ) {
   updateFileEntryStatus(id, { status: "uploading", progress: 0 });
 

@@ -5,7 +5,17 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { prefixIcon } from "../utils/icon";
-import { engaged, checked, disabled, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import {
+  active,
+  engaged,
+  checked,
+  disabled,
+  focusVisible,
+  not,
+  open,
+  pseudo,
+} from "../utils/pseudo";
+import { createContentScaleStyles } from "../utils/scale-feedback";
 import { selectBox as vars } from "../vars/component";
 import { selectBoxGroup as groupVars } from "../vars/component";
 import { selectBoxCheckmark as checkmarkVars } from "../vars/component";
@@ -50,6 +60,9 @@ export const selectBox = defineSlotRecipe({
 
       overflow: "hidden",
 
+      // the content scale already shrinks a nested mark along with the rest; it shouldn't scale twice
+      "--seed-radiomark-feedback-scale": "1",
+
       "&::after": {
         content: '""',
         position: "absolute",
@@ -68,6 +81,8 @@ export const selectBox = defineSlotRecipe({
       [pseudo(not(disabled), engaged)]: {
         backgroundColor: vars.base.enabledPressed.root.color,
       },
+
+      [pseudo(not(disabled), active)]: createContentScaleStyles(),
 
       [pseudo(not(disabled), checked)]: {
         "&::after": {

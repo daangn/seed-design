@@ -24,7 +24,7 @@ declare module "@stackflow/config" {
 
 // A leak inducer: a plain ancestor that sets the reset part's `--seed-box-*` to a
 // distinctive real value. On modern engines (and with the fix) the overlay part
-// resets it, so the measured value is the reset default (auto/none). On WebKit
+// resets it, so the measured value is the default that part's recipe declares. On WebKit
 // before the guaranteed-invalid fix (iOS 16.0.x — webkit.org/b/241433) the part's
 // `--seed-box-*: var(--seed-box-*-base)` link goes IACVT and inherits this value
 // instead — a visible LEAK.
@@ -168,8 +168,8 @@ const ActivityIacvtOverlay: StaticActivityComponentType<"ActivityIacvtOverlay"> 
               HelpBubble — content max-width 리셋
             </Box>
             <Box mb="x3" color="palette.gray600" style={{ fontSize: 12, lineHeight: 1.5 }}>
-              조상이 max-width=120px를 지정. 말풍선을 열면 content의 --seed-box-max-width는
-              none이어야 한다. 누수 시 120px를 물려받아 말풍선이 좁게 잘린다.
+              조상이 max-width=120px를 지정. 말풍선을 열면 content의 --seed-box-max-width는 recipe
+              기본값인 280px이어야 한다. 누수 시 120px를 물려받아 말풍선이 좁게 잘린다.
             </Box>
             {/* Inducer wraps the inline HelpBubble so its content inherits the value. */}
             <div style={HELP_BUBBLE_INDUCER}>
@@ -178,7 +178,7 @@ const ActivityIacvtOverlay: StaticActivityComponentType<"ActivityIacvtOverlay"> 
                 onOpenChange={setBubbleOpen}
                 closeOnInteractOutside={false}
                 title="HelpBubble IACVT"
-                description="이 말풍선의 content는 부모가 지정한 max-width를 상속하지 않고 none으로 리셋되어야 한다. 구형 WebKit에서 fix가 없으면 120px를 물려받아 이 문장이 좁게 잘린다."
+                description="이 말풍선의 content는 부모가 지정한 max-width를 상속하지 않고 recipe 기본값인 280px로 리셋되어야 한다. 구형 WebKit에서 fix가 없으면 120px를 물려받아 이 문장이 좁게 잘린다."
               >
                 <ActionButton variant="neutralWeak">말풍선 열기</ActionButton>
               </HelpBubbleTrigger>
@@ -190,7 +190,7 @@ const ActivityIacvtOverlay: StaticActivityComponentType<"ActivityIacvtOverlay"> 
               <VarRow
                 cssVar="--seed-box-max-width"
                 value={bubbleVars["--seed-box-max-width"]}
-                expected="none"
+                expected="280px"
               />
             </Box>
           </Box>

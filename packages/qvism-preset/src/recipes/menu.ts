@@ -3,6 +3,7 @@ import menuItemSpec from "@seed-design/rootage-artifacts/components/menu-item";
 import { menu as menuVars, menuItem as menuItemVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import {
+  active,
   disabled,
   engaged,
   focus,
@@ -21,6 +22,7 @@ import {
 } from "../utils/focus-ring";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 import { breakpoints } from "../utils/breakpoint";
+import { createContentScaleStyles } from "../utils/scale-feedback";
 
 // implement when submenu is needed
 // const highlighted = "[data-highlighted]";
@@ -29,6 +31,16 @@ const MENU_TRANSFORM_ORIGIN = "--seed-menu-transform-origin";
 const MENU_AVAILABLE_HEIGHT = "--seed-menu-available-height";
 const MENU_REFERENCE_WIDTH = "--seed-menu-reference-width";
 
+/**
+ * The only variable here consumers are meant to set — the other three are written by
+ * `useMenu` and merely read back. It has to land on the positioner, the content, or the
+ * scroll area: the positioner renders through a `FloatingPortal`, so a value set on the
+ * trigger or the root never reaches the scroll area by inheritance.
+ */
+const MENU_MAX_HEIGHT = "--seed-menu-max-height";
+
+const menuMaxHeight = `var(${MENU_MAX_HEIGHT}, ${menuVars.base.enabled.root.maxHeight})`;
+
 export const menu = defineSlotRecipe({
   name: "menu",
   slots: ["positioner", "content", "scrollArea", "group", "groupLabel"],
@@ -36,6 +48,7 @@ export const menu = defineSlotRecipe({
     positioner: {
       // helps menu to be open at the top of the stackflow stack; it won't have any AppScreen on top of it
       "--menu-z-index": "99999",
+      // `--z-index-offset` is a CSS escape hatch, deliberately not exposed as a snippet prop.
       zIndex: "calc(var(--menu-z-index) + var(--z-index-offset, 0))",
       outline: "none",
     },
@@ -81,7 +94,10 @@ export const menu = defineSlotRecipe({
     },
     scrollArea: {
       overflowY: "auto",
-      maxHeight: `min(${menuVars.base.enabled.root.maxHeight}, var(${MENU_AVAILABLE_HEIGHT}, ${menuVars.base.enabled.root.maxHeight}))`,
+      // The viewport clamp falls back to the cap rather than to the token: `useMenu` writes
+      // MENU_AVAILABLE_HEIGHT only once floating-ui has measured, so a raised cap would
+      // otherwise render at the token height on the first frame and then jump.
+      maxHeight: `min(${menuMaxHeight}, var(${MENU_AVAILABLE_HEIGHT}, ${menuMaxHeight}))`,
       boxSizing: "border-box",
 
       paddingBlock: menuVars.base.enabled.root.paddingY,
@@ -234,6 +250,8 @@ export const menuItem = defineSlotRecipe({
         insetInline: menuItemVars.base.pressed.root.marginX,
         borderRadius: menuItemVars.base.pressed.root.cornerRadius,
       },
+
+      [pseudo(not(disabled), active)]: createContentScaleStyles(),
 
       [pseudo(focusVisible)]: {
         "&::after": createFocusRingStyles({ position: "inside" }),

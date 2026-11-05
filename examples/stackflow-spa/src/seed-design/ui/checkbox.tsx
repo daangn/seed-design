@@ -7,19 +7,20 @@ import {
   PrefixIcon,
   VisuallyHidden,
 } from "@seed-design/react";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import * as React from "react";
 import {
   checkboxGroup,
   type CheckboxGroupVariantProps,
 } from "@seed-design/css/recipes/checkbox-group";
 
-export interface CheckboxGroupProps extends SeedFieldset.RootProps, CheckboxGroupVariantProps {
+export interface CheckboxGroupProps
+  extends Omit<SeedFieldset.RootProps, "asChild">,
+    CheckboxGroupVariantProps {
   label?: React.ReactNode;
   /**
    * @default "medium"
    */
-  labelWeight?: FieldLabelVariantProps["weight"];
+  labelWeight?: SeedFieldset.LabelProps["weight"];
   indicator?: React.ReactNode;
   showRequiredIndicator?: boolean;
 
@@ -95,7 +96,7 @@ export const CheckboxGroup = React.forwardRef<HTMLDivElement, CheckboxGroupProps
 );
 CheckboxGroup.displayName = "CheckboxGroup";
 
-export interface CheckboxProps extends SeedCheckbox.RootProps {
+export interface CheckboxProps extends Omit<SeedCheckbox.RootProps, "children" | "asChild"> {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
   rootRef?: React.Ref<HTMLLabelElement>;
@@ -125,7 +126,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
 );
 Checkbox.displayName = "Checkbox";
 
-export interface CheckmarkProps extends SeedCheckbox.ControlProps {}
+export interface CheckmarkProps extends Omit<SeedCheckbox.ControlProps, "children" | "asChild"> {}
 
 export const Checkmark = React.forwardRef<HTMLDivElement, CheckmarkProps>((props, ref) => {
   return (

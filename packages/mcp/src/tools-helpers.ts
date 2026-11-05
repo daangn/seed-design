@@ -1,4 +1,9 @@
-import type { GetFileNodesResponse, GetImagesQueryParams } from "@figma/rest-api-spec";
+import type {
+  Annotation,
+  GetFileNodesResponse,
+  GetImagesQueryParams,
+  Node,
+} from "@figma/rest-api-spec";
 import type { FigmaRestClient } from "./figma-rest-client";
 import { createFigmaRestClient } from "./figma-rest-client";
 import type { FigmaWebSocketClient } from "./websocket";
@@ -200,6 +205,105 @@ export async function fetchNodeSvg(
     })) as { svg: string };
 
     return result.svg;
+  }
+
+  throw new Error(
+    "No connection available. Provide figmaUrl/fileKey with personalAccessToken or FIGMA_PERSONAL_ACCESS_TOKEN, or use WebSocket mode with Figma Plugin.",
+  );
+}
+
+/**
+ * `labelMarkdown` and `category` are absent from `Annotation` because the REST endpoint serializes
+ * neither the authored markdown nor the annotation's category; only the plugin, and therefore only
+ * the WebSocket path, can read them.
+ */
+export interface ToolAnnotation extends Annotation {
+  labelMarkdown?: string;
+  category?: {
+    id: string;
+    label: string;
+    color: string;
+    isPreset: boolean;
+  };
+}
+
+export interface AnnotatedNode {
+  nodeId: string;
+  name: string;
+  /**
+   * Kept as `string` rather than `Node["type"]`: the WebSocket path answers in the Plugin API's
+   * vocabulary, which calls a page `PAGE` where REST calls it `CANVAS`, so neither union covers
+   * both transports.
+   */
+  type: string;
+  /**
+   * Ancestors between the queried node and this one, outermost first, and empty on the queried
+   * node itself. Relative rather than absolute because REST returns only the requested subtree,
+   * leaving nothing above it to name.
+   *
+   * Carries `id` because layer names are not unique — a page routinely repeats `Label` or `Slot`
+   * across hundreds of nodes — so the names alone read as a breadcrumb but cannot address the
+   * ancestor a caller wants to act on.
+   */
+  path: { id: string; name: string }[];
+  annotations: ToolAnnotation[];
+}
+
+/**
+ * Mirrors the plugin's traversal — the queried node first, then everything under it — so both
+ * transports answer the same question.
+ */
+function collectAnnotatedNodes(root: Node) {
+  const collected: AnnotatedNode[] = [];
+
+  const visit = (node: Node, path: AnnotatedNode["path"]) => {
+    if ("annotations" in node && node.annotations && node.annotations.length > 0) {
+      collected.push({
+        nodeId: node.id,
+        name: node.name,
+        type: node.type,
+        path,
+        annotations: node.annotations,
+      });
+    }
+
+    if (!("children" in node)) return;
+
+    const childPath = [...path, { id: node.id, name: node.name }];
+
+    for (const child of node.children) {
+      visit(child, childPath);
+    }
+  };
+
+  visit(root, []);
+
+  return collected;
+}
+
+export async function fetchNodeAnnotations(
+  params: { fileKey?: string; nodeId: string; personalAccessToken?: string },
+  context: ToolContext,
+): Promise<AnnotatedNode[]> {
+  const { fileKey, nodeId, personalAccessToken } = params;
+  const restClient = resolveRestClient(personalAccessToken, context);
+  const { sendCommandToFigma } = context;
+
+  if (restClient && fileKey) {
+    const response = await restClient.getFileNodes(fileKey, [nodeId]);
+    const nodeData = response.nodes[nodeId];
+
+    if (!nodeData) throw new Error(`Node ${nodeId} not found in file ${fileKey}`);
+
+    return collectAnnotatedNodes(nodeData.document);
+  }
+
+  if (sendCommandToFigma) {
+    const result = (await sendCommandToFigma("get_annotations", { nodeId })) as {
+      nodes: AnnotatedNode[];
+    };
+
+    return result.nodes;
   }
 
   throw new Error(

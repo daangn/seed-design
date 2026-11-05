@@ -20,6 +20,12 @@ const VARIANT_BG_CLASS = {
   neutralWeak: "bg-bg-neutral-weak",
 } as const;
 
+const VARIANT_FG_CLASS = {
+  brandSolid: "text-fg-on-brand-solid",
+  criticalSolid: "text-fg-on-critical-solid",
+  neutralWeak: "text-fg-neutral",
+} as const;
+
 function SectionHeader({ title, desc }: { title: string; desc: string }) {
   return (
     <view className="mb-x2">
@@ -127,7 +133,7 @@ function POCDIconComponent() {
           className={iconClass}
           size={32}
         />
-        <text className="t2-regular text-fg-neutral-inverted">current: {variant}</text>
+        <text className={clsx("t2-regular", VARIANT_FG_CLASS[variant])}>current: {variant}</text>
       </view>
 
       <view
@@ -170,7 +176,7 @@ function POCCVariantToggle() {
           className={iconClass}
           size={32}
         />
-        <text className="t2-regular text-fg-neutral-inverted">current: {variant}</text>
+        <text className={clsx("t2-regular", VARIANT_FG_CLASS[variant])}>current: {variant}</text>
       </view>
 
       <view
@@ -201,16 +207,16 @@ export function IconColorPOCPage() {
       <view className="mb-x4">
         <SectionHeader
           title="Baseline — semantic color 고정 (컴포넌트 + raw image)"
-          desc="아이콘이 렌더되는지 자체부터 좌표화. 왼쪽: IconPlusFill with fg.neutral-inverted. 오른쪽: raw <image> + data URI + semantic tint. 둘 중 어느 쪽이 보이는지."
+          desc="아이콘이 렌더되는지 자체부터 좌표화. 왼쪽: IconPlusFill with fg.on-brand-solid. 오른쪽: raw <image> + data URI + semantic tint. 둘 중 어느 쪽이 보이는지."
         />
         <BrandBg>
-          <IconPlusFill color="var(--seed-color-fg-neutral-inverted)" size={32} />
+          <IconPlusFill color="var(--seed-color-fg-on-brand-solid)" size={32} />
           <image
             src={PLUS_ICON_DATA_URI}
-            {...{ "tint-color": "var(--seed-color-fg-neutral-inverted)" }}
+            {...{ "tint-color": "var(--seed-color-fg-on-brand-solid)" }}
             className="w-x8 h-x8"
           />
-          <text className="t2-regular text-fg-neutral-inverted">좌: 컴포넌트 / 우: data URI</text>
+          <text className="t2-regular text-fg-on-brand-solid">좌: 컴포넌트 / 우: data URI</text>
         </BrandBg>
       </view>
 
@@ -218,15 +224,15 @@ export function IconColorPOCPage() {
       <view className="mb-x4">
         <SectionHeader
           title="POC A — attribute 에 var() 직접 주입"
-          desc='<image tint-color="var(--seed-color-fg-neutral-inverted)" /> — 흰 아이콘이면 Lynx attribute parser 가 CSS var 해석.'
+          desc='<image tint-color="var(--seed-color-fg-on-brand-solid)" /> — 흰 아이콘이면 Lynx attribute parser 가 CSS var 해석.'
         />
         <BrandBg>
           {/*
             IconPlusFill 은 내부에서 <image tint-color={color}> 로 렌더하므로
             color prop 에 CSS var 스트링을 그대로 넘기면 POC A 와 동치.
           */}
-          <IconPlusFill color="var(--seed-color-fg-neutral-inverted)" size={32} />
-          <text className="t2-regular text-fg-neutral-inverted">
+          <IconPlusFill color="var(--seed-color-fg-on-brand-solid)" size={32} />
+          <text className="t2-regular text-fg-on-brand-solid">
             ✅ 흰색 → var() 해석됨 / ❌ 검정 → 미해석
           </text>
         </BrandBg>
@@ -244,7 +250,7 @@ export function IconColorPOCPage() {
            * className 을 전달하므로 CSS 쪽에서 tint-color 를 지정하면 적용 여부 확인 가능.
            */}
           <IconPlusFill className="poc-b-icon" size={32} />
-          <text className="t2-regular text-fg-neutral-inverted">
+          <text className="t2-regular text-fg-on-brand-solid">
             ✅ 흰색 → CSS tint-color 지원 / ❌ 검정 → 미지원
           </text>
         </BrandBg>

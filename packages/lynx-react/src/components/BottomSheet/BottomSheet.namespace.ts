@@ -1,6 +1,7 @@
 export {
   BottomSheetBackdrop as Backdrop,
   BottomSheetBody as Body,
+  BottomSheetCloseButton as CloseButton,
   BottomSheetContent as Content,
   BottomSheetDescription as Description,
   BottomSheetFooter as Footer,
@@ -12,6 +13,7 @@ export {
   BottomSheetTrigger as Trigger,
   type BottomSheetBackdropProps as BackdropProps,
   type BottomSheetBodyProps as BodyProps,
+  type BottomSheetCloseButtonProps as CloseButtonProps,
   type BottomSheetContentProps as ContentProps,
   type BottomSheetDescriptionProps as DescriptionProps,
   type BottomSheetFooterProps as FooterProps,

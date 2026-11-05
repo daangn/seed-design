@@ -1,6 +1,11 @@
 import { createLLMTextRoute } from "@/app/_llms/llms-route";
-import { breezeSource } from "@/app/source";
+import { getBreezeSource } from "@/app/source";
 
 export const revalidate = false;
 
-export const { GET, generateStaticParams } = createLLMTextRoute(breezeSource, "breeze");
+const route = createLLMTextRoute(getBreezeSource, "breeze");
+
+export const GET = route.GET;
+export function generateStaticParams() {
+  return route.generateStaticParams();
+}

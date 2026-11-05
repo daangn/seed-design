@@ -14,6 +14,13 @@ declare const artifact: {
             "gap": {
               "type": "dimension";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "icon": {
@@ -86,6 +93,19 @@ declare const artifact: {
                 "fontWeight": {
                   "type": "number";
                   "value": "$font-weight.medium";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

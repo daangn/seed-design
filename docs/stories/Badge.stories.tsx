@@ -1,43 +1,40 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
-import { Badge } from "@seed-design/react";
-
+import preview from "../.storybook/preview";
+import { IconHeartFill } from "@karrotmarket/react-monochrome-icon";
+import { Badge } from "seed-design/ui/badge";
 import { badgeVariantMap } from "@seed-design/css/recipes/badge";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
 
-const meta = {
+const meta = preview.meta({
   component: Badge,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof Badge>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-const CommonStoryTemplate: Story = {
+});
+const CommonStoryTemplate = meta.story({
   args: {
-    children: "뱃지 내용은 길지 않은 것이 가장 좋겠지만 길어지는 경우 ellipsis 처리합니다.",
+    children: "판매 완료",
   },
-  render: (args) => (
-    <VariantTable Component={meta.component} variantMap={badgeVariantMap} {...args} />
-  ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
+  render: (args) => <VariantTable Component={Badge} variantMap={badgeVariantMap} {...args} />,
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
+});
+
+export const WithPrefix = meta.story({
+  render: () => <Badge prefix={<IconHeartFill />}>관심 등록</Badge>,
+});
+
+export const WithAction = meta.story({
+  render: () => <Badge actionProps={{ "aria-label": "도움말" }}>판매 완료</Badge>,
 });

@@ -1,6 +1,6 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
-import { useRef, useState } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 
 import {
   AppBar,
@@ -272,6 +272,29 @@ const ActivityMenu: StaticActivityComponentType<"ActivityMenu"> = () => {
                 </MenuGroup>
               </MenuContent>
             </MenuRoot>
+          </VStack>
+
+          <VStack gap="x3">
+            <SectionTitle>Max Height</SectionTitle>
+            <HStack align="center" gap="x4">
+              <MenuRoot size="medium">
+                <MenuTrigger asChild>
+                  <ActionButton variant="neutralWeak">30개 항목 (높이 제한)</ActionButton>
+                </MenuTrigger>
+                <MenuContent style={{ "--seed-menu-max-height": "160px" } as CSSProperties}>
+                  <MenuGroup>
+                    <MenuGroupLabel>Recently Played</MenuGroupLabel>
+                    {Array.from({ length: 30 }, (_, i) => (
+                      <MenuItem key={`capped-${i}`} label={`Track ${i + 1}`} />
+                    ))}
+                  </MenuGroup>
+                </MenuContent>
+              </MenuRoot>
+              <Text fontSize="t3" color="fg.neutralMuted">
+                --seed-menu-max-height로 기본 480px 대신 160px까지만 열립니다 · 화면에 남은 공간이
+                더 좁으면 그쪽을 따릅니다
+              </Text>
+            </HStack>
           </VStack>
 
           <VStack gap="x3">

@@ -6,7 +6,9 @@ export {
   AppBarRoot as Root,
   AppBarSlot as Slot,
   AppBarSubtitle as Subtitle,
+  AppBarTextButton as TextButton,
   AppBarTitle as Title,
+  type AppBarEdge as Edge,
   type AppBarIconButtonProps as IconButtonProps,
   type AppBarLeftProps as LeftProps,
   type AppBarMainProps as MainProps,
@@ -14,5 +16,6 @@ export {
   type AppBarRootProps as RootProps,
   type AppBarSlotProps as SlotProps,
   type AppBarSubtitleProps as SubtitleProps,
+  type AppBarTextButtonProps as TextButtonProps,
   type AppBarTitleProps as TitleProps,
 } from "./AppBar";

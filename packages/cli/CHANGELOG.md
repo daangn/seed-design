@@ -1,5 +1,34 @@
 # @seed-design/cli
 
+## 1.7.3
+
+### Patch Changes
+
+- d4ec62d: `add`·`add-all`·`compat`이 스니펫의 버전 요구를 더 정확히 검사합니다.
+  
+  - 스니펫이 요구하는 `@seed-design/stackflow` 버전도 검사합니다. 설치된 Stackflow가 `ui:app-screen` 스니펫의 요구 범위보다 낮으면 경고를 보여줍니다.
+  - `package.json`의 선언 범위(예: `^2.0.6`)보다 실제 설치된 버전을 먼저 사용합니다. 선언 범위가 요구 범위와 겹쳐도 설치된 버전이 낮으면 경고합니다. 설치본이 없으면 기존처럼 선언을 사용합니다.
+
+## 1.7.2
+
+### Patch Changes
+
+- 8a97cb8: React 1.x 레지스트리를 버전 경로에서 가져오도록 수정하고, 버전 경로를 `baseUrl`로 지정했을 때 문서와 LLM 링크가 올바른 주소를 사용하도록 수정합니다.
+
+## 1.7.1
+
+### Patch Changes
+
+- 25b251f: `add`, `add-all`의 `--seed-react-version 2`가 React 2.x 아카이브 레지스트리(`https://seed-design.io/react/v2`)를 사용하도록 지원합니다. 기존 `1.0`, `1.1`, `1.2` 옵션은 그대로 유지합니다.
+
+## 1.7.0
+
+### Minor Changes
+
+- 3dbdd07: CLI가 패키지 매니저 명령을 실행할 때 사용하는 `@antfu/ni`를 최신 버전으로 업데이트합니다.
+
+  - `@seed-design/cli`의 Node.js 요구사항을 `>=20.19.0`으로 맞춥니다.
+
 ## 1.6.1
 
 ### Patch Changes

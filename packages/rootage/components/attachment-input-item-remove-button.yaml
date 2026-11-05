@@ -20,6 +20,9 @@ data:
             type: color
           offset:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       icon:
         properties:
           size:
@@ -43,6 +46,7 @@ data:
       pressed:
         root:
           color: $color.bg.layer-default-pressed
+          scaleScope: self
       disabled:
         icon:
           color: $color.fg.disabled

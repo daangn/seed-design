@@ -19,9 +19,13 @@ import {
   AttachmentInputReorderable,
   AttachmentDropzoneReorderable,
 } from "seed-design/ui/attachment-field-reorderable";
-import { Divider, VStack } from "@seed-design/react";
+import {
+  Divider,
+  VStack,
+  type AttachmentInputFileEntry,
+  type AttachmentInputFileStatusDetails,
+} from "@seed-design/react";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import type { FileEntry, FileStatusDetails } from "@seed-design/react/primitive";
 import { vars } from "@seed-design/css/vars";
 
 declare module "@stackflow/config" {
@@ -54,7 +58,7 @@ const ActivityAttachmentField: StaticActivityComponentType<"ActivityAttachmentFi
     (
       file: File,
       id: string,
-      updateFileEntryStatus: (id: string, details: FileStatusDetails) => void,
+      updateFileEntryStatus: (id: string, details: AttachmentInputFileStatusDetails) => void,
     ) => {
       updateFileEntryStatus(id, { status: "uploading", progress: 0 });
 
@@ -69,10 +73,10 @@ const ActivityAttachmentField: StaticActivityComponentType<"ActivityAttachmentFi
 
   const handleFileAccept = useCallback(
     (
-      entries: FileEntry[],
+      entries: AttachmentInputFileEntry[],
       {
         updateFileEntryStatus,
-      }: { updateFileEntryStatus: (id: string, details: FileStatusDetails) => void },
+      }: { updateFileEntryStatus: (id: string, details: AttachmentInputFileStatusDetails) => void },
     ) => {
       for (const entry of entries) {
         startUpload(entry.file, entry.id, updateFileEntryStatus);
@@ -83,10 +87,10 @@ const ActivityAttachmentField: StaticActivityComponentType<"ActivityAttachmentFi
 
   const handleRetry = useCallback(
     (
-      fileEntry: FileEntry,
+      fileEntry: AttachmentInputFileEntry,
       {
         updateFileEntryStatus,
-      }: { updateFileEntryStatus: (id: string, details: FileStatusDetails) => void },
+      }: { updateFileEntryStatus: (id: string, details: AttachmentInputFileStatusDetails) => void },
     ) => {
       startUpload(fileEntry.file, fileEntry.id, updateFileEntryStatus);
     },

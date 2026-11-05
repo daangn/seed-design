@@ -43,7 +43,9 @@ export function useLayerStackContext() {
 }
 
 export function isTopMost(ctx: LayerStackContextValue, node: HTMLElement): boolean {
-  return ctx.layers.at(-1)?.node === node;
+  // Not `.at(-1)`: Array.prototype.at is ES2022, so it throws below Chrome 92 /
+  // iOS Safari 15.4.
+  return ctx.layers[ctx.layers.length - 1]?.node === node;
 }
 
 function contains(parent: HTMLElement | null, child: EventTarget | null): boolean {

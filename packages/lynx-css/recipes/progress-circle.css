@@ -36,45 +36,102 @@
   clip-path: path("M7 0 A7 7 0 1 1 7 14 A7 7 0 1 1 7 0 Z M7 2 A5 5 0 1 0 7 12 A5 5 0 1 0 7 2 Z");
 }
 
+.seed-progress-circle__track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .seed-progress-circle__cap {
   position: absolute;
   border-radius: 50%;
   z-index: 1;
 }
 
-.seed-progress-circle__root--tone_neutral {
-  background: var(--seed-color-palette-gray-200);
+.seed-progress-circle__spinner,
+.seed-progress-circle__indeterminate-range {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.seed-progress-circle__root--tone_brand {
-  background: var(--seed-color-palette-carrot-200);
+.seed-progress-circle__range.seed-progress-circle__indeterminate-range {
+  background-color: transparent;
 }
 
-.seed-progress-circle__root--tone_staticWhite {
-  background: var(--seed-color-palette-static-white-alpha-300);
+/* Android는 clip-path를 가진 부모가 transform 애니메이션 중인 자식을 자르지 않는다.
+   반쪽 영역은 폭 50% 박스의 overflow로 자르고, 반원은 그 안에서 링 크기로 둔다. */
+.seed-progress-circle__half {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.seed-progress-circle__half--first {
+  left: 50%;
+}
+
+.seed-progress-circle__half--second {
+  left: 0;
+}
+
+.seed-progress-circle__semicircle--first,
+.seed-progress-circle__semicircle--second {
+  position: absolute;
+  top: 0;
+  width: 200%;
+  height: 100%;
+}
+
+.seed-progress-circle__semicircle--first {
+  left: -100%;
+  clip-path: inset(0 50% 0 0);
+}
+
+.seed-progress-circle__semicircle--second {
+  left: 0;
+  clip-path: inset(0 0 0 50%);
+}
+
+.seed-progress-circle__track--tone_neutral {
+  background-color: var(--seed-color-palette-gray-200);
+}
+
+.seed-progress-circle__track--tone_brand {
+  background-color: var(--seed-color-palette-carrot-200);
+}
+
+.seed-progress-circle__track--tone_staticWhite {
+  background-color: var(--seed-color-palette-static-white-alpha-300);
 }
 
 .seed-progress-circle__range--tone_neutral,
 .seed-progress-circle__cap--tone_neutral {
-  background: var(--seed-color-palette-gray-500);
+  background-color: var(--seed-color-palette-gray-500);
 }
 
 .seed-progress-circle__range--tone_brand,
 .seed-progress-circle__cap--tone_brand {
-  background: var(--seed-color-bg-brand-solid);
+  background-color: var(--seed-color-bg-brand-solid);
 }
 
 .seed-progress-circle__range--tone_staticWhite,
 .seed-progress-circle__cap--tone_staticWhite {
-  background: var(--seed-color-palette-static-white);
+  background-color: var(--seed-color-palette-static-white);
 }
 
 /* inherit: inherits --track-color / --range-color from parent (e.g. action-button) */
-.seed-progress-circle__root--tone_inherit {
-  background: var(--track-color);
+.seed-progress-circle__track--tone_inherit {
+  background-color: var(--track-color);
 }
 
 .seed-progress-circle__range--tone_inherit,
 .seed-progress-circle__cap--tone_inherit {
-  background: var(--range-color);
+  background-color: var(--range-color);
 }

@@ -21,6 +21,25 @@ declare const artifact: {
             "paddingX": {
               "type": "dimension";
             };
+            "cornerRadius": {
+              "type": "dimension";
+            };
+            "color": {
+              "type": "color";
+            };
+            "colorDuration": {
+              "type": "duration";
+            };
+            "colorTimingFunction": {
+              "type": "cubicBezier";
+            };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "label": {
@@ -90,6 +109,22 @@ declare const artifact: {
                   "type": "dimension";
                   "value": "$dimension.x2_5";
                 };
+                "cornerRadius": {
+                  "type": "dimension";
+                  "value": "$radius.r2";
+                };
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.transparent";
+                };
+                "colorDuration": {
+                  "type": "duration";
+                  "value": "$duration.color-transition";
+                };
+                "colorTimingFunction": {
+                  "type": "cubicBezier";
+                  "value": "$timing-function.easing";
+                };
               };
               "label": {
                 "fontSize": {
@@ -119,6 +154,23 @@ declare const artifact: {
                 "minLineHeightScale": {
                   "type": "number";
                   "value": 1;
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.bg.transparent-pressed";
+                };
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

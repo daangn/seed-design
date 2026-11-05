@@ -1,0 +1,98 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: wheel-picker
+  name: Wheel Picker
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          height:
+            type: dimension
+          color:
+            type: color
+      selectionIndicator:
+        properties:
+          height:
+            type: dimension
+          insetX:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          color:
+            type: color
+      scrollFog:
+        properties:
+          maxHeight:
+            type: dimension
+          maxHeightFraction:
+            type: number
+      item:
+        properties:
+          height:
+            type: dimension
+      itemLabel:
+        properties:
+          paddingX:
+            type: dimension
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+    variants:
+      size:
+        values:
+          small: {}
+          medium: {}
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.bg.layer-floating
+        selectionIndicator:
+          insetX: $dimension.x4
+          cornerRadius: $radius.r2
+          color: $color.bg.neutral-weak
+        scrollFog:
+          maxHeightFraction: 0.4
+        itemLabel:
+          paddingX: $dimension.x4
+          fontWeight: $font-weight.medium
+          color: $color.fg.disabled
+      selected:
+        itemLabel:
+          color: $color.fg.neutral
+      disabled:
+        itemLabel:
+          color: $color.fg.disabled
+    size=small:
+      enabled:
+        root:
+          height: 180px
+        selectionIndicator:
+          height: 36px
+        scrollFog:
+          maxHeight: 108px
+        item:
+          height: 36px
+        itemLabel:
+          fontSize: $font-size.t7-static
+          lineHeight: $line-height.t7-static
+    size=medium:
+      enabled:
+        root:
+          height: 220px
+        selectionIndicator:
+          height: 44px
+        scrollFog:
+          maxHeight: 132px
+        item:
+          height: 44px
+        itemLabel:
+          fontSize: $font-size.t10-static
+          lineHeight: $line-height.t10-static

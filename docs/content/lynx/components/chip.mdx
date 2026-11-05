@@ -1,0 +1,206 @@
+---
+title: Chip
+description: 사용자가 선택하거나 실행할 수 있는 짧은 값을 표시하는 컴포넌트입니다.
+compatibility:
+  lynx:
+    engine: "3.6"
+---
+
+<AvailableSince packages="@seed-design/lynx-react@0.5.0, @seed-design/lynx-css@0.9.0" />
+
+<LynxComponentExample name="lynx/chip/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## Installation
+
+```package-install
+@seed-design/lynx-react @seed-design/lynx-css
+```
+
+<Callout>
+Lynx `Chip`은 별도 `ui:chip` snippet 없이 `@seed-design/lynx-react` 패키지에서 직접 제공합니다.
+</Callout>
+
+## Props
+
+### `Chip.Button`
+
+<react-type-table path="../packages/lynx-react/src/components/Chip/Chip.tsx" name="ChipButtonProps" />
+
+### `Chip.Toggle`
+
+<react-type-table path="../packages/lynx-react/src/components/Chip/Chip.tsx" name="ChipToggleProps" />
+
+### `Chip.RadioRoot`
+
+<react-type-table path="../packages/lynx-react/src/components/Chip/Chip.tsx" name="ChipRadioRootProps" />
+
+### `Chip.RadioItem`
+
+<react-type-table path="../packages/lynx-react/src/components/Chip/Chip.tsx" name="ChipRadioItemProps" />
+
+### Slots
+
+슬롯은 고유 prop이 없습니다. `className`, `style`, `children`을 받습니다.
+
+## Examples
+
+### Sizes
+
+#### Small
+
+<LynxComponentExample name="lynx/chip/small">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip/small.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Medium
+
+<LynxComponentExample name="lynx/chip/medium">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip/medium.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Large
+
+<LynxComponentExample name="lynx/chip/large">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip/large.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Variants
+
+#### Solid
+
+<LynxComponentExample name="lynx/chip/solid">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip/solid.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Outline Strong
+
+<LynxComponentExample name="lynx/chip/outline-strong">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip/outline-strong.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+#### Outline Weak
+
+<LynxComponentExample name="lynx/chip/outline-weak">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip/outline-weak.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Prefix Icon
+
+<LynxComponentExample name="lynx/chip/prefix-icon">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip/prefix-icon.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Suffix Icon
+
+<LynxComponentExample name="lynx/chip/suffix-icon">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip/suffix-icon.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Icon Only
+
+`layout="iconOnly"`에서는 `Icon` 자식과 `accessibility-label`을 함께 전달합니다.
+
+<LynxComponentExample name="lynx/chip/icon-only">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip/icon-only.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Prefix Avatar
+
+Lynx 패키지는 Avatar 컴포넌트를 제공하지 않습니다. `Chip.PrefixAvatar` 안에 앱이 소유한 아바타 컴포넌트나 view를 넣으세요.
+
+<LynxComponentExample name="lynx/chip/prefix-avatar">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip/prefix-avatar.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+### Listening to Value Changes
+
+`Chip.Toggle`은 `onCheckedChange`, `Chip.RadioRoot`는 `onValueChange`로 선택 값 변경을 알립니다.
+
+<LynxComponentExample name="lynx/chip/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+## 이전 버전에서 옮기기
+
+- `Chip.Root`·`ChipRoot`(Props 타입 포함)를 제거했습니다. React와 같이 `Chip.Button`·`ChipButton`을 사용하세요. 동작과 스타일은 같습니다.
+- `Chip.Toggle`의 기본 `accessibility-role-description`이 `"toggle"`에서 `"checkbox"`로 바뀌었습니다. 이전 값이 필요하면 `accessibility-role-description`을 직접 전달하세요.
+- `Chip.RadioRoot`는 `radiogroup` 역할을 전달하지만 기본적으로 접근성 요소가 아닌 컨테이너입니다. 각 `Chip.RadioItem`이 독립된 접근성 요소로 노출됩니다. `disabled`이면 `accessibility-traits` 기본값은 `"disabled"`입니다.
+- `Chip.Toggle`과 `Chip.RadioItem`의 `bindtap`이 선택 상태를 바꾸기 전에 호출됩니다. tap handler에서 바뀐 선택 값을 읽던 코드는 `onCheckedChange`나 `Chip.RadioRoot`의 `onValueChange`로 옮기세요.
+
+## 웹 버전과의 차이
+
+- 탭 이벤트는 `onClick` 대신 `bindtap`으로 받습니다. 선택 변경은 `onCheckedChange` 또는 `onValueChange`로 확인합니다.
+- 접근성 역할과 상태는 Lynx의 `accessibility-role-description`, `accessibility-value`, `accessibility-traits`로 전달합니다.
+- 문자열 label을 파악할 수 없는 구성에는 `accessibility-label`을 지정하세요.
+- Lynx `Chip`은 별도 Registry snippet 없이 `@seed-design/lynx-react`에서 제공합니다.
+
+## Lynx 미지원 기능
+
+- HiddenInput과 HTML form 속성
+- `Chip.Toggle`의 `indeterminate`
+- `Chip.RadioRoot`의 `invalid`
+- 키보드 focus와 `focusVisible`
+- `asChild`
+- Avatar 패키지. `Chip.PrefixAvatar`에는 앱이 소유한 avatar를 넣으세요.

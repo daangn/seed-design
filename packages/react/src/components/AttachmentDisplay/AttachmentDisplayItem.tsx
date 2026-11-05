@@ -4,7 +4,7 @@ import {
   attachmentInputItem,
   type AttachmentInputItemVariantProps,
 } from "@seed-design/css/recipes/attachment-input-item";
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { composeRefs, useComposedRefs } from "@radix-ui/react-compose-refs";
 import { dataAttr } from "@seed-design/dom-utils";
 import {
   AttachmentDisplay as AttachmentDisplayPrimitive,
@@ -18,6 +18,8 @@ import clsx from "clsx";
 import * as React from "react";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { useScaleFeedback } from "@seed-design/react-scale-feedback";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);
@@ -44,14 +46,15 @@ export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentD
     });
 
     const classNames = attachmentInputItem(variantProps);
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
     return (
       <ClassNamesProvider value={classNames}>
         <AttachmentDisplayItemProvider value={api}>
           <overlayTracker.Provider>
             <Primitive.li
-              ref={ref}
-              className={clsx(classNames.root, className)}
+              ref={useComposedRefs(scaleFeedbackRef, ref)}
+              className={clsx(classNames.root, scaleFeedbackClassName, className)}
               {...stateProps}
               {...otherProps}
             />
@@ -163,6 +166,8 @@ export const AttachmentDisplayItemBadge = React.forwardRef<
   const classNames = useClassNames();
 
   return (
+    // FIXME: `asChild` slots onto the label span below, not this element, so the caller's element
+    // lands inside the badge without its class or ref. Route `children` through `Slottable`.
     <Primitive.div ref={ref} className={clsx(classNames.badge, className)} {...props}>
       <Primitive.span className={classNames.badgeLabel}>{children}</Primitive.span>
     </Primitive.div>
@@ -181,12 +186,13 @@ export const AttachmentDisplayItemActionButton = React.forwardRef<
   AttachmentDisplayItemActionButtonProps
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
+  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
   return (
     <Primitive.button
       type="button"
-      ref={ref}
-      className={clsx(classNames.actionButton, className)}
+      ref={useComposedRefs(scaleFeedbackRef, ref)}
+      className={clsx(classNames.actionButton, scaleFeedbackClassName, className)}
       {...props}
     />
   );
@@ -198,7 +204,9 @@ AttachmentDisplayItemActionButton.displayName = "AttachmentDisplayItemActionButt
 export interface AttachmentDisplayItemRemoveButtonProps
   extends AttachmentDisplayPrimitive.ItemRemoveButtonProps {}
 
-export const AttachmentDisplayItemRemoveButton = withContext<
-  HTMLButtonElement,
-  AttachmentDisplayItemRemoveButtonProps
->(AttachmentDisplayPrimitive.ItemRemoveButton, "removeButton");
+export const AttachmentDisplayItemRemoveButton = withScaleFeedback(
+  withContext<HTMLButtonElement, AttachmentDisplayItemRemoveButtonProps>(
+    AttachmentDisplayPrimitive.ItemRemoveButton,
+    "removeButton",
+  ),
+);

@@ -24,11 +24,18 @@ const attachmentInputSlotNames = [
   ]
 ];
 
-const defaultVariant = {};
+const defaultVariant = {
+  "extendSafeAreaX": false
+};
 
 const compoundVariants = [];
 
-export const attachmentInputVariantMap = {};
+export const attachmentInputVariantMap = {
+  "extendSafeAreaX": [
+    true,
+    false
+  ]
+};
 
 export const attachmentInputVariantKeys = Object.keys(attachmentInputVariantMap);
 

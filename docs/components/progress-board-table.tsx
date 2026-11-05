@@ -4,7 +4,7 @@ import { ComponentData, PlatformStatus } from "@/sanity-studio/lib/types";
 import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import IconILowercaseSerifCircleLine from "@karrotmarket/react-monochrome-icon/IconILowercaseSerifCircleLine";
-import { Badge } from "@seed-design/react";
+import { BadgeLabel, BadgeRoot } from "@seed-design/react";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { PLATFORM_CONFIG, PLATFORM_STATUS_LABELS } from "@/lib/platform-status";
@@ -47,17 +47,17 @@ function StatusBadge({
 
   if (!note || !showNote) {
     return (
-      <Badge size="large" variant={variantConfig} tone={tone} style={style}>
-        {label}
-      </Badge>
+      <BadgeRoot size="large" variant={variantConfig} tone={tone} style={style}>
+        <BadgeLabel>{label}</BadgeLabel>
+      </BadgeRoot>
     );
   }
 
   return (
     <div className="inline-flex items-center gap-1.5">
-      <Badge size="large" variant={variantConfig} tone={tone} style={style}>
-        {label}
-      </Badge>
+      <BadgeRoot size="large" variant={variantConfig} tone={tone} style={style}>
+        <BadgeLabel>{label}</BadgeLabel>
+      </BadgeRoot>
       <HelpBubbleTooltipTrigger title={note} placement="top">
         <button
           type="button"
@@ -99,12 +99,24 @@ export async function ProgressBoardTable() {
           {components.map((component) => (
             <tr key={component.id} className="group">
               <td className="sticky left-0 bg-bg-layer-default font-medium transition-colors">
-                <Link
-                  href={`/components/${component.id}`}
-                  className="text-fd-primary hover:underline"
-                >
-                  {component.name}
-                </Link>
+                {component.url ? (
+                  isExternalUrl(component.url) ? (
+                    <a
+                      href={component.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-fd-primary hover:underline"
+                    >
+                      {component.name}
+                    </a>
+                  ) : (
+                    <Link href={component.url} className="text-fd-primary hover:underline">
+                      {component.name}
+                    </Link>
+                  )
+                ) : (
+                  component.name
+                )}
               </td>
               {PLATFORM_CONFIG.map(({ key: platform }) => {
                 const statusKey = `${platform}Status` as keyof ComponentData;

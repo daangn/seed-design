@@ -19,6 +19,7 @@ import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
+import { withContentScale } from "../../utils/withContentScale";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
 // A select-only combobox spans three specs — the trigger, the floating listbox
@@ -96,8 +97,8 @@ export interface SelectTriggerProps
   extends SelectTriggerVariantProps,
     SelectPrimitive.TriggerProps {}
 
-export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
-  ({ className, ...props }, ref) => {
+export const SelectTrigger = withContentScale(
+  React.forwardRef<HTMLButtonElement, SelectTriggerProps>(({ className, ...props }, ref) => {
     const [variantProps, otherProps] = selectTrigger.splitVariantProps(props);
     const rootProps = useTriggerProps();
 
@@ -138,7 +139,7 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerPr
         />
       </TriggerClassNamesProvider>
     );
-  },
+  }),
 );
 SelectTrigger.displayName = "SelectTrigger";
 
@@ -290,8 +291,8 @@ export interface SelectItemProps
   prefixIcon?: React.ReactNode;
 }
 
-export const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
-  ({ prefixIcon, className, ...props }, ref) => {
+export const SelectItem = withContentScale(
+  React.forwardRef<HTMLDivElement, SelectItemProps>(({ prefixIcon, className, ...props }, ref) => {
     const [variantProps, otherProps] = selectItem.splitVariantProps(props);
     const rootProps = useItemProps();
 
@@ -307,7 +308,7 @@ export const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
         />
       </ItemClassNamesProvider>
     );
-  },
+  }),
 );
 SelectItem.displayName = "SelectItem";
 

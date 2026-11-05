@@ -1,54 +1,102 @@
-import { lazy, Suspense, useState } from "@lynx-js/react";
-import { useSafeArea } from "@seed-design/lynx-react";
-
+import { Suspense, type ReactNode, useCallback, useEffect, useState } from "@lynx-js/react";
+import { ActionButton, Text, useSafeArea, VStack } from "@seed-design/lynx-react";
+import LynxConsole from "lynx-console";
+import type { LynxPlaygroundExample } from "../../../docs/playground/lynx/types";
+import { examples } from "lynx-docs-examples";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "@/components/ui/app-bar";
+import { AccordionPage } from "./pages/AccordionPage.jsx";
 import { ActionButtonPage } from "./pages/ActionButtonPage.jsx";
 import { AppBarPage } from "./pages/AppBarPage.jsx";
+import { AttachmentDisplayHeadlessPage } from "./pages/AttachmentDisplayHeadlessPage.jsx";
 import { BadgePage } from "./pages/BadgePage.jsx";
 import { BottomSheetPage } from "./pages/BottomSheetPage.jsx";
+import { CalloutPage } from "./pages/CalloutPage.jsx";
+import { ContentPlaceholderPage } from "./pages/ContentPlaceholderPage.jsx";
 import { CheckboxPage } from "./pages/CheckboxPage.jsx";
 import { CSSSelectorTestPage } from "./pages/CSSSelectorTestPage.jsx";
+import { DialogHeadlessPage } from "./pages/DialogHeadlessPage.jsx";
+import { DocsComponentPage } from "./pages/DocsComponentPage.jsx";
+import { DocsExamplePage } from "./pages/DocsExamplePage.jsx";
+import { FileUploadHeadlessPage } from "./pages/FileUploadHeadlessPage.jsx";
 import { FoundationColorPage } from "./pages/FoundationColorPage.jsx";
+import { FoundationMonochromeIconPage } from "./pages/FoundationMonochromeIconPage.jsx";
+import { FoundationMulticolorIconPage } from "./pages/FoundationMulticolorIconPage.jsx";
 import { FoundationTypographyPage } from "./pages/FoundationTypographyPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
+import { legacyPageTitle, type HomeCategory } from "./pages/home-navigation.js";
 import { IconColorPOCPage } from "./pages/IconColorPOCPage.jsx";
+import { KeyboardAvoidingScrollViewHeadlessPage } from "./pages/KeyboardAvoidingScrollViewHeadlessPage.jsx";
 import {
   LayoutStressSeedPrimitivesPage,
   LayoutStressStylePage,
   LayoutStressTailwindPage,
 } from "./pages/LayoutPrimitiveStressPages.jsx";
 import { LayoutPrimitivesPage } from "./pages/LayoutPrimitivesPage.jsx";
+import { ListHeadlessPage } from "./pages/ListHeadlessPage.jsx";
+import { MannerTempPage } from "./pages/MannerTempPage.jsx";
+import { MarginBleedTestPage } from "./pages/MarginBleedTestPage.jsx";
+import { MenuHeadlessPage } from "./pages/MenuHeadlessPage.jsx";
 import { NestedVarsTestPage } from "./pages/NestedVarsTestPage.jsx";
+import { PageBannerPage } from "./pages/PageBannerPage.jsx";
+import { PageBannerHeadlessPage } from "./pages/PageBannerHeadlessPage.jsx";
 import { ProgressCirclePage } from "./pages/ProgressCirclePage.jsx";
+import { ProgressCircleHeadlessPage } from "./pages/ProgressCircleHeadlessPage.jsx";
+import { PullToRefreshHeadlessPage } from "./pages/PullToRefreshHeadlessPage.jsx";
 import { RadioGroupPage } from "./pages/RadioGroupPage.jsx";
+import { RadioGroupHeadlessPage } from "./pages/RadioGroupHeadlessPage.jsx";
 import { SafeAreaDebugPage } from "./pages/SafeAreaDebugPage.jsx";
+import { SelectHeadlessPage } from "./pages/SelectHeadlessPage.jsx";
+import { SelectBoxHeadlessPage } from "./pages/SelectBoxHeadlessPage.jsx";
 import { SwitchPage } from "./pages/SwitchPage.jsx";
+import { SwitchHeadlessPage } from "./pages/SwitchHeadlessPage.jsx";
+import { TabsPage } from "./pages/TabsPage.jsx";
+import { TabsHeadlessPage } from "./pages/TabsHeadlessPage.jsx";
 import { TagGroupPage } from "./pages/TagGroupPage.jsx";
 import { TailwindDemoPage } from "./pages/TailwindDemoPage.jsx";
 import { TextPrimitivePage } from "./pages/TextPrimitivePage.jsx";
+import { TextFieldHeadlessPage } from "./pages/TextFieldHeadlessPage.jsx";
+import { TextFieldPage } from "./pages/TextFieldPage.jsx";
 import { ThemingPage } from "./pages/ThemingPage.jsx";
 import { UseControllableStatePage } from "./pages/UseControllableStatePage.jsx";
+import { UseImagePage } from "./pages/UseImagePage.jsx";
+import { UseTogglePage } from "./pages/UseTogglePage.jsx";
 import { UsePressTapPage } from "./pages/UsePressTapPage.jsx";
-
-const LynxConsole = lazy(() => import("lynx-console"));
-const FoundationMonochromeIconPage = lazy(async () => ({
-  default: (await import("./pages/FoundationMonochromeIconPage.jsx")).FoundationMonochromeIconPage,
-}));
-const FoundationMulticolorIconPage = lazy(async () => ({
-  default: (await import("./pages/FoundationMulticolorIconPage.jsx")).FoundationMulticolorIconPage,
-}));
+import { formatLynxExampleName } from "./utils/lynx-example.js";
 
 export type Page =
   | "home"
   | "theming"
+  | "accordion"
   | "action-button"
   | "app-bar"
+  | "attachment-display-headless"
   | "badge"
   | "bottom-sheet"
+  | "callout"
+  | "content-placeholder"
   | "checkbox"
+  | "dialog-headless"
+  | "file-upload-headless"
+  | "keyboard-avoiding-scroll-view-headless"
+  | "list-headless"
+  | "manner-temp"
+  | "menu-headless"
+  | "page-banner"
+  | "page-banner-headless"
   | "progress-circle"
+  | "progress-circle-headless"
+  | "pull-to-refresh-headless"
   | "radio-group"
+  | "radio-group-headless"
+  | "select-headless"
+  | "select-box-headless"
   | "switch"
+  | "switch-headless"
+  | "tabs"
+  | "tabs-headless"
   | "tag-group"
+  | "text-field"
+  | "text-field-headless"
   | "nested-vars-test"
   | "foundation-color"
   | "foundation-monochrome-icon"
@@ -61,134 +109,317 @@ export type Page =
   | "layout-stress-style"
   | "layout-stress-seed-primitives"
   | "safe-area-debug"
+  | "margin-bleed-test"
   | "css-selector-test"
   | "icon-color-poc"
   | "use-controllable-state"
-  | "use-press-tap";
+  | "use-press-tap"
+  | "use-image"
+  | "use-toggle";
 
-function BackButton({ onBack }: { onBack: () => void }) {
+type LegacyPage = Exclude<Page, "home">;
+
+type Route =
+  | { kind: "home" }
+  | { kind: "docs-component"; component: string }
+  | { kind: "docs-example"; id: string }
+  | { kind: "legacy"; page: LegacyPage };
+
+const FULLSCREEN_PAGES: Partial<Record<LegacyPage, true>> = {
+  accordion: true,
+  "action-button": true,
+  "attachment-display-headless": true,
+  badge: true,
+  "bottom-sheet": true,
+  callout: true,
+  checkbox: true,
+  "dialog-headless": true,
+  "file-upload-headless": true,
+  "keyboard-avoiding-scroll-view-headless": true,
+  "list-headless": true,
+  "manner-temp": true,
+  "menu-headless": true,
+  "page-banner": true,
+  "page-banner-headless": true,
+  "progress-circle": true,
+  "progress-circle-headless": true,
+  "pull-to-refresh-headless": true,
+  "radio-group": true,
+  "radio-group-headless": true,
+  "select-headless": true,
+  switch: true,
+  "switch-headless": true,
+  tabs: true,
+  "tabs-headless": true,
+  "tag-group": true,
+  "text-field": true,
+  "text-field-headless": true,
+  "foundation-monochrome-icon": true,
+  "foundation-multicolor-icon": true,
+};
+
+const MEASUREMENT_PAGES: Partial<Record<LegacyPage, true>> = {
+  "layout-stress-tailwind": true,
+  "layout-stress-style": true,
+  "layout-stress-seed-primitives": true,
+};
+
+const HIDE_LYNX_CONSOLE_IN_MEASUREMENT = true;
+
+interface CatalogShellProps {
+  title: string;
+  subtitle?: string;
+  onBack?: () => void;
+  showLynxConsole: boolean;
+  children: ReactNode;
+}
+
+function CatalogShell({ title, subtitle, onBack, showLynxConsole, children }: CatalogShellProps) {
+  const { safeAreaInsetBottom } = useSafeArea();
+
   return (
-    <view bindtap={onBack} className="py-x2 mb-x2">
-      <text className="t5-regular text-fg-brand">{"← Back"}</text>
+    <view
+      className="flex flex-col h-screen min-h-0 bg-bg-layer-basement"
+      style={{ paddingBottom: safeAreaInsetBottom }}
+    >
+      <AppBar>
+        {onBack ? (
+          <AppBarLeft>
+            <AppBarBackButton bindtap={onBack} />
+          </AppBarLeft>
+        ) : null}
+        <AppBarMain title={title} subtitle={subtitle} />
+      </AppBar>
+      <view className="flex flex-col flex-1 min-h-0">{children}</view>
+      {showLynxConsole ? (
+        <Suspense>
+          <LynxConsole theme="light" />
+        </Suspense>
+      ) : null}
     </view>
   );
 }
 
-// Pages that own their own scroll areas use a fullscreen flex shell.
-const FULLSCREEN_PAGES = new Set<Page>([
-  "action-button",
-  "badge",
-  "bottom-sheet",
-  "checkbox",
-  "progress-circle",
-  "radio-group",
-  "switch",
-  "tag-group",
-  "foundation-monochrome-icon",
-  "foundation-multicolor-icon",
-]);
+function MissingRoute({ message, onBack }: { message: string; onBack: () => void }) {
+  return (
+    <VStack className="flex-1" align="center" justify="center" gap="x4" px="x4">
+      <Text textStyle="t5Bold" color="fg.neutral">
+        {message}
+      </Text>
+      <ActionButton bindtap={onBack}>목록으로</ActionButton>
+    </VStack>
+  );
+}
 
-const MEASUREMENT_PAGES = new Set<Page>([
-  "layout-stress-tailwind",
-  "layout-stress-style",
-  "layout-stress-seed-primitives",
-]);
-
-const HIDE_LYNX_CONSOLE_IN_MEASUREMENT = true;
-
-function addBaseToSafeAreaInset(inset: string, base: number) {
-  return `calc(${base}px + ${inset})`;
+function LegacyPageContent({ page }: { page: LegacyPage }) {
+  return (
+    <>
+      {page === "accordion" && <AccordionPage />}
+      {page === "action-button" && <ActionButtonPage />}
+      {page === "attachment-display-headless" && <AttachmentDisplayHeadlessPage />}
+      {page === "badge" && <BadgePage />}
+      {page === "bottom-sheet" && <BottomSheetPage />}
+      {page === "callout" && <CalloutPage />}
+      {page === "checkbox" && <CheckboxPage />}
+      {page === "dialog-headless" && <DialogHeadlessPage />}
+      {page === "file-upload-headless" && <FileUploadHeadlessPage />}
+      {page === "keyboard-avoiding-scroll-view-headless" && (
+        <KeyboardAvoidingScrollViewHeadlessPage />
+      )}
+      {page === "list-headless" && <ListHeadlessPage />}
+      {page === "content-placeholder" && <ContentPlaceholderPage />}
+      {page === "manner-temp" && <MannerTempPage />}
+      {page === "menu-headless" && <MenuHeadlessPage />}
+      {page === "page-banner" && <PageBannerPage />}
+      {page === "page-banner-headless" && <PageBannerHeadlessPage />}
+      {page === "progress-circle" && <ProgressCirclePage />}
+      {page === "progress-circle-headless" && <ProgressCircleHeadlessPage />}
+      {page === "pull-to-refresh-headless" && <PullToRefreshHeadlessPage />}
+      {page === "radio-group" && <RadioGroupPage />}
+      {page === "radio-group-headless" && <RadioGroupHeadlessPage />}
+      {page === "select-headless" && <SelectHeadlessPage />}
+      {page === "select-box-headless" && <SelectBoxHeadlessPage />}
+      {page === "switch" && <SwitchPage />}
+      {page === "switch-headless" && <SwitchHeadlessPage />}
+      {page === "tabs" && <TabsPage />}
+      {page === "tabs-headless" && <TabsHeadlessPage />}
+      {page === "tag-group" && <TagGroupPage />}
+      {page === "text-field" && <TextFieldPage />}
+      {page === "text-field-headless" && <TextFieldHeadlessPage />}
+      <Suspense>
+        {page === "foundation-monochrome-icon" && <FoundationMonochromeIconPage />}
+        {page === "foundation-multicolor-icon" && <FoundationMulticolorIconPage />}
+      </Suspense>
+      {page === "theming" && <ThemingPage />}
+      {page === "nested-vars-test" && <NestedVarsTestPage />}
+      {page === "foundation-color" && <FoundationColorPage />}
+      {page === "foundation-typography" && <FoundationTypographyPage />}
+      {page === "tailwind-demo" && <TailwindDemoPage />}
+      {page === "layout-primitives" && <LayoutPrimitivesPage />}
+      {page === "text-primitive" && <TextPrimitivePage />}
+      {page === "layout-stress-tailwind" && <LayoutStressTailwindPage />}
+      {page === "layout-stress-style" && <LayoutStressStylePage />}
+      {page === "layout-stress-seed-primitives" && <LayoutStressSeedPrimitivesPage />}
+      {page === "safe-area-debug" && <SafeAreaDebugPage />}
+      {page === "margin-bleed-test" && <MarginBleedTestPage />}
+      {page === "css-selector-test" && <CSSSelectorTestPage />}
+      {page === "icon-color-poc" && <IconColorPOCPage />}
+      {page === "use-controllable-state" && <UseControllableStatePage />}
+      {page === "use-press-tap" && <UsePressTapPage />}
+      {page === "use-image" && <UseImagePage />}
+      {page === "use-toggle" && <UseTogglePage />}
+    </>
+  );
 }
 
 export function App(props: { onRender?: () => void }) {
-  const [currentPage, setCurrentPage] = useState<Page>("home");
-  const { safeAreaInsetTop, safeAreaInsetBottom } = useSafeArea();
-  const showLynxConsole = !HIDE_LYNX_CONSOLE_IN_MEASUREMENT || !MEASUREMENT_PAGES.has(currentPage);
+  const [route, setRoute] = useState<Route>({ kind: "home" });
+  const [homeCategory, setHomeCategory] = useState<HomeCategory>("docs");
+  const { safeAreaInsetBottom } = useSafeArea();
+
+  useEffect(() => {
+    // Lynx는 브라우저 location이 없어 background runtime의 원본 bundle URL을 읽는다.
+    // getNativeApp과 __pageUrl은 공개 타입에 없는 내부 API이므로 이 진입 경로에서만 사용한다.
+    const runtime = lynx as typeof lynx & {
+      getNativeApp?: () => { __pageUrl?: string };
+    };
+    const bundleUrl = runtime.getNativeApp?.().__pageUrl;
+    if (!bundleUrl) return;
+
+    // 호스트의 URL polyfill은 search를 지원하지 않을 수 있어 query만 분리한다.
+    const urlWithoutHash = bundleUrl.split("#", 1)[0] ?? "";
+    const queryStart = urlWithoutHash.indexOf("?");
+    if (queryStart < 0) return;
+
+    const exampleId = new URLSearchParams(urlWithoutHash.slice(queryStart + 1)).get("example");
+    if (exampleId !== null) {
+      setRoute({ kind: "docs-example", id: exampleId });
+    }
+  }, []);
+
+  const handleGoHome = useCallback(() => {
+    "background only";
+    setRoute({ kind: "home" });
+  }, []);
+
+  const handleHomeCategoryChange = useCallback((category: HomeCategory) => {
+    "background only";
+    setHomeCategory(category);
+  }, []);
+
+  const handleOpenComponent = useCallback((component: string) => {
+    "background only";
+    setRoute({ kind: "docs-component", component });
+  }, []);
+
+  const handleOpenExample = useCallback((example: LynxPlaygroundExample) => {
+    "background only";
+    setRoute({ kind: "docs-example", id: example.id });
+  }, []);
+
+  const handleOpenLegacy = useCallback((page: LegacyPage) => {
+    "background only";
+    setRoute({ kind: "legacy", page });
+  }, []);
+  const legacyPage = route.kind === "legacy" ? route.page : undefined;
+  const showLynxConsole =
+    !HIDE_LYNX_CONSOLE_IN_MEASUREMENT || legacyPage == null || !MEASUREMENT_PAGES[legacyPage];
 
   props.onRender?.();
 
-  if (currentPage === "app-bar") {
+  if (legacyPage === "app-bar") {
     return (
       <view
         className="flex flex-col h-screen min-h-0 bg-bg-layer-default"
-        style={{
-          paddingBottom: safeAreaInsetBottom,
-        }}
+        style={{ paddingBottom: safeAreaInsetBottom }}
       >
-        <AppBarPage onBack={() => setCurrentPage("home")} />
-        {showLynxConsole && (
+        <AppBarPage onBack={handleGoHome} />
+        {showLynxConsole ? (
           <Suspense>
             <LynxConsole theme="light" />
           </Suspense>
-        )}
+        ) : null}
       </view>
     );
   }
 
-  if (FULLSCREEN_PAGES.has(currentPage)) {
+  if (legacyPage) {
+    const content = <LegacyPageContent page={legacyPage} />;
     return (
-      <view
-        className="flex flex-col h-screen min-h-0 bg-bg-layer-default"
-        style={{
-          paddingTop: addBaseToSafeAreaInset(safeAreaInsetTop, 16),
-          paddingBottom: safeAreaInsetBottom,
-        }}
+      <CatalogShell
+        title={legacyPageTitle(legacyPage)}
+        onBack={handleGoHome}
+        showLynxConsole={showLynxConsole}
       >
-        <view className="px-x4 shrink-0">
-          <BackButton onBack={() => setCurrentPage("home")} />
-        </view>
-        {currentPage === "action-button" && <ActionButtonPage />}
-        {currentPage === "badge" && <BadgePage />}
-        {currentPage === "bottom-sheet" && <BottomSheetPage />}
-        {currentPage === "checkbox" && <CheckboxPage />}
-        {currentPage === "progress-circle" && <ProgressCirclePage />}
-        {currentPage === "radio-group" && <RadioGroupPage />}
-        {currentPage === "switch" && <SwitchPage />}
-        {currentPage === "tag-group" && <TagGroupPage />}
-        <Suspense>
-          {currentPage === "foundation-monochrome-icon" && <FoundationMonochromeIconPage />}
-          {currentPage === "foundation-multicolor-icon" && <FoundationMulticolorIconPage />}
-        </Suspense>
-        {showLynxConsole && (
-          <Suspense>
-            <LynxConsole theme="light" />
-          </Suspense>
+        {FULLSCREEN_PAGES[legacyPage] ? (
+          content
+        ) : (
+          <scroll-view scroll-orientation="vertical" className="flex-1 min-h-0 px-x4 pb-x4">
+            {content}
+          </scroll-view>
         )}
-      </view>
+      </CatalogShell>
+    );
+  }
+
+  if (route.kind === "docs-component") {
+    const allComponentExamples = examples.filter(
+      (example) => example.component === route.component,
+    );
+    return (
+      <CatalogShell
+        title={formatLynxExampleName(route.component)}
+        onBack={handleGoHome}
+        showLynxConsole={showLynxConsole}
+      >
+        {allComponentExamples.length > 0 ? (
+          <DocsComponentPage
+            component={route.component}
+            examples={allComponentExamples}
+            onOpenExample={handleOpenExample}
+          />
+        ) : (
+          <MissingRoute message="예제를 찾을 수 없습니다." onBack={handleGoHome} />
+        )}
+      </CatalogShell>
+    );
+  }
+
+  if (route.kind === "docs-example") {
+    const example = examples.find((candidate) => candidate.id === route.id);
+    const component = route.id.split("/")[1] ?? "";
+    return (
+      <CatalogShell
+        title={formatLynxExampleName(example?.component ?? component)}
+        subtitle={example?.scenario}
+        onBack={() => setRoute({ kind: "docs-component", component })}
+        showLynxConsole={showLynxConsole}
+      >
+        {example ? (
+          <DocsExamplePage
+            example={example}
+            onBack={() => setRoute({ kind: "docs-component", component })}
+          />
+        ) : (
+          <MissingRoute
+            message="예제를 찾을 수 없습니다."
+            onBack={() => setRoute({ kind: "docs-component", component })}
+          />
+        )}
+      </CatalogShell>
     );
   }
 
   return (
-    <scroll-view
-      scroll-y
-      className="flex flex-col h-screen px-x4 bg-bg-layer-default"
-      style={{
-        paddingTop: addBaseToSafeAreaInset(safeAreaInsetTop, 16),
-        paddingBottom: addBaseToSafeAreaInset(safeAreaInsetBottom, 16),
-      }}
-    >
-      {currentPage !== "home" && <BackButton onBack={() => setCurrentPage("home")} />}
-      {currentPage === "home" && <HomePage navigate={setCurrentPage} />}
-      {currentPage === "theming" && <ThemingPage />}
-      {currentPage === "nested-vars-test" && <NestedVarsTestPage />}
-      {currentPage === "foundation-color" && <FoundationColorPage />}
-      {currentPage === "foundation-typography" && <FoundationTypographyPage />}
-      {currentPage === "tailwind-demo" && <TailwindDemoPage />}
-      {currentPage === "layout-primitives" && <LayoutPrimitivesPage />}
-      {currentPage === "text-primitive" && <TextPrimitivePage />}
-      {currentPage === "layout-stress-tailwind" && <LayoutStressTailwindPage />}
-      {currentPage === "layout-stress-style" && <LayoutStressStylePage />}
-      {currentPage === "layout-stress-seed-primitives" && <LayoutStressSeedPrimitivesPage />}
-      {currentPage === "safe-area-debug" && <SafeAreaDebugPage />}
-      {currentPage === "css-selector-test" && <CSSSelectorTestPage />}
-      {currentPage === "icon-color-poc" && <IconColorPOCPage />}
-      {currentPage === "use-controllable-state" && <UseControllableStatePage />}
-      {currentPage === "use-press-tap" && <UsePressTapPage />}
-      {showLynxConsole && (
-        <Suspense>
-          <LynxConsole theme="light" />
-        </Suspense>
-      )}
-    </scroll-view>
+    <CatalogShell title="SEED Lynx" showLynxConsole={showLynxConsole}>
+      <HomePage
+        category={homeCategory}
+        examples={examples}
+        catalogIsEmpty={examples.length === 0}
+        onCategoryChange={handleHomeCategoryChange}
+        onOpenComponent={handleOpenComponent}
+        onOpenLegacy={handleOpenLegacy}
+      />
+    </CatalogShell>
   );
 }

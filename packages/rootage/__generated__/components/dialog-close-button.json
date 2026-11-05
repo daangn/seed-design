@@ -25,6 +25,13 @@
             },
             "colorTimingFunction": {
               "type": "cubicBezier"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         },
@@ -35,12 +42,6 @@
             },
             "size": {
               "type": "dimension"
-            },
-            "colorDuration": {
-              "type": "duration"
-            },
-            "colorTimingFunction": {
-              "type": "cubicBezier"
             }
           }
         }
@@ -92,14 +93,6 @@
                     "value": 22,
                     "unit": "px"
                   }
-                },
-                "colorDuration": {
-                  "type": "duration",
-                  "value": "$duration.color-transition"
-                },
-                "colorTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.easing"
                 }
               }
             }
@@ -113,6 +106,10 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.transparent-pressed"
+                },
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "self"
                 }
               }
             }

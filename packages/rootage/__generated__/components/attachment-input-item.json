@@ -37,6 +37,13 @@
             },
             "opacity": {
               "type": "number"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         },
@@ -261,6 +268,19 @@
                 "size": {
                   "type": "dimension",
                   "value": "$dimension.x6"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "self"
                 }
               }
             }

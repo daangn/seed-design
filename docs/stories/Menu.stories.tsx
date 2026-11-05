@@ -1,6 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import preview from "../.storybook/preview";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
 import {
   IconDiamondLine,
   IconPlusLine,
@@ -12,7 +11,7 @@ import { useCallback, useRef, useState } from "react";
 import { MenuContent, MenuGroup, MenuGroupLabel, MenuItem, MenuRoot } from "seed-design/ui/menu";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { VIEWPORT_MODES } from "./utils/parameters";
+import { VISUAL_VIEWPORT_PARAMETERS } from "./utils/parameters";
 
 const MenuPreview = ({ size }: MenuVariantProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -74,44 +73,30 @@ const MenuPreview = ({ size }: MenuVariantProps) => {
   );
 };
 
-const meta = {
+const meta = preview.meta({
   component: MenuPreview,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof MenuPreview>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-const CommonStoryTemplate: Story = {
-  render: (args) => (
-    <VariantTable
-      Component={meta.component}
-      variantMap={menuVariantMap}
-      conditionMap={{}}
-      {...args}
-    />
+});
+const CommonStoryTemplate = meta.story({
+  render: (args, { component }) => (
+    <VariantTable Component={component!} variantMap={menuVariantMap} conditionMap={{}} {...args} />
   ),
-};
+});
 
-export const LightTheme: Story = {
-  ...CommonStoryTemplate,
+export const LightTheme = CommonStoryTemplate.extend({
   parameters: {
-    chromatic: { modes: VIEWPORT_MODES },
+    ...VISUAL_VIEWPORT_PARAMETERS,
   },
-};
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

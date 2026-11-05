@@ -5,6 +5,7 @@ import { keyframes } from "./keyframes";
 import { recipes } from "./recipes";
 import { tokens } from "./tokens";
 import { definePreset } from "./utils/define";
+import { resolveTokenReferences } from "./utils/resolve-token-references";
 
 export default definePreset({
   prefix: "seed",
@@ -12,7 +13,7 @@ export default definePreset({
     include: Features.LogicalProperties,
   },
   theme: {
-    tokens,
+    tokens: resolveTokenReferences(tokens),
     recipes,
     keyframes,
     globalCss,

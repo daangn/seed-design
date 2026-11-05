@@ -1,6 +1,7 @@
 export declare const vars: {
   "base": {
     "enabled": {
+      /** region은 좌우와 하단 안전 영역 경계 안쪽에 배치되므로, paddingX와 하단 쪽 paddingY는 안전 영역 경계부터 잽니다. */
       "region": {
         "paddingX": "var(--seed-dimension-x2)",
         "paddingY": "var(--seed-dimension-x2)",
@@ -8,10 +9,10 @@ export declare const vars: {
         "offsetTimingFunction": "var(--seed-timing-function-easing)"
       },
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)",
+        "color": "var(--seed-color-bg-neutral-solid)",
         "cornerRadius": "var(--seed-radius-r2)",
         "minHeight": "44px",
-        "maxWidth": "560px",
+        "maxWidth": "464px",
         "paddingX": "var(--seed-dimension-x2_5)",
         "paddingY": "var(--seed-dimension-x2_5)",
         "enterOpacity": "0",
@@ -28,7 +29,7 @@ export declare const vars: {
         "gap": "var(--seed-dimension-x2_5)"
       },
       "message": {
-        "color": "var(--seed-color-fg-neutral-inverted)",
+        "color": "var(--seed-color-fg-on-neutral-solid)",
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)",
         "fontWeight": "var(--seed-font-weight-regular)"

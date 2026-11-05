@@ -4,10 +4,42 @@
     {
       "snippets": [
         {
+          "path": "accordion.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+          }
+        }
+      ],
+      "id": "accordion",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "alert-dialog.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "alert-dialog",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "app-bar.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
-            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+            "@seed-design/lynx-react": "^1.1.0",
+            "@seed-design/lynx-css": "^1.1.0"
           }
         }
       ],
@@ -20,14 +52,183 @@
     {
       "snippets": [
         {
+          "path": "attachment-display-field.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+          }
+        }
+      ],
+      "id": "attachment-display-field",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "progress-circle"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "attachment-display-field-reorderable.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.2.0",
+            "@seed-design/lynx-css": "^1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+            "@seed-design/lynx-react-sortable": "^1.0.0"
+          }
+        }
+      ],
+      "id": "attachment-display-field-reorderable",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react",
+        "@seed-design/lynx-react-sortable"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "attachment-display-field"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "attachment-field.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+          }
+        }
+      ],
+      "id": "attachment-field",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "progress-circle"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "attachment-field-reorderable.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.2.0",
+            "@seed-design/lynx-css": "^1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+            "@seed-design/lynx-react-sortable": "^1.0.0"
+          }
+        }
+      ],
+      "id": "attachment-field-reorderable",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react",
+        "@seed-design/lynx-react-sortable"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "attachment-field"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "avatar.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "avatar",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "badge.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+          }
+        }
+      ],
+      "id": "badge",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "bottom-sheet.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
-            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
           }
         }
       ],
       "id": "bottom-sheet",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "callout.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "callout",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "card-number-field.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.1.0",
+            "@seed-design/lynx-css": "^1.1.0"
+          }
+        }
+      ],
+      "id": "card-number-field",
       "dependencies": [
         "@seed-design/lynx-react"
       ]
@@ -37,8 +238,8 @@
         {
           "path": "checkbox.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
-            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
           }
         }
       ],
@@ -51,10 +252,237 @@
     {
       "snippets": [
         {
+          "path": "chip-tabs.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "chip-tabs",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "content-placeholder.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "content-placeholder",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "dialog.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+          }
+        }
+      ],
+      "id": "dialog",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "field-button.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+          }
+        }
+      ],
+      "id": "field-button",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "floating-action-button.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "floating-action-button",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "help-bubble.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+          }
+        }
+      ],
+      "id": "help-bubble",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "identity-placeholder.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "identity-placeholder",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "list.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+          }
+        },
+        {
+          "path": "list-header.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "list",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "manner-temp.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "manner-temp",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "lib",
+          "itemIds": [
+            "manner-temp-level"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "manner-temp-badge.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "manner-temp-badge",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "lib",
+          "itemIds": [
+            "manner-temp-level"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "menu.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "menu",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "menu-sheet.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "menu-sheet",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "page-banner.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "page-banner",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "progress-circle.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
-            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
           }
         }
       ],
@@ -66,10 +494,50 @@
     {
       "snippets": [
         {
+          "path": "pull-to-refresh.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "pull-to-refresh",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "progress-circle"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "quantity-picker.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+          }
+        }
+      ],
+      "id": "quantity-picker",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "radio-group.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
-            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
           }
         }
       ],
@@ -81,10 +549,142 @@
     {
       "snippets": [
         {
+          "path": "resident-number-field.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.1.0",
+            "@seed-design/lynx-css": "^1.1.0"
+          }
+        }
+      ],
+      "id": "resident-number-field",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "result-section.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "result-section",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "search-bar.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.1.0",
+            "@seed-design/lynx-css": "^1.1.0"
+          }
+        }
+      ],
+      "id": "search-bar",
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "app-bar",
+            "search-input"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "search-input.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.1.0",
+            "@seed-design/lynx-css": "^1.1.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+          }
+        }
+      ],
+      "id": "search-input",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "segmented-control.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "segmented-control",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "select.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+          }
+        }
+      ],
+      "id": "select",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "select-box.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0"
+          }
+        }
+      ],
+      "id": "select-box",
+      "dependencies": [
+        "@karrotmarket/lynx-monochrome-icon",
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "slider.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "slider",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "switch.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
-            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
           }
         }
       ],
@@ -96,14 +696,59 @@
     {
       "snippets": [
         {
+          "path": "tabs.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "tabs",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "tag-group.tsx",
           "dependencies": {
-            "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
-            "@seed-design/lynx-css": ">=0.1.0 <1.0.0"
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
           }
         }
       ],
       "id": "tag-group",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "text-field.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "text-field",
+      "dependencies": [
+        "@seed-design/lynx-react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "wheel-picker.tsx",
+          "dependencies": {
+            "@seed-design/lynx-react": "^1.0.0",
+            "@seed-design/lynx-css": "^1.0.0"
+          }
+        }
+      ],
+      "id": "wheel-picker",
       "dependencies": [
         "@seed-design/lynx-react"
       ]

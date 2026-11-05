@@ -1,4 +1,7 @@
-import { Badge, HStack, VStack } from "@seed-design/react";
+"use client";
+
+import { HStack, VStack } from "@seed-design/react";
+import { Badge } from "seed-design/ui/badge";
 
 export default function BadgePositive() {
   return (

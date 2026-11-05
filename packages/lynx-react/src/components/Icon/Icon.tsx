@@ -10,8 +10,9 @@ import {
 } from "@lynx-js/react";
 
 import { useIconColor } from "../../hooks/useIconColor";
-import type { LynxIconElementProps, LynxStyledElementProps, LynxViewRef } from "../../types";
+import type { LynxHostProps, LynxIconElementProps, LynxViewRef } from "../../types";
 import { handleColor, handleDimension, type StyleProps } from "../../utils/styled";
+import { mergeProps } from "../../utils/merge-props";
 
 export type IconSlotName = "icon" | "prefixIcon" | "suffixIcon";
 
@@ -93,9 +94,14 @@ export function IconSlotProvider({
 ////////////////////////////////////////////////////////////////////////////////////
 
 const iconSlotMarker = Symbol.for("@seed-design/lynx-react/icon-slot");
+const seedMulticolorIconMarker = Symbol.for("@seed-design/multicolor-icon");
 
 interface IconSlotComponent {
   [iconSlotMarker]?: IconSlotName;
+}
+
+interface MulticolorIconComponent {
+  [seedMulticolorIconMarker]?: boolean;
 }
 
 export function getIconSlotName(node: React.ReactNode): IconSlotName | null {
@@ -104,17 +110,33 @@ export function getIconSlotName(node: React.ReactNode): IconSlotName | null {
   return ((node.type as IconSlotComponent)[iconSlotMarker] ?? null) as IconSlotName | null;
 }
 
+function isMulticolorIcon(node: React.ReactNode): boolean {
+  if (!isValidElement(node)) return false;
+  if (node.type == null || (typeof node.type !== "function" && typeof node.type !== "object")) {
+    return false;
+  }
+
+  return (node.type as MulticolorIconComponent)[seedMulticolorIconMarker] === true;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface IconProps extends LynxStyledElementProps {
+export interface IconProps extends Omit<LynxHostProps<"view">, "children"> {
   icon: ReactElement<LynxIconElementProps>;
   size?: StyleProps["height"] | number;
   color?: StyleProps["color"];
+  /**
+   * 자동 감지되지 않는 멀티컬러 아이콘의 원본 색상을 유지합니다.
+   * @default false
+   */
+  multicolor?: boolean;
 }
 
-export interface PrefixIconProps extends IconProps {}
+/** React와 같이 크기와 색상은 감싼 컴포넌트의 recipe slot이 정합니다. */
+export interface PrefixIconProps extends Omit<IconProps, "size" | "color"> {}
 
-export interface SuffixIconProps extends IconProps {}
+/** React와 같이 크기와 색상은 감싼 컴포넌트의 recipe slot이 정합니다. */
+export interface SuffixIconProps extends Omit<IconProps, "size" | "color"> {}
 
 interface IconSlotBaseProps extends IconProps {
   slot: IconSlotName | null;
@@ -151,7 +173,7 @@ const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) =
     style,
     size,
     color,
-    children: _children,
+    multicolor = false,
     ...nativeProps
   } = props;
   const context = React.useContext(IconSlotContext);
@@ -159,9 +181,10 @@ const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) =
   const sourceRef = useMainThreadRef<MainThread.Element>(null);
   const slotClassName = slot != null ? context?.classNames?.[slot] : undefined;
   const styleColor = getStyleColor(style);
+  const shouldPreserveOriginalColor = multicolor || isMulticolorIcon(icon);
   const iconColor = useIconColor(
     [baseClassName, slotClassName, className, size, color, styleColor, ...(context?.deps ?? [])],
-    { sourceRef },
+    { sourceRef, enabled: !shouldPreserveOriginalColor },
   );
   const hasValidIcon = isValidElement<LynxIconElementProps>(icon);
 
@@ -178,10 +201,16 @@ const IconSlotBase = React.forwardRef<unknown, IconSlotBaseProps>((props, ref) =
 
   return (
     <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
-      {...nativeProps}
-      main-thread:ref={sourceRef}
-      className={clsx(baseClassName, slotClassName, className)}
+      {...mergeProps(
+        { "main-thread:ref": sourceRef, "accessibility-elements-hidden": true },
+        ref ? { ref: ref as LynxViewRef } : {},
+        nativeProps,
+      )}
+      className={clsx(
+        slotClassName && baseClassName ? `${baseClassName}-slot` : baseClassName,
+        slotClassName,
+        className,
+      )}
       style={mergeWrapperStyle({ size, color, style })}
     >
       {cloneElement(icon, {
@@ -200,13 +229,19 @@ IconSlotBase.displayName = "IconSlotBase";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-function createIconComponent<Props extends IconProps>(
+function createIconComponent<Props extends PrefixIconProps>(
   displayName: string,
   slot: IconSlotName,
   baseClassName: string,
 ) {
   const Component = React.forwardRef<unknown, Props>((props, ref) => {
-    return <IconSlotBase ref={ref} slot={slot} baseClassName={baseClassName} {...props} />;
+    return (
+      <IconSlotBase
+        {...mergeProps(ref ? { ref } : {}, props)}
+        slot={slot}
+        baseClassName={baseClassName}
+      />
+    );
   });
 
   Component.displayName = displayName;
@@ -229,13 +264,14 @@ export const SuffixIcon = createIconComponent<SuffixIconProps>(
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface InternalIconProps extends LynxStyledElementProps {
+export interface InternalIconProps extends Omit<LynxHostProps<"view">, "children"> {
   icon: ReactElement<LynxIconElementProps>;
   deps?: DependencyList;
+  disableDefaultResize?: boolean;
 }
 
 export const InternalIcon = React.forwardRef<unknown, InternalIconProps>((props, ref) => {
-  const { icon, deps = [], className, style, children: _children, ...nativeProps } = props;
+  const { icon, deps = [], className, style, disableDefaultResize = false, ...nativeProps } = props;
   const sourceRef = useMainThreadRef<MainThread.Element>(null);
   const styleColor = getStyleColor(style);
   const iconColor = useIconColor([className, styleColor, ...(deps ?? [])], { sourceRef });
@@ -244,14 +280,17 @@ export const InternalIcon = React.forwardRef<unknown, InternalIconProps>((props,
 
   return (
     <view
-      {...(ref ? { ref: ref as LynxViewRef } : {})}
-      {...nativeProps}
-      main-thread:ref={sourceRef}
+      {...mergeProps(
+        { "main-thread:ref": sourceRef },
+        ref ? { ref: ref as LynxViewRef } : {},
+        nativeProps,
+      )}
       className={className}
       style={style}
     >
       {cloneElement(icon, {
         ...iconColor,
+        ...(disableDefaultResize ? { "disable-default-resize": true } : {}),
         className: icon.props.className,
         style: {
           ...icon.props.style,

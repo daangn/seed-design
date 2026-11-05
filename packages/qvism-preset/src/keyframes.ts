@@ -76,6 +76,12 @@ export const keyframes = defineKeyframes({
     },
   },
 
+  "caret-blink": {
+    "50%": {
+      opacity: 0,
+    },
+  },
+
   "drawer-slide-from-bottom": {
     from: {
       transform: "translate3d(0, var(--initial-transform, 100%), 0)",

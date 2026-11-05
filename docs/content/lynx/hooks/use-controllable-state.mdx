@@ -3,22 +3,30 @@ title: useControllableState
 description: Controlled/uncontrolled 상태 패턴을 지원하는 훅입니다.
 ---
 
-<AvailableSince packages="@seed-design/lynx-react@0.1.0" />
+<AvailableSince packages="@seed-design/lynx-react-use-controllable-state@0.1.0" />
+
+## Installation
+
+```package-install
+bun add @seed-design/lynx-react-use-controllable-state
+```
 
 ## Import
 
 ```ts
-import { useControllableState } from "@seed-design/lynx-react";
+import { useControllableState } from "@seed-design/lynx-react-use-controllable-state";
 ```
 
-`useControllableState`는 `@seed-design/lynx-react` 패키지에 포함되어 있습니다.
+`useControllableState`는 스타일 없이 사용할 수 있는 독립 패키지입니다. `@seed-design/lynx-react`를 설치하지 않아도 사용할 수 있습니다.
+
+기존 `@seed-design/lynx-react`의 `useControllableState` 재export도 유지됩니다. 새 코드에서는 위 독립 패키지에서 직접 가져오는 방식을 권장합니다.
 
 ## Usage
 
 ### Uncontrolled (기본)
 
 ```tsx
-import { useControllableState } from "@seed-design/lynx-react";
+import { useControllableState } from "@seed-design/lynx-react-use-controllable-state";
 
 function Counter() {
   const [count, setCount] = useControllableState({
@@ -34,11 +42,12 @@ function Counter() {
 }
 ```
 
+`defaultValue`는 최초 상태만 정합니다. 이후 외부에서 값을 제어하려면 `value`를 전달합니다.
+
 ### Controlled
 
 ```tsx
-import { useState } from "@lynx-js/react";
-import { useControllableState } from "@seed-design/lynx-react";
+import { useControllableState } from "@seed-design/lynx-react-use-controllable-state";
 
 function ControlledCounter({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   const [count, setCount] = useControllableState({
@@ -55,6 +64,8 @@ function ControlledCounter({ value, onChange }: { value: number; onChange: (v: n
 }
 ```
 
+Controlled 모드에서 setter는 `onChange`를 호출하며, 실제 값은 부모가 `value`를 갱신해야 바뀝니다. `value={undefined}`는 uncontrolled 모드이므로 사용하는 동안 모드를 유지하세요.
+
 ## API
 
 ### Props
@@ -63,14 +74,14 @@ function ControlledCounter({ value, onChange }: { value: number; onChange: (v: n
 |------|------|---------|-------------|
 | `value` | `T \| undefined` | - | Controlled 값. 제공 시 controlled 모드로 동작합니다. |
 | `defaultValue` | `T` | (필수) | Uncontrolled 모드에서의 초기값입니다. |
-| `onChange` | `(value: T) => void` | - | 값이 변경될 때 호출되는 콜백입니다. 두 모드 모두에서 호출됩니다. |
+| `onChange` | `(value: T) => void` | - | setter에 현재 값과 다른 값을 전달할 때 호출됩니다. 초기 렌더나 외부 `value` 변경만으로는 호출되지 않습니다. |
 
 ### Return
 
 `[T, (value: T) => void]` 튜플을 반환합니다.
 
 - 첫 번째 요소: 현재 값
-- 두 번째 요소: 값을 변경하는 setter 함수 (안정적 참조)
+- 두 번째 요소: 값을 변경하는 setter 함수 (안정적 참조). 다음 값을 직접 전달하며 함수형 updater는 지원하지 않습니다.
 
 ## 웹 버전과의 차이
 

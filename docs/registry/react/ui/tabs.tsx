@@ -20,7 +20,7 @@ export const TabsRoot = forwardRef<HTMLDivElement, TabsRootProps>((props, ref) =
 });
 TabsRoot.displayName = "TabsRoot";
 
-export interface TabsListProps extends SeedTabs.ListProps {}
+export interface TabsListProps extends Omit<SeedTabs.ListProps, "asChild"> {}
 
 export const TabsList = forwardRef<HTMLDivElement, TabsListProps>((props, ref) => {
   const { children, ...otherProps } = props;

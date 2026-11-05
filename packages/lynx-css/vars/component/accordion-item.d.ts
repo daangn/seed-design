@@ -123,7 +123,7 @@ export declare const vars: {
   "variantSeparated": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "strokeWidth": "1px",
         "cornerRadius": "var(--seed-radius-r3)"
       }

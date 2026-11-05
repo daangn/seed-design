@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/lynx-css",
-  "version": "0.6.0",
+  "version": "1.2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -12,9 +12,10 @@
   ],
   "type": "module",
   "exports": {
-    "./*.css": "./*.css",
     "./base.css": "./base.css",
+    "./base.min.css": "./base.min.css",
     "./all.css": "./all.css",
+    "./all.min.css": "./all.min.css",
     "./recipes/*.css": "./recipes/*.css",
     "./recipes/*": {
       "types": "./recipes/*.d.ts",
@@ -38,11 +39,16 @@
       "types": "./vars/component/*.d.ts",
       "import": "./vars/component/*.mjs"
     },
+    "./scale-feedback": {
+      "types": "./scale-feedback/index.d.ts",
+      "import": "./scale-feedback/index.mjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [
     "package.json",
     "recipes",
+    "scale-feedback",
     "vars",
     "*.css",
     "LICENSE",
@@ -50,12 +56,13 @@
   ],
   "scripts": {
     "rootage:generate": "bun rootage token-ts ./vars --prefix seed && rootage component-spec ./vars/component --prefix seed",
-    "qvism:generate": "bun qvism ./ ./recipes",
+    "qvism:generate": "bun qvism ./ ./recipes && bun run ./scripts/generate-scale-feedback.mjs",
     "lint:publish": "bun publint"
   },
   "devDependencies": {
     "@seed-design/qvism-cli": "0.0.0",
-    "@seed-design/lynx-qvism-preset": "0.0.0"
+    "@seed-design/lynx-qvism-preset": "0.0.0",
+    "@seed-design/rootage-artifacts": "3.2.0"
   },
   "publishConfig": {
     "access": "public"

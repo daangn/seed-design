@@ -1,11 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import preview from "../.storybook/preview";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { AttachmentField } from "seed-design/ui/attachment-field";
 import { AttachmentInputReorderable } from "seed-design/ui/attachment-field-reorderable";
-import type { FileEntry } from "@seed-design/react/primitive";
+import type { AttachmentInputFileEntry } from "@seed-design/react";
 import { attachmentInputVariantMap } from "@seed-design/css/recipes/attachment-input";
 
 function createMockImageFile(name: string): File {
@@ -24,15 +23,10 @@ const AttachmentInputReorderableForStory = (props: AttachmentInputReorderableSto
   </AttachmentField>
 );
 
-const meta = {
+const meta = preview.meta({
   component: AttachmentInputReorderableForStory,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof AttachmentInputReorderableForStory>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const conditionMap = {
   accept: {
     "image/*": { accept: "image/*" },
@@ -49,7 +43,7 @@ const conditionMap = {
         },
         { id: "mock-2", file: createMockImageFile("profile-picture.png"), status: "success" },
         { id: "mock-3", file: createMockImageFile("team-meeting-notes.png"), status: "success" },
-      ] satisfies FileEntry[],
+      ] satisfies AttachmentInputFileEntry[],
     },
     "5": {
       defaultAcceptedFileEntries: [
@@ -58,7 +52,7 @@ const conditionMap = {
         { id: "mock-3", file: createMockImageFile("photo-3.png"), status: "pending" },
         { id: "mock-4", file: createMockImageFile("photo-4.png"), status: "uploading" },
         { id: "mock-5", file: createMockImageFile("photo-5.png"), status: "error" },
-      ] satisfies FileEntry[],
+      ] satisfies AttachmentInputFileEntry[],
     },
   },
   disabled: {
@@ -71,20 +65,19 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
-  render: (args) => (
+const CommonStoryTemplate = meta.story({
+  render: (args, { component }) => (
     <VariantTable
-      Component={meta.component}
+      Component={component!}
       variantMap={attachmentInputVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
+});
 
-export const LightTheme = CommonStoryTemplate;
+export const LightTheme = CommonStoryTemplate.extend({});
 
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });

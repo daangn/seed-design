@@ -1,6 +1,6 @@
 declare const artifact: {
   "name": "Rootage";
-  "version": "2.3.0";
+  "version": "3.2.0";
   "resources": readonly [
     {
       "path": "/collections.json";
@@ -69,6 +69,9 @@ declare const artifact: {
       "path": "/components/bottom-sheet.json";
     },
     {
+      "path": "/components/callout-close-button.json";
+    },
+    {
       "path": "/components/callout.json";
     },
     {
@@ -93,7 +96,7 @@ declare const artifact: {
       "path": "/components/contextual-floating-button.json";
     },
     {
-      "path": "/components/control-chip.json";
+      "path": "/components/date-picker.json";
     },
     {
       "path": "/components/dialog-close-button.json";
@@ -147,9 +150,6 @@ declare const artifact: {
       "path": "/components/image-frame.json";
     },
     {
-      "path": "/components/inline-banner.json";
-    },
-    {
       "path": "/components/input-button.json";
     },
     {
@@ -186,7 +186,22 @@ declare const artifact: {
       "path": "/components/notification-badge.json";
     },
     {
+      "path": "/components/page-banner-close-button.json";
+    },
+    {
       "path": "/components/page-banner.json";
+    },
+    {
+      "path": "/components/pagination-button.json";
+    },
+    {
+      "path": "/components/pagination-page-item.json";
+    },
+    {
+      "path": "/components/popover-close-button.json";
+    },
+    {
+      "path": "/components/popover.json";
     },
     {
       "path": "/components/progress-circle.json";
@@ -213,6 +228,9 @@ declare const artifact: {
       "path": "/components/scroll-fog.json";
     },
     {
+      "path": "/components/search-input.json";
+    },
+    {
       "path": "/components/segmented-control-indicator.json";
     },
     {
@@ -220,6 +238,9 @@ declare const artifact: {
     },
     {
       "path": "/components/segmented-control.json";
+    },
+    {
+      "path": "/components/segmented-text-input.json";
     },
     {
       "path": "/components/select-box-checkmark.json";
@@ -285,6 +306,9 @@ declare const artifact: {
       "path": "/components/text-input.json";
     },
     {
+      "path": "/components/time-picker.json";
+    },
+    {
       "path": "/components/toggle-button.json";
     },
     {
@@ -298,6 +322,9 @@ declare const artifact: {
     },
     {
       "path": "/components/typography.json";
+    },
+    {
+      "path": "/components/wheel-picker.json";
     },
     {
       "path": "/dimension.json";

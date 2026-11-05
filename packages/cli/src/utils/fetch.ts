@@ -1,3 +1,4 @@
+import { docsSource } from "./docs-source";
 import type { PublicRegistry } from "@/src/schema";
 
 import * as p from "@clack/prompts";
@@ -155,10 +156,8 @@ export async function tryFetchLlmsTxt({
 }): Promise<string> {
   const normalizedQuery = query.startsWith("/") ? query.slice(1) : query;
 
-  const urls = [
-    `${baseUrl}/llms/${normalizedQuery}.txt`,
-    `${baseUrl}/llms/${normalizedQuery}/llms.txt`,
-  ];
+  const source = docsSource(baseUrl);
+  const urls = [source.llms(`/${normalizedQuery}`), source.llmsIndex(`/${normalizedQuery}`)];
 
   let lastError: unknown;
 

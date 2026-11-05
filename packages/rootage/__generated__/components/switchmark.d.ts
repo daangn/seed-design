@@ -48,6 +48,14 @@ declare const artifact: {
             "paddingY": {
               "type": "dimension";
             };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+              "description": "감싸는 컴포넌트가 자체 pressed 피드백을 주는 경우(List Item 등)에는 이 값이 적용되지 않습니다.";
+            };
           };
         };
         "thumb": {
@@ -75,6 +83,7 @@ declare const artifact: {
             };
             "scale": {
               "type": "number";
+              "description": "selected 여부에 따른 thumb 크기입니다. pressed 축소는 root에 적용되므로 이 값과 무관합니다.";
             };
             "scaleDuration": {
               "type": "duration";
@@ -220,6 +229,19 @@ declare const artifact: {
               };
             };
           },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
+                };
+              };
+            };
+          },
         ];
       },
       {
@@ -252,6 +274,12 @@ declare const artifact: {
                   "value": "$color.bg.brand-solid";
                 };
               };
+              "thumb": {
+                "color": {
+                  "type": "color";
+                  "value": "$color.fg.on-brand-solid";
+                };
+              };
             };
           },
         ];
@@ -269,7 +297,7 @@ declare const artifact: {
               "thumb": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
               };
             };
@@ -283,7 +311,7 @@ declare const artifact: {
               "root": {
                 "color": {
                   "type": "color";
-                  "value": "$color.bg.neutral-inverted";
+                  "value": "$color.bg.neutral-solid";
                 };
               };
             };

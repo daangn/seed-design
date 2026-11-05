@@ -8,7 +8,6 @@ import { IconArrowRightLine } from "@karrotmarket/react-monochrome-icon";
 import { resolveReferences, resolveToken } from "@seed-design/rootage-core";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 
@@ -84,13 +83,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           <tbody>
             {references.map((ref) => (
               <tr key={ref}>
-                <td>
-                  {ref.startsWith("$") ? (
-                    <TokenLink id={ref} />
-                  ) : (
-                    <Link href={`/components/${ref.split("/")[0]}`}>{ref}</Link>
-                  )}
-                </td>
+                <td>{ref.startsWith("$") ? <TokenLink id={ref} /> : ref}</td>
               </tr>
             ))}
           </tbody>

@@ -29,11 +29,7 @@ const ActivityResponsiveSidePanel: StaticActivityComponentType<
   const onOpenChange = (open: boolean) => !open && pop();
 
   return (
-    <ResponsiveSidePanelRoot
-      open={open}
-      onOpenChange={onOpenChange}
-      sidePanelRootProps={{ size }}
-    >
+    <ResponsiveSidePanelRoot open={open} onOpenChange={onOpenChange} sidePanelRootProps={{ size }}>
       <ResponsiveSidePanelContent
         title="Responsive Side Panel"
         description="md 이상에서는 Side Panel, sm 이하에서는 Bottom Sheet로 표시됩니다. 뷰포트를 줄여서 자동 전환을 확인해보세요."

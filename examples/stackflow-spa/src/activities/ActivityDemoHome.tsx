@@ -6,7 +6,8 @@ import { TabsRoot, TabsTrigger, TabsList, TabsCarousel, TabsContent } from "seed
 import { SnackbarProvider } from "seed-design/ui/snackbar";
 import { ResultSection } from "seed-design/ui/result-section";
 import { IconArticleFill, IconChevronDownFill } from "@karrotmarket/react-monochrome-icon";
-import { Flex, HStack, VStack, Icon, Box, Text, Badge, Portal } from "@seed-design/react";
+import { Flex, HStack, VStack, Icon, Box, Text, Portal } from "@seed-design/react";
+import { Badge } from "seed-design/ui/badge";
 import { TagGroupRoot, TagGroupItem } from "seed-design/ui/tag-group";
 import { Chip } from "seed-design/ui/chip";
 import {
@@ -65,7 +66,7 @@ const ActivityDemoHome: ActivityComponentType<"ActivityDemoHome"> = () => {
           __html: "::-webkit-scrollbar{display:none}",
         }}
       />
-      <AppScreen>
+      <AppScreen layerOffsetBottom="safeArea">
         <AppBar>
           <AppBarMain title="Demo" />
         </AppBar>
@@ -89,7 +90,7 @@ const ActivityDemoHome: ActivityComponentType<"ActivityDemoHome"> = () => {
                 <Recommendations />
               </TabsContent>
               <TabsContent value={TABS[1].value}>
-                <VStack py="x12" pb="safeArea">
+                <VStack py="x12">
                   <ResultSection
                     asset={
                       <Box pb="x4">
@@ -156,7 +157,7 @@ export function Recommendations() {
   };
 
   return (
-    <VStack gap="spacingY.componentDefault" py="x4" pb="safeArea">
+    <VStack gap="spacingY.componentDefault" py="x4">
       <Flex
         gap="spacingX.betweenChips"
         px="spacingX.globalGutter"

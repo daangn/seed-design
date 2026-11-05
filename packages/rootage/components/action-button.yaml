@@ -12,12 +12,6 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
-          scale:
-            type: number
-          scaleDuration:
-            type: duration
-          scaleTimingFunction:
-            type: cubicBezier
           color:
             type: color
           strokeColor:
@@ -36,6 +30,9 @@ data:
             type: dimension
           paddingY:
             type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       label:
         properties:
           color:
@@ -116,25 +113,26 @@ data:
         root:
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
-          scaleDuration: $duration.pressed-scale
-          scaleTimingFunction: $timing-function.pressed-scale
         label:
           fontWeight: $font-weight.bold
+      pressed:
+        root:
+          scaleScope: self
     variant=brandSolid:
       enabled:
         root:
           color: $color.bg.brand-solid
         label:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
         icon:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
         prefixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
         suffixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-brand-solid
         progressCircle:
           trackColor: $color.palette.static-white-alpha-300
-          rangeColor: $color.palette.static-white
+          rangeColor: $color.fg.on-brand-solid
       pressed:
         root:
           color: $color.bg.brand-solid-pressed
@@ -155,21 +153,21 @@ data:
     variant=neutralSolid:
       enabled:
         root:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
         label:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         icon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         prefixIcon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         suffixIcon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         progressCircle:
           trackColor: $color.palette.static-white-alpha-300
-          rangeColor: $color.palette.static-white
+          rangeColor: $color.fg.on-neutral-solid
       pressed:
         root:
-          color: $color.bg.neutral-inverted-pressed
+          color: $color.bg.neutral-solid-pressed
       disabled:
         root:
           color: $color.bg.disabled
@@ -183,7 +181,7 @@ data:
           color: $color.fg.disabled
       loading:
         root:
-          color: $color.bg.neutral-inverted-pressed
+          color: $color.bg.neutral-solid-pressed
     variant=neutralWeak:
       enabled:
         root:
@@ -221,16 +219,16 @@ data:
         root:
           color: $color.bg.critical-solid
         label:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
         icon:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
         prefixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
         suffixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
         progressCircle:
           trackColor: $color.palette.static-white-alpha-300
-          rangeColor: $color.palette.static-white
+          rangeColor: $color.fg.on-critical-solid
       pressed:
         root:
           color: $color.bg.critical-solid-pressed
@@ -358,9 +356,6 @@ data:
         progressCircle:
           size: 14px
           thickness: 2px
-      pressed:
-        root:
-          scale: $scale.s95
     size=xsmall, layout=withText:
       enabled:
         root:
@@ -390,9 +385,6 @@ data:
         progressCircle:
           size: 14px
           thickness: 2px
-      pressed:
-        root:
-          scale: $scale.s97
     size=small, layout=withText:
       enabled:
         root:
@@ -422,9 +414,6 @@ data:
         progressCircle:
           size: 16px
           thickness: 2px
-      pressed:
-        root:
-          scale: $scale.s97
     size=medium, layout=withText:
       enabled:
         root:
@@ -454,9 +443,6 @@ data:
         progressCircle:
           size: 18px
           thickness: 2px
-      pressed:
-        root:
-          scale: $scale.s98
     size=large, layout=withText:
       enabled:
         root:

@@ -1,0 +1,15 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "seed-design-docs-archive",
+  "main": "worker.ts",
+  "compatibility_date": "2026-09-29",
+  "workers_dev": false,
+  "preview_urls": true,
+  // deploy.ts derives ALL routes from archives.json after verifying every Pages origin.
+  "routes": [],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 0.01,
+    "traces": { "enabled": true, "head_sampling_rate": 0.01 }
+  }
+}

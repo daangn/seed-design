@@ -1,5 +1,64 @@
 # @seed-design/stackflow
 
+## 2.1.0
+
+### Minor Changes
+
+- d4ec62d: `AppBar.TextButton`을 추가합니다. "완료", "닫기"처럼 짧은 텍스트로 동작을 표시하는 App Bar 버튼입니다.
+  
+  - `npx @seed-design/cli@latest add ui:app-screen`으로 Registry 컴포넌트를 다시 설치하면 `AppBarTextButton`을 사용할 수 있습니다. 갱신한 snippet은 `@seed-design/stackflow` 2.1.0 이상과 `@seed-design/css` 3.1.0 이상이 필요합니다.
+  - `theme="cupertino"`에서는 레이블이 최대 너비를 넘으면 말줄임표로 줄입니다.
+  - 누름 배경과 `disabled` 비활성 색상을 지원하고, `asChild`로 다른 요소를 버튼으로 렌더할 수 있습니다.
+
+### Patch Changes
+
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+- Updated dependencies [d4ec62d]
+  - @seed-design/css@3.1.0
+
+## 2.0.6
+
+### Patch Changes
+
+- Updated dependencies [19ecbd6]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [d3edadf]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [5e34f78]
+- Updated dependencies [fa3eb46]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [8c70df1]
+- Updated dependencies [66c3bd9]
+- Updated dependencies [78f0bc1]
+- Updated dependencies [ebdc295]
+- Updated dependencies [19ecbd6]
+- Updated dependencies [474fa4a]
+- Updated dependencies [66c3bd9]
+- Updated dependencies [19ecbd6]
+  - @seed-design/css@3.0.0
+  - @seed-design/react-primitive@2.0.2
+
+## 2.0.5
+
+### Patch Changes
+
+- ba7cfa8: `AppScreen`이 좌우 safe area inset을 반영합니다.
+  
+  - `AppBar`와 `AppScreenContent`의 내용이 좌우 inset만큼 안쪽으로 들어가서, 가로 모드처럼 좌우 inset이 있는 화면에서도 디스플레이 컷아웃에 가려지지 않습니다.
+  - 화면 끝까지 채워야 하는 이미지나 가로 스크롤 영역은 `Box`의 `bleedX`에 `"safeArea"`를 지정합니다.
+- Updated dependencies [f43cedd]
+- Updated dependencies [ba7cfa8]
+- Updated dependencies [cb4c4a1]
+  - @seed-design/css@2.9.0
+
+## 2.0.4
+
+### Patch Changes
+
+- 055547b: AppScreen에서 입력 중 스와이프백을 시작할 때 포커스를 해제하여 키보드와 입력 커서가 전환 중 남는 문제를 수정합니다.
+
 ## 2.0.3
 
 ### Patch Changes

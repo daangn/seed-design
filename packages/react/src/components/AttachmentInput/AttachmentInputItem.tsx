@@ -5,7 +5,7 @@ import {
   attachmentInputItem,
   type AttachmentInputItemVariantProps,
 } from "@seed-design/css/recipes/attachment-input-item";
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { composeRefs, useComposedRefs } from "@radix-ui/react-compose-refs";
 import { dataAttr } from "@seed-design/dom-utils";
 import {
   FileUpload as FileUploadPrimitive,
@@ -21,6 +21,8 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import { createRenderTrackingContext } from "../../utils/createRenderTrackingContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { useScaleFeedback } from "@seed-design/react-scale-feedback";
+import { withScaleFeedback } from "../../utils/withScaleFeedback";
 
 const { useClassNames, ClassNamesProvider, withContext } =
   createSlotRecipeContext(attachmentInputItem);
@@ -45,14 +47,15 @@ export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInp
     });
 
     const classNames = attachmentInputItem(variantProps);
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
     return (
       <ClassNamesProvider value={classNames}>
         <FileUploadItemProvider value={api}>
           <overlayTracker.Provider>
             <Primitive.li
-              ref={ref}
-              className={clsx(classNames.root, className)}
+              ref={useComposedRefs(scaleFeedbackRef, ref)}
+              className={clsx(classNames.root, scaleFeedbackClassName, className)}
               {...stateProps}
               {...otherProps}
             />
@@ -115,10 +118,12 @@ AttachmentInputItemSize.displayName = "AttachmentInputItemSize";
 export interface AttachmentInputItemRemoveButtonProps
   extends FileUploadPrimitive.ItemRemoveButtonProps {}
 
-export const AttachmentInputItemRemoveButton = withContext<
-  HTMLButtonElement,
-  AttachmentInputItemRemoveButtonProps
->(FileUploadPrimitive.ItemRemoveButton, "removeButton");
+export const AttachmentInputItemRemoveButton = withScaleFeedback(
+  withContext<HTMLButtonElement, AttachmentInputItemRemoveButtonProps>(
+    FileUploadPrimitive.ItemRemoveButton,
+    "removeButton",
+  ),
+);
 
 export interface AttachmentInputItemImageProps extends FileUploadPrimitive.ItemImageProps {}
 
@@ -166,6 +171,8 @@ export const AttachmentInputItemBadge = React.forwardRef<
   const classNames = useClassNames();
 
   return (
+    // FIXME: `asChild` slots onto the label span below, not this element, so the caller's element
+    // lands inside the badge without its class or ref. Route `children` through `Slottable`.
     <Primitive.div ref={ref} className={clsx(classNames.badge, className)} {...props}>
       <Primitive.span className={classNames.badgeLabel}>{children}</Primitive.span>
     </Primitive.div>
@@ -184,12 +191,13 @@ export const AttachmentInputItemActionButton = React.forwardRef<
   AttachmentInputItemActionButtonProps
 >(({ className, ...props }, ref) => {
   const classNames = useClassNames();
+  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
   return (
     <Primitive.button
       type="button"
-      ref={ref}
-      className={clsx(classNames.actionButton, className)}
+      ref={useComposedRefs(scaleFeedbackRef, ref)}
+      className={clsx(classNames.actionButton, scaleFeedbackClassName, className)}
       {...props}
     />
   );

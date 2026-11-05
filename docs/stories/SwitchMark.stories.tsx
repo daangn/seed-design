@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-
+import preview from "../.storybook/preview";
 import { Switchmark } from "seed-design/ui/switch";
 
 import {
@@ -9,29 +8,24 @@ import {
 } from "@seed-design/css/recipes/switchmark";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { Switch } from "@seed-design/react/primitive";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
+import { Switch } from "@seed-design/react";
 
-function CustomSwitch(props: SwitchmarkVariantProps & Switch.RootProps) {
+function CustomSwitch(props: SwitchmarkVariantProps & Switch.RootPrimitiveProps) {
   const [switchmarkVariantProps, otherProps] = switchmark.splitVariantProps(props);
 
   return (
-    <Switch.Root {...otherProps}>
+    <Switch.Root.Primitive {...otherProps}>
       <Switchmark {...switchmarkVariantProps} />
       <Switch.HiddenInput />
-    </Switch.Root>
+    </Switch.Root.Primitive>
   );
 }
 
-const meta = {
+const meta = preview.meta({
   component: CustomSwitch,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof CustomSwitch>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
+});
 const conditionMap = {
   checked: {
     true: { checked: true },
@@ -43,30 +37,27 @@ const conditionMap = {
   },
 };
 
-const CommonStoryTemplate: Story = {
-  render: (args) => (
+const CommonStoryTemplate = meta.story({
+  render: (args, { component }) => (
     <VariantTable
-      Component={meta.component}
+      Component={component!}
       variantMap={switchmarkVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
   ),
-};
-
-export const LightTheme = CommonStoryTemplate;
-
-export const DarkTheme = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { theme: "dark" },
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Small" },
+export const LightTheme = CommonStoryTemplate.extend({});
+
+export const DarkTheme = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...CommonStoryTemplate,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraSmall = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

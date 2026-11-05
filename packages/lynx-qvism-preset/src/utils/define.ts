@@ -15,7 +15,7 @@ import type {
 type CssVarRef = `var(--${string})`;
 type CssVarKey = `--${string}`;
 
-type CssWideKeyword = "initial" | "inherit" | "unset";
+type CssWideKeyword = "initial" | "unset";
 
 type ForbiddenLynxStyleKey =
   | "inset"
@@ -25,7 +25,6 @@ type ForbiddenLynxStyleKey =
   | "insetInline"
   | "insetInlineEnd"
   | "insetInlineStart"
-  | "boxSizing"
   | "verticalAlign"
   | "font"
   | "fontFeatureSettings"
@@ -43,7 +42,6 @@ type ForbiddenLynxStyleKey =
   | "gridColumn"
   | "gridRow"
   | "textTransform"
-  | "textDecoration"
   | "textDecorationColor"
   | "textDecorationLine"
   | "textDecorationStyle"
@@ -56,10 +54,6 @@ type ForbiddenLynxStyleKey =
   | "objectFit"
   | "objectPosition"
   | "mask"
-  | "maskImage"
-  | "maskSize"
-  | "maskPosition"
-  | "maskRepeat"
   | "maskComposite"
   | "backdropFilter"
   | "mixBlendMode"
@@ -122,10 +116,20 @@ type StrictLynxInput<T> = RejectCssWideKeywords<T>;
 /**
  * Style object constrained to the SEED Lynx preset contract. It starts from
  * Lynx's known longhand/shorthand CSS keys, then removes web-only properties
- * that SEED does not allow in preset sources. State styles should be modeled
- * as recipe variants instead of selector nesting.
+ * that SEED does not allow in preset sources. Interaction state is normally
+ * modeled as a recipe variant; `:active` is the narrow exception for feedback
+ * that must begin on the Lynx Main Thread.
  */
-export type LynxStyleObject = LynxStyleProperties;
+export type LynxStyleObject = LynxStyleProperties & {
+  "&::placeholder"?: LynxStyleProperties;
+  "&:active"?: LynxStyleProperties;
+  [selector: `&:active ${string}`]: LynxStyleProperties | undefined;
+  "&.ui-open"?: LynxStyleProperties;
+  "&.ui-closed"?: LynxStyleProperties;
+  "&.ui-entering"?: LynxStyleProperties;
+  "&.ui-leaving"?: LynxStyleProperties;
+  "&.ui-animating"?: LynxStyleProperties;
+};
 
 type LynxSlotRecord<S extends string> = Partial<Record<S, LynxStyleObject>>;
 

@@ -1,8 +1,7 @@
-import { VStack } from "@seed-design/react";
-import type { FileEntry } from "@seed-design/react/primitive";
+import { VStack, type AttachmentInputFileEntry } from "@seed-design/react";
 import { AttachmentField, AttachmentInput } from "seed-design/ui/attachment-field";
 
-const defaultFiles: FileEntry[] = [
+const defaultFiles: AttachmentInputFileEntry[] = [
   {
     id: "mock-1",
     file: new File(["hello"], "document.pdf", { type: "application/pdf" }),

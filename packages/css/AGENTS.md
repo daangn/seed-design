@@ -1,35 +1,15 @@
 # packages/css
 
-## 디렉토리 개요
+웹 CSS 변수·Recipe를 배포하는 `@seed-design/css` 패키지다. 대부분 `packages/rootage/`와 `packages/qvism-preset/`에서 생성되고, 아래 손으로 쓰는 모듈만 이 패키지가 원천이다.
 
-**CSS 변수와 Recipe를 제공**하는 패키지. 대부분의 파일은 **자동 생성**되므로 직접 수정 금지.
+## 규칙
 
-## 파일 작성 컨벤션
+손으로 쓰는 원천은 `theming/`, `breakpoints/`, `scale-feedback/`, `qvism.config.mjs`, `rootage.config.ts`다. 생성 명령은 이 경로를 만들지도 고치지도 않는다.
 
-| 경로 | 생성 원천 | 수정 가능 |
-|------|-----------|-----------|
-| `vars/` | `rootage/*.yaml` | **X** |
-| `recipes/` | `qvism-preset/src/recipes/*.ts` | **X** |
-| `*.css` (루트) | qvism-preset | **X** |
-| `qvism.config.mjs` | - | **O** |
+- `vars/component/`에는 `rootage.config.ts`의 filter를 통과한 컴포넌트 스펙만 생성된다(현재 `typography`). 나머지 컴포넌트 변수는 `packages/qvism-preset/src/vars/component/`에 있다.
 
-## 코드 작성 컨벤션
-
-스타일 변경이 필요하면:
-1. 토큰 → `packages/rootage/*.yaml` 수정
-2. Recipe → `packages/qvism-preset/src/recipes/*.ts` 수정
-3. `bun generate:all` 실행
-
-## 소스-생성물 관계
-
-| 소스 | 생성 명령 | 생성물 |
-|------|----------|--------|
-| `packages/qvism-preset/src/recipes/*.ts` | `bun qvism:generate` | `packages/css/recipes/*.{css,mjs,d.ts}` |
-| `packages/rootage/components/*.yaml` | `bun rootage:generate` | `packages/css/vars/component/*.{mjs,d.ts}` |
-
-## defineRecipe vs defineSlotRecipe 생성물 차이
-
-| Recipe 타입 | 클래스명 패턴 | 예시 |
-|------------|-------------|------|
-| `defineRecipe` | `.seed-{name}` | `.seed-button` |
-| `defineSlotRecipe` | `.seed-{name}__{slot}` | `.seed-avatar__root`, `.seed-avatar__fallback` |
+- `theming/` 수정 → `.mjs`, `.cjs`, `.d.ts`를 함께 맞춘다.
+- `breakpoints/`, `scale-feedback/` 수정 → `.mjs`와 `.d.ts`를 함께 맞춘다.
+- `scale-feedback/`의 class·값 이름은 소비자 CSS가 직접 참조하는 공개 API다. 이름을 바꾸면 changeset에 breaking 여부를 밝히고, `SCALE_FEEDBACK_CLASS_NAME`은 `packages/qvism-preset/src/utils/scale-feedback.ts`의 같은 값도 고친다. 둘을 대조하는 검사가 없다.
+- `theming/`의 inline script template literal 안에는 주석을 쓰지 않는다. 문자열 그대로 모든 페이지에 실린다 → 설명은 template literal 밖에 쓴다.
+- 생성된 스타일을 바꿔야 함 → 토큰은 `packages/rootage/`, Recipe는 `packages/qvism-preset/src/recipes/`를 고치고 루트 `AGENTS.md`「생성」을 따른다.

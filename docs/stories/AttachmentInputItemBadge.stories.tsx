@@ -1,9 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
-import { AttachmentInput, Icon } from "@seed-design/react";
-import type { FileEntry } from "@seed-design/react/primitive";
+import preview from "../.storybook/preview";
+import { AttachmentInput, Icon, type AttachmentInputFileEntry } from "@seed-design/react";
 import { IconXmarkFill } from "@karrotmarket/react-monochrome-icon";
 
-import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 
 // 1x1 pixel PNG (valid image so ItemImage renders without broken icon)
@@ -19,7 +18,7 @@ const BADGE_LABEL_BY_ID: Record<string, string> = {
   "mock-long": "대표사진으로 설정됨",
 };
 
-const mockFileEntries: FileEntry[] = [
+const mockFileEntries: AttachmentInputFileEntry[] = [
   { id: "mock-short", file: createMockImageFile("cover.png"), status: "success" },
   { id: "mock-long", file: createMockImageFile("cover-long-label.png"), status: "success" },
 ];
@@ -51,30 +50,22 @@ const AttachmentInputItemBadgeForStory = () => (
   </AttachmentInput.Root>
 );
 
-const meta = {
+const meta = preview.meta({
   component: AttachmentInputItemBadgeForStory,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof AttachmentInputItemBadgeForStory>;
+});
+const Template = meta.story({});
 
-export default meta;
+export const LightTheme = Template.extend({});
 
-type Story = StoryObj<typeof meta>;
-
-const Template: Story = {};
-
-export const LightTheme = Template;
-
-export const DarkTheme = createStoryWithParameters({
-  ...Template,
-  parameters: { theme: "dark" },
+export const DarkTheme = Template.extend({
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
-export const FontScalingExtraSmall = createStoryWithParameters({
-  ...Template,
-  parameters: { fontScale: "Extra Small" },
+export const FontScalingExtraSmall = Template.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
-export const FontScalingExtraExtraExtraLarge = createStoryWithParameters({
-  ...Template,
-  parameters: { fontScale: "Extra Extra Extra Large" },
+export const FontScalingExtraExtraExtraLarge = Template.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

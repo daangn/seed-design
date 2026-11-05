@@ -12,6 +12,7 @@ const statusOptions = [
 const platforms = [
   { key: "figma", title: "Figma", urlLabel: "File URL or Internal Link" },
   { key: "react", title: "React", urlLabel: "Repository URL or Internal Link" },
+  { key: "lynx", title: "Lynx", urlLabel: "Repository URL or Internal Link" },
   { key: "ios", title: "iOS", urlLabel: "Repository URL or Internal Link" },
   { key: "android", title: "Android", urlLabel: "Repository URL or Internal Link" },
 ] as const;
@@ -51,6 +52,14 @@ export default defineType({
       description: "예: Action Button",
       type: "string",
       validation: (Rule) => Rule.required(),
+      group: "basic",
+    }),
+    defineField({
+      name: "url",
+      title: "문서 URL",
+      description:
+        "Progress Board에서 컴포넌트 이름에 걸리는 링크입니다. 예: /components/action-button. 비워두면 이름이 링크 없이 표시됩니다.",
+      type: "string",
       group: "basic",
     }),
     defineField({

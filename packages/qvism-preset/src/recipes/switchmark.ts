@@ -1,12 +1,13 @@
 import spec from "@seed-design/rootage-artifacts/components/switchmark";
 import { switchmark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { checked, disabled, focusVisible, pseudo } from "../utils/pseudo";
+import { active, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 
 const switchmarkRecipe = defineSlotRecipe({
   name: "switchmark",
@@ -22,7 +23,14 @@ const switchmarkRecipe = defineSlotRecipe({
 
       margin: "var(--switchmark-margin-top, 0) 0", // 수직 위치 보정
 
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction} ${vars.base.enabled.root.colorDelay}, opacity ${vars.base.disabled.root.opacityDuration} ${vars.base.disabled.root.opacityTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction} ${vars.base.enabled.root.colorDelay}, opacity ${vars.base.disabled.root.opacityDuration} ${vars.base.disabled.root.opacityTimingFunction}, ${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+
+      // Scales the whole track, thumb included — the thumb's own `transform: scale()`
+      // stays the selected-state size and is unaffected. A containing component
+      // (e.g. ListItem) opts out by setting --seed-switchmark-feedback-scale to 1.
+      [pseudo(not(disabled), active)]: {
+        ...createScaleFeedbackStyles({ overridableBy: "--seed-switchmark-feedback-scale" }),
+      },
 
       [pseudo(disabled)]: {
         opacity: vars.base.disabled.root.opacity,

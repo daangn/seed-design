@@ -14,6 +14,11 @@ data:
             type: dimension
           paddingY:
             type: dimension
+          scrollMarginX:
+            type: dimension
+          scaleScope:
+            type: enum
+            values: [self, content]
       label:
         properties:
           color:
@@ -27,6 +32,8 @@ data:
   definitions:
     base:
       enabled:
+        root:
+          scrollMarginX: $dimension.spacing-x.global-gutter
         label:
           color: $color.fg.neutral-subtle
       selected:
@@ -35,6 +42,9 @@ data:
       disabled:
         label:
           color: $color.fg.disabled
+      pressed:
+        root:
+          scaleScope: self
     size=medium:
       enabled:
         root:

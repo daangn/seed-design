@@ -50,6 +50,17 @@ describe("docs command", () => {
         return;
       }
 
+      if (/^\/react\/v(?:1\.[012]|2)\/__docs__\/index.json$/.test(pathname)) {
+        const archived = JSON.parse(JSON.stringify(docsIndex).replaceAll("lynx", "react"));
+        response.writeHead(200, { "Content-Type": "application/json" });
+        response.end(JSON.stringify(archived));
+        return;
+      }
+      if (/^\/react\/v(?:1\.[012]|2)\/llms\/react\/components\/checkbox.txt$/.test(pathname)) {
+        response.writeHead(200, { "Content-Type": "text/plain" });
+        response.end("# Archived Checkbox");
+        return;
+      }
       response.writeHead(404, { "Content-Type": "text/plain" });
       response.end("Not found");
     });
@@ -77,9 +88,9 @@ describe("docs command", () => {
     });
   });
 
-  async function runDocsCommand(args: string[]) {
+  async function runDocsCommand(args: string[], sourceUrl = baseUrl) {
     const proc = Bun.spawn({
-      cmd: [process.execPath, "packages/cli/src/index.ts", "docs", ...args, "-u", baseUrl],
+      cmd: [process.execPath, "packages/cli/src/index.ts", "docs", ...args, "-u", sourceUrl],
       cwd: repoRoot,
       env: {
         ...process.env,
@@ -147,4 +158,25 @@ describe("docs command", () => {
       "- snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/lynx/ui/checkbox.tsx",
     );
   });
+  it.each([
+    "v1.0",
+    "v1.1",
+    "v1.2",
+    "v2",
+  ])("uses %s archive docs, LLM and source links", async (version) => {
+    requests.length = 0;
+    const sourceUrl = `${baseUrl}/react/${version}`;
+    const result = await runDocsCommand(["react", "checkbox"], sourceUrl);
+    expect(result.exitCode).toBe(0);
+    expect(result.stdout).toContain(`- docs: ${sourceUrl}/components/checkbox`);
+    expect(result.stdout).toContain(`- llms.txt: ${sourceUrl}/llms/react/components/checkbox.txt`);
+    expect(result.stdout).toContain(
+      `/refs/heads/react/${version}/docs/registry/react/ui/checkbox.tsx`,
+    );
+    expect(result.stdout).not.toContain(`/react/${version}/react/components`);
+    const raw = await runDocsCommand(["react", "checkbox", "--raw"], sourceUrl);
+    expect(raw.exitCode).toBe(0);
+    expect(raw.stdout.trim()).toBe("# Archived Checkbox");
+    expect(requests).toContain(`/react/${version}/llms/react/components/checkbox.txt`);
+  }, 15000);
 });

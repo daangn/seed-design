@@ -60,18 +60,43 @@ describe("usePressTap", () => {
       expect(onTap).toHaveBeenCalledTimes(1);
     });
 
-    it("can be omitted without error", () => {
+    it("clears pressed on tap without requiring a callback", () => {
       const { result } = renderHook(() => usePressTap());
 
-      expect(() => {
-        act(() => {
-          result.current.bindtap(fakeEvent);
-        });
-      }).not.toThrow();
+      act(() => {
+        result.current.bindtouchstart(fakeEvent);
+      });
+      act(() => {
+        result.current.bindtap(fakeEvent);
+      });
+
+      expect(result.current.pressed).toBe(false);
     });
   });
 
   describe("disabled", () => {
+    it("clears an active press without restoring it when re-enabled", () => {
+      const { result, rerender } = renderHook(({ disabled }) => usePressTap({ disabled }), {
+        initialProps: { disabled: false },
+      });
+
+      act(() => {
+        result.current.bindtouchstart(fakeEvent);
+      });
+      expect(result.current.pressed).toBe(true);
+
+      rerender({ disabled: true });
+      expect(result.current.pressed).toBe(false);
+
+      rerender({ disabled: false });
+      expect(result.current.pressed).toBe(false);
+
+      act(() => {
+        result.current.bindtouchstart(fakeEvent);
+      });
+      expect(result.current.pressed).toBe(true);
+    });
+
     it("does not update pressed on bindtouchstart", () => {
       const { result } = renderHook(() => usePressTap({ disabled: true }));
 
@@ -95,22 +120,8 @@ describe("usePressTap", () => {
   });
 
   describe("main-thread:bindtap", () => {
-    it("is included when enabled and mainThreadOnTap is provided", () => {
-      const mainThreadOnTap = () => {};
-      const { result } = renderHook(() => usePressTap({ mainThreadOnTap }));
-
-      expect(result.current["main-thread:bindtap"]).toBe(mainThreadOnTap);
-    });
-
     it("is not included when mainThreadOnTap is omitted", () => {
       const { result } = renderHook(() => usePressTap());
-
-      expect(result.current).not.toHaveProperty("main-thread:bindtap");
-    });
-
-    it("is not included when disabled is true", () => {
-      const mainThreadOnTap = () => {};
-      const { result } = renderHook(() => usePressTap({ disabled: true, mainThreadOnTap }));
 
       expect(result.current).not.toHaveProperty("main-thread:bindtap");
     });

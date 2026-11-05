@@ -32,7 +32,8 @@
         "vars/index.d.ts",
         "vars/component/*.mjs",
         "vars/component/*.d.ts",
-        "qvism.config.{js,ts,cjs,mjs}"
+        "qvism.config.{js,ts,cjs,mjs}",
+        "rootage.config.{js,ts,cjs,mjs}"
       ]
     },
     "packages/qvism-preset": {
@@ -66,6 +67,17 @@
         "widget-src/**/*.{ts,tsx,js,jsx}",
         "**/*.main.{ts,tsx,js,jsx}",
         "**/*.ui.{ts,tsx,js,jsx}"
+      ]
+    },
+    "tools/rootage-cdn": {
+      "entry": [
+        "src/cli.ts",
+        "src/deployment-guard.ts",
+        "src/release-input.ts",
+        "src/validate-operation.ts",
+        "src/version-change-policy.ts",
+        "src/verify-deployment.ts",
+        "src/worker.ts"
       ]
     },
     "examples/*": {

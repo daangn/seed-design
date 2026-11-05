@@ -1,21 +1,58 @@
 import { vars } from "./vars";
 import { defineGlobalCss } from "./utils/define";
+import { scaleFeedbackGlobalStyles, scaleFeedbackRootVars } from "./utils/scale-feedback";
 import { active, pseudo } from "./utils/pseudo";
 
 export const globalCss = defineGlobalCss({
   ":root": {
     "--seed-safe-area-top": "0px",
     "--seed-safe-area-bottom": "0px",
+    "--seed-safe-area-left": "0px",
+    "--seed-safe-area-right": "0px",
 
     "@supports (left: constant(safe-area-inset-left))": {
       "--seed-safe-area-top": "constant(safe-area-inset-top)",
       "--seed-safe-area-bottom": "constant(safe-area-inset-bottom)",
+      "--seed-safe-area-left": "constant(safe-area-inset-left)",
+      "--seed-safe-area-right": "constant(safe-area-inset-right)",
     },
 
     "@supports (left: env(safe-area-inset-left))": {
       "--seed-safe-area-top": "env(safe-area-inset-top)",
       "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
+      "--seed-safe-area-left": "env(safe-area-inset-left)",
+      "--seed-safe-area-right": "env(safe-area-inset-right)",
     },
+
+    // users can opt in with `font-family: var(--seed-font-family)`.
+    // see: https://seed-design.io/foundations/typography
+    "--seed-font-family": [
+      // SF Pro under WebKit. note: the literal "SF Pro" resolves only for users who installed the font themselves
+      "-apple-system",
+      // SF Pro under Chromium (macOS).
+      "BlinkMacSystemFont",
+      // 한글 on Apple platforms
+      '"Apple SD Gothic Neo"',
+
+      // when loaded (for Windows, mostly)
+      '"Pretendard Variable"',
+      "Pretendard",
+      // on Windows without Pretendard loaded/installed
+      '"Segoe UI"',
+
+      // fallbacks
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      '"Noto Sans"',
+
+      "sans-serif",
+
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+      '"Noto Color Emoji"',
+    ].join(", "),
 
     // Font scaling variables
     "--seed-font-size-multiplier": "1",
@@ -23,6 +60,13 @@ export const globalCss = defineGlobalCss({
     "--seed-font-size-limit-max": "1.5", // Android default 150%
     "--seed-line-height-limit-min": "0.8",
     "--seed-line-height-limit-max": "1.5", // Android default 150%
+    // Divisor for *-static tokens. Only Android has to cancel anything, so
+    // only there does the theming script overwrite this with the measured
+    // WebView textZoom; everywhere else it stays 1 and the tokens emit their
+    // literal px.
+    "--seed-static-font-scale": "1",
+
+    ...scaleFeedbackRootVars,
   },
 
   // iOS platform-specific overrides
@@ -52,17 +96,22 @@ export const globalCss = defineGlobalCss({
     alignItems: "center",
     justifyContent: "center",
     flexShrink: 0,
-    verticalAlign: "middle",
   },
   ".seed-icon": {
     width: "var(--seed-icon-size)",
     height: "var(--seed-icon-size)",
     color: "var(--seed-icon-color, currentColor)",
+    fontSize: "var(--seed-icon-font-size, inherit)",
+    fontWeight: "var(--seed-icon-font-weight, inherit)",
+    verticalAlign: "middle",
   },
   ".seed-prefix-icon": {
     width: "var(--seed-prefix-icon-size)",
     height: "var(--seed-prefix-icon-size)",
     color: "var(--seed-prefix-icon-color, currentColor)",
+    fontSize: "var(--seed-prefix-icon-font-size, inherit)",
+    fontWeight: "var(--seed-prefix-icon-font-weight, inherit)",
+    verticalAlign: "middle",
 
     marginLeft: "var(--seed-prefix-icon-margin-left, 0)",
     marginRight: "var(--seed-prefix-icon-margin-right, 0)",
@@ -76,6 +125,9 @@ export const globalCss = defineGlobalCss({
     width: "var(--seed-suffix-icon-size)",
     height: "var(--seed-suffix-icon-size)",
     color: "var(--seed-suffix-icon-color, currentColor)",
+    fontSize: "var(--seed-suffix-icon-font-size, inherit)",
+    fontWeight: "var(--seed-suffix-icon-font-weight, inherit)",
+    verticalAlign: "middle",
 
     marginLeft: "var(--seed-suffix-icon-margin-left, 0)",
     marginRight: "var(--seed-suffix-icon-margin-right, 0)",
@@ -274,4 +326,6 @@ export const globalCss = defineGlobalCss({
       fontWeight: vars.$fontWeight.bold,
     },
   },
+
+  ...scaleFeedbackGlobalStyles,
 });

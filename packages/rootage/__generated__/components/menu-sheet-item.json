@@ -25,6 +25,13 @@
             },
             "gap": {
               "type": "dimension"
+            },
+            "scaleScope": {
+              "type": "enum",
+              "values": [
+                "self",
+                "content"
+              ]
             }
           }
         },
@@ -195,6 +202,10 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.neutral-weak-pressed"
+                },
+                "scaleScope": {
+                  "type": "enum",
+                  "value": "content"
                 }
               }
             }

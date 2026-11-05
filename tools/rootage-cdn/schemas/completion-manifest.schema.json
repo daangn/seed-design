@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seed-design.io/schemas/rootage-completion-manifest.v1.json",
+  "title": "Rootage 완료 manifest",
+  "description": "npm 또는 npm 호환 Rootage tarball에서 검증되어 공개 가능한 불변 JSON 파일 목록이다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "package", "version", "npmIntegrity", "gitHead", "files"],
+  "properties": {
+    "schemaVersion": { "description": "완료 manifest 형식 버전이다.", "const": 1 },
+    "package": {
+      "description": "원본 npm 호환 패키지 이름이다.",
+      "const": "@seed-design/rootage-artifacts"
+    },
+    "version": {
+      "description": "불변 Rootage 전체 SemVer다.",
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$"
+    },
+    "npmIntegrity": {
+      "description": "npm 또는 npm 호환 tarball의 SHA-512 SRI 값이다.",
+      "type": "string",
+      "pattern": "^sha512-[A-Za-z0-9+/]+={0,2}$"
+    },
+    "gitHead": {
+      "description": "원본 tarball이 나타내는 Git commit SHA다.",
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "files": {
+      "description": "경로순으로 정렬한 공개 JSON 파일 목록이다.",
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/file" }
+    }
+  },
+  "$defs": {
+    "file": {
+      "description": "공개할 Rootage JSON 한 파일의 불변 메타데이터다.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "key", "bytes", "sha256"],
+      "properties": {
+        "path": {
+          "description": "Rootage index에 등록된 절대 리소스 경로다.",
+          "type": "string",
+          "pattern": "^/(?:[a-z0-9-]+/)*[a-z0-9-]+\\.json$"
+        },
+        "key": { "description": "해당 원본 바이트를 저장한 R2 key다.", "type": "string" },
+        "bytes": { "description": "원본 JSON 바이트 길이다.", "type": "integer", "minimum": 1 },
+        "sha256": {
+          "description": "원본 JSON 바이트의 소문자 SHA-256이다.",
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    }
+  }
+}

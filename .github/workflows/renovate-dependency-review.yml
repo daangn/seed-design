@@ -79,7 +79,7 @@ jobs:
             });
 
       - name: Checkout PR branch
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ steps.pr-info.outputs.ref || github.event.pull_request.head.ref }}
           fetch-depth: 0
@@ -151,7 +151,7 @@ jobs:
           echo "result=$VULN_COUNT" >> "$GITHUB_OUTPUT"
 
       - name: Run Claude Dependency Analysis
-        uses: anthropics/claude-code-action@4481e6d3c7bbb88db2a928ca3444c536f589c7c1 # v1
+        uses: anthropics/claude-code-action@c0949c50a78c1ec8ce2647db36629b870e715d0c # v1
         with:
           anthropic_api_key: ${{ secrets.ORG_ANTHROPIC_API_KEY }}
           allowed_bots: "renovate[bot]"
@@ -272,7 +272,7 @@ jobs:
             커밋과 push는 워크플로우의 후속 step이 처리하므로 직접 실행하지 마세요.
 
             판단 절차:
-            1. 먼저 `skills/changeset/SKILL.md`와 `skills/changeset/references/patterns.md`를 읽고 changeset 작성 규칙을 숙지하세요.
+            1. 먼저 `skills/seed-change/SKILL.md`와 `skills/seed-change/references/patterns.md`를 읽고 changeset 작성 규칙을 숙지하세요.
             2. `git diff ${{ steps.pr-info.outputs.base_sha || github.event.pull_request.base.sha }} -- '**/package.json'` 으로 변경된 workspace package.json을 확인하세요.
             3. 각 변경 package.json에서 `dependencies`, `devDependencies`, `peerDependencies`, `optionalDependencies`의 버전 상승을 찾으세요.
             4. 변경 package.json의 가장 가까운 package root를 기준으로 package name과 `private` 여부를 확인하세요.

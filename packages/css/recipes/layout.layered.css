@@ -10,13 +10,13 @@
     margin-inline: auto;
   }
 
-  @media (width >= 768px) {
+  @media (min-width: 768px) {
     .seed-layout__content--density_low, .seed-layout__content--density_medium {
       max-width: 720px;
     }
   }
 
-  @media (width >= 1280px) {
+  @media (min-width: 1280px) {
     .seed-layout__content--density_medium {
       max-width: 1040px;
     }

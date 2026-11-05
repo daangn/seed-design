@@ -12,8 +12,10 @@ import {
 } from "@seed-design/css/recipes/quantity-picker";
 import clsx from "clsx";
 import * as React from "react";
+import { useComposedRefs } from "@radix-ui/react-compose-refs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { useScaleFeedback } from "@seed-design/react-scale-feedback";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(quantityPicker);
 const withStateProps = createWithStateProps([useQuantityPickerContext]);
@@ -77,8 +79,20 @@ function renderIcon(
   );
 }
 
-export type QuantityPickerRootProps = QuantityPickerVariantProps &
-  QuantityPickerPrimitive.RootProps;
+export type QuantityPickerRootProps = Omit<QuantityPickerVariantProps, "size" | "layout"> &
+  QuantityPickerPrimitive.RootProps & {
+    /**
+     * 컴포넌트의 크기입니다.
+     * @default "medium"
+     */
+    size?: QuantityPickerVariantProps["size"];
+    /**
+     * 컴포넌트가 부모 Flex 레이아웃의 여유 공간을 채울지 지정합니다.
+     * @since 2.2.0
+     * @default "hug"
+     */
+    layout?: QuantityPickerVariantProps["layout"];
+  };
 
 export const QuantityPickerRoot = React.forwardRef<HTMLDivElement, QuantityPickerRootProps>(
   (props, ref) => {
@@ -104,6 +118,8 @@ export const QuantityPickerRoot = React.forwardRef<HTMLDivElement, QuantityPicke
 
     return (
       <ClassNamesProvider value={classNames}>
+        {/* TODO: `asChild` cannot work here — `withDividers` turns `children` into several
+            elements, which `Slot` refuses. Route them through `Slottable`, or drop `asChild`. */}
         <QuantityPickerPrimitive.Root
           ref={ref}
           className={clsx(classNames.root, className)}
@@ -142,11 +158,12 @@ export const QuantityPickerDecrementButton = React.forwardRef<
       ? (removeIcon ?? icon)
       : icon;
   const contentIsIcon = content !== null && content !== undefined;
+  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
   return (
     <QuantityPickerPrimitive.DecrementButton
-      ref={ref}
-      className={clsx(classNames.decrementButton, className)}
+      ref={useComposedRefs(scaleFeedbackRef, ref)}
+      className={clsx(classNames.decrementButton, scaleFeedbackClassName, className)}
       {...props}
     >
       {renderIcon(content ?? children, classNames.decrementIcon, decrementIconProps, contentIsIcon)}
@@ -196,11 +213,12 @@ export const QuantityPickerIncrementButton = React.forwardRef<
   const { incrementIconProps, incrementLoading } = useQuantityPickerContext();
   const content = incrementLoading ? loadingIndicator : icon;
   const contentIsIcon = content !== null && content !== undefined;
+  const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
 
   return (
     <QuantityPickerPrimitive.IncrementButton
-      ref={ref}
-      className={clsx(classNames.incrementButton, className)}
+      ref={useComposedRefs(scaleFeedbackRef, ref)}
+      className={clsx(classNames.incrementButton, scaleFeedbackClassName, className)}
       {...props}
     >
       {renderIcon(content ?? children, classNames.incrementIcon, incrementIconProps, contentIsIcon)}

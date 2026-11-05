@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 /**
  * Shared top-nav model for the site header — the single source of truth for nav
  * destinations. Consumed by the docs detail-page header (`docs/components/header`)
@@ -26,7 +27,7 @@ export interface NavItem {
   match?: string[];
 }
 
-export const NAV_ITEMS: NavItem[] = [
+const items: NavItem[] = [
   { label: "Get Started", href: "/get-started", match: ["/get-started"] },
   { label: "Foundations", href: "/foundations", match: ["/foundations"] },
   { label: "Components", href: "/components", match: ["/components"] },
@@ -44,3 +45,9 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "AI & Tools", href: "/ai-integration", match: ["/ai-integration"] },
   { label: "Updates", href: "/updates", match: ["/updates"] },
 ];
+
+export const NAV_ITEMS: NavItem[] = items.map((item) => ({
+  ...item,
+  href: archivePaths.link(item.href),
+  children: item.children?.map((child) => ({ ...child, href: archivePaths.link(child.href) })),
+}));

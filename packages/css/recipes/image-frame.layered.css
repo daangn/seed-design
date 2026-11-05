@@ -2,6 +2,18 @@
   .seed-image-frame__root {
     border-radius: inherit;
     isolation: isolate;
+    --seed-image-frame-safe-area-left-base: 0px;
+    --seed-image-frame-safe-area-left-sm: var(--seed-image-frame-safe-area-left-base, initial);
+    --seed-image-frame-safe-area-left-md: var(--seed-image-frame-safe-area-left-sm, initial);
+    --seed-image-frame-safe-area-left-lg: var(--seed-image-frame-safe-area-left-md, initial);
+    --seed-image-frame-safe-area-left-xl: var(--seed-image-frame-safe-area-left-lg, initial);
+    --seed-image-frame-safe-area-left: var(--seed-image-frame-safe-area-left-base, initial);
+    --seed-image-frame-safe-area-right-base: 0px;
+    --seed-image-frame-safe-area-right-sm: var(--seed-image-frame-safe-area-right-base, initial);
+    --seed-image-frame-safe-area-right-md: var(--seed-image-frame-safe-area-right-sm, initial);
+    --seed-image-frame-safe-area-right-lg: var(--seed-image-frame-safe-area-right-md, initial);
+    --seed-image-frame-safe-area-right-xl: var(--seed-image-frame-safe-area-right-lg, initial);
+    --seed-image-frame-safe-area-right: var(--seed-image-frame-safe-area-right-base, initial);
     position: relative;
     overflow: hidden;
   }
@@ -41,5 +53,33 @@
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-subtle);
     position: absolute;
     inset: 0;
+  }
+
+  @media (min-width: 480px) {
+    .seed-image-frame__root {
+      --seed-image-frame-safe-area-left: var(--seed-image-frame-safe-area-left-sm, initial);
+      --seed-image-frame-safe-area-right: var(--seed-image-frame-safe-area-right-sm, initial);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .seed-image-frame__root {
+      --seed-image-frame-safe-area-left: var(--seed-image-frame-safe-area-left-md, initial);
+      --seed-image-frame-safe-area-right: var(--seed-image-frame-safe-area-right-md, initial);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .seed-image-frame__root {
+      --seed-image-frame-safe-area-left: var(--seed-image-frame-safe-area-left-lg, initial);
+      --seed-image-frame-safe-area-right: var(--seed-image-frame-safe-area-right-lg, initial);
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .seed-image-frame__root {
+      --seed-image-frame-safe-area-left: var(--seed-image-frame-safe-area-left-xl, initial);
+      --seed-image-frame-safe-area-right: var(--seed-image-frame-safe-area-right-xl, initial);
+    }
   }
 }

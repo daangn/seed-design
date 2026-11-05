@@ -7,6 +7,14 @@ const checkmarkSlotNames = [
     "seed-checkmark__root"
   ],
   [
+    "background",
+    "seed-checkmark__background"
+  ],
+  [
+    "selectedBackground",
+    "seed-checkmark__selectedBackground"
+  ],
+  [
     "icon",
     "seed-checkmark__icon"
   ]
@@ -18,8 +26,7 @@ const defaultVariant = {
   "size": "medium",
   "checked": false,
   "disabled": false,
-  "indeterminate": false,
-  "pressed": false
+  "indeterminate": false
 };
 
 const compoundVariants = [
@@ -94,6 +101,14 @@ const compoundVariants = [
   },
   {
     "variant": "ghost",
+    "tone": "brand"
+  },
+  {
+    "variant": "ghost",
+    "tone": "neutral"
+  },
+  {
+    "variant": "ghost",
     "tone": "brand",
     "checked": true,
     "disabled": false
@@ -102,6 +117,18 @@ const compoundVariants = [
     "variant": "ghost",
     "tone": "neutral",
     "checked": true,
+    "disabled": false
+  },
+  {
+    "variant": "ghost",
+    "tone": "brand",
+    "indeterminate": true,
+    "disabled": false
+  },
+  {
+    "variant": "ghost",
+    "tone": "neutral",
+    "indeterminate": true,
     "disabled": false
   },
   {
@@ -114,60 +141,9 @@ const compoundVariants = [
     "disabled": true
   },
   {
-    "variant": "square",
-    "pressed": true,
-    "checked": false,
-    "indeterminate": false,
-    "disabled": false
-  },
-  {
-    "variant": "square",
-    "tone": "brand",
-    "pressed": true,
-    "checked": true,
-    "disabled": false
-  },
-  {
-    "variant": "square",
-    "tone": "neutral",
-    "pressed": true,
-    "checked": true,
-    "disabled": false
-  },
-  {
-    "variant": "square",
-    "tone": "brand",
-    "pressed": true,
+    "variant": "ghost",
     "indeterminate": true,
-    "disabled": false
-  },
-  {
-    "variant": "square",
-    "tone": "neutral",
-    "pressed": true,
-    "indeterminate": true,
-    "disabled": false
-  },
-  {
-    "variant": "ghost",
-    "pressed": true,
-    "checked": false,
-    "indeterminate": false,
-    "disabled": false
-  },
-  {
-    "variant": "ghost",
-    "tone": "brand",
-    "pressed": true,
-    "checked": true,
-    "disabled": false
-  },
-  {
-    "variant": "ghost",
-    "tone": "neutral",
-    "pressed": true,
-    "checked": true,
-    "disabled": false
+    "disabled": true
   }
 ];
 
@@ -193,10 +169,6 @@ export const checkmarkVariantMap = {
     false
   ],
   "indeterminate": [
-    true,
-    false
-  ],
-  "pressed": [
     true,
     false
   ]

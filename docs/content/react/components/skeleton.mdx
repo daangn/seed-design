@@ -30,6 +30,25 @@ import { Skeleton } from "@seed-design/react";
 
 ## Examples
 
+### Line Height
+
+텍스트를 대체하는 Skeleton에는 `height="lineHeight.t4"`처럼 텍스트와 같은 line-height 토큰을 지정할 수 있습니다.
+
+<ComponentExample name="react/skeleton/line-height">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/skeleton/line-height.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+반응형 높이에도 사용할 수 있습니다.
+
+```tsx
+<Skeleton height={{ base: "lineHeight.t4", md: "lineHeight.t5" }} width="full" />
+```
+
 ### Radius
 
 <ComponentExample name="react/skeleton/radius">

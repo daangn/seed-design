@@ -1,7 +1,8 @@
 import { snackbar as vars } from "../vars/component";
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
 import { enterAnimation, exitAnimation } from "../utils/animation";
-import { focus, focusVisible, pseudo } from "../utils/pseudo";
+import { active, focus, focusVisible, pseudo } from "../utils/pseudo";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -18,9 +19,9 @@ export const snackbarRegion = defineRecipe({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    left: "calc(env(safe-area-inset-left, 0px))",
-    right: "calc(env(safe-area-inset-right, 0px))",
-    bottom: "calc(env(safe-area-inset-bottom, 0px) + var(--snackbar-region-offset, 0px))",
+    left: "var(--seed-safe-area-left)",
+    right: "var(--seed-safe-area-right)",
+    bottom: "calc(var(--seed-safe-area-bottom) + var(--snackbar-region-offset, 0px))",
 
     paddingInline: vars.base.enabled.region.paddingX,
     paddingBlock: vars.base.enabled.region.paddingY,
@@ -111,6 +112,10 @@ export const snackbar = defineSlotRecipe({
       fontSize: vars.base.enabled.actionButton.fontSize,
       lineHeight: vars.base.enabled.actionButton.lineHeight,
       fontWeight: vars.base.enabled.actionButton.fontWeight,
+
+      [pseudo(active)]: { ...createScaleFeedbackStyles() },
+
+      transition: FEEDBACK_SCALE_TRANSITION,
 
       // target size
       "&:after": {

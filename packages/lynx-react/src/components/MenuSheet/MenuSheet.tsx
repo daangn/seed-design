@@ -1,0 +1,598 @@
+import { menuSheet } from "@seed-design/lynx-css/recipes/menu-sheet";
+import type { MenuSheetVariantProps } from "@seed-design/lynx-css/recipes/menu-sheet";
+import { menuSheetItem } from "@seed-design/lynx-css/recipes/menu-sheet-item";
+import type { MenuSheetItemVariantProps } from "@seed-design/lynx-css/recipes/menu-sheet-item";
+import { menuSheet as menuSheetVars } from "@seed-design/lynx-css/vars/component";
+import {
+  BottomSheetBackdrop as HeadlessBottomSheetBackdrop,
+  BottomSheetContent as HeadlessBottomSheetContent,
+  BottomSheetPositioner as HeadlessBottomSheetPositioner,
+  BottomSheetRoot as HeadlessBottomSheetRoot,
+  useBottomSheetCloseButton,
+  useBottomSheetContext,
+  useBottomSheetTrigger,
+  type BottomSheetBackdropProps as HeadlessBottomSheetBackdropProps,
+  type BottomSheetContentProps as HeadlessBottomSheetContentProps,
+  type BottomSheetOpenChangeDetails,
+  type BottomSheetOpenChangeReason,
+  type BottomSheetPositionerProps as HeadlessBottomSheetPositionerProps,
+  type BottomSheetRootProps as HeadlessBottomSheetRootProps,
+  type BottomSheetRootRef,
+} from "@seed-design/lynx-react-bottom-sheet";
+import * as React from "@lynx-js/react";
+import { forwardRef, isValidElement } from "@lynx-js/react";
+import type { ForwardRefExoticComponent, PropsWithoutRef, RefAttributes } from "@lynx-js/react";
+import clsx from "clsx";
+
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
+import { mergeProps } from "../../utils/merge-props";
+import { usePressTap } from "../../hooks/usePressTap";
+import { useSafeArea } from "../../hooks/useSafeArea";
+import type {
+  LynxAccessibilityProps,
+  LynxHostProps,
+  LynxPressableProps,
+  LynxTextRef,
+  LynxViewRef,
+} from "../../types";
+import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
+import { toArray } from "../../utils/children";
+import {
+  BottomSheetHandle,
+  SEED_ENTER_ANIMATION,
+  SEED_EXIT_ANIMATION,
+  SEED_SNAP_ANIMATION,
+  type BottomSheetHandleProps,
+} from "../BottomSheet/BottomSheet";
+import { IconSlotProvider } from "../Icon/Icon";
+import { useSheetScrollGestureProps } from "../private/SheetScrollGesture";
+import {
+  AccessibilityElementScope,
+  getAccessibleText,
+  useInsideAccessibilityElement,
+} from "../../utils/accessibility";
+
+type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
+  PropsWithoutRef<P> & RefAttributes<T>
+>;
+
+interface MenuSheetClassNames {
+  positioner: string;
+  backdrop: string;
+  content: string;
+  contentInner: string;
+  header: string;
+  title: string;
+  description: string;
+  list: string;
+  listContent: string;
+  group: string;
+  footer: string;
+  closeButton: string;
+  closeButtonLabel: string;
+}
+
+interface MenuSheetItemClassNames {
+  root: string;
+  scaleContent: string;
+  content: string;
+  label: string;
+  description: string;
+  prefixIcon: string;
+  divider: string;
+}
+
+const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(menuSheet);
+// Keep this concrete: Lynx drops the entire calc when this token remains a var() reference.
+const CONTENT_PADDING_BOTTOM = "16px";
+
+export type MenuSheetOpenChangeReason = BottomSheetOpenChangeReason;
+
+export interface MenuSheetOpenChangeDetails extends BottomSheetOpenChangeDetails {}
+
+const ContentLabelAlignContext = React.createContext<MenuSheetLabelAlign | undefined>(undefined);
+const GroupLabelAlignContext = React.createContext<MenuSheetLabelAlign | undefined>(undefined);
+const MenuSheetItemPositionContext = React.createContext({ isLast: true });
+
+export type MenuSheetRootRef = BottomSheetRootRef;
+
+export interface MenuSheetRootProps
+  extends Omit<HeadlessBottomSheetRootProps, "side" | "snapPoints" | "skipAnimation">,
+    Omit<MenuSheetVariantProps, "closeButtonPressed"> {}
+
+/**
+ * A bottom-only, fit-height menu sheet backed by the Lynx BottomSheet engine.
+ */
+export const MenuSheetRoot: LynxForwardRefComponent<BottomSheetRootRef, MenuSheetRootProps> =
+  forwardRef<BottomSheetRootRef, MenuSheetRootProps>((props, ref) => {
+    const [variantProps, restProps] = menuSheet.splitVariantProps(props);
+    const { children, ...rootProps } = restProps;
+    const skipAnimation = variantProps.skipAnimation === true;
+    const classNames = React.useMemo(() => menuSheet({ skipAnimation }), [skipAnimation]);
+
+    return (
+      <ClassNamesProvider value={classNames}>
+        <HeadlessBottomSheetRoot
+          {...(ref ? { ref } : {})}
+          {...rootProps}
+          side="bottom"
+          snapPoints={["fit"]}
+          skipAnimation={skipAnimation}
+        >
+          {children}
+        </HeadlessBottomSheetRoot>
+      </ClassNamesProvider>
+    );
+  });
+MenuSheetRoot.displayName = "MenuSheetRoot";
+
+export interface MenuSheetTriggerProps extends LynxHostProps<"view"> {}
+
+export const MenuSheetTrigger: LynxForwardRefComponent<unknown, MenuSheetTriggerProps> = forwardRef<
+  unknown,
+  MenuSheetTriggerProps
+>((props, ref) => {
+  const { children, className, "accessibility-label": accessibilityLabel, ...nativeProps } = props;
+  const label = accessibilityLabel ?? getAccessibleText(children);
+  const insideAccessibilityElement = useInsideAccessibilityElement();
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !insideAccessibilityElement &&
+    (nativeProps["accessibility-element"] ?? true) &&
+    !label
+  ) {
+    console.warn("MenuSheetTrigger: `accessibility-label` is required when children have no text.");
+  }
+  const { triggerProps } = useBottomSheetTrigger();
+
+  return (
+    <view
+      {...mergeProps(
+        {
+          flatten: false,
+          "accessibility-element": true,
+          "accessibility-role-description": "button",
+          "accessibility-label": label || undefined,
+        },
+        triggerProps,
+        nativeProps,
+        ref ? { ref: ref as LynxViewRef } : {},
+      )}
+      className={className}
+    >
+      {nativeProps["accessibility-element"] === false ? (
+        children
+      ) : (
+        <AccessibilityElementScope>{children}</AccessibilityElementScope>
+      )}
+    </view>
+  );
+});
+MenuSheetTrigger.displayName = "MenuSheetTrigger";
+
+export interface MenuSheetPositionerProps extends HeadlessBottomSheetPositionerProps {}
+
+/**
+ * Backdrop/Content를 담는 레이어입니다. `container`를 지정하면 native overlay에 렌더링합니다.
+ */
+export function MenuSheetPositioner(props: MenuSheetPositionerProps) {
+  const classNames = useClassNames();
+
+  return (
+    <HeadlessBottomSheetPositioner
+      {...props}
+      className={clsx(classNames.positioner, props.className)}
+    />
+  );
+}
+MenuSheetPositioner.displayName = "MenuSheetPositioner";
+
+export interface MenuSheetBackdropProps extends HeadlessBottomSheetBackdropProps {}
+
+export function MenuSheetBackdrop(props: MenuSheetBackdropProps) {
+  const classNames = useClassNames();
+
+  return (
+    <HeadlessBottomSheetBackdrop
+      {...props}
+      className={clsx(classNames.backdrop, props.className)}
+    />
+  );
+}
+MenuSheetBackdrop.displayName = "MenuSheetBackdrop";
+
+export interface MenuSheetContentProps
+  extends HeadlessBottomSheetContentProps,
+    LynxAccessibilityProps {
+  labelAlign?: MenuSheetLabelAlign;
+}
+
+export const MenuSheetContent: LynxForwardRefComponent<unknown, MenuSheetContentProps> = forwardRef<
+  unknown,
+  MenuSheetContentProps
+>((props, ref) => {
+  const {
+    children,
+    className,
+    style,
+    innerClassName,
+    innerStyle,
+    labelAlign,
+    snapAnimation,
+    enterAnimation,
+    exitAnimation,
+    ...contentProps
+  } = props;
+  const classNames = useClassNames();
+  const { skipAnimation } = useBottomSheetContext();
+  const { safeAreaInsetTop, safeAreaInsetRight, safeAreaInsetBottom, safeAreaInsetLeft } =
+    useSafeArea();
+
+  return (
+    <ContentLabelAlignContext.Provider value={labelAlign}>
+      <HeadlessBottomSheetContent
+        {...(ref ? { ref } : {})}
+        {...contentProps}
+        className={clsx(classNames.content, className)}
+        // `SheetContent` pins its outer view with an inline `left: 0` and `width: 100vw`. Releasing
+        // `left` lets the positioner center the sheet; Lynx ignores the positioner's padding when
+        // centering an absolute child but centers its margin box, so the side insets go on as
+        // margins and come off the width.
+        style={{
+          left: "auto",
+          width: `calc(100vw - ${safeAreaInsetLeft} - ${safeAreaInsetRight})`,
+          marginLeft: safeAreaInsetLeft,
+          marginRight: safeAreaInsetRight,
+          // Lynx has no `min()`, so the two height caps are stacked: this padding leaves the inner
+          // view `100vh - top` of the outer view's `150vh` (set by `SheetContent`) to shrink into,
+          // and the inner `maxHeight` holds the fraction.
+          paddingBottom: `calc(50vh + ${safeAreaInsetTop})`,
+          ...style,
+        }}
+        innerClassName={clsx(classNames.contentInner, innerClassName)}
+        innerStyle={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "0",
+          flexShrink: 1,
+          maxHeight: `calc(${menuSheetVars.base.enabled.content.maxHeightFraction} * 100vh)`,
+          paddingBottom: `calc(${CONTENT_PADDING_BOTTOM} + ${safeAreaInsetBottom})`,
+          ...innerStyle,
+        }}
+        // With `skipAnimation`, leave SEED springs out so headless Content ends transitions immediately.
+        snapAnimation={snapAnimation ?? (skipAnimation ? undefined : SEED_SNAP_ANIMATION)}
+        enterAnimation={enterAnimation ?? (skipAnimation ? undefined : SEED_ENTER_ANIMATION)}
+        exitAnimation={exitAnimation ?? (skipAnimation ? undefined : SEED_EXIT_ANIMATION)}
+      >
+        {children}
+      </HeadlessBottomSheetContent>
+    </ContentLabelAlignContext.Provider>
+  );
+});
+MenuSheetContent.displayName = "MenuSheetContent";
+
+export interface MenuSheetHandleProps extends BottomSheetHandleProps {}
+
+export function MenuSheetHandle(props: MenuSheetHandleProps) {
+  return <BottomSheetHandle {...props} />;
+}
+MenuSheetHandle.displayName = "MenuSheetHandle";
+
+export interface MenuSheetSlotProps extends LynxHostProps<"view"> {}
+
+function createViewSlot(
+  slotName: keyof MenuSheetClassNames,
+): LynxForwardRefComponent<unknown, MenuSheetSlotProps> {
+  return forwardRef<unknown, MenuSheetSlotProps>((props, ref) => {
+    const { children, className, ...nativeProps } = props;
+    const classNames = useClassNames();
+
+    return (
+      <view
+        {...mergeProps(nativeProps, ref ? { ref: ref as LynxViewRef } : {})}
+        className={clsx(classNames[slotName], className)}
+      >
+        {children}
+      </view>
+    );
+  });
+}
+
+function createTextSlot(
+  slotName: keyof MenuSheetClassNames,
+): LynxForwardRefComponent<unknown, LynxHostProps<"text">> {
+  return forwardRef<unknown, LynxHostProps<"text">>((props, ref) => {
+    const { children, className, ...nativeProps } = props;
+    const classNames = useClassNames();
+
+    return (
+      <text
+        {...mergeProps(nativeProps, ref ? { ref: ref as LynxTextRef } : {})}
+        className={clsx(classNames[slotName], className)}
+      >
+        {children}
+      </text>
+    );
+  });
+}
+
+export interface MenuSheetHeaderProps extends MenuSheetSlotProps {}
+export const MenuSheetHeader = createViewSlot("header");
+MenuSheetHeader.displayName = "MenuSheetHeader";
+
+export interface MenuSheetTitleProps extends LynxHostProps<"text"> {}
+export const MenuSheetTitle = createTextSlot("title");
+MenuSheetTitle.displayName = "MenuSheetTitle";
+
+export interface MenuSheetDescriptionProps extends LynxHostProps<"text"> {}
+export const MenuSheetDescription = createTextSlot("description");
+MenuSheetDescription.displayName = "MenuSheetDescription";
+
+export interface MenuSheetListProps extends MenuSheetSlotProps {}
+
+/**
+ * Scrolls once the sheet reaches its max height.
+ */
+export const MenuSheetList: LynxForwardRefComponent<unknown, MenuSheetListProps> = forwardRef<
+  unknown,
+  MenuSheetListProps
+>((props, ref) => {
+  const { children, className, style } = props;
+  const classNames = useClassNames();
+
+  const gestureProps = useSheetScrollGestureProps();
+
+  return (
+    <scroll-view
+      {...(ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {})}
+      {...gestureProps}
+      className={clsx(classNames.list, className)}
+      style={style as never}
+      scroll-orientation="vertical"
+      // The sheet's drag already moves it at the list's edges; a bounce would add to that.
+      bounces={false}
+    >
+      <view className={classNames.listContent}>{children}</view>
+    </scroll-view>
+  );
+});
+MenuSheetList.displayName = "MenuSheetList";
+
+export type MenuSheetLabelAlign = "left" | "center";
+
+export interface MenuSheetGroupProps extends MenuSheetSlotProps {
+  labelAlign?: MenuSheetLabelAlign;
+}
+
+export const MenuSheetGroup: LynxForwardRefComponent<unknown, MenuSheetGroupProps> = forwardRef<
+  unknown,
+  MenuSheetGroupProps
+>((props, ref) => {
+  const { children, className, labelAlign, ...nativeProps } = props;
+  const classNames = useClassNames();
+  const contentLabelAlign = React.useContext(ContentLabelAlignContext);
+  const resolvedLabelAlign = labelAlign ?? contentLabelAlign;
+  const items = toArray(children);
+
+  return (
+    <GroupLabelAlignContext.Provider value={resolvedLabelAlign}>
+      <view
+        {...mergeProps(nativeProps, ref ? { ref: ref as LynxViewRef } : {})}
+        className={clsx(classNames.group, className)}
+      >
+        {items.map((item, index) => (
+          <MenuSheetItemPositionContext.Provider
+            key={isValidElement(item) ? (item.key ?? index) : index}
+            value={{ isLast: index === items.length - 1 }}
+          >
+            {item}
+          </MenuSheetItemPositionContext.Provider>
+        ))}
+      </view>
+    </GroupLabelAlignContext.Provider>
+  );
+});
+MenuSheetGroup.displayName = "MenuSheetGroup";
+
+export interface MenuSheetFooterProps extends MenuSheetSlotProps {}
+export const MenuSheetFooter = createViewSlot("footer");
+MenuSheetFooter.displayName = "MenuSheetFooter";
+
+export interface MenuSheetCloseButtonProps
+  extends Omit<LynxHostProps<"view">, keyof LynxPressableProps>,
+    LynxPressableProps {}
+
+export const MenuSheetCloseButton: LynxForwardRefComponent<unknown, MenuSheetCloseButtonProps> =
+  forwardRef<unknown, MenuSheetCloseButtonProps>((props, ref) => {
+    const {
+      children,
+      className,
+      bindtap,
+      "main-thread:bindtap": userMainThreadBindtap,
+      ...nativeProps
+    } = props;
+    const { skipAnimation } = useBottomSheetContext();
+    const { closeButtonProps } = useBottomSheetCloseButton({ bindtap });
+    const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } =
+      usePressTap({
+        onTap: closeButtonProps.bindtap,
+        mainThreadOnTap: userMainThreadBindtap,
+      });
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+      onTouchStart: bindtouchstart,
+      onTouchEnd: bindtouchend,
+      onTouchCancel: bindtouchcancel,
+    });
+    const classNames = menuSheet({ skipAnimation, closeButtonPressed: pressed });
+
+    return (
+      <view
+        {...mergeProps(
+          {
+            "accessibility-element": true,
+            "accessibility-label": "Close",
+            "accessibility-role-description": "button",
+          },
+          scaleFeedbackTriggerProps,
+          scaleFeedbackTargetProps,
+          pressHandlers,
+          nativeProps,
+          ref ? { ref: ref as LynxViewRef } : {},
+        )}
+        className={clsx(classNames.closeButton, className)}
+      >
+        <text className={classNames.closeButtonLabel}>{children}</text>
+      </view>
+    );
+  });
+MenuSheetCloseButton.displayName = "MenuSheetCloseButton";
+
+export type MenuSheetItemTone = NonNullable<MenuSheetItemVariantProps["tone"]>;
+
+export interface MenuSheetItemProps
+  extends Omit<LynxHostProps<"view">, keyof LynxPressableProps>,
+    LynxPressableProps {
+  tone?: MenuSheetItemTone;
+  labelAlign?: MenuSheetLabelAlign;
+}
+
+interface MenuSheetItemContextValue {
+  classNames: MenuSheetItemClassNames;
+}
+
+const MenuSheetItemContext = React.createContext<MenuSheetItemContextValue | null>(null);
+
+function useMenuSheetItemContext(): MenuSheetItemContextValue {
+  const context = React.useContext(MenuSheetItemContext);
+  if (!context) {
+    throw new Error("MenuSheet item slots must be used within MenuSheetItem.");
+  }
+  return context;
+}
+
+/**
+ * 사용자 작업만 실행하며 시트를 닫지 않습니다. 작업 뒤 닫으려면 제어 상태에서는 `open`을 바꾸고, 비제어 상태에서는
+ * Root ref의 `close()`를 호출하세요.
+ */
+export const MenuSheetItem: LynxForwardRefComponent<unknown, MenuSheetItemProps> = forwardRef<
+  unknown,
+  MenuSheetItemProps
+>((props, ref) => {
+  const {
+    children,
+    className,
+    tone = "neutral",
+    labelAlign,
+    bindtap: userBindtap,
+    "main-thread:bindtap": userMainThreadBindtap,
+    ...nativeProps
+  } = props;
+  const groupLabelAlign = React.useContext(GroupLabelAlignContext);
+  const contentLabelAlign = React.useContext(ContentLabelAlignContext);
+  const { isLast } = React.useContext(MenuSheetItemPositionContext);
+  const resolvedLabelAlign = labelAlign ?? groupLabelAlign ?? contentLabelAlign ?? "left";
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressHandlers } = usePressTap({
+    onTap: userBindtap,
+    mainThreadOnTap: userMainThreadBindtap,
+  });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
+  });
+  const classNames = menuSheetItem({ tone, labelAlign: resolvedLabelAlign, pressed });
+  const itemContext = React.useMemo<MenuSheetItemContextValue>(
+    () => ({ classNames }),
+    [classNames],
+  );
+
+  return (
+    <MenuSheetItemContext.Provider value={itemContext}>
+      <IconSlotProvider
+        value={{
+          classNames: { prefixIcon: classNames.prefixIcon },
+          deps: [tone, resolvedLabelAlign, pressed],
+        }}
+      >
+        <view
+          {...mergeProps(
+            {
+              flatten: false,
+              "accessibility-element": true,
+              "accessibility-role-description": "button",
+            },
+            scaleFeedbackTriggerProps,
+            pressHandlers,
+            nativeProps,
+            ref ? { ref: ref as LynxViewRef } : {},
+          )}
+          className={clsx(classNames.root, className)}
+        >
+          <view className={classNames.scaleContent} {...scaleFeedbackTargetProps}>
+            {children}
+          </view>
+          {!isLast ? (
+            <view className={classNames.divider} accessibility-elements-hidden={true} />
+          ) : null}
+        </view>
+      </IconSlotProvider>
+    </MenuSheetItemContext.Provider>
+  );
+});
+MenuSheetItem.displayName = "MenuSheetItem";
+
+export interface MenuSheetItemContentProps extends LynxHostProps<"view"> {}
+
+export const MenuSheetItemContent: LynxForwardRefComponent<unknown, MenuSheetItemContentProps> =
+  forwardRef<unknown, MenuSheetItemContentProps>((props, ref) => {
+    const { children, className, ...nativeProps } = props;
+    const { classNames } = useMenuSheetItemContext();
+
+    return (
+      <view
+        {...mergeProps(nativeProps, ref ? { ref: ref as LynxViewRef } : {})}
+        className={clsx(classNames.content, className)}
+      >
+        {children}
+      </view>
+    );
+  });
+MenuSheetItemContent.displayName = "MenuSheetItemContent";
+
+export interface MenuSheetItemLabelProps extends LynxHostProps<"text"> {}
+
+export const MenuSheetItemLabel: LynxForwardRefComponent<unknown, MenuSheetItemLabelProps> =
+  forwardRef<unknown, MenuSheetItemLabelProps>((props, ref) => {
+    const { children, className, ...nativeProps } = props;
+    const { classNames } = useMenuSheetItemContext();
+
+    return (
+      <text
+        {...mergeProps(nativeProps, ref ? { ref: ref as LynxTextRef } : {})}
+        className={clsx(classNames.label, className)}
+      >
+        {children}
+      </text>
+    );
+  });
+MenuSheetItemLabel.displayName = "MenuSheetItemLabel";
+
+export interface MenuSheetItemDescriptionProps extends LynxHostProps<"text"> {}
+
+export const MenuSheetItemDescription: LynxForwardRefComponent<
+  unknown,
+  MenuSheetItemDescriptionProps
+> = forwardRef<unknown, MenuSheetItemDescriptionProps>((props, ref) => {
+  const { children, className, ...nativeProps } = props;
+  const { classNames } = useMenuSheetItemContext();
+
+  return (
+    <text
+      {...mergeProps(nativeProps, ref ? { ref: ref as LynxTextRef } : {})}
+      className={clsx(classNames.description, className)}
+    >
+      {children}
+    </text>
+  );
+});
+MenuSheetItemDescription.displayName = "MenuSheetItemDescription";

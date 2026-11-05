@@ -4,12 +4,12 @@
     align-items: center;
     justify-content: center;
     flex: none;
-    margin-top: var(--radiomark-margin-top, 0);
     border-width: 1px;
     border-style: solid;
     border-color: var(--seed-color-stroke-neutral-weak);
     border-radius: var(--seed-radius-full);
-    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing)
+    transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing);
+    --seed-radiomark-pressed-color: var(--seed-color-bg-transparent-pressed)
 }
 .seed-radiomark__icon {
     border-radius: var(--seed-radius-full)
@@ -35,21 +35,23 @@
 }
 .seed-radiomark__root--tone_brand-checked_true-disabled_false {
     background-color: var(--seed-color-bg-brand-solid);
+    --seed-radiomark-pressed-color: var(--seed-color-bg-brand-solid-pressed);
     border-width: 0px;
     border-color: #00000000
 }
 .seed-radiomark__icon--tone_brand-checked_true-disabled_false {
-    color: var(--seed-color-palette-static-white);
-    background-color: var(--seed-color-palette-static-white)
+    color: var(--seed-color-fg-on-brand-solid);
+    background-color: var(--seed-color-fg-on-brand-solid)
 }
 .seed-radiomark__root--tone_neutral-checked_true-disabled_false {
-    background-color: var(--seed-color-bg-neutral-inverted);
+    background-color: var(--seed-color-bg-neutral-solid);
+    --seed-radiomark-pressed-color: var(--seed-color-bg-neutral-solid-pressed);
     border-width: 0px;
     border-color: #00000000
 }
 .seed-radiomark__icon--tone_neutral-checked_true-disabled_false {
-    color: var(--seed-color-fg-neutral-inverted);
-    background-color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-color-fg-on-neutral-solid);
+    background-color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-radiomark__root--tone_brand-checked_false-disabled_true {
     background-color: var(--seed-color-palette-gray-300)
@@ -90,5 +92,5 @@
     background-color: var(--seed-color-bg-brand-solid-pressed)
 }
 .seed-radiomark__root--tone_neutral-pressed_true-checked_true-disabled_false {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed)
+    background-color: var(--seed-color-bg-neutral-solid-pressed)
 }

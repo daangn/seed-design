@@ -20,6 +20,16 @@ declare const artifact: {
             "paddingY": {
               "type": "dimension";
             };
+            "scrollMarginX": {
+              "type": "dimension";
+            };
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
+            };
           };
         };
         "label": {
@@ -58,6 +68,12 @@ declare const artifact: {
               "enabled",
             ];
             "slots": {
+              "root": {
+                "scrollMarginX": {
+                  "type": "dimension";
+                  "value": "$dimension.spacing-x.global-gutter";
+                };
+              };
               "label": {
                 "color": {
                   "type": "color";
@@ -88,6 +104,19 @@ declare const artifact: {
                 "color": {
                   "type": "color";
                   "value": "$color.fg.disabled";
+                };
+              };
+            };
+          },
+          {
+            "states": readonly [
+              "pressed",
+            ];
+            "slots": {
+              "root": {
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };

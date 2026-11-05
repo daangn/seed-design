@@ -4,18 +4,15 @@ import {
   IconExclamationmarkCircleFill,
   IconXmarkFill,
 } from "@karrotmarket/react-monochrome-icon";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import {
   AttachmentDisplay as SeedAttachmentDisplay,
   Icon,
   PrefixIcon,
   VisuallyHidden,
-} from "@seed-design/react";
-import {
-  type DisplayItemEntry,
-  type UseAttachmentDisplayReturn,
+  type AttachmentDisplayItemEntry,
   useAttachmentDisplayContext,
-} from "@seed-design/react/primitive";
+  type AttachmentDisplayContextValue,
+} from "@seed-design/react";
 import * as React from "react";
 
 import { ProgressCircle } from "./progress-circle";
@@ -31,13 +28,15 @@ export interface AttachmentDisplayFieldProps
   /**
    * @default "medium"
    */
-  labelWeight?: FieldLabelVariantProps["weight"];
+  labelWeight?: SeedAttachmentDisplay.LabelProps["weight"];
 
   indicator?: React.ReactNode;
 
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
   showRequiredIndicator?: boolean;
+
+  controlProps?: Omit<SeedAttachmentDisplay.ControlProps, "children" | "asChild">;
 }
 
 /**
@@ -52,6 +51,7 @@ export const AttachmentDisplayField = React.forwardRef<HTMLDivElement, Attachmen
       description,
       errorMessage,
       showRequiredIndicator,
+      controlProps,
       children,
       ...props
     },
@@ -78,7 +78,7 @@ export const AttachmentDisplayField = React.forwardRef<HTMLDivElement, Attachmen
             {/* You might want to put your custom element here */}
           </SeedAttachmentDisplay.Header>
         )}
-        <SeedAttachmentDisplay.Control>{children}</SeedAttachmentDisplay.Control>
+        <SeedAttachmentDisplay.Control {...controlProps}>{children}</SeedAttachmentDisplay.Control>
         {renderFooter && (
           <SeedAttachmentDisplay.Footer>
             {renderDescription &&
@@ -107,15 +107,15 @@ AttachmentDisplayField.displayName = "AttachmentDisplayField";
 
 export type AttachmentDisplayProps = {
   onTriggerClick: (
-    helpers: Pick<UseAttachmentDisplayReturn, "addEntries" | "updateEntryStatus">,
+    helpers: Pick<AttachmentDisplayContextValue, "addEntries" | "updateEntryStatus">,
   ) => void;
 } & (
   | { children: SeedAttachmentDisplay.ContextProps["children"]; onRetry?: never }
   | {
       children?: undefined;
       onRetry?: (
-        entry: DisplayItemEntry,
-        helpers: Pick<UseAttachmentDisplayReturn, "updateEntryStatus">,
+        entry: AttachmentDisplayItemEntry,
+        helpers: Pick<AttachmentDisplayContextValue, "updateEntryStatus">,
       ) => void;
     }
 );
@@ -157,7 +157,7 @@ export const AttachmentDisplay = React.forwardRef<HTMLDivElement, AttachmentDisp
 AttachmentDisplay.displayName = "AttachmentDisplay";
 
 export interface AttachmentDisplayItemProps
-  extends Omit<SeedAttachmentDisplay.ItemProps, "children"> {
+  extends Omit<SeedAttachmentDisplay.ItemProps, "children" | "asChild"> {
   onRetry?: () => void;
 }
 

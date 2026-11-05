@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: pagination-button
+  name: Pagination Button
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          scale:
+            type: number
+          scaleDuration:
+            type: duration
+          scaleTimingFunction:
+            type: cubicBezier
+          size:
+            type: dimension
+          cornerRadius:
+            type: dimension
+      icon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.bg.transparent
+          colorDuration: $duration.color-transition
+          colorTimingFunction: $timing-function.easing
+          scaleDuration: $duration.pressed-scale
+          scaleTimingFunction: $timing-function.pressed-scale
+          size: $dimension.x10
+          cornerRadius: $radius.r2
+        icon:
+          color: $color.fg.neutral
+          size: $dimension.x4
+      pressed:
+        root:
+          color: $color.bg.transparent-pressed
+          scale: $scale.s97
+      disabled:
+        root:
+          color: $color.bg.transparent
+        icon:
+          color: $color.fg.disabled

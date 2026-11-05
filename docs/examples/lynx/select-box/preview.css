@@ -1,0 +1,29 @@
+.select-box-preview {
+  width: 100%;
+  max-width: 400px;
+}
+
+.select-box-preview__column {
+  display: flex;
+  min-width: 0;
+}
+
+.select-box-preview__footer {
+  padding: 0 20px 16px;
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.select-box-preview__suffix {
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.select-box-preview__status {
+  text-align: center;
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: 14px;
+  line-height: 20px;
+}

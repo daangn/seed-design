@@ -1,0 +1,50 @@
+name: Sync release branches
+
+on:
+  workflow_dispatch:
+  pull_request_target:
+    branches: [dev]
+    types: [closed]
+
+concurrency:
+  group: sync-release-branches
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync minor and major with dev
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event.pull_request.merged == true &&
+        github.event.pull_request.base.ref == 'dev' &&
+        github.event.pull_request.head.ref == 'changeset-release/dev' &&
+        github.event.pull_request.head.repo.full_name == github.repository &&
+        github.event.pull_request.title == 'release: version packages'
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+
+    steps:
+      - name: Create Daangn Bud token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.DAANGN_BUD_CLIENT_ID }}
+          private-key: ${{ secrets.DAANGN_BUD_PRIVATE_KEY }}
+          permission-contents: write
+
+      - name: Checkout the latest dev branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: dev
+          fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
+          persist-credentials: true
+
+      - name: Sync release branches
+        env:
+          VERSION_PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: bash .github/scripts/sync-release-branches.sh
