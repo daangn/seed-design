@@ -53,6 +53,10 @@ const segmentedControl = defineSlotRecipe({
       boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
 
       transition: `transform ${indicatorVars.base.enabled.root.transformDuration} ${indicatorVars.base.enabled.root.transformTimingFunction}`,
+
+      "[data-ssr] > &": {
+        display: "none",
+      },
     },
     item: {
       display: "flex",
@@ -93,6 +97,12 @@ const segmentedControl = defineSlotRecipe({
       [pseudo(disabled)]: {
         cursor: "not-allowed",
         color: itemVars.base.disabled.label.color,
+      },
+
+      // stands in for the indicator, which stays hidden until the selected segment is located after mount
+      [`[data-ssr] > ${pseudo(checked)}`]: {
+        backgroundColor: indicatorVars.base.enabled.root.color,
+        boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
       },
 
       [pseudo(disabled, checked)]: {
