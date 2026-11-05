@@ -126,9 +126,7 @@ function UpdateCardLink({ card }: { card: UpdateCard }) {
         </time>
       )}
       <div className="mt-1 flex items-start justify-between gap-2">
-        <h3 className="text-balance text-lg font-medium [word-break:auto-phrase]">
-          {card.title}
-        </h3>
+        <h3 className="text-balance break-keep wrap-anywhere text-lg font-medium">{card.title}</h3>
         {/* 내부 링크는 클릭하면 같은 사이트 안에서 이동하므로 화살표가 정보를 더하지 않는다.
             새 탭으로 나가는 외부 글에만 ↗를 남긴다. */}
         {card.external && (
@@ -169,7 +167,7 @@ export default async function Page() {
   return (
     <ProsePage
       title={UPDATES_TITLE}
-      titleClassName="text-balance [word-break:auto-phrase]"
+      titleClassName="text-balance break-keep"
       description={UPDATES_DESCRIPTION}
     >
       <LlmsLinkRels section="updates" markdownUrl={getLLMMarkdownUrl("updates", [])} />
