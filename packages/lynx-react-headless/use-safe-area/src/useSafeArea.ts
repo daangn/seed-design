@@ -6,7 +6,7 @@ import { useHostGlobalProps } from "./use-host-global-props.js";
 
 type SafeAreaEdge = "top" | "right" | "bottom" | "left";
 
-/** 당근 앱 호스트가 넣어 주던 global props. 다음 메이저 버전에서 이 값을 읽는 동작을 제거한다. */
+/** 특정 호스트 앱이 넣어 주던 global props. 다음 메이저 버전에서 이 값을 읽는 동작을 제거한다. */
 interface SeedSafeAreaGlobalProps {
   safeAreaInsetTop?: number;
   safeAreaInsetRight?: number;

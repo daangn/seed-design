@@ -113,7 +113,7 @@ const { preferredColorScheme, preferredMotion, safeAreaInsets } = useSeedContext
 
 ## Global Props 직접 읽기
 
-이전 버전의 SEED는 당근 앱 호스트가 넣어 주는 global props(`theme`, `motion`, `safeAreaInset*`)를 직접 읽었습니다.
+이전 버전의 SEED는 특정 호스트 앱의 global props 키(`theme`, `motion`, `safeAreaInset*`)를 직접 읽었습니다.
 기존 앱이 바로 깨지지 않도록 다음 메이저 버전 전까지는 `SeedProvider`에 넘기지 않은 값만 이 키에서 채웁니다.
 
 - 키가 실제로 있어 사용되면 개발 빌드에서 키마다 한 번 경고합니다. 키가 없는 호스트에서는 경고하지 않습니다.
