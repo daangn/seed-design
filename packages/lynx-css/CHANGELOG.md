@@ -1,5 +1,31 @@
 # @seed-design/lynx-css
 
+## 1.2.0
+
+### Minor Changes
+
+- 54dd8ee: iOS에서 테두리가 흐리게 보이고 코너 모양이 상태마다 달라지던 문제를 수정합니다. `SelectBox`, `SegmentedControl`, `Accordion`(separated), `QuantityPicker`, `Tabs`, `Avatar`, `AvatarStack`, `AttachmentInput`의 테두리를 inset `box-shadow` 대신 `border`로 그리고, 테두리 두께만큼 padding·margin을 보정해 기존 크기와 콘텐츠 배치를 유지합니다.
+  
+  - `@seed-design/lynx-css`의 `quantity-picker` Recipe에 `stroke` slot을 추가합니다. `QuantityPicker`는 버튼이 root와 같은 높이라 이 overlay slot으로 테두리를 그립니다.
+  - `@seed-design/lynx-react`의 `QuantityPicker`는 이 slot을 사용하므로 같은 버전 이상의 `@seed-design/lynx-css`가 필요합니다.
+  - `SelectBox`의 선택 테두리를 한 레이어로 그려, 코너에서 두 테두리 사이로 밝은 선이 비치던 문제를 수정합니다.
+  - `@seed-design/lynx-react`의 `AttachmentInput`에서 image item은 `ItemThumbnail`·`ItemMetadata`를 렌더링하지 않습니다. 일부 환경에서 파일 크기·이름이 이미지 위에 그려지던 문제를 수정합니다.
+- 829ba81: Lynx 컴포넌트가 콘텐츠의 안전 영역을 유지하면서 배경과 스크롤 영역을 화면 가장자리까지 확장할 수 있도록 지원합니다.
+  
+  - `Tabs`, `ChipTabs`, `PageBanner`, `AttachmentInput`, `AttachmentDisplay`에 기본값이 `false`인 `extendSafeAreaX` 옵션을 추가합니다.
+  - `Tabs.List`의 `viewportInsets`로 선택한 탭을 안전 영역 안에 정렬할 수 있습니다.
+  - `ImageFrame`의 Safe Area bleed에 따라 Floater의 시작·끝·중앙 위치를 보정합니다.
+  - Attachment Display Field Registry snippet을 최신화하면 `controlProps.extendSafeAreaX`로 첨부 목록을 확장할 수 있습니다.
+  
+  React와 동일한 `placement`, `offsetX`, `offsetY`, `zIndex`를 지원하는 `Float`를 추가합니다. `ImageFrameFloater`는 `Float`를 조합하며 기존 기본 간격과 Safe Area 보정을 유지합니다.
+- 672094c: 주민등록번호·카드번호처럼 여러 구간으로 나눠 입력받는 `SegmentedTextInput`을 추가합니다. API는 `@seed-design/react`의 `SegmentedTextInput`을 따릅니다.
+  
+  - `SegmentedTextInput.Root`는 입력 Segment 순서대로 값을 `string[]`(`value`·`defaultValue`·`onValueChange`)로 다루고, `Field` 안에서는 Field의 상태와 focus를 따릅니다.
+  - `SegmentedTextInput.Segment`는 Segment마다 native `<input>`을 두고 `length`만큼 입력받습니다. 끝에서 채우면 다음 Segment로 이동하고, 한 번에 여러 글자가 들어오면 붙여넣기로 보고 나눠 채웁니다(`masked`·`readOnly` Segment 앞에서 정지). `masked`, `readOnly`, `type`, `autoComplete="bday"` 정규화, `staticPrefix`·`staticSuffix`·`staticText`, `sizing`, `align`을 지원합니다.
+  - 빈 Segment의 Backspace 이동과 방향키 이동은 지원하지 않습니다. 빈 native 입력의 지우기에는 입력 이벤트가 오지 않습니다.
+  - `masked` Segment는 native 글자를 숨기고 자리 수만큼 점과 caret을 직접 그립니다. caret은 값 끝에 고정되고, `type`의 키보드가 그대로 열립니다.
+  - `SegmentedTextInput.Separator`, `SegmentedTextInput.Suffix`, 7×7 점을 그리는 `SegmentedTextInput.Dots`(`staticText`·`staticPrefix`·`staticSuffix`·`placeholder`에 넣음)를 함께 제공합니다.
+
 ## 1.1.0
 
 ### Minor Changes

@@ -1,5 +1,60 @@
 # @seed-design/lynx-react
 
+## 1.2.0
+
+### Minor Changes
+
+- e4cbe8d: 호스트 앱 값을 명시적으로 전달하는 `SeedProvider`와 `useSeedContext`를 추가합니다.
+  
+  - `SeedProvider`에 `preferredColorScheme`, `preferredMotion`, `safeAreaInsets`를 넘기면 `useSeedClassName`, 아이콘 색상, Scale Feedback, `useSafeArea`가 이 값을 사용합니다.
+  - overlay처럼 영역마다 다른 safe area가 필요하면 `SafeAreaProvider`를 중첩합니다.
+  - `getSeedClassName`과 `useSeedClassName`에 `colorScheme` 옵션을 추가합니다.
+  - `lynx.__globalProps`의 `theme`, `motion`, `safeAreaInset*`를 직접 읽는 동작은 다음 메이저 버전에서 제거될 예정입니다. 값이 쓰이면 개발 빌드에서 키마다 한 번 경고합니다. 기존 앱은 변경 없이 동작합니다.
+  - reorderable attachment Registry 컴포넌트가 `SeedProvider`의 `preferredMotion`을 따릅니다. `npx @seed-design/cli@latest add ui:attachment-field-reorderable` 또는 `ui:attachment-display-field-reorderable`로 다시 설치할 수 있습니다.
+- 763c870: 현재 LynxView의 크기를 반환하는 `useViewport`를 추가합니다. root를 측정하고 `onWindowResize`로 크기 변경을 따라가므로, 접히는 기기·회전·앱 안에 삽입된 화면에서도 실제 layout 크기를 씁니다.
+  
+  - `BottomSheet`의 백분율 snap point와 `Select`·`Menu`의 `size="responsive"`가 기기 화면 크기(`SystemInfo`) 대신 `useViewport` 값을 기준으로 합니다. 전체 화면에서는 결과가 같습니다.
+  - `BottomSheet`는 더 이상 `lynx.__globalProps.screenHeight`를 읽지 않습니다. 크기를 직접 정하려면 `BottomSheet.Root`의 `screenHeight`·`screenWidth`를 넘기세요.
+- eac5adc: `KeyboardAvoidingScrollView` 안의 `TextField.Input`·`TextField.Textarea`·`SegmentedTextInput.Segment`는 `android-set-soft-input-mode`를 생략하면 `"nothing"`을 적용합니다. Android에서 window와 스크롤 영역이 함께 키보드를 피하지 않도록 직접 지정하던 값을 지정하지 않아도 됩니다. 그 밖의 위치에서는 기존처럼 `"unspecified"`를 적용하고, 직접 지정한 값을 그대로 따릅니다.
+- 829ba81: Lynx 컴포넌트가 콘텐츠의 안전 영역을 유지하면서 배경과 스크롤 영역을 화면 가장자리까지 확장할 수 있도록 지원합니다.
+  
+  - `Tabs`, `ChipTabs`, `PageBanner`, `AttachmentInput`, `AttachmentDisplay`에 기본값이 `false`인 `extendSafeAreaX` 옵션을 추가합니다.
+  - `Tabs.List`의 `viewportInsets`로 선택한 탭을 안전 영역 안에 정렬할 수 있습니다.
+  - `ImageFrame`의 Safe Area bleed에 따라 Floater의 시작·끝·중앙 위치를 보정합니다.
+  - Attachment Display Field Registry snippet을 최신화하면 `controlProps.extendSafeAreaX`로 첨부 목록을 확장할 수 있습니다.
+  
+  React와 동일한 `placement`, `offsetX`, `offsetY`, `zIndex`를 지원하는 `Float`를 추가합니다. `ImageFrameFloater`는 `Float`를 조합하며 기존 기본 간격과 Safe Area 보정을 유지합니다.
+- 672094c: 주민등록번호·카드번호처럼 여러 구간으로 나눠 입력받는 `SegmentedTextInput`을 추가합니다. API는 `@seed-design/react`의 `SegmentedTextInput`을 따릅니다.
+  
+  - `SegmentedTextInput.Root`는 입력 Segment 순서대로 값을 `string[]`(`value`·`defaultValue`·`onValueChange`)로 다루고, `Field` 안에서는 Field의 상태와 focus를 따릅니다.
+  - `SegmentedTextInput.Segment`는 Segment마다 native `<input>`을 두고 `length`만큼 입력받습니다. 끝에서 채우면 다음 Segment로 이동하고, 한 번에 여러 글자가 들어오면 붙여넣기로 보고 나눠 채웁니다(`masked`·`readOnly` Segment 앞에서 정지). `masked`, `readOnly`, `type`, `autoComplete="bday"` 정규화, `staticPrefix`·`staticSuffix`·`staticText`, `sizing`, `align`을 지원합니다.
+  - 빈 Segment의 Backspace 이동과 방향키 이동은 지원하지 않습니다. 빈 native 입력의 지우기에는 입력 이벤트가 오지 않습니다.
+  - `masked` Segment는 native 글자를 숨기고 자리 수만큼 점과 caret을 직접 그립니다. caret은 값 끝에 고정되고, `type`의 키보드가 그대로 열립니다.
+  - `SegmentedTextInput.Separator`, `SegmentedTextInput.Suffix`, 7×7 점을 그리는 `SegmentedTextInput.Dots`(`staticText`·`staticPrefix`·`staticSuffix`·`placeholder`에 넣음)를 함께 제공합니다.
+
+### Patch Changes
+
+- 54dd8ee: iOS에서 테두리가 흐리게 보이고 코너 모양이 상태마다 달라지던 문제를 수정합니다. `SelectBox`, `SegmentedControl`, `Accordion`(separated), `QuantityPicker`, `Tabs`, `Avatar`, `AvatarStack`, `AttachmentInput`의 테두리를 inset `box-shadow` 대신 `border`로 그리고, 테두리 두께만큼 padding·margin을 보정해 기존 크기와 콘텐츠 배치를 유지합니다.
+  
+  - `@seed-design/lynx-css`의 `quantity-picker` Recipe에 `stroke` slot을 추가합니다. `QuantityPicker`는 버튼이 root와 같은 높이라 이 overlay slot으로 테두리를 그립니다.
+  - `@seed-design/lynx-react`의 `QuantityPicker`는 이 slot을 사용하므로 같은 버전 이상의 `@seed-design/lynx-css`가 필요합니다.
+  - `SelectBox`의 선택 테두리를 한 레이어로 그려, 코너에서 두 테두리 사이로 밝은 선이 비치던 문제를 수정합니다.
+  - `@seed-design/lynx-react`의 `AttachmentInput`에서 image item은 `ItemThumbnail`·`ItemMetadata`를 렌더링하지 않습니다. 일부 환경에서 파일 크기·이름이 이미지 위에 그려지던 문제를 수정합니다.
+- e4cbe8d: 기본 `globalPropsMode: "reactive"`에서 SEED 컴포넌트가 렌더될 때마다 개발 빌드에 `useGlobalProps` 경고가 반복되던 문제를 수정합니다. 이제 `"event"` 모드에서만 `useGlobalProps()`로 변경을 구독하고, `"reactive"` 모드에서는 `lynx.__globalProps`를 바로 읽습니다.
+- Updated dependencies [54dd8ee]
+- Updated dependencies [e4cbe8d]
+- Updated dependencies [e4cbe8d]
+- Updated dependencies [eac5adc]
+- Updated dependencies [829ba81]
+- Updated dependencies [b23bf93]
+- Updated dependencies [672094c]
+  - @seed-design/lynx-css@1.2.0
+  - @seed-design/lynx-react-use-safe-area@1.1.0
+  - @seed-design/lynx-react-scale-feedback@1.1.0
+  - @seed-design/lynx-react-text-field@1.2.0
+  - @seed-design/lynx-react-tabs@1.1.0
+  - @seed-design/lynx-react-segmented-text-input@1.0.0
+
 ## 1.1.1
 
 ### Patch Changes
