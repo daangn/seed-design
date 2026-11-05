@@ -1,9 +1,10 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { useEffect, useId, useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 
 import { dataAttr, elementProps, inputProps, visuallyHidden } from "@seed-design/dom-utils";
 import { useSupports } from "@seed-design/react-supports";
 import * as dom from "./dom";
+import { useIsSSR } from "./useIsSSR";
 
 interface UseSegmentedControlStateProps {
   value?: string;
@@ -14,10 +15,12 @@ interface UseSegmentedControlStateProps {
 }
 
 function useSegmentedControlState(props: UseSegmentedControlStateProps) {
-  const [value, setValue] = useControllableState({
+  const [value, setValue] = useControllableState<string | undefined>({
     prop: props.value,
-    defaultProp: props.defaultValue ?? "",
-    onChange: props.onValueChange,
+    defaultProp: props.defaultValue,
+    onChange(nextValue) {
+      if (nextValue !== undefined) props.onValueChange?.(nextValue);
+    },
   });
 
   const [hoveredValue, setHoveredValue] = useState<string | null>(null);
@@ -33,17 +36,6 @@ function useSegmentedControlState(props: UseSegmentedControlStateProps) {
   const segmentIndex = useMemo(() => {
     return value && rootEl ? dom.getSegmentIndex(value, rootEl) : -1;
   }, [value, rootEl]);
-  const [isIndicatorTransitionEnabled, setIsIndicatorTransitionEnabled] = useState(false);
-
-  useEffect(() => {
-    if (isIndicatorTransitionEnabled || segmentCount === 0 || segmentIndex < 0) return;
-
-    const frameId = requestAnimationFrame(() => {
-      setIsIndicatorTransitionEnabled(true);
-    });
-
-    return () => cancelAnimationFrame(frameId);
-  }, [isIndicatorTransitionEnabled, segmentCount, segmentIndex]);
 
   return {
     refs: {
@@ -62,8 +54,6 @@ function useSegmentedControlState(props: UseSegmentedControlStateProps) {
 
     segmentCount,
     segmentIndex,
-
-    isIndicatorTransitionEnabled,
   };
 }
 
@@ -103,16 +93,17 @@ export function useSegmentedControl(props: UseSegmentedControlProps) {
     setIsFocusVisible,
     segmentCount,
     segmentIndex,
-    isIndicatorTransitionEnabled,
   } = useSegmentedControlState(props);
 
   const { disabled, form, name } = props;
 
   const isControlled = props.value !== undefined;
   const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
+  const isSSR = useIsSSR();
 
   const stateProps = elementProps({
     "data-disabled": dataAttr(disabled),
+    "data-ssr": dataAttr(isSSR),
   });
 
   return {
@@ -125,7 +116,6 @@ export function useSegmentedControl(props: UseSegmentedControlProps) {
     rootProps: elementProps({
       role: "radiogroup",
       ...stateProps,
-      "data-indicator-transition": dataAttr(isIndicatorTransitionEnabled),
       style: {
         "--segment-index": segmentIndex.toString(),
         "--segment-count": segmentCount.toString(),

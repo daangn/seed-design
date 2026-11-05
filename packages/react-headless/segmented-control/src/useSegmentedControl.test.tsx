@@ -1,9 +1,10 @@
-import { act, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, mock, spyOn } from "bun:test";
+import { describe, expect, it, mock } from "bun:test";
 
 import type { ReactElement } from "react";
 import * as React from "react";
+import { renderToString } from "react-dom/server";
 
 import {
   SegmentedControlRoot as Root,
@@ -19,38 +20,6 @@ function setUp(jsx: ReactElement) {
     ...render(jsx),
   };
 }
-
-function setUpAnimationFrameScheduler() {
-  const callbacks = new Map<number, FrameRequestCallback>();
-  let nextFrameId = 0;
-
-  spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
-    const frameId = ++nextFrameId;
-    callbacks.set(frameId, callback);
-    return frameId;
-  });
-  spyOn(window, "cancelAnimationFrame").mockImplementation((frameId) => {
-    callbacks.delete(frameId);
-  });
-
-  return {
-    flushNext() {
-      const entry = callbacks.entries().next().value;
-      if (!entry) return;
-
-      const [frameId, callback] = entry;
-      callbacks.delete(frameId);
-      callback(0);
-    },
-    get pendingCount() {
-      return callbacks.size;
-    },
-  };
-}
-
-afterEach(() => {
-  mock.restore();
-});
 
 function SegmentedControl({ children, ...otherProps }: SegmentedControlRootProps) {
   return (
@@ -72,6 +41,23 @@ function SegmentedControlItem({ children, ...otherProps }: SegmentedControlItemP
 
 describe("useSegmentedControl", () => {
   const values = ["first", "second", "third"];
+
+  it("marks the root with data-ssr until it mounts", () => {
+    const jsx = (
+      <SegmentedControl defaultValue={values[1]}>
+        {values.map((value) => (
+          <SegmentedControlItem key={value} value={value} />
+        ))}
+      </SegmentedControl>
+    );
+
+    const serverContainer = document.createElement("div");
+    serverContainer.innerHTML = renderToString(jsx);
+    expect(serverContainer.querySelector("[role=radiogroup]")).toHaveAttribute("data-ssr");
+
+    const { getByRole } = setUp(jsx);
+    expect(getByRole("radiogroup")).not.toHaveAttribute("data-ssr");
+  });
 
   describe("uncontrolled", () => {
     it("should render correctly", () => {
@@ -108,48 +94,6 @@ describe("useSegmentedControl", () => {
 
       expect(firstControl).not.toBeChecked();
       expect(secondControl).toBeChecked();
-    });
-
-    it("enables indicator transition after the initial selected position is rendered", async () => {
-      const animationFrames = setUpAnimationFrameScheduler();
-      const { user, getByRole, getByTestId } = setUp(
-        <SegmentedControl defaultValue={values[1]}>
-          {values.map((value) => (
-            <SegmentedControlItem key={value} value={value} />
-          ))}
-        </SegmentedControl>,
-      );
-      const root = getByRole("radiogroup");
-
-      expect(root.style.getPropertyValue("--segment-index")).toBe("1");
-      expect(root.style.getPropertyValue("--segment-count")).toBe("3");
-      expect(root.hasAttribute("data-indicator-transition")).toBe(false);
-
-      act(() => animationFrames.flushNext());
-
-      expect(root.hasAttribute("data-indicator-transition")).toBe(true);
-
-      await user.click(getByTestId(values[2]));
-
-      expect(root.style.getPropertyValue("--segment-index")).toBe("2");
-      expect(root.hasAttribute("data-indicator-transition")).toBe(true);
-    });
-
-    it("cancels the pending indicator transition frame when unmounted", () => {
-      const animationFrames = setUpAnimationFrameScheduler();
-      const { unmount } = setUp(
-        <SegmentedControl defaultValue={values[1]}>
-          {values.map((value) => (
-            <SegmentedControlItem key={value} value={value} />
-          ))}
-        </SegmentedControl>,
-      );
-
-      expect(animationFrames.pendingCount).toBe(1);
-
-      unmount();
-
-      expect(animationFrames.pendingCount).toBe(0);
     });
 
     it("should disabled when disabled prop is true", async () => {
