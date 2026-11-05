@@ -343,7 +343,7 @@
       "name": "@seed-design/example-rspack",
       "version": "1.0.0",
       "dependencies": {
-        "@seed-design/css": "3.2.0",
+        "@seed-design/css": "3.2.1",
         "@seed-design/react": "3.2.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
@@ -373,7 +373,7 @@
         "@karrotmarket/react-multicolor-icon": "^1.17.0",
         "@radix-ui/react-slot": "^1.2.3",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
-        "@seed-design/css": "3.2.0",
+        "@seed-design/css": "3.2.1",
         "@seed-design/dom-utils": "workspace:*",
         "@seed-design/react": "3.2.0",
         "@seed-design/react-primitive": "workspace:*",
@@ -480,7 +480,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "3.2.0",
+      "version": "3.2.1",
       "devDependencies": {
         "@seed-design/qvism-cli": "0.0.0",
         "@seed-design/qvism-preset": "0.0.0",
@@ -1968,7 +1968,7 @@
     },
     "packages/react-headless/segmented-control": {
       "name": "@seed-design/react-segmented-control",
-      "version": "2.0.2",
+      "version": "2.0.3",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-use-controllable-state": "1.2.2",
@@ -2302,7 +2302,7 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "3.2.0",
+        "@seed-design/css": "3.2.1",
         "@stackflow/core": "^1.2.0",
         "@stackflow/react": "^1.5.1",
         "@types/react": "^19.2.2",
@@ -2315,7 +2315,7 @@
         "vite-plugin-dts": "^5.0.0",
       },
       "peerDependencies": {
-        "@seed-design/css": "^3.2.0",
+        "@seed-design/css": "^3.2.1",
         "@stackflow/core": ">=1.1.0",
         "@stackflow/react": ">=1.4.1",
         "react": ">=18.0.0",
@@ -2508,7 +2508,7 @@
       "version": "1.0.0",
       "dependencies": {
         "@karrotmarket/react-monochrome-icon": "^1.17.0",
-        "@seed-design/css": "3.2.0",
+        "@seed-design/css": "3.2.1",
         "@seed-design/figma": "2.1.0",
         "@seed-design/migration-index": "2.0.1",
         "@seed-design/react": "3.2.0",
@@ -2552,7 +2552,7 @@
         "@create-figma-plugin/utilities": "^4.0.0",
         "@figmazing/event": "0.0.1",
         "@karrotmarket/react-monochrome-icon": "^1.17.0",
-        "@seed-design/css": "^3.2.0",
+        "@seed-design/css": "^3.2.1",
         "@seed-design/migration-index": "^2.0.1",
         "@seed-design/react": "^3.2.0",
         "@seed-design/vite-plugin": "^2.1.1",
