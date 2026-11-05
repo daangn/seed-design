@@ -20,6 +20,10 @@ compatibility:
   ```
 </LynxComponentExample>
 
+<Callout type="info">
+웹 미리보기에서는 native 입력을 그리지 못해 Segment 배치와 점 표시가 실제와 다릅니다. QR 코드 패널에서 Lynx Explorer로 실행해 확인해 주세요.
+</Callout>
+
 주민등록번호 뒷자리 첫 번째 자리만 받거나 카드번호 뒷자리를 가려야 하는 경우처럼, 하나의 Text Input으로 처리하기 어려운 국내 입력 형식에 사용합니다. 전화번호·이메일, 해외 카드번호처럼 구간을 나눌 필요가 없는 입력은 [Text Field](/lynx/components/text-field-input)에 포맷을 적용해서 받으세요.
 
 Segment마다 native 입력 하나를 두고, 값은 입력 Segment 순서대로 `string[]`로 다룹니다.
@@ -108,6 +112,10 @@ npx @seed-design/cli@latest add ui:card-number-field
   ```
 </LynxComponentExample>
 
+<Callout type="info">
+웹 미리보기에서는 native 입력을 그리지 못해 Segment 배치와 점 표시가 실제와 다릅니다. QR 코드 패널에서 Lynx Explorer로 실행해 확인해 주세요.
+</Callout>
+
 ### Card Number
 
 `maskedDigits`로 가릴 뒷자리 수를 정하고, `suffix`에 카드사 로고를 넣습니다. 로고 크기는 넣는 쪽에서 정합니다(Figma 기준 30×20).
@@ -121,6 +129,10 @@ npx @seed-design/cli@latest add ui:card-number-field
   ```
 </LynxComponentExample>
 
+<Callout type="info">
+웹 미리보기에서는 native 입력을 그리지 못해 Segment 배치와 점 표시가 실제와 다릅니다. QR 코드 패널에서 Lynx Explorer로 실행해 확인해 주세요.
+</Callout>
+
 ### State
 
 <LynxComponentExample name="lynx/segmented-text-input/state">
@@ -131,6 +143,10 @@ npx @seed-design/cli@latest add ui:card-number-field
   }
   ```
 </LynxComponentExample>
+
+<Callout type="info">
+웹 미리보기에서는 native 입력을 그리지 못해 Segment 배치와 점 표시가 실제와 다릅니다. QR 코드 패널에서 Lynx Explorer로 실행해 확인해 주세요.
+</Callout>
 
 ### Size
 
@@ -145,6 +161,10 @@ npx @seed-design/cli@latest add ui:card-number-field
   ```
 </LynxComponentExample>
 
+<Callout type="info">
+웹 미리보기에서는 native 입력을 그리지 못해 Segment 배치와 점 표시가 실제와 다릅니다. QR 코드 패널에서 Lynx Explorer로 실행해 확인해 주세요.
+</Callout>
+
 ### Controlled
 
 <LynxComponentExample name="lynx/segmented-text-input/controlled">
@@ -155,6 +175,10 @@ npx @seed-design/cli@latest add ui:card-number-field
   }
   ```
 </LynxComponentExample>
+
+<Callout type="info">
+웹 미리보기에서는 native 입력을 그리지 못해 Segment 배치와 점 표시가 실제와 다릅니다. QR 코드 패널에서 Lynx Explorer로 실행해 확인해 주세요.
+</Callout>
 
 ### External Keypad
 
@@ -169,6 +193,10 @@ npx @seed-design/cli@latest add ui:card-number-field
   ```
 </LynxComponentExample>
 
+<Callout type="info">
+웹 미리보기에서는 native 입력을 그리지 못해 Segment 배치와 점 표시가 실제와 다릅니다. QR 코드 패널에서 Lynx Explorer로 실행해 확인해 주세요.
+</Callout>
+
 ### Composition
 
 snippet이 다루지 않는 형식은 `SegmentedTextInput`을 직접 조합합니다. 입력 Segment마다 `accessibility-label`로 구간 이름을 주세요.
@@ -181,6 +209,10 @@ snippet이 다루지 않는 형식은 `SegmentedTextInput`을 직접 조합합�
   }
   ```
 </LynxComponentExample>
+
+<Callout type="info">
+웹 미리보기에서는 native 입력을 그리지 못해 Segment 배치와 점 표시가 실제와 다릅니다. QR 코드 패널에서 Lynx Explorer로 실행해 확인해 주세요.
+</Callout>
 
 ### Keyboard Avoiding
 
