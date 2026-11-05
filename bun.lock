@@ -351,6 +351,7 @@
       "devDependencies": {
         "@rspack/cli": "^2.0.0",
         "@rspack/core": "^2.0.0",
+        "@rspack/dev-server": "^2.0.0",
         "@rspack/plugin-react-refresh": "^2.0.0",
         "@seed-design/webpack-plugin": "2.1.1",
         "@types/react": "^19.1.6",
@@ -3914,6 +3915,10 @@
     "@rspack/cli": ["@rspack/cli@2.0.1", "", { "peerDependencies": { "@rspack/core": "^2.0.0-0", "@rspack/dev-server": "^2.0.0-0" }, "optionalPeers": ["@rspack/dev-server"], "bin": { "rspack": "bin/rspack.js" } }, "sha512-UwqLnShg6ui3LOsJfJvyGNfHtgkGd/Cjjm2T7jR6lTkoX9Jj7YKl55gkPqNw34et8+gp/5Ehso6tsga8bqZi5Q=="],
 
     "@rspack/core": ["@rspack/core@2.1.8", "", { "dependencies": { "@rspack/binding": "2.1.8" }, "peerDependencies": { "@module-federation/runtime-tools": "^0.24.1 || ^2.0.0", "@swc/helpers": "^0.5.23" }, "optionalPeers": ["@module-federation/runtime-tools", "@swc/helpers"] }, "sha512-na1kyA6Mj8/LWw9O3A8NsrG9rNKN3Iq2WiXrEuIwsU5r/Nl/evm3hO7bWKHxgsRyydI6W7okwx3MXgf8rzel6g=="],
+
+    "@rspack/dev-middleware": ["@rspack/dev-middleware@2.0.6", "", { "peerDependencies": { "@rspack/core": "^2.0.0" }, "optionalPeers": ["@rspack/core"] }, "sha512-Rcx7dlDZQ9ddUJGuutFvnSeAKl+ZOc1fnC3htibs8yew3zMD9VgvSUe4MAwEn94Gb390l5heA+s/j5KhoSG5MQ=="],
+
+    "@rspack/dev-server": ["@rspack/dev-server@2.2.2", "", { "dependencies": { "@rspack/dev-middleware": "^2.0.6" }, "peerDependencies": { "@rspack/core": "^2.0.0", "selfsigned": "^5.0.0" }, "optionalPeers": ["selfsigned"] }, "sha512-pK4V9YJW8dkfjy6WYJ2T6DrPkcIn2yjA1HiaU146141j8UCxHok5lsplyqudLzerOhvwqMrNFmnsuXLnFbfn4Q=="],
 
     "@rspack/lite-tapable": ["@rspack/lite-tapable@1.1.0", "", {}, "sha512-E2B0JhYFmVAwdDiG14+DW0Di4Ze4Jg10Pc4/lILUrd5DRCaklduz2OvJ5HYQ6G+hd+WTzqQb3QnDNfK4yvAFYw=="],
 

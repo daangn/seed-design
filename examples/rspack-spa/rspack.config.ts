@@ -23,6 +23,10 @@ export default defineConfig({
         type: "asset",
       },
       {
+        test: /\.css$/,
+        type: "css",
+      },
+      {
         test: /\.(jsx?|tsx?)$/,
         use: [
           {
