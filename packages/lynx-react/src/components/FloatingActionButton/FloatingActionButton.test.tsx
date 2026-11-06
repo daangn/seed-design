@@ -101,4 +101,22 @@ describe("FloatingActionButton", () => {
     fireEvent.layoutchange(label, { detail: { width: 72 } });
     expect(root).toHaveClass("seed-floating-action-button__root--transitionEnabled_true");
   });
+
+  it("keeps the measured label width while an ancestor hides the button", () => {
+    const { container } = render(
+      <FloatingActionButtonRoot>
+        <FloatingActionButtonLabel>Extended</FloatingActionButtonLabel>
+      </FloatingActionButtonRoot>,
+    );
+    const root = getFloatingActionButtonRoot(container);
+    const label = container.querySelector(".seed-floating-action-button__label");
+
+    if (!label) {
+      throw new Error("Expected FloatingActionButton label to exist.");
+    }
+
+    fireEvent.layoutchange(label, { detail: { width: 72, height: 22 } });
+    fireEvent.layoutchange(label, { detail: { width: 0, height: 0 } });
+    expect(root.style.getPropertyValue("--fab-label-width")).toBe("72px");
+  });
 });
