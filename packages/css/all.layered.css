@@ -11960,7 +11960,7 @@
     bottom: 0;
   }
 
-  .seed-tabs__indicator[data-ssr] {
+  .seed-tabs__indicator[data-ssr], .seed-tabs__indicator:is([hidden], [data-hidden]) {
     display: none;
   }
 
