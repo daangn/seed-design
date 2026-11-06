@@ -1,0 +1,33 @@
+import { List as SeedList } from "@seed-design/react";
+import { List, ListDivider } from "seed-design/ui/list";
+import { NextListRadioItem } from "seed-design/ui/next-list-item";
+import { Radiomark } from "seed-design/ui/radio-group";
+
+export default function ListRadio() {
+  return (
+    <List width="360px" asChild>
+      <SeedList.RadioRoot defaultValue="option1" aria-label="옵션 선택">
+        <NextListRadioItem
+          value="option1"
+          title="옵션 1"
+          detail="첫 번째 선택지"
+          suffix={<Radiomark tone="neutral" size="large" />}
+        />
+        <ListDivider as="div" />
+        <NextListRadioItem
+          prefix={<Radiomark tone="neutral" size="large" />}
+          value="option2"
+          title="옵션 2"
+          detail="두 번째 선택지"
+        />
+        <ListDivider as="div" />
+        <NextListRadioItem
+          prefix={<Radiomark tone="neutral" size="large" />}
+          value="option3"
+          title="옵션 3"
+          detail="세 번째 선택지"
+        />
+      </SeedList.RadioRoot>
+    </List>
+  );
+}

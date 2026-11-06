@@ -52,6 +52,7 @@ import {
   CompassIcon,
   ImageIcon,
   LayersIcon,
+  ListChecksIcon,
   ListIcon,
   MessageSquareDashedIcon,
   MousePointerClickIcon,
@@ -291,6 +292,18 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "List Switch Item", ...to("ActivityListSwitchItem", {}) },
         { title: "List Check Item", ...to("ActivityListCheckItem", {}) },
         { title: "List Radio Item", ...to("ActivityListRadioItem", {}) },
+      ],
+    },
+    {
+      title: "Next List",
+      icon: ListChecksIcon,
+      items: [
+        { title: "Next List Item", ...to("ActivityNextListItem", {}) },
+        { title: "Next List Button Item", ...to("ActivityNextListButtonItem", {}) },
+        { title: "Next List Link Item", ...to("ActivityNextListLinkItem", {}) },
+        { title: "Next List Switch Item", ...to("ActivityNextListSwitchItem", {}) },
+        { title: "Next List Check Item", ...to("ActivityNextListCheckItem", {}) },
+        { title: "Next List Radio Item", ...to("ActivityNextListRadioItem", {}) },
       ],
     },
     {

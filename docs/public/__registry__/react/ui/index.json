@@ -638,6 +638,21 @@
     {
       "snippets": [
         {
+          "path": "next-list-item.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.3.0",
+            "@seed-design/css": "^3.3.0"
+          }
+        }
+      ],
+      "id": "next-list-item",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "page-banner.tsx",
           "dependencies": {
             "@seed-design/react": "^2.0.0 || ^3.0.0"
