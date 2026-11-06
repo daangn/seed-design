@@ -1,0 +1,251 @@
+import preview from "../.storybook/preview";
+import { Fragment } from "react";
+
+import { NextList, NextListDivider, NextListCheckItem } from "seed-design/ui/next-list";
+import { Checkmark } from "seed-design/ui/checkbox";
+
+import { SeedThemeDecorator } from "./components/decorator";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
+import {
+  IconChevronRightLine,
+  IconILowercaseSerifCircleLine,
+  IconPersonCircleLine,
+} from "@karrotmarket/react-monochrome-icon";
+import { Icon } from "@seed-design/react";
+import { Avatar } from "seed-design/ui/avatar";
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
+import { NextListHeader } from "seed-design/ui/next-list-header";
+
+const SAMPLE_IMAGE = `data:image/svg+xml,${encodeURIComponent(
+  "<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#6ba6ff'/><stop offset='1' stop-color='#b06bff'/></linearGradient></defs><rect width='200' height='200' fill='url(#g)'/></svg>",
+)}`;
+
+const meta = preview.meta({
+  component: NextListCheckItem,
+  decorators: [SeedThemeDecorator],
+});
+const positionVariants = [
+  { key: "prefix", position: "prefix" },
+  { key: "suffix", position: "suffix" },
+] as const;
+
+const contentVariants = [
+  { key: "title", detail: null },
+  { key: "title-detail", detail: "Additional description for checkbox" },
+];
+
+const prefixVariants = [
+  { key: "none", element: null },
+  { key: "icon", element: <Icon svg={<IconPersonCircleLine />} /> },
+  {
+    key: "avatar",
+    element: <Avatar size="48" src={SAMPLE_IMAGE} fallback={<IdentityPlaceholder />} />,
+  },
+];
+
+const suffixVariants = [
+  { key: "none", element: null },
+  { key: "icon-info", element: <Icon svg={<IconILowercaseSerifCircleLine />} /> },
+  { key: "icon-chevron", element: <Icon svg={<IconChevronRightLine />} /> },
+];
+
+const stateVariants = [
+  {
+    key: "unchecked",
+    defaultChecked: false,
+    disabled: false,
+    highlighted: false,
+    checkmarkVariant: undefined,
+  },
+  {
+    key: "checked",
+    defaultChecked: true,
+    disabled: false,
+    highlighted: false,
+    checkmarkVariant: undefined,
+  },
+  {
+    key: "highlighted",
+    defaultChecked: false,
+    disabled: false,
+    highlighted: true,
+    checkmarkVariant: undefined,
+  },
+  {
+    key: "highlighted-checked",
+    defaultChecked: true,
+    disabled: false,
+    highlighted: true,
+    checkmarkVariant: undefined,
+  },
+  {
+    key: "disabled",
+    defaultChecked: false,
+    disabled: true,
+    highlighted: false,
+    checkmarkVariant: undefined,
+  },
+  {
+    key: "disabled-checked",
+    defaultChecked: true,
+    disabled: true,
+    highlighted: false,
+    checkmarkVariant: undefined,
+  },
+  {
+    key: "highlighted & disabled",
+    defaultChecked: false,
+    disabled: true,
+    highlighted: true,
+    checkmarkVariant: undefined,
+  },
+  {
+    key: "highlighted & disabled-checked",
+    defaultChecked: true,
+    disabled: true,
+    highlighted: true,
+    checkmarkVariant: undefined,
+  },
+  {
+    key: "ghost-unchecked",
+    defaultChecked: false,
+    disabled: false,
+    highlighted: false,
+    checkmarkVariant: "ghost",
+  },
+  {
+    key: "ghost-checked",
+    defaultChecked: true,
+    disabled: false,
+    highlighted: false,
+    checkmarkVariant: "ghost",
+  },
+  {
+    key: "ghost-highlighted",
+    defaultChecked: false,
+    disabled: false,
+    highlighted: true,
+    checkmarkVariant: "ghost",
+  },
+  {
+    key: "ghost-highlighted-checked",
+    defaultChecked: true,
+    disabled: false,
+    highlighted: true,
+    checkmarkVariant: "ghost",
+  },
+  {
+    key: "ghost-disabled",
+    defaultChecked: false,
+    disabled: true,
+    highlighted: false,
+    checkmarkVariant: "ghost",
+  },
+  {
+    key: "ghost-disabled-checked",
+    defaultChecked: true,
+    disabled: true,
+    highlighted: false,
+    checkmarkVariant: "ghost",
+  },
+  {
+    key: "ghost-highlighted & disabled",
+    defaultChecked: false,
+    disabled: true,
+    highlighted: true,
+    checkmarkVariant: "ghost",
+  },
+  {
+    key: "ghost-highlighted & disabled-checked",
+    defaultChecked: true,
+    disabled: true,
+    highlighted: true,
+    checkmarkVariant: "ghost",
+  },
+] as const;
+
+const CommonTemplate = meta.story({
+  args: {
+    title: "Next List Check Item",
+  },
+  render: () => (
+    <>
+      {positionVariants.map((position) => (
+        <div key={position.key}>
+          <NextListHeader variant="boldSolid">{position.key}</NextListHeader>
+          {stateVariants.map((state) => (
+            <div key={state.key}>
+              <NextListHeader>{state.key}</NextListHeader>
+              <NextList as="fieldset">
+                {contentVariants.map((content) => {
+                  if (position.position === "prefix") {
+                    return suffixVariants.map((suffix, suffixIndex) => {
+                      const isLastSuffix = suffixIndex === suffixVariants.length - 1;
+                      const isLastContent =
+                        content.key === contentVariants[contentVariants.length - 1].key;
+                      const showDivider = !(isLastSuffix && isLastContent);
+
+                      const key = `${position.key}-${content.key}-${state.key}-suffix-${suffix.key}`;
+
+                      return (
+                        <Fragment key={key}>
+                          <NextListCheckItem
+                            title={key}
+                            detail={content.detail}
+                            prefix={<Checkmark size="large" variant={state.checkmarkVariant} />}
+                            defaultChecked={state.defaultChecked}
+                            disabled={state.disabled}
+                            highlighted={state.highlighted}
+                            suffix={suffix.element}
+                          />
+                          {showDivider && <NextListDivider as="div" />}
+                        </Fragment>
+                      );
+                    });
+                  }
+                  return prefixVariants.map((prefix, prefixIndex) => {
+                    const isLastPrefix = prefixIndex === prefixVariants.length - 1;
+                    const isLastContent =
+                      content.key === contentVariants[contentVariants.length - 1].key;
+                    const showDivider = !(isLastPrefix && isLastContent);
+
+                    const key = `${position.key}-${content.key}-${state.key}-prefix-${prefix.key}`;
+
+                    return (
+                      <Fragment key={key}>
+                        <NextListCheckItem
+                          title={key}
+                          detail={content.detail}
+                          suffix={<Checkmark size="large" variant={state.checkmarkVariant} />}
+                          defaultChecked={state.defaultChecked}
+                          disabled={state.disabled}
+                          highlighted={state.highlighted}
+                          prefix={prefix.element}
+                        />
+                        {showDivider && <NextListDivider as="div" />}
+                      </Fragment>
+                    );
+                  });
+                })}
+              </NextList>
+            </div>
+          ))}
+        </div>
+      ))}
+    </>
+  ),
+});
+
+export const LightTheme = CommonTemplate.extend({});
+
+export const DarkTheme = CommonTemplate.extend({
+  parameters: withVisualTestParameters({ theme: "dark" }),
+});
+
+export const FontScalingExtraSmall = CommonTemplate.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
+});
+
+export const FontScalingExtraExtraExtraLarge = CommonTemplate.extend({
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
+});

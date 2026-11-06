@@ -17,6 +17,8 @@ description: Deprecated 항목의 현황과 제거 계획을 관리합니다.
 | $color.fg.neutral-inverted | 색상 토큰 | 3.0.0           | 4.0.0          | $color.fg.on-neutral-solid | 기존 사용처의 하위 호환성을 위해 3.x에서는 deprecated 상태로 유지                                           |
 | $color.bg.neutral-solid-muted | 색상 토큰 | 3.0.1        | 4.0.0          | -                          | -                                                                                                            |
 | $color.bg.neutral-solid-muted-pressed | 색상 토큰 | 3.0.1 | 4.0.0          | -                          | -                                                                                                            |
+| `List` (`List.Root`·`List.RadioRoot`·`List.Item`·`List.CheckItem`·`List.RadioItem`·`List.SwitchItem`·`List.Content`·`List.Prefix`·`List.Suffix`·`List.Title`·`List.Detail`), `ListHeader` | 컴포넌트 | 3.3.0 | 4.0.0 | `NextList`, `NextListHeader` | 행의 동작(버튼/링크/폼 컨트롤)과 눌림 피드백을 라이브러리가 맡는 `NextList`로 이전. [마이그레이션 안내](/react/components/next-list#migrating-from-list) 참고 |
+| `ui:list`, `ui:list-header` snippet | snippet | 3.3.0 | 4.0.0 | `ui:next-list`, `ui:next-list-header` | `List`·`ListDivider`·`List*Item`, `ListHeader`를 `NextList`·`NextListDivider`·`NextList*Item`, `NextListHeader`로 교체 |
 
 ## 제거 완료 히스토리
 

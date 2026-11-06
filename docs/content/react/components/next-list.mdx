@@ -1,0 +1,443 @@
+---
+title: Next List
+description: 가로 행으로 구성된 콘텐츠를 표현하고, 누르면 행 전체가 줄어드는 피드백을 제공하는 컴포넌트입니다.
+---
+
+<AvailableSince packages="@seed-design/react@3.3.0, @seed-design/css@3.3.0" />
+
+<ComponentExample name="react/next-list/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/next-list/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:next-list
+```
+
+<ManualInstallation name="next-list" />
+
+## Usage
+
+```tsx
+import { NextListHeader } from "seed-design/ui/next-list-header";
+import {
+  NextList,
+  NextListDivider,
+  NextListItem,
+  NextListButtonItem,
+} from "seed-design/ui/next-list";
+
+<VStack>
+  <NextListHeader as="h2">리스트 헤더</NextListHeader>
+  <NextList>
+    <NextListItem title="정적인 행" />
+    <NextListDivider />
+    <NextListButtonItem title="누를 수 있는 행" onClick={() => {}} />
+  </NextList>
+</VStack>;
+```
+
+## Props
+
+### `NextListHeader`
+
+<react-type-table path="./registry/react/ui/next-list-header.tsx" name="NextListHeaderProps" />
+
+### `NextList`
+
+[`VStackProps`](/react/components/layout/v-stack#props)와 동일합니다. `itemBorderRadius`로 pressed 배경의 모서리 반경을 컨테이너에 맞출 수 있습니다.
+
+### List Items
+
+<Accordions>
+
+<Accordion title="NextListItem">
+
+<react-type-table path="./registry/react/ui/next-list.tsx" name="NextListItemProps" />
+
+</Accordion>
+
+<Accordion title="NextListButtonItem">
+
+<react-type-table path="./registry/react/ui/next-list.tsx" name="NextListButtonItemProps" />
+
+</Accordion>
+
+<Accordion title="NextListLinkItem">
+
+<react-type-table path="./registry/react/ui/next-list.tsx" name="NextListLinkItemProps" />
+
+</Accordion>
+
+<Accordion title="NextListSwitchItem">
+
+<react-type-table path="./registry/react/ui/next-list.tsx" name="NextListSwitchItemProps" />
+
+</Accordion>
+
+<Accordion title="NextListCheckItem">
+
+<react-type-table path="./registry/react/ui/next-list.tsx" name="NextListCheckItemProps" />
+
+</Accordion>
+
+<Accordion title="NextListRadioItem">
+
+<react-type-table path="./registry/react/ui/next-list.tsx" name="NextListRadioItemProps" />
+
+</Accordion>
+
+<Accordion title="NextListDivider">
+
+[`DividerProps`](/react/components/divider#props)와 동일하나, 기본적으로 `<li aria-hidden></li>`로 렌더링됩니다. `NextList`를 `fieldset` 등으로 바꿔 사용하는 경우 `NextListDivider` 역시 적절한 태그로 교체해주세요.
+
+<react-type-table path="./registry/react/ui/next-list.tsx" name="NextListDividerProps" />
+
+</Accordion>
+
+</Accordions>
+
+## Examples
+
+### Using `NextListHeader`
+
+`NextListHeader`는 `NextList` 밖에 위치합니다.
+
+<ComponentExample name="react/next-list/header">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/next-list/header.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Affixes (Prefix/Suffix)
+
+<ComponentExample name="react/next-list/affixes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/next-list/affixes.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Clickable List Items
+
+`NextListButtonItem` 또는 `NextListLinkItem`를 사용해서 리스트 항목 전체를 클릭 가능하도록 만들 수 있습니다.
+
+`prefix`와 `suffix` 안의 `a`, `button`, `input`, `select`, `textarea`, `label`과 `role="button"`, `role="link"`, `tabindex`가 있는 요소는 별도 스타일 없이 리스트 항목과 별개로 클릭됩니다. `ActionButton`, `ToggleButton` 등 SEED React 컴포넌트도 마찬가지입니다. 그 밖의 요소에 클릭 이벤트를 연결하는 경우 `role`과 `tabindex`를 지정하세요. 키보드 사용자도 해당 요소를 조작할 수 있게 됩니다.
+
+<ComponentExample name="react/next-list/clickable">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/next-list/clickable.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### `input`s in List Items
+
+`NextListSwitchItem`, `NextListCheckItem`, `NextListRadioItem`을 사용해서 리스트 항목에 `input` 요소를 포함할 수 있습니다. 이때, [Switchmark](/react/components/switch#using-switchmark), [Checkmark](/react/components/checkbox#using-checkmark) 또는 [Radiomark](/react/components/radio-group#using-radiomark)와 같은 컨트롤 요소를 `prefix`나 `suffix` 영역에 넣어 사용합니다.
+
+<ComponentExample name="react/next-list/switch">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/next-list/switch.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+<ComponentExample name="react/next-list/check">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/next-list/check.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+<ComponentExample name="react/next-list/radio">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/next-list/radio.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Accessibility
+
+`NextList`는 기본적으로 `<ul>`입니다. `NextListCheckItem`, `NextListSwitchItem`, `NextListRadioItem`은 `<li>`가 아닌 `<label>`로 렌더링되므로, 이 item을 사용하는 경우 `NextList`에 적절한 요소나 role을 부여해야 합니다. `NextListCheckItem`과 `NextListSwitchItem`은 `fieldset`으로 묶습니다.
+
+```tsx
+{/* [!code highlight] */}
+<NextList as="fieldset">
+  <NextListCheckItem
+    suffix={<Checkmark size="large" />}
+    title="알림 수신 동의"
+    detail="푸시 알림을 받으시겠습니까?"
+  />
+  <NextListCheckItem
+    suffix={<Checkmark size="large" />}
+    title="마케팅 정보 수신 동의"
+    detail="마케팅 정보를 받으시겠습니까?"
+  />
+</NextList>
+```
+
+```tsx
+{/* [!code highlight] */}
+<NextList asChild>
+  <SeedNextList.RadioRoot defaultValue="짜장" aria-label="점심 메뉴"> {/* <div role="radiogroup"> */}
+    <NextListRadioItem suffix={<Radiomark size="large" />} value="짜장" title="짜장" />
+    <NextListRadioItem suffix={<Radiomark size="large" />} value="짬뽕" title="짬뽕" />
+  </SeedNextList.RadioRoot>
+</NextList>
+```
+
+### Disabled
+
+<ComponentExample name="react/next-list/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/next-list/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Variants
+
+#### Highlighted
+
+<ComponentExample name="react/next-list/highlighted">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/next-list/highlighted.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Bottom Sheet
+
+<ComponentExample name="react/next-list/bottom-sheet">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/next-list/bottom-sheet.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Alignment
+
+`alignItems` prop으로 `prefix`와 `suffix`의 정렬 방식을 조정할 수 있습니다.
+
+<ComponentExample name="react/next-list/alignment">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/next-list/alignment.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Border Radius
+
+`NextList`에 `itemBorderRadius` prop을 설정하여 active 상태에서 적용되는 리스트 항목의 radius를 조정할 수 있습니다. 리스트가 카드 등 모서리가 둥근 컨테이너 안에 포함되는 경우 유용합니다.
+
+<ComponentExample name="react/next-list/border-radius">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/next-list/border-radius.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Customization and Composition
+
+### Usage
+
+`@seed-design/react` 패키지의 `NextList` 컴포넌트는 다음과 같은 구조로 사용됩니다.
+
+```
+NextListHeader
+NextList.Root
+└── NextList.Item
+    ├── NextList.Prefix (선택사항)
+    ├── NextList.Content
+    │   ├── NextList.Title
+    │   └── NextList.Detail (선택사항)
+    └── NextList.Suffix (선택사항)
+└── NextList.Item
+    ├── ...
+```
+
+```tsx
+import { NextListHeader, NextList, Icon } from "@seed-design/react";
+
+<NextListHeader>내 정보</NextListHeader>
+<NextList.Root>
+  <NextList.Item>
+    <NextList.Prefix>
+      <Icon svg={<IconPersonCircleLine />} />
+    </NextList.Prefix>
+    <NextList.Content>
+      <NextList.Title>내 프로필</NextList.Title>
+      <NextList.Detail>다른 사람들에게 보이는 내 정보를 관리합니다.</NextList.Detail>
+    </NextList.Content>
+    <NextList.Suffix>
+      <Icon svg={<IconArrowRightLine />} />
+    </NextList.Suffix>
+  </NextList.Item>
+  <NextList.Item>
+    {/* ... */}
+  </NextList.Item>
+</NextList.Root>
+```
+
+- `NextListHeader`: 리스트의 제목이나 설명을 표시하는 헤더 역할
+- `NextList.Root`: 모든 리스트 항목을 감싸는 컨테이너 역할
+  - `NextList.Item`: 개별 리스트 항목
+  - `NextList.Prefix`: 아이콘, [Avatar](/react/components/avatar), [Checkmark](/react/components/checkbox#using-checkmark) 등을 표시할 수 있는 시작 영역
+  - `NextList.Content`: 주요 콘텐츠가 들어가는 중앙 영역
+    - `NextList.Title`: 리스트 항목의 제목
+    - `NextList.Detail`: 부가 설명이나 세부 정보
+  - `NextList.Suffix`: 아이콘, [Action Button](/react/components/action-button), [Toggle Button](/react/components/toggle-button) 등을 표시할 수 있는 끝 영역
+
+### 적절한 시맨틱 요소로 렌더링하기
+
+<Card title="Composition" href="/react/components/concepts/composition#aschild-prop" icon={<IconComponent />}>
+
+`asChild` prop에 대해 자세히 알아봅니다.
+
+</Card>
+
+`NextList` item은 인터랙티브한 항목을 위해 적절한 시맨틱 요소(`button`, `a`, `label`)로 렌더링되는 primitive를 제공합니다. 내부적으로 `asChild`를 사용하므로 직접 배선하지 않아도 됩니다.
+
+#### 클릭 가능한 항목: `NextList.ButtonItem`, `NextList.AnchorItem`
+
+리스트 항목 전체 영역을 클릭 가능한 버튼 또는 링크로 만드는 경우 `NextList.ButtonItem` 또는 `NextList.AnchorItem`을 사용합니다. `NextList.Content`가 `button` 또는 `a`로 렌더링되며, `NextList.Prefix` 또는 `NextList.Suffix`에 넣은 요소는 형제로 남아 별개의 클릭 영역으로 동작합니다.
+
+```tsx
+import { NextList as SeedNextList } from "@seed-design/react";
+
+<SeedNextList.ButtonItem onClick={() => alert("사용자 클릭됨")}> {/* NextList.Content가 <button>으로 렌더링됩니다 */}
+  <SeedNextList.Content>
+    <SeedNextList.Title>사용자</SeedNextList.Title>
+    <SeedNextList.Detail>항목 6개</SeedNextList.Detail>
+  </SeedNextList.Content>
+  <SeedNextList.Suffix>
+    <ActionButton
+      size="xsmall"
+      variant="brandSolid"
+      onClick={() => alert("보기 클릭됨")}
+    >
+      보기
+    </ActionButton>
+  </SeedNextList.Suffix>
+</SeedNextList.ButtonItem>
+```
+
+[Snippet](/react/components/concepts/snippet)으로 제공되는 `NextListButtonItem` 및 `NextListLinkItem`는 이 패턴을 쉽게 구현할 수 있도록 돕습니다.
+
+```tsx
+import { NextListButtonItem } from "seed-design/ui/next-list";
+
+<NextListButtonItem
+  onClick={() => alert("사용자 클릭됨")}
+  title="사용자"
+  detail="항목 6개"
+  suffix={
+    <ActionButton size="xsmall" variant="brandSolid" onClick={() => alert("보기 클릭됨")}>
+      보기
+    </ActionButton>
+  }
+/>
+```
+
+#### `input`을 포함하는 항목: `NextList.CheckboxItem`, `NextList.RadioItem`, `NextList.SwitchItem`
+
+리스트 항목 전체 영역을 `label`로 만들고 `NextList.Prefix` 또는 `NextList.Suffix`에 [Switchmark](/react/components/switch#using-switchmark), [Checkmark](/react/components/checkbox#using-checkmark) 또는 [Radiomark](/react/components/radio-group#using-radiomark)를 넣는 경우 `NextList.CheckboxItem`, `NextList.RadioItem`, `NextList.SwitchItem`을 사용합니다. root가 `label`로 렌더링되고 hidden input이 내장됩니다.
+
+```tsx
+import { NextList as SeedNextList } from "@seed-design/react";
+
+<SeedNextList.CheckboxItem defaultChecked> {/* root가 <label>로 렌더링되고 hidden input이 내장됩니다 */}
+  <SeedNextList.Content>
+    <SeedNextList.Title>동의</SeedNextList.Title>
+  </SeedNextList.Content>
+  <SeedNextList.Suffix>
+    <Checkmark />
+  </SeedNextList.Suffix>
+</SeedNextList.CheckboxItem>
+```
+
+[Snippet](/react/components/concepts/snippet)으로 제공되는 `NextListSwitchItem`, `NextListCheckItem` 및 `NextListRadioItem`는 이 패턴을 쉽게 구현할 수 있도록 돕습니다.
+
+```tsx
+import { NextListCheckItem } from "seed-design/ui/next-list";
+
+<NextListCheckItem defaultChecked title="동의" suffix={<Checkmark size="large" />} />
+```
+
+## Migrating from List
+
+`List`는 deprecated입니다(`@seed-design/react@3.3.0`에서 deprecated, `4.0.0`에서 제거 예정). 아래 대응표에 따라 `NextList`로 교체하세요. 동작은 같고, 누를 수 있는 행에 행 전체가 줄어드는 피드백이 추가됩니다.
+
+### Snippet
+
+| Deprecated (`ui:list`)                  | 대체 (`ui:next-list`)                   |
+| --------------------------------------- | --------------------------------------- |
+| `List`                                  | `NextList`                              |
+| `ListDivider`                           | `NextListDivider`                       |
+| `ListHeader` (`ui:list-header`)         | `NextListHeader` (`ui:next-list-header`) |
+| `ListItem`                              | `NextListItem`                          |
+| `ListButtonItem`                        | `NextListButtonItem`                    |
+| `ListLinkItem`                          | `NextListLinkItem`                      |
+| `ListCheckItem`                         | `NextListCheckItem`                     |
+| `ListRadioItem`                         | `NextListRadioItem`                     |
+| `ListSwitchItem`                        | `NextListSwitchItem`                    |
+
+```tsx
+// Before
+import { ListHeader } from "seed-design/ui/list-header";
+import { List, ListButtonItem } from "seed-design/ui/list";
+
+<ListHeader>내 정보</ListHeader>
+<List>
+  <ListButtonItem title="누를 수 있는 행" onClick={() => {}} />
+</List>;
+
+// After
+import { NextListHeader } from "seed-design/ui/next-list-header";
+import { NextList, NextListButtonItem } from "seed-design/ui/next-list";
+
+<NextListHeader>내 정보</NextListHeader>
+<NextList>
+  <NextListButtonItem title="누를 수 있는 행" onClick={() => {}} />
+</NextList>;
+```
+
+### `@seed-design/react`
+
+| Deprecated                                               | 대체                                                             |
+| -------------------------------------------------------- | ---------------------------------------------------------------- |
+| `List.Root`, `List.RadioRoot`                            | `NextList.Root`, `NextList.RadioRoot`                            |
+| `ListHeader`                                             | `NextListHeader`                                                 |
+| `List.Item`                                              | `NextList.Item`                                                  |
+| `List.Content`, `List.Prefix`, `List.Suffix`, `List.Title`, `List.Detail` | `NextList.Content`, `NextList.Prefix`, `NextList.Suffix`, `NextList.Title`, `NextList.Detail` |
+| `List.CheckItem`, `List.RadioItem`, `List.SwitchItem`    | `NextList.CheckboxItem`, `NextList.RadioItem`, `NextList.SwitchItem` |
+| `List.Content asChild` + `<button>` / `<a>`              | `NextList.ButtonItem`, `NextList.AnchorItem`                     |

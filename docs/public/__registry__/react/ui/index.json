@@ -521,6 +521,7 @@
         }
       ],
       "id": "list",
+      "deprecated": true,
       "dependencies": [
         "@seed-design/css",
         "@seed-design/react"
@@ -631,6 +632,27 @@
         }
       ],
       "id": "navigation-menu",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "next-list.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.3.0",
+            "@seed-design/css": "^3.3.0"
+          }
+        },
+        {
+          "path": "next-list-header.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.3.0"
+          }
+        }
+      ],
+      "id": "next-list",
       "dependencies": [
         "@seed-design/react"
       ]
