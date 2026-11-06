@@ -44,7 +44,8 @@
     flex: 0 0 auto;
     flex-direction: column;
     box-sizing: border-box;
-    word-break: break-all;
+    word-break: normal;
+    overflow-wrap: anywhere;
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     border-radius: var(--seed-radius-r5);

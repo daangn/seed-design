@@ -37,7 +37,8 @@
 
   .seed-side-panel__content {
     box-sizing: border-box;
-    word-break: break-all;
+    word-break: normal;
+    overflow-wrap: anywhere;
     z-index: calc(var(--side-panel-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     touch-action: none;
