@@ -232,6 +232,8 @@ export function useTabsList({ children, scrollAlign = "start", viewportInsets }:
       !scrollRef.current ||
       value === undefined ||
       !selectedRect ||
+      // 숨김 동안 0으로 보고된 폭으로 정렬하면 다시 보일 때 원래 위치로 되돌아오는 스크롤이 보인다.
+      selectedRect.width === 0 ||
       viewportWidth === null ||
       contentWidth === null ||
       insets === null

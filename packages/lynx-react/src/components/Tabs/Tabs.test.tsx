@@ -452,4 +452,20 @@ describe("Tabs", () => {
       expect(label).not.toHaveClass("seed-tabs__triggerLabel--transitionEnabled_false");
     }
   });
+
+  it("hides the indicator with a recipe class while trigger widths are zero", () => {
+    const { container } = render(<BasicTabs defaultValue="two" />);
+    const triggers = container.querySelectorAll(".seed-tabs__trigger");
+    const indicator = () => container.querySelector(".seed-tabs__indicator");
+    expect(indicator()).toHaveClass("seed-tabs__indicator--indicatorMeasured_false");
+
+    fireNativeEvent(triggers[0], "layoutchange", { width: 80 });
+    fireNativeEvent(triggers[1], "layoutchange", { width: 100 });
+    expect(indicator()).toHaveClass("seed-tabs__indicator--indicatorMeasured_true");
+
+    fireNativeEvent(triggers[0], "layoutchange", { width: 0 });
+    fireNativeEvent(triggers[1], "layoutchange", { width: 0 });
+    expect(indicator()).toHaveClass("seed-tabs__indicator--indicatorMeasured_false");
+    expect(indicator()).not.toHaveStyle({ display: "none" });
+  });
 });

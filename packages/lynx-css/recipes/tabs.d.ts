@@ -26,6 +26,10 @@ declare interface TabsVariant {
 selected: boolean;
 disabled: boolean;
 inCarousel: boolean;
+/**
+  * @default true
+  */
+  indicatorMeasured: boolean;
 }
 
 declare type TabsVariantMap = {

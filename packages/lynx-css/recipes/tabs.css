@@ -150,6 +150,9 @@
 .seed-tabs__triggerLabel--disabled_true {
     color: var(--seed-color-fg-disabled)
 }
+.seed-tabs__indicator--indicatorMeasured_false {
+    display: none
+}
 .seed-tabs__listContent--triggerLayout_fill-extendSafeAreaX_true {
     padding-left: calc(0px + var(--seed-safe-area-left));
     padding-right: calc(0px + var(--seed-safe-area-right))
