@@ -55,20 +55,35 @@ function Screen({
   appBar: NextAppScreenAppBar | null;
   children?: ReactNode;
 }) {
-  const { pop } = useActions();
-
-  useActivityAppBar(useResolvedAppBar(appBar, { onBack: () => pop(), backLabel: "Back" }));
+  useActivityAppBar(useResolvedAppBar(appBar));
 
   return <div>{children}</div>;
 }
 
 const edit = mock();
 
+const BACK = {
+  name: "icon_chevron_left_line",
+  fallbackURL: "https://example.com/back.png",
+} as const;
+
+function Detail() {
+  const { pop } = useActions();
+
+  return (
+    <Screen
+      appBar={{
+        title: "Detail",
+        titleColor: "dark",
+        leading: [{ icon: BACK, label: "Back", onClick: () => pop() }],
+      }}
+    />
+  );
+}
+
 const activities = {
-  Home: () => (
-    <Screen appBar={{ title: "Home", back: true, trailing: [{ text: "Edit", onClick: edit }] }} />
-  ),
-  Detail: () => <Screen appBar={{ title: "Detail", back: true }} />,
+  Home: () => <Screen appBar={{ title: "Home", trailing: [{ text: "Edit", onClick: edit }] }} />,
+  Detail,
   Bare: () => <Screen appBar={null} />,
   Sheet: function Sheet() {
     useActivityOverlayButtons("hidden");
@@ -108,7 +123,7 @@ const keyOf = (bar: TopNavigationHostBar, side: TopNavigationHostBar["buttons"][
   bar.buttons.find((button) => button.side === side)?.key ?? "";
 
 describe("top navigation", () => {
-  it("sends the root screen's bar without a back button", async () => {
+  it("sends the screen's bar as declared", async () => {
     const { last } = renderWithHost("Home");
 
     await poll(() => expect(last().bar.title).toBe("Home"));
@@ -126,15 +141,16 @@ describe("top navigation", () => {
     expect(edit).toHaveBeenCalledTimes(1);
   });
 
-  it("sends a pushed screen's bar with a back button that pops", async () => {
+  it("sends a pushed screen's title colour and the back button it declares", async () => {
     const { last, push, click } = renderWithHost("Home");
 
     await poll(() => expect(last().bar.title).toBe("Home"));
     await push("Detail");
     await poll(() => expect(last().bar.title).toBe("Detail"));
 
+    expect(last().bar.titleColor).toBe("dark");
     expect(last().bar.buttons).toEqual([
-      { key: expect.any(String), side: "leading", icon: "icon_chevron_left_line", label: "Back" },
+      { key: expect.any(String), side: "leading", icon: BACK, label: "Back" },
     ]);
 
     await act(async () => click(keyOf(last().bar, "leading")));
