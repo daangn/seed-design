@@ -116,7 +116,8 @@ describe("FloatingActionButton", () => {
     }
 
     fireEvent.layoutchange(label, { detail: { width: 72, height: 22 } });
+    expect(Reflect.get(root.style, "--fab-label-width")).toBe("72px");
     fireEvent.layoutchange(label, { detail: { width: 0, height: 0 } });
-    expect(root.style.getPropertyValue("--fab-label-width")).toBe("72px");
+    expect(Reflect.get(root.style, "--fab-label-width")).toBe("72px");
   });
 });
