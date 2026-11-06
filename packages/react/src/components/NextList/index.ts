@@ -4,7 +4,6 @@ export {
   NextListCheckboxItem,
   NextListContent,
   NextListDetail,
-  NextListHeader,
   NextListItem,
   NextListPrefix,
   NextListRadioItem,
@@ -18,7 +17,6 @@ export {
   type NextListCheckboxItemProps,
   type NextListContentProps,
   type NextListDetailProps,
-  type NextListHeaderProps,
   type NextListItemProps,
   type NextListPrefixProps,
   type NextListRadioItemProps,
@@ -28,5 +26,7 @@ export {
   type NextListSwitchItemProps,
   type NextListTitleProps,
 } from "./NextList";
+
+export { NextListHeader, type NextListHeaderProps } from "./NextListHeader";
 
 export * as NextList from "./NextList.namespace";

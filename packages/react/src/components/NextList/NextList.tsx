@@ -16,17 +16,10 @@ import clsx from "clsx";
 import * as React from "react";
 import { forwardRef } from "react";
 
-import {
-  ListHeader,
-  ListRadioRoot,
-  ListRoot,
-  type ListHeaderProps,
-  type ListRadioRootProps,
-  type ListRootProps,
-} from "../List";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
+import { handleRadius, useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
+import { VStack, type VStackProps } from "../Stack";
 
 // ────────────────────────────────────────────────────────────────────────────
 // Interaction context
@@ -66,22 +59,37 @@ const withStateProps = createWithStateProps([
 
 // ────────────────────────────────────────────────────────────────────────────
 // Containers
-//
-// The container, radio group root and header behave exactly like List's, so they
-// re-export its implementations under the NextList name rather than duplicating them.
 // ────────────────────────────────────────────────────────────────────────────
 
-export interface NextListRootProps extends ListRootProps {}
+export interface NextListRootProps
+  extends Omit<
+    VStackProps,
+    "bleed" | "bleedX" | "bleedY" | "bleedTop" | "bleedRight" | "bleedBottom" | "bleedLeft"
+  > {
+  itemBorderRadius?: StyleProps["borderRadius"];
+}
 
-export const NextListRoot = ListRoot;
+export const NextListRoot = forwardRef<HTMLUListElement, NextListRootProps>(
+  ({ as = "ul", style, itemBorderRadius, ...props }, ref) => {
+    return (
+      <VStack
+        as={as}
+        ref={ref as React.ForwardedRef<HTMLDivElement>}
+        style={
+          {
+            ...style,
+            "--list-item-border-radius": handleRadius(itemBorderRadius),
+          } as React.CSSProperties
+        }
+        {...props}
+      />
+    );
+  },
+);
 
-export interface NextListRadioRootProps extends ListRadioRootProps {}
+export interface NextListRadioRootProps extends RadioGroupPrimitive.RootProps {}
 
-export const NextListRadioRoot = ListRadioRoot;
-
-export interface NextListHeaderProps extends ListHeaderProps {}
-
-export const NextListHeader = ListHeader;
+export const NextListRadioRoot = RadioGroupPrimitive.Root;
 
 // ────────────────────────────────────────────────────────────────────────────
 // Item slots

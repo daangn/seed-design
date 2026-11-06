@@ -608,6 +608,7 @@ export const registryUI: Registry = {
           dependencies: { "@seed-design/react": "^2.0.0 || ^3.0.0" },
         },
       ],
+      deprecated: true,
     },
     {
       id: "next-list",

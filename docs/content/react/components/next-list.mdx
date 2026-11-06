@@ -392,3 +392,52 @@ import { NextListCheckItem } from "seed-design/ui/next-list";
 
 <NextListCheckItem defaultChecked title="동의" suffix={<Checkmark size="large" />} />
 ```
+
+## Migrating from List
+
+`List`는 deprecated입니다(`@seed-design/react@3.3.0`에서 deprecated, `4.0.0`에서 제거 예정). 아래 대응표에 따라 `NextList`로 교체하세요. 동작은 같고, 누를 수 있는 행에 행 전체가 줄어드는 피드백이 추가됩니다.
+
+### Snippet
+
+| Deprecated (`ui:list`)                  | 대체 (`ui:next-list`)                   |
+| --------------------------------------- | --------------------------------------- |
+| `List`                                  | `NextList`                              |
+| `ListDivider`                           | `NextListDivider`                       |
+| `ListHeader` (`ui:list-header`)         | `NextListHeader` (`ui:next-list-header`) |
+| `ListItem`                              | `NextListItem`                          |
+| `ListButtonItem`                        | `NextListButtonItem`                    |
+| `ListLinkItem`                          | `NextListLinkItem`                      |
+| `ListCheckItem`                         | `NextListCheckItem`                     |
+| `ListRadioItem`                         | `NextListRadioItem`                     |
+| `ListSwitchItem`                        | `NextListSwitchItem`                    |
+
+```tsx
+// Before
+import { ListHeader } from "seed-design/ui/list-header";
+import { List, ListButtonItem } from "seed-design/ui/list";
+
+<ListHeader>내 정보</ListHeader>
+<List>
+  <ListButtonItem title="누를 수 있는 행" onClick={() => {}} />
+</List>;
+
+// After
+import { NextListHeader } from "seed-design/ui/next-list-header";
+import { NextList, NextListButtonItem } from "seed-design/ui/next-list";
+
+<NextListHeader>내 정보</NextListHeader>
+<NextList>
+  <NextListButtonItem title="누를 수 있는 행" onClick={() => {}} />
+</NextList>;
+```
+
+### `@seed-design/react`
+
+| Deprecated                                               | 대체                                                             |
+| -------------------------------------------------------- | ---------------------------------------------------------------- |
+| `List.Root`, `List.RadioRoot`                            | `NextList.Root`, `NextList.RadioRoot`                            |
+| `ListHeader`                                             | `NextListHeader`                                                 |
+| `List.Item`                                              | `NextList.Item`                                                  |
+| `List.Content`, `List.Prefix`, `List.Suffix`, `List.Title`, `List.Detail` | `NextList.Content`, `NextList.Prefix`, `NextList.Suffix`, `NextList.Title`, `NextList.Detail` |
+| `List.CheckItem`, `List.RadioItem`, `List.SwitchItem`    | `NextList.CheckboxItem`, `NextList.RadioItem`, `NextList.SwitchItem` |
+| `List.Content asChild` + `<button>` / `<a>`              | `NextList.ButtonItem`, `NextList.AnchorItem`                     |

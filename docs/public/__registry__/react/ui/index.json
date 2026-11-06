@@ -521,6 +521,7 @@
         }
       ],
       "id": "list",
+      "deprecated": true,
       "dependencies": [
         "@seed-design/css",
         "@seed-design/react"
