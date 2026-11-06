@@ -4,9 +4,11 @@ import {
   IconPersonCircleLine,
   IconHouseLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { Icon } from "@seed-design/react";
+import { Icon, Portal } from "@seed-design/react";
+import { useActivityZIndexBase } from "@seed-design/stackflow";
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
+import * as React from "react";
 import { Fragment } from "react";
 import {
   AppBar,
@@ -20,7 +22,22 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
-import { NextList, NextListDivider, NextListButtonItem } from "seed-design/ui/next-list";
+import {
+  NextList,
+  NextListDivider,
+  NextListButtonItem,
+  type NextListButtonItemProps,
+} from "seed-design/ui/next-list";
+import {
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogRoot,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "seed-design/ui/alert-dialog";
+import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 
 const prefixVariants = [
   { key: "none", element: null },
@@ -43,10 +60,16 @@ const contentVariants = [
   { key: "title-highlighted", detail: null, highlighted: true },
   { key: "title-detail-highlighted", detail: "lorem ipsum dolor sit amet", highlighted: true },
   { key: "title-detail-disabled", detail: "lorem ipsum dolor sit amet", disabled: true },
+  {
+    key: "title-detail-highlighted-disabled",
+    detail: "lorem ipsum dolor sit amet",
+    highlighted: true,
+    disabled: true,
+  },
 ];
 
 // the "buttons" suffix is the isolation test: pressing one of these ActionButtons
-// must scale only that button, never the whole row.
+// must scale only that button and must not open the row's dialog.
 const suffixVariants = [
   { key: "none", element: null },
   { key: "icon-info", element: <Icon svg={<IconILowercaseSerifCircleLine />} /> },
@@ -73,6 +96,35 @@ const suffixVariants = [
     ),
   },
 ];
+
+const AlertDialogNextListButtonItem = React.forwardRef<HTMLButtonElement, NextListButtonItemProps>(
+  (props, ref) => {
+    const { overlayProps, setOpen } = useStepOverlay({ key: "alert-dialog" });
+
+    return (
+      <AlertDialogRoot {...overlayProps}>
+        <AlertDialogTrigger asChild>
+          <NextListButtonItem ref={ref} onClick={() => setOpen(true)} {...props} />
+        </AlertDialogTrigger>
+        <Portal>
+          <AlertDialogContent layerIndex={useActivityZIndexBase({ activityOffset: +1 })}>
+            <AlertDialogHeader>
+              <AlertDialogTitle>consectetur</AlertDialogTitle>
+              <AlertDialogDescription>
+                Veniam qui nulla minim sit ad Lorem fugiat consequat ad consequat velit ullamco
+                proident id.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <ActionButton onClick={() => setOpen(false)}>닫기</ActionButton>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </Portal>
+      </AlertDialogRoot>
+    );
+  },
+);
+AlertDialogNextListButtonItem.displayName = "AlertDialogNextListButtonItem";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -118,14 +170,13 @@ const ActivityNextListButtonItem: StaticActivityComponentType<
 
                 return (
                   <Fragment key={key}>
-                    <NextListButtonItem
+                    <AlertDialogNextListButtonItem
                       title={key}
                       detail={content.detail}
                       prefix={prefix.element}
                       suffix={suffix.element}
                       highlighted={content.highlighted}
                       disabled={content.disabled}
-                      onClick={() => window.alert(`Row clicked: ${key}`)}
                     />
                     {showDivider && <NextListDivider />}
                   </Fragment>

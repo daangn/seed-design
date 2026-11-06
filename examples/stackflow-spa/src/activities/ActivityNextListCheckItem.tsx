@@ -60,6 +60,15 @@ const stateVariants = [
   { key: "checked", defaultChecked: true, disabled: false, checkmarkVariant: undefined },
   { key: "disabled", defaultChecked: false, disabled: true, checkmarkVariant: undefined },
   { key: "disabled-checked", defaultChecked: true, disabled: true, checkmarkVariant: undefined },
+  { key: "ghost-unchecked", defaultChecked: false, disabled: false, checkmarkVariant: "ghost" },
+  { key: "ghost-checked", defaultChecked: true, disabled: false, checkmarkVariant: "ghost" },
+  { key: "ghost-disabled", defaultChecked: false, disabled: true, checkmarkVariant: "ghost" },
+  {
+    key: "ghost-disabled-checked",
+    defaultChecked: true,
+    disabled: true,
+    checkmarkVariant: "ghost",
+  },
 ] as const;
 
 declare module "@stackflow/config" {

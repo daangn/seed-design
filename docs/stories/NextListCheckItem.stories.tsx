@@ -50,12 +50,118 @@ const suffixVariants = [
 ];
 
 const stateVariants = [
-  { key: "unchecked", defaultChecked: false, disabled: false, highlighted: false },
-  { key: "checked", defaultChecked: true, disabled: false, highlighted: false },
-  { key: "highlighted", defaultChecked: false, disabled: false, highlighted: true },
-  { key: "highlighted-checked", defaultChecked: true, disabled: false, highlighted: true },
-  { key: "disabled", defaultChecked: false, disabled: true, highlighted: false },
-  { key: "disabled-checked", defaultChecked: true, disabled: true, highlighted: false },
+  {
+    key: "unchecked",
+    defaultChecked: false,
+    disabled: false,
+    highlighted: false,
+    checkmarkVariant: undefined,
+  },
+  {
+    key: "checked",
+    defaultChecked: true,
+    disabled: false,
+    highlighted: false,
+    checkmarkVariant: undefined,
+  },
+  {
+    key: "highlighted",
+    defaultChecked: false,
+    disabled: false,
+    highlighted: true,
+    checkmarkVariant: undefined,
+  },
+  {
+    key: "highlighted-checked",
+    defaultChecked: true,
+    disabled: false,
+    highlighted: true,
+    checkmarkVariant: undefined,
+  },
+  {
+    key: "disabled",
+    defaultChecked: false,
+    disabled: true,
+    highlighted: false,
+    checkmarkVariant: undefined,
+  },
+  {
+    key: "disabled-checked",
+    defaultChecked: true,
+    disabled: true,
+    highlighted: false,
+    checkmarkVariant: undefined,
+  },
+  {
+    key: "highlighted & disabled",
+    defaultChecked: false,
+    disabled: true,
+    highlighted: true,
+    checkmarkVariant: undefined,
+  },
+  {
+    key: "highlighted & disabled-checked",
+    defaultChecked: true,
+    disabled: true,
+    highlighted: true,
+    checkmarkVariant: undefined,
+  },
+  {
+    key: "ghost-unchecked",
+    defaultChecked: false,
+    disabled: false,
+    highlighted: false,
+    checkmarkVariant: "ghost",
+  },
+  {
+    key: "ghost-checked",
+    defaultChecked: true,
+    disabled: false,
+    highlighted: false,
+    checkmarkVariant: "ghost",
+  },
+  {
+    key: "ghost-highlighted",
+    defaultChecked: false,
+    disabled: false,
+    highlighted: true,
+    checkmarkVariant: "ghost",
+  },
+  {
+    key: "ghost-highlighted-checked",
+    defaultChecked: true,
+    disabled: false,
+    highlighted: true,
+    checkmarkVariant: "ghost",
+  },
+  {
+    key: "ghost-disabled",
+    defaultChecked: false,
+    disabled: true,
+    highlighted: false,
+    checkmarkVariant: "ghost",
+  },
+  {
+    key: "ghost-disabled-checked",
+    defaultChecked: true,
+    disabled: true,
+    highlighted: false,
+    checkmarkVariant: "ghost",
+  },
+  {
+    key: "ghost-highlighted & disabled",
+    defaultChecked: false,
+    disabled: true,
+    highlighted: true,
+    checkmarkVariant: "ghost",
+  },
+  {
+    key: "ghost-highlighted & disabled-checked",
+    defaultChecked: true,
+    disabled: true,
+    highlighted: true,
+    checkmarkVariant: "ghost",
+  },
 ] as const;
 
 const CommonTemplate = meta.story({
@@ -86,7 +192,7 @@ const CommonTemplate = meta.story({
                           <NextListCheckItem
                             title={key}
                             detail={content.detail}
-                            prefix={<Checkmark size="large" />}
+                            prefix={<Checkmark size="large" variant={state.checkmarkVariant} />}
                             defaultChecked={state.defaultChecked}
                             disabled={state.disabled}
                             highlighted={state.highlighted}
@@ -110,7 +216,7 @@ const CommonTemplate = meta.story({
                         <NextListCheckItem
                           title={key}
                           detail={content.detail}
-                          suffix={<Checkmark size="large" />}
+                          suffix={<Checkmark size="large" variant={state.checkmarkVariant} />}
                           defaultChecked={state.defaultChecked}
                           disabled={state.disabled}
                           highlighted={state.highlighted}

@@ -92,6 +92,7 @@ export const { Stack, actions, stepActions } = stackflow({
     ActivityNextListButtonItem: lazy(() => import("../activities/ActivityNextListButtonItem")),
     ActivityNextListCheckItem: lazy(() => import("../activities/ActivityNextListCheckItem")),
     ActivityNextListItem: lazy(() => import("../activities/ActivityNextListItem")),
+    ActivityNextListImageFrame: lazy(() => import("../activities/ActivityNextListImageFrame")),
     ActivityNextListLinkItem: lazy(() => import("../activities/ActivityNextListLinkItem")),
     ActivityNextListRadioItem: lazy(() => import("../activities/ActivityNextListRadioItem")),
     ActivityNextListSwitchItem: lazy(() => import("../activities/ActivityNextListSwitchItem")),

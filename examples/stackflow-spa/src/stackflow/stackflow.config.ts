@@ -60,6 +60,7 @@ export const config = defineConfig({
     { route: "/list-item", name: "ActivityListItem" },
     { route: "/list-image-frame", name: "ActivityListImageFrame" },
     { route: "/next-list-item", name: "ActivityNextListItem" },
+    { route: "/next-list-image-frame", name: "ActivityNextListImageFrame" },
     { route: "/next-list-item-button", name: "ActivityNextListButtonItem" },
     { route: "/next-list-item-check", name: "ActivityNextListCheckItem" },
     { route: "/next-list-item-link", name: "ActivityNextListLinkItem" },

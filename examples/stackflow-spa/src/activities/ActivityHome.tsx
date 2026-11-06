@@ -299,6 +299,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       icon: ListChecksIcon,
       items: [
         { title: "Next List Item", ...to("ActivityNextListItem", {}) },
+        { title: "Next List Image Frame", ...to("ActivityNextListImageFrame", {}) },
         { title: "Next List Button Item", ...to("ActivityNextListButtonItem", {}) },
         { title: "Next List Link Item", ...to("ActivityNextListLinkItem", {}) },
         { title: "Next List Switch Item", ...to("ActivityNextListSwitchItem", {}) },
