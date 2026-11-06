@@ -93,6 +93,7 @@
   },
   "patchedDependencies": {
     "@figma/rest-api-spec@0.36.0": "patches/@figma%2Frest-api-spec@0.36.0.patch",
-    "@lynx-js/css-extract-webpack-plugin@0.10.1": "patches/@lynx-js%2Fcss-extract-webpack-plugin@0.10.1.patch"
+    "@lynx-js/css-extract-webpack-plugin@0.10.1": "patches/@lynx-js%2Fcss-extract-webpack-plugin@0.10.1.patch",
+    "@lynx-js/react@0.117.0": "patches/@lynx-js%2Freact@0.117.0.patch"
   }
 }
