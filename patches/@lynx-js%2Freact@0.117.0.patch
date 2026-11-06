@@ -1,0 +1,10 @@
+diff --git a/testing-library/dist/env/vitest.js b/testing-library/dist/env/vitest.js
+index a2fe08c827f7042721a6d3835350093b5828960c..b4d47331f1af01153c4458a8ca2e925be9f36c46 100644
+--- a/testing-library/dist/env/vitest.js
++++ b/testing-library/dist/env/vitest.js
+@@ -1,4 +1,4 @@
+-import { builtinEnvironments } from "vitest/environments";
++import { builtinEnvironments } from "vitest/runtime";
+ import events from "events";
+ import { Console } from "console";
+ function util_define(object, properties) {
