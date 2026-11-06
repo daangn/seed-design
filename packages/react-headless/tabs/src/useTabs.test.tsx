@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "bun:test";
 
@@ -78,6 +78,17 @@ function TabsContent(props: React.PropsWithChildren<ContentProps>) {
   const tabContentProps = getTabContentProps(props);
 
   return <div {...tabContentProps}>{props.children}</div>;
+}
+
+function TabsIndicatorList(props: React.PropsWithChildren) {
+  const { api } = useTabsContext();
+
+  return (
+    <div ref={api.refs.list} {...api.listProps}>
+      {props.children}
+      <div data-testid="indicator" {...api.indicatorProps} />
+    </div>
+  );
 }
 
 function PortaledTabsList(props: React.PropsWithChildren<{ target: HTMLElement }>) {
@@ -378,6 +389,78 @@ describe("useTabs", () => {
 
       expect(secondTab).toHaveFocus();
       expect(secondTab).toHaveAttribute("aria-selected", "true");
+    });
+  });
+
+  describe("indicator while the list is hidden", () => {
+    const offsetWidth = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "offsetWidth");
+    const observers = new Set<ResizeObserverCallback>();
+    let triggerWidth = 64;
+
+    class RecordingResizeObserver {
+      constructor(private callback: ResizeObserverCallback) {}
+      observe() {
+        observers.add(this.callback);
+      }
+      unobserve() {
+        observers.delete(this.callback);
+      }
+      disconnect() {
+        observers.delete(this.callback);
+      }
+    }
+
+    function resizeTriggers(width: number) {
+      triggerWidth = width;
+      act(() => {
+        for (const callback of observers) {
+          callback([{} as ResizeObserverEntry], {} as globalThis.ResizeObserver);
+        }
+      });
+    }
+
+    beforeAll(() => {
+      window.ResizeObserver = RecordingResizeObserver;
+      Object.defineProperty(HTMLElement.prototype, "offsetWidth", {
+        configurable: true,
+        get: () => triggerWidth,
+      });
+    });
+
+    afterAll(() => {
+      window.ResizeObserver = ResizeObserver;
+      if (offsetWidth) Object.defineProperty(HTMLElement.prototype, "offsetWidth", offsetWidth);
+    });
+
+    function renderTabsWithIndicator() {
+      return setUp(
+        <Tabs defaultValue={tabItems.tab1.value}>
+          <TabsIndicatorList>
+            {Object.values(tabItems).map(({ value, label }) => (
+              <TabsTrigger key={value} value={value}>
+                {label}
+              </TabsTrigger>
+            ))}
+          </TabsIndicatorList>
+        </Tabs>,
+      );
+    }
+
+    it("should hide the indicator while the selected tab measures 0 and show it once measured", () => {
+      triggerWidth = 64;
+      const { getByTestId } = renderTabsWithIndicator();
+      const indicator = getByTestId("indicator");
+
+      expect(indicator).not.toHaveAttribute("hidden");
+
+      resizeTriggers(0);
+
+      expect(indicator).toHaveAttribute("hidden");
+
+      resizeTriggers(64);
+
+      expect(indicator).not.toHaveAttribute("hidden");
+      expect(indicator.style.getPropertyValue("--indicator-width")).toBe("64px");
     });
   });
 });

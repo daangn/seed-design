@@ -531,7 +531,11 @@ export function useTabs(props: UseTabsProps) {
     },
 
     indicatorProps: elementProps({
+      // TODO: `hidden`이 SSR 구간도 덮으므로 indicator의 `data-ssr`은 redundant하다. 이전 headless와
+      // `[data-ssr]` 규칙이 빠진 새 CSS가 함께 쓰이면 첫 로드에 indicator가 0에서 미끄러지므로 아직 남겨 둔다.
       ...stateProps,
+      // 조상이 `display: none`이면 측정값이 0이 된다. 숨겨 두지 않으면 다시 보일 때 0에서 transition된다.
+      ...(triggerRect.width === 0 && { hidden: true }),
       style: {
         "--indicator-left": `${triggerRect.left}px`,
         "--indicator-width": `${triggerRect.width}px`,
