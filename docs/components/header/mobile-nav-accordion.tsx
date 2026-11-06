@@ -12,12 +12,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../../registry/react/ui/accordion";
-import { List, ListButtonItem, ListLinkItem } from "../../registry/react/ui/list";
-import { ListHeader } from "../../registry/react/ui/list-header";
+import { NextList, NextListButtonItem, NextListLinkItem } from "../../registry/react/ui/next-list";
+import { NextListHeader } from "../../registry/react/ui/next-list-header";
 
 const MOBILE_NAV_REGULAR_WEIGHT = "var(--seed-font-weight-regular)";
 const MOBILE_NAV_ROW_CLASS = "[&&]:h-10 [&&]:min-h-10 [&&]:py-0";
-const MOBILE_NAV_ROW_CONTENT_BASE_CLASS =
+const MOBILE_NAV_ROW_CONTENT_CLASS =
   "min-h-0 justify-center t8-regular text-fg-neutral [&&::after]:rounded-lg";
 const MOBILE_NAV_SELECTED_ROW_CLASS =
   "[&&::before]:left-1.5 [&&::before]:right-1.5 [&&::before]:rounded-lg [&&::before]:bg-bg-transparent-pressed";
@@ -37,9 +37,9 @@ interface DocsMobileNavListProps {
 
 export function DocsMobileNavList({ children, className }: DocsMobileNavListProps) {
   return (
-    <List itemBorderRadius="8px" className={clsx("flex flex-col gap-2", className)}>
+    <NextList itemBorderRadius="8px" className={clsx("flex flex-col gap-2", className)}>
       {children}
-    </List>
+    </NextList>
   );
 }
 
@@ -49,9 +49,14 @@ interface DocsMobileNavListHeaderProps {
 
 export function DocsMobileNavListHeader({ children }: DocsMobileNavListHeaderProps) {
   return (
-    <ListHeader as="h2" variant="mediumWeak" className="t5-regular" style={MOBILE_NAV_ITEM_STYLE}>
+    <NextListHeader
+      as="h2"
+      variant="mediumWeak"
+      className="t5-regular"
+      style={MOBILE_NAV_ITEM_STYLE}
+    >
       {children}
-    </ListHeader>
+    </NextListHeader>
   );
 }
 
@@ -74,9 +79,8 @@ function MobileNavItemTitle({ children, indent = 0 }: MobileNavItemTitleProps) {
   );
 }
 
-function getMobileNavRowContentClass(current: boolean) {
-  return clsx(MOBILE_NAV_ROW_CONTENT_BASE_CLASS, current && MOBILE_NAV_SELECTED_ROW_CLASS);
-}
+const getMobileNavRowClass = (current: boolean) =>
+  clsx(MOBILE_NAV_ROW_CLASS, current && MOBILE_NAV_SELECTED_ROW_CLASS);
 
 interface DocsMobileNavButtonItemProps {
   title: ReactNode;
@@ -94,13 +98,13 @@ export function DocsMobileNavButtonItem({
   onClick,
 }: DocsMobileNavButtonItemProps) {
   return (
-    <ListButtonItem
+    <NextListButtonItem
       title={<MobileNavItemTitle indent={indent}>{title}</MobileNavItemTitle>}
       disabled={disabled}
       onClick={onClick}
-      className={getMobileNavRowContentClass(current)}
+      className={MOBILE_NAV_ROW_CONTENT_CLASS}
       style={MOBILE_NAV_ITEM_STYLE}
-      rootProps={{ className: MOBILE_NAV_ROW_CLASS }}
+      rootProps={{ className: getMobileNavRowClass(current) }}
     />
   );
 }
@@ -125,7 +129,7 @@ export function DocsMobileNavLinkItem({
   onClick,
 }: DocsMobileNavLinkItemProps) {
   return (
-    <ListLinkItem
+    <NextListLinkItem
       title={<MobileNavItemTitle indent={indent}>{title}</MobileNavItemTitle>}
       href={href}
       target={external ? "_blank" : undefined}
@@ -133,9 +137,9 @@ export function DocsMobileNavLinkItem({
       aria-current={current ? "page" : undefined}
       suffix={suffix}
       onClick={onClick}
-      className={getMobileNavRowContentClass(current)}
+      className={MOBILE_NAV_ROW_CONTENT_CLASS}
       style={MOBILE_NAV_ITEM_STYLE}
-      rootProps={{ className: MOBILE_NAV_ROW_CLASS }}
+      rootProps={{ className: getMobileNavRowClass(current) }}
     />
   );
 }
