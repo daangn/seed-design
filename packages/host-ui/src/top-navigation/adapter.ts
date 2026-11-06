@@ -6,15 +6,21 @@
 
 import type { TopNavigationHost, TopNavigationHostBar } from "./host";
 
+/** A SEED icon. The host draws its own copy of `name` when it has one, and `fallbackURL` otherwise. */
+export interface TopNavigationIcon {
+  name: `icon_${string}`;
+  fallbackURL: string;
+}
+
 export interface TopNavigationButton {
   side: "leading" | "trailing" | "pinned";
-  icon?: `icon_${string}`;
+  icon?: TopNavigationIcon;
   text?: string;
   /** Accessible name of an icon button. */
   label?: string;
   style?: "plain" | "prominent";
-  /** `true` is a dot. */
-  badge?: number | boolean;
+  /** `true` is a dot; a string is drawn inside the badge as it is, so a count is written `"3"`. */
+  badge?: true | string;
   enabled?: boolean;
   onClick: () => void;
   /** Like a React `key`: only needed when a conditional button would shift the ones after it. */
@@ -24,6 +30,8 @@ export interface TopNavigationButton {
 export interface TopNavigationBar {
   title?: string;
   subtitle?: string;
+  /** Colour of the title and subtitle. `default`, like leaving it out, follows the device's appearance. */
+  titleColor?: "light" | "dark" | "default";
   buttons: TopNavigationButton[];
 }
 
@@ -32,7 +40,7 @@ export type TopNavigationButtonsOverride = "hidden" | "disabled";
 
 // Badge, `enabled` and colour are states of the same button, so they stay out of its look.
 const lookOf = (button: TopNavigationButton) =>
-  `${button.side}|${button.icon ?? button.text ?? ""}|${button.style ?? "plain"}`;
+  `${button.side}|${button.icon?.name ?? button.text ?? ""}|${button.style ?? "plain"}`;
 
 /** Where a button sits in its bar: its `identity`, or its index within its `side`. */
 function withSlots(buttons: TopNavigationButton[]) {
@@ -125,6 +133,7 @@ export function createTopNavigationAdapter(host: TopNavigationHost) {
     const update: TopNavigationHostBar = {
       ...(bar.title !== undefined && { title: bar.title }),
       ...(bar.subtitle !== undefined && { subtitle: bar.subtitle }),
+      ...(bar.titleColor !== undefined && { titleColor: bar.titleColor }),
       buttons: buttons.map(({ button: { onClick: _, identity: __, ...rest }, key }) => ({
         ...rest,
         key,

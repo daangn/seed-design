@@ -9,6 +9,7 @@ export type {
   TopNavigationBar,
   TopNavigationButton,
   TopNavigationButtonsOverride,
+  TopNavigationIcon,
 } from "./top-navigation/adapter";
 export type {
   TopNavigationHost,

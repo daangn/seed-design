@@ -53,22 +53,21 @@ const button = (overrides: Partial<TopNavigationButton> = {}): TopNavigationButt
 const settle = () => new Promise((resolve) => setTimeout(resolve));
 
 describe("createTopNavigationAdapter", () => {
-  it("sends the title, subtitle and buttons without their handlers", async () => {
+  it("sends the title, its colour and buttons without their handlers", async () => {
     const { host, last } = createHost();
     const adapter = createTopNavigationAdapter(host);
+    const back = {
+      name: "icon_chevron_left_line",
+      fallbackURL: "https://example.com/back.png",
+    } as const;
 
     adapter.declare("a", {
       title: "Title",
       subtitle: "Subtitle",
+      titleColor: "light",
       buttons: [
-        button({
-          side: "leading",
-          icon: "icon_chevron_left_line",
-          text: undefined,
-          label: "Back",
-          identity: "back",
-        }),
-        button({ badge: 3 }),
+        button({ side: "leading", icon: back, text: undefined, label: "Back", identity: "back" }),
+        button({ badge: "3" }),
         button({ side: "pinned", text: "Done", style: "prominent", badge: true, enabled: false }),
       ],
     });
@@ -77,9 +76,10 @@ describe("createTopNavigationAdapter", () => {
     expect(last().bar).toEqual({
       title: "Title",
       subtitle: "Subtitle",
+      titleColor: "light",
       buttons: [
-        { key: "k1", side: "leading", icon: "icon_chevron_left_line", label: "Back" },
-        { key: "k2", side: "trailing", text: "Edit", badge: 3 },
+        { key: "k1", side: "leading", icon: back, label: "Back" },
+        { key: "k2", side: "trailing", text: "Edit", badge: "3" },
         {
           key: "k3",
           side: "pinned",
@@ -119,11 +119,18 @@ describe("createTopNavigationAdapter", () => {
     const stale = mock();
     const latest = mock();
 
-    adapter.declare("a", { buttons: [button({ icon: "icon_heart_line", onClick: stale })] });
+    const heart = (name: `icon_${string}`) => ({
+      name,
+      fallbackURL: `https://example.com/${name}.png`,
+    });
+
+    adapter.declare("a", { buttons: [button({ icon: heart("icon_heart_line"), onClick: stale })] });
     await adapter.apply("a");
     const before = keys();
 
-    adapter.declare("a", { buttons: [button({ icon: "icon_heart_fill", onClick: latest })] });
+    adapter.declare("a", {
+      buttons: [button({ icon: heart("icon_heart_fill"), onClick: latest })],
+    });
     await settle();
 
     expect(keys()).toEqual(before);
