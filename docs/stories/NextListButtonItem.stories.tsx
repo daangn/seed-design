@@ -1,8 +1,7 @@
 import preview from "../.storybook/preview";
 import { Fragment } from "react";
 
-import { List, ListDivider } from "seed-design/ui/list";
-import { NextListButtonItem } from "seed-design/ui/next-list-item";
+import { NextList, NextListDivider, NextListButtonItem } from "seed-design/ui/next-list";
 
 import { SeedThemeDecorator } from "./components/decorator";
 import { withVisualTestParameters } from "@/stories/utils/parameters";
@@ -15,7 +14,7 @@ import { Icon } from "@seed-design/react";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { ActionButton } from "seed-design/ui/action-button";
-import { ListHeader } from "seed-design/ui/list-header";
+import { NextListHeader } from "seed-design/ui/next-list-header";
 
 const SAMPLE_IMAGE = `data:image/svg+xml,${encodeURIComponent(
   "<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#6ba6ff'/><stop offset='1' stop-color='#b06bff'/></linearGradient></defs><rect width='200' height='200' fill='url(#g)'/></svg>",
@@ -73,8 +72,8 @@ const CommonTemplate = meta.story({
     <>
       {stateVariants.map((state) => (
         <div key={state.key}>
-          <ListHeader>{state.key}</ListHeader>
-          <List>
+          <NextListHeader>{state.key}</NextListHeader>
+          <NextList>
             {prefixVariants.map((prefix) =>
               contentVariants.map((content) =>
                 suffixVariants.map((suffix, suffixIndex) => {
@@ -97,13 +96,13 @@ const CommonTemplate = meta.story({
                         prefix={prefix.element}
                         suffix={suffix.element}
                       />
-                      {showDivider && <ListDivider />}
+                      {showDivider && <NextListDivider />}
                     </Fragment>
                   );
                 }),
               ),
             )}
-          </List>
+          </NextList>
         </div>
       ))}
     </>

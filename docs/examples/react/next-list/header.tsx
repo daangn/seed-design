@@ -1,6 +1,5 @@
-import { List } from "seed-design/ui/list";
-import { NextListButtonItem } from "seed-design/ui/next-list-item";
-import { ListHeader } from "seed-design/ui/list-header";
+import { NextList, NextListButtonItem } from "seed-design/ui/next-list";
+import { NextListHeader } from "seed-design/ui/next-list-header";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   IconChevronRightLine,
@@ -14,10 +13,10 @@ export default function () {
   return (
     <VStack gap="x6" py="x6" width="360px">
       <VStack>
-        <ListHeader as="h2" variant="mediumWeak">
+        <NextListHeader as="h2" variant="mediumWeak">
           variant="mediumWeak"
-        </ListHeader>
-        <List>
+        </NextListHeader>
+        <NextList>
           <NextListButtonItem
             title="내 계정"
             detail="이메일과 연락처, 본인 인증 관리"
@@ -30,14 +29,14 @@ export default function () {
             prefix={<Icon svg={<IconLockLine />} />}
             suffix={<Icon svg={<IconChevronRightLine />} size="x4_5" />}
           />
-        </List>
+        </NextList>
       </VStack>
       <Divider />
       <VStack>
-        <ListHeader as="h2" variant="boldSolid">
+        <NextListHeader as="h2" variant="boldSolid">
           variant="boldSolid"
-        </ListHeader>
-        <List>
+        </NextListHeader>
+        <NextList>
           <NextListButtonItem
             title="내 계정"
             detail="이메일과 연락처, 본인 인증 관리"
@@ -50,11 +49,11 @@ export default function () {
             prefix={<Icon svg={<IconLockLine />} />}
             suffix={<Icon svg={<IconChevronRightLine />} size="x4_5" />}
           />
-        </List>
+        </NextList>
       </VStack>
       <Divider />
       <VStack>
-        <ListHeader>
+        <NextListHeader>
           <h2>NextList Header with Action Button</h2>
           <ActionButton
             variant="ghost"
@@ -66,8 +65,8 @@ export default function () {
             <PrefixIcon svg={<IconQuestionmarkCircleFill />} />
             도움말
           </ActionButton>
-        </ListHeader>
-        <List>
+        </NextListHeader>
+        <NextList>
           <NextListButtonItem
             title="내 계정"
             detail="이메일과 연락처, 본인 인증 관리"
@@ -80,7 +79,7 @@ export default function () {
             prefix={<Icon svg={<IconLockLine />} />}
             suffix={<Icon svg={<IconChevronRightLine />} size="x4_5" />}
           />
-        </List>
+        </NextList>
       </VStack>
     </VStack>
   );

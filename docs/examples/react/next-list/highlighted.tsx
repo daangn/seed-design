@@ -1,8 +1,12 @@
 import { IconPersonCircleLine } from "@karrotmarket/react-monochrome-icon";
 import { Box, Icon, VStack } from "@seed-design/react";
 import { useState } from "react";
-import { List, ListDivider } from "seed-design/ui/list";
-import { NextListItem, NextListButtonItem } from "seed-design/ui/next-list-item";
+import {
+  NextList,
+  NextListDivider,
+  NextListButtonItem,
+  NextListItem,
+} from "seed-design/ui/next-list";
 import { Switch } from "seed-design/ui/switch";
 
 export default function ListHighlighted() {
@@ -10,14 +14,14 @@ export default function ListHighlighted() {
 
   return (
     <VStack width="360px" gap="x4">
-      <List>
+      <NextList>
         <NextListButtonItem
           prefix={<Icon svg={<IconPersonCircleLine />} />}
           title="버튼"
           detail="Enim aute duis magna mollit aute sit aliquip duis ut tempor sunt."
           onClick={() => {}}
         />
-        <ListDivider />
+        <NextListDivider />
         <NextListButtonItem
           highlighted
           prefix={<Icon svg={<IconPersonCircleLine />} />}
@@ -25,7 +29,7 @@ export default function ListHighlighted() {
           detail="Enim aute duis magna mollit aute sit aliquip duis ut tempor sunt."
           onClick={() => {}}
         />
-        <ListDivider />
+        <NextListDivider />
         <NextListButtonItem
           highlighted
           disabled
@@ -34,14 +38,14 @@ export default function ListHighlighted() {
           detail="Enim aute duis magna mollit aute sit aliquip duis ut tempor sunt."
           onClick={() => {}}
         />
-      </List>
-      <List>
+      </NextList>
+      <NextList>
         <NextListItem
           prefix={<Icon svg={<IconPersonCircleLine />} />}
           title="하이라이트"
           highlighted={highlighted}
         />
-      </List>
+      </NextList>
       <Box alignSelf="center">
         <Switch
           size="24"

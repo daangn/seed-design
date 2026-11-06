@@ -610,11 +610,15 @@ export const registryUI: Registry = {
       ],
     },
     {
-      id: "next-list-item",
+      id: "next-list",
       snippets: [
         {
-          path: "next-list-item.tsx",
+          path: "next-list.tsx",
           dependencies: { "@seed-design/react": "^3.3.0", "@seed-design/css": "^3.3.0" },
+        },
+        {
+          path: "next-list-header.tsx",
+          dependencies: { "@seed-design/react": "^3.3.0" },
         },
       ],
     },

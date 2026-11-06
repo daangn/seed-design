@@ -20,8 +20,7 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
-import { List, ListDivider } from "seed-design/ui/list";
-import { NextListButtonItem } from "seed-design/ui/next-list-item";
+import { NextList, NextListDivider, NextListButtonItem } from "seed-design/ui/next-list";
 
 const prefixVariants = [
   { key: "none", element: null },
@@ -105,7 +104,7 @@ const ActivityNextListButtonItem: StaticActivityComponentType<
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }}
       >
-        <List>
+        <NextList>
           {prefixVariants.map((prefix) =>
             contentVariants.map((content) =>
               suffixVariants.map((suffix, suffixIndex) => {
@@ -128,13 +127,13 @@ const ActivityNextListButtonItem: StaticActivityComponentType<
                       disabled={content.disabled}
                       onClick={() => window.alert(`Row clicked: ${key}`)}
                     />
-                    {showDivider && <ListDivider />}
+                    {showDivider && <NextListDivider />}
                   </Fragment>
                 );
               }),
             ),
           )}
-        </List>
+        </NextList>
       </AppScreenContent>
     </AppScreen>
   );

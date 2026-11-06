@@ -10,8 +10,7 @@ import {
   AppBarRight,
 } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
-import { List, ListDivider } from "seed-design/ui/list";
-import { NextListSwitchItem } from "seed-design/ui/next-list-item";
+import { NextList, NextListDivider, NextListSwitchItem } from "seed-design/ui/next-list";
 import { Icon } from "@seed-design/react";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { Avatar } from "seed-design/ui/avatar";
@@ -91,7 +90,7 @@ const ActivityNextListSwitchItem: StaticActivityComponentType<
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }}
       >
-        <List>
+        <NextList>
           {positionVariants.map((position) =>
             contentVariants.map((content) =>
               stateVariants.map((state) => {
@@ -123,7 +122,7 @@ const ActivityNextListSwitchItem: StaticActivityComponentType<
                             disabled={state.disabled}
                             suffix={suffix.element}
                           />
-                          {showDivider && <ListDivider as="div" />}
+                          {showDivider && <NextListDivider as="div" />}
                         </Fragment>
                       );
                     });
@@ -156,7 +155,7 @@ const ActivityNextListSwitchItem: StaticActivityComponentType<
                             disabled={state.disabled}
                             prefix={prefix.element}
                           />
-                          {showDivider && <ListDivider as="div" />}
+                          {showDivider && <NextListDivider as="div" />}
                         </Fragment>
                       );
                     });
@@ -168,7 +167,7 @@ const ActivityNextListSwitchItem: StaticActivityComponentType<
               }),
             ),
           )}
-        </List>
+        </NextList>
       </AppScreenContent>
     </AppScreen>
   );

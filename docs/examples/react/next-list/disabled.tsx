@@ -3,46 +3,46 @@ import {
   IconPersonCircleLine,
   IconSlashCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { Divider, Icon, VStack, List as SeedList } from "@seed-design/react";
-import { List } from "seed-design/ui/list";
+import { Divider, Icon, VStack, NextList as SeedNextList } from "@seed-design/react";
 import {
+  NextList,
   NextListButtonItem,
   NextListCheckItem,
   NextListRadioItem,
-} from "seed-design/ui/next-list-item";
+} from "seed-design/ui/next-list";
 import { Checkmark } from "seed-design/ui/checkbox";
 import { Radiomark } from "seed-design/ui/radio-group";
 
 export default function ListDisabled() {
   return (
     <VStack width="360px">
-      <List>
+      <NextList>
         <NextListButtonItem
           prefix={<Icon svg={<IconPersonCircleLine />} />}
           title="활성화된 NextListButtonItem"
           detail="Cupidatat et pariatur amet."
           suffix={<Icon svg={<IconChevronRightLine />} />}
         />
-      </List>
-      <List as="fieldset">
+      </NextList>
+      <NextList as="fieldset">
         <NextListCheckItem
           prefix={<Icon svg={<IconPersonCircleLine />} />}
           title="활성화된 NextListCheckItem"
           suffix={<Checkmark tone="neutral" size="large" />}
         />
-      </List>
-      <List asChild>
-        <SeedList.RadioRoot defaultValue="foo" aria-label="옵션 선택">
+      </NextList>
+      <NextList asChild>
+        <SeedNextList.RadioRoot defaultValue="foo" aria-label="옵션 선택">
           <NextListRadioItem
             prefix={<Icon svg={<IconPersonCircleLine />} />}
             title="활성화된 NextListRadioItem"
             suffix={<Radiomark tone="neutral" size="large" />}
             value="foo"
           />
-        </SeedList.RadioRoot>
-      </List>
+        </SeedNextList.RadioRoot>
+      </NextList>
       <Divider />
-      <List>
+      <NextList>
         <NextListButtonItem
           disabled
           prefix={<Icon svg={<IconSlashCircleLine />} />}
@@ -50,17 +50,17 @@ export default function ListDisabled() {
           detail="Cupidatat et pariatur amet."
           suffix={<Icon svg={<IconChevronRightLine />} />}
         />
-      </List>
-      <List as="fieldset">
+      </NextList>
+      <NextList as="fieldset">
         <NextListCheckItem
           disabled
           prefix={<Icon svg={<IconSlashCircleLine />} />}
           title="비활성화된 NextListCheckItem"
           suffix={<Checkmark tone="neutral" size="large" />}
         />
-      </List>
-      <List asChild>
-        <SeedList.RadioRoot defaultValue="foo" aria-label="옵션 선택">
+      </NextList>
+      <NextList asChild>
+        <SeedNextList.RadioRoot defaultValue="foo" aria-label="옵션 선택">
           <NextListRadioItem
             disabled
             prefix={<Icon svg={<IconSlashCircleLine />} />}
@@ -68,8 +68,8 @@ export default function ListDisabled() {
             suffix={<Radiomark tone="neutral" size="large" />}
             value="foo"
           />
-        </SeedList.RadioRoot>
-      </List>
+        </SeedNextList.RadioRoot>
+      </NextList>
     </VStack>
   );
 }

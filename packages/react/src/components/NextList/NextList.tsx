@@ -16,6 +16,14 @@ import clsx from "clsx";
 import * as React from "react";
 import { forwardRef } from "react";
 
+import {
+  ListHeader,
+  ListRadioRoot,
+  ListRoot,
+  type ListHeaderProps,
+  type ListRadioRootProps,
+  type ListRootProps,
+} from "../List";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { useStyleProps, withStyleProps, type StyleProps } from "../../utils/styled";
@@ -57,12 +65,28 @@ const withStateProps = createWithStateProps([
 ]);
 
 // ────────────────────────────────────────────────────────────────────────────
-// Structural slots
+// Containers
+//
+// The container, radio group root and header behave exactly like List's, so they
+// re-export its implementations under the NextList name rather than duplicating them.
 // ────────────────────────────────────────────────────────────────────────────
 
-// NextList has no container of its own: reuse `List` / `ListDivider` as the
-// container and divider. Only the items below differ (pressed-scale recipe +
-// interaction context), so only they carry the `Next` name.
+export interface NextListRootProps extends ListRootProps {}
+
+export const NextListRoot = ListRoot;
+
+export interface NextListRadioRootProps extends ListRadioRootProps {}
+
+export const NextListRadioRoot = ListRadioRoot;
+
+export interface NextListHeaderProps extends ListHeaderProps {}
+
+export const NextListHeader = ListHeader;
+
+// ────────────────────────────────────────────────────────────────────────────
+// Item slots
+// ────────────────────────────────────────────────────────────────────────────
+
 interface NextListItemRootBaseProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLElement>,

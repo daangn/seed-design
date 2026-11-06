@@ -19,8 +19,7 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
-import { List, ListDivider } from "seed-design/ui/list";
-import { NextListItem } from "seed-design/ui/next-list-item";
+import { NextList, NextListDivider, NextListItem } from "seed-design/ui/next-list";
 import { Fragment } from "react";
 
 const prefixVariants = [
@@ -100,7 +99,7 @@ const ActivityNextListItem: StaticActivityComponentType<"ActivityNextListItem"> 
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }}
       >
-        <List>
+        <NextList>
           {prefixVariants.map((prefix) =>
             contentVariants.map((content) =>
               suffixVariants.map((suffix, suffixIndex) => {
@@ -121,13 +120,13 @@ const ActivityNextListItem: StaticActivityComponentType<"ActivityNextListItem"> 
                       suffix={suffix.element}
                       highlighted={content.highlighted}
                     />
-                    {showDivider && <ListDivider />}
+                    {showDivider && <NextListDivider />}
                   </Fragment>
                 );
               }),
             ),
           )}
-        </List>
+        </NextList>
       </AppScreenContent>
     </AppScreen>
   );

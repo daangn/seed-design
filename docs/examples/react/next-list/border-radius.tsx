@@ -1,9 +1,8 @@
-import { List } from "seed-design/ui/list";
-import { NextListCheckItem, NextListRadioItem } from "seed-design/ui/next-list-item";
-import { ListHeader } from "seed-design/ui/list-header";
+import { NextList, NextListCheckItem, NextListRadioItem } from "seed-design/ui/next-list";
+import { NextListHeader } from "seed-design/ui/next-list-header";
 import { Checkmark } from "seed-design/ui/checkbox";
 import { Radiomark } from "seed-design/ui/radio-group";
-import { HStack, VStack, List as SeedList } from "@seed-design/react";
+import { HStack, VStack, NextList as SeedNextList } from "@seed-design/react";
 
 export default function ListBorderRadius() {
   return (
@@ -25,8 +24,8 @@ export default function ListBorderRadius() {
         borderWidth={1}
         borderColor="stroke.neutralWeak"
       >
-        <ListHeader as="h2">카드 borderRadius: r3_5</ListHeader>
-        <List as="fieldset" itemBorderRadius="r2">
+        <NextListHeader as="h2">카드 borderRadius: r3_5</NextListHeader>
+        <NextList as="fieldset" itemBorderRadius="r2">
           <NextListCheckItem
             defaultChecked
             title="borderRadius: r2"
@@ -36,7 +35,7 @@ export default function ListBorderRadius() {
             title="borderRadius: r2"
             suffix={<Checkmark size="large" tone="neutral" />}
           />
-        </List>
+        </NextList>
       </VStack>
       <VStack
         width="300px"
@@ -47,9 +46,9 @@ export default function ListBorderRadius() {
         borderWidth={1}
         borderColor="stroke.neutralWeak"
       >
-        <ListHeader as="h2">카드 borderRadius: 22px</ListHeader>
-        <List asChild itemBorderRadius="r3">
-          <SeedList.RadioRoot defaultValue="0" aria-label="Border radius options">
+        <NextListHeader as="h2">카드 borderRadius: 22px</NextListHeader>
+        <NextList asChild itemBorderRadius="r3">
+          <SeedNextList.RadioRoot defaultValue="0" aria-label="Border radius options">
             <NextListRadioItem
               value="0"
               title="borderRadius: r3"
@@ -60,8 +59,8 @@ export default function ListBorderRadius() {
               title="borderRadius: r3"
               suffix={<Radiomark size="large" tone="neutral" />}
             />
-          </SeedList.RadioRoot>
-        </List>
+          </SeedNextList.RadioRoot>
+        </NextList>
       </VStack>
     </HStack>
   );

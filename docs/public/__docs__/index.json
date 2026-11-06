@@ -1278,8 +1278,19 @@
             {
               "id": "next-list",
               "title": "Next List",
-              "description": "누를 때 행 전체가 줄어드는 피드백을 제공하는 List 항목 컴포넌트입니다.",
-              "docUrl": "/react/components/next-list"
+              "description": "가로 행으로 구성된 콘텐츠를 표현하고, 누르면 행 전체가 줄어드는 피드백을 제공하는 컴포넌트입니다.",
+              "docUrl": "/react/components/next-list",
+              "snippetKey": "react/ui:next-list",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "next-list.tsx"
+                },
+                {
+                  "label": "react",
+                  "path": "next-list-header.tsx"
+                }
+              ]
             },
             {
               "id": "page-banner",

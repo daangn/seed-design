@@ -8,8 +8,13 @@ import {
 } from "@karrotmarket/react-monochrome-icon";
 import { PrefixIcon, Icon, Box } from "@seed-design/react";
 import { useCallback, useState } from "react";
-import { List, ListDivider } from "seed-design/ui/list";
-import { NextListItem, NextListButtonItem, NextListLinkItem } from "seed-design/ui/next-list-item";
+import {
+  NextList,
+  NextListDivider,
+  NextListButtonItem,
+  NextListItem,
+  NextListLinkItem,
+} from "seed-design/ui/next-list";
 import { ActionButton } from "seed-design/ui/action-button";
 import { ToggleButton } from "seed-design/ui/toggle-button";
 
@@ -27,7 +32,7 @@ export default function ListClickable() {
   }, []);
 
   return (
-    <List width="full">
+    <NextList width="full">
       <NextListItem
         title="NextListItem은 클릭할 수 없어요. 눌러보세요."
         detail="우측의 Action Button만 클릭할 수 있어요"
@@ -43,7 +48,7 @@ export default function ListClickable() {
           </ActionButton>
         }
       />
-      <ListDivider />
+      <NextListDivider />
       <NextListButtonItem
         title="NextListButtonItem은 클릭할 수 있어요. 눌러보세요."
         detail="리스트 항목 전체와 우측의 Toggle Button 각각을 클릭할 수 있어요"
@@ -58,7 +63,7 @@ export default function ListClickable() {
           </>
         }
       />
-      <ListDivider />
+      <NextListDivider />
       <NextListButtonItem
         title="NextListButtonItem은 클릭할 수 있어요. 눌러보세요."
         detail="리스트 항목 전체와 우측의 커스텀 버튼 각각을 클릭할 수 있어요"
@@ -78,7 +83,7 @@ export default function ListClickable() {
           </>
         }
       />
-      <ListDivider />
+      <NextListDivider />
       <NextListLinkItem
         title="NextListLinkItem도 클릭할 수 있어요. 눌러보세요."
         detail="리스트 항목 전체와 우측의 Action Button 각각을 클릭할 수 있어요"
@@ -95,6 +100,6 @@ export default function ListClickable() {
         target="_blank"
         rel="noreferrer"
       />
-    </List>
+    </NextList>
   );
 }

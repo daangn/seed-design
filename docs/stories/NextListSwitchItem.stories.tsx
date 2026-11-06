@@ -1,8 +1,7 @@
 import preview from "../.storybook/preview";
 import { Fragment } from "react";
 
-import { List, ListDivider } from "seed-design/ui/list";
-import { NextListSwitchItem } from "seed-design/ui/next-list-item";
+import { NextList, NextListDivider, NextListSwitchItem } from "seed-design/ui/next-list";
 import { Switchmark } from "seed-design/ui/switch";
 
 import { SeedThemeDecorator } from "./components/decorator";
@@ -15,7 +14,7 @@ import {
 import { Icon } from "@seed-design/react";
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
-import { ListHeader } from "seed-design/ui/list-header";
+import { NextListHeader } from "seed-design/ui/next-list-header";
 
 const SAMPLE_IMAGE = `data:image/svg+xml,${encodeURIComponent(
   "<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#6ba6ff'/><stop offset='1' stop-color='#b06bff'/></linearGradient></defs><rect width='200' height='200' fill='url(#g)'/></svg>",
@@ -67,11 +66,11 @@ const CommonTemplate = meta.story({
     <>
       {positionVariants.map((position) => (
         <div key={position.key}>
-          <ListHeader variant="boldSolid">{position.key}</ListHeader>
+          <NextListHeader variant="boldSolid">{position.key}</NextListHeader>
           {stateVariants.map((state) => (
             <div key={state.key}>
-              <ListHeader>{state.key}</ListHeader>
-              <List>
+              <NextListHeader>{state.key}</NextListHeader>
+              <NextList>
                 {contentVariants.map((content) => {
                   if (position.position === "prefix") {
                     return suffixVariants.map((suffix, suffixIndex) => {
@@ -92,7 +91,7 @@ const CommonTemplate = meta.story({
                             disabled={state.disabled}
                             suffix={suffix.element}
                           />
-                          {showDivider && <ListDivider />}
+                          {showDivider && <NextListDivider />}
                         </Fragment>
                       );
                     });
@@ -115,12 +114,12 @@ const CommonTemplate = meta.story({
                           disabled={state.disabled}
                           prefix={prefix.element}
                         />
-                        {showDivider && <ListDivider />}
+                        {showDivider && <NextListDivider />}
                       </Fragment>
                     );
                   });
                 })}
-              </List>
+              </NextList>
             </div>
           ))}
         </div>
