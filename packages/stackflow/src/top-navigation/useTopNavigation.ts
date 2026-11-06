@@ -2,20 +2,21 @@ import {
   type TopNavigationBar,
   type TopNavigationButton,
   type TopNavigationButtonsOverride,
+  type TopNavigationIcon,
   useTopNavigationAdapter,
 } from "@seed-design/host-ui";
 import { useActivity, useStack } from "@stackflow/react";
 import { useEffect, useLayoutEffect } from "react";
 
-export type { TopNavigationButtonsOverride };
+export type { TopNavigationButtonsOverride, TopNavigationIcon };
 
 export type NextAppBarItem = (
-  | { icon: `icon_${string}`; label: string; text?: never }
+  | { icon: TopNavigationIcon; label: string; text?: never }
   | { icon?: never; label?: never; text: string }
 ) & {
   style?: "plain" | "prominent";
-  /** `true` is a dot. */
-  badge?: number | boolean;
+  /** `true` is a dot; a string is drawn inside the badge as it is, so a count is written `"3"`. */
+  badge?: true | string;
   enabled?: boolean;
   /** Like a React `key`: only needed when a conditional button would shift the ones after it. */
   identity?: string;
@@ -32,19 +33,24 @@ type NextAppBarSlot = NextAppBarItem | false | null | undefined;
  * `variant` defaults to `blur` with an accessory and `fade` without.
  */
 export type NextAppScreenAppBar = {
-  /** A back button first in `leading` that pops. Not drawn on the root screen. */
-  back?: boolean;
   leading?: NextAppBarSlot[];
   trailing?: NextAppBarSlot[];
   pinned?: NextAppBarSlot[];
 } & (
-  | { variant?: "fade" | "blur"; title?: string; subtitle?: string; showBackground?: never }
+  | {
+      variant?: "fade" | "blur";
+      title?: string;
+      subtitle?: string;
+      titleColor?: TopNavigationBar["titleColor"];
+      showBackground?: never;
+    }
   | {
       variant: "immersive";
       /** Draws the background, as once the content under the bar has scrolled past an image. @default false */
       showBackground?: boolean;
       title?: never;
       subtitle?: never;
+      titleColor?: never;
     }
 );
 
@@ -56,40 +62,21 @@ const SIDES = [
 
 const EMPTY_BAR: TopNavigationBar = { buttons: [] };
 
-/**
- * Flattens an `appBar` into the buttons both the host and the web bar draw. The caller supplies
- * what `back` does and its accessible name, since this package does not pop on its own.
- */
+/** Flattens an `appBar` into the buttons both the host and the web bar draw. */
 export function useResolvedAppBar(
   appBar: NextAppScreenAppBar | null | undefined,
-  { onBack, backLabel }: { onBack: () => void; backLabel: string },
 ): TopNavigationBar | undefined {
-  const { isRoot } = useActivity();
-
   if (!appBar) return;
 
   return {
     ...(appBar.title !== undefined && { title: appBar.title }),
     ...(appBar.subtitle !== undefined && { subtitle: appBar.subtitle }),
-    buttons: [
-      // A fixed identity and look keep it in place across screens.
-      ...(appBar.back && !isRoot
-        ? [
-            {
-              side: "leading",
-              icon: "icon_chevron_left_line",
-              label: backLabel,
-              identity: "back",
-              onClick: onBack,
-            } as const,
-          ]
-        : []),
-      ...SIDES.flatMap((side) =>
-        (appBar[side] ?? [])
-          .filter((item): item is NextAppBarItem => Boolean(item))
-          .map((item) => ({ ...item, side })),
-      ),
-    ],
+    ...(appBar.titleColor !== undefined && { titleColor: appBar.titleColor }),
+    buttons: SIDES.flatMap((side) =>
+      (appBar[side] ?? [])
+        .filter((item): item is NextAppBarItem => Boolean(item))
+        .map((item) => ({ ...item, side })),
+    ),
   };
 }
 
