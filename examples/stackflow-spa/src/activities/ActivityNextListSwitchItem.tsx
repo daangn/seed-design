@@ -90,7 +90,7 @@ const ActivityNextListSwitchItem: StaticActivityComponentType<
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }}
       >
-        <NextList>
+        <NextList as="fieldset">
           {positionVariants.map((position) =>
             contentVariants.map((content) =>
               stateVariants.map((state) => {
