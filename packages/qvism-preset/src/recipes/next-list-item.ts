@@ -6,23 +6,22 @@ import {
 } from "../utils/focus-ring";
 import { onlyIcon } from "../utils/icon";
 import { disabled, focus, focusVisible, media, not, pseudo } from "../utils/pseudo";
+import { createContentScaleStyles } from "../utils/scale-feedback";
 import { listItem as vars } from "../vars/component";
 
 // NextList shares the list-item rootage tokens (no duplicate rootage spec).
 //
 // Differences from the `list-item` recipe:
-//  - Two independent layers per rootage spec: the background layer (root::before,
-//    shrinks horizontally by marginX) and the layout layer (`layout` slot, shrinks
-//    via the individual `scale` property). They must not be the same element, so the
-//    pressed background moves from the `content` slot to `root`, and a new `layout`
-//    slot wraps prefix/content/suffix.
+//  - Content scale (`scaleScope: content` in the list-item spec): the background
+//    layer (root::before, shrinks horizontally by marginX) stays put while the
+//    `layout` slot, rendered as the content scale box, shrinks. They must not be the
+//    same element, so the pressed background moves from the `content` slot to
+//    `root`, and the `layout` slot wraps prefix/content/suffix.
 //  - Pressable detection is unified on `[data-active]`/`[data-hover]`. The library
 //    forwards these to root + layout for every variant (headless context for
 //    checkbox/radio/switch, a press context for button/anchor), so the old
 //    `:is(button, a)` + `:active` branch is no longer needed. Native `:active` is
 //    deliberately avoided: it would also match a plain (non-pressable) item.
-//  - prefers-reduced-motion is handled at the token layer (contentScale resolves to
-//    1), so there is no media query here.
 const nextListItem = defineSlotRecipe({
   name: "next-list-item",
   slots: ["root", "layout", "content", "title", "detail", "prefix", "suffix"],
@@ -82,27 +81,22 @@ const nextListItem = defineSlotRecipe({
           borderRadius: `var(--list-item-border-radius, ${vars.base.pressed.root.cornerRadius})`,
         },
       },
+
+      [pseudo(not(disabled), "[data-active]")]: createContentScaleStyles(),
     },
-    // layout layer — flex row holding prefix/content/suffix; scales as a whole on press.
+    // layout layer — flex row holding prefix/content/suffix, rendered as the content
+    // scale box, so it takes `scale` and its transition from that box.
     layout: {
+      // The box's `scale` makes it a containing block only inside a measured
+      // (pressable) root; a plain item leaves it at `none`. `position` keeps the
+      // content slot's full-row `::after` anchored here either way.
+      position: "relative",
       display: "flex",
       width: "100%",
       minWidth: 0,
 
       "--seed-box-align-items": "center",
       alignItems: "var(--seed-box-align-items)",
-
-      // Individual `scale` over `transform: scale()` — progressive enhancement for
-      // Chrome 104+ / Safari 14.1+; older browsers just skip the pressed scale so a
-      // consumer's `transform` on this element is never clobbered.
-      scale: "1",
-      transitionProperty: "scale",
-      transitionDuration: vars.base.enabled.root.contentScaleDuration,
-      transitionTimingFunction: vars.base.enabled.root.contentScaleTimingFunction,
-
-      [pseudo(not(disabled), "[data-active]")]: {
-        scale: vars.base.pressed.root.contentScale,
-      },
     },
     prefix: {
       display: "inline-flex",
@@ -113,6 +107,10 @@ const nextListItem = defineSlotRecipe({
       paddingRight: "var(--seed-box-padding-right)",
 
       "--seed-focus-ring": "none",
+      // the row already scales as a whole on press; nested marks shouldn't scale again
+      "--seed-checkmark-feedback-scale": "1",
+      "--seed-radiomark-feedback-scale": "1",
+      "--seed-switchmark-feedback-scale": "1",
 
       ...onlyIcon({
         color: vars.base.enabled.prefixIcon.color,
@@ -136,6 +134,10 @@ const nextListItem = defineSlotRecipe({
       gap: "var(--seed-box-gap)",
 
       "--seed-focus-ring": "none",
+      // the row already scales as a whole on press; nested marks shouldn't scale again
+      "--seed-checkmark-feedback-scale": "1",
+      "--seed-radiomark-feedback-scale": "1",
+      "--seed-switchmark-feedback-scale": "1",
 
       fontSize: vars.base.enabled.suffixText.fontSize,
       lineHeight: vars.base.enabled.suffixText.lineHeight,
@@ -174,11 +176,10 @@ const nextListItem = defineSlotRecipe({
       textDecoration: "none",
 
       // Full-row touch target + focus ring for button/anchor items. The `layout`
-      // slot has a non-`none` `scale`, so it is a containing block for this
-      // absolutely positioned pseudo — an `inset: 0` here would only cover the
-      // layout box, which is inset from the row by the root's padding. Expand it
-      // back out by that padding so the hit area and focus ring span the whole row
-      // as they did before the 2-layer split. Do not revert to `inset: 0`.
+      // slot is a containing block for this absolutely positioned pseudo — an
+      // `inset: 0` here would only cover the layout box, which is inset from the row
+      // by the root's padding. Expand it back out by that padding so the hit area
+      // and focus ring span the whole row. Do not revert to `inset: 0`.
       "&::after": {
         content: "''",
         position: "absolute",

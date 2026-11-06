@@ -10,7 +10,8 @@ import {
   useRadioGroupItemContext,
 } from "@seed-design/react-radio-group";
 import { Switch as SwitchPrimitive, useSwitchContext } from "@seed-design/react-switch";
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { ContentScale, useScaleFeedback } from "@seed-design/react-scale-feedback";
+import { composeRefs, useComposedRefs } from "@radix-ui/react-compose-refs";
 import clsx from "clsx";
 import * as React from "react";
 import { forwardRef } from "react";
@@ -79,7 +80,8 @@ interface NextListLayoutProps
     Pick<StyleProps, "alignItems">,
     React.HTMLAttributes<HTMLDivElement> {}
 
-// layout layer — the flex row that scales as a whole on press.
+// layout layer — the flex row, rendered by every item as the content scale box so it
+// shrinks on press while root keeps the background in place.
 const NextListLayout = withContext<HTMLDivElement, NextListLayoutProps>(
   withStateProps(withStyleProps(Primitive.div)),
   "layout",
@@ -198,7 +200,9 @@ export const NextListItem = forwardRef<HTMLLIElement, NextListItemProps>(
 
     return (
       <NextListItemRoot ref={ref as React.Ref<HTMLElement>} {...variantProps} {...restProps}>
-        <NextListLayout alignItems={alignItems}>{children}</NextListLayout>
+        <ContentScale asChild>
+          <NextListLayout alignItems={alignItems}>{children}</NextListLayout>
+        </ContentScale>
       </NextListItemRoot>
     );
   },
@@ -217,6 +221,9 @@ export const NextListButtonItem = forwardRef<HTMLButtonElement, NextListButtonIt
   ({ children, alignItems, rootRef, rootProps, ...props }, ref) => {
     const [variantProps, restProps] = nextListItem.splitVariantProps(props);
     const { disabled } = restProps;
+
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
+    const composedRootRef = useComposedRefs<HTMLLIElement>(scaleFeedbackRef, rootRef);
 
     const [pressed, setPressed] = React.useState(false);
     const [hovered, setHovered] = React.useState(false);
@@ -249,8 +256,15 @@ export const NextListButtonItem = forwardRef<HTMLButtonElement, NextListButtonIt
 
     return (
       <NextListInteractionContext.Provider value={interaction}>
-        <NextListItemRoot ref={rootRef as React.Ref<HTMLElement>} {...variantProps} {...rootProps}>
-          <NextListLayout alignItems={alignItems}>{children}</NextListLayout>
+        <NextListItemRoot
+          ref={composedRootRef as React.Ref<HTMLElement>}
+          {...variantProps}
+          {...rootProps}
+          className={clsx(scaleFeedbackClassName, rootProps?.className)}
+        >
+          <ContentScale asChild>
+            <NextListLayout alignItems={alignItems}>{children}</NextListLayout>
+          </ContentScale>
         </NextListItemRoot>
       </NextListInteractionContext.Provider>
     );
@@ -269,6 +283,9 @@ export interface NextListAnchorItemProps
 export const NextListAnchorItem = forwardRef<HTMLAnchorElement, NextListAnchorItemProps>(
   ({ children, alignItems, rootRef, rootProps, ...props }, ref) => {
     const [variantProps, restProps] = nextListItem.splitVariantProps(props);
+
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
+    const composedRootRef = useComposedRefs<HTMLLIElement>(scaleFeedbackRef, rootRef);
 
     const [pressed, setPressed] = React.useState(false);
     const [hovered, setHovered] = React.useState(false);
@@ -296,8 +313,15 @@ export const NextListAnchorItem = forwardRef<HTMLAnchorElement, NextListAnchorIt
 
     return (
       <NextListInteractionContext.Provider value={interaction}>
-        <NextListItemRoot ref={rootRef as React.Ref<HTMLElement>} {...variantProps} {...rootProps}>
-          <NextListLayout alignItems={alignItems}>{children}</NextListLayout>
+        <NextListItemRoot
+          ref={composedRootRef as React.Ref<HTMLElement>}
+          {...variantProps}
+          {...rootProps}
+          className={clsx(scaleFeedbackClassName, rootProps?.className)}
+        >
+          <ContentScale asChild>
+            <NextListLayout alignItems={alignItems}>{children}</NextListLayout>
+          </ContentScale>
         </NextListItemRoot>
       </NextListInteractionContext.Provider>
     );
@@ -317,10 +341,19 @@ export const NextListCheckboxItem = forwardRef<HTMLInputElement, NextListCheckbo
   ({ children, alignItems, rootRef, inputProps, ...props }, ref) => {
     const [variantProps, restProps] = nextListItem.splitVariantProps(props);
 
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
+
     return (
-      <NextListItemRoot asChild {...variantProps}>
+      <NextListItemRoot
+        asChild
+        ref={scaleFeedbackRef}
+        className={scaleFeedbackClassName}
+        {...variantProps}
+      >
         <CheckboxPrimitive.Root ref={rootRef} {...restProps}>
-          <NextListLayout alignItems={alignItems}>{children}</NextListLayout>
+          <ContentScale asChild>
+            <NextListLayout alignItems={alignItems}>{children}</NextListLayout>
+          </ContentScale>
           <CheckboxPrimitive.HiddenInput ref={ref} {...inputProps} />
         </CheckboxPrimitive.Root>
       </NextListItemRoot>
@@ -341,10 +374,19 @@ export const NextListRadioItem = forwardRef<HTMLInputElement, NextListRadioItemP
   ({ children, alignItems, rootRef, inputProps, ...props }, ref) => {
     const [variantProps, restProps] = nextListItem.splitVariantProps(props);
 
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
+
     return (
-      <NextListItemRoot asChild {...variantProps}>
+      <NextListItemRoot
+        asChild
+        ref={scaleFeedbackRef}
+        className={scaleFeedbackClassName}
+        {...variantProps}
+      >
         <RadioGroupPrimitive.Item ref={rootRef} {...restProps}>
-          <NextListLayout alignItems={alignItems}>{children}</NextListLayout>
+          <ContentScale asChild>
+            <NextListLayout alignItems={alignItems}>{children}</NextListLayout>
+          </ContentScale>
           <RadioGroupPrimitive.ItemHiddenInput ref={ref} {...inputProps} />
         </RadioGroupPrimitive.Item>
       </NextListItemRoot>
@@ -365,10 +407,19 @@ export const NextListSwitchItem = forwardRef<HTMLInputElement, NextListSwitchIte
   ({ children, alignItems, rootRef, inputProps, ...props }, ref) => {
     const [variantProps, restProps] = nextListItem.splitVariantProps(props);
 
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
+
     return (
-      <NextListItemRoot asChild {...variantProps}>
+      <NextListItemRoot
+        asChild
+        ref={scaleFeedbackRef}
+        className={scaleFeedbackClassName}
+        {...variantProps}
+      >
         <SwitchPrimitive.Root ref={rootRef} {...restProps}>
-          <NextListLayout alignItems={alignItems}>{children}</NextListLayout>
+          <ContentScale asChild>
+            <NextListLayout alignItems={alignItems}>{children}</NextListLayout>
+          </ContentScale>
           <SwitchPrimitive.HiddenInput ref={ref} {...inputProps} />
         </SwitchPrimitive.Root>
       </NextListItemRoot>
