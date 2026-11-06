@@ -114,7 +114,9 @@ export function areTabsTransitionsEnabled(
   values: string[],
   rects: Record<string, TabsLayoutRect>,
 ): boolean {
-  return values.length > 0 && values.every((value) => rects[value] !== undefined);
+  // 폭 0은 조상이 `display: none`인 동안의 측정값이다. Lynx는 `display: none`인 요소에도 transition을
+  // 적용하므로, 숨긴 Indicator도 다시 보일 때 0에서 미끄러진다 → 첫 측정처럼 transition을 끈다.
+  return values.length > 0 && values.every((value) => (rects[value]?.width ?? 0) > 0);
 }
 
 type NativeRef<T> = { current: T | null } | ((value: T | null) => void | (() => void));

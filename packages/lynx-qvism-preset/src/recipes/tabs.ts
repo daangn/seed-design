@@ -221,6 +221,14 @@ const tabs = defineSlotRecipe({
       true: {},
       false: {},
     },
+    indicatorMeasured: {
+      true: {},
+      false: {
+        indicator: {
+          display: "none",
+        },
+      },
+    },
   },
   compoundVariants: [
     {
@@ -266,6 +274,7 @@ const tabs = defineSlotRecipe({
     stickyList: false,
     transitionEnabled: true,
     extendSafeAreaX: false,
+    indicatorMeasured: true,
   },
 });
 

@@ -117,8 +117,12 @@ export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((prop
   const api = useTabsIndicator();
   const indicatorStyle =
     typeof style === "string"
-      ? `transform:${api.indicatorProps.style.transform};width:${api.indicatorProps.style.width};${style}`
-      : { ...api.indicatorProps.style, ...style };
+      ? `${api.isMeasured ? "" : "display:none;"}transform:${api.indicatorProps.style.transform};width:${api.indicatorProps.style.width};${style}`
+      : {
+          ...(!api.isMeasured && { display: "none" as const }),
+          ...api.indicatorProps.style,
+          ...style,
+        };
   return (
     <view
       {...mergeNativeProps<ViewProps>(

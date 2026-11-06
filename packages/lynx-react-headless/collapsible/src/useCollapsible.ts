@@ -32,11 +32,17 @@ export interface UseCollapsibleReturn {
   contentInnerProps: { bindlayoutchange: LayoutChangeHandler };
 }
 
-function getLayoutHeight(event: Parameters<LayoutChangeHandler>[0]): number | null {
-  const eventWithHeight = event as Parameters<LayoutChangeHandler>[0] & { height?: number };
-  const height = event.detail?.height ?? event.params?.height ?? eventWithHeight.height;
-  if (typeof height !== "number" || !Number.isFinite(height)) return null;
-  return Math.max(0, height);
+function getLayoutSize(
+  event: Parameters<LayoutChangeHandler>[0],
+  key: "width" | "height",
+): number | null {
+  const eventWithSize = event as Parameters<LayoutChangeHandler>[0] & {
+    width?: number;
+    height?: number;
+  };
+  const size = event.detail?.[key] ?? event.params?.[key] ?? eventWithSize[key];
+  if (typeof size !== "number" || !Number.isFinite(size)) return null;
+  return Math.max(0, size);
 }
 
 function getDevicePixel(): number {
@@ -78,8 +84,13 @@ export function useCollapsible({
 
   const handleLayoutChange = React.useCallback<LayoutChangeHandler>((event) => {
     "background only";
-    const height = getLayoutHeight(event);
-    if (height !== null) setContentHeight((current) => nextContentHeight(current, height));
+    const height = getLayoutSize(event, "height");
+    if (height === null) return;
+    // 조상이 `display: none`이면 0×0으로 보고된다. 이 값을 따르면 다시 보일 때 높이 0에서 펼쳐지므로
+    // 마지막 높이를 유지한다. 빈 내용은 폭이 있어 그대로 반영된다.
+    if (height === 0 && getLayoutSize(event, "width") === 0) return;
+
+    setContentHeight((current) => nextContentHeight(current, height));
   }, []);
 
   const height = !open ? "0px" : contentHeight === null ? "auto" : `${contentHeight}px`;

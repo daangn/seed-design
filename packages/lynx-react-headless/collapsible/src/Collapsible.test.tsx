@@ -54,6 +54,18 @@ describe("Collapsible", () => {
     expect(node(".content")).toHaveStyle({ height: `${556 / 3}px` });
   });
 
+  it("keeps the measured height while an ancestor hides the content", () => {
+    render(<TestCollapsible defaultOpen />);
+    const inner = node(".content").firstElementChild as HTMLElement;
+
+    act(() => fireEvent.layoutchange(inner, { width: 320, height: 40 }));
+    act(() => fireEvent.layoutchange(inner, { width: 0, height: 0 }));
+    expect(node(".content")).toHaveStyle({ height: "40px" });
+
+    act(() => fireEvent.layoutchange(inner, { width: 320, height: 0 }));
+    expect(node(".content")).toHaveStyle({ height: "0px" });
+  });
+
   it("reports controlled changes without opening until the parent applies them", () => {
     const onOpenChange = vi.fn();
     function Parent() {
