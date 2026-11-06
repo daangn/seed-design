@@ -14,7 +14,7 @@ import {
 } from "react";
 import { dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
 import { useSupports } from "@seed-design/react-supports";
-import { useSize } from "@radix-ui/react-use-size";
+import { useRenderedSize } from "./useRenderedSize";
 import { useIsSSR } from "./useIsSSR";
 import { useElementSizesMap } from "./useElementSizesMap";
 
@@ -87,8 +87,8 @@ function useSliderState({
   const thumbRefsMap = useRef<Map<number, HTMLElement | null>>(new Map());
   const valueIndicatorRootRefsMap = useRef<Map<number, HTMLElement | null>>(new Map());
 
-  const firstThumbSize = useSize(thumbRefsMap.current.get(0) ?? null);
-  const rootSize = useSize(rootEl);
+  const firstThumbSize = useRenderedSize(thumbRefsMap.current.get(0) ?? null);
+  const rootSize = useRenderedSize(rootEl);
   const valueIndicatorRootSizes = useElementSizesMap(valueIndicatorRootRefsMap);
 
   const [values, setValues] = useControllableState({
