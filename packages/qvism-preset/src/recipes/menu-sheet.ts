@@ -55,7 +55,8 @@ const menuSheet = defineSlotRecipe({
       flex: 1,
       flexDirection: "column",
       boxSizing: "border-box",
-      wordBreak: "break-all",
+      wordBreak: "normal",
+      overflowWrap: "anywhere",
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,
