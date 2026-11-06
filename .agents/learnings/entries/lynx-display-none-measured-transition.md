@@ -24,6 +24,7 @@ verified_at: "2026-11-06"
   - Accordion content: `height:51.33px` → `height:0px`
   - FAB root: `--fab-label-width:80px` → `0px`
   - SegmentedControl indicator: inline style 없음(변화 없음)
+  - Slider(값 70): range·thumb의 % 변수는 그대로였고, 드래그 중에만 보이는 `--slider-value-indicator-offset`만 -4px → 0px로 바뀌었다가 복구 뒤 -4px로 돌아왔다. 복구 녹화는 3 frame(3ms 안)으로 변화가 없었다. 복구 직후 드래그는 확인하지 않았다.
 - 다시 보이자 녹화 frame(약 2.68–3.0s, 60fps 안팎)에서 Tabs indicator는 라벨1 아래 폭 0에서 라벨3까지 커지며 이동했고, Accordion 본문은 0에서 펼쳐졌고, FAB label은 "+ Ex"에서 "+ Extended"로 늘어났다. 같은 예제를 조건부 렌더로 바꾸면 Accordion·FAB는 첫 frame부터 최종 크기였고 Indicator는 이동 없이 최종 위치에 나타났다.
 - Android와 실기기, `visibility: hidden`은 확인하지 않았다.
 
