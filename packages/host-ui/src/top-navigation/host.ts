@@ -1,4 +1,4 @@
-import type { TopNavigationButton } from "./adapter";
+import type { TopNavigationBar, TopNavigationButton } from "./adapter";
 
 /**
  * What the app passes to `HostUIProvider` as `topNavigation`, to draw the bar SEED sends it.
@@ -19,11 +19,9 @@ export interface TopNavigationHost {
 }
 
 /** @experimental */
-export interface TopNavigationHostBar {
-  title?: string;
-  subtitle?: string;
+export type TopNavigationHostBar = Omit<TopNavigationBar, "buttons"> & {
   buttons: TopNavigationHostButton[];
-}
+};
 
 /** @experimental */
 export type TopNavigationHostButton = Omit<TopNavigationButton, "onClick" | "identity"> & {
