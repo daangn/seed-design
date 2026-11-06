@@ -7603,15 +7603,23 @@
   --seed-box-padding-right-xl: var(--seed-box-padding-right-lg, initial);
   --seed-box-padding-right: var(--seed-box-padding-right-base, initial);
   padding-right: var(--seed-box-padding-right);
+  flex-shrink: 0;
+  align-items: center;
+  display: inline-flex;
+}
+
+:where(.seed-next-list-item__prefix) :where(a, button, input, select, textarea, label, [role="button"], [role="link"], [tabindex]) {
+  z-index: 1;
+  position: relative;
+}
+
+.seed-next-list-item__prefix {
   --seed-focus-ring: none;
   --seed-checkmark-feedback-scale: 1;
   --seed-radiomark-feedback-scale: 1;
   --seed-switchmark-feedback-scale: 1;
   --seed-icon-size: 22px;
   --seed-icon-color: var(--seed-color-fg-neutral);
-  flex-shrink: 0;
-  align-items: center;
-  display: inline-flex;
 }
 
 .seed-next-list-item__prefix:is(:disabled, [disabled], [data-disabled]) {
@@ -7629,6 +7637,16 @@
   --seed-box-gap: var(--seed-box-gap-base, initial);
   align-items: center;
   gap: var(--seed-box-gap);
+  flex-shrink: 0;
+  display: inline-flex;
+}
+
+:where(.seed-next-list-item__suffix) :where(a, button, input, select, textarea, label, [role="button"], [role="link"], [tabindex]) {
+  z-index: 1;
+  position: relative;
+}
+
+.seed-next-list-item__suffix {
   --seed-focus-ring: none;
   --seed-checkmark-feedback-scale: 1;
   --seed-radiomark-feedback-scale: 1;
@@ -7639,8 +7657,6 @@
   color: var(--seed-color-fg-neutral-subtle);
   --seed-icon-size: 18px;
   --seed-icon-color: var(--seed-color-fg-neutral-subtle);
-  flex-shrink: 0;
-  display: inline-flex;
 }
 
 .seed-next-list-item__suffix:is(:disabled, [disabled], [data-disabled]) {

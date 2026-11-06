@@ -63,6 +63,12 @@
     --seed-box-padding-right-xl: var(--seed-box-padding-right-lg, initial);
     --seed-box-padding-right: var(--seed-box-padding-right-base, initial);
     padding-right: var(--seed-box-padding-right);
+}
+:where(.seed-next-list-item__prefix) :where(a, button, input, select, textarea, label, [role="button"], [role="link"], [tabindex]) {
+    position: relative;
+    z-index: 1;
+}
+.seed-next-list-item__prefix {
     --seed-focus-ring: none;
     --seed-checkmark-feedback-scale: 1;
     --seed-radiomark-feedback-scale: 1;
@@ -86,6 +92,12 @@
     --seed-box-gap-xl: var(--seed-box-gap-lg, initial);
     --seed-box-gap: var(--seed-box-gap-base, initial);
     gap: var(--seed-box-gap);
+}
+:where(.seed-next-list-item__suffix) :where(a, button, input, select, textarea, label, [role="button"], [role="link"], [tabindex]) {
+    position: relative;
+    z-index: 1;
+}
+.seed-next-list-item__suffix {
     --seed-focus-ring: none;
     --seed-checkmark-feedback-scale: 1;
     --seed-radiomark-feedback-scale: 1;

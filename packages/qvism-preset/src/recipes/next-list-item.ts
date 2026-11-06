@@ -22,6 +22,17 @@ import { listItem as vars } from "../vars/component";
 //    checkbox/radio/switch, a press context for button/anchor), so the old
 //    `:is(button, a)` + `:active` branch is no longer needed. Native `:active` is
 //    deliberately avoided: it would also match a plain (non-pressable) item.
+// The content slot's full-row `::after` is positioned, so it covers any unpositioned control in
+// prefix/suffix, and prefix precedes content in the DOM, so a control there also needs a
+// z-index. Zero specificity: a consumer's own position/z-index always wins.
+const affixControls = {
+  ':where(&) :where(a, button, input, select, textarea, label, [role="button"], [role="link"], [tabindex])':
+    {
+      position: "relative",
+      zIndex: 1,
+    },
+};
+
 const nextListItem = defineSlotRecipe({
   name: "next-list-item",
   slots: ["root", "layout", "content", "title", "detail", "prefix", "suffix"],
@@ -106,6 +117,8 @@ const nextListItem = defineSlotRecipe({
       "--seed-box-padding-right--responsive": vars.base.enabled.prefix.paddingRight,
       paddingRight: "var(--seed-box-padding-right)",
 
+      ...affixControls,
+
       "--seed-focus-ring": "none",
       // the row already scales as a whole on press; nested marks shouldn't scale again
       "--seed-checkmark-feedback-scale": "1",
@@ -132,6 +145,8 @@ const nextListItem = defineSlotRecipe({
       position: "var(--seed-box-position)",
       "--seed-box-gap--responsive": vars.base.enabled.suffix.gap,
       gap: "var(--seed-box-gap)",
+
+      ...affixControls,
 
       "--seed-focus-ring": "none",
       // the row already scales as a whole on press; nested marks shouldn't scale again
