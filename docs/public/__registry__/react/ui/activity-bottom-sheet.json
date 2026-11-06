@@ -1,0 +1,24 @@
+{
+  "id": "activity-bottom-sheet",
+  "dependencies": [
+    "@seed-design/stackflow",
+    "@stackflow/react"
+  ],
+  "innerDependencies": [
+    {
+      "registryId": "ui",
+      "itemIds": [
+        "bottom-sheet"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "activity-bottom-sheet.tsx",
+      "content": "/**\n * @file ui:activity-bottom-sheet\n * @requires @seed-design/react@^3.0.0\n **/\n\n\"use client\";\n\nimport {\n  type TopNavigationButtonsOverride,\n  useActivityOverlayButtons,\n  useActivityZIndexBase,\n} from \"@seed-design/stackflow\";\nimport { useActions, useActivity } from \"@stackflow/react\";\nimport { BottomSheetContent, type BottomSheetContentProps, BottomSheetRoot } from \"./bottom-sheet\";\n\nexport interface ActivityBottomSheetProps extends Omit<BottomSheetContentProps, \"layerIndex\"> {\n  /**\n   * What happens to the bar buttons of the screen below while the sheet is open. Left as is when\n   * omitted.\n   */\n  topNavigationButtons?: TopNavigationButtonsOverride;\n}\n\n/**\n * A BottomSheet that is an activity: open while the activity is active, popped when dismissed.\n */\nexport function ActivityBottomSheet({ topNavigationButtons, ...otherProps }: ActivityBottomSheetProps) {\n  const { isActive } = useActivity();\n  const { pop } = useActions();\n\n  useActivityOverlayButtons(topNavigationButtons);\n\n  return (\n    <BottomSheetRoot open={isActive} onOpenChange={(open) => !open && pop()}>\n      <BottomSheetContent layerIndex={useActivityZIndexBase()} {...otherProps} />\n    </BottomSheetRoot>\n  );\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n",
+      "dependencies": {
+        "@seed-design/react": "^3.0.0"
+      }
+    }
+  ]
+}
