@@ -9,7 +9,7 @@
         "@changesets/cli": "^3.0.3",
         "@figma/rest-api-spec": "^0.36.0",
         "@happy-dom/global-registrator": "^20.4.0",
-        "@lynx-js/skill-lynx-devtool": "0.14.24",
+        "@lynx-js/skill-lynx-devtool": "0.14.27",
         "@seed-design/figma-extractor": "workspace:*",
         "@seed-design/rootage-cli": "workspace:*",
         "@testing-library/dom": "^10.4.0",
@@ -3348,7 +3348,7 @@
 
     "@lynx-js/runtime-wrapper-webpack-plugin": ["@lynx-js/runtime-wrapper-webpack-plugin@0.2.3", "", { "dependencies": { "@lynx-js/webpack-runtime-globals": "0.0.7" } }, "sha512-xqBQ+g8fJn1kPJN+7tgzypPj+FK9+8ifDVhXu9i0S6630XebdZ7ZKPehlGMNdfZPnS96Wo0EBCoEaAwJ6c9UpA=="],
 
-    "@lynx-js/skill-lynx-devtool": ["@lynx-js/skill-lynx-devtool@0.14.24", "", { "bin": { "lynx-devtool": "./bin.mjs" } }, "sha512-uIpRI+Bm9RXZoSHqZ78P0dSoYTjDxsRlges20Q0TkXVb8GfEi65VPfUjhSp2WiyNORtyABjX5tI/q0YZomwCaw=="],
+    "@lynx-js/skill-lynx-devtool": ["@lynx-js/skill-lynx-devtool@0.14.27", "", { "bin": { "lynx-devtool": "./bin.mjs" } }, "sha512-F5hnNDpQNYTOc+qV1vKLrKlkXzZFVxXwcMNu/HfDC0285ka0TknxNjtwkEWB4g2cVFMHCqMe4VsjOMTaDJiBrA=="],
 
     "@lynx-js/skill-lynx-recorder": ["@lynx-js/skill-lynx-recorder@0.2.0", "", {}, "sha512-leTcR2BZNCDjh/2BLd929WcuoAmlg/zFuC8BSCKlfsgeL3tnOC6hcd9rdh9VRR/SvEo9UQa7Fo34aZJwmm58uA=="],
 
@@ -7945,6 +7945,8 @@
     "@vitest/mocker/magic-string": ["magic-string@1.4.5", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.6.0" } }, "sha512-oLLC2+YvQUfAa+vxoufE/yc1icb87M9iXIRqAoR/2EhE/8cb3SF/+Gi0c2By1B+5Vz2e2vQtUvHiu1+63Znh+w=="],
 
     "@vue/language-core/minimatch": ["minimatch@9.0.5", "", { "dependencies": { "brace-expansion": "^2.0.1" } }, "sha512-G6T0ZX48xgozx7587koeX9Ys2NYy6Gmv//P89sEte9V9whIapMNF4idKxnW2QtCcLiTWlb/wfCabAtAFWhhBow=="],
+
+    "agent-lynx/@lynx-js/skill-lynx-devtool": ["@lynx-js/skill-lynx-devtool@0.14.24", "", { "bin": { "lynx-devtool": "./bin.mjs" } }, "sha512-uIpRI+Bm9RXZoSHqZ78P0dSoYTjDxsRlges20Q0TkXVb8GfEi65VPfUjhSp2WiyNORtyABjX5tI/q0YZomwCaw=="],
 
     "ansi-escapes/type-fest": ["type-fest@0.21.3", "", {}, "sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w=="],
 

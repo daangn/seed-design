@@ -69,7 +69,7 @@
     "@changesets/cli": "^3.0.3",
     "@figma/rest-api-spec": "^0.36.0",
     "@happy-dom/global-registrator": "^20.4.0",
-    "@lynx-js/skill-lynx-devtool": "0.14.24",
+    "@lynx-js/skill-lynx-devtool": "0.14.27",
     "@seed-design/figma-extractor": "workspace:*",
     "@seed-design/rootage-cli": "workspace:*",
     "@testing-library/dom": "^10.4.0",
