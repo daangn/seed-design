@@ -10,4 +10,4 @@
 - `prefix`·`suffix`에 넣은 링크·버튼·폼 컨트롤(`a`, `button`, `input`, `select`, `textarea`, `label`, `role="button"`·`role="link"`·`tabindex`가 있는 요소)은 별도 스타일 없이 행과 별개로 클릭됩니다. 이 요소를 누를 때는 해당 요소만 반응하고 행은 축소되지 않습니다.
 - `@seed-design/css`에 `next-list-item` recipe가 추가됩니다.
 
-기존 `List`(`List.*`)와 `ListHeader`를 deprecated 처리하고 `NextList`, `NextListHeader`로 안내합니다. `@seed-design/react@4.0.0`에서 제거될 예정입니다. 동작은 그대로이며, `List.Root`, `List.RadioRoot`, `ListHeader`는 각각 `NextList.Root`, `NextList.RadioRoot`, `NextListHeader`와 같은 컴포넌트입니다.
+기존 `List`(`List.*`)와 `ListHeader`를 deprecated 처리하고 `NextList`, `NextListHeader`로 안내합니다. `@seed-design/react@4.0.0`에서 제거될 예정입니다. 동작은 그대로이며, `List.Root`, `List.RadioRoot`는 각각 `NextList.Root`, `NextList.RadioRoot`와 같은 컴포넌트입니다. `NextListHeader`는 `ListHeader`와 달리 `asChild`를 받지 않습니다. 다른 요소로 렌더링하려면 `as`를 사용합니다.
