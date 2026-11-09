@@ -67,7 +67,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",
     "@changesets/cli": "^3.0.3",
-    "@figma/rest-api-spec": "^0.36.0",
+    "@figma/rest-api-spec": "^0.47.0",
     "@happy-dom/global-registrator": "^20.4.0",
     "@lynx-js/skill-lynx-devtool": "0.14.29",
     "@seed-design/figma-extractor": "workspace:*",
