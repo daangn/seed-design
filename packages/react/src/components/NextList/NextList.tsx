@@ -184,8 +184,7 @@ export const NextListContent = forwardRef<HTMLElement, NextListContentProps>(
 NextListContent.displayName = "NextListContent";
 
 export interface NextListPrefixProps
-  extends PrimitiveProps,
-    Pick<StyleProps, "pr" | "paddingRight">,
+  extends Pick<StyleProps, "pr" | "paddingRight">,
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const NextListPrefix = withContext<HTMLDivElement, NextListPrefixProps>(
@@ -194,8 +193,7 @@ export const NextListPrefix = withContext<HTMLDivElement, NextListPrefixProps>(
 );
 
 export interface NextListSuffixProps
-  extends PrimitiveProps,
-    Pick<StyleProps, "gap" | "position">,
+  extends Pick<StyleProps, "gap" | "position">,
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const NextListSuffix = withContext<HTMLDivElement, NextListSuffixProps>(
