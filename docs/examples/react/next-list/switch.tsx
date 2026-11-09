@@ -6,7 +6,7 @@ import { Switchmark } from "seed-design/ui/switch";
 
 export default function ListSwitch() {
   return (
-    <NextList as="fieldset" width="360px">
+    <NextList as="fieldset" aria-label="메시지 설정" width="360px">
       <NextListSwitchItem
         title="삭제하기 전에 확인"
         prefix={<Icon svg={<IconTrashcanLine />} />}

@@ -70,7 +70,10 @@ const CommonTemplate = meta.story({
           {stateVariants.map((state) => (
             <div key={state.key}>
               <NextListHeader>{state.key}</NextListHeader>
-              <NextList>
+              <NextList
+                as="fieldset"
+                aria-label={`NextListSwitchItem ${position.key} ${state.key}`}
+              >
                 {contentVariants.map((content) => {
                   if (position.position === "prefix") {
                     return suffixVariants.map((suffix, suffixIndex) => {
@@ -91,7 +94,7 @@ const CommonTemplate = meta.story({
                             disabled={state.disabled}
                             suffix={suffix.element}
                           />
-                          {showDivider && <NextListDivider />}
+                          {showDivider && <NextListDivider as="div" />}
                         </Fragment>
                       );
                     });
@@ -114,7 +117,7 @@ const CommonTemplate = meta.story({
                           disabled={state.disabled}
                           prefix={prefix.element}
                         />
-                        {showDivider && <NextListDivider />}
+                        {showDivider && <NextListDivider as="div" />}
                       </Fragment>
                     );
                   });

@@ -177,11 +177,11 @@ import {
 
 ### Accessibility
 
-`NextList`는 기본적으로 `<ul>`입니다. `NextListCheckItem`, `NextListSwitchItem`, `NextListRadioItem`은 `<li>`가 아닌 `<label>`로 렌더링되므로, 이 item을 사용하는 경우 `NextList`에 적절한 요소나 role을 부여해야 합니다. `NextListCheckItem`과 `NextListSwitchItem`은 `fieldset`으로 묶습니다.
+`NextList`는 기본적으로 `<ul>`입니다. `NextListCheckItem`, `NextListSwitchItem`, `NextListRadioItem`은 `<li>`가 아닌 `<label>`로 렌더링되므로, 이 item을 사용하는 경우 `NextList`에 적절한 요소나 role을 부여해야 합니다. `NextListCheckItem`과 `NextListSwitchItem`은 `fieldset`으로 묶고, `aria-label`로 그룹 이름을 지정합니다.
 
 ```tsx
 {/* [!code highlight] */}
-<NextList as="fieldset">
+<NextList as="fieldset" aria-label="알림 설정">
   <NextListCheckItem
     suffix={<Checkmark size="large" />}
     title="알림 수신 동의"

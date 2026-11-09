@@ -24,7 +24,7 @@ export default function ListDisabled() {
           suffix={<Icon svg={<IconChevronRightLine />} />}
         />
       </NextList>
-      <NextList as="fieldset">
+      <NextList as="fieldset" aria-label="옵션 선택">
         <NextListCheckItem
           prefix={<Icon svg={<IconPersonCircleLine />} />}
           title="활성화된 NextListCheckItem"
@@ -51,7 +51,7 @@ export default function ListDisabled() {
           suffix={<Icon svg={<IconChevronRightLine />} />}
         />
       </NextList>
-      <NextList as="fieldset">
+      <NextList as="fieldset" aria-label="옵션 선택">
         <NextListCheckItem
           disabled
           prefix={<Icon svg={<IconSlashCircleLine />} />}

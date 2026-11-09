@@ -36,7 +36,7 @@ export default function ListBottomSheet() {
             }}
           >
             <BottomSheetBody paddingX="0" asChild>
-              <NextList as="fieldset">
+              <NextList as="fieldset" aria-label="교통수단">
                 {TYPES.map((type) => (
                   <NextListCheckItem
                     key={type}

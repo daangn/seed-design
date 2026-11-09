@@ -176,7 +176,7 @@ const CommonTemplate = meta.story({
           {stateVariants.map((state) => (
             <div key={state.key}>
               <NextListHeader>{state.key}</NextListHeader>
-              <NextList as="fieldset">
+              <NextList as="fieldset" aria-label={`NextListCheckItem ${position.key} ${state.key}`}>
                 {contentVariants.map((content) => {
                   if (position.position === "prefix") {
                     return suffixVariants.map((suffix, suffixIndex) => {

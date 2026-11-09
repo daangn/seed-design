@@ -25,7 +25,7 @@ export default function ListBorderRadius() {
         borderColor="stroke.neutralWeak"
       >
         <NextListHeader as="h2">카드 borderRadius: r3_5</NextListHeader>
-        <NextList as="fieldset" itemBorderRadius="r2">
+        <NextList as="fieldset" aria-label="Border radius options" itemBorderRadius="r2">
           <NextListCheckItem
             defaultChecked
             title="borderRadius: r2"

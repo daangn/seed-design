@@ -7,7 +7,7 @@ import { Checkmark } from "seed-design/ui/checkbox";
 
 export default function ListCheckbox() {
   return (
-    <NextList as="fieldset" width="360px">
+    <NextList as="fieldset" aria-label="알림 설정" width="360px">
       <NextListCheckItem
         title={
           <HStack gap="x1_5">
