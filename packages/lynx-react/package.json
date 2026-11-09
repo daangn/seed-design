@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@lynx-js/lynx-ui-dialog": "^3.133.1",
-    "@lynx-js/react": "^0.117.0",
+    "@lynx-js/react": "^0.129.0",
     "@lynx-js/types": "^3.9.0",
     "@seed-design/lynx-css": "1.2.0",
     "@seed-design/lynx-vitest-config": "0.0.0",
