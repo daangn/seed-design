@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterAll, beforeAll, describe, expect, it } from "bun:test";
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from "bun:test";
 
 import type { ReactElement } from "react";
 import * as React from "react";
@@ -309,8 +309,11 @@ describe("useTabs", () => {
     const offsetLeft = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "offsetLeft");
     const target = document.createElement("div");
 
-    beforeAll(() => {
+    beforeEach(() => {
       document.body.append(target);
+    });
+
+    beforeAll(() => {
       Object.defineProperty(HTMLElement.prototype, "offsetWidth", {
         configurable: true,
         get: () => 64,
@@ -324,7 +327,6 @@ describe("useTabs", () => {
     });
 
     afterAll(() => {
-      target.remove();
       if (offsetWidth) Object.defineProperty(HTMLElement.prototype, "offsetWidth", offsetWidth);
       if (offsetLeft) Object.defineProperty(HTMLElement.prototype, "offsetLeft", offsetLeft);
     });
