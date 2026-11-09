@@ -240,7 +240,7 @@ describe("useCollapsible", () => {
       Object.defineProperty(Element.prototype, "getClientRects", {
         configurable: true,
         value(this: Element) {
-          return rendered ? [this.getBoundingClientRect()] : [];
+          return rendered && !this.closest("[hidden]") ? [this.getBoundingClientRect()] : [];
         },
       });
     });
@@ -264,6 +264,18 @@ describe("useCollapsible", () => {
       expect(content.style.getPropertyValue("--collapsible-content-height")).toBe("80px");
 
       setRendered(true);
+
+      expect(content.style.getPropertyValue("--collapsible-content-height")).toBe("80px");
+    });
+
+    it("should start the closed content from 0px so that opening transitions", async () => {
+      rendered = true;
+      const { getByRole, getByText } = setUp(<Collapsible defaultOpen={false} />);
+      const content = getByText("Content");
+
+      expect(content.style.getPropertyValue("--collapsible-content-height")).toBe("0px");
+
+      await userEvent.click(getByRole("button"));
 
       expect(content.style.getPropertyValue("--collapsible-content-height")).toBe("80px");
     });
