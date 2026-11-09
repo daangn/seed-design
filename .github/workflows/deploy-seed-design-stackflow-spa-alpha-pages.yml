@@ -44,7 +44,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          wranglerVersion: "4.45.3"
+          wranglerVersion: "4.158.0"
           command: pages deploy ./examples/stackflow-spa/dist --project-name=seed-design-stackflow-spa --branch=${{ github.ref_name }}
 
       - name: Find related PR

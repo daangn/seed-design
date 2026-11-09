@@ -43,7 +43,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          wranglerVersion: "4.45.3"
+          wranglerVersion: "4.158.0"
           command: pages deploy ./docs/storybook-static --project-name=seed-design-storybook --branch=${{ github.ref_name }}
 
       - name: Find related PR

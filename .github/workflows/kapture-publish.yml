@@ -84,7 +84,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          wranglerVersion: 4.45.3
+          wranglerVersion: 4.158.0
           command: pages deploy ${{ runner.temp }}/kapture-review --project-name=seed-design-storybook --branch=kapture-pr-${{ steps.review.outputs.pr-number }} --commit-hash=${{ steps.review.outputs.head-sha }} --commit-message=kapture-pr-${{ steps.review.outputs.pr-number }}-run-${{ steps.review.outputs.run-id }}
       - name: Validate the immutable Pages URL
         id: dashboard

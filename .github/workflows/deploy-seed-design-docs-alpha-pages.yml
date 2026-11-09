@@ -177,7 +177,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          wranglerVersion: "4.45.3"
+          wranglerVersion: "4.158.0"
           command: pages deploy ./${{ steps.target.outputs.output-dir }} --project-name=seed-design-v3 --branch=${{ github.ref_name }}
 
       - name: Verify archive deployment and branch alias
