@@ -110,4 +110,28 @@ describe("DatePicker compound components", () => {
       getByRole("button", { name: "Previous month" }).querySelector('[data-icon="right"]'),
     ).not.toBeNull();
   });
+
+  it("구간을 옮기면 새 날짜가 이동한 방향에서 들어오도록 표시하고, RTL에서는 방향을 반전한다", () => {
+    const renderTwoWeeks = (locale?: string) =>
+      render(
+        <DatePicker.Root {...commonProps} locale={locale} visibleRange="twoWeeks">
+          <DatePicker.Header leftIcon={leftIcon} rightIcon={rightIcon} headerIcon={headerIcon} />
+          <DatePicker.Calendar leftIcon={leftIcon} rightIcon={rightIcon} />
+        </DatePicker.Root>,
+      );
+    const enterFrom = () =>
+      document.querySelector("[data-view-enter-from]")?.getAttribute("data-view-enter-from");
+
+    const ltr = renderTwoWeeks();
+    expect(enterFrom()).toBeUndefined();
+    fireEvent.click(ltr.getByRole("button", { name: "다음 2주" }));
+    expect(enterFrom()).toBe("right");
+    fireEvent.click(ltr.getByRole("button", { name: "이전 2주" }));
+    expect(enterFrom()).toBe("left");
+    ltr.unmount();
+
+    const rtl = renderTwoWeeks("ar");
+    fireEvent.click(rtl.getByRole("button", { name: "Next two weeks" }));
+    expect(enterFrom()).toBe("left");
+  });
 });

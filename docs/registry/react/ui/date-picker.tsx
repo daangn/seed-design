@@ -29,6 +29,7 @@ export type DatePickerActions = SeedDatePicker.Actions;
 export type DatePickerProps = DatePickerSharedProps;
 export type TwoMonthDatePickerProps = DatePickerSharedProps;
 export type WeekDatePickerProps = DatePickerSharedProps;
+export type TwoWeekDatePickerProps = DatePickerSharedProps;
 export type ContinuousDatePickerProps = DatePickerSharedProps &
   ContinuousSizeConstraint & {
     /**
@@ -84,6 +85,11 @@ export const WeekDatePicker = React.forwardRef<HTMLDivElement, WeekDatePickerPro
   (props, ref) => <DatePickerImplementation ref={ref} {...props} visibleRange="week" />,
 );
 WeekDatePicker.displayName = "WeekDatePicker";
+
+export const TwoWeekDatePicker = React.forwardRef<HTMLDivElement, TwoWeekDatePickerProps>(
+  (props, ref) => <DatePickerImplementation ref={ref} {...props} visibleRange="twoWeeks" />,
+);
+TwoWeekDatePicker.displayName = "TwoWeekDatePicker";
 
 export const ContinuousDatePicker = React.forwardRef<HTMLDivElement, ContinuousDatePickerProps>(
   (props, ref) => <DatePickerImplementation ref={ref} {...props} visibleRange="continuous" />,

@@ -5,6 +5,7 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
+import { enterAnimation } from "../utils/animation";
 import { onlyIcon } from "../utils/icon";
 import { disabled, engaged, focus, focusVisible, not, pseudo, selected } from "../utils/pseudo";
 import { defineSlotRecipe } from "../utils/define";
@@ -192,6 +193,24 @@ const datePicker = defineSlotRecipe({
     weekRow: {
       display: "grid",
       gridTemplateColumns: "repeat(7, minmax(0, 1fr))",
+      // 이전·다음으로 이동하면 새 날짜가 이동한 방향에서 20px 밀려 들어오며 나타납니다.
+      "[data-view-enter-from] &": {
+        ...enterAnimation({
+          duration: tokens.$duration.d6,
+          timingFunction: tokens.$timingFunction.enter,
+          opacity: "0",
+          translateX: "var(--seed-date-picker-view-enter-offset)",
+        }),
+        "@media (prefers-reduced-motion: reduce)": {
+          "--seed-enter-translate-x": "0",
+        },
+      },
+      "[data-view-enter-from='right'] &": {
+        "--seed-date-picker-view-enter-offset": "20px",
+      },
+      "[data-view-enter-from='left'] &": {
+        "--seed-date-picker-view-enter-offset": "-20px",
+      },
     },
     dateCell: {
       position: "relative",
@@ -459,6 +478,16 @@ const datePicker = defineSlotRecipe({
         },
         wheelView: {
           // popover 안에서는 선택 표시가 좌우 여백 없이 popover 너비를 채웁니다.
+          "& [data-wheel-picker-indicator]": {
+            insetInline: 0,
+          },
+        },
+      },
+      twoWeeks: {
+        weekday: {
+          height: "24px",
+        },
+        wheelView: {
           "& [data-wheel-picker-indicator]": {
             insetInline: 0,
           },
