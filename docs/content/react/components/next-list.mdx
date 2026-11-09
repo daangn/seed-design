@@ -148,6 +148,8 @@ import {
 
 `NextListSwitchItem`, `NextListCheckItem`, `NextListRadioItem`을 사용해서 리스트 항목에 `input` 요소를 포함할 수 있습니다. 이때, [Switchmark](/react/components/switch#using-switchmark), [Checkmark](/react/components/checkbox#using-checkmark) 또는 [Radiomark](/react/components/radio-group#using-radiomark)와 같은 컨트롤 요소를 `prefix`나 `suffix` 영역에 넣어 사용합니다.
 
+이 item들은 항목 전체가 `label`로 렌더링되므로 `prefix`와 `suffix`에 `button`, `a` 같은 인터랙티브 요소를 넣지 마세요. 항목을 눌렀을 때 `input` 대신 그 요소가 동작하고, `input`의 접근 가능한 이름도 그 요소로 넘어갑니다. 별도로 클릭할 요소가 필요하다면 `NextListButtonItem`이나 `NextListLinkItem`을 사용하세요.
+
 <ComponentExample name="react/next-list/switch">
   ```json doc-gen:file
   {
