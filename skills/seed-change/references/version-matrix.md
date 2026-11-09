@@ -60,7 +60,7 @@ Headless 패키지의 bump와 그것을 감싼 wrapper 패키지의 bump는 따�
 
 `export *` 같은 재노출은 내부 사용 여부와 관계없이 공개 표면을 넓힌다. 재노출한 Headless breaking change는 wrapper에서도 `major`다.
 
-wrapper bump는 Headless와 같은 changeset에 직접 넣는다. `@seed-design/react`와 `@seed-design/lynx-react`는 Headless를 caret 범위로 의존하므로, Headless의 patch·minor가 그 범위 안에 있으면 wrapper는 자동으로 bump되지 않고 CHANGELOG에도 기록되지 않는다. Headless끼리의 의존(예: `@seed-design/react-accordion` → `@seed-design/react-collapsible`)은 동반 bump하지 않는다.
+wrapper bump는 Headless와 같은 changeset에 직접 넣는다. 다른 Headless를 쓰는 Headless 패키지(예: `@seed-design/react-collapsible`을 쓰는 `@seed-design/react-accordion`)도 위 목록에서 wrapper로 본다. 공개 패키지끼리는 caret 범위로 의존하므로, 새 버전이 그 범위 안에 있으면 의존 패키지는 자동으로 bump되지 않고 CHANGELOG에도 기록되지 않는다.
 
 ## 실제 소비 패키지 판단
 
