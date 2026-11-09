@@ -50,7 +50,7 @@ const alertDialog = defineSlotRecipe({
       flexDirection: "column",
       boxSizing: "border-box",
       wordBreak: "normal",
-      overflowWrap: "anywhere",
+      overflowWrap: ["break-word", "anywhere"],
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,
