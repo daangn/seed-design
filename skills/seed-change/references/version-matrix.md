@@ -53,11 +53,14 @@ CSS 계열의 `major`는 그 CSS를 쓰는 React 계열에도 `major`로 전파�
 Headless 패키지의 bump와 그것을 감싼 wrapper 패키지의 bump는 따로 정한다.
 
 - wrapper가 그 기능을 쓰지도 공개하지도 않음 → wrapper bump 없음
+- wrapper가 고친 Headless 코드를 써서 wrapper의 렌더·동작도 고쳐짐 → `patch`
 - wrapper가 내부에서 차이를 흡수해 공개 API와 결과를 유지 → `patch`
 - wrapper가 새 하위 호환 기능을 공개 → `minor`
 - wrapper가 breaking API를 그대로 재노출 → `major`
 
 `export *` 같은 재노출은 내부 사용 여부와 관계없이 공개 표면을 넓힌다. 재노출한 Headless breaking change는 wrapper에서도 `major`다.
+
+wrapper bump는 Headless와 같은 changeset에 직접 넣는다. 다른 Headless를 쓰는 Headless 패키지(예: `@seed-design/react-collapsible`을 쓰는 `@seed-design/react-accordion`)도 위 목록에서 wrapper로 본다. 공개 패키지끼리는 caret 범위로 의존하므로, 새 버전이 그 범위 안에 있으면 의존 패키지는 자동으로 bump되지 않고 CHANGELOG에도 기록되지 않는다.
 
 ## 실제 소비 패키지 판단
 
@@ -65,6 +68,7 @@ Headless 패키지의 bump와 그것을 감싼 wrapper 패키지의 bump는 따�
 
 - 새 토큰이나 Recipe를 그 패키지가 실제로 import하거나 생성 결과에 포함하는가?
 - 새 Headless 기능을 wrapper가 prop, 타입, 상태, 이벤트로 노출하는가?
+- 고친 Headless 코드를 wrapper가 써서 wrapper의 렌더·동작도 고쳐지는가?
 - 바뀐 CSS 계약이 그 패키지의 렌더 결과에 반드시 필요한가?
 - codegen이나 snippet 출력이 특정 새 API를 생성하는가?
 
@@ -81,7 +85,7 @@ Headless 패키지의 bump와 그것을 감싼 wrapper 패키지의 bump는 따�
 ## 특수 범위
 
 - `.changeset/config.json`의 `linked` 그룹은 릴리스 때 버전을 맞춘다. 실제 변경된 패키지만 changeset에 넣고, 연결 결과는 Version Changes PR에서 확인한다.
-- `updateInternalDependencies: "patch"`가 만드는 자동 dependency bump를 수동 changeset으로 중복 작성하지 않는다.
+- changesets는 새 버전이 기존 dependency 범위를 벗어날 때만 의존 패키지를 자동으로 bump한다. 이 자동 bump는 수동 changeset으로 중복 작성하지 않는다. caret 범위 안의 변경은 자동 bump되지 않으므로 「Headless 변경 전파」대로 직접 넣는다.
 - private 패키지와 `packages/archive/*`는 changeset 후보에서 뺀다.
 - `cli`, `figma`, `mcp`, codegen 도구는 각자의 명령, 생성 코드, 공개 타입, 프로토콜을 기준으로 따로 분류한다.
 

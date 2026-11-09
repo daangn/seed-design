@@ -1,6 +1,6 @@
-import { render } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterAll, describe, expect, it, mock } from "bun:test";
+import { afterAll, beforeAll, describe, expect, it, mock } from "bun:test";
 
 import type { ReactElement } from "react";
 import * as React from "react";
@@ -200,6 +200,84 @@ describe("useCollapsible", () => {
 
       await user.click(closeButton);
       expect(trigger).toHaveAttribute("aria-expanded", "false");
+    });
+  });
+
+  describe("content height while an ancestor is hidden", () => {
+    const scrollHeight = Object.getOwnPropertyDescriptor(Element.prototype, "scrollHeight");
+    const getClientRects = Object.getOwnPropertyDescriptor(Element.prototype, "getClientRects");
+    const observers = new Set<ResizeObserverCallback>();
+    let rendered = true;
+
+    class RecordingResizeObserver {
+      constructor(private callback: ResizeObserverCallback) {}
+      observe() {
+        observers.add(this.callback);
+      }
+      unobserve() {
+        observers.delete(this.callback);
+      }
+      disconnect() {
+        observers.delete(this.callback);
+      }
+    }
+
+    function setRendered(value: boolean) {
+      rendered = value;
+      act(() => {
+        for (const callback of observers) {
+          callback([], {} as globalThis.ResizeObserver);
+        }
+      });
+    }
+
+    beforeAll(() => {
+      window.ResizeObserver = RecordingResizeObserver;
+      Object.defineProperty(Element.prototype, "scrollHeight", {
+        configurable: true,
+        get: () => (rendered ? 80 : 0),
+      });
+      Object.defineProperty(Element.prototype, "getClientRects", {
+        configurable: true,
+        value(this: Element) {
+          return rendered && !this.closest("[hidden]") ? [this.getBoundingClientRect()] : [];
+        },
+      });
+    });
+
+    afterAll(() => {
+      window.ResizeObserver = ResizeObserver;
+      if (scrollHeight) Object.defineProperty(Element.prototype, "scrollHeight", scrollHeight);
+      if (getClientRects)
+        Object.defineProperty(Element.prototype, "getClientRects", getClientRects);
+    });
+
+    it("should keep the measured height while the content is not rendered", () => {
+      rendered = true;
+      const { getByText } = setUp(<Collapsible defaultOpen={true} />);
+      const content = getByText("Content");
+
+      expect(content.style.getPropertyValue("--collapsible-content-height")).toBe("80px");
+
+      setRendered(false);
+
+      expect(content.style.getPropertyValue("--collapsible-content-height")).toBe("80px");
+
+      setRendered(true);
+
+      expect(content.style.getPropertyValue("--collapsible-content-height")).toBe("80px");
+    });
+
+    it("should start the closed content from 0px so that opening transitions", async () => {
+      rendered = true;
+      const { getByRole, getByText } = setUp(<Collapsible defaultOpen={false} />);
+      const content = getByText("Content");
+
+      expect(content.style.getPropertyValue("--collapsible-content-height")).toBe("0px");
+
+      await userEvent.click(getByRole("button"));
+
+      expect(content.style.getPropertyValue("--collapsible-content-height")).toBe("80px");
     });
   });
 });

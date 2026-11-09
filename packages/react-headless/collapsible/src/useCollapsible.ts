@@ -44,6 +44,10 @@ export function useCollapsible(props: UseCollapsibleProps) {
 
     const updateHeight = () => {
       if (!contentRef.current) return;
+      // 조상이 `display: none`이면 높이가 0으로 측정된다. 그대로 쓰면 다시 보일 때 0에서 transition된다.
+      // 닫힌 content는 스스로 `hidden`이라 늘 렌더되지 않는데, 이때 기록한 0이 다음에 열 때 transition의
+      // 시작값이 된다. 건너뛰면 높이가 `auto`로 남아 열 때 transition 없이 펼쳐진다.
+      if (open && contentRef.current.getClientRects().length === 0) return;
 
       setHeight(contentRef.current.scrollHeight);
     };

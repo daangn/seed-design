@@ -3039,4 +3039,78 @@ describe("useSlider", () => {
       ]);
     });
   });
+
+  describe("Thumb offset while an ancestor is hidden", () => {
+    const offsetWidth = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "offsetWidth");
+    const getClientRects = Object.getOwnPropertyDescriptor(Element.prototype, "getClientRects");
+    const testResizeObserver = window.ResizeObserver;
+    const observers = new Map<Element, ResizeObserverCallback>();
+    let rendered = true;
+
+    class RecordingResizeObserver {
+      constructor(private callback: ResizeObserverCallback) {}
+      observe(target: Element) {
+        observers.set(target, this.callback);
+      }
+      unobserve(target: Element) {
+        observers.delete(target);
+      }
+      disconnect() {}
+    }
+
+    function setRendered(value: boolean) {
+      rendered = value;
+      const size = value ? 24 : 0;
+      act(() => {
+        for (const [target, callback] of observers) {
+          const box = { inlineSize: size, blockSize: size };
+          const entry: ResizeObserverEntry = {
+            target,
+            borderBoxSize: [box],
+            contentBoxSize: [box],
+            devicePixelContentBoxSize: [box],
+            contentRect: target.getBoundingClientRect(),
+          };
+          callback([entry], {} as ResizeObserver);
+        }
+      });
+    }
+
+    beforeEach(() => {
+      rendered = true;
+      window.ResizeObserver = RecordingResizeObserver;
+      Object.defineProperty(HTMLElement.prototype, "offsetWidth", {
+        configurable: true,
+        get: () => (rendered ? 24 : 0),
+      });
+      Object.defineProperty(Element.prototype, "getClientRects", {
+        configurable: true,
+        value(this: Element) {
+          return rendered ? [this.getBoundingClientRect()] : [];
+        },
+      });
+    });
+
+    afterEach(() => {
+      window.ResizeObserver = testResizeObserver;
+      if (offsetWidth) Object.defineProperty(HTMLElement.prototype, "offsetWidth", offsetWidth);
+      if (getClientRects)
+        Object.defineProperty(Element.prototype, "getClientRects", getClientRects);
+    });
+
+    it("keeps the thumb offset measured before the slider was hidden", () => {
+      const { getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[0]} />);
+      const thumb = getByTestId("slider-thumb-0");
+
+      expect(thumb.style.getPropertyValue("--thumb-offset")).toBe("12px");
+
+      setRendered(false);
+
+      expect(thumb.style.getPropertyValue("--thumb-offset")).toBe("12px");
+
+      setRendered(true);
+
+      expect(thumb.style.getPropertyValue("--thumb-offset")).toBe("12px");
+    });
+  });
 });

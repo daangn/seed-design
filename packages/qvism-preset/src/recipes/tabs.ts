@@ -1,6 +1,6 @@
 import { tablist as vars, tab as triggerVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { active, disabled, focusVisible, not, pseudo, selected } from "../utils/pseudo";
+import { active, disabled, focusVisible, hidden, not, pseudo, selected } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -76,7 +76,12 @@ const tabs = defineSlotRecipe({
       borderBottom: `${vars.base.enabled.indicator.height} solid ${vars.base.enabled.indicator.color}`,
       bottom: 0,
 
+      // TODO: headless가 측정 전 `hidden`을 붙이므로 redundant하다. 이전 headless와 함께 쓰이면
+      // 첫 로드에 indicator가 0에서 미끄러지므로 아직 남겨 둔다.
       [pseudo("[data-ssr]")]: {
+        display: "none",
+      },
+      [pseudo(hidden)]: {
         display: "none",
       },
     },

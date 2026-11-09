@@ -59,6 +59,9 @@
 .seed-tabs__indicator[data-ssr] {
     display: none;
 }
+.seed-tabs__indicator:is([hidden], [data-hidden]) {
+    display: none;
+}
 .seed-tabs__trigger {
     position: relative;
     display: flex;
