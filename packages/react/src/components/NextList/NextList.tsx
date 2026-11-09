@@ -222,8 +222,7 @@ export const NextListDetail = withContext<HTMLDivElement, NextListDetailProps>(
 // ────────────────────────────────────────────────────────────────────────────
 
 export interface NextListItemProps
-  extends PrimitiveProps,
-    Pick<StyleProps, "alignItems">,
+  extends Pick<StyleProps, "alignItems">,
     React.HTMLAttributes<HTMLLIElement>,
     NextListItemVariantProps {}
 
@@ -364,7 +363,7 @@ NextListAnchorItem.displayName = "NextListAnchorItem";
 
 export interface NextListCheckboxItemProps
   extends NextListItemVariantProps,
-    Omit<CheckboxPrimitive.RootProps, keyof NextListItemVariantProps> {
+    Omit<CheckboxPrimitive.RootProps, keyof NextListItemVariantProps | "asChild"> {
   alignItems?: StyleProps["alignItems"];
   rootRef?: React.Ref<HTMLLabelElement>;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
@@ -397,7 +396,7 @@ NextListCheckboxItem.displayName = "NextListCheckboxItem";
 
 export interface NextListRadioItemProps
   extends NextListItemVariantProps,
-    Omit<RadioGroupPrimitive.ItemProps, keyof NextListItemVariantProps> {
+    Omit<RadioGroupPrimitive.ItemProps, keyof NextListItemVariantProps | "asChild"> {
   alignItems?: StyleProps["alignItems"];
   rootRef?: React.Ref<HTMLLabelElement>;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
@@ -430,7 +429,7 @@ NextListRadioItem.displayName = "NextListRadioItem";
 
 export interface NextListSwitchItemProps
   extends NextListItemVariantProps,
-    Omit<SwitchPrimitive.RootProps, keyof NextListItemVariantProps> {
+    Omit<SwitchPrimitive.RootProps, keyof NextListItemVariantProps | "asChild"> {
   alignItems?: StyleProps["alignItems"];
   rootRef?: React.Ref<HTMLLabelElement>;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
