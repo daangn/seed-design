@@ -10,4 +10,6 @@ expect.extend(matchers);
 
 afterEach(() => {
   cleanup();
+  // cleanup() only removes containers mounted by render(); nodes a test appends itself would leak into later files.
+  document.body.innerHTML = "";
 });
