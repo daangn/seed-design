@@ -1,7 +1,7 @@
 import type { ReactNode } from "@lynx-js/react";
 import { renderHook } from "@lynx-js/react/testing-library";
 import { SafeAreaProvider } from "@seed-design/lynx-react-use-safe-area";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } from "vitest";
 
 import { useSafeArea } from "../hooks/useSafeArea";
 import { useSeedClassName } from "../hooks/useSeedClassName";
@@ -30,7 +30,7 @@ function setGlobalProps(globalProps: Record<string, unknown>) {
 }
 
 describe("useSeedContext", () => {
-  let warn: ReturnType<typeof vi.spyOn>;
+  let warn: MockInstance<typeof console.warn>;
 
   beforeEach(() => {
     setGlobalProps({});

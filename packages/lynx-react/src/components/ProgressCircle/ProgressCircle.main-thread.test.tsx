@@ -204,7 +204,7 @@ describe("ProgressCircle MT 진행률", () => {
       try {
         runWorkletCtx(callback, [
           { params: { clientY: y, clientX: 100 }, currentTarget: { element: null } },
-          { __ConsumeGesture: vi.fn() },
+          { __ConsumeGesture: vi.fn<() => void>() },
         ]);
       } finally {
         lynxTestingEnv.switchToBackgroundThread();
