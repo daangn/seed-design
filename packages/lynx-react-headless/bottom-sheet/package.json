@@ -27,7 +27,7 @@
     "@lynx-js/lynx-ui-common": "^3.130.0",
     "@lynx-js/lynx-ui-overlay": "^3.133.1",
     "@lynx-js/lynx-ui-presence": "^3.133.1",
-    "@lynx-js/motion": "0.0.3",
+    "@lynx-js/motion": "0.0.8",
     "clsx": "^2.1.1"
   },
   "peerDependencies": {
