@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@optique/core": "1.2.4",
+    "@optique/core": "1.3.6",
     "@optique/run": "1.3.6",
     "skills-npm": "1.2.1"
   }
