@@ -32,7 +32,7 @@
     "@seed-design/lynx-react-use-press-tap": "^1.0.0"
   },
   "peerDependencies": {
-    "@lynx-js/react": ">=0.100.0",
+    "@lynx-js/react": ">=0.117.0",
     "@lynx-js/types": ">=3.7.0"
   },
   "devDependencies": {

@@ -33,7 +33,7 @@
     "@seed-design/lynx-react-use-controllable-state": "^1.0.0"
   },
   "peerDependencies": {
-    "@lynx-js/react": ">=0.100.0"
+    "@lynx-js/react": ">=0.117.0"
   },
   "devDependencies": {
     "@lynx-js/react": "^0.129.0",

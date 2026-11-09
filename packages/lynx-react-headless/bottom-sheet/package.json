@@ -31,7 +31,7 @@
     "clsx": "^2.1.1"
   },
   "peerDependencies": {
-    "@lynx-js/react": ">=0.100.0",
+    "@lynx-js/react": ">=0.117.0",
     "@lynx-js/types": ">=3.7.0"
   },
   "devDependencies": {

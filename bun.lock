@@ -626,7 +626,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -645,7 +645,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -684,7 +684,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -707,7 +707,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -728,7 +728,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -748,7 +748,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -768,7 +768,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -787,7 +787,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -803,7 +803,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -822,7 +822,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -842,7 +842,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -879,7 +879,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -895,7 +895,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -914,7 +914,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -958,7 +958,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -997,7 +997,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -1016,7 +1016,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -1036,7 +1036,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -1056,7 +1056,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -1076,7 +1076,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -1097,7 +1097,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -1140,7 +1140,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -1156,7 +1156,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -1176,7 +1176,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -1196,7 +1196,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -1217,7 +1217,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -1238,7 +1238,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -1256,7 +1256,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
       },
     },
     "packages/lynx-react-headless/use-dismissible": {
@@ -1274,7 +1274,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
       },
     },
     "packages/lynx-react-headless/use-press-tap": {
@@ -1292,7 +1292,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
       },
     },
@@ -1320,7 +1320,7 @@
         "vitest": "^5.0.0",
       },
       "peerDependencies": {
-        "@lynx-js/react": ">=0.100.0",
+        "@lynx-js/react": ">=0.117.0",
         "vitest": ">=3.0.0",
       },
     },

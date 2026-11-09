@@ -34,7 +34,7 @@
     "unicode-segmenter": "^0.14.4"
   },
   "peerDependencies": {
-    "@lynx-js/react": ">=0.100.0",
+    "@lynx-js/react": ">=0.117.0",
     "@lynx-js/types": ">=3.7.0"
   },
   "devDependencies": {

@@ -7,7 +7,7 @@
     ".": "./src/index.mjs"
   },
   "peerDependencies": {
-    "@lynx-js/react": ">=0.100.0",
+    "@lynx-js/react": ">=0.117.0",
     "vitest": ">=3.0.0"
   },
   "devDependencies": {
