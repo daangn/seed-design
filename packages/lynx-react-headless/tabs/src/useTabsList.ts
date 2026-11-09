@@ -2,7 +2,7 @@ import * as React from "@lynx-js/react";
 import type { IntrinsicElements, MainThread, NodesRef } from "@lynx-js/types";
 import { runOnMainThread } from "@lynx-js/react";
 import { useTabsContext } from "./useTabsContext.js";
-import { getTabsLayoutWidth, getTabsScrollOffset } from "./Tabs.utils.js";
+import { areTabsTriggersMeasured, getTabsLayoutWidth, getTabsScrollOffset } from "./Tabs.utils.js";
 type NativeViewProps = IntrinsicElements["view"];
 type LayoutChangeHandler = NonNullable<NativeViewProps["bindlayoutchange"]>;
 type NativeScrollViewProps = IntrinsicElements["scroll-view"];
@@ -65,11 +65,11 @@ function getTabsContentInsets(
     return null;
   return { start, end, viewportStart, viewportEnd };
 }
-function invokeScrollToOffset(list: NodesRef | null, offset: number) {
+function invokeScrollToOffset(list: NodesRef | null, offset: number, smooth: boolean) {
   "background only";
   if (!list || offset < 0) return;
   try {
-    list.invoke({ method: "scrollTo", params: { offset, smooth: true } }).exec();
+    list.invoke({ method: "scrollTo", params: { offset, smooth } }).exec();
   } catch {
     // ReactLynx Testing Library의 NodesRef는 UI method를 구현하지 않는다.
   }
@@ -122,6 +122,7 @@ export function useTabsList({ children, scrollAlign = "start", viewportInsets }:
   const contentInsetRequestRef = React.useRef(0);
   const hadViewportInsetsRef = React.useRef(false);
   const selectedValueRef = React.useRef(value);
+  const skipsNextScrollAnimationRef = React.useRef(true);
   const [geometryRevision, setGeometryRevision] = React.useState(0);
   const triggerOrder = React.useMemo(() => getTabsTriggerValues(children), [children]);
 
@@ -227,11 +228,21 @@ export function useTabsList({ children, scrollAlign = "start", viewportInsets }:
   React.useEffect(() => {
     "background only";
     const selectedRect = value === undefined ? undefined : triggerRects[value];
+    const isSelectedMeasured =
+      selectedRect !== undefined &&
+      areTabsTriggersMeasured(
+        items,
+        triggerRects,
+        items.findIndex((item) => item.value === value),
+      );
+    if (!isSelectedMeasured) skipsNextScrollAnimationRef.current = true;
+
     const { currentOffset, viewportWidth, contentWidth, insets } = metricsRef.current;
     if (
       !scrollRef.current ||
       value === undefined ||
       !selectedRect ||
+      !isSelectedMeasured ||
       viewportWidth === null ||
       contentWidth === null ||
       insets === null
@@ -250,9 +261,15 @@ export function useTabsList({ children, scrollAlign = "start", viewportInsets }:
       viewportInsetEnd: insets.viewportEnd,
       triggerRect: selectedRect,
     });
-    if (selectedValueRef.current !== value || targetOffset === currentOffset) return;
+    if (selectedValueRef.current !== value) return;
 
-    invokeScrollToOffset(scrollRef.current, targetOffset);
+    // 조상이 `display: none`인 동안 native scroll-view는 스크롤 위치를 0으로 되돌린다. 측정이 끝난 직후의
+    // 정렬까지 smooth로 하면 다시 보일 때 처음부터 선택한 trigger까지 미끄러지는 스크롤이 보인다.
+    const smooth = !skipsNextScrollAnimationRef.current;
+    skipsNextScrollAnimationRef.current = false;
+    if (targetOffset === currentOffset) return;
+
+    invokeScrollToOffset(scrollRef.current, targetOffset, smooth);
   }, [geometryRevision, items, scrollAlign, triggerRects, value]);
 
   return React.useMemo(

@@ -12,7 +12,7 @@ verified_at: "2026-10-27"
 ## 교훈과 다음 행동
 
 - 시뮬레이터는 Simulator 창 없이 부팅돼 있어 하드웨어 키보드가 연결되지 않는다 → native 입력에 focus하면 소프트 키보드가 뜬다. 키보드 표시·높이는 예제에서 `lynx.getJSModule("GlobalEventEmitter")`의 `keyboardstatuschanged`(`"on", 328` / `"off", 0`)를 기록해 판정하고, 화면은 `xcrun simctl io <udid> screenshot`으로 남긴다.
-- 열기: `lynx-card.ts acquire` 뒤 `xcrun simctl openurl <udid> "karrot.alpha://xview?renderer=lynx&url=$(encodeURIComponent bundle URL)"`을 한 번 실행하고, 실행 전후 `list-sessions` 차이로 소유 session을 확정한다. `lynx-card.ts open`은 `lynx://open?url=`만 풀어 이 스킴의 session을 대조하지 못한다.
+- 열기: `lynx-card.ts acquire` 뒤 `xcrun simctl openurl <udid> "karrot.alpha://xview?renderer=lynx&url=$(encodeURIComponent bundle URL)"`을 한 번 실행하고, 실행 전후 `list-sessions` 차이로 소유 session을 확정한다. `lynx-card.ts open`은 `lynx://open?url=`만 풀어 이 스킴의 session을 대조하지 못한다. 대신 query 없는 bundle URL(`http://127.0.0.1:<port>/main.lynx.bundle`)로 `lynx-card.ts open`을 백그라운드로 시작하고, 30초 대조 창 안에 `simctl openurl`을 실행하면 스크립트가 새 session을 소유로 기록해 `exec`·`release`를 그대로 쓸 수 있다(2026-11-06, iOS 27.2 시뮬레이터에서 2회 확인).
 - host가 bundle URL의 query를 지워 `__pageUrl`에 `example`이 남지 않는다 → SPA 홈이 열린다. `Page.reload`에 query URL을 주면 `__pageUrl`은 바뀌지만 LynxView 전체가 그려지지 않는다. 검증 동안만 `examples/lynx-spa/src/App.tsx`에 `setRoute`를 전역으로 노출하는 한 줄을 넣고(HMR로 반영됨) `evaluate`로 예제를 연 뒤, 끝나면 되돌린다.
 - 입력이 화면에 있을 때 agent-lynx `snapshot`·`tap`(DevTool `UITree.getUIInfoForNode`)을 실행하면 앱이 exit 1로 종료될 수 있다 → 입력 화면에서는 `evaluate`(UI method `focus`·`blur`, 로그 조회)만 쓴다.
 - 탭·키보드 키는 실제 터치로 보낸다. `open -a /Applications/Xcode.app/Contents/Applications/DeviceHub.app`이 시뮬레이터 화면을 띄우고, 이 창에 보낸 macOS 마우스 클릭(CGEvent)이 터치로 전달된다. 창 좌표는 `System Events`의 창 position·size와 창 캡처로 기기 좌표에 맞춘다. 창 캡처는 DeviceHub가 앞에 있을 때만 하고, 다른 앱이 앞에 오면 `simctl` 캡처로 바꾼다.

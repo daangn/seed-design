@@ -24,7 +24,7 @@ import { mergeProps } from "../../utils/merge-props";
 import { Box } from "../Box";
 type TabsRecipeState = Pick<
   TabsVariantProps,
-  "selected" | "disabled" | "inCarousel" | "transitionEnabled"
+  "selected" | "disabled" | "inCarousel" | "transitionEnabled" | "indicatorMeasured"
 >;
 type TabsPublicVariantProps = Omit<TabsVariantProps, keyof TabsRecipeState>;
 type TabsClassNames = Record<TabsSlotName, string>;
@@ -67,6 +67,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
         disabled: state.disabled,
         inCarousel: state.inCarousel,
         transitionEnabled: state.transitionEnabled,
+        indicatorMeasured: state.indicatorMeasured,
       }),
     [variantProps],
   );
@@ -235,7 +236,10 @@ export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((prop
         nativeProps,
       )}
       className={clsx(
-        getClassNames({ transitionEnabled: api.transitionsEnabled }).indicator,
+        getClassNames({
+          transitionEnabled: api.transitionsEnabled,
+          indicatorMeasured: api.isMeasured,
+        }).indicator,
         className,
       )}
       style={{ ...api.indicatorProps.style, ...style }}

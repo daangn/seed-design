@@ -179,7 +179,10 @@ export const FloatingActionButtonLabel = React.forwardRef<unknown, FloatingActio
     const handleLayoutChange = React.useCallback<NonNullable<LynxTextProps["bindlayoutchange"]>>(
       (event) => {
         "background only";
-        const width = event.detail.width;
+        const { width, height } = event.detail;
+        // 조상이 `display: none`이면 0×0으로 보고된다. 이 값을 따르면 다시 보일 때 폭 0에서 늘어나므로
+        // 마지막 폭을 유지한다.
+        if (width === 0 && height === 0) return;
         if (Number.isFinite(width) && width >= 0) setLabelWidth(width);
       },
       [setLabelWidth],

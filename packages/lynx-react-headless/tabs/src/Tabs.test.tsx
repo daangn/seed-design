@@ -7,6 +7,7 @@ import * as Tabs from "./Tabs.namespace.js";
 import { useTabsContext } from "./useTabsContext.js";
 import { useTabsTriggerContext } from "./useTabsTriggerContext.js";
 import { useTabsCarouselCamera } from "./useTabsCarouselCamera.js";
+import { useTabsIndicator } from "./useTabsIndicator.js";
 import {
   areTabsTransitionsEnabled,
   getTabsLayoutWidth,
@@ -299,6 +300,12 @@ describe("Tabs headless", () => {
 
     expect(areTabsTransitionsEnabled(["one", "two"], rects)).toBe(true);
     expect(areTabsTransitionsEnabled(["one", "two", "three"], rects)).toBe(false);
+    expect(
+      areTabsTransitionsEnabled(
+        ["one", "two"],
+        getTabsTriggerRects(["one", "two"], { one: 0, two: 80 }),
+      ),
+    ).toBe(false);
   });
 
   it("keeps transitions off in the update that first applies measured trigger geometry", () => {
@@ -352,6 +359,43 @@ describe("Tabs headless", () => {
       width: "12px",
       opacity: "0.5",
     });
+  });
+
+  it("hides the indicator until every trigger up to the selected one has a nonzero width", () => {
+    function IndicatorProbe() {
+      const { isMeasured } = useTabsIndicator();
+      return <text data-testid="indicator-state">{JSON.stringify({ isMeasured })}</text>;
+    }
+    const { container, getByTestId } = render(
+      <Tabs.Root defaultValue="two">
+        <Tabs.List>
+          <Tabs.Trigger value="one">one</Tabs.Trigger>
+          <Tabs.Trigger value="two">two</Tabs.Trigger>
+          <Tabs.Trigger value="three">three</Tabs.Trigger>
+          <Tabs.Indicator data-testid="indicator" />
+        </Tabs.List>
+        <IndicatorProbe />
+      </Tabs.Root>,
+    );
+    const state = () => getProbeState(container, "indicator-state");
+    expect(getByTestId("indicator")).toHaveStyle({ display: "none" });
+    expect(state()).toEqual({ isMeasured: false });
+
+    fireLayoutChange(getTrigger(container, "one"), 80);
+    fireLayoutChange(getTrigger(container, "two"), 100);
+    expect(state()).toEqual({ isMeasured: true });
+
+    // 조상이 `display: none`이 되면 모든 trigger가 폭 0을 보고한다.
+    fireLayoutChange(getTrigger(container, "one"), 0);
+    fireLayoutChange(getTrigger(container, "two"), 0);
+    fireLayoutChange(getTrigger(container, "three"), 0);
+    expect(state()).toEqual({ isMeasured: false });
+
+    fireLayoutChange(getTrigger(container, "two"), 100);
+    expect(state()).toEqual({ isMeasured: false });
+
+    fireLayoutChange(getTrigger(container, "one"), 80);
+    expect(state()).toEqual({ isMeasured: true });
   });
 
   it("changes an uncontrolled value when a trigger is tapped", () => {

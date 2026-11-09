@@ -46,7 +46,8 @@ const defaultVariant = {
   "size": "small",
   "stickyList": false,
   "transitionEnabled": true,
-  "extendSafeAreaX": false
+  "extendSafeAreaX": false,
+  "indicatorMeasured": true
 };
 
 const compoundVariants = [
@@ -98,6 +99,10 @@ export const tabsVariantMap = {
     false
   ],
   "inCarousel": [
+    true,
+    false
+  ],
+  "indicatorMeasured": [
     true,
     false
   ]
