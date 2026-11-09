@@ -1,5 +1,7 @@
 ---
 "@seed-design/react-collapsible": patch
+"@seed-design/react-accordion": patch
+"@seed-design/react-side-navigation": patch
 "@seed-design/react": patch
 ---
 
