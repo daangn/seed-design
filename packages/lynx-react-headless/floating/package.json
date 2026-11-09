@@ -33,7 +33,7 @@
     "@lynx-js/types": ">=3.7.0"
   },
   "devDependencies": {
-    "@lynx-js/react": "^0.117.0",
+    "@lynx-js/react": "^0.129.0",
     "@lynx-js/types": "^3.7.0",
     "vitest": "^5.0.0"
   },

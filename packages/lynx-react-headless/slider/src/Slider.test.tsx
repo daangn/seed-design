@@ -317,6 +317,8 @@ describe("Slider", () => {
     const styles: unknown[] = [];
     let indicatorWidth = 111 / 3;
     geometry.getRectByRef.mockImplementation(async (ref: { current: unknown }) => {
+      // 실제 SelectorQuery처럼 비동기로 조회한다. ReactLynx는 첫 측정을 element tree commit 전에 요청할 수 있다.
+      await Promise.resolve();
       const element = elementForRef(ref.current);
       if (element?.classList.contains("indicator")) return { left: 0, width: indicatorWidth };
       return element?.classList.contains("thumb") ? thumbRect : rootRect;

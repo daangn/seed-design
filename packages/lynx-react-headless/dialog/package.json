@@ -27,11 +27,11 @@
     "@lynx-js/lynx-ui-dialog": "^3.133.1"
   },
   "peerDependencies": {
-    "@lynx-js/react": ">=0.100.0",
+    "@lynx-js/react": ">=0.117.0",
     "@lynx-js/types": ">=3.7.0"
   },
   "devDependencies": {
-    "@lynx-js/react": "^0.117.0",
+    "@lynx-js/react": "^0.129.0",
     "@lynx-js/types": "^3.7.0",
     "@seed-design/lynx-vitest-config": "0.0.0",
     "@testing-library/jest-dom": "^6.9.1",

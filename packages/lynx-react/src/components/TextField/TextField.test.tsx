@@ -3,7 +3,7 @@ import { createRef } from "@lynx-js/react";
 import { fireEvent, getQueriesForElement, render } from "@lynx-js/react/testing-library";
 import type { NodesRef } from "@lynx-js/types";
 import { KeyboardAvoidingScrollViewProvider } from "@seed-design/lynx-react-keyboard-avoiding-scroll-view";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { Field } from "../Field";
 import { TextField } from "./index";
@@ -77,9 +77,20 @@ function fireNativeEvent(
   fireEvent(nativeRef as unknown as Element, event);
 }
 
+beforeEach(() => {
+  // ReactLynx는 첫 렌더 중 UI method를 render 끝으로 미루고 Testing Library의 NodesRef로 실행한다.
+  // 그 NodesRef.invoke는 구현되지 않아 throw하므로 기기처럼 아무 일도 하지 않게 둔다.
+  const selectorQuery = lynx.createSelectorQuery() as unknown as {
+    selectUniqueID(uniqueId: number): NodesRef;
+  };
+  const nodesRefPrototype = Object.getPrototypeOf(selectorQuery.selectUniqueID(0));
+  vi.spyOn(nodesRefPrototype, "invoke").mockImplementation(() => ({ exec: () => {} }));
+});
+
 afterEach(() => {
   setSystemInfo(undefined);
   vi.unstubAllGlobals();
+  vi.restoreAllMocks();
 });
 
 describe("TextField", () => {
@@ -390,7 +401,9 @@ describe("TextField", () => {
     const invoke = vi.fn(() => ({ exec }));
     textareaRef.current.invoke = invoke as unknown as NodesRef["invoke"];
 
-    fireEvent.tap(textareaRef.current as unknown as Element);
+    // Testing Library의 이벤트 target에는 기기 이벤트의 uid가 없어 wrapper의 target 비교를 재현할 수 없다.
+    // 그래서 textarea tap은 버블링하지 않게 보내 wrapper가 직접 받은 tap만 focus하는지 확인한다.
+    fireNativeEvent(textareaRef.current, textarea, "tap", {}, false);
     expect(invoke).not.toHaveBeenCalled();
 
     fireEvent.tap(textareaRoot);

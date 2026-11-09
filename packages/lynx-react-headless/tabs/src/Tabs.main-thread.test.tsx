@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { createEvent, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as Tabs from "./Tabs.namespace.js";
 import { useTabsContext } from "./useTabsContext.js";
@@ -42,6 +42,17 @@ function IndicatorProbe() {
     </text>
   );
 }
+
+beforeEach(() => {
+  // ReactLynx는 첫 렌더 중 UI method를 render 끝으로 미루고 Testing Library의 NodesRef로 실행한다.
+  // 그 NodesRef.invoke는 구현되지 않아 throw하므로 기기처럼 아무 일도 하지 않게 둔다.
+  const nodesRefPrototype = Object.getPrototypeOf(lynx.createSelectorQuery().selectUniqueID(0));
+  vi.spyOn(nodesRefPrototype, "invoke").mockImplementation(() => ({ exec: () => {} }));
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe("Tabs headless main-thread indicator", () => {
   it("keeps measured, selected and settled indicator geometry consistent with main-thread offsets", async () => {
