@@ -2080,7 +2080,9 @@
 
   .seed-alert-dialog__content {
     box-sizing: border-box;
-    word-break: break-all;
+    word-break: normal;
+    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     max-width: 272px;
@@ -3191,7 +3193,9 @@
 
   .seed-bottom-sheet__content {
     box-sizing: border-box;
-    word-break: break-all;
+    word-break: normal;
+    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     max-width: 480px;
@@ -5212,7 +5216,9 @@
 
   .seed-dialog__content {
     box-sizing: border-box;
-    word-break: break-all;
+    word-break: normal;
+    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     border-radius: var(--seed-radius-r5);
@@ -7515,7 +7521,9 @@
 
   .seed-menu-sheet__content {
     box-sizing: border-box;
-    word-break: break-all;
+    word-break: normal;
+    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     max-width: 480px;
@@ -10961,7 +10969,9 @@
 
   .seed-side-panel__content {
     box-sizing: border-box;
-    word-break: break-all;
+    word-break: normal;
+    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     z-index: calc(var(--side-panel-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     touch-action: none;

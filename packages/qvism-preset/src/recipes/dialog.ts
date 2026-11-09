@@ -69,7 +69,8 @@ const dialog = defineSlotRecipe({
       flex: "0 0 auto",
       flexDirection: "column",
       boxSizing: "border-box",
-      wordBreak: "break-all",
+      wordBreak: "normal",
+      overflowWrap: ["break-word", "anywhere"],
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,

@@ -25,7 +25,9 @@
     flex: 1;
     flex-direction: column;
     box-sizing: border-box;
-    word-break: break-all;
+    word-break: normal;
+    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     max-width: 272px;

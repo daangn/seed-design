@@ -55,7 +55,8 @@ const sidePanel = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
       boxSizing: "border-box",
-      wordBreak: "break-all",
+      wordBreak: "normal",
+      overflowWrap: ["break-word", "anywhere"],
       zIndex: "calc(var(--side-panel-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,
