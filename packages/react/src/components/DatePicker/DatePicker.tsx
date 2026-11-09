@@ -48,8 +48,17 @@ function composeRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
   };
 }
 
+interface DatePickerSizeProps {
+  /** Continuous 스크롤 영역의 높이입니다. Continuous에서는 `height`·`minHeight`·`maxHeight` 중 하나가 필요합니다. */
+  height?: BoxProps["height"];
+  /** Continuous 스크롤 영역의 최소 높이입니다. */
+  minHeight?: BoxProps["minHeight"];
+  /** Continuous 스크롤 영역의 최대 높이입니다. */
+  maxHeight?: BoxProps["maxHeight"];
+}
+
 type DatePickerRootElementProps = PrimitiveProps &
-  Pick<BoxProps, "height" | "minHeight" | "maxHeight"> &
+  DatePickerSizeProps &
   Omit<
     React.HTMLAttributes<HTMLDivElement>,
     "children" | "defaultValue" | "onChange" | "onValueChange"
