@@ -14,7 +14,7 @@ verified_at: "2026-11-06"
 - `[data-active]`로 켜지는 스타일(NextList item의 root·layout 등)은 터치 에뮬레이션에서 CDP `Input.dispatchTouchEvent`의 `touchStart`를 보내고 기다린 뒤 측정한다. React `onPointerDown`이 실행되어 속성이 붙는다.
 - `:active`로 켜지는 스타일(ActionButton 등 대부분의 Recipe `active`·`engaged`)은 headless Chromium의 CDP 터치나 `dispatchEvent(new PointerEvent(...))`로 재현되지 않는다 → 데스크톱 context에서 `page.mouse.down()`으로 누른 채 측정한다. 터치에서 `:active`가 실제로 켜지는지는 iOS·Android 기기 검사 Skill로 따로 확인한다.
 - 터치 측정 결과에서 `:active`가 false라는 이유로 컴포넌트 회귀라고 판정하지 않는다. 같은 하네스에서 단독 ActionButton을 눌러 기준값을 먼저 얻는다.
-- 행 전체를 덮는 `::after`(NextList·List content의 터치 영역)가 있으면 Playwright `tap()`·`click()`이 title이나 mark에서 `intercepts pointer events`로 재시도하다 시간 초과된다. 행 안 어디를 눌러도 같은 label·button이 받는 것이 의도이므로 `{ force: true }`나 좌표 `touchscreen.tap(x, y)`를 쓰고, 실제 hit 대상은 `document.elementFromPoint`로 따로 확인한다.
+- 행 전체를 덮는 `::after`(NextList·List content의 터치 영역)가 있으면 Playwright `tap()`·`click()`이 title이나 mark에서 `intercepts pointer events`로 재시도하다 시간 초과된다. content 영역(title·detail·mark)은 행의 label·button이 받는 것이 의도이지만, prefix·suffix 안의 `a`·`button`·`input` 등 시맨틱 컨트롤은 `::after` 위로 올라가 자기 이벤트를 받는다. `{ force: true }`나 좌표 `touchscreen.tap(x, y)`를 쓰기 전에 `document.elementFromPoint`로 그 좌표의 hit 대상이 의도한 요소인지 먼저 확인한다.
 
 ## 발생 근거와 적용 조건
 
@@ -25,3 +25,4 @@ verified_at: "2026-11-06"
 ## 변경 이력
 
 - 2026-11-06: DES-1435 NextList 브라우저 검증에서 확인한 입력 수단별 차이와 tap 가로막힘 대응을 기록했다.
+- 2026-11-09: "행 안 어디를 눌러도 같은 label·button이 받는다"는 일반화를 content 영역으로 좁혔다. `/next-list-item-button`에서 suffix ActionButton 중심의 `elementFromPoint`가 그 버튼이었고, 클릭하면 행 동작 없이 버튼 핸들러만 실행되었다.
