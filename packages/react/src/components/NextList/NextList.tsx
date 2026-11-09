@@ -86,6 +86,7 @@ export const NextListRoot = forwardRef<HTMLUListElement, NextListRootProps>(
     );
   },
 );
+NextListRoot.displayName = "NextListRoot";
 
 export interface NextListRadioRootProps extends RadioGroupPrimitive.RootProps {}
 
