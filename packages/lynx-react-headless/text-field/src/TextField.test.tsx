@@ -3,7 +3,7 @@ import { createRef, useState } from "@lynx-js/react";
 import { fireEvent, getQueriesForElement, render } from "@lynx-js/react/testing-library";
 import type { NodesRef } from "@lynx-js/types";
 import { KeyboardAvoidingScrollViewProvider } from "@seed-design/lynx-react-keyboard-avoiding-scroll-view";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { Field, FieldRoot, useFieldContext } from "@seed-design/lynx-react-field";
 import { TextField, useTextFieldContext } from "./index.js";
@@ -83,9 +83,30 @@ async function flushControlledReconciliation() {
   await Promise.resolve();
 }
 
+interface InvokeCall {
+  method: string;
+  params?: { value?: string };
+  success?: (result: { value?: string }) => void;
+  fail?: () => void;
+}
+
+let nativeInvokeCalls: InvokeCall[] = [];
+
+beforeEach(() => {
+  nativeInvokeCalls = [];
+  // ReactLynx는 첫 렌더 중 UI method를 render 끝으로 미루고 Testing Library의 NodesRef로 실행한다.
+  // 그 NodesRef.invoke는 구현되지 않아 throw하므로 기기처럼 호출만 기록한다.
+  const nodesRefPrototype = Object.getPrototypeOf(lynx.createSelectorQuery().selectUniqueID(0));
+  vi.spyOn(nodesRefPrototype, "invoke").mockImplementation((call: InvokeCall) => {
+    nativeInvokeCalls.push(call);
+    return { exec: () => {} };
+  });
+});
+
 afterEach(() => {
   setSystemInfo(undefined);
   vi.unstubAllGlobals();
+  vi.restoreAllMocks();
 });
 
 function TextFieldFocusState() {
@@ -198,15 +219,8 @@ describe("TextField", () => {
   });
 
   describe("initial value on engines with and without default-value", () => {
-    interface InvokeCall {
-      method: string;
-      params?: { value?: string };
-      success?: (result: { value?: string }) => void;
-      fail?: () => void;
-    }
-
     function renderWithInvoke() {
-      const calls: InvokeCall[] = [];
+      const calls = nativeInvokeCalls;
       let nativeNode: NodesRef | null = null;
       const setRef = (node: NodesRef | null) => {
         if (!node) return;
