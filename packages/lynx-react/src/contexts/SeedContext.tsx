@@ -16,6 +16,7 @@ import {
 } from "@seed-design/lynx-react-use-safe-area";
 
 import { readDeprecatedGlobalProp } from "../utils/deprecated-global-props";
+import { resolveGlassEffect, type ResolvedGlassEffect } from "../utils/glass-effect";
 import { useHostGlobalProps } from "../utils/use-host-global-props";
 
 /**
@@ -45,18 +46,16 @@ export interface SeedContextValue {
   safeAreaInsets?: SafeAreaInsets;
   /**
    * 호스트가 Liquid Glass를 그릴 수 있으면 `true`. 판단은 호스트가 하고 SEED는 이 값만 따른다.
-   * `glassEffect`를 켠 트리도 이 값이 `true`일 때만 glass로 그린다. 생략하면 바깥 값을 이어받고, 없으면 `false`다.
+   * `glassEffect`를 켠 트리나 컴포넌트도 이 값이 `true`일 때만 glass로 그린다. 생략하면 바깥 값을 이어받고, 없으면 `false`다.
    */
   supportsLiquidGlass?: boolean;
   /**
-   * 하위 트리의 Chip·FloatingActionButton에 Liquid Glass를 적용한다.
+   * 하위 트리의 Chip·FloatingActionButton에 Liquid Glass를 적용한다. 컴포넌트의 `glassEffect`가 이 값을 덮어쓴다.
    * `true`는 `{}`와 같고, `false`는 바깥에서 이어받은 효과를 끈다. 생략하면 바깥 값을 이어받는다.
    * `useSeedContext()`는 이어받은 결과를 `{ style, interactive }` 또는 `undefined`로 돌려준다.
    */
   glassEffect?: boolean | SeedGlassEffect;
 }
-
-type ResolvedGlassEffect = Required<SeedGlassEffect>;
 
 interface SeedHostValue {
   preferredColorScheme?: SeedContextValue["preferredColorScheme"];
@@ -95,17 +94,6 @@ export interface SeedProviderProps extends SeedContextValue {
  * }
  * ```
  */
-function resolveGlassEffect(
-  own: SeedContextValue["glassEffect"],
-  inherited: ResolvedGlassEffect | undefined,
-): ResolvedGlassEffect | undefined {
-  // `false`는 `??`에서 멈추므로 바깥 값을 이어받지 않는다.
-  const input = own ?? inherited;
-  if (input === undefined || input === false) return undefined;
-  if (input === true) return { style: "regular", interactive: false };
-  return { style: input.style ?? "regular", interactive: input.interactive ?? false };
-}
-
 export function SeedProvider({
   preferredColorScheme,
   preferredMotion,

@@ -5,20 +5,34 @@ import type { MainThread } from "@lynx-js/types";
 
 import { useSeedContext, type SeedGlassEffect } from "../../contexts/SeedContext";
 import type { LynxHostProps, LynxViewProps, LynxViewRef } from "../../types";
+import { resolveGlassEffect, type ResolvedGlassEffect } from "../../utils/glass-effect";
 import { mergeProps } from "../../utils/merge-props";
 
 // SEED's Liquid Glass rules live in this file. Only this file renders `<blur-view>`.
 
-export type ActiveLiquidGlass = Required<SeedGlassEffect>;
+export type ActiveLiquidGlass = ResolvedGlassEffect;
+
+/** The component's `glassEffect` prop. It overrides the one inherited from `SeedProvider`. */
+export interface LiquidGlassProps {
+  /**
+   * Draws the component with Liquid Glass. Only iOS draws it today, and only when `SeedProvider` has
+   * `supportsLiquidGlass`. `true` equals `{}`, `false` turns off the effect from `SeedProvider`, and omitting it
+   * inherits that effect.
+   */
+  glassEffect?: boolean | SeedGlassEffect;
+}
 
 /**
  * The glass to draw on this render, or `null` to draw the regular `<view>` root.
- * Glass needs both the host flag (`supportsLiquidGlass`) and the tree's intent (`glassEffect`).
+ * Glass needs both the host flag (`supportsLiquidGlass`) and an intent: the component's `glassEffect`, or else
+ * the tree's.
  */
-export function useLiquidGlass(): ActiveLiquidGlass | null {
-  const { supportsLiquidGlass, glassEffect } = useSeedContext();
-  if (supportsLiquidGlass !== true || typeof glassEffect !== "object") return null;
-  return glassEffect as ActiveLiquidGlass;
+export function useLiquidGlass(
+  glassEffect: LiquidGlassProps["glassEffect"],
+): ActiveLiquidGlass | null {
+  const { supportsLiquidGlass, glassEffect: inherited } = useSeedContext();
+  if (supportsLiquidGlass !== true) return null;
+  return resolveGlassEffect(glassEffect, inherited) ?? null;
 }
 
 /**

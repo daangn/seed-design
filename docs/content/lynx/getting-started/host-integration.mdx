@@ -103,13 +103,14 @@ import { SafeAreaProvider } from "@seed-design/lynx-react";
 
 ### Liquid Glass (iOS)
 
-Chip과 FloatingActionButton은 iOS Liquid Glass로 그릴 수 있습니다. 두 prop이 모두 켜져야 glass로 그립니다.
+Chip과 FloatingActionButton은 iOS Liquid Glass로 그릴 수 있습니다. 호스트 flag와 `glassEffect`가 모두 켜져야 glass로 그립니다.
 
 | prop | 타입 | 넘기는 곳 | 생략했을 때 |
 | --- | --- | --- | --- |
-| `supportsLiquidGlass` | `boolean` | 앱 root. 호스트가 Liquid Glass를 그릴 수 있을 때 `true` | 바깥 값, 없으면 `false` |
-| `glassEffect` | `boolean \| { style?: "regular" \| "clear"; interactive?: boolean }` | glass를 쓸 화면이나 영역 | 바깥 값 |
+| `supportsLiquidGlass` | `boolean` | `SeedProvider`(앱 root). 호스트가 Liquid Glass를 그릴 수 있을 때 `true` | 바깥 값, 없으면 `false` |
+| `glassEffect` | `boolean \| { style?: "regular" \| "clear"; interactive?: boolean }` | `SeedProvider`(화면이나 영역 전체) 또는 Chip·FloatingActionButton(컴포넌트 하나) | 바깥 값 |
 
+- 컴포넌트의 `glassEffect`는 `SeedProvider`에서 이어받은 값을 덮어씁니다. 영역 전체에 켜 두고 특정 컴포넌트만 `glassEffect={false}`로 끄거나, 반대로 컴포넌트 하나만 켤 수 있습니다. 지금은 iOS에서만 그립니다.
 - `supportsLiquidGlass`는 호스트가 판단해 넘깁니다. SEED는 플랫폼이나 OS 버전을 따로 확인하지 않습니다. Lynx `<blur-view>`의 `blur-effect="glass"`를 그릴 수 있는 호스트(iOS 26 이상, glass를 지원하는 XElement `blur-view` 등록)에서만 `true`를 넘기세요. 그릴 수 없는 호스트에서 켜면 배경이 투명해질 수 있습니다.
 - `glassEffect`의 `true`는 `{}`와 같습니다(`style: "regular"`, `interactive: false`). `false`는 바깥에서 이어받은 효과를 끕니다.
 - glass일 때 배경 대신 현재 상태의 배경색이 glass tint가 되고, Chip의 테두리와 FloatingActionButton의 그림자는 그리지 않습니다. 눌림 축소(Scale Feedback)도 쓰지 않으며, `interactive: true`이면 눌림 배경 대신 glass가 터치에 반응합니다.
@@ -119,9 +120,13 @@ Chip과 FloatingActionButton은 iOS Liquid Glass로 그릴 수 있습니다. 두
 
 ```tsx
 <SeedProvider supportsLiquidGlass={g.liquidGlass === true}>
+  {/* 영역 전체 */}
   <SeedProvider glassEffect>
     <FloatingActionButton.Root>{/* ... */}</FloatingActionButton.Root>
+    <Chip.Button glassEffect={false}>{/* 이 Chip만 끔 */}</Chip.Button>
   </SeedProvider>
+  {/* 컴포넌트 하나 */}
+  <Chip.Toggle glassEffect={{ interactive: true }}>{/* ... */}</Chip.Toggle>
 </SeedProvider>
 ```
 

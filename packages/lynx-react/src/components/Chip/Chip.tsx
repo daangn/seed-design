@@ -33,6 +33,7 @@ import {
   useLiquidGlass,
   withGlassVariants,
   type ActiveLiquidGlass,
+  type LiquidGlassProps,
 } from "../private/LiquidGlass";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(chip);
@@ -120,6 +121,7 @@ ChipRootView.displayName = "ChipRootView";
  */
 export interface ChipButtonProps
   extends ChipPublicVariantProps,
+    LiquidGlassProps,
     Omit<LynxHostProps<"view">, keyof ChipPublicVariantProps> {
   disabled?: boolean;
 }
@@ -129,6 +131,7 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
     disabled = false,
+    glassEffect,
     "accessibility-element": accessibilityElementProp,
     "accessibility-label": accessibilityLabelProp,
     children,
@@ -144,7 +147,7 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
     onTap: bindtap,
     mainThreadOnTap: mainThreadBindtap,
   });
-  const liquidGlass = useLiquidGlass();
+  const liquidGlass = useLiquidGlass(glassEffect);
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled: disabled || liquidGlass !== null,
     onTouchStart: bindtouchstart,
@@ -214,6 +217,7 @@ export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref
     defaultChecked,
     onCheckedChange,
     disabled = false,
+    glassEffect,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
     "accessibility-element": accessibilityElement,
@@ -242,7 +246,7 @@ export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref
   });
   // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
   const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
-  const liquidGlass = useLiquidGlass();
+  const liquidGlass = useLiquidGlass(glassEffect);
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled: disabled || liquidGlass !== null,
     onTouchStart: bindtouchstart,
@@ -335,6 +339,7 @@ export const ChipRadioItem = React.forwardRef<unknown, ChipRadioItemProps>((prop
   const {
     value,
     disabled,
+    glassEffect,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
     "accessibility-element": accessibilityElement,
@@ -361,7 +366,7 @@ export const ChipRadioItem = React.forwardRef<unknown, ChipRadioItemProps>((prop
   });
   // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
   const { bindtouchstart, bindtouchend, bindtouchcancel, ...itemProps } = api.itemProps;
-  const liquidGlass = useLiquidGlass();
+  const liquidGlass = useLiquidGlass(glassEffect);
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled: api.disabled || liquidGlass !== null,
     onTouchStart: bindtouchstart,

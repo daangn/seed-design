@@ -148,7 +148,7 @@ describe("FloatingActionButton", () => {
 });
 
 describe("FloatingActionButton Liquid Glass", () => {
-  it("renders a glass blur-view root only with the host flag and the tree intent", () => {
+  it("renders a glass blur-view root only with the host flag and a tree or component intent", () => {
     const { container, rerender } = render(
       <SeedProvider glassEffect>
         <FloatingActionButtonRoot>
@@ -170,5 +170,16 @@ describe("FloatingActionButton Liquid Glass", () => {
     expect(root?.tagName.toLowerCase()).toBe("blur-view");
     expect(root).toHaveClass("seed-floating-action-button__root--glass_true");
     expect(root).toHaveAttribute("glass-interactive", "false");
+
+    rerender(
+      <SeedProvider supportsLiquidGlass>
+        <FloatingActionButtonRoot glassEffect={{ interactive: true }}>
+          <FloatingActionButtonLabel>글쓰기</FloatingActionButtonLabel>
+        </FloatingActionButtonRoot>
+      </SeedProvider>,
+    );
+    root = container.querySelector<HTMLElement>(".seed-floating-action-button__root");
+    expect(root?.tagName.toLowerCase()).toBe("blur-view");
+    expect(root).toHaveAttribute("glass-interactive", "true");
   });
 });

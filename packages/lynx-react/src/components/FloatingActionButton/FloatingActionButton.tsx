@@ -24,6 +24,7 @@ import {
   useLiquidGlass,
   withGlassVariants,
   type ActiveLiquidGlass,
+  type LiquidGlassProps,
 } from "../private/LiquidGlass";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 
@@ -109,6 +110,7 @@ FloatingActionButtonRootView.displayName = "FloatingActionButtonRootView";
 export interface FloatingActionButtonRootProps
   extends FloatingActionButtonPublicVariantProps,
     Pick<UseActionButtonProps, "disabled">,
+    LiquidGlassProps,
     Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
     LynxPressableProps {}
 
@@ -118,6 +120,7 @@ export const FloatingActionButtonRoot = React.forwardRef<unknown, FloatingAction
       bindtap,
       "main-thread:bindtap": mainThreadBindtap,
       disabled,
+      glassEffect,
       "accessibility-element": accessibilityElementProp,
       "accessibility-role-description": accessibilityRoleDescription = "button",
       "accessibility-traits": accessibilityTraitsProp,
@@ -139,7 +142,7 @@ export const FloatingActionButtonRoot = React.forwardRef<unknown, FloatingAction
       "accessibility-traits": accessibilityTraits,
       ...tapHandlers
     } = api.rootProps;
-    const liquidGlass = useLiquidGlass();
+    const liquidGlass = useLiquidGlass(glassEffect);
     const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
       disabled: !api.interactive || liquidGlass !== null,
       onTouchStart: bindtouchstart,

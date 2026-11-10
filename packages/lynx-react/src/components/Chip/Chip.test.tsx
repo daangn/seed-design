@@ -450,4 +450,26 @@ describe("Chip Liquid Glass", () => {
     expect(root).toHaveAttribute("accessibility-role-description", "button");
     expect(root).toHaveTextContent("칩");
   });
+
+  it("lets the component glassEffect override the tree intent", () => {
+    const { rerender } = render(
+      <SeedProvider supportsLiquidGlass>
+        <Chip.Toggle glassEffect={{ interactive: true }}>
+          <Chip.Label>칩</Chip.Label>
+        </Chip.Toggle>
+      </SeedProvider>,
+    );
+    expect(getChipRoot().tagName.toLowerCase()).toBe("blur-view");
+    expect(getChipRoot()).toHaveAttribute("glass-interactive", "true");
+
+    rerender(
+      <SeedProvider supportsLiquidGlass glassEffect>
+        <Chip.Toggle glassEffect={false}>
+          <Chip.Label>칩</Chip.Label>
+        </Chip.Toggle>
+      </SeedProvider>,
+    );
+    expect(getChipRoot().tagName.toLowerCase()).toBe("view");
+    expect(getChipRoot()).not.toHaveAttribute("glassEffect");
+  });
 });
