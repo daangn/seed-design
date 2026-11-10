@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/lynx-react-segmented-text-input",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -29,9 +29,9 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@seed-design/lynx-react-field": "^1.0.0",
-    "@seed-design/lynx-react-text-field": "^1.2.0",
-    "@seed-design/lynx-react-use-controllable-state": "^1.0.0"
+    "@seed-design/lynx-react-field": "^1.0.1",
+    "@seed-design/lynx-react-text-field": "^1.2.1",
+    "@seed-design/lynx-react-use-controllable-state": "^1.0.1"
   },
   "peerDependencies": {
     "@lynx-js/react": ">=0.117.0",

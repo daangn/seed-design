@@ -1,5 +1,35 @@
 # @seed-design/react
 
+## 3.2.1
+
+### Patch Changes
+
+- cf30ec4: 조상 요소를 `display: none`으로 숨겼다가 다시 표시하면 `useCollapsible`로 열어 둔 내용이 높이 0에서 다시 펼쳐지던 문제를 수정합니다. `Accordion`, `SideNavigation`, `CheckSelectBox`, `RadioSelectBox`에 적용됩니다.
+- 76baa4b: (사용자 변경사항 없음) 내부 의존성을 호환되는 버전으로 갱신합니다.
+- cf30ec4: `Slider`를 `display: none`으로 숨겼다가 다시 표시하면 thumb이 값에 맞는 위치를 벗어나 나타났다가 제자리로 이동하던 문제를 수정합니다.
+- cf30ec4: `Tabs`를 `display: none`으로 숨겼다가 다시 표시하면 indicator가 폭 0인 채로 왼쪽 끝에서 선택된 탭 위치까지 애니메이션되던 문제를 수정합니다.
+- Updated dependencies [1ecf9e6]
+- Updated dependencies [cf30ec4]
+- Updated dependencies [76baa4b]
+- Updated dependencies [9ffa870]
+- Updated dependencies [cf30ec4]
+- Updated dependencies [cf30ec4]
+  - @seed-design/css@3.2.1
+  - @seed-design/react-collapsible@1.0.2
+  - @seed-design/react-accordion@1.0.2
+  - @seed-design/react-side-navigation@1.0.2
+  - @seed-design/react-attachment-display@1.0.2
+  - @seed-design/react-checkbox@2.0.2
+  - @seed-design/react-file-upload@1.0.2
+  - @seed-design/react-quantity-picker@1.0.1
+  - @seed-design/react-radio-group@2.0.2
+  - @seed-design/react-switch@2.0.2
+  - @seed-design/react-tabs@3.0.2
+  - @seed-design/react-text-field@2.1.1
+  - @seed-design/react-toggle@2.0.2
+  - @seed-design/react-segmented-control@2.0.3
+  - @seed-design/react-slider@2.0.2
+
 ## 3.2.0
 
 ### Minor Changes

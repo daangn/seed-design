@@ -1,5 +1,12 @@
 # @seed-design/lynx-react-pull-to-refresh
 
+## 1.1.1
+
+### Patch Changes
+
+- 0b383d3: `@lynx-js/gesture-runtime` 의존성을 2.1.3으로 업데이트합니다. 다시 렌더링할 때 같은 gesture callback을 불필요하게 다시 등록하지 않습니다.
+- 4b1d559: `@lynx-js/react` peer dependency 하한을 `>=0.100.0`에서 `>=0.117.0`으로 올려 Lynx 패키지 전체와 맞춥니다.
+
 ## 1.1.0
 
 ### Minor Changes

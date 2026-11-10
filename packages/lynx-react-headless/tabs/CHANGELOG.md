@@ -1,5 +1,16 @@
 # @seed-design/lynx-react-tabs
 
+## 1.1.1
+
+### Patch Changes
+
+- 35d7ec1: Lynx `Tabs`를 `display: none`으로 숨겼다가 다시 표시하면 indicator가 폭 0인 채로 왼쪽 끝에서 선택된 탭 위치까지 애니메이션되던 문제를 수정합니다. trigger 폭이 측정되지 않은 동안에는 indicator를 숨기고, 측정값이 다시 들어오는 순간에는 애니메이션 없이 제자리에 나타납니다. `useTabsIndicator`는 이 상태를 `isMeasured`로 반환합니다.
+- 4b1d559: `@lynx-js/react` peer dependency 하한을 `>=0.100.0`에서 `>=0.117.0`으로 올려 Lynx 패키지 전체와 맞춥니다.
+- 35d7ec1: Lynx `Tabs`를 `display: none`으로 숨겼다가 다시 표시하면 탭 목록이 첫 번째 탭부터 선택된 탭까지 스크롤 애니메이션되던 문제를 수정합니다. trigger 폭이 측정된 직후의 정렬은 첫 렌더와 숨김 복구 모두 애니메이션 없이 선택된 탭 위치로 바로 이동하고, 선택된 탭 앞의 trigger 폭이 측정되지 않은 동안에는 자동 스크롤하지 않습니다.
+- Updated dependencies [4b1d559]
+  - @seed-design/lynx-react-use-controllable-state@1.0.1
+  - @seed-design/lynx-react-use-press-tap@1.0.1
+
 ## 1.1.0
 
 ### Minor Changes

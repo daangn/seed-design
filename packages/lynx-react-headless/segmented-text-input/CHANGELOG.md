@@ -1,5 +1,15 @@
 # @seed-design/lynx-react-segmented-text-input
 
+## 1.0.1
+
+### Patch Changes
+
+- 4b1d559: `@lynx-js/react` peer dependency 하한을 `>=0.100.0`에서 `>=0.117.0`으로 올려 Lynx 패키지 전체와 맞춥니다.
+- Updated dependencies [4b1d559]
+  - @seed-design/lynx-react-field@1.0.1
+  - @seed-design/lynx-react-text-field@1.2.1
+  - @seed-design/lynx-react-use-controllable-state@1.0.1
+
 ## 1.0.0
 
 ### Major Changes

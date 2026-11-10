@@ -1,5 +1,51 @@
 # @seed-design/lynx-react
 
+## 1.2.1
+
+### Patch Changes
+
+- 0b383d3: `@lynx-js/gesture-runtime` 의존성을 2.1.3으로 업데이트합니다. 다시 렌더링할 때 같은 gesture callback을 불필요하게 다시 등록하지 않습니다.
+- b7eb437: (사용자 변경사항 없음) 내부 의존성 `@lynx-js/motion`을 0.0.8로 갱신합니다. 이 버전은 Motion 구현을 패키지 안에 포함하므로 `framer-motion`·`motion-dom`·`motion-utils`가 더 이상 함께 설치되지 않습니다.
+- 35d7ec1: Lynx `Tabs`를 `display: none`으로 숨겼다가 다시 표시하면 indicator가 폭 0인 채로 왼쪽 끝에서 선택된 탭 위치까지 애니메이션되던 문제를 수정합니다. trigger 폭이 측정되지 않은 동안에는 indicator를 숨기고, 측정값이 다시 들어오는 순간에는 애니메이션 없이 제자리에 나타납니다. `useTabsIndicator`는 이 상태를 `isMeasured`로 반환합니다.
+- 35d7ec1: Lynx `FloatingActionButton`을 `display: none`으로 숨겼다가 다시 표시하면 extended 상태의 label 폭이 0에서 늘어나던 문제를 수정합니다.
+- 35d7ec1: 조상 요소를 `display: none`으로 숨겼다가 다시 표시하면 Lynx `useCollapsible`로 열어 둔 내용이 높이 0에서 다시 펼쳐지던 문제를 수정합니다. `Accordion`, `CheckSelectBox`, `RadioSelectBox`에 적용됩니다.
+- 35d7ec1: Lynx `Tabs`를 `display: none`으로 숨겼다가 다시 표시하면 탭 목록이 첫 번째 탭부터 선택된 탭까지 스크롤 애니메이션되던 문제를 수정합니다. trigger 폭이 측정된 직후의 정렬은 첫 렌더와 숨김 복구 모두 애니메이션 없이 선택된 탭 위치로 바로 이동하고, 선택된 탭 앞의 trigger 폭이 측정되지 않은 동안에는 자동 스크롤하지 않습니다.
+- Updated dependencies [0b383d3]
+- Updated dependencies [b7eb437]
+- Updated dependencies [35d7ec1]
+- Updated dependencies [35d7ec1]
+- Updated dependencies [4b1d559]
+- Updated dependencies [35d7ec1]
+  - @seed-design/lynx-react-pull-to-refresh@1.1.1
+  - @seed-design/lynx-react-bottom-sheet@1.0.2
+  - @seed-design/lynx-css@1.2.1
+  - @seed-design/lynx-react-tabs@1.1.1
+  - @seed-design/lynx-react-collapsible@1.0.1
+  - @seed-design/lynx-react-accordion@1.0.1
+  - @seed-design/lynx-react-action-button@1.0.1
+  - @seed-design/lynx-react-attachment-display@1.0.1
+  - @seed-design/lynx-react-callout@1.0.1
+  - @seed-design/lynx-react-checkbox@1.0.1
+  - @seed-design/lynx-react-dialog@1.0.1
+  - @seed-design/lynx-react-field@1.0.1
+  - @seed-design/lynx-react-field-button@1.0.1
+  - @seed-design/lynx-react-file-upload@1.0.1
+  - @seed-design/lynx-react-image@1.0.1
+  - @seed-design/lynx-react-keyboard-avoiding-scroll-view@1.0.2
+  - @seed-design/lynx-react-loop-scroll@1.0.1
+  - @seed-design/lynx-react-page-banner@1.0.1
+  - @seed-design/lynx-react-progress@1.0.1
+  - @seed-design/lynx-react-quantity-picker@1.0.1
+  - @seed-design/lynx-react-radio-group@1.0.1
+  - @seed-design/lynx-react-segmented-control@1.0.1
+  - @seed-design/lynx-react-segmented-text-input@1.0.1
+  - @seed-design/lynx-react-slider@1.0.1
+  - @seed-design/lynx-react-switch@1.0.1
+  - @seed-design/lynx-react-text-field@1.2.1
+  - @seed-design/lynx-react-toggle@1.0.1
+  - @seed-design/lynx-react-use-controllable-state@1.0.1
+  - @seed-design/lynx-react-use-press-tap@1.0.1
+
 ## 1.2.0
 
 ### Minor Changes
