@@ -1,13 +1,11 @@
-import type { Nodes } from "mdast";
 import type { FilterElement } from "@/lib/satteri/remark-llms-filter";
 
 /**
  * `processed`에 JSX 그대로 남겨야 하는 MDX 컴포넌트. 룰이 직접 매치하는 이름과, 부모 룰이
  * 속성을 읽는 자식(`CodeBlockTab`)을 함께 담는다.
  *
- * TypeTable은 일부러 빠져 있다. `remarkAutoTypeTable`이 만드는 `type` 속성은 JSX가 섞인 JS
- * 객체 소스라 `typeTableRule`의 JSON.parse가 실패하고, 남겨 두면 그 원본이 llms.txt에 통째로
- * 실린다. 지금처럼 접어서 버리는 편이 낫다.
+ * TypeTable은 일부러 빠져 있다. `remarkAutoTypeTable`이 만드는 props 표는
+ * `omitTypeTableFromText`(lib/satteri/omit-type-table.ts)가 llms 출력에서 통째로 뺀다.
  *
  * 룰 모듈(아이콘 데이터·rootage 아티팩트 등)을 끌어오지 않도록 이름만 적는다. 이 목록은
  * `source.tsx`가 모든 페이지 경로에서 import한다.
@@ -29,10 +27,8 @@ export const RULE_ELEMENT_NAMES = [
 
 const ruleElementNames: ReadonlySet<string> = new Set(RULE_ELEMENT_NAMES);
 
-const isRuleElement = (node: Nodes) =>
-  (node.type === "mdxJsxFlowElement" || node.type === "mdxJsxTextElement") &&
-  node.name !== null &&
-  ruleElementNames.has(node.name);
+const isRuleElement = (node: { name?: string | null }) =>
+  typeof node.name === "string" && ruleElementNames.has(node.name);
 
 /**
  * 검색 본문용 필터를 llms 출력용으로 바꿔 감쌉니다. 룰이 다루는 컴포넌트는 태그째 남기고,

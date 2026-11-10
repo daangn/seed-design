@@ -3,7 +3,9 @@ import { IconLockLine } from "@karrotmarket/react-monochrome-icon";
 import { localMd, type SatteriLocalMarkdown } from "@fumadocs/satteri/local-md";
 import { watchWithDevServer } from "@fumadocs/satteri/local-md/dev/ws";
 import { remarkAutoTypeTable } from "@fumadocs/satteri/remark-auto-type-table";
+import { remarkCodeTab } from "@fumadocs/satteri/remark-code-tab";
 import { remarkLlms, type LLMsOptions } from "@fumadocs/satteri/remark-llms";
+import { remarkNpm } from "@fumadocs/satteri/remark-npm";
 import type { SatteriPresetOptions } from "@fumadocs/satteri/preset";
 import { dynamicLoader } from "fumadocs-core/source/dynamic";
 import {
@@ -13,7 +15,6 @@ import {
 } from "fumadocs-core/source";
 import { metaSchema, pageSchema } from "fumadocs-core/source/schema";
 import { fileGenerator } from "fumadocs-docgen";
-import { defaultHandlers } from "mdast-util-to-markdown";
 import type { ComponentType, SVGProps } from "react";
 import z from "zod";
 import { env } from "@/app/env";
@@ -24,12 +25,14 @@ import { filteredTypeTableGenerator } from "@/components/type-table/generator";
 import { markFeatured } from "@/lib/featured";
 import { lynxCompatibilitySchema } from "@/lib/lynx-compatibility";
 import { COVER_IMAGE_PATH_ERROR_MESSAGE, isValidCoverImagePath } from "@/lib/cover-image";
+import { codeBlockTabsSource } from "@/lib/satteri/code-block-tabs-source";
 import { remarkDocGen } from "@/lib/satteri/remark-doc-gen";
+import { omitTypeTableFromText } from "@/lib/satteri/omit-type-table";
 import { remarkApplyLlmsFilter } from "@/lib/satteri/remark-llms-filter";
 import {
   filterStructureElement,
+  remarkSearchRows,
   structureOptions,
-  structureStringify,
 } from "@/lib/satteri/search-structure";
 import { markTabbedFolder, type TabbedFolderNode } from "@/lib/tabbed";
 import { updatesFrontmatterSchema } from "@/lib/updates-frontmatter";
@@ -90,23 +93,29 @@ const filterLlmsElement = preserveRuleElements(filterStructureElement);
 
 const llmsOptions: LLMsOptions = {
   as: "processed",
-  // 기본값 재지정이 아닙니다. `remarkLlms`가 heading 핸들러를 `#` 마커 없이 텍스트만
-  // 돌려주는 것으로 덮어쓰므로, 되돌리지 않으면 출력에 heading이 하나도 남지 않습니다.
-  handlers: { heading: defaultHandlers.heading },
   // heading 뒤에 붙는 `[#id]`는 heading 텍스트의 일부로 읽혀 slug를 바꿉니다.
   headingIds: false,
-  filterElement: filterLlmsElement,
-  filterMdxAttributes: structureStringify.filterMdxAttributes,
 };
 
 const figmaImageManifest = readFigmaImageManifest();
+const PACKAGE_MANAGER_GROUP_ID = "package-manager";
+
 const customMdastPlugins = [
-  remarkDocGen({ generators: [fileGenerator()] }),
-  remarkAutoTypeTable({
-    generator: filteredTypeTableGenerator,
-    name: "react-type-table",
-    options: { basePath: process.cwd() },
+  // preset의 remarkCodeTab·remarkNpm을 끄고 같은 순서(preset 기본 플러그인 바로 뒤)로 여기서 실행합니다.
+  ...codeBlockTabsSource({
+    codeTab: remarkCodeTab(),
+    npm: remarkNpm({ persist: { id: PACKAGE_MANAGER_GROUP_ID } }),
+    npmGroupId: PACKAGE_MANAGER_GROUP_ID,
   }),
+  remarkDocGen({ generators: [fileGenerator()] }),
+  ...omitTypeTableFromText(
+    remarkAutoTypeTable({
+      generator: filteredTypeTableGenerator,
+      name: "react-type-table",
+      options: { basePath: process.cwd() },
+    }),
+    { name: "react-type-table" },
+  ),
   remarkFigmaImage({
     fileKey: env.figmaFileKey,
     accessToken: env.figmaPersonalAccessToken,
@@ -116,6 +125,7 @@ const customMdastPlugins = [
       scale: 2,
     },
   }),
+  remarkSearchRows(),
   remarkApplyLlmsFilter(filterLlmsElement),
   remarkLlms(llmsOptions),
 ];
@@ -129,11 +139,8 @@ function createSatteriOptions(): SatteriPresetOptions {
     // public 경로는 그대로 유지하고 크기만 읽어 레이아웃 이동을 방지합니다.
     remarkImageOptions: { useImport: false },
     remarkStructureOptions: structureOptions,
-    remarkNpmOptions: {
-      persist: {
-        id: "package-manager",
-      },
-    },
+    remarkCodeTabOptions: false,
+    remarkNpmOptions: false,
     // 컬렉션 사이에서 같은 플러그인을 공유해 Figma URL 요청 상태를 재사용합니다.
     mdastPlugins: customMdastPlugins,
     rehypeCodeOptions: {

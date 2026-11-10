@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { DocsBody } from "fumadocs-ui/page";
 import type { ReactNode } from "react";
+import { DOCS_PAGE_CONTENT_ID } from "./docs-page-content-id";
 import { SiteFooter } from "./site-footer";
 
 interface ProsePageProps {
@@ -33,7 +34,10 @@ export function ProsePage({
   fullHeight = false,
 }: ProsePageProps) {
   return (
-    <div className="[grid-area:main] w-full px-4 py-10 md:px-6 md:py-16 xl:px-8">
+    <div
+      id={DOCS_PAGE_CONTENT_ID}
+      className="[grid-area:main] w-full px-4 py-10 md:px-6 md:py-16 xl:px-8"
+    >
       {hero ? <div className="mb-10 w-full md:mb-14">{hero}</div> : null}
       <div className="mx-auto w-full max-w-[1100px]">
         <div
