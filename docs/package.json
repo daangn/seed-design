@@ -39,7 +39,7 @@
     "@dnd-kit/abstract": "^0.4.0",
     "@dnd-kit/dom": "^0.4.0",
     "@dnd-kit/react": "^0.4.0",
-    "@fumadocs/local-md": "^0.3.2",
+    "@fumadocs/local-md": "^0.4.0",
     "@fumadocs/satteri": "^0.7.0",
     "@gsap/react": "^2.1.2",
     "@karrotmarket/icon-data": "^1.34.0",
