@@ -1,5 +1,5 @@
 diff --git a/dist/api_types.ts b/dist/api_types.ts
-index 77e3e617772cd586c26cee2d3ab1e788a98c78eb..61ccdbed54549914532e964d5f846d1e9bc08ed4 100644
+index 3d9505d..15ff246 100644
 --- a/dist/api_types.ts
 +++ b/dist/api_types.ts
 @@ -797,7 +797,61 @@ export type DevStatusTrait = {
@@ -81,11 +81,10 @@ index 77e3e617772cd586c26cee2d3ab1e788a98c78eb..61ccdbed54549914532e964d5f846d1e
    | StarNode
    | StickyNode
    | TableNode
-@@ -1141,6 +1197,14 @@ export type InstanceNode = {
+@@ -1141,6 +1197,13 @@ export type InstanceNode = {
    overrides: Overrides[]
  } & FrameTraits
  
-+
 +export type SlotNode = {
 +  /**
 +   * The type of this node, represented by the string literal "SLOT"
@@ -96,30 +95,3 @@ index 77e3e617772cd586c26cee2d3ab1e788a98c78eb..61ccdbed54549914532e964d5f846d1e
  export type EmbedNode = {
    /**
     * The type of this node, represented by the string literal "EMBED"
-@@ -2407,7 +2471,7 @@ export type TextPathTypeStyle = {
- /**
-  * Component property type.
-  */
--export type ComponentPropertyType = 'BOOLEAN' | 'INSTANCE_SWAP' | 'TEXT' | 'VARIANT'
-+export type ComponentPropertyType = 'BOOLEAN' | 'INSTANCE_SWAP' | 'SLOT' | 'TEXT' | 'VARIANT'
- 
- /**
-  * Instance swap preferred value.
-@@ -2436,7 +2500,7 @@ export type ComponentPropertyDefinition = {
-   /**
-    * Initial value of this property for instances.
-    */
--  defaultValue: boolean | string
-+  defaultValue: boolean | string // NOTE: SLOT type has no defaultValue
- 
-   /**
-    * All possible values for this property. Only exists on VARIANT properties.
-@@ -2461,7 +2525,7 @@ export type ComponentProperty = {
-   /**
-    * Value of the property for this component instance.
-    */
--  value: boolean | string
-+  value: boolean | string // NOTE: SLOT type returns { guid: { sessionID, localID } } — do not use directly
- 
-   /**
-    * Preferred values for this property. Only applicable if type is `INSTANCE_SWAP`.

@@ -4,6 +4,7 @@ import type {
   ComponentSet,
   ComponentSetNode,
   ComponentNode,
+  GetFileNodesResponse,
 } from "@figma/rest-api-spec";
 import { chunk } from "es-toolkit";
 
@@ -35,7 +36,7 @@ export async function getNodesInFile({
   api: figma;
   fileKey: string;
   nodeIds: string[];
-}) {
+}): Promise<NonNullable<GetFileNodesResponse["nodes"][string]>[]> {
   const chunks = chunk(nodeIds, 500);
 
   if (chunks.length > 1) {
