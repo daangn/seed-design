@@ -11,6 +11,7 @@ import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type {
   LynxHostProps,
   LynxPressableProps,
+  LynxStyle,
   LynxTextProps,
   LynxTextRef,
   LynxViewRef,
@@ -18,6 +19,12 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import {
+  LiquidGlassView,
+  useLiquidGlass,
+  withGlassVariants,
+  type ActiveLiquidGlass,
+} from "../private/LiquidGlass";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 
 const { ClassNamesProvider, useClassNames, withContext } =
@@ -25,7 +32,7 @@ const { ClassNamesProvider, useClassNames, withContext } =
 
 type FloatingActionButtonPublicVariantProps = Omit<
   FloatingActionButtonVariantProps,
-  "pressed" | "transitionEnabled"
+  "pressed" | "transitionEnabled" | "glass"
 >;
 
 const LabelWidthContext = React.createContext<React.Dispatch<
@@ -33,12 +40,16 @@ const LabelWidthContext = React.createContext<React.Dispatch<
 > | null>(null);
 
 interface FloatingActionButtonRootViewProps
-  extends FloatingActionButtonVariantProps,
-    LynxHostProps<"view"> {}
+  extends Omit<FloatingActionButtonVariantProps, "glass">,
+    LynxHostProps<"view"> {
+  liquidGlass: ActiveLiquidGlass | null;
+}
 
 const FloatingActionButtonRootView = React.forwardRef<unknown, FloatingActionButtonRootViewProps>(
   (props, ref) => {
-    const [variantProps, otherProps] = floatingActionButton.splitVariantProps(props);
+    const { liquidGlass, ...restProps } = props;
+    const [splitVariantProps, otherProps] = floatingActionButton.splitVariantProps(restProps);
+    const variantProps = withGlassVariants(splitVariantProps, liquidGlass);
     const { children, className, style, ...nativeProps } = otherProps;
     const initiallyExtended = React.useRef(variantProps.extended !== false);
     const [labelWidth, setLabelWidth] = React.useState<number>();
@@ -50,17 +61,35 @@ const FloatingActionButtonRootView = React.forwardRef<unknown, FloatingActionBut
     return (
       <ClassNamesProvider value={classNames}>
         <LabelWidthContext.Provider value={setLabelWidth}>
-          <view
-            {...mergeProps(
-              { style: { "--fab-label-width": `${labelWidth ?? 0}px` } as LynxViewProps["style"] },
-              ref ? { ref: ref as LynxViewRef } : {},
-              nativeProps,
-              { style },
-            )}
-            className={clsx(classNames.root, className)}
-          >
-            {children}
-          </view>
+          {liquidGlass ? (
+            <LiquidGlassView
+              {...mergeProps(
+                { style: { "--fab-label-width": `${labelWidth ?? 0}px` } as LynxStyle },
+                ref ? { ref } : {},
+                nativeProps,
+                { style },
+              )}
+              glass={liquidGlass}
+              disabled={variantProps.disabled ?? false}
+              className={clsx(classNames.root, className)}
+            >
+              {children}
+            </LiquidGlassView>
+          ) : (
+            <view
+              {...mergeProps(
+                {
+                  style: { "--fab-label-width": `${labelWidth ?? 0}px` } as LynxViewProps["style"],
+                },
+                ref ? { ref: ref as LynxViewRef } : {},
+                nativeProps,
+                { style },
+              )}
+              className={clsx(classNames.root, className)}
+            >
+              {children}
+            </view>
+          )}
         </LabelWidthContext.Provider>
       </ClassNamesProvider>
     );
@@ -110,8 +139,9 @@ export const FloatingActionButtonRoot = React.forwardRef<unknown, FloatingAction
       "accessibility-traits": accessibilityTraits,
       ...tapHandlers
     } = api.rootProps;
+    const liquidGlass = useLiquidGlass();
     const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-      disabled: !api.interactive,
+      disabled: !api.interactive || liquidGlass !== null,
       onTouchStart: bindtouchstart,
       onTouchEnd: bindtouchend,
       onTouchCancel: bindtouchcancel,
@@ -119,6 +149,7 @@ export const FloatingActionButtonRoot = React.forwardRef<unknown, FloatingAction
 
     return (
       <FloatingActionButtonRootView
+        liquidGlass={liquidGlass}
         {...mergeProps(
           {
             flatten: false,

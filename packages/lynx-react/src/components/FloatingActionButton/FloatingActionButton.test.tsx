@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
+import { SeedProvider } from "../../contexts/SeedContext";
 import { FloatingActionButtonLabel, FloatingActionButtonRoot } from "./FloatingActionButton";
 
 vi.mock("@lynx-js/react", async (importOriginal) => {
@@ -143,5 +144,31 @@ describe("FloatingActionButton", () => {
 
     fireEvent.layoutchange(label, { detail: { width: 90, height: 22 } });
     expect(Reflect.get(root.style, "--fab-label-width")).toBe("90px");
+  });
+});
+
+describe("FloatingActionButton Liquid Glass", () => {
+  it("renders a glass blur-view root only with the host flag and the tree intent", () => {
+    const { container, rerender } = render(
+      <SeedProvider glassEffect>
+        <FloatingActionButtonRoot>
+          <FloatingActionButtonLabel>글쓰기</FloatingActionButtonLabel>
+        </FloatingActionButtonRoot>
+      </SeedProvider>,
+    );
+    let root = container.querySelector<HTMLElement>(".seed-floating-action-button__root");
+    expect(root?.tagName.toLowerCase()).toBe("view");
+
+    rerender(
+      <SeedProvider supportsLiquidGlass glassEffect>
+        <FloatingActionButtonRoot>
+          <FloatingActionButtonLabel>글쓰기</FloatingActionButtonLabel>
+        </FloatingActionButtonRoot>
+      </SeedProvider>,
+    );
+    root = container.querySelector<HTMLElement>(".seed-floating-action-button__root");
+    expect(root?.tagName.toLowerCase()).toBe("blur-view");
+    expect(root).toHaveClass("seed-floating-action-button__root--glass_true");
+    expect(root).toHaveAttribute("glass-interactive", "false");
   });
 });

@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
+import { SeedProvider } from "../../contexts/SeedContext";
 import { AccessibilityElementScope } from "../../utils/accessibility";
 import * as Chip from "./Chip.namespace";
 
@@ -410,5 +411,43 @@ describe("Chip", () => {
         </Chip.RadioItem>,
       );
     }).toThrow();
+  });
+});
+
+describe("Chip Liquid Glass", () => {
+  it("keeps the view root without the host flag or the tree intent", () => {
+    for (const props of [{ glassEffect: true }, { supportsLiquidGlass: true }]) {
+      const { unmount } = render(
+        <SeedProvider {...props}>
+          <Chip.Button>
+            <Chip.Label>칩</Chip.Label>
+          </Chip.Button>
+        </SeedProvider>,
+      );
+
+      const root = getChipRoot();
+      expect(root.tagName.toLowerCase()).toBe("view");
+      expect(root.className).not.toContain("glass");
+      unmount();
+    }
+  });
+
+  it("renders the content in a glass blur-view root when the host supports it and the tree opts in", () => {
+    render(
+      <SeedProvider supportsLiquidGlass glassEffect={{ interactive: true }}>
+        <Chip.Button>
+          <Chip.Label>칩</Chip.Label>
+        </Chip.Button>
+      </SeedProvider>,
+    );
+
+    const root = getChipRoot();
+    expect(root.tagName.toLowerCase()).toBe("blur-view");
+    expect(root).toHaveAttribute("blur-effect", "glass");
+    expect(root).toHaveAttribute("glass-interactive", "true");
+    expect(root).toHaveClass("seed-chip__root--glass_true");
+    expect(root).toHaveClass("seed-chip__root--pressed_false");
+    expect(root).toHaveAttribute("accessibility-role-description", "button");
+    expect(root).toHaveTextContent("칩");
   });
 });

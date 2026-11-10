@@ -28,17 +28,27 @@ import {
   type SuffixIconProps,
 } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
+import {
+  LiquidGlassView,
+  useLiquidGlass,
+  withGlassVariants,
+  type ActiveLiquidGlass,
+} from "../private/LiquidGlass";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(chip);
 
-type ChipPublicVariantProps = Omit<ChipVariantProps, "selected" | "pressed">;
+type ChipPublicVariantProps = Omit<ChipVariantProps, "selected" | "pressed" | "glass">;
 
 interface ChipRootViewProps
-  extends ChipVariantProps,
-    Omit<LynxHostProps<"view">, keyof ChipVariantProps> {}
+  extends Omit<ChipVariantProps, "glass">,
+    Omit<LynxHostProps<"view">, keyof ChipVariantProps> {
+  liquidGlass: ActiveLiquidGlass | null;
+}
 
 const ChipRootView = React.forwardRef<unknown, ChipRootViewProps>((props, ref) => {
-  const [variantProps, otherProps] = chip.splitVariantProps(props);
+  const { liquidGlass, ...restProps } = props;
+  const [splitVariantProps, otherProps] = chip.splitVariantProps(restProps);
+  const variantProps = withGlassVariants(splitVariantProps, liquidGlass);
   const classes = chip(variantProps);
   const { children, className, ...nativeProps } = otherProps;
   const iconSlotContextValue = React.useMemo(
@@ -74,12 +84,23 @@ const ChipRootView = React.forwardRef<unknown, ChipRootViewProps>((props, ref) =
     <ClassNamesProvider value={classes}>
       <IconSlotProvider value={iconSlotContextValue}>
         <IconRequired enabled={variantProps.layout === "iconOnly"}>
-          <view
-            {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
-            className={clsx(classes.root, className)}
-          >
-            {children}
-          </view>
+          {liquidGlass ? (
+            <LiquidGlassView
+              {...mergeProps(ref ? { ref } : {}, nativeProps)}
+              glass={liquidGlass}
+              disabled={variantProps.disabled ?? false}
+              className={clsx(classes.root, className)}
+            >
+              {children}
+            </LiquidGlassView>
+          ) : (
+            <view
+              {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+              className={clsx(classes.root, className)}
+            >
+              {children}
+            </view>
+          )}
         </IconRequired>
       </IconSlotProvider>
     </ClassNamesProvider>
@@ -123,8 +144,9 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
     onTap: bindtap,
     mainThreadOnTap: mainThreadBindtap,
   });
+  const liquidGlass = useLiquidGlass();
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled,
+    disabled: disabled || liquidGlass !== null,
     onTouchStart: bindtouchstart,
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
@@ -141,6 +163,7 @@ export const ChipButton = React.forwardRef<unknown, ChipButtonProps>((props, ref
 
   return (
     <ChipRootView
+      liquidGlass={liquidGlass}
       {...mergeProps(
         {
           disabled,
@@ -219,8 +242,9 @@ export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref
   });
   // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
   const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
+  const liquidGlass = useLiquidGlass();
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled,
+    disabled: disabled || liquidGlass !== null,
     onTouchStart: bindtouchstart,
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
@@ -237,6 +261,7 @@ export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref
 
   return (
     <ChipRootView
+      liquidGlass={liquidGlass}
       {...mergeProps(
         {
           disabled,
@@ -336,8 +361,9 @@ export const ChipRadioItem = React.forwardRef<unknown, ChipRadioItemProps>((prop
   });
   // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
   const { bindtouchstart, bindtouchend, bindtouchcancel, ...itemProps } = api.itemProps;
+  const liquidGlass = useLiquidGlass();
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled: api.disabled,
+    disabled: api.disabled || liquidGlass !== null,
     onTouchStart: bindtouchstart,
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
@@ -354,6 +380,7 @@ export const ChipRadioItem = React.forwardRef<unknown, ChipRadioItemProps>((prop
 
   return (
     <ChipRootView
+      liquidGlass={liquidGlass}
       {...mergeProps(
         {
           disabled: api.disabled,

@@ -101,6 +101,30 @@ import { SafeAreaProvider } from "@seed-design/lynx-react";
 
 `SeedProvider`를 중첩하면 생략한 prop은 바깥 Provider의 값을 이어받습니다.
 
+### Liquid Glass (iOS)
+
+Chip과 FloatingActionButton은 iOS Liquid Glass로 그릴 수 있습니다. 두 prop이 모두 켜져야 glass로 그립니다.
+
+| prop | 타입 | 넘기는 곳 | 생략했을 때 |
+| --- | --- | --- | --- |
+| `supportsLiquidGlass` | `boolean` | 앱 root. 호스트가 Liquid Glass를 그릴 수 있을 때 `true` | 바깥 값, 없으면 `false` |
+| `glassEffect` | `boolean \| { style?: "regular" \| "clear"; interactive?: boolean }` | glass를 쓸 화면이나 영역 | 바깥 값 |
+
+- `supportsLiquidGlass`는 호스트가 판단해 넘깁니다. SEED는 플랫폼이나 OS 버전을 따로 확인하지 않습니다. Lynx `<blur-view>`의 `blur-effect="glass"`를 그릴 수 있는 호스트(iOS 26 이상, glass를 지원하는 XElement `blur-view` 등록)에서만 `true`를 넘기세요. 그릴 수 없는 호스트에서 켜면 배경이 투명해질 수 있습니다.
+- `glassEffect`의 `true`는 `{}`와 같습니다(`style: "regular"`, `interactive: false`). `false`는 바깥에서 이어받은 효과를 끕니다.
+- glass일 때 배경 대신 현재 상태의 배경색이 glass tint가 되고, Chip의 테두리와 FloatingActionButton의 그림자는 그리지 않습니다. 눌림 축소(Scale Feedback)도 쓰지 않으며, `interactive: true`이면 눌림 배경 대신 glass가 터치에 반응합니다.
+- Lynx 제약으로 다음은 native SEED와 다릅니다.
+  - 반투명한 상태 색(예: 선택되지 않은 Chip)은 tint가 되지 않습니다. Lynx가 계산된 반투명 색을 읽어 오지 못하기 때문입니다([lynx-family/lynx#10814](https://github.com/lynx-family/lynx/issues/10814)).
+  - 선택처럼 tint가 바뀌면 전환 애니메이션 없이 바로 바뀝니다. 이때 진행 중인 interactive 반응도 끊깁니다([lynx-family/lynx#10825](https://github.com/lynx-family/lynx/issues/10825)).
+
+```tsx
+<SeedProvider supportsLiquidGlass={g.liquidGlass === true}>
+  <SeedProvider glassEffect>
+    <FloatingActionButton.Root>{/* ... */}</FloatingActionButton.Root>
+  </SeedProvider>
+</SeedProvider>
+```
+
 ## 넘긴 값 읽기
 
 `useSeedContext()`는 `SeedProvider`가 받은 값을 그대로 돌려줍니다. px 문자열 변환이나 `env()` fallback은 하지 않습니다. 화면에 적용할 Safe Area 값이 필요하면 [`useSafeArea`](/lynx/hooks/use-safe-area)를 사용하세요.

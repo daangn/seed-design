@@ -18,6 +18,20 @@ import {
 import { readDeprecatedGlobalProp } from "../utils/deprecated-global-props";
 import { useHostGlobalProps } from "../utils/use-host-global-props";
 
+/**
+ * Chip·FloatingActionButton에 적용할 iOS Liquid Glass 표현.
+ * 모양과 기본 tint(현재 상태의 root 배경색)는 컴포넌트가 정한다.
+ */
+export interface SeedGlassEffect {
+  /** @default "regular" */
+  style?: "regular" | "clear";
+  /**
+   * glass가 터치 반응을 직접 그린다. `true`이면 컴포넌트의 눌림 배경을 끈다.
+   * @default false
+   */
+  interactive?: boolean;
+}
+
 /** 호스트 앱이 SEED에 넘기는 값. 모든 필드는 선택이며 논리 px 단위다. */
 export interface SeedContextValue {
   /**
@@ -29,9 +43,27 @@ export interface SeedContextValue {
   preferredMotion?: PreferredMotion;
   /** 하위 트리의 safe area inset. 생략하면 `useSafeArea`가 기존 fallback 경로를 쓴다. */
   safeAreaInsets?: SafeAreaInsets;
+  /**
+   * 호스트가 Liquid Glass를 그릴 수 있으면 `true`. 판단은 호스트가 하고 SEED는 이 값만 따른다.
+   * `glassEffect`를 켠 트리도 이 값이 `true`일 때만 glass로 그린다. 생략하면 바깥 값을 이어받고, 없으면 `false`다.
+   */
+  supportsLiquidGlass?: boolean;
+  /**
+   * 하위 트리의 Chip·FloatingActionButton에 Liquid Glass를 적용한다.
+   * `true`는 `{}`와 같고, `false`는 바깥에서 이어받은 효과를 끈다. 생략하면 바깥 값을 이어받는다.
+   * `useSeedContext()`는 이어받은 결과를 `{ style, interactive }` 또는 `undefined`로 돌려준다.
+   */
+  glassEffect?: boolean | SeedGlassEffect;
 }
 
-type SeedHostValue = Omit<SeedContextValue, "safeAreaInsets">;
+type ResolvedGlassEffect = Required<SeedGlassEffect>;
+
+interface SeedHostValue {
+  preferredColorScheme?: SeedContextValue["preferredColorScheme"];
+  preferredMotion?: SeedContextValue["preferredMotion"];
+  supportsLiquidGlass?: boolean;
+  glassEffect?: ResolvedGlassEffect;
+}
 
 const SeedContext = createContext<SeedHostValue>({});
 
@@ -63,10 +95,23 @@ export interface SeedProviderProps extends SeedContextValue {
  * }
  * ```
  */
+function resolveGlassEffect(
+  own: SeedContextValue["glassEffect"],
+  inherited: ResolvedGlassEffect | undefined,
+): ResolvedGlassEffect | undefined {
+  // `false`는 `??`에서 멈추므로 바깥 값을 이어받지 않는다.
+  const input = own ?? inherited;
+  if (input === undefined || input === false) return undefined;
+  if (input === true) return { style: "regular", interactive: false };
+  return { style: input.style ?? "regular", interactive: input.interactive ?? false };
+}
+
 export function SeedProvider({
   preferredColorScheme,
   preferredMotion,
   safeAreaInsets,
+  supportsLiquidGlass,
+  glassEffect,
   children,
 }: SeedProviderProps): ReactElement {
   const parent = useContext(SeedContext);
@@ -75,9 +120,28 @@ export function SeedProvider({
 
   const resolvedColorScheme = preferredColorScheme ?? parent.preferredColorScheme;
   const resolvedMotion = preferredMotion ?? parent.preferredMotion;
+  const resolvedSupportsLiquidGlass = supportsLiquidGlass ?? parent.supportsLiquidGlass;
+  // 객체 literal이 렌더마다 새로 와도 context 값이 바뀌지 않도록 정규화한 primitive를 deps로 쓴다.
+  const glass = resolveGlassEffect(glassEffect, parent.glassEffect);
+  const glassStyle = glass?.style;
+  const glassInteractive = glass?.interactive;
   const value = useMemo<SeedHostValue>(
-    () => ({ preferredColorScheme: resolvedColorScheme, preferredMotion: resolvedMotion }),
-    [resolvedColorScheme, resolvedMotion],
+    () => ({
+      preferredColorScheme: resolvedColorScheme,
+      preferredMotion: resolvedMotion,
+      supportsLiquidGlass: resolvedSupportsLiquidGlass,
+      glassEffect:
+        glassStyle === undefined
+          ? undefined
+          : { style: glassStyle, interactive: glassInteractive ?? false },
+    }),
+    [
+      resolvedColorScheme,
+      resolvedMotion,
+      resolvedSupportsLiquidGlass,
+      glassStyle,
+      glassInteractive,
+    ],
   );
 
   // safe area와 motion의 원천은 하위 패키지 context다. 값을 생략하면 바깥 값을 그대로 이어 트리 모양을 유지한다.
@@ -120,7 +184,19 @@ export function useSeedContext(): SeedContextValue {
     host.preferredMotion ?? toMotion(readDeprecatedGlobalProp(globalProps, "motion"));
 
   return useMemo(
-    () => ({ preferredColorScheme, preferredMotion, safeAreaInsets }),
-    [preferredColorScheme, preferredMotion, safeAreaInsets],
+    () => ({
+      preferredColorScheme,
+      preferredMotion,
+      safeAreaInsets,
+      supportsLiquidGlass: host.supportsLiquidGlass,
+      glassEffect: host.glassEffect,
+    }),
+    [
+      preferredColorScheme,
+      preferredMotion,
+      safeAreaInsets,
+      host.supportsLiquidGlass,
+      host.glassEffect,
+    ],
   );
 }

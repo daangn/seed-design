@@ -25,6 +25,10 @@ const defaultVariant = {
 
 const compoundVariants = [
   {
+    "glass": true,
+    "transitionEnabled": true
+  },
+  {
     "extended": true,
     "transitionEnabled": true
   }
@@ -44,6 +48,10 @@ export const floatingActionButtonVariantMap = {
     false
   ],
   "transitionEnabled": [
+    true,
+    false
+  ],
+  "glass": [
     true,
     false
   ]
