@@ -89,7 +89,7 @@
     "yaml": "^2.8.2"
   },
   "overrides": {
-    "esbuild": "0.27.4"
+    "esbuild": "0.28.2"
   },
   "patchedDependencies": {
     "@figma/rest-api-spec@0.36.0": "patches/@figma%2Frest-api-spec@0.36.0.patch",
