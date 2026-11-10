@@ -14,7 +14,7 @@
     "@karrotmarket/icon-data": "^1.34.0",
     "@karrotmarket/lynx-monochrome-icon": "1.20.0",
     "@karrotmarket/lynx-multicolor-icon": "1.27.0",
-    "@lynx-js/react": "0.123.3",
+    "@lynx-js/react": "0.129.1",
     "@seed-design/lynx-css": "workspace:*",
     "@seed-design/lynx-react": "workspace:*",
     "@seed-design/lynx-react-accordion": "workspace:*",
@@ -49,11 +49,11 @@
     "lynx-console": "^0.3.0"
   },
   "devDependencies": {
-    "@lynx-js/config-rsbuild-plugin": "0.2.2",
+    "@lynx-js/config-rsbuild-plugin": "0.2.5",
     "@lynx-js/preact-devtools": "^5.0.1-c0c936b",
     "@lynx-js/qrcode-rsbuild-plugin": "^0.4.6",
-    "@lynx-js/react-rsbuild-plugin": "0.18.3",
-    "@lynx-js/rspeedy": "0.16.4",
+    "@lynx-js/react-rsbuild-plugin": "0.22.1",
+    "@lynx-js/rspeedy": "0.18.4",
     "@lynx-js/types": "4.1.0",
     "@seed-design/rsbuild-plugin-lynx-icon": "workspace:*",
     "@types/react": "^19",
