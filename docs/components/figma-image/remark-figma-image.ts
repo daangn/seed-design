@@ -1,5 +1,6 @@
 import type { Image, Paragraph } from "mdast";
-import { defineMdastPlugin, type MdxJsxAttributeNode } from "satteri";
+import { defineMdastPlugin, type MdxJsxAttributeNode, type MdxJsxFlowElement } from "satteri";
+import { childrenRange, replaceSource } from "@/lib/satteri/replace-source";
 import {
   createFigmaClient,
   fetchFigmaImageUrls,
@@ -13,8 +14,8 @@ declare module "mdast" {
   interface ImageData {
     /**
      * `<FigmaImage>`를 치환해 만든 이미지라는 표시입니다. 검색 색인(`remarkStructure`)은
-     * 이 플러그인 뒤에 돌면서 image를 빈 문자열로 직렬화하므로, 이 표시를 보고 원래
-     * 컴포넌트 형태를 되살려야 `alt`가 색인에 남습니다 (app/source.tsx).
+     * 이미지를 지우므로, `remarkSearchRows`가 이 표시를 보고 원래 컴포넌트 형태로 되살려야
+     * `alt`가 색인에 남습니다 (lib/satteri/search-structure.ts).
      */
     figmaImage?: true;
   }
@@ -116,6 +117,27 @@ export function createBatchedFigmaImageUrlResolver(fetchUrls: FetchUrlBatch) {
   };
 }
 
+/** JSX 요소를 MDX 원문 형태로 씁니다. 속성값의 따옴표는 `mdast-util-mdx-jsx`와 같이 이스케이프합니다. */
+function stringifyJsxElement(
+  name: string,
+  attributes: readonly MdxJsxFlowElement["attributes"][number][],
+  children: string,
+) {
+  const stringified = attributes
+    .map((attr) => {
+      if (attr.type !== "mdxJsxAttribute") return ` {${attr.value}}`;
+      if (attr.value == null) return ` ${attr.name}`;
+      if (typeof attr.value === "string")
+        return ` ${attr.name}="${attr.value.replace(/"/g, "&#x22;")}"`;
+      return ` ${attr.name}={${attr.value.value}}`;
+    })
+    .join("");
+
+  return children
+    ? `<${name}${stringified}>\n${children}\n</${name}>`
+    : `<${name}${stringified} />`;
+}
+
 /**
  * Satteri plugin that transforms Figma node IDs into image URLs at compile time.
  *
@@ -157,6 +179,7 @@ export function remarkFigmaImage({
 
   return defineMdastPlugin({
     name: "remark-figma-image",
+    options: { position: true },
     async mdxJsxFlowElement(node, context) {
       const figmaId = extractFigmaId(node);
       if (!figmaId || !node.name) return;
@@ -188,17 +211,32 @@ export function remarkFigmaImage({
           children: [image],
           position: node.position,
         };
+        // remarkLlms는 원문을 잘라 내보내므로, 그대로 두면 `<FigmaImage figmaId=…>` 태그가 남는다.
+        const alt = image.alt?.replace(/[\\[\]]/g, "\\$&");
+        replaceSource(context, node, `![${alt}](<${url}>)`);
         context.replaceNode(node, paragraph);
         return;
       }
 
-      if (FIGMA_ID_PROP_SUPPORTED_COMPONENTS.includes(node.name)) {
+      const { name } = node;
+      if (FIGMA_ID_PROP_SUPPORTED_COMPONENTS.includes(name)) {
         const attributes = node.attributes.filter(
-          (attr): attr is MdxJsxAttributeNode =>
+          (attr) =>
             !(attr.type === "mdxJsxAttribute" && (attr.name === "figmaId" || attr.name === "src")),
         );
-        attributes.push({ type: "mdxJsxAttribute", name: "src", value: url });
-        context.replaceNode(node, { ...node, attributes });
+        // llms 출력에는 Figma 입력(`figmaId`)도, 빌드가 채운 이미지 주소(`src`)도 내용이 아니라 남기지 않는다.
+        const children = childrenRange(node);
+        replaceSource(context, node, (s) =>
+          stringifyJsxElement(
+            name,
+            attributes,
+            children ? s.slice(children.start, children.end) : "",
+          ),
+        );
+        context.replaceNode(node, {
+          ...node,
+          attributes: [...attributes, { type: "mdxJsxAttribute", name: "src", value: url }],
+        });
       }
     },
   });

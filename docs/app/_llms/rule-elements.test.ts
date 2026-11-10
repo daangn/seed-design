@@ -10,8 +10,7 @@ import { normalizeForAssert } from "./test-utils";
 
 // source.tsx의 검색용 필터 자리에 놓는 대역. 실제 필터는 File·Callout 같은 몇 개를 살려 두지만,
 // 여기서는 전부 접어 보존이 preserveRuleElements 덕분임을 분명히 한다.
-const foldEveryElement: FilterElement = (node) =>
-  node.type === "mdxJsxFlowElement" || node.type === "mdxJsxTextElement" ? "children-only" : true;
+const foldEveryElement: FilterElement = () => false;
 
 async function toProcessed(source: string): Promise<string> {
   const result = await compileMdx({
