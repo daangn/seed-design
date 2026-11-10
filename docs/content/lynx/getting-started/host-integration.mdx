@@ -122,7 +122,7 @@ Chip과 FloatingActionButton은 iOS Liquid Glass로 그릴 수 있습니다. 호
 <SeedProvider supportsLiquidGlass={g.liquidGlass === true}>
   {/* 영역 전체 */}
   <SeedProvider glassEffect>
-    <FloatingActionButton.Root>{/* ... */}</FloatingActionButton.Root>
+    <FloatingActionButton icon={<IconPlusLine />} label="글쓰기" />
     <Chip.Button glassEffect={false}>{/* 이 Chip만 끔 */}</Chip.Button>
   </SeedProvider>
   {/* 컴포넌트 하나 */}
