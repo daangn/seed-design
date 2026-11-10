@@ -21,6 +21,7 @@ verified_at: "2026-11-10"
   - 스와이프 전후 logcat을 `-v epoch`로 받아 첫 `touchmove` 기준 100ms 구간별로 `rLynxChange`·`NoPatch!`·`InvokeUIMethod with root`를 센다. 레이어별 측정 주기는 `InvokeUIMethod`의 `react-ref` identifier 수를 레이어 수와 시간으로 나눠 구한다.
   - 원인 분리에는 측정 loop의 RAF 시작·측정 완료·완료 뒤 시각을 `[DEBUG-…]` 태그 log로 남긴다. 측정 완료와 다음 RAF 사이에 commit이 몰려 있으면 이 교훈에 해당한다.
   - iOS처럼 logcat이 없으면 소유 session에서 `agent-lynx evaluate --thread main`으로 main thread의 `globalThis.rLynxChange`를 감싸 횟수·`data`를 기록한다. background의 `lynx.getNativeApp().callLepusMethod`는 native 함수라 덮어쓰기가 조용히 무시되어 셀 수 없었다.
+  - 컴포넌트 전체를 훑을 때는 peer 하한(0.117.0) 설치에서 임시 vitest setup으로 `fireEvent.*`를 감싸 이벤트 하나당 `rLynxChange` 수를 기록한다. 같은 환경에서 Preact dist의 component bailout(`newVNode.__v == oldVNode.__v`)에 `&& !c.__d`를 붙이고 host bailout을 끄면 Preact 11 동작을 흉내 낸 상한이 나온다. 두 값의 차이가 consumer fan-out 몫이다. 패치는 임시 worktree의 `node_modules`에만 한다.
   - 화면은 `adb shell screenrecord`로 녹화하고 같은 시각의 프레임을 수정 전후로 나란히 비교한다. 레이어 배치가 반복되는 예제에서는 열 단위 상관으로 지연을 자동 계산하면 이웃 레이어와 혼동되므로 쓰지 않는다.
 
 ## 발생 근거와 적용 조건
@@ -47,3 +48,4 @@ verified_at: "2026-11-10"
 - 2026-10-14: HelpBubble 가로 스크롤 추적 지연·빈도 경고 조사에서 기록했다.
 - 2026-10-14: main thread 추적 시제품의 gfxinfo 비교 결과를 추가했다.
 - 2026-11-10: Slider drag 경고 조사에서 `@lynx-js/react` 0.126 미만 조건, compound Root children 재생성 방법, iOS main thread hook 판정을 추가했다. 핵심 주장(consumer별 commit)을 iOS PlayLynx에서 다시 확인했고, Popover 측정은 다시 하지 않았다.
+- 2026-11-10: lynx-react 테스트 전체에서 consumer fan-out 후보를 훑는 측정법을 추가했다.
