@@ -1,5 +1,14 @@
 # @seed-design/cli
 
+## 1.7.4
+
+### Patch Changes
+
+- a1ea560: `diff` 의존성을 v9로 업데이트합니다. `add` 명령이 기존 스니펫과 받으려는 스니펫의 차이를 보여줄 때, 경로에 한글 등 비ASCII 문자나 역슬래시(Windows 경로 구분자)가 있으면 `---`/`+++` 헤더의 파일명이 따옴표로 감싸지고 이스케이프되어 표시됩니다.
+- 014e8aa: `recast` 의존성을 v0.24로 업데이트합니다. `seed-design.json`의 `tsx`가 `false`일 때 `add`·`add-all` 명령이 JavaScript로 변환한 스니펫에서, 주석 바로 뒤의 JSX를 불필요한 괄호로 감싸던 문제와 원본 스니펫의 빈 줄이 사라지던 문제가 함께 수정됩니다.
+  
+  - `recast`가 Node.js 22 이상을 요구하므로 `@seed-design/cli`의 Node.js 요구사항을 `>=22.0.0`으로 올립니다. Node.js 20에서 실행 중이라면 Node.js 22 이상으로 업그레이드해야 합니다.
+
 ## 1.7.3
 
 ### Patch Changes

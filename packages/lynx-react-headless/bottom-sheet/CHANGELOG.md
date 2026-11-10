@@ -1,5 +1,12 @@
 # @seed-design/lynx-react-bottom-sheet
 
+## 1.0.2
+
+### Patch Changes
+
+- b7eb437: (사용자 변경사항 없음) 내부 의존성 `@lynx-js/motion`을 0.0.8로 갱신합니다. 이 버전은 Motion 구현을 패키지 안에 포함하므로 `framer-motion`·`motion-dom`·`motion-utils`가 더 이상 함께 설치되지 않습니다.
+- 4b1d559: `@lynx-js/react` peer dependency 하한을 `>=0.100.0`에서 `>=0.117.0`으로 올려 Lynx 패키지 전체와 맞춥니다.
+
 ## 1.0.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @seed-design/react-file-upload
 
+## 1.0.2
+
+### Patch Changes
+
+- 76baa4b: (사용자 변경사항 없음) 내부 의존성을 호환되는 버전으로 갱신합니다.
+
 ## 1.0.1
 
 ### Patch Changes

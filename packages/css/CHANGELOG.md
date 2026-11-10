@@ -1,5 +1,13 @@
 # @seed-design/css
 
+## 3.2.1
+
+### Patch Changes
+
+- 1ecf9e6: Dialog·AlertDialog·SidePanel·BottomSheet·MenuSheet에서 띄어쓰기로 구분된 단어가 줄 끝에서 중간에 끊기던 문제를 수정합니다. 한국어 문장 안의 영문 단어나 숫자도 단어 단위로 줄바꿈되며, 한 줄에 들어가지 않는 긴 URL이나 ID는 이전처럼 영역 안에서 줄바꿈됩니다.
+- 9ffa870: `SegmentedControl`을 서버 렌더링하면 hydration 직후 선택 indicator가 왼쪽에서 미끄러져 들어오던 문제를 수정합니다. `SegmentedControlRoot`는 마운트 전까지 `data-ssr` 속성을 가지며, 그동안 indicator를 숨기고 선택된 `SegmentedControlItem`에 indicator와 같은 배경을 표시합니다. 마운트 뒤에는 indicator가 애니메이션 없이 제자리에 나타나고, 이후 선택을 바꿀 때의 애니메이션은 그대로입니다.
+- cf30ec4: `Tabs`를 `display: none`으로 숨겼다가 다시 표시하면 indicator가 폭 0인 채로 왼쪽 끝에서 선택된 탭 위치까지 애니메이션되던 문제를 수정합니다.
+
 ## 3.2.0
 
 ### Minor Changes
