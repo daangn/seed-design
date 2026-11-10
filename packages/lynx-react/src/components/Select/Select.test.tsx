@@ -165,6 +165,32 @@ describe("Select", () => {
     expect(trigger).toHaveAttribute("accessibility-value", "collapsed");
   });
 
+  it("keeps Main Thread patches per tap independent of the item count", () => {
+    render(<TestSelect />);
+    const root = getRenderedRoot();
+    const trigger = root.querySelector<HTMLElement>(".select-trigger");
+    const banana = Array.from(root.querySelectorAll<HTMLElement>("[accessibility-label]")).find(
+      (element) => element.getAttribute("accessibility-label") === "바나나",
+    );
+    // ReactLynx는 Background Thread 렌더링 결과를 `rLynxChange`로 Main Thread에 보낸다.
+    const nativeApp = (
+      lynx as unknown as {
+        getNativeApp(): { callLepusMethod(name: string, ...args: unknown[]): void };
+      }
+    ).getNativeApp();
+    const callLepusMethod = vi.spyOn(nativeApp, "callLepusMethod");
+    const patchesAfter = (tap: () => void) => {
+      callLepusMethod.mockClear();
+      tap();
+      return callLepusMethod.mock.calls.filter(([name]) => name === "rLynxChange").length;
+    };
+    // 열기·선택 탭은 Root를 두 번 다시 렌더링한다. 항목은 그 렌더링에 함께 포함되어야 한다.
+    expect(patchesAfter(() => fireEvent.tap(trigger as HTMLElement))).toBeLessThanOrEqual(2);
+    expect(patchesAfter(() => fireEvent.tap(banana as HTMLElement))).toBeLessThanOrEqual(2);
+    callLepusMethod.mockRestore();
+    expect(trigger).toHaveTextContent("바나나");
+  });
+
   it("preserves controlled open state after splitting recipe variants", () => {
     const onOpenChange = vi.fn();
     const { rerender } = render(

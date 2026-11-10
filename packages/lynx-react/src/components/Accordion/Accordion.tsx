@@ -23,7 +23,7 @@ import {
 import { accordion, type AccordionVariantProps } from "@seed-design/lynx-css/recipes/accordion";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxIconElementProps, LynxTextRef, LynxViewRef } from "../../types";
-import { toArray } from "../../utils/children";
+import { renewElements, toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { InternalIcon } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
@@ -104,7 +104,7 @@ export const AccordionRoot = React.forwardRef<unknown, AccordionRootProps>((prop
             key={React.isValidElement(item) ? (item.key ?? index) : index}
             value={{ isLast: index === items.length - 1 }}
           >
-            {item}
+            {renewElements(item)}
           </AccordionItemPositionContext.Provider>
         ))}
       </view>
@@ -148,7 +148,7 @@ export const AccordionItem = React.forwardRef<unknown, AccordionItemProps>((prop
             {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
             className={clsx(classes.item, className)}
           >
-            {children}
+            {renewElements(children)}
             {!isLast ? (
               <view className={classes.divider} accessibility-elements-hidden={true} />
             ) : null}

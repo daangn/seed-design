@@ -38,7 +38,7 @@ import type {
   LynxViewProps,
   LynxViewRef,
 } from "../../types";
-import { toArray } from "../../utils/children";
+import { renewElements, toArray } from "../../utils/children";
 import { mergeProps } from "../../utils/merge-props";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 
@@ -237,7 +237,7 @@ export const SelectRoot = React.forwardRef<unknown, SelectRootProps>((props, ref
             className={className}
             {...nativeProps}
           >
-            {children}
+            {renewElements(children)}
           </view>
         </SelectItemSizeContext.Provider>
       </SelectStyleContext.Provider>
@@ -602,7 +602,7 @@ export const SelectItem = React.forwardRef<unknown, SelectItemProps>((props, ref
         >
           <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
           <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>
-            {children}
+            {renewElements(children)}
           </view>
         </view>
       </SelectItemClassNamesContext.Provider>

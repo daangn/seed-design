@@ -200,6 +200,22 @@ describe("Accordion", () => {
     expect(content).toHaveStyle({ height: "0px" });
   });
 
+  it("sends one Main Thread patch for every part a trigger tap updates", () => {
+    render(<TestAccordion />);
+    const trigger = getRenderedRoot().querySelector<HTMLElement>(".first-trigger");
+    // ReactLynx는 Background Thread 렌더링 결과를 `rLynxChange`로 Main Thread에 보낸다.
+    const nativeApp = (
+      lynx as unknown as {
+        getNativeApp(): { callLepusMethod(name: string, ...args: unknown[]): void };
+      }
+    ).getNativeApp();
+    const callLepusMethod = vi.spyOn(nativeApp, "callLepusMethod");
+    fireEvent.tap(trigger as HTMLElement);
+    expect(callLepusMethod.mock.calls.filter(([name]) => name === "rLynxChange")).toHaveLength(1);
+    callLepusMethod.mockRestore();
+    expect(trigger).toHaveAttribute("accessibility-value", "펼쳐짐");
+  });
+
   it("keeps open and disabled accessibility state over user native values", () => {
     render(
       <Accordion.Root defaultValues={["first"]}>
