@@ -120,4 +120,28 @@ describe("FloatingActionButton", () => {
     fireEvent.layoutchange(label, { detail: { width: 0, height: 0 } });
     expect(Reflect.get(root.style, "--fab-label-width")).toBe("72px");
   });
+
+  it("ignores sub-pixel label width jitter so the width transition is not restarted", () => {
+    const { container } = render(
+      <FloatingActionButtonRoot>
+        <FloatingActionButtonLabel>Extended</FloatingActionButtonLabel>
+      </FloatingActionButtonRoot>,
+    );
+    const root = getFloatingActionButtonRoot(container);
+    const label = container.querySelector(".seed-floating-action-button__label");
+
+    if (!label) {
+      throw new Error("Expected FloatingActionButton label to exist.");
+    }
+
+    // The label moves while the button expands, and its reported width wobbles under 1px.
+    fireEvent.layoutchange(label, { detail: { width: 73.5, height: 22 } });
+    expect(Reflect.get(root.style, "--fab-label-width")).toBe("74px");
+    fireEvent.layoutchange(label, { detail: { width: 73.33, height: 22 } });
+    fireEvent.layoutchange(label, { detail: { width: 73.67, height: 22 } });
+    expect(Reflect.get(root.style, "--fab-label-width")).toBe("74px");
+
+    fireEvent.layoutchange(label, { detail: { width: 90, height: 22 } });
+    expect(Reflect.get(root.style, "--fab-label-width")).toBe("90px");
+  });
 });
