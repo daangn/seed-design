@@ -1,6 +1,6 @@
 import IconBellFill from "@karrotmarket/lynx-monochrome-icon/IconBellFill";
 
-import { Box } from "@seed-design/lynx-react";
+import { Box, Float } from "@seed-design/lynx-react";
 import { FloatingActionButton } from "@/components/ui/floating-action-button";
 
 export default function Example() {
@@ -15,9 +15,9 @@ export default function Example() {
       borderWidth={1}
       borderColor="stroke.neutralMuted"
     >
-      <Box position="absolute" right="16px" bottom="16px">
+      <Float placement="bottom-end" offsetX="x4" offsetY="x4">
         <FloatingActionButton icon={<IconBellFill />} label="알림 설정" />
-      </Box>
+      </Float>
     </Box>
   );
 }

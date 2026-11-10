@@ -6,7 +6,7 @@ compatibility:
     engine: "3.6"
 ---
 
-SEED의 Scale Feedback은 누르는 동안 요소를 살짝 줄여 입력이 도달했음을 즉시 전달합니다. 고정된 배율을 쓰지 않고 렌더된 크기에서 배율을 계산하므로 작은 아이콘 버튼과 화면 폭을 채우는 요소가 비슷한 눌림 거리로 반응합니다.
+SEED의 Scale Feedback은 누르는 동안 요소를 살짝 줄여 입력이 도달했음을 즉시 전달합니다. 고정된 배율을 쓰지 않고 렌더링된 크기에서 배율을 계산하므로 작은 아이콘 버튼과 화면 폭을 채우는 요소가 비슷한 눌림 거리로 반응합니다.
 
 `@seed-design/lynx-react`는 `ScaleFeedback`과 `useScaleFeedback`을 공개합니다. 하나의 영역을 줄일 때는 `ScaleFeedback`을, 터치 영역과 축소할 요소가 다를 때는 `useScaleFeedback`을 사용하세요.
 
@@ -113,7 +113,7 @@ Checkbox, Radio, Switch처럼 넓은 영역이 터치를 받고 일부 요소만
 
 ## Main Thread와 Background Thread
 
-Main Thread는 레이아웃 측정, 터치 처리, animation 실행을 담당합니다. Background Thread callback에는 비즈니스 로직을 둡니다.
+Main Thread는 레이아웃 측정, 터치 처리, 애니메이션 실행을 담당합니다. Background Thread callback에는 비즈니스 로직을 둡니다.
 
 Main Thread 함수 안에서는 React state, 네트워크 요청, NativeModule을 사용하지 마세요.
 

@@ -20,7 +20,7 @@ compatibility:
 ## Installation
 
 ```package-install
-npx @seed-design/cli add ui:tabs
+npx @seed-design/cli@latest add ui:tabs
 ```
 
 <LynxManualInstallation name="tabs" />
@@ -199,7 +199,7 @@ Lynx는 `carouselPreventDrag`를 지원하지 않습니다. Carousel 안에서 �
 
 ### Scroll to Top
 
-`TabsTrigger`의 `bindtap`은 이미 선택된 Trigger를 다시 탭할 때도 호출됩니다. 아래 예시는 네 번째 항목부터 보이도록 시작하며, 선택된 탭을 다시 탭하면 현재 콘텐츠의 `scroll-view`가 맨 위로 이동합니다.
+`TabsTrigger`의 `bindtap`은 이미 선택된 Trigger를 다시 탭할 때도 호출됩니다. 아래 예제는 네 번째 항목부터 보이도록 시작하며, 선택된 탭을 다시 탭하면 현재 콘텐츠의 `scroll-view`가 맨 위로 이동합니다.
 
 <LynxComponentExample name="lynx/tabs/scroll-top">
   ```json doc-gen:file
@@ -229,7 +229,7 @@ Lynx는 `carouselPreventDrag`를 지원하지 않습니다. Carousel 안에서 �
 
 ## Extending to Safe Area
 
-`TabsRoot`에 `extendSafeAreaX`를 지정하면 목록 배경과 하단 선, Carousel 패널이 좌우 safe area까지 확장됩니다. 탭과 패널 내용은 안전 영역 안에 남습니다. 기본값은 `false`입니다.
+`TabsRoot`에 `extendSafeAreaX`를 지정하면 목록 배경과 하단 선, Carousel 패널이 좌우 Safe Area까지 확장됩니다. 탭과 패널 내용은 안전 영역 안에 남습니다. 기본값은 `false`입니다.
 
 `scrollAlign`은 기존 정렬 방식을 유지하며, 확장된 목록에서는 안전 영역을 기준으로 선택한 탭을 보여 줍니다. `"center"`는 좌우 inset이 다른 경우에도 안전 영역의 중앙에 맞춥니다.
 

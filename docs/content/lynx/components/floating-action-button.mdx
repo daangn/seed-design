@@ -76,7 +76,7 @@ export function NewPostButton() {
 
 ### Float Composition
 
-Lynx에는 React의 `<Float>` 컴포넌트가 없습니다. 위치 기준 `Box`에 `position="relative"`를 지정하고, 버튼 wrapper에 `position="absolute"`, `right`, `bottom`을 적용해 같은 배치를 구성하세요.
+Floating Action Button은 [`Float`](/lynx/foundation/layout/float)와 함께 사용하면 편리합니다. 위치 기준 `Box`에 `position="relative"`를 지정하고, `Float`의 `placement`와 offset으로 버튼을 배치하세요.
 
 <LynxComponentExample name="lynx/floating-action-button/float-composition" height={500}>
   ```json doc-gen:file
@@ -92,4 +92,3 @@ Lynx에는 React의 `<Float>` 컴포넌트가 없습니다. 위치 기준 `Box`�
 - `onClick` 대신 `bindtap`을 사용합니다. React state를 바꾸는 handler의 첫 줄에는 `"background only"`를 두세요.
 - `aria-label` 대신 `accessibility-label`을 사용합니다. Registry는 필수 `label`을 기본 접근성 이름으로 사용합니다.
 - HTML button prop과 `asChild`는 지원하지 않습니다.
-- React의 `Float`은 제공하지 않습니다. native absolute layout으로 위치를 지정하세요.

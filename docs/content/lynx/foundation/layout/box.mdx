@@ -4,7 +4,7 @@ description: Box 컴포넌트는 Lynx에서 가장 기초적인 레이아웃 표
 ---
 
 <Callout type="warning" title="사용을 권장하지 않아요">
-레이아웃은 사용 중인 zero-runtime 스타일링 라이브러리로 구성하는 것을 권장해요.
+레이아웃은 사용 중인 zero-runtime 스타일링 라이브러리로 구성하는 것을 권장합니다.
 이유와 대체 예제는 [Styling 가이드](/lynx/getting-started/styling)에서 확인하세요.
 </Callout>
 
@@ -61,13 +61,13 @@ export function App() {
 
 style prop은 inline style로 적용되므로 같은 속성을 지정한 `className` utility보다 우선합니다. `className`으로 지정할 속성은 style prop으로 함께 지정하지 마세요. 예를 들어 `px="x3" className="pl-x7"`의 왼쪽 패딩은 `x3`입니다.
 
-`pt`, `pr`, `pb`, `pl`에 `"safeArea"`를 지정하면 [`useSafeArea`](/lynx/hooks/use-safe-area)가 반환하는 safe area inset을 padding으로 적용합니다. 값은 `SeedProvider`의 `safeAreaInsets`(또는 가장 가까운 `SafeAreaProvider`)에서 오며, `0`도 그대로 `0px`로 적용합니다.
+`pt`, `pr`, `pb`, `pl`에 `"safeArea"`를 지정하면 [`useSafeArea`](/lynx/hooks/use-safe-area)가 반환하는 Safe Area inset을 padding으로 적용합니다. 값은 `SeedProvider`의 `safeAreaInsets`(또는 가장 가까운 `SafeAreaProvider`)에서 오며, `0`도 그대로 `0px`로 적용합니다.
 
 ## Margin과 Bleed
 
 margin prop은 SEED 토큰, 길이, `"auto"`를 받습니다. 방향별 prop이 축 prop(`mx`, `my`)보다, 축 prop이 `m`보다 우선합니다.
 
-bleed prop은 음수 margin을 적용해, 요소를 부모의 padding 영역까지 넓힙니다. 값은 `"16px"` 같은 px 길이, `0`, `"safeArea"`를 받습니다. `"safeArea"`를 지정하면 같은 방향의 safe area inset만큼 넓힙니다.
+bleed prop은 음수 margin을 적용해, 요소를 부모의 padding 영역까지 넓힙니다. 값은 `"16px"` 같은 px 길이, `0`, `"safeArea"`를 받습니다. `"safeArea"`를 지정하면 같은 방향의 Safe Area inset만큼 넓힙니다.
 
 ```tsx
 <Box pl="safeArea" pr="safeArea">

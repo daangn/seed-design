@@ -19,12 +19,12 @@ compatibility:
   ```
 </LynxComponentExample>
 
-Lynx의 `TextFieldInput`은 React의 `autoFocus` prop을 지원하지 않습니다. 처음부터 포커스해야 한다면 입력에 `id`를 지정하고, 화면이 준비된 뒤 Lynx native input의 `focus` UI method를 호출하세요.
+Lynx의 `TextFieldInput`은 React의 `autoFocus` prop을 지원하지 않습니다. 처음부터 focus해야 한다면 입력에 `id`를 지정하고, 화면이 준비된 뒤 Lynx native input의 `focus` UI method를 호출하세요.
 
 ## Installation
 
 ```package-install
-npx @seed-design/cli add ui:text-field
+npx @seed-design/cli@latest add ui:text-field
 ```
 
 <LynxManualInstallation name="text-field" />
@@ -78,7 +78,7 @@ npx @seed-design/cli add ui:text-field
 
 ### Size
 
-`size`로 TextField의 크기를 정합니다. (default: `large`)
+`size`로 `TextField`의 크기를 정합니다. 기본값은 `large`입니다.
 
 Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가 없어 `responsive`는 지원하지 않습니다.
 

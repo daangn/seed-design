@@ -74,7 +74,7 @@ import { Float, Text } from "@seed-design/lynx-react";
 
 ## ImageFrameFloater와의 관계
 
-이미지 안에 배지나 버튼을 배치할 때는 [ImageFrameFloater](/lynx/components/image-frame#overlay)를 사용하세요. `ImageFrameFloater`는 `Float`를 조합하며, 기존처럼 가장자리 축에는 `x1_5`, 중앙 축에는 `0`을 기본 간격으로 적용합니다. 이미지가 Safe Area로 확장되면 안전 영역에 맞춰 위치를 보정합니다.
+이미지 안에 배지나 버튼을 배치할 때는 [`ImageFrameFloater`](/lynx/components/image-frame#overlay)를 사용하세요. `ImageFrameFloater`는 `Float`를 조합하며, 기존처럼 가장자리 축에는 `x1_5`, 중앙 축에는 `0`을 기본 간격으로 적용합니다. 이미지가 Safe Area로 확장되면 안전 영역에 맞춰 위치를 보정합니다.
 
 일반 `Float`는 Safe Area를 자동 보정하지 않으며 `extendSafeAreaX` prop도 받지 않습니다. `ImageFrame` 안에서 사용해도 기본 offset은 `0`입니다. 화면 끝까지 확장하는 방법과 콘텐츠를 보호하는 기준은 [Safe Area 가이드](/lynx/getting-started/safe-area)를 참고하세요.
 

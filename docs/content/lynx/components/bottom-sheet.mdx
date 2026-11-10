@@ -19,7 +19,7 @@ compatibility:
 ## Installation
 
 ```package-install
-npx @seed-design/cli add ui:bottom-sheet
+npx @seed-design/cli@latest add ui:bottom-sheet
 ```
 
 <LynxManualInstallation name="bottom-sheet" />
@@ -137,7 +137,7 @@ Trigger 외의 방식으로 Bottom Sheet를 열고 닫으려면 `open`과 `onOpe
 
 ### Long Content
 
-내용에 맞춰 높이가 정해지는 시트는 화면 높이의 90%를 넘지 않고, 위쪽 inset이 그보다 크면 inset 아래까지로 제한됩니다. 제한에 닿으면 `BottomSheetBody`가 스크롤됩니다. Body가 스크롤된 상태에서 시작한 제스처는 Body만 움직이고, Body가 맨 위에 있을 때 아래로 끌어야 시트가 움직입니다.
+시트 높이가 내용에 맞춰 정해지면 화면 높이의 90%를 넘지 않고, 위쪽 inset이 그보다 크면 inset 아래까지로 제한됩니다. 제한에 닿으면 `BottomSheetBody`가 스크롤됩니다. Body가 스크롤된 상태에서 시작한 제스처는 Body만 움직이고, Body가 맨 위에 있을 때 아래로 끌어야 시트가 움직입니다.
 
 <LynxComponentExample name="lynx/bottom-sheet/long-content" height={600}>
   ```json doc-gen:file
@@ -188,10 +188,10 @@ Lynx는 `fadeFromIndex`를 지원하지 않습니다. snap index에 따른 Backd
 ### Show Close Button
 
 `<BottomSheetContent>`에 `showCloseButton` prop을 전달하여 닫기 버튼을 표시할 수 있습니다.
-기본 값은 `true`입니다.
+기본값은 `true`입니다.
 
-showCloseButton을 `false`로 설정하면 닫기 버튼이 표시되지 않습니다.
-이 경우 유저가 BottomSheet를 닫을 수 있는 방법을 제공해야 합니다.
+`showCloseButton`을 `false`로 설정하면 닫기 버튼이 표시되지 않습니다.
+이 경우 사용자가 Bottom Sheet를 닫을 수 있는 방법을 제공해야 합니다.
 
 <LynxComponentExample name="lynx/bottom-sheet/show-close-button" height={520}>
   ```json doc-gen:file
@@ -207,7 +207,7 @@ Lynx에는 배경 탭, 드래그, ESC 닫기를 한 번에 제어하는 `dismiss
 
 스크롤 힌트가 필요하면 Body 안에 [Scroll Fog](/lynx/components/scroll-fog)와 세로 `<scroll-view>`를 배치하세요. Body의 스크롤 영역 안에서는 `height: "100%"`가 기준으로 삼을 높이가 없으므로, `ScrollFog`에 고정 높이를 지정해야 합니다. fog 방향과 크기는 `ScrollFog`의 `placement`·`size`로, 스크롤바와 스크롤 동작은 `<scroll-view>` prop으로 제어합니다. 다만 이 `<scroll-view>`의 스크롤은 시트 드래그와 조정되지 않아, 스크롤한 상태에서 아래로 끌면 시트도 함께 움직입니다.
 
-ScrollFog는 스크롤 위치와 관계없이 항상 효과를 표시하므로, `<scroll-view>`에 권장 padding인 상단 `20px`, 하단 `80px`을 지정해야 합니다.
+`ScrollFog`는 스크롤 위치와 관계없이 항상 효과를 표시하므로, `<scroll-view>`에 권장 padding인 상단 `20px`, 하단 `80px`을 지정해야 합니다.
 
 <LynxComponentExample name="lynx/bottom-sheet/with-scroll-fog" height={520}>
   ```json doc-gen:file

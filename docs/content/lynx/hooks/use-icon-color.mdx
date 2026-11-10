@@ -94,7 +94,7 @@ Lynx의 monochrome icon은 내부적으로 `<image>`를 렌더링하고, 실제 
 - `setTimeout`이나 frame retry를 늘리는 방식은 list 초기 렌더 타이밍 문제를 가릴 수는 있어도, 원인을 코드에 설명하기 어렵고 성능 리스크가 커집니다.
 - catalog 전용 `key` remount나 `recyclable={false}` workaround는 컴포넌트 패키지의 실제 문제를 숨길 수 있습니다.
 
-결론적으로 `useIconColor`는 “CSS computed color를 native image tint에 반영하는 얇은 bridge”입니다. 색상 계산은 recipe와 CSS가 담당하고, hook은 그 결과를 Lynx native attribute로 전달하는 책임만 가집니다.
+색상 계산은 recipe와 CSS가 담당하고, hook은 그 결과를 Lynx native attribute로 전달하기만 합니다.
 
 ## API
 

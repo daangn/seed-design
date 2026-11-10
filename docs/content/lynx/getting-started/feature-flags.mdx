@@ -56,7 +56,7 @@ export default defineConfig({
 | 플러그인 기본값 | 번들을 만들 때 플러그인이 넣는 값입니다. 엔진 자체의 기본값과 다를 수 있습니다. |
 | 호스트 settings / native config | 일부 플래그를 생략했을 때 엔진이 읽는 앱·플랫폼 설정입니다. 앱마다 결과가 달라질 수 있습니다. |
 
-React 플러그인 **0.9.0부터** `targetSdkVersion`이 deprecated되었고 `engineVersion`의 별칭으로 유지됩니다. 확인한 `0.18.3`·`0.20.2`는 둘 다 허용하지만, 새 설정에는 `engineVersion`을 사용하세요. 둘을 함께 지정하면 `engineVersion`이 우선하며, 둘 다 생략한 플러그인 기본값은 `3.2`입니다. 아래에서 **target SDK**라고 할 때는 엔진에 전달된 이 대상 버전을 뜻합니다. [패키지 변경 이력][react-changelog]
+React 플러그인 0.9.0부터 `targetSdkVersion`이 deprecated되었고 `engineVersion`의 별칭으로 유지됩니다. 확인한 `0.18.3`·`0.20.2`는 둘 다 허용하지만, 새 설정에는 `engineVersion`을 사용하세요. 둘을 함께 지정하면 `engineVersion`이 우선하며, 둘 다 생략했을 때 플러그인 기본값은 `3.2`입니다. 아래에서 **target SDK**라고 할 때는 엔진에 전달된 이 대상 버전을 뜻합니다. [패키지 변경 이력][react-changelog]
 
 | 플러그인 | 설정할 항목 |
 | --- | --- |
@@ -84,7 +84,7 @@ React 플러그인 **0.9.0부터** `targetSdkVersion`이 deprecated되었고 `en
 | `enableTextRefactor` | 텍스트 측정·baseline 등의 개선 경로 | target SDK ≥ 2.2이면 생략 | 동일 | 동일 | 최신 Config에 공개되지 않음 |
 | `enableFlexBasisZeroPercent` | 웹과 같은 `flex` 축약 해석을 선택할 때 | 지원 안 함 | 필요 시 `true` | target SDK ≥ 4.1이면 생략 가능, 그 미만이면 필요 시 `true` | Config |
 
-Selector·Invalidation의 생략 조건은 **React 플러그인 `0.18.3`·`0.20.2`에서 기본값 `true`를 확인했다는 것**입니다. “Engine 3.6 이상에서 항상 켜진다”는 뜻이 아닙니다. 더 오래된 플러그인의 기본값 변경 최초 버전은 미확인입니다.
+Selector·Invalidation의 생략 조건은 **React 플러그인 `0.18.3`·`0.20.2`에서 기본값 `true`를 확인했다는 것**입니다. "Engine 3.6 이상에서 항상 켜진다"는 뜻이 아닙니다. 더 오래된 플러그인에서 기본값이 처음 바뀐 버전은 미확인입니다.
 
 ### CSS 매칭과 갱신
 
@@ -99,7 +99,7 @@ pluginReactLynx({
 });
 ```
 
-Invalidation은 `.a .b` 같은 선택자가 있을 때 상위 요소의 class가 바뀌면 영향을 받는 하위 요소의 스타일을 다시 계산하도록 합니다. **끄면 전체 스타일을 재계산하는 것이 아니라, 결합 선택자가 처음에는 맞더라도 후속 변경에 따른 관련 스타일 갱신이 수행되지 않을 수 있습니다.**
+Invalidation은 `.a .b` 같은 선택자가 있을 때 상위 요소의 class가 바뀌면 영향을 받는 하위 요소의 스타일을 다시 계산하도록 합니다. **끄면 전체 스타일을 재계산하는 것이 아니라, 결합 선택자가 처음에는 맞더라도 후속 변경에 맞춰 관련 스타일이 갱신되지 않을 수 있습니다.**
 
 영향받는 요소를 모으고 갱신하는 데에도 비용이 있습니다. 공식 문서는 이런 선택자 사용이 없다면 성능을 위해 끌 수 있다고 설명하지만, SEED와 앱의 상태·테마 갱신에 필요한지 확인 없이 끄지 마세요. [공식 설명][invalidation-doc] · [3.6 문서 원본][invalidation-36]
 
@@ -121,7 +121,7 @@ CSS 상속은 Lynx가 지원하는 속성 범위에 적용됩니다. 웹의 모�
 
 ### 텍스트와 레이아웃
 
-| 플래그 | 플랫폼·도입 기록 | 언제 설정하고 언제 생략하나요? |
+| 플래그 | 플랫폼·도입 기록 | 언제 설정하고 언제 생략하는지 |
 | --- | --- | --- |
 | `fontScaleEffectiveOnlyOnSp` | Android·iOS·HarmonyOS, Since `2.4` | 기본값 `false`. SEED의 Dynamic 토큰은 `sp`, Static 토큰은 `px`이므로 `true` 유지. 모든 px 여백·아이콘까지 시스템 배율이 적용된다는 설명은 부정확하며, 이 옵션은 폰트 관련 길이의 배율 적용을 제어 |
 | `enableFixedNew` | Android·iOS·HarmonyOS, Since `2.10` | 기본값 `false`, settings fallback 가능. fixed 요소 사용 시 `true` 권장. 4.1에는 unified fixed 경로도 있으므로 해당 경로를 호스트가 켜는 경우는 구분하되, Engine 버전만 보고 삭제하지 않음 |
@@ -152,7 +152,7 @@ CSS 상속은 Lynx가 지원하는 속성 범위에 적용됩니다. 웹의 모�
 - `"reactive"`: `lynx.__globalProps`를 바로 읽습니다. 값이 바뀌면 페이지 전체가 다시 렌더되므로 구독이 필요 없습니다. 이 모드에서 `useGlobalProps()`는 같은 값을 돌려주지만 개발 빌드에서 호출마다 경고합니다.
 - `"event"`: `useGlobalProps()`로 읽습니다. 이 훅이 변경 이벤트를 구독하므로 별도 이벤트 리스너를 추가할 필요는 없습니다. `lynx.__globalProps`를 직접 읽기만 하면 변경에 반응하지 않습니다.
 
-`SeedProvider`에 넘기지 않은 값을 global props에서 채우는 SEED의 fallback도 빌드 설정의 모드에 맞춰 같은 방식으로 읽습니다. [React 구현][global-props-source]
+SEED는 `SeedProvider`에 넘기지 않은 값을 global props에서 채웁니다. 이 fallback도 빌드 설정의 모드에 맞춰 같은 방식으로 읽습니다. [React 구현][global-props-source]
 
 `enableMultiTouchParamsCompatible`는 멀티터치 활성화와 별개의 payload 호환 옵션입니다. 공개 설정에서 빠진 이 옵션을 대신 넣지 말고, 필요한 기능에 맞춰 `enableMultiTouch`를 설정하세요.
 
@@ -165,7 +165,7 @@ CSS 상속은 Lynx가 지원하는 속성 범위에 적용됩니다. 웹의 모�
 
 | 플래그 | 역할·플랫폼·도입 기록 | 기본값과 설정 조건 | 현재 설정 위치 |
 | --- | --- | --- | --- |
-| `enableNewGesture` | Gesture Handler 경로. Android·iOS·HarmonyOS, Since `2.16` | 엔진·React 기본 `false`. SEED PullToRefresh는 `@lynx-js/gesture-runtime`의 `NativeGesture`를 사용하므로 `true` 필요. 일반 `bindtap`만 쓰는 앱에는 필수가 아님. 확인한 3.6–4.1에 일괄 생략 경계 없음 | React 권장. Config에도 공개됨 |
+| `enableNewGesture` | Gesture Handler 경로. Android·iOS·HarmonyOS, Since `2.16` | 엔진·React 기본 `false`. SEED Pull To Refresh는 `@lynx-js/gesture-runtime`의 `NativeGesture`를 사용하므로 `true` 필요. 일반 `bindtap`만 쓰는 앱에는 필수가 아님. 확인한 3.6–4.1에 일괄 생략 경계 없음 | React 권장. Config에도 공개됨 |
 | `enableEventHandleRefactor` | 이벤트 리스너 재바인딩·dispatch 경로. Android·iOS·HarmonyOS, Since `3.5` | 정의상 `false`, 미지정 시 settings 사용. 해당 경로가 필요하면 `true` 유지. 일반 React 이벤트 핸들러의 동적 변경이 전부 불가능하다는 뜻은 아님 | Config `0.2.1`부터 다시 공개(type-config `4.1.2`에 추가, 해당 플러그인은 `4.1.3` 사용) |
 | `enablePlatformGesture` | 네이티브와 Lynx의 제스처 조정 계층. Android·iOS, Since `3.6` | 기본 `false`. 네이티브 제스처와의 경합을 조정할 때 검토. 엔진 4.1에도 사용처가 있으므로 기능 제거로 분류하지 않음 | Config `0.2.0`부터 공개 설정 제외 |
 | `enableTransformedTouchPosition` | transform을 반영한 터치 좌표. Android·HarmonyOS | 기본 `false`. 변형된 요소의 좌표를 사용하는 기능에서 검토. 공식 Since는 `3.6`이나 3.6.0 tag에는 설정 정의가 없고 3.7.0에는 존재하므로 **3.6 도입 경계 미확인** | 현재 Config에 공개됨 |
@@ -173,7 +173,7 @@ CSS 상속은 Lynx가 지원하는 속성 범위에 적용됩니다. 웹의 모�
 
 [공식 Config 설명][config-doc] · [3.6 정의와 fallback][decoder-36] · [4.1 정의][engine-41] · [Config changelog][config-changelog]
 
-SEED PullToRefresh를 사용하는 앱은 다음 옵션을 기존 React 플러그인 설정에 합치세요. `@lynx-js/gesture-runtime`이 Content의 네이티브 스크롤과 당김 제스처를 중재할 때 Gesture Handler 경로를 사용합니다. Since `2.16`은 엔진 설정의 도입 기록이며, SEED의 최소 지원 엔진 `3.6`을 낮춘다는 뜻은 아닙니다.
+SEED Pull To Refresh를 사용하는 앱은 다음 옵션을 기존 React 플러그인 설정에 합치세요. `@lynx-js/gesture-runtime`이 Content의 네이티브 스크롤과 당김 제스처를 중재할 때 Gesture Handler 경로를 사용합니다. Since `2.16`은 엔진 설정의 도입 기록이며, SEED의 최소 지원 엔진 `3.6`을 낮춘다는 뜻은 아닙니다.
 
 ```ts
 pluginReactLynx({
@@ -182,9 +182,9 @@ pluginReactLynx({
 });
 ```
 
-PullToRefresh를 사용하지 않는 앱에는 이 플래그가 필요하지 않을 수 있으므로 위의 최소 권장 설정에는 넣지 않았습니다.
+Pull To Refresh를 사용하지 않는 앱에는 이 플래그가 필요하지 않을 수 있으므로 위의 최소 권장 설정에는 넣지 않았습니다.
 
-`enableMultiTouch`는 현재 Config에도 공개되어 있습니다. `enableMultiTouchParamsCompatible`가 사라졌다는 이유로 멀티터치 자체가 지원 종료되었다고 해석하지 마세요. 최신 공개 API에서 빠진 옵션을 계속 제어해야 하는 앱은 호스트의 설정 경로와 기존 동작을 확인해야 하며, 단순히 React 플러그인으로 옮기면 안 됩니다.
+`enableMultiTouch`는 현재 Config에도 공개되어 있습니다. `enableMultiTouchParamsCompatible`가 사라졌다는 이유로 멀티터치 자체가 지원 종료되었다고 해석하지 마세요. 최신 공개 API에서 빠진 옵션을 앱이 계속 제어해야 한다면 호스트의 설정 경로와 기존 동작을 확인해야 합니다. 단순히 React 플러그인으로 옮기면 안 됩니다.
 
 ### 관찰과 렌더링
 
@@ -218,10 +218,10 @@ Observer는 빌드와 엔진을 함께 확인해야 합니다.
 
 ## 이전 설정 정리하기
 
-먼저 **빌드 패키지 버전**을 확인하고, 그 다음 **기존 앱의 동작 의존성**을 확인하세요.
-`@lynx-js/config-rsbuild-plugin`은 `0.1.1`에서 type-config `3.6.0`을 사용하다가, **0.2.0에서 `4.1.1`의 공개 목록으로 전환**했습니다. 아래 제외된 키는 별도 deprecated 유예 없이 기본 타입·검증에서 빠졌습니다. [변경 이력][config-changelog]
+먼저 **빌드 패키지 버전**을 확인하고, 그다음 **기존 앱의 동작 의존성**을 확인하세요.
+`@lynx-js/config-rsbuild-plugin`은 `0.1.1`에서 type-config `3.6.0`을 사용하다가, 0.2.0에서 `4.1.1`의 공개 목록으로 전환했습니다. 아래 제외된 키는 별도 deprecated 유예 없이 기본 타입·검증에서 빠졌습니다. [변경 이력][config-changelog]
 
-| 기존 설정 | 최신 설정에서의 판단 | 구형 도구·엔진을 계속 사용할 때 |
+| 기존 설정 | 최신 설정을 쓸 때 | 구형 도구·엔진을 계속 사용할 때 |
 | --- | --- | --- |
 | Config의 `enableCSSSelector: true`·`enableCSSInvalidation: true` | Config에서는 제거. React `0.18.3`·`0.20.2`의 기본값에 맡기거나 React 옵션으로 이동 | 엔진 기능은 계속 필요. 사용 중인 React 기본값이 다르거나 다른 빌드 경로이면 명시 활성화 유지 |
 | `enableCSSStrictMode: false` | Config `0.2.0`부터 공개되지 않으며 최소 예제에서 제거 | 설정 정의 Since `1.6`, 기본 `false`. 공통 CSS 파서의 strict 처리·진단 옵션이며 `false`가 SEED 사용의 필수 우회라는 재현 근거는 미확인 |
@@ -238,7 +238,7 @@ Observer는 빌드와 엔진을 함께 확인해야 합니다.
 
 - **도입 기록:** 표의 Since는 [3.6 설정 정의][engine-36]와 [4.1 설정 정의][engine-41]의 기록입니다. 현재 API 문서에는 일부 과거 기능이 Since 3.2로 표기되어 있어, 도입 기록과 기본 활성화 시점을 혼동하지 않도록 이전 tag를 함께 참고했습니다. 3.2 이전 항목의 최초 출시 tag와 플랫폼별 도입 시점은 별도로 확정하지 못했습니다.
 - **정확한 경계 미확인:** `enableTransformedTouchPosition`의 3.6 도입 기록과 3.6.0 tag 사이의 차이, Selector·Invalidation이 React 기본 `true`가 된 최초 패키지 버전, Observer의 템플릿 기본 활성화 최초 버전, VSync flush의 플랫폼별 효과·변경 경계는 미확인입니다.
-- **삭제 판단:** 공개 설정 제외를 엔진 기능 제거로 표시하지 않았습니다. 호스트 fallback이나 다른 실행 경로가 있는 플래그는 엔진 버전만으로 “설정 불필요”라고 단정하지 않습니다. 확인하지 않은 이후 버전과 `next`/`main`의 미출시 변경도 적용하지 않습니다.
+- **삭제 판단:** 공개 설정 제외를 엔진 기능 제거로 표시하지 않았습니다. 호스트 fallback이나 다른 실행 경로가 있는 플래그는 엔진 버전만으로 "설정 불필요"라고 단정하지 않습니다. 확인하지 않은 이후 버전과 `next`/`main`의 미출시 변경도 적용하지 않습니다.
 
 [react-options]: https://lynxjs.org/api/rspeedy/react-rsbuild-plugin.pluginreactlynxoptions
 [config-doc]: https://lynxjs.org/api/rspeedy/type-config.config

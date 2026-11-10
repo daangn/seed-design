@@ -110,7 +110,7 @@ track 위에 선택 단위를 나타내는 눈금을 표시할 수 있습니다.
 
 ### With Markers
 
-slider 아래에 주요 값을 설명하는 marker를 표시합니다. marker의 시각적 텍스트는 native accessibility 값에 자동으로 포함되지 않으므로, 필요한 의미는 `getAccessibilityValueText`로도 전달하세요.
+Slider 아래에 주요 값을 설명하는 marker를 표시합니다. marker의 시각적 텍스트는 native accessibility 값에 자동으로 포함되지 않으므로, 필요한 의미는 `getAccessibilityValueText`로도 전달하세요.
 
 `markers`에는 숫자 또는 `{ value, label?, align? }` 객체를 전달할 수 있습니다. 객체에서 `align`을 생략하면 최소값은 시작, 최대값은 끝, 나머지는 가운데에 배치됩니다.
 
@@ -125,7 +125,7 @@ slider 아래에 주요 값을 설명하는 marker를 표시합니다. marker의
 
 ### Controlled
 
-`values`와 `onValuesChange`를 사용하여 슬라이더의 값을 앱 상태로 제어합니다.
+`values`와 `onValuesChange`를 사용하여 Slider의 값을 앱 상태로 제어합니다.
 
 <LynxComponentExample name="lynx/slider/controlled">
   ```json doc-gen:file
@@ -182,7 +182,7 @@ slider 아래에 주요 값을 설명하는 marker를 표시합니다. marker의
 
 `getValueIndicatorLabel`로 thumb을 조작할 때 표시되는 Value Indicator의 텍스트를 바꿀 수 있습니다.
 
-Value Indicator는 native touch 조작 중에 표시되는 보조 UI이며, 접근성 탐색이 읽는 값은 아닙니다. 의미 있는 단위나 설명을 제공해야 한다면 `getAccessibilityValueText`도 함께 사용하세요.
+Value Indicator는 native touch 조작 중에 표시되는 보조 UI이며, 접근성 탐색이 읽는 값은 아닙니다. 의미 있는 단위나 설명을 전달해야 한다면 `getAccessibilityValueText`도 함께 사용하세요.
 
 <LynxComponentExample name="lynx/slider/custom-value-indicator-label">
   ```json doc-gen:file
@@ -254,7 +254,7 @@ Value Indicator는 native touch 조작 중에 표시되는 보조 UI이며, 접�
 
 #### `getAccessibilityValueText`
 
-native accessibility 탐색은 기본적으로 각 thumb에 `minimum <min>, maximum <max>, current <value>` 형식의 값을 제공합니다. 숫자만으로 의미가 충분하지 않다면 `getAccessibilityValueText`로 단위나 값의 의미를 포함한 설명을 제공하세요.
+native accessibility 탐색은 기본적으로 각 thumb에서 `minimum <min>, maximum <max>, current <value>` 형식의 값을 읽습니다. 숫자만으로 의미가 충분하지 않다면 `getAccessibilityValueText`로 단위나 값의 의미를 포함한 설명을 전달하세요.
 
 <LynxComponentExample name="lynx/slider/get-aria-value-text">
   ```json doc-gen:file
@@ -267,7 +267,7 @@ native accessibility 탐색은 기본적으로 각 thumb에 `minimum <min>, maxi
 
 #### `getAccessibilityLabel`
 
-`getAccessibilityLabel`로 각 thumb의 용도를 설명합니다. 특히 range slider에서는 각 thumb이 최소값·최대값 중 어떤 역할인지 구분할 수 있는 label을 제공하세요.
+`getAccessibilityLabel`로 각 thumb의 용도를 설명합니다. 특히 Range Slider에서는 각 thumb이 최소값·최대값 중 어떤 역할인지 구분할 수 있는 label을 지정하세요.
 
 <LynxComponentExample name="lynx/slider/get-aria-label">
   ```json doc-gen:file
@@ -280,7 +280,7 @@ native accessibility 탐색은 기본적으로 각 thumb에 `minimum <min>, maxi
 
 ### Field Integration
 
-`label`, `labelWeight`, `indicator`, `description`, `errorMessage`, `showRequiredIndicator`를 사용해 슬라이더 주변에 Field 안내를 표시할 수 있습니다. `invalid`가 `true`이고 `errorMessage`가 있으면 오류 안내를 표시합니다.
+`label`, `labelWeight`, `indicator`, `description`, `errorMessage`, `showRequiredIndicator`를 사용해 Slider 주변에 Field 안내를 표시할 수 있습니다. `invalid`가 `true`이고 `errorMessage`가 있으면 오류 안내를 표시합니다.
 
 <LynxComponentExample name="lynx/slider/field">
   ```json doc-gen:file
@@ -293,7 +293,7 @@ native accessibility 탐색은 기본적으로 각 thumb에 `minimum <min>, maxi
 
 ### RTL Support
 
-`dir="rtl"`로 값의 시작과 끝이 오른쪽에서 왼쪽으로 배치되는 슬라이더를 만들 수 있습니다.
+`dir="rtl"`로 값의 시작과 끝이 오른쪽에서 왼쪽으로 배치되는 Slider를 만들 수 있습니다.
 
 <LynxComponentExample name="lynx/slider/rtl">
   ```json doc-gen:file
@@ -311,8 +311,8 @@ Lynx `Slider`는 React Slider와 다음과 같은 차이가 있습니다.
 
 - **렌더링 요소**: HTML form input과 DOM 요소 대신 native `<view>`와 `<text>`를 사용합니다.
 - **입력 이벤트**: 브라우저 pointer/keyboard 이벤트 대신 native touch 입력을 사용하며, 값 변경은 `onValuesChange`, 확정은 `onValuesCommit`으로 전달합니다.
-- **Value Indicator**: `valueIndicatorTrigger="auto"`도 native에서는 touch-active와 같고 hover로 표시되지 않습니다. `"active"`와 동일한 결과를 제공합니다.
-- **접근성**: DOM ARIA 대신 `getAccessibilityLabel`과 `getAccessibilityValueText`로 native accessibility 이름과 값을 제공합니다.
+- **Value Indicator**: `valueIndicatorTrigger="auto"`도 native에서는 touch-active와 같고 hover로 표시되지 않습니다. `"active"`와 동일하게 동작합니다.
+- **접근성**: DOM ARIA 대신 `getAccessibilityLabel`과 `getAccessibilityValueText`로 native accessibility 이름과 값을 전달합니다.
 - **Field 안내**: Registry의 `label`, `description`, `errorMessage`는 native 레이아웃으로 표시됩니다. DOM id를 통한 label·description 연결은 사용하지 않습니다.
 - **범위 선택**: `values` 배열과 두 개의 native thumb으로 범위를 표현합니다.
 </Callout>
@@ -323,12 +323,12 @@ Lynx에는 HTML form과 브라우저 키보드 모델이 없으므로 다음 Rea
 
 | 기능 | Lynx에서의 대체 또는 제한 |
 | --- | --- |
-| `form` 제출, `React Hook Form` | `values`와 `onValuesChange`로 앱 상태를 관리하고, 제출은 앱의 요청 흐름에서 처리합니다. |
+| `form` 제출, `React Hook Form` | `values`와 `onValuesChange`로 앱 상태를 관리하고, 제출은 앱의 요청 로직에서 처리합니다. |
 | `HiddenInput` | HTML hidden input이 없습니다. 제출할 값은 앱 상태에서 직접 구성합니다. |
 | `name` | native form field name이 없습니다. 앱 상태의 키나 요청 payload를 사용합니다. |
 | 브라우저 검증 및 form field 연결 | `invalid`, `errorMessage`로 화면 오류를 표시하고 검증은 앱에서 수행합니다. |
 | `getAriaLabelledby`와 DOM ARIA | DOM id 연결이 없습니다. `getAccessibilityLabel`과 `getAccessibilityValueText`로 native accessibility를 제공합니다. |
-| keyboard, focus, focus-visible | 키보드 thumb focus 모델이 없습니다. native touch와 accessibility 탐색을 사용합니다. |
+| keyboard, focus, focus-visible | 키보드 thumb 포커스 모델이 없습니다. native touch와 accessibility 탐색을 사용합니다. |
 | hover | native에는 hover 상호작용이 없습니다. `valueIndicatorTrigger="auto"`는 `"active"`와 같이 touch-active로 동작합니다. |
 
-따라서 Form (Uncontrolled)과 React Hook Form은 Lynx 문서의 실행 예제에서 제외했습니다. 제출·검증이 필요한 경우에도 슬라이더 값을 앱 상태에 연결하고, 앱의 제출·검증 로직과 native accessibility 안내를 사용하세요.
+따라서 Form (Uncontrolled)과 React Hook Form은 Lynx 문서의 실행 예제에서 제외했습니다. 제출·검증이 필요한 경우에도 Slider 값을 앱 상태에 연결하고, 앱의 제출·검증 로직과 native accessibility 안내를 사용하세요.

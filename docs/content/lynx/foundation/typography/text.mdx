@@ -72,7 +72,7 @@ Lynx에서는 텍스트가 반드시 `<text>` 요소 안에 있어야 합니다.
 <Text maxLines={2}>긴 텍스트</Text>
 ```
 
-`Text`는 native `text-maxline` 속성과 `overflow: hidden`, `text-overflow: ellipsis`를 함께 적용합니다. 생략 부호가 보이려면 `Text`의 너비가 부모에 의해 제한되어야 합니다. 가로 배치에서는 `flex-1`처럼 남는 너비를 차지하게 하세요.
+`Text`는 native `text-maxline` 속성과 `overflow: hidden`, `text-overflow: ellipsis`를 함께 적용합니다. 생략 부호가 보이려면 부모가 `Text`의 너비를 제한해야 합니다. 가로 배치에서는 `flex-1`처럼 남는 너비를 차지하게 하세요.
 
 ## 웹 버전과의 차이
 

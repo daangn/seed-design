@@ -3,7 +3,7 @@ title: SEED Lynx 1
 description: SEED Lynx 1로 업그레이드할 때 필요한 작업을 안내합니다.
 ---
 
-SEED Lynx 1로 업그레이드하는 방법을 안내합니다. 전체 변경사항은 [Changelog](/lynx/updates/changelog)에서 확인할 수 있습니다.
+전체 변경사항은 [Changelog](/lynx/updates/changelog)에서 확인할 수 있습니다.
 
 <Callout type="info">
   이 가이드는 SEED Lynx 0.x에서 SEED Lynx 1로 업그레이드하는 경우를 기준으로 작성했습니다.
@@ -113,9 +113,9 @@ npx @seed-design/cli@latest add ui:alert-dialog ui:attachment-display-field ui:a
 | `ui:alert-dialog`, `ui:dialog` | disabled 또는 loading인 Action이 dialog를 닫지 않습니다. Dialog의 새 native prop 계약도 따릅니다. |
 | `ui:bottom-sheet` | Content가 `container`, `overlayLevel`을 Positioner에 전달합니다. |
 | `ui:help-bubble` | Trigger와 Anchor가 `container`, `overlayLevel`을 Positioner에 전달합니다. |
-| `ui:callout` | handler가 없는 ActionableCallout도 button semantics와 press feedback을 가집니다. |
+| `ui:callout` | handler가 없는 ActionableCallout에도 button semantics와 press feedback이 적용됩니다. |
 | `ui:list` | ListDivider의 명시적인 `accessibility-element` 값을 보존합니다. |
-| `ui:page-banner` | handler가 없는 ActionablePageBanner도 button semantics와 press feedback을 가집니다. |
+| `ui:page-banner` | handler가 없는 ActionablePageBanner에도 button semantics와 press feedback이 적용됩니다. |
 | `ui:text-field` | wrapper가 내부에서 소유하는 `nativeInsertionMaxLength`를 공개 prop에서 제외합니다. |
 
 `--on-diff backup`은 기존 파일을 `legacy-<파일명>-<타임스탬프>.tsx`로 옮기고 새 파일을 씁니다. 위 목록의 차이는 1.0 변경이므로 옛 구현을 새 파일에 되돌리지 마세요. 그 밖의 차이는 프로젝트의 사용자 정의이거나 오래된 snippet과 최신 0.x snippet 사이의 차이입니다. 필요한 사용자 정의만 새 파일에 다시 적용한 뒤 legacy 파일을 삭제하세요.
@@ -137,7 +137,7 @@ npx @seed-design/cli@latest add ui:alert-dialog ui:attachment-display-field ui:a
 3. [App Bar](/lynx/components/app-bar)의 IconButton에 눌림 배경, 색상 전환, `r2` radius가 적용됩니다. 배경이나 radius를 덮어쓴 화면을 확인하세요.
 4. [Floating Action Button](/lynx/components/floating-action-button)의 접힌 Label은 제거되지 않고 opacity로 전환됩니다. Label은 한 줄로 유지되며 접근성 트리에서는 숨겨집니다.
 5. Sheet Footer와 mark 정렬이 바뀌었습니다. BottomSheet Body는 남는 높이를 채우지 않고 내용 크기로 배치됩니다. List와 SelectBox의 checkbox/radio mark는 중앙에 맞고, MenuSheet divider는 각 Item 안쪽에 놓입니다. Attachment remove button에는 눌림 scale이 적용됩니다.
-6. [Dialog](/lynx/components/dialog), [Alert Dialog](/lynx/components/alert-dialog), [Bottom Sheet](/lynx/components/bottom-sheet), [Menu Sheet](/lynx/components/menu-sheet)가 노치, 홈 인디케이터, 가로 화면 측면의 safe area inset을 피합니다. 측면 inset이 있는 화면에서는 네 컴포넌트 모두 그 inset을 뺀 영역의 가운데에 놓이므로 시트 폭이 inset만큼 줄어듭니다. Dialog와 AlertDialog는 위아래 inset도 피하고, 내용에 맞춰 높이가 정해지는 BottomSheet와 MenuSheet는 화면 높이의 90%를 넘지 않으며 위쪽 inset 아래에서 멈춥니다. Backdrop은 그대로 화면 전체를 덮습니다.
+6. [Dialog](/lynx/components/dialog), [Alert Dialog](/lynx/components/alert-dialog), [Bottom Sheet](/lynx/components/bottom-sheet), [Menu Sheet](/lynx/components/menu-sheet)가 노치, 홈 인디케이터, 가로 화면 측면의 Safe Area inset을 피합니다. 측면 inset이 있는 화면에서는 네 컴포넌트 모두 그 inset을 뺀 영역의 가운데에 놓이므로 시트 폭이 inset만큼 줄어듭니다. Dialog와 AlertDialog는 위아래 inset도 피합니다. 내용에 맞춰 높이가 정해지는 BottomSheet와 MenuSheet는 화면 높이의 90%를 넘지 않으며 위쪽 inset 아래에서 멈춥니다. Backdrop은 그대로 화면 전체를 덮습니다.
 
 [Tabs](/lynx/components/tabs)의 Indicator는 하단 stroke와 겹치도록 1px 아래에 배치됩니다. 이를 보정하려고 직접 지정한 `bottom: -1px`이 있다면 제거하고 결과를 확인하세요. Checkbox의 ghost mark는 선택 상태용 배경을 따로 사용하며 indeterminate 기본 접근성 값은 `mixed`입니다.
 
@@ -692,7 +692,7 @@ Root에는 `items`, `getItemKey`, `onReorder`, 앱의 reduced motion 값을 전�
 
 첫 thumb도 `thumbIndex={0}`을 명시하세요. 픽셀 offset 변수는 `--slider-thumb-offset-ratio`, `--slider-tick-offset-ratio`, `--slider-marker-offset-ratio`로 바꾸고, marker 색은 직접 style로 지정합니다. Track 너비를 Root보다 좁게 만든 layout은 좌표가 Root 기준으로 바뀐 점을 확인하세요.
 
-**변경하지 않으면:** old `index`나 누락된 index로는 해당 thumb 값을 찾지 못해 part가 렌더링되지 않을 수 있습니다.
+**변경하지 않으면:** 옛 `index`나 누락된 index로는 해당 thumb 값을 찾지 못해 part가 렌더링되지 않을 수 있습니다.
 
 **작업 후 확인:** 모든 thumb와 value indicator, drag 범위, marker 위치를 확인하세요.
 
@@ -811,7 +811,7 @@ Provider 밖의 optional 사용은 `useToggleContext({ strict: false })`의 null
 
 4. **layout과 자식 분류 수정.** Divider는 orientation이나 inset이 바뀌면 view를 remount하고 ref를 다시 연결합니다. TagGroup은 falsy child를 제외하고 separator를 접근성 트리에서 숨깁니다. Fragment 안의 MannerTempEmote도 emote slot으로 분류됩니다. 처음 열린 Accordion content와 SelectBox Footer는 0px에서 올라오는 animation 없이 표시됩니다. Tabs와 ChipTabs carousel은 page나 disabled trigger가 바뀌어도 현재 selection을 유지하며, 실제 swipe만 selection을 바꿉니다. 구형 Lynx Engine에서도 TextField의 초기 `value`와 `defaultValue`를 native input에 동기화합니다.
 
-5. **Registry wrapper 기본 동작.** ActionablePageBanner와 ActionableCallout은 application handler가 없어도 button semantics와 press feedback을 가집니다. 정보 표시용이면 non-actionable wrapper를 사용하세요. Dialog와 AlertDialog의 disabled/loading Action은 닫힘을 요청하지 않고, ListDivider는 명시적인 `accessibility-element` 값을 보존합니다.
+5. **Registry wrapper 기본 동작.** ActionablePageBanner와 ActionableCallout에는 application handler가 없어도 button semantics와 press feedback이 적용됩니다. 정보 표시용이면 non-actionable wrapper를 사용하세요. Dialog와 AlertDialog의 disabled/loading Action은 닫힘을 요청하지 않고, ListDivider는 명시적인 `accessibility-element` 값을 보존합니다.
 
 MenuSheet의 custom item recipe는 divider를 Item의 다음 sibling이 아니라 Item 내부에 배치합니다.
 

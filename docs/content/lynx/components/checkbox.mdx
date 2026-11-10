@@ -41,7 +41,7 @@ npx @seed-design/cli@latest add ui:checkbox
 
 ### 접근성 이름
 
-`Checkbox`에서 직접 작성한 `<text>`를 쓰거나 `Checkmark`로 직접 구성할 때는 상태를 가진 Root에 `accessibility-label`을 지정하세요. 컴포넌트 children의 문자열과 숫자는 접근성 이름으로 사용되지만, raw `<text>`의 정적 텍스트는 이름을 만들 수 없습니다. `indeterminate` 상태는 `mixed`로 전달됩니다.
+`Checkbox`에서 직접 작성한 `<text>`를 쓰거나 `Checkmark`로 직접 구성할 때는 상태를 관리하는 Root에 `accessibility-label`을 지정하세요. 컴포넌트 children의 문자열과 숫자는 접근성 이름으로 사용되지만, raw `<text>`의 정적 텍스트는 이름을 만들 수 없습니다. `indeterminate` 상태는 `mixed`로 전달됩니다.
 
 ## Examples
 
@@ -172,7 +172,7 @@ npx @seed-design/cli@latest add ui:checkbox
 - 값 변경은 `onChange`가 아닌 `onCheckedChange`로 받습니다.
 - `invalid` 상태에서는 `description`을 제외하고 `errorMessage`만 화면과 접근성 트리에 표시합니다.
 - Registry가 Lynx용 check와 minus 아이콘을 넣습니다. raw `<svg>` 아이콘은 지원하지 않습니다.
-- 직접 만든 Scale Feedback에서 축소를 끄는 React의 `--seed-checkmark-feedback-scale` CSS 변수는 제공하지 않습니다.
+- React에서는 직접 만든 Scale Feedback에서 `--seed-checkmark-feedback-scale` CSS 변수로 축소를 끌 수 있지만, Lynx는 이 변수를 제공하지 않습니다.
 
 </Callout>
 

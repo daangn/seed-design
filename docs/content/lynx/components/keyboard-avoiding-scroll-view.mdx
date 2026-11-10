@@ -17,10 +17,10 @@ compatibility:
 @seed-design/lynx-react
 ```
 
-아래 예제에서 사용하는 Text Field 레지스트리 스니펫도 추가합니다.
+아래 예제에서 사용하는 Text Field Registry snippet도 추가합니다.
 
 ```package-install
-npx @seed-design/cli add ui:text-field
+npx @seed-design/cli@latest add ui:text-field
 ```
 
 ## Props
@@ -39,7 +39,7 @@ npx @seed-design/cli add ui:text-field
 
 ## Usage
 
-AppBar 아래 화면 본문처럼 높이가 정해진 영역에 `KeyboardAvoidingScrollView.Root`를 두고, 입력 화면을 `KeyboardAvoidingScrollView.Content`로 감쌉니다. 키보드 위에 붙여야 하는 하단 버튼은 Content 아래의 `KeyboardAvoidingScrollView.Footer`에 둡니다.
+App Bar 아래 화면 본문처럼 높이가 정해진 영역에 `KeyboardAvoidingScrollView.Root`를 두고, 입력 화면을 `KeyboardAvoidingScrollView.Content`로 감쌉니다. 키보드 위에 붙여야 하는 하단 버튼은 Content 아래의 `KeyboardAvoidingScrollView.Footer`에 둡니다.
 
 ```tsx
 import { KeyboardAvoidingScrollView } from "@seed-design/lynx-react";
@@ -56,7 +56,7 @@ export function Screen() {
 
 - Root에는 높이를 지정하고 자식으로 Content와 Footer만 두세요. Footer는 Content 바로 아래에 배치합니다.
 - Content는 focus된 입력이 키보드나 Footer에 가리지 않도록 스크롤과 하단 여백을 조정합니다. `keyboardGap`과 `scrollBehavior`로 간격과 이동 방식을 정할 수 있습니다.
-- Footer는 키보드 위로 이동합니다. 하단 safe area 여백은 Root 바깥의 화면 컨테이너에 두세요.
+- Footer는 키보드 위로 이동합니다. 하단 Safe Area 여백은 Root 바깥의 화면 컨테이너에 두세요.
 - Text Field Registry의 Input과 Textarea는 focus, blur, 높이 변경을 자동으로 전달합니다. [Segmented Text Input](/lynx/components/segmented-text-input)의 Segment도 focus와 blur를 자동으로 전달합니다.
 - Android에서는 이 컴포넌트가 키보드 회피를 맡도록 Text Field와 Segmented Text Input의 입력에 `android-set-soft-input-mode="nothing"`을 기본으로 적용합니다. 직접 등록하는 native 입력에는 이 값을 지정하세요. 입력에 `avoid-keyboard`는 사용하지 마세요.
 
