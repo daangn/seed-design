@@ -66,7 +66,7 @@ Registry snippet의 `WheelPicker`에 `columns` 배열을 전달해 컬럼을 구
   ```
 </LynxComponentExample>
 
-문자열 label은 접근성 값으로 사용됩니다. React 요소를 label로 사용한다면 각 option에 `ariaLabel`을 제공하세요. 접근성 텍스트를 별도로 계산해야 할 때는 `getAriaValueText`를 사용할 수 있습니다. 접근성 값은 `getAriaValueText`, `ariaLabel`, 문자열 label, `value` 순으로 선택합니다. 버튼, 입력 요소와 여러 줄 콘텐츠는 넣지 않습니다.
+문자열 label은 접근성 값으로 사용됩니다. React 요소를 label로 사용한다면 각 option에 `ariaLabel`을 지정하세요. 접근성 텍스트를 별도로 계산해야 할 때는 `getAriaValueText`를 사용할 수 있습니다. 접근성 값은 `getAriaValueText`, `ariaLabel`, 문자열 label, `value` 순으로 선택합니다. 버튼, 입력 요소와 여러 줄 콘텐츠는 넣지 마세요.
 
 커스텀 label의 문자열은 `<text>` 안에 넣으세요. `renderLabel` 안의 `<text>`는 항목의 선택·비활성 색을 따릅니다. 이 색을 유지하려면 커스텀 label에 색을 직접 지정하지 마세요. 타이포그래피 상속에는 [Feature Flags](/lynx/getting-started/feature-flags)의 `enableCSSInheritance: true` 설정을 사용합니다. Lynx에서는 CSS `inherit` 값을 지원하지 않습니다.
 
@@ -85,7 +85,7 @@ Registry snippet의 `WheelPicker`에 `columns` 배열을 전달해 컬럼을 구
 
 ### Data Contract
 
-- 각 컬럼의 `options`에는 하나 이상의 항목을 제공하세요.
+- 각 컬럼의 `options`에는 하나 이상의 항목을 넣으세요.
 - option의 `value`는 컬럼 안에서 고유해야 합니다.
 - 제어 중인 `value`는 현재 `options`에 있어야 합니다.
 - 의존 컬럼이 바뀌면 새 `options`와 유효한 `value`를 같은 렌더에서 전달하세요.

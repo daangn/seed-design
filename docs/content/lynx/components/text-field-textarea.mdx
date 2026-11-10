@@ -19,12 +19,12 @@ compatibility:
   ```
 </LynxComponentExample>
 
-React의 `autoFocus`에 대응하는 prop은 지원하지 않습니다. 처음부터 포커스해야 한다면 화면이 렌더링된 뒤 `TextFieldTextarea` ref에서 native `focus` UI method를 호출합니다.
+React의 `autoFocus`에 대응하는 prop은 지원하지 않습니다. 처음부터 focus해야 한다면 화면이 렌더링된 뒤 `TextFieldTextarea` ref에서 native `focus` UI method를 호출합니다.
 
 ## Installation
 
 ```package-install
-npx @seed-design/cli add ui:text-field
+npx @seed-design/cli@latest add ui:text-field
 ```
 
 <LynxManualInstallation name="text-field" />
@@ -78,7 +78,7 @@ npx @seed-design/cli add ui:text-field
 
 ### Size
 
-`size`로 TextField의 크기를 정합니다. (default: `large`)
+`size`로 `TextField`의 크기를 정합니다. 기본값은 `large`입니다.
 
 Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가 없어 `responsive`는 지원하지 않습니다.
 
@@ -199,7 +199,7 @@ Lynx는 HTML Form을 지원하지 않습니다. `value`와 `onValueChange`를 �
 
 `TextFieldTextarea`는 기본적으로 내용에 맞춰 높이가 늘어납니다. 높이가 바뀌면 `KeyboardAvoidingScrollView`가 활성 입력의 위치를 다시 계산합니다.
 
-Android에서는 SEED typography의 줄 높이를 맞추기 위해 `line-spacing="3.2px"`를 기본 적용합니다. `fontSize`나 `lineHeight`를 바꾼다면 이에 맞는 `line-spacing`도 지정하세요. 기본 보정은 `line-spacing={0}`으로 해제할 수 있습니다.
+Android에서는 SEED typography의 줄 높이를 맞추기 위해 `line-spacing="3.2px"`를 기본으로 적용합니다. `fontSize`나 `lineHeight`를 바꾼다면 이에 맞는 `line-spacing`도 지정하세요. 기본 보정은 `line-spacing={0}`으로 해제할 수 있습니다.
 
 #### Keyboard Avoidance
 
@@ -236,4 +236,4 @@ export function KeyboardAwareFields() {
 ## Unsupported Lynx Features
 
 - HTML form submit, browser validation, React Hook Form, `aria-describedby` id 연결은 지원하지 않습니다.
-- 큰 textarea에서 현재 caret 위치만 기준으로 키보드를 회피하는 기능은 지원하지 않습니다. 현재는 Field·TextField·native 입력 영역 중 안전 영역에 맞는 가장 큰 영역을 선택합니다.
+- 큰 textarea에서 현재 caret 위치만 기준으로 키보드를 회피하는 기능은 지원하지 않습니다. 현재는 Field·`TextField`·native 입력 영역 중 안전 영역에 맞는 가장 큰 영역을 선택합니다.

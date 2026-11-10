@@ -106,7 +106,7 @@ import "./styles/global.css";
 
 - 이 구성은 `@lynx-js/tailwind-preset`을 사용하지 않습니다. Rsbuild의 v4 지원만으로 Lynx CSS 호환성이 보장되지는 않습니다.
 - `@layer`를 펼치면 layer 간 우선순위와 `!important`의 layer 순서가 사라집니다. 남은 CSS의 선택자 우선순위와 선언 순서가 적용됩니다. 특히 SEED recipe와 utility를 함께 쓰거나 외부 layered CSS를 추가하면 결과를 다시 확인하세요. 이 후처리는 일반적인 cascade layer polyfill이 아닙니다.
-- 루트 `<page>`의 SEED 테마를 사용하세요. 하위 영역의 테마 덮어쓰기는 Tailwind v4 alias 변수와 직접 SEED 토큰 참조의 색상이 달라질 수 있습니다. [테마 가이드](/lynx/getting-started/styling/theming#tailwind-css와-함께-사용하기)를 참고하세요.
+- 루트 `<page>`의 SEED 테마를 사용하세요. 하위 영역에서 테마를 덮어쓰면 Tailwind v4 alias 변수와 직접 SEED 토큰 참조의 색상이 달라질 수 있습니다. [테마 가이드](/lynx/getting-started/styling/theming#tailwind-css와-함께-사용하기)를 참고하세요.
 - `@property`, `@supports`, 웹 전용 선택자, 단위와 CSS 함수 등 다른 Tailwind 출력은 이 플러그인이 변환하지 않습니다. shadow, ring, gradient, transform 등의 추가 유틸리티는 사용할 때 대상 Engine에서 확인하세요.
 - 빌드 성공만으로 화면 호환성을 판단하지 마세요. 실제 host에서 색상·글자·간격·상태 변경과 기기 테마 전환을 확인하세요.
 

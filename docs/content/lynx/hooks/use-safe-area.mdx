@@ -1,6 +1,6 @@
 ---
 title: useSafeArea
-description: Lynx 앱에서 top/right/bottom/left safe area inset 값을 가져오는 훅입니다.
+description: Lynx 앱에서 top/right/bottom/left Safe Area inset 값을 가져오는 훅입니다.
 ---
 
 <AvailableSince packages="@seed-design/lynx-react-use-safe-area@1.0.0" />
@@ -52,11 +52,11 @@ function Screen() {
 }
 ```
 
-`Box`의 `pt`, `pr`, `pb`, `pl`에 지정하는 `"safeArea"`도 내부적으로 `useSafeArea`와 같은 safe area resolve 로직을 사용합니다.
+`Box`의 `pt`, `pr`, `pb`, `pl`에 지정하는 `"safeArea"`도 내부적으로 `useSafeArea`와 같은 Safe Area resolve 로직을 사용합니다.
 
 ### Overlay에서 다른 Safe Area 쓰기
 
-같은 Lynx View의 `<overlay>`처럼 영역마다 다른 inset이 필요하면 그 영역 안에 `SafeAreaProvider`를 중첩합니다. 그 아래의 `useSafeArea()`와 `Box`의 `"safeArea"`는 가장 가까운 Provider 값을 씁니다.
+같은 LynxView의 `<overlay>`처럼 영역마다 다른 inset이 필요하면 그 영역 안에 `SafeAreaProvider`를 중첩합니다. 그 아래의 `useSafeArea()`와 `Box`의 `"safeArea"`는 가장 가까운 Provider 값을 씁니다.
 
 ```tsx
 import { SafeAreaProvider } from "@seed-design/lynx-react";
@@ -76,7 +76,7 @@ import { SafeAreaProvider } from "@seed-design/lynx-react";
 
 Provider 값은 보정하지 않고 그대로 `px` 문자열로 반환합니다. `0`도 유효한 값이므로 `"0px"`가 됩니다.
 
-Provider가 없으면 이전 버전과 같이 host가 넣은 `safeAreaInset*` global props를 읽습니다. `0` 이상의 유한한 숫자는 `px` 문자열로 바꾸고, 값이 없으면 CSS `env()` 문자열을 반환해 실제 px 해석을 Lynx layout 단계에 맡깁니다. global props 값이 쓰이면 개발 빌드에서 키마다 한 번 경고합니다. 이 경로와 `env()` fallback은 다음 메이저 버전에서 제거될 예정입니다.
+Provider가 없으면 이전 버전과 같이 호스트가 넣은 `safeAreaInset*` global props를 읽습니다. `0` 이상의 유한한 숫자는 `px` 문자열로 바꾸고, 값이 없으면 CSS `env()` 문자열을 반환해 실제 px 해석을 Lynx layout 단계에 맡깁니다. global props 값이 쓰이면 개발 빌드에서 키마다 한 번 경고합니다. 이 경로와 `env()` fallback은 다음 메이저 버전에서 제거될 예정입니다.
 
 ### `0`과 값 생략의 차이
 
@@ -90,14 +90,14 @@ Provider가 없으면 이전 버전과 같이 host가 넣은 `safeAreaInset*` gl
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `safeAreaInsetTop` | `string` | top safe area inset 값입니다. |
-| `safeAreaInsetRight` | `string` | right safe area inset 값입니다. |
-| `safeAreaInsetBottom` | `string` | bottom safe area inset 값입니다. |
-| `safeAreaInsetLeft` | `string` | left safe area inset 값입니다. |
+| `safeAreaInsetTop` | `string` | top Safe Area inset 값입니다. |
+| `safeAreaInsetRight` | `string` | right Safe Area inset 값입니다. |
+| `safeAreaInsetBottom` | `string` | bottom Safe Area inset 값입니다. |
+| `safeAreaInsetLeft` | `string` | left Safe Area inset 값입니다. |
 
 ## 사용 시 주의사항
 
-- Provider와 host global props가 모두 없으면 CSS `env(safe-area-inset-*)` fallback을 반환합니다. 이 값은 JavaScript에서 px로 resolve되지 않고 style/layout 단계에서 해석됩니다. Android에서는 `env()`가 동작하지 않아 `0`처럼 보일 수 있습니다.
-- `BottomSheet.Content`처럼 컴포넌트 구조상 safe area가 필요한 경우에는 컴포넌트 내부에서 bottom safe area를 처리합니다.
+- Provider와 호스트 global props가 모두 없으면 CSS `env(safe-area-inset-*)` fallback을 반환합니다. 이 값은 JavaScript에서 px로 resolve되지 않고 style/layout 단계에서 해석됩니다. Android에서는 `env()`가 동작하지 않아 `0`처럼 보일 수 있습니다.
+- `BottomSheet.Content`처럼 컴포넌트 구조상 Safe Area가 필요한 경우에는 컴포넌트 내부에서 bottom Safe Area를 처리합니다.
 - `p`, `px`, `py` 같은 shorthand에는 `"safeArea"`를 지정할 수 없습니다.
-- BG → FG 딥링크 진입처럼 native safe area 계산 타이밍이 흔들릴 수 있는 환경에서는 host가 안정적인 값을 주는지 확인하고, 그 값을 `SeedProvider`로 넘기세요.
+- BG → FG 딥링크 진입처럼 native Safe Area 계산 타이밍이 흔들릴 수 있는 환경에서는 호스트가 안정적인 값을 주는지 확인하고, 그 값을 `SeedProvider`로 넘기세요.

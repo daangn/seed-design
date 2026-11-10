@@ -40,7 +40,7 @@ Lynx `ContextualFloatingButton`은 별도 `ui:contextual-floating-button` snippe
 
 ### Float Composition
 
-Lynx에는 `Float` 컴포넌트가 없으므로 기준 frame의 `position="relative"`와 외부 `Box`의 native absolute bottom-center 배치로 같은 결과를 만듭니다.
+Contextual Floating Button은 [`Float`](/lynx/foundation/layout/float)와 함께 사용하면 편리합니다. 위치 기준 frame에 `position="relative"`를 지정하고, `Float`의 `placement="bottom-center"`로 버튼을 가운데 아래에 배치하세요.
 
 <LynxComponentExample name="lynx/contextual-floating-button/float-composition" height={500}>
   ```json doc-gen:file
@@ -88,7 +88,7 @@ Lynx에는 `Float` 컴포넌트가 없으므로 기준 frame의 `position="relat
 
 ### Loading
 
-탭하면 loading 상태가 즉시 시작되고 2초 뒤에 원래 상태로 돌아옵니다. Loading 중에는 탭할 수 없습니다.
+이 예제는 탭하면 loading 상태가 즉시 시작되고 2초 뒤에 원래 상태로 돌아옵니다. loading 중에는 탭할 수 없습니다.
 
 <LynxComponentExample name="lynx/contextual-floating-button/loading">
   ```json doc-gen:file
@@ -104,5 +104,5 @@ Lynx에는 `Float` 컴포넌트가 없으므로 기준 frame의 `position="relat
 - `onClick` 대신 `bindtap` 또는 `main-thread:bindtap`을 사용합니다.
 - `aria-label` 대신 `accessibility-label`을 사용합니다. `disabled` 또는 `loading` 상태는 비활성 버튼으로 알립니다.
 - 웹 SVG 대신 Lynx icon을 `PrefixIcon` 또는 `Icon` slot에 전달합니다.
-- Lynx에서는 loading 중 tap을 차단합니다.
+- Lynx에서는 loading 중 탭을 차단합니다.
 - 버튼 자체의 `transform`을 덮어쓰지 마세요. 위치 조정이 필요하면 바깥 wrapper에 적용하세요.

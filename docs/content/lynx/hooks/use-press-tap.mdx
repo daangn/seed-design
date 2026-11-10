@@ -104,13 +104,13 @@ function AnimatedButton() {
 | `bindtouchstart` | `EventHandler<BaseTouchEvent<Target>>` | 터치 시작 핸들러입니다. |
 | `bindtouchend` | `EventHandler<BaseTouchEvent<Target>>` | 터치 종료 핸들러입니다. |
 | `bindtouchcancel` | `EventHandler<BaseTouchEvent<Target>>` | 터치 취소 핸들러입니다. |
-| `main-thread:bindtap` | `IntrinsicElements["view"]["main-thread:bindtap"]` | Main thread 탭 핸들러입니다. `disabled`이거나 `mainThreadOnTap`이 미제공이면 포함되지 않습니다. |
+| `main-thread:bindtap` | `IntrinsicElements["view"]["main-thread:bindtap"]` | Main Thread 탭 핸들러입니다. `disabled`이거나 `mainThreadOnTap`이 미제공이면 포함되지 않습니다. |
 
 ## 상태와 스타일링
 
-`pressed`를 제외한 반환값을 native 요소에 펼칩니다. `pressed`는 터치 시작에 켜지고 터치 종료·취소·tap 또는 비활성화 시 해제되는 일시적인 눌림 상태입니다. 선택 여부를 유지하는 토글 상태와는 다릅니다.
+`pressed`를 제외한 반환값을 native 요소에 펼칩니다. `pressed`는 일시적인 눌림 상태입니다. 터치 시작에 켜지고 터치 종료·취소·tap 또는 비활성화 시 해제됩니다. 선택 여부를 유지하는 토글 상태와는 다릅니다.
 
-훅 자체는 CSS class나 스타일을 적용하지 않습니다. 직접 만드는 UI에서는 `pressed`에 맞는 className을 선택할 수 있습니다. 기존 SEED 컴포넌트의 Recipe가 `pressed` variant를 제공한다고 가정하지 마세요. Main Thread의 즉각적인 시각 피드백은 컴포넌트가 사용하는 `:active` 또는 ScaleFeedback 경로와 구분됩니다.
+훅 자체는 CSS class나 스타일을 적용하지 않습니다. 직접 만드는 UI에서는 `pressed`에 맞는 className을 선택할 수 있습니다. 기존 SEED 컴포넌트의 Recipe가 `pressed` variant를 제공한다고 가정하지 마세요. Main Thread의 즉각적인 시각 피드백은 컴포넌트가 사용하는 `:active` 또는 Scale Feedback 경로와 구분됩니다.
 
 사용자 handler를 같은 `bindtap` 등에 추가할 때 뒤에서 덮어쓰면 훅의 처리가 사라집니다. 하나의 handler에서 훅의 handler와 사용자 동작을 함께 호출하거나, tap 부가 동작은 `onTap`으로 전달하세요.
 

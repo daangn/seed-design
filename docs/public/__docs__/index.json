@@ -2244,7 +2244,7 @@
             {
               "id": "host-integration",
               "title": "Host Integration",
-              "description": "호스트 앱이 주는 색상 스킴·모션 설정·safe area를 SeedProvider로 SEED에 전달하는 방법을 알아봅니다.",
+              "description": "호스트 앱이 주는 색상 스킴·모션 설정·Safe Area를 SeedProvider로 SEED에 전달하는 방법을 알아봅니다.",
               "docUrl": "/lynx/getting-started/host-integration"
             },
             {
@@ -2516,7 +2516,7 @@
             {
               "id": "select-box",
               "title": "Select Box",
-              "description": "명확한 테두리를 가진 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
+              "description": "명확한 테두리가 있는 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
               "docUrl": "/lynx/components/select-box",
               "snippetKey": "lynx/ui:select-box",
               "snippets": [
@@ -2659,7 +2659,7 @@
             {
               "id": "use-safe-area",
               "title": "useSafeArea",
-              "description": "Lynx 앱에서 top/right/bottom/left safe area inset 값을 가져오는 훅입니다.",
+              "description": "Lynx 앱에서 top/right/bottom/left Safe Area inset 값을 가져오는 훅입니다.",
               "docUrl": "/lynx/hooks/use-safe-area"
             },
             {

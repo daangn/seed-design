@@ -20,7 +20,7 @@ compatibility:
 ## Installation
 
 ```package-install
-npx @seed-design/cli add ui:progress-circle
+npx @seed-design/cli@latest add ui:progress-circle
 ```
 
 <LynxManualInstallation name="progress-circle" />
@@ -34,7 +34,7 @@ npx @seed-design/cli add ui:progress-circle
 
 `ProgressCircle`은 기본적으로 진행률 접근성 요소로 노출됩니다. `value`가 있으면 범위와 현재 값을 전달하고, 없으면 완료 시점을 알 수 없는 상태로 전달합니다. 스크린 리더 문구는 `accessibility-value`로 바꿀 수 있습니다.
 
-`mainThreadProgress`는 PullToRefresh처럼 Main Thread에서 진행률을 갱신할 때 사용합니다. Indicator의 render props를 그대로 전달하고, 채널 하나에는 `ProgressCircle` 하나만 연결하세요. 같은 인스턴스의 `value`를 동시에 애니메이션하지 마세요.
+`mainThreadProgress`는 Pull To Refresh처럼 Main Thread에서 진행률을 갱신할 때 사용합니다. Indicator의 render props를 그대로 전달하고, 채널 하나에는 `ProgressCircle` 하나만 연결하세요. 같은 인스턴스의 `value`를 동시에 애니메이션하지 마세요.
 
 ```tsx
 <ProgressCircle

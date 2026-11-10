@@ -1,6 +1,6 @@
 import IconBellFill from "@karrotmarket/lynx-monochrome-icon/IconBellFill";
 
-import { Box, ContextualFloatingButton, PrefixIcon } from "@seed-design/lynx-react";
+import { Box, ContextualFloatingButton, Float, PrefixIcon } from "@seed-design/lynx-react";
 
 export default function Example() {
   return (
@@ -14,12 +14,12 @@ export default function Example() {
       borderWidth={1}
       borderColor="stroke.neutralMuted"
     >
-      <Box position="absolute" width="full" bottom="x4" display="flex" justifyContent="center">
+      <Float placement="bottom-center" offsetY="x4">
         <ContextualFloatingButton>
           <PrefixIcon icon={<IconBellFill />} />
           알림 설정
         </ContextualFloatingButton>
-      </Box>
+      </Float>
     </Box>
   );
 }

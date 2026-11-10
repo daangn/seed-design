@@ -54,7 +54,7 @@ root.render(
 
 ## 동작 방식
 
-`useSeedClassName()`은 `useSeedContext()`로 `SeedProvider` 값을 구독합니다. 앱이 `preferredColorScheme`을 바꾸면 이 훅을 사용하는 컴포넌트가 리렌더되어, 갱신된 테마에 맞는 className을 반환합니다.
+`useSeedClassName()`은 `useSeedContext()`로 `SeedProvider` 값을 구독합니다. 앱이 `preferredColorScheme`을 바꾸면 이 훅을 사용하는 컴포넌트가 리렌더되고, 훅은 갱신된 테마에 맞는 className을 반환합니다.
 
 className 매핑 로직은 `getSeedClassName()`과 동일합니다. 차이는 `SeedProvider` 값 구독 여부뿐입니다.
 

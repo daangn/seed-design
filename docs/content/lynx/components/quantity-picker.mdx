@@ -29,7 +29,7 @@ npx @seed-design/cli@latest add ui:quantity-picker
 
 ### `QuantityPicker`
 
-Registry의 `QuantityPicker`는 수량 선택에 필요한 감소 버튼, 값, 증가 버튼을 함께 제공합니다.
+Registry의 `QuantityPicker`는 수량 선택에 필요한 감소 버튼, 값, 증가 버튼을 함께 렌더링합니다.
 
 <react-type-table path="./registry/lynx/ui/quantity-picker.tsx" name="QuantityPickerProps" />
 
@@ -50,7 +50,7 @@ Registry의 `QuantityPicker`는 수량 선택에 필요한 감소 버튼, 값, �
   ```
 </LynxComponentExample>
 
-이 예제에서 사용하는 Quantity Picker recipe는 `display: grid`를 사용합니다. Android/iOS Lynx engine 2.1 이상과 HarmonyOS Lynx engine 3.4 이상에서 호환됩니다.
+이 예제에서 사용하는 Quantity Picker recipe는 `display: grid`를 사용합니다. Android/iOS Lynx Engine 2.1 이상과 HarmonyOS Lynx Engine 3.4 이상에서 호환됩니다.
 
 ### Value Text
 
@@ -112,9 +112,9 @@ Lynx에는 HTML `<form>`, hidden `<input>`, `FormData` 제출 모델이 없으�
 
 ## Accessibility
 
-Quantity Picker의 용도를 설명하는 `accessibility-label`을 제공하세요. 이 label은 현재 수량을 표시하는 요소의 이름으로 사용되며, `getValueText`가 반환한 문자열이나 숫자는 접근성 값에도 반영됩니다.
+Quantity Picker의 용도를 설명하는 `accessibility-label`을 지정하세요. 이 label은 현재 수량을 표시하는 요소의 이름으로 사용되며, `getValueText`가 반환한 문자열이나 숫자는 접근성 값에도 반영됩니다.
 
-Registry 컴포넌트는 감소, 증가, 삭제 버튼에 기본 접근성 label을 제공합니다. 문맥에 맞게 바꾸려면 `decrementAccessibilityLabel`, `incrementAccessibilityLabel`, `removeAccessibilityLabel`을 사용하세요. 특히 `removable`을 사용할 때는 삭제 대상을 알 수 있는 label을 제공해야 합니다.
+Registry 컴포넌트는 감소, 증가, 삭제 버튼에 기본 접근성 label을 지정합니다. 문맥에 맞게 바꾸려면 `decrementAccessibilityLabel`, `incrementAccessibilityLabel`, `removeAccessibilityLabel`을 사용하세요. 특히 `removable`을 사용할 때는 삭제 대상을 알 수 있는 label을 지정해야 합니다.
 
 `disabled`는 접근성 상태에도 반영됩니다. `readOnly`와 `loading`으로 동작을 막았다면 주변 label이나 안내 텍스트로 제한 상태를 설명하세요.
 

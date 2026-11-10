@@ -20,7 +20,7 @@ compatibility:
 ## Installation
 
 ```package-install
-npx @seed-design/cli add ui:chip-tabs
+npx @seed-design/cli@latest add ui:chip-tabs
 ```
 
 <LynxManualInstallation name="chip-tabs" />
@@ -181,7 +181,7 @@ export function App() {
 
 ## Extending to Safe Area
 
-`ChipTabsRoot`에 `extendSafeAreaX`를 지정하면 스크롤 영역과 Carousel 패널이 좌우 safe area까지 확장됩니다. 첫 chip과 마지막 chip에는 기존 화면 여백과 inset이 함께 적용되고, 패널 내용은 안전 영역 안에 남습니다. 기본값은 `false`입니다.
+`ChipTabsRoot`에 `extendSafeAreaX`를 지정하면 스크롤 영역과 Carousel 패널이 좌우 Safe Area까지 확장됩니다. 첫 chip과 마지막 chip에는 기존 화면 여백과 inset이 함께 적용되고, 패널 내용은 안전 영역 안에 남습니다. 기본값은 `false`입니다.
 
 기본 `scrollAlign="nearest"`는 안전 영역 안에 보이는 chip을 움직이지 않고, inset에 가린 chip만 안쪽으로 스크롤합니다.
 

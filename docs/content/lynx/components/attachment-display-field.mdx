@@ -158,7 +158,7 @@ npx @seed-design/cli@latest add ui:attachment-display-field-reorderable
 
 ### Controlled
 
-`entries`와 `onEntriesChange`를 사용하여 외부에서 아이템 목록을 제어할 수 있습니다. 외부 reset은 `setEntries([])`처럼 앱 state를 갱신하여 수행합니다.
+`entries`와 `onEntriesChange`를 사용하여 외부에서 항목 목록을 제어할 수 있습니다. 외부 reset은 `setEntries([])`처럼 앱 state를 갱신하여 수행합니다.
 
 <LynxComponentExample name="lynx/attachment-display-field/controlled">
   ```json doc-gen:file
@@ -210,17 +210,17 @@ npx @seed-design/cli@latest add ui:attachment-display-field-reorderable
 
 ## State and accessibility
 
-기본 trigger와 remove action에는 접근성 label이 제공됩니다. 사용자 지정 action에는 의미를 설명하는 `accessibility-label`을 지정해야 합니다.
+기본 trigger와 remove action에는 접근성 label이 지정되어 있습니다. 사용자 지정 action에는 의미를 설명하는 `accessibility-label`을 지정해야 합니다.
 
 ## Lynx 미지원 기능
 
 - 브라우저 drag-and-drop 및 React `dnd-kit`은 네이티브 long-press reorder snippet으로 대체합니다.
-- HTML `<input type="file">`, `File`, `Blob`, object URL 대신 호스트 media picker가 URL 기반 `AttachmentDisplayEntry`를 반환해야 합니다.
+- HTML `<input type="file">`, `File`, `Blob`, object URL 대신 호스트 미디어 picker가 URL 기반 `AttachmentDisplayEntry`를 반환해야 합니다.
 - HTML form 제출 및 `react-hook-form` 대신 앱 state와 submit adapter를 사용합니다.
 
 ## Extending to Safe Area
 
-`AttachmentDisplayField`의 `controlProps`에 `extendSafeAreaX`를 지정하면 가로 스크롤 영역이 좌우 safe area까지 확장됩니다. 기존 `--seed-attachment-input-extend-x`에 inset을 더하며, 첫 항목과 마지막 항목은 안전 영역 안에 남습니다. label·description은 기존 위치를 유지합니다. 기본값은 `false`입니다.
+`AttachmentDisplayField`의 `controlProps`에 `extendSafeAreaX`를 지정하면 가로 스크롤 영역이 좌우 Safe Area까지 확장됩니다. 기존 `--seed-attachment-input-extend-x`에 inset을 더하며, 첫 항목과 마지막 항목은 안전 영역 안에 남습니다. label·description은 기존 위치를 유지합니다. 기본값은 `false`입니다.
 
 `Box pl="safeArea" pr="safeArea"`처럼 좌우 inset을 이미 확보한 컨테이너 바로 안에서 사용하세요. inset을 확보하지 않은 곳에 적용하면 화면 밖으로 넘칠 수 있습니다.
 

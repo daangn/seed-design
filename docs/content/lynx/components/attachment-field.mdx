@@ -79,7 +79,7 @@ import { AttachmentField, AttachmentInput } from "@/components/ui/attachment-fie
 
 ### Trigger
 
-기본 `AttachmentInput`은 파일 선택 trigger와 첨부 항목 목록을 함께 제공합니다. trigger를 탭하면 호스트 adapter가 호출되고 반환된 파일이 목록에 추가됩니다.
+기본 `AttachmentInput`은 파일 선택 trigger와 첨부 항목 목록을 함께 렌더링합니다. trigger를 탭하면 호스트 adapter가 호출되고 반환된 파일이 목록에 추가됩니다.
 
 <LynxComponentExample name="lynx/attachment-field/trigger">
   ```json doc-gen:file
@@ -141,7 +141,7 @@ import { AttachmentField, AttachmentInput } from "@/components/ui/attachment-fie
 
 ## Managing File Status
 
-각 항목은 `pending`, `uploading`, `success`, `error` 상태를 갖습니다. 새 항목은 `pending`으로 시작합니다. 앱은 `onFileAccept`에서 업로드를 시작하고 helper로 진행률과 상태를 갱신합니다. 실제 업로드 API와 재시도 정책은 호스트 앱이 소유합니다.
+각 항목의 상태는 `pending`, `uploading`, `success`, `error` 중 하나입니다. 새 항목은 `pending`으로 시작합니다. 앱은 `onFileAccept`에서 업로드를 시작하고 helper로 진행률과 상태를 갱신합니다. 실제 업로드 API와 재시도 정책은 호스트 앱이 소유합니다.
 
 <LynxComponentExample name="lynx/attachment-field/status">
   ```json doc-gen:file
@@ -149,7 +149,7 @@ import { AttachmentField, AttachmentInput } from "@/components/ui/attachment-fie
   ```
 </LynxComponentExample>
 
-- `uploading`: `ProgressCircle`이 표시됩니다. progress가 없으면 indeterminate 상태입니다.
+- `uploading`: `ProgressCircle`이 표시됩니다. `progress`가 없으면 indeterminate 상태입니다.
 - `error`: `onRetry`가 있으면 재시도 action이 표시됩니다. 재시도할 때 같은 id를 `uploading`으로 바꾸고 업로드를 다시 시작합니다.
 - picker가 동기 throw 또는 rejected Promise를 반환하면 `onSelectError`가 호출되고 기존 목록은 유지됩니다.
 
@@ -253,11 +253,11 @@ Lynx에는 브라우저 `form`, `FormData`, `input[type=file]` 제출 경로가 
 
 ### Browser file APIs
 
-`File`, `Blob`, `FileList`, object URL, `window.alert`는 Native 예제에서 사용할 수 없습니다. 호스트 adapter가 `NativeFile`의 `uri`, metadata, 선택적인 `previewUrl`을 제공해야 합니다. 취소하면 `[]`를 반환하며 선택기 또는 권한 오류는 `onSelectError`로 전달됩니다.
+`File`, `Blob`, `FileList`, object URL, `window.alert`는 Native 예제에서 사용할 수 없습니다. 호스트 adapter가 `NativeFile`의 `uri`, metadata, 선택적인 `previewUrl`을 제공해야 합니다. 취소하면 `[]`를 반환하며 picker 또는 권한 오류는 `onSelectError`로 전달됩니다.
 
 ## Extending to Safe Area
 
-`AttachmentField`에 `extendSafeAreaX`를 지정하면 가로 스크롤 영역이 좌우 safe area까지 확장됩니다. 기존 `--seed-attachment-input-extend-x`에 inset을 더하므로, 화면 여백 확장과 함께 사용할 수 있습니다. 첫 항목과 마지막 항목은 안전 영역 안에 남고, label·description은 기존 위치를 유지합니다. 기본값은 `false`입니다.
+`AttachmentField`에 `extendSafeAreaX`를 지정하면 가로 스크롤 영역이 좌우 Safe Area까지 확장됩니다. 기존 `--seed-attachment-input-extend-x`에 inset을 더하므로, 화면 여백 확장과 함께 사용할 수 있습니다. 첫 항목과 마지막 항목은 안전 영역 안에 남고, label·description은 기존 위치를 유지합니다. 기본값은 `false`입니다.
 
 `Box pl="safeArea" pr="safeArea"`처럼 좌우 inset을 이미 확보한 컨테이너 바로 안에서 사용하세요. inset을 확보하지 않은 곳에 적용하면 화면 밖으로 넘칠 수 있습니다.
 

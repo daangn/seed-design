@@ -21,7 +21,7 @@ npx @seed-design/cli@latest add ui:pull-to-refresh
 
 ### 요구 사항
 
-SEED의 최소 지원 Lynx Engine은 `3.6`입니다. PullToRefresh는 `@lynx-js/gesture-runtime`의 `NativeGesture`를 사용하므로 앱의 기존 React 플러그인 설정에 `enableNewGesture: true`를 추가하세요.
+SEED의 최소 지원 Lynx Engine은 `3.6`입니다. Pull To Refresh는 `@lynx-js/gesture-runtime`의 `NativeGesture`를 사용하므로 앱의 기존 React 플러그인 설정에 `enableNewGesture: true`를 추가하세요.
 
 ```ts title="lynx.config.ts"
 pluginReactLynx({
@@ -63,9 +63,9 @@ ListContent는 세로 `<list>`입니다. children은 `<list-item>`으로 구성�
 
 ## Examples
 
-### PTR in Tabs
+### Pull To Refresh in Tabs
 
-가로로 넘길 수 있는 Tabs Carousel의 Tab 1에만 PullToRefresh를 배치합니다. Tab 2에서는 새로고침하지 않습니다.
+가로로 넘길 수 있는 Tabs Carousel의 Tab 1에만 Pull To Refresh를 배치합니다. Tab 2에서는 새로고침하지 않습니다.
 
 <LynxComponentExample name="lynx/pull-to-refresh/tabs" height={800}>
   ```json doc-gen:file
@@ -85,7 +85,7 @@ ListContent는 세로 `<list>`입니다. children은 `<list-item>`으로 구성�
 
 ### Disabled
 
-`disabled` 속성으로 PTR을 비활성화할 수 있습니다. 당기는 도중 비활성화하면 당김이 취소됩니다. 이미 시작한 새로고침은 반환한 Promise가 끝날 때까지 유지됩니다.
+`disabled` prop으로 Pull To Refresh를 비활성화할 수 있습니다. 당기는 도중 비활성화하면 당김이 취소됩니다. 이미 시작한 새로고침은 반환한 Promise가 끝날 때까지 유지됩니다.
 
 <LynxComponentExample name="lynx/pull-to-refresh/disabled" height={700}>
   ```json doc-gen:file

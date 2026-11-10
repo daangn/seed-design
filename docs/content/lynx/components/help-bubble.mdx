@@ -43,7 +43,7 @@ export function App() {
 - 기본 배치는 `"top"`입니다. `placement`, `flip`, `gutter`, `overflowPadding`, `arrowPadding`으로 위치를 조정할 수 있습니다.
 - `showCloseButton`으로 닫기 버튼을 추가할 수 있습니다.
 - `contentProps.maxWidth`의 기본값은 `280px`입니다. `"none"`으로 제한을 없앨 수 있습니다.
-- `zIndexOffset`은 같은 화면 안에서의 표시 순서를 조정합니다. native overlay 사이의 순서는 `overlayLevel`로 정합니다.
+- `zIndexOffset`은 같은 화면 안의 표시 순서를 조정합니다. native overlay 사이의 순서는 `overlayLevel`로 정합니다.
 
 ## Props
 
@@ -69,7 +69,7 @@ export function App() {
 
 ### Anchor
 
-`HelpBubbleAnchor`는 아바타처럼 말풍선의 위치만 정하는 요소이며, 탭으로 열고 닫히지 않습니다. `defaultOpen`을 쓰는 uncontrolled Anchor와 `open`, `onOpenChange`를 쓰는 controlled Anchor의 열림 상태는 각각 닫기 버튼과 `열림` Switch로 바꿉니다.
+`HelpBubbleAnchor`는 아바타처럼 말풍선의 위치만 정하는 요소이며, 탭으로 말풍선을 열거나 닫지 않습니다. `defaultOpen`을 쓰는 uncontrolled Anchor의 열림 상태는 닫기 버튼으로 바꿉니다. `open`, `onOpenChange`를 쓰는 controlled Anchor의 열림 상태는 `열림` Switch로 바꿉니다.
 
 <LynxComponentExample name="lynx/help-bubble/anchor" height={480}>
   ```json doc-gen:file
@@ -109,7 +109,7 @@ export function App() {
 
 ### Close Button
 
-`showCloseButton`으로 말풍선에 닫기 버튼을 추가할 수 있습니다. 닫기 버튼을 탭하면 말풍선이 닫히고, Trigger를 다시 탭하면 다시 엽니다.
+`showCloseButton`으로 말풍선에 닫기 버튼을 추가할 수 있습니다. 닫기 버튼을 탭하면 말풍선이 닫히고, Trigger를 다시 탭하면 다시 열립니다.
 
 <LynxComponentExample name="lynx/help-bubble/close-button" height={320}>
   ```json doc-gen:file
@@ -149,7 +149,7 @@ Content에는 기본 최대 너비가 있습니다. `contentProps.maxWidth`로 �
 
 ### Line Breaks
 
-React의 `<br />`는 Lynx title에서 native `<text>` 자식과 `"\n"`으로 변환합니다. 문자열의 줄바꿈 문자도 title에 전달할 수 있습니다.
+Lynx title에서는 React의 `<br />` 대신 native `<text>` 자식과 `"\n"`을 사용합니다. 문자열의 줄바꿈 문자도 title에 전달할 수 있습니다.
 
 <LynxComponentExample name="lynx/help-bubble/line-breaks" height={320}>
   ```json doc-gen:file
@@ -159,7 +159,7 @@ React의 `<br />`는 Lynx title에서 native `<text>` 자식과 `"\n"`으로 변
 
 ### `z-index` Offset
 
-`zIndexOffset`은 같은 Lynx 화면 안에서의 표시 순서를 조정합니다. `container`를 지정한 native overlay 사이의 순서는 `overlayLevel`로 정합니다.
+`zIndexOffset`은 같은 Lynx 화면 안의 표시 순서를 조정합니다. `container`를 지정한 native overlay 사이의 순서는 `overlayLevel`로 정합니다.
 
 <LynxComponentExample name="lynx/help-bubble/z-index-offset" height={480}>
   ```json doc-gen:file
