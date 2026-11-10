@@ -31,7 +31,7 @@
   "dependencies": {
     "@seed-design/lynx-react-field": "^1.0.1",
     "@seed-design/lynx-react-keyboard-avoiding-scroll-view": "^1.0.2",
-    "unicode-segmenter": "^0.14.4"
+    "unicode-segmenter": "^0.17.0"
   },
   "peerDependencies": {
     "@lynx-js/react": ">=0.117.0",
