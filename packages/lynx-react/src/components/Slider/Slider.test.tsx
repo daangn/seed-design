@@ -78,6 +78,46 @@ describe("Slider", () => {
     expect(onValuesCommit).toHaveBeenLastCalledWith([70]);
   });
 
+  it("sends one Main Thread patch for every part a drag frame updates", async () => {
+    const view = render(
+      <Slider.Root defaultValues={[20]}>
+        <Slider.Control>
+          <Slider.Track>
+            <Slider.Range />
+          </Slider.Track>
+          <Slider.ValueIndicatorRoot thumbIndex={0}>
+            <Slider.ValueIndicatorArrow>
+              <Slider.ValueIndicatorArrowTip />
+            </Slider.ValueIndicatorArrow>
+            <Slider.ValueIndicatorLabel thumbIndex={0} />
+          </Slider.ValueIndicatorRoot>
+          <Slider.Thumb thumbIndex={0} />
+        </Slider.Control>
+      </Slider.Root>,
+    );
+    await waitSchedule();
+    const root = view.container.querySelector(".seed-slider__root");
+    if (!root) throw new Error("Expected slider root");
+    fireEvent.touchstart(root, { eventType: "catchEvent", touches: [{ pageX: 60 }] });
+    await waitSchedule();
+    // ReactLynx는 Background Thread 렌더링 결과를 `rLynxChange`로 Main Thread에 보낸다.
+    const nativeApp = (
+      lynx as unknown as {
+        getNativeApp(): { callLepusMethod(name: string, ...args: unknown[]): void };
+      }
+    ).getNativeApp();
+    const callLepusMethod = vi.spyOn(nativeApp, "callLepusMethod");
+    fireEvent.touchmove(root, { eventType: "catchEvent", touches: [{ pageX: 80 }] });
+    await waitSchedule();
+    expect(callLepusMethod.mock.calls.filter(([name]) => name === "rLynxChange")).toHaveLength(1);
+    callLepusMethod.mockRestore();
+    expect(view.container.querySelector(".seed-slider__thumb")).toHaveAttribute(
+      "accessibility-value",
+      "minimum 0, maximum 100, current 70",
+    );
+    expect(view.container.querySelector("text")).toHaveTextContent("70");
+  });
+
   it("keeps a disabled thumb inert while allowing a user accessibility override", () => {
     const onValuesChange = vi.fn();
     const { container } = render(

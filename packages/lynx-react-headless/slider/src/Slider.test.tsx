@@ -142,6 +142,31 @@ describe("Slider", () => {
     expect(onValuesChange).toHaveBeenLastCalledWith([70]);
   });
 
+  it("sends one Main Thread patch for every part a drag frame updates", async () => {
+    render(
+      <Slider.Root className="root" defaultValues={[20]}>
+        <Slider.Range className="range" />
+        <Slider.ValueIndicatorRoot thumbIndex={0}>
+          <Slider.ValueIndicatorLabel thumbIndex={0} />
+        </Slider.ValueIndicatorRoot>
+        <Slider.Thumb className="thumb" thumbIndex={0} />
+      </Slider.Root>,
+    );
+    await waitSchedule();
+    touch("touchstart", 30);
+    await waitSchedule();
+    const callLepusMethod = vi.spyOn(lynx.getNativeApp(), "callLepusMethod");
+    touch("touchmove", 80);
+    await waitSchedule();
+    expect(callLepusMethod.mock.calls.filter(([name]) => name === "rLynxChange")).toHaveLength(1);
+    callLepusMethod.mockRestore();
+    expect(query(".thumb")).toHaveAttribute(
+      "accessibility-value",
+      "minimum 0, maximum 100, current 70",
+    );
+    expect(query("text")).toHaveTextContent("70");
+  });
+
   it("moves the nearest thumb and keeps the minimum distance between thumbs", async () => {
     const onValuesCommit = vi.fn();
     render(

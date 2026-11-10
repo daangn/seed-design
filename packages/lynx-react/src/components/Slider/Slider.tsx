@@ -104,6 +104,18 @@ function useStyledSliderContext(consumer: string): StyledSliderContextValue {
   return context;
 }
 
+// @lynx-js/react 0.126 미만(Preact 10)은 같은 element를 다시 받으면 context가 바뀐 파트도 건너뛰고
+// 파트마다 따로 렌더링해, drag frame마다 파트 수만큼 Main Thread patch(`callLepusMethod`)를 보낸다.
+// children element를 새로 만들어 파트를 Root와 같은 렌더링에서 함께 갱신한다.
+function renewElements(node: React.ReactNode): React.ReactNode {
+  if (Array.isArray(node)) return node.map(renewElements);
+  if (!React.isValidElement(node)) return node;
+  const { children } = node.props as { children?: React.ReactNode };
+  return children === undefined
+    ? React.cloneElement(node)
+    : React.cloneElement(node, undefined, renewElements(children));
+}
+
 /**
  * `@seed-design/lynx-react-slider`의 값·touch drag·좌표 측정 위에 SEED recipe를 조립합니다.
  */
@@ -155,7 +167,7 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
         className={clsx(classes.root, className)}
         style={style}
       >
-        {children}
+        {renewElements(children)}
       </view>
     </SliderProvider>
   );
