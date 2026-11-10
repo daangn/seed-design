@@ -1,4 +1,4 @@
-import type { VariableScope } from "@figma/rest-api-spec";
+import type { VariableComposedColor, VariableScope } from "@figma/rest-api-spec";
 
 // boundVariable.id is formatted as "VariableID:{key}/{localId}", we have to extract the key
 export function sanitizeVariableId(id: string) {
@@ -14,23 +14,23 @@ export function isVariableAlias(value: unknown): value is VariableAlias {
   );
 }
 
-export function isIdenticalVariableValue(
-  value1: string | number | boolean | RGBA,
-  value2: string | number | boolean | RGBA,
-) {
-  if (typeof value1 !== typeof value2) {
-    return false;
-  }
+type ComparableVariableValue = string | number | boolean | RGBA | VariableComposedColor;
 
-  if (typeof value1 === "string" || typeof value1 === "number" || typeof value1 === "boolean") {
+export function isIdenticalVariableValue(
+  value1: ComparableVariableValue,
+  value2: ComparableVariableValue,
+) {
+  if (typeof value1 !== "object" || typeof value2 !== "object") {
     return value1 === value2;
   }
 
+  // A composed color keeps its opacity as a variable alias, so it never equals a resolved value.
+  if (!("r" in value1) || !("r" in value2)) {
+    return false;
+  }
+
   return (
-    value1.r === (value2 as RGBA).r &&
-    value1.g === (value2 as RGBA).g &&
-    value1.b === (value2 as RGBA).b &&
-    value1.a === (value2 as RGBA).a
+    value1.r === value2.r && value1.g === value2.g && value1.b === value2.b && value1.a === value2.a
   );
 }
 
