@@ -1,5 +1,6 @@
 import { DocsBody } from "fumadocs-ui/page";
 import type { ReactNode } from "react";
+import { DOCS_PAGE_CONTENT_ID } from "./docs-page-content-id";
 import { DOC_TITLE_CLASS } from "./lib/doc-title";
 
 export interface PageCoverImage {
@@ -32,7 +33,10 @@ export function OverviewLayout({
   children,
 }: OverviewLayoutProps) {
   return (
-    <div className="[grid-area:main] w-full px-4 py-10 md:px-6 md:py-16 xl:px-8">
+    <div
+      id={DOCS_PAGE_CONTENT_ID}
+      className="[grid-area:main] w-full px-4 py-10 md:px-6 md:py-16 xl:px-8"
+    >
       {/* 기본은 표준 상세와 같은 900px 폭, grid-only overview는 full 폭을 사용한다. */}
       <div className={full ? "max-w-none" : "max-w-[900px]"}>
         <header className="not-prose mb-10 md:mb-14">
