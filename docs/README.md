@@ -24,7 +24,7 @@ bun dev
 | 지표 | 의미 |
 | --- | --- |
 | `Total docs build time (seconds)` | Figma 이미지 준비, 타입 검사, Lynx Rspeedy, Turbopack, 변경 로그 생성까지 포함한 시간입니다. |
-| `Lynx Rspeedy cache size (KiB)` | `docs/.next/cache/lynx-rspeedy`가 차지하는 크기입니다. |
+| `Lynx Rspeedy cache size (KiB)` | `docs/.cache/lynx-rspeedy`가 차지하는 크기입니다. |
 | `Next.js cache exact hit` | 현재 소스의 기본 캐시 키와 정확히 일치한 캐시를 복원했는지 나타냅니다. `true`만 warm 비교의 기준으로 사용합니다. |
 | `Next.js cache matched key` | 실제로 복원한 캐시 키입니다. 첫 실행에서 값이 있으면 새 식별자를 사용하지 않았거나 같은 식별자를 이미 사용한 것입니다. |
 

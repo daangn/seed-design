@@ -18,19 +18,8 @@
     "paths": {
       "@/*": ["./*"],
       "seed-design/*": ["./registry/react/*"]
-    },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+    }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
-  ],
+  "include": [".astro/types.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "examples/lynx/**", "lynx.config.ts", "scripts/lynx-examples/**"]
 }

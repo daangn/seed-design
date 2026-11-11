@@ -19,8 +19,8 @@ const entries: LynxExampleEntry[] = [
 
 describe("createStandaloneModules", () => {
   it("컴포넌트마다 virtual entry 하나가 예제 ID별 원본 default export와 배치·Probelynx ID를 등록한다", () => {
-    const virtualBadge = resolve(DOCS_DIRECTORY, ".next/lynx-entries/badge.tsx");
-    const virtualHelpBubble = resolve(DOCS_DIRECTORY, ".next/lynx-entries/help-bubble.tsx");
+    const virtualBadge = resolve(DOCS_DIRECTORY, ".cache/lynx-entries/badge.tsx");
+    const virtualHelpBubble = resolve(DOCS_DIRECTORY, ".cache/lynx-entries/help-bubble.tsx");
     const standalone = JSON.stringify(resolve(EXAMPLES_DIRECTORY, "standalone.tsx"));
 
     expect(

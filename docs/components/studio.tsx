@@ -29,7 +29,12 @@ function createStudioHashHistory(): NonNullable<StudioProps["unstable_history"]>
     back: history.back,
     forward: history.forward,
     block: history.block,
-    listen: (listener) => history.listen(({ location }) => listener(location)),
+    listen: (listener) =>
+      history.listen(({ location }) => {
+        // Studio는 history v4처럼 listener에 location만 넘겨받는데, 타입은 v5의 `Update`로 선언돼 있다.
+        // @ts-expect-error -- next-sanity의 `NextStudio`와 같은 우회다.
+        listener(location);
+      }),
   };
 }
 

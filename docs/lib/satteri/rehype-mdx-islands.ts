@@ -141,7 +141,7 @@ function toJsxAttributes(properties: Properties, omit: string[] = []): JsxAttrib
     if (omit.includes(name) || value == null || value === false) continue;
 
     if (name === "className" || name === "class") {
-      const className = classNameOf({ className: value });
+      const className = Array.isArray(value) ? value.join(" ") : String(value);
       if (className) attributes.push(stringAttribute("className", className));
     } else if (name === "style" && typeof value === "string") {
       attributes.push(expressionAttribute("style", serializeStyle(value)));

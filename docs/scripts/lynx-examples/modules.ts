@@ -4,7 +4,7 @@ import { DOCS_DIRECTORY, EXAMPLES_DIRECTORY } from "./constants.js";
 import type { LynxExampleEntry } from "./discovery.js";
 import { getProbelynxExampleId } from "./e2e-manifest.js";
 
-const VIRTUAL_ENTRIES_DIRECTORY = resolve(DOCS_DIRECTORY, ".next/lynx-entries");
+const VIRTUAL_ENTRIES_DIRECTORY = resolve(DOCS_DIRECTORY, ".cache/lynx-entries");
 const STANDALONE_MODULE = resolve(EXAMPLES_DIRECTORY, "standalone.tsx");
 
 export interface StandaloneModules {
