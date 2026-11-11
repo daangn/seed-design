@@ -147,7 +147,7 @@
     "@seed-design/lynx-react-radio-group": "workspace:*",
     "@seed-design/react-middle-truncate": "^1.0.1",
     "@seed-design/rsbuild-plugin-lynx-icon": "workspace:*",
-    "@storybook/nextjs-vite": "10.6.6",
+    "@storybook/react-vite": "10.6.6",
     "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/vite": "4.3.3",
     "@types/estree": "^1.0.8",

@@ -1,10 +1,10 @@
 # docs
 
-Next.js·Fumadocs 기반 SEED 문서 사이트다. `content/`가 문서 원천이고 `registry/`가 CLI로 배포하는 snippet 원천이며, `packages/docs-mcp/src/config.ts`가 `content/` 구조를 MCP section으로 매핑한다.
+Astro·Fumadocs 기반 SEED 문서 사이트다. `content/`가 문서 원천이고 `registry/`가 CLI로 배포하는 snippet 원천이며, `packages/docs-mcp/src/config.ts`가 `content/` 구조를 MCP section으로 매핑한다.
 
 ## 검증
 
-- `bun docs:test`는 웹 앱 타입을 검사하지 않는다 → `app/`·`components/`·`lib/`·`examples/react/`·`registry/react/`의 TS·TSX를 바꿨으면 `bun --filter @seed-design/docs typecheck:web`도 실행한다.
+- `bun docs:test`는 웹 앱 타입을 검사하지 않는다 → `src/`·`components/`·`lib/`·`examples/react/`·`registry/react/`의 TS·TSX를 바꿨으면 `bun --filter @seed-design/docs typecheck:web`도 실행한다.
 - `registry/`를 바꿨으면 루트 `AGENTS.md`「생성」대로 `bun docs:generate`를 실행한다. `generate:docs-index`가 `public/__registry__/` index를 읽어 `public/__docs__/`를 만들므로 `generate:registry`만 따로 돌리지 않는다.
 
 ## 규칙
@@ -14,6 +14,12 @@ Next.js·Fumadocs 기반 SEED 문서 사이트다. `content/`가 문서 원천�
 - `content/` 아래에는 `AGENTS.md`를 두지 않는다. Fumadocs가 문서 콘텐츠로 인식한다 → 콘텐츠 규칙은 이 파일에 쓴다.
 - 문서 영역을 추가하거나 문서를 이동·이름 변경·삭제하면 `packages/docs-mcp/src/config.ts`의 `SECTIONS` 매핑을 함께 고친다.
 - 새 MDX 컴포넌트를 문서에 도입하면 `lib/llms/AGENTS.md` 절차로 룰과 fixture를 추가한다. 문서 내용만 바꿀 때는 해당하지 않는다.
+
+### MDX 컴포넌트
+
+- MDX 컴포넌트는 기본으로 빌드 때 정적 HTML이 된다. 브라우저에서 상호작용해야 하는 컴포넌트는 `lib/satteri/rehype-mdx-islands.ts`의 `ISLAND_ROOTS`(부모의 context에 의존하면 `ISLAND_MEMBERS`)와 `components/mdx-island.tsx`의 `islandComponents`에 같은 이름으로 등록한다.
+- island의 props는 직렬화되어 브라우저로 넘어간다. 빌드 시점 데이터(파일·registry·생성 manifest)가 필요한 컴포넌트는 `src/components/mdx/`에 `.astro` wrapper로 만들고 `src/components/mdx/components.ts`에 등록한다.
+- `astro.config.ts`에서 도달하는 모듈(`lib/content/satteri-options.ts`와 그 import)에서는 `@/` alias를 쓰지 않는다. 설정을 불러올 때는 Vite alias가 적용되지 않는다 → 상대 경로로 import한다.
 
 ### MDX 작성
 

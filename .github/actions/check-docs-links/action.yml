@@ -3,7 +3,7 @@ description: Validate internal links in the exported docs site with lychee.
 
 inputs:
   out-dir:
-    description: "Absolute path to the exported docs site (Next static export output)"
+    description: "Absolute path to the exported docs site (Astro static build output)"
     required: true
   canonical-prefix:
     description: "Optional archive path prefix, including its trailing slash (for example react/v2/)"

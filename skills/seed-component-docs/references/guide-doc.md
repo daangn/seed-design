@@ -56,7 +56,7 @@ coverImage: /og/components/{component-id}
 - `keywords`는 선택이다. `featured: true`는 동시에 소수의 최신 문서에만 붙인다.
 - `coverImage`는 `docs/public/og/components/{id}.png`·`.webp` 쌍이다. 한쪽만 있으면 `bun docs:images:og:generate`(ffmpeg 필요)로 짝을 만들고 `bun docs:images:og:validate`로 확인한다. 자산이 없으면 사용자에게 알린다.
 - 한 문서가 여러 컴포넌트 id를 다룰 때만 `componentIds: [...]`(`list.mdx`). 없으면 파일 slug가 id다.
-- 플랫폼 상태 표는 `docs/app/components/[[...slug]]/page.tsx`가 `componentIds`(없으면 slug)로 헤더에 렌더링한다. 본문에 `PlatformStatusTable`을 쓰면 렌더링되지 않는다.
+- 플랫폼 상태 표는 `docs/src/pages/components/[...slug].astro`가 `componentIds`(없으면 slug)로 헤더에 렌더링한다. 본문에 `PlatformStatusTable`을 쓰면 렌더링되지 않는다.
 - `AvailableSince`는 플랫폼 문서용이다. 가이드에는 넣지 않는다.
 
 ### FigmaImage

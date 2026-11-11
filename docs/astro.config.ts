@@ -36,7 +36,22 @@ export default defineConfig({
   integrations: [react(), mdx(), fumadocs(createFumadocsOptions())],
   server: { allowedHosts: [".test"] },
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      {
+        // `@lynx-js/web-core`는 `new URL(/* webpack 주석 */ "….wasm", import.meta.url)`처럼 주석을 끼워
+        // wasm과 worker를 가리킨다. Vite는 주석이 끼면 이 패턴을 asset·worker로 인식하지 못해 번들에서
+        // 빠뜨리므로, 첫 인자 앞의 주석을 지운다.
+        name: "seed-docs:lynx-web-core-asset-urls",
+        enforce: "pre",
+        transform(code, id) {
+          if (!id.includes("/@lynx-js/web-core/dist/client/")) return;
+          return code.replace(/(new (?:URL|Worker)\()\s*(?:\/\*[\s\S]*?\*\/\s*)+/g, "$1");
+        },
+      },
+    ],
+    // Lynx Web runtime의 worker는 ES module이다.
+    worker: { format: "es" },
     envPrefix: ["NEXT_PUBLIC_", "PUBLIC_"],
     resolve: {
       // `@seed-design/css`의 recipe를 `@layer`로 감싼 진입점으로 연결한다.
