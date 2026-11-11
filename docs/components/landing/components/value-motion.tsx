@@ -1,5 +1,6 @@
 "use client";
 
+import { fillImageStyle } from "@/components/fill-image-style";
 import { ScrubLottie } from "./scrub-lottie";
 import type { LottieController } from "./scrub-lottie";
 
@@ -41,7 +42,8 @@ export function ValueMotion({ webp, lottie, motionEnabled, onReady }: ValueMotio
           loading="lazy"
           decoding="async"
           sizes="(min-width: 768px) 720px, 100vw"
-          className="absolute inset-0 size-full object-cover"
+          className="object-cover"
+          style={fillImageStyle}
         />
       )}
     </div>

@@ -26,7 +26,11 @@ export function ChangelogViewer(props: ChangelogViewerProps) {
   );
 }
 
-function ChangelogViewerContent({ entries, packages: rawPackages, platform }: ChangelogViewerProps) {
+function ChangelogViewerContent({
+  entries,
+  packages: rawPackages,
+  platform,
+}: ChangelogViewerProps) {
   const state = useChangelogViewerState(rawPackages, platform);
   const data = resolveAndGroupEntries({
     entries,

@@ -10,11 +10,11 @@ const absolute = (url: string) => new URL(url, metadataBase).toString();
 ---
 
 {title !== undefined && <title>{title}</title>}
-{description !== undefined && <meta name="description" content={description} />}
+{description && <meta name="description" content={description} />}
 {alternates && <link rel="canonical" href={absolute(alternates.canonical)} />}
 {openGraph.title !== undefined && <meta property="og:title" content={openGraph.title} />}
 {
-  openGraph.description !== undefined && (
+  openGraph.description && (
     <meta property="og:description" content={openGraph.description} />
   )
 }
@@ -45,7 +45,7 @@ const absolute = (url: string) => new URL(url, metadataBase).toString();
 <meta name="twitter:card" content={twitter.card} />
 {twitter.title !== undefined && <meta name="twitter:title" content={twitter.title} />}
 {
-  twitter.description !== undefined && (
+  twitter.description && (
     <meta name="twitter:description" content={twitter.description} />
   )
 }

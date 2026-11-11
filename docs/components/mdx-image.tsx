@@ -2,10 +2,16 @@ import clsx from "clsx";
 import { ImageZoom, type ImageZoomProps } from "fumadocs-ui/components/image-zoom";
 import { archivePaths } from "@/lib/docs-archive";
 
+/** `next/image`의 기본값처럼 지연 로드한다. data·blob URL은 이미 문서 안에 있어 제외한다. */
+function defaultLoading(src: ImageZoomProps["src"]) {
+  return typeof src === "string" && /^(?:data|blob):/.test(src) ? undefined : "lazy";
+}
+
 /** Markdown 이미지(`![]()`)를 확대 가능한 이미지로 렌더링한다. */
 export function MdxImage({ className, ...rest }: ImageZoomProps) {
   return (
     <ImageZoom
+      loading={defaultLoading(rest.src)}
       className={clsx(
         className,
         // 로딩 플레이스홀더 배경. SEED 팔레트는 다크에서 스케일이 뒤집혀 palette-gray-900가
@@ -25,5 +31,11 @@ export function MdxImage({ className, ...rest }: ImageZoomProps) {
 
 /** MDX에서 직접 쓰는 `<ImageZoom>`. public 경로를 archive 채널 경로로 옮긴다. */
 export function MdxImageZoom({ src, ...props }: ImageZoomProps) {
-  return <ImageZoom {...props} src={typeof src === "string" ? archivePaths.asset(src) : src} />;
+  return (
+    <ImageZoom
+      loading={defaultLoading(src)}
+      {...props}
+      src={typeof src === "string" ? archivePaths.asset(src) : src}
+    />
+  );
 }

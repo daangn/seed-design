@@ -1,3 +1,4 @@
+import { fillImageStyle } from "@/components/fill-image-style";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import clsx from "clsx";
 import Link from "fumadocs-core/link";
@@ -69,7 +70,8 @@ export function SectionBlog() {
                         loading="lazy"
                         decoding="async"
                         sizes="(min-width: 1024px) 33vw, 100vw"
-                        className="absolute inset-0 size-full object-cover will-change-transform"
+                        className="object-cover will-change-transform"
+                        style={fillImageStyle}
                       />
                     </div>
                   </div>

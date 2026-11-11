@@ -171,10 +171,55 @@ export const allowlist: AllowlistEntry[] = [
         : undefined,
   },
   {
-    id: "next-image-marker",
+    id: "next-image-attributes",
     stage: "html",
-    reason: "`next/image`가 `<img>`에 붙이는 내부 표식 속성 `data-nimg`다.",
-    element: (el) => (el.tag === "img" && el.attrs.delete("data-nimg") ? "changed" : undefined),
+    reason:
+      '`next/image`를 `<img>`로 바꿨다. next/image가 붙이던 `data-nimg`·`decoding`·`style="color:transparent"`가 빠지고, fumadocs `ImageZoom`의 `<img>`는 next/image(unoptimized)가 지우던 `sizes`·`fetchpriority="auto"`를 그대로 출력한다. `srcset`이 없어 `sizes`는 효과가 없고 나머지는 로딩 힌트다.',
+    element: (el) => {
+      if (el.tag !== "img") return undefined;
+
+      let changed = el.attrs.delete("data-nimg");
+      if (!el.attrs.has("srcset")) changed = el.attrs.delete("sizes") || changed;
+      changed = el.attrs.delete("decoding") || changed;
+      if (el.attrs.get("fetchpriority") === "auto")
+        changed = el.attrs.delete("fetchpriority") || changed;
+
+      const style = el.attrs.get("style");
+      if (style !== undefined) {
+        const rest = style
+          .split(";")
+          .map((declaration) => declaration.trim())
+          .filter((declaration) => declaration && declaration !== "color:transparent");
+        if (rest.length === 0) el.attrs.delete("style");
+        else el.attrs.set("style", rest.join(";"));
+        changed = changed || rest.join(";") !== style;
+      }
+
+      return changed ? "changed" : undefined;
+    },
+  },
+  {
+    id: "css-module-class-names",
+    stage: "html",
+    reason:
+      "CSS Modules의 class 이름은 번들러가 정한다. Next.js는 `<파일>-module__<hash>__<이름>`, Vite는 `_<이름>_<hash>_<줄>` 형태라 같은 규칙도 이름이 다르다. 원래 이름만 남겨 비교한다.",
+    element: (el) => {
+      const value = el.attrs.get("class");
+      if (value === undefined) return undefined;
+
+      const normalized = value
+        .split(" ")
+        .map((token) =>
+          token
+            .replace(/^[\w-]+-module__[\w-]+__([\w-]+)$/, "css-module:$1")
+            .replace(/^_([\w-]+)_[a-z0-9]+_\d+$/, "css-module:$1"),
+        )
+        .join(" ");
+      if (normalized === value) return undefined;
+
+      el.attrs.set("class", normalized);
+      return "changed";
+    },
   },
   {
     id: "shiki-light-flake-react-v3-date-picker",

@@ -68,15 +68,11 @@ async function buildCards(): Promise<UpdateCard[]> {
     description: post.data.description,
     // 정적 커버(노션 추출 webp) 우선 → Figma 커버 → Updates 섹션 폴백.
     image:
-      (post.data.coverImage &&
-        resolveCoverImage(post.data.coverImage).thumbnail) ||
-      (post.data.coverImageFigmaId &&
-        coverMap.get(post.data.coverImageFigmaId)) ||
+      (post.data.coverImage && resolveCoverImage(post.data.coverImage).thumbnail) ||
+      (post.data.coverImageFigmaId && coverMap.get(post.data.coverImageFigmaId)) ||
       INTERNAL_FALLBACK,
     href: post.url,
-    publishedAt: post.data.publishedAt
-      ? new Date(post.data.publishedAt).toISOString()
-      : undefined,
+    publishedAt: post.data.publishedAt ? new Date(post.data.publishedAt).toISOString() : undefined,
     external: false,
     category: post.data.category,
   }));

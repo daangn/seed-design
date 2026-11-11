@@ -14,6 +14,7 @@ import { preserveRuleElements } from "../llms/rule-elements";
 import { codeBlockTabsSource } from "../satteri/code-block-tabs-source";
 import { omitTypeTableFromText } from "../satteri/omit-type-table";
 import { rehypeMdxIslands } from "../satteri/rehype-mdx-islands";
+import { rehypeTocTitles } from "../satteri/rehype-toc-titles";
 import { remarkDocGen } from "../satteri/remark-doc-gen";
 import { remarkApplyLlmsFilter } from "../satteri/remark-llms-filter";
 import {
@@ -101,10 +102,13 @@ export function createFumadocsOptions(): FumadocsOptions {
       // heading 뒤에 붙는 `[#id]`는 heading 텍스트의 일부로 읽혀 slug를 바꿉니다.
       remarkLlms({ as: "", headingIds: false }),
     ],
-    hastPlugins: [rehypeMdxIslands()],
+    // TOC 제목은 `rehypeToc`(preset 기본 플러그인) 뒤에서 고쳐야 한다.
+    hastPlugins: (defaults) => [...defaults, rehypeTocTitles(), rehypeMdxIslands()],
     rehypeCodeOptions: {
       lazy: true,
-      langs: ["ts", "js", "html", "tsx", "mdx"],
+      // `yaml`은 Markdown 코드 블록의 frontmatter 하이라이트에 쓰인다. 미리 올려 두지 않으면 앞서
+      // 렌더링한 페이지에 yaml 블록이 있었는지에 따라 결과가 달라진다.
+      langs: ["ts", "js", "html", "tsx", "mdx", "yaml"],
       inline: "tailing-curly-colon",
       themes: {
         light: "github-light",

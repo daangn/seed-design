@@ -17,7 +17,8 @@
     "types": ["bun", "node"],
     "paths": {
       "@/*": ["./*"],
-      "seed-design/*": ["./registry/react/*"]
+      "seed-design/*": ["./registry/react/*"],
+      "next/dynamic": ["./components/next-dynamic.ts"]
     }
   },
   "include": [".astro/types.d.ts", "**/*.ts", "**/*.tsx"],

@@ -1,5 +1,7 @@
 "use client";
 
+import { fillImageStyle } from "@/components/fill-image-style";
+
 import { ContentPlaceholder } from "@/registry/react/ui/content-placeholder";
 import clsx from "clsx";
 import Link from "fumadocs-core/link";
@@ -40,6 +42,7 @@ export function CatalogCard({
             loading="lazy"
             decoding="async"
             sizes="(min-width: 1280px) 33vw, 50vw"
+            style={fillImageStyle}
             className="absolute inset-0 block size-full object-cover transition-transform duration-[600ms] ease-out group-hover:[transform:scale(1.05)]"
           />
         ) : null}

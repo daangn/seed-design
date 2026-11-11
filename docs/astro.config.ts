@@ -46,6 +46,8 @@ export default defineConfig({
       alias: {
         "@": root.replace(/\/$/, ""),
         "seed-design": `${root}registry/react`,
+        // 문서 예제가 독자에게 보여 주는 `next/dynamic` import를 Next.js 없이 실행한다.
+        "next/dynamic": `${root}components/next-dynamic.ts`,
       },
     },
   },

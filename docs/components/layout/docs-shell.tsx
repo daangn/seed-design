@@ -6,9 +6,13 @@ import { RootProvider } from "fumadocs-ui/provider/astro";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { type ComponentType, type ReactNode, type SVGProps, useMemo } from "react";
 import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
-import { TokenReferencePage, type TokenReferencePageProps } from "@/components/token-reference-page";
+import {
+  TokenReferencePage,
+  type TokenReferencePageProps,
+} from "@/components/token-reference-page";
 import { ArticleShareButton } from "@/components/updates/share-button";
 import { DocsVersionSwitcher } from "@/components/docs-version-switcher";
+import { InlineCode } from "@/components/inline-code";
 import { NoSidebarDocsLayout } from "@/components/layout/no-sidebar-docs-layout";
 import { MotionProvider } from "@/components/MotionProvider";
 import DefaultSearchDialog from "@/components/search/search";
@@ -16,6 +20,7 @@ import type { ChangelogPlatform } from "@/lib/changelog-platform";
 import { type ArchivePlatform, archivePaths } from "@/lib/docs-archive";
 import { formatPublishedDate } from "@/lib/format-date";
 import { isPageTreeIconName, type PageTreeIconName } from "@/lib/page-tree-icons";
+import type { TocTitleSegment } from "@/lib/satteri/rehype-toc-titles";
 import { TAGS } from "@/lib/search-tags";
 import { DocsPageRenderer, type DocsPageRendererProps } from "./docs-page-renderer";
 import { baseOptions } from "./layout-config";
@@ -68,6 +73,16 @@ function withIcons<Node extends PageTree.Node | PageTree.Root>(node: Node): Node
   return next;
 }
 
+/** `rehypeTocTitles`가 조각 배열로 내보낸 제목(inline code 포함)을 React 노드로 되돌린다. */
+function renderTocTitle(title: ReactNode | TocTitleSegment[]): ReactNode {
+  if (!Array.isArray(title)) return title;
+
+  return title.map((segment, index) =>
+    // biome-ignore lint/suspicious/noArrayIndexKey: 조각은 순서가 바뀌지 않는다.
+    typeof segment === "string" ? segment : <InlineCode key={index}>{segment.code}</InlineCode>,
+  );
+}
+
 /**
  * 문서 페이지의 React island. 사이드바·헤더·검색·TOC가 같은 context를 공유해야 해서 notebook
  * `DocsLayout`과 아티클 셸을 한 island로 묶고, MDX 본문은 Astro가 렌더링한 slot으로 받는다.
@@ -90,8 +105,12 @@ export function DocsShell({
 }: DocsShellProps) {
   const pageTree = useMemo(() => withIcons(tree), [tree]);
   const Layout = sidebar ? DocsLayout : NoSidebarDocsLayout;
-  const searchTags =
-    platform && archivePaths.prefix ? [TAGS[platform]] : Object.values(TAGS);
+  const searchTags = platform && archivePaths.prefix ? [TAGS[platform]] : Object.values(TAGS);
+
+  const toc = useMemo(
+    () => page?.toc?.map((item) => ({ ...item, title: renderTocTitle(item.title) })),
+    [page?.toc],
+  );
 
   const shell = (
     <NuqsAdapter>
@@ -120,6 +139,7 @@ export function DocsShell({
           {page ? (
             <DocsPageRenderer
               {...page}
+              toc={toc}
               platformStatus={platformStatus}
               meta={
                 published ? (

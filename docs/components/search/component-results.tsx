@@ -1,5 +1,6 @@
 "use client";
 
+import { fillImageStyle } from "@/components/fill-image-style";
 import { Autocomplete } from "@base-ui/react/autocomplete";
 import clsx from "clsx";
 import { useSearch } from "fumadocs-ui/components/dialog/search";
@@ -59,7 +60,8 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
             loading="lazy"
             decoding="async"
             sizes="(min-width: 768px) 224px, 45vw"
-            className="absolute inset-0 size-full object-cover"
+            className="object-cover"
+            style={fillImageStyle}
           />
         ) : null}
       </div>

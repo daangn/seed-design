@@ -1,3 +1,4 @@
+import { fillImageStyle } from "@/components/fill-image-style";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import Link from "fumadocs-core/link";
 import { InfiniteCarousel } from "../components/infinite-carousel";
@@ -28,7 +29,8 @@ function ShowcaseCard({ item, isDuplicate }: { item: ShowcaseItem; isDuplicate: 
           loading="lazy"
           decoding="async"
           sizes="430px"
-          className="absolute inset-0 size-full object-cover"
+          className="object-cover"
+          style={fillImageStyle}
         />
       </div>
       {/* Title + internal-link chevron (→). Shown only on coarse pointers (touch),

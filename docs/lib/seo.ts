@@ -259,6 +259,12 @@ export function buildDocsPageMetadata({
   });
 }
 
+/** `2026-06-17T00:00:00+09:00`처럼 KST 오프셋을 단 ISO 8601 문자열. */
+function toKstIsoString(date: Date): string {
+  const kst = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+  return `${kst.toISOString().slice(0, 19)}+09:00`;
+}
+
 /**
  * 문서 페이지의 schema.org JSON-LD. Next의 `metadata` API로는 `ld+json`을 못 내보내므로
  * 반환값을 `<JsonLd>`(`components/json-ld.tsx`)로 렌더한다.
@@ -269,8 +275,9 @@ export function buildDocsPageJsonLd(page: {
 }) {
   const { title, description, heading, publishedAt } = page.data;
   const absoluteUrl = new URL(page.url, baseUrl).toString();
+  // content collection은 YAML 날짜를 Date로 읽는다. frontmatter 표기(KST 오프셋)로 되돌린다.
   const datePublished =
-    publishedAt instanceof Date ? publishedAt.toISOString() : (publishedAt ?? undefined);
+    publishedAt instanceof Date ? toKstIsoString(publishedAt) : (publishedAt ?? undefined);
 
   return {
     "@context": "https://schema.org",

@@ -11,7 +11,9 @@ interface Props {
 const block = await readRegistryItem(`react/block/${Astro.props.name}`);
 const dependencies = await Promise.all(
   (block.innerDependencies ?? []).flatMap((dependency) =>
-    dependency.itemIds.map((itemId) => readRegistryItem(`react/${dependency.registryId}/${itemId}`)),
+    dependency.itemIds.map((itemId) =>
+      readRegistryItem(`react/${dependency.registryId}/${itemId}`),
+    ),
   ),
 );
 

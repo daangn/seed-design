@@ -16,12 +16,7 @@ export function NotFoundPage({ tree }: { tree: PageTree.Root }) {
     // trapped in the narrow main column, and is sized to exactly
     // viewport-minus-header (--fd-header-height) so it fits the row below the
     // header with no vertical scroll.
-    <DocsShell
-      pathname="/404"
-      tree={tree}
-      sidebar={false}
-      platform={archivePaths.platform}
-    >
+    <DocsShell pathname="/404" tree={tree} sidebar={false} platform={archivePaths.platform}>
       <div
         id={DOCS_PAGE_CONTENT_ID}
         className="flex h-[calc(100dvh-var(--fd-header-height,56px))] w-full flex-col items-center justify-center gap-10 overflow-hidden px-4 [grid-column:1/-1]"
@@ -32,6 +27,7 @@ export function NotFoundPage({ tree }: { tree: PageTree.Root }) {
             alt="404"
             width={300}
             height={106}
+            decoding="async"
             className="h-auto w-[216px] md:w-[300px]"
           />
 
