@@ -11,7 +11,6 @@ import {
   type ExtendedRefs,
   type FloatingContext,
   type Middleware,
-  type MiddlewareState,
   type OpenChangeReason,
   type Padding,
   type Placement,
@@ -19,11 +18,6 @@ import {
   type ReferenceType,
   type Side,
 } from "@floating-ui/react";
-import {
-  observeSafeAreaInsets,
-  readSafeAreaInsets,
-  safeAreaInsetStyle,
-} from "@seed-design/dom-utils";
 import { useControllableState } from "@seed-design/react-use-controllable-state";
 import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 
@@ -74,7 +68,20 @@ const defaultPositioningOptions: PositioningOptions = {
   arrowPadding: 4,
 };
 
-type DerivePadding = (state: MiddlewareState) => Padding;
+// flip/shift/size derive collisions from numeric padding, so the safe-area insets have to
+// reach floating-ui as numbers — a CSS env() value alone can't. Like Menu and Select, the
+// positioner re-declares the insets from env() and the hook reads them back as px, which
+// keeps this layer self-contained from the global SEED safe-area tokens.
+const SAFE_AREA_STYLE = {
+  "--seed-safe-area-top": "env(safe-area-inset-top)",
+  "--seed-safe-area-right": "env(safe-area-inset-right)",
+  "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
+  "--seed-safe-area-left": "env(safe-area-inset-left)",
+} as CSSProperties;
+
+const SIDES = ["top", "right", "bottom", "left"] as const satisfies readonly Side[];
+
+const ZERO_INSETS: Record<Side, number> = { top: 0, right: 0, bottom: 0, left: 0 };
 
 function getArrowMiddleware(arrowElement: HTMLElement | null, opts: PositioningOptions) {
   if (!arrowElement) return;
@@ -86,26 +93,26 @@ function getOffsetMiddleware(arrowOffset: number, opts: PositioningOptions) {
   return offset(offsetMainAxis);
 }
 
-function getFlipMiddleware(opts: PositioningOptions, padding: DerivePadding) {
+function getFlipMiddleware(opts: PositioningOptions, padding: Padding) {
   if (!opts.flip) return;
-
-  const fallbackPlacements = opts.flip === true ? undefined : opts.flip;
-
-  return flip((state) => ({ padding: padding(state), fallbackPlacements }));
+  return flip({
+    padding,
+    fallbackPlacements: opts.flip === true ? undefined : opts.flip,
+  });
 }
 
-function getShiftMiddleware(opts: PositioningOptions, padding: DerivePadding) {
+function getShiftMiddleware(opts: PositioningOptions, padding: Padding) {
   if (!opts.slide) return;
-  return shift((state) => ({
+  return shift({
     mainAxis: opts.slide,
-    padding: padding(state),
+    padding,
     limiter: limitShift(),
-  }));
+  });
 }
 
-function getSizeMiddleware(padding: DerivePadding) {
-  return size((state) => ({
-    padding: padding(state),
+function getSizeMiddleware(padding: Padding) {
+  return size({
+    padding,
     apply({ availableWidth, availableHeight, elements }) {
       elements.floating.style.setProperty(
         "--seed-popover-available-width",
@@ -116,7 +123,7 @@ function getSizeMiddleware(padding: DerivePadding) {
         `${Math.max(0, availableHeight)}px`,
       );
     },
-  }));
+  });
 }
 
 const rectMiddleware: Middleware = {
@@ -219,20 +226,16 @@ export function usePositionedFloating<
   const arrowTipHeight = arrowTipEl?.clientHeight ?? 0;
   const arrowTipOffset = arrowTipHeight;
 
+  const [safeArea, setSafeArea] = useState(ZERO_INSETS);
+
   // overflowPadding is measured from the safe area's boundary, so it keeps the same gap from
   // what's visible whether or not an edge has an inset.
   const overflowPadding = options.overflowPadding ?? 0;
-  // host는 resize 없이 inset을 바꿀 수 있어서, 위치를 계산할 때마다 positioner의 inset을
-  // 새로 읽어요.
-  const collisionPadding: DerivePadding = ({ elements }) => {
-    const insets = readSafeAreaInsets(elements.floating);
-
-    return {
-      top: insets.top + overflowPadding,
-      right: insets.right + overflowPadding,
-      bottom: insets.bottom + overflowPadding,
-      left: insets.left + overflowPadding,
-    };
+  const collisionPadding = {
+    top: safeArea.top + overflowPadding,
+    right: safeArea.right + overflowPadding,
+    bottom: safeArea.bottom + overflowPadding,
+    left: safeArea.left + overflowPadding,
   };
 
   const {
@@ -265,17 +268,37 @@ export function usePositionedFloating<
     return autoUpdate(refs.reference.current, refs.floating.current, context.update);
   }, [open, refs.reference, refs.floating, context]);
 
-  // floating-ui는 위치를 확정할 때마다 `context`를 새로 만들지만 `update`는 그대로예요.
-  const { update } = context;
+  // Read the env()-resolved insets back off the positioner. Keyed on the reactive
+  // `elements.floating`: `refs.floating` never changes identity, so an effect on it would
+  // run once before the positioner commits and never again. Re-read on resize for
+  // orientation changes.
+  const floatingElement = context.elements.floating;
 
   useEffect(() => {
-    if (!open) return;
+    if (!floatingElement) return;
 
-    return observeSafeAreaInsets(update);
-  }, [open, update]);
+    const read = () => {
+      const styles = getComputedStyle(floatingElement);
+      const inset = (side: Side) =>
+        Number.parseInt(styles.getPropertyValue(`--seed-safe-area-${side}`), 10) || 0;
+      const next = {
+        top: inset("top"),
+        right: inset("right"),
+        bottom: inset("bottom"),
+        left: inset("left"),
+      };
+
+      setSafeArea((prev) => (SIDES.every((side) => prev[side] === next[side]) ? prev : next));
+    };
+
+    read();
+    window.addEventListener("resize", read);
+
+    return () => window.removeEventListener("resize", read);
+  }, [floatingElement]);
 
   const floatingStyles = useMemo(
-    () => ({ ...safeAreaInsetStyle, ...positionStyles }),
+    () => ({ ...SAFE_AREA_STYLE, ...positionStyles }),
     [positionStyles],
   );
 
