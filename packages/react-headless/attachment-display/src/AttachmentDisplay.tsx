@@ -77,7 +77,7 @@ export const AttachmentDisplayItemImage = forwardRef<
   AttachmentDisplayItemImageProps
 >((props, ref) => {
   const { imageProps } = useAttachmentDisplayItemContext();
-  const mergedProps = mergeProps(imageProps, props);
+  const mergedProps = mergeProps<AttachmentDisplayItemImageProps>(imageProps, props);
 
   return <Primitive.img ref={ref} {...mergedProps} />;
 });

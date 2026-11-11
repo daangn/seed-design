@@ -1,6 +1,5 @@
-import { render, act } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { describe, expect, it, beforeEach } from "bun:test";
-import * as React from "react";
 import { Presence } from "./Presence";
 
 function PresenceHarness({

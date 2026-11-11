@@ -66,7 +66,7 @@ describe("useDatePicker", () => {
 
     act(() => clickCell(getCell(result, 10)));
     expect(result.current.value).toEqual({ start: { year: 2026, month: 7, day: 10 } });
-    expect(getCell(result, 10).cellProps["data-range-complete"]).toBeUndefined();
+    expect(getCell(result, 10).cellProps).toHaveProperty("data-range-complete", undefined);
 
     act(() => clickCell(getCell(result, 13)));
     expect(result.current.value).toEqual({
@@ -74,8 +74,8 @@ describe("useDatePicker", () => {
       end: { year: 2026, month: 7, day: 13 },
     });
     expect(getCell(result, 11).isInRange).toBe(true);
-    expect(getCell(result, 10).cellProps["data-range-complete"]).toBe("");
-    expect(getCell(result, 13).cellProps["data-range-complete"]).toBe("");
+    expect(getCell(result, 10).cellProps).toHaveProperty("data-range-complete", "");
+    expect(getCell(result, 13).cellProps).toHaveProperty("data-range-complete", "");
   });
 
   it("최소 1일 Range는 같은 날짜를 체크인·체크아웃으로 선택할 수 있다", () => {
@@ -594,7 +594,7 @@ describe("useDatePicker", () => {
       (month) => month.date.year === 2026 && month.date.month === 7,
     );
     expect(currentMonth).toBeDefined();
-    expect(scrollElement.scrollTop).toBe(currentMonth?.offset);
+    expect(currentMonth?.offset).toBe(scrollElement.scrollTop);
   });
 
   it("Continuous 스크롤로 월이 바뀌면 roving focus를 새 월로 옮긴다", () => {
@@ -729,10 +729,10 @@ describe("useDatePicker", () => {
       );
 
       expect(result.current.viewDate).toEqual({ year: 2026, month: 7, day: 1 });
-      expect(scrollElement.scrollTop).toBe(
+      expect(
         result.current.months.find((month) => month.date.year === 2026 && month.date.month === 7)
           ?.offset,
-      );
+      ).toBe(scrollElement.scrollTop);
 
       act(() => result.current.refs.continuousMonth(precedingMonth?.key ?? "")(null));
     } finally {

@@ -203,9 +203,7 @@ describe("Field components", () => {
 
       expect(description).toHaveAttribute("id");
       expect(input).toHaveAttribute("aria-describedby");
-      expect(input.getAttribute("aria-describedby")?.split(" ")).toContain(
-        description.getAttribute("id"),
-      );
+      expect(input.getAttribute("aria-describedby")?.split(" ")).toContain(description.id);
     });
 
     it("should have correct id for aria-describedby", () => {
@@ -220,9 +218,7 @@ describe("Field components", () => {
 
       expect(errorMessage).toHaveAttribute("id");
       expect(input).toHaveAttribute("aria-describedby");
-      expect(input.getAttribute("aria-describedby")?.split(" ")).toContain(
-        errorMessage.getAttribute("id"),
-      );
+      expect(input.getAttribute("aria-describedby")?.split(" ")).toContain(errorMessage.id);
     });
 
     it("should combine description and error in aria-describedby", () => {
@@ -236,8 +232,8 @@ describe("Field components", () => {
       const input = getByTestId("field-input");
 
       const ariaDescribedBy = input.getAttribute("aria-describedby");
-      expect(ariaDescribedBy?.split(" ")).toContain(description.getAttribute("id"));
-      expect(ariaDescribedBy?.split(" ")).toContain(errorMessage.getAttribute("id"));
+      expect(ariaDescribedBy?.split(" ")).toContain(description.id);
+      expect(ariaDescribedBy?.split(" ")).toContain(errorMessage.id);
     });
 
     it("should apply aria attributes only to input element", () => {

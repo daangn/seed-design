@@ -1,4 +1,4 @@
-import { dataAttr, elementProps, mergeProps } from "@seed-design/dom-utils";
+import { buttonProps, dataAttr, elementProps, mergeProps } from "@seed-design/dom-utils";
 import { useCollapsible } from "@seed-design/react-collapsible";
 import { useCallback, useMemo } from "react";
 import type * as React from "react";
@@ -47,9 +47,12 @@ export function useAccordionItem(props: UseAccordionItemProps) {
 
   const rootProps = useMemo(
     () =>
-      mergeProps(collapsible.stateProps, {
-        "data-value": value,
-      }),
+      mergeProps(
+        collapsible.stateProps,
+        elementProps({
+          "data-value": value,
+        }),
+      ),
     [collapsible.stateProps, value],
   );
 
@@ -82,14 +85,19 @@ export function useAccordionItem(props: UseAccordionItemProps) {
 
   const triggerProps = useMemo(
     () =>
-      mergeProps(stateProps, collapsible.triggerAriaProps, collapsible.triggerHandlers, {
-        id: triggerId,
-        disabled,
-        "data-value": value,
-        "data-ownedby": accordion.rootId,
-        "aria-controls": contentId,
-        onKeyDown: handleTriggerKeyDown,
-      }),
+      mergeProps(
+        stateProps,
+        collapsible.triggerAriaProps,
+        collapsible.triggerHandlers,
+        buttonProps({
+          id: triggerId,
+          disabled,
+          "data-value": value,
+          "data-ownedby": accordion.rootId,
+          "aria-controls": contentId,
+          onKeyDown: handleTriggerKeyDown,
+        }),
+      ),
     [
       accordion.rootId,
       collapsible.triggerAriaProps,
