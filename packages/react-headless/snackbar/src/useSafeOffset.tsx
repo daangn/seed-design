@@ -1,4 +1,3 @@
-import { observeSafeAreaInsets } from "@seed-design/dom-utils";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const SAFE_AREA_VARIABLE = "--seed-safe-area-bottom";
@@ -96,9 +95,6 @@ export function useSafeOffset() {
     }),
     [],
   );
-
-  // host는 resize 없이 bottom inset을 바꿀 수 있어서, inset이 바뀌면 offset을 다시 계산해요.
-  useEffect(() => observeSafeAreaInsets(overlapTracker.forceUpdate), [overlapTracker]);
 
   return {
     safeOffset,
