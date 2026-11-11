@@ -1,23 +1,17 @@
 import { toFumadocsSource } from "@fumadocs/astro/source";
-import { IconLockLine } from "@karrotmarket/react-monochrome-icon";
 import { getCollection } from "astro:content";
 import { type ContentStorage, loader, type PageTreeTransformer } from "fumadocs-core/source";
-import type { ComponentType, SVGProps } from "react";
 import type { ContentCollectionName } from "@/lib/content/satteri-options";
 import { archivePaths } from "@/lib/docs-archive";
 import { markFeatured } from "@/lib/featured";
+import { isPageTreeIconName } from "@/lib/page-tree-icons";
 import { markTabbedFolder, type TabbedFolderNode } from "@/lib/tabbed";
 
-const iconMap: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
-  Lock: IconLockLine,
-};
-
-const iconHandler = (icon: string | undefined) => {
-  if (!icon || !(icon in iconMap)) return undefined;
-
-  const Icon = iconMap[icon];
-  return <Icon />;
-};
+/**
+ * page tree는 island props로 직렬화되므로 아이콘을 React 노드가 아니라 이름으로 남긴다.
+ * `components/layout/docs-shell.tsx`가 브라우저에서 같은 이름으로 아이콘을 고른다.
+ */
+const iconHandler = (icon: string | undefined) => (icon && isPageTreeIconName(icon) ? icon : undefined);
 
 // meta.json `layout: "tabs"`를 폴더 노드에 기록해 탭형 헤더와 사이드바가 함께 사용합니다.
 function createTabbedFolderTransformer<S extends ContentStorage>(): PageTreeTransformer<S> {

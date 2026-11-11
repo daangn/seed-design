@@ -1,37 +1,22 @@
 ---
-import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
-import { DocsShell } from "@/components/layout/docs-shell";
-import { mdxComponents } from "@/components/mdx-components";
-import { getMarkdownPageLastModified } from "@/lib/git-timestamps";
+import type { InferGetStaticPropsType } from "astro";
+import { coverImageProps, docsStaticPaths, loadDocsPage } from "@/lib/docs-page";
 import { getLLMMarkdownUrl } from "@/lib/llms/config";
 import { getComponentStatus } from "@/lib/rootage";
 import { TAGS } from "@/lib/search-tags";
-import {
-  buildDocsPageJsonLd,
-  buildDocsPageMetadata,
-  deprecatedTitle,
-  resolveCoverImage,
-} from "@/lib/seo";
+import { buildDocsPageJsonLd, buildDocsPageMetadata, deprecatedTitle } from "@/lib/seo";
 import { getFoundationsSource } from "@/lib/source";
 import { findTabbedFolder, tabbedFolderLabel } from "@/lib/tabbed";
-import DocsHead from "@/src/components/DocsHead.astro";
-import Layout from "@/src/layouts/Layout.astro";
+import DocsPage from "@/src/components/DocsPage.astro";
 
-export const getStaticPaths = (async () => {
-  const source = await getFoundationsSource();
-  return source.getPages().map((page) => ({
-    params: { slug: page.slugs.join("/") || undefined },
-    props: { page },
-  }));
-}) satisfies GetStaticPaths;
+export const getStaticPaths = () => docsStaticPaths(getFoundationsSource);
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { page } = Astro.props;
 const source = await getFoundationsSource();
-const [{ body: Content, toc }, lastModified, { deprecated }] = await Promise.all([
-  page.data.load(),
-  getMarkdownPageLastModified(page.absolutePath),
+const [{ Content, toc, lastModified }, { deprecated }] = await Promise.all([
+  loadDocsPage(page),
   getComponentStatus({ slug: page.slugs }, { deprecated: page.data.deprecated }),
 ]);
 
@@ -41,12 +26,10 @@ const [{ body: Content, toc }, lastModified, { deprecated }] = await Promise.all
 const tabbedFolder = findTabbedFolder(source.pageTree.children, page.url);
 const folderLabel = tabbedFolder ? tabbedFolderLabel(tabbedFolder) : undefined;
 const heading = (tabbedFolder ? folderLabel : page.data.heading) ?? page.data.title;
-const coverBase = tabbedFolder ? tabbedFolder.coverImage : page.data.coverImage;
-const cover = coverBase ? resolveCoverImage(coverBase) : null;
 const markdownUrl = getLLMMarkdownUrl("foundations", page.slugs);
 ---
 
-<Layout
+<DocsPage
   metadata={buildDocsPageMetadata({
     url: page.url,
     title: page.data.title,
@@ -56,38 +39,26 @@ const markdownUrl = getLLMMarkdownUrl("foundations", page.slugs);
     coverImage: page.data.coverImage,
     deprecated,
   })}
->
-  <DocsHead
-    slot="head"
-    section="foundations"
-    markdownUrl={markdownUrl}
-    jsonLd={buildDocsPageJsonLd(page)}
-  />
-  <DocsShell
-    client:load
-    pathname={page.url}
-    tree={await source.serializePageTree(source.pageTree)}
-    defaultSearchTag={TAGS.foundations.value}
-    page={{
-      title: deprecatedTitle(heading, deprecated),
-      description: tabbedFolder ? tabbedFolder.description : page.data.description,
-      coverImage: cover
-        ? {
-            src: cover.thumbnail,
-            alt: `${heading} cover image`,
-            width: cover.og.width,
-            height: cover.og.height,
-          }
-        : undefined,
-      layout: page.data.layout,
-      full: page.data.full,
-      tabbed: tabbedFolder != null,
-      toc,
-      lastUpdate: lastModified,
-      showPageActions: page.slugs.length > 0,
-      markdownUrl,
-    }}
-  >
-    <Content components={mdxComponents} />
-  </DocsShell>
-</Layout>
+  section="foundations"
+  markdownUrl={markdownUrl}
+  jsonLd={buildDocsPageJsonLd(page)}
+  Content={Content}
+  pathname={page.url}
+  tree={source.pageTree}
+  defaultSearchTag={TAGS.foundations.value}
+  page={{
+    title: deprecatedTitle(heading, deprecated),
+    description: tabbedFolder ? tabbedFolder.description : page.data.description,
+    coverImage: coverImageProps(
+      tabbedFolder ? tabbedFolder.coverImage : page.data.coverImage,
+      `${heading} cover image`,
+    ),
+    layout: page.data.layout,
+    full: page.data.full,
+    tabbed: tabbedFolder != null,
+    toc,
+    lastUpdate: lastModified,
+    showPageActions: page.slugs.length > 0,
+    markdownUrl,
+  }}
+/>

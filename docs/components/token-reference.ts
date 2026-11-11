@@ -1,24 +1,26 @@
 import { resolveToken } from "@seed-design/rootage-core";
 import { getRootage } from "@/lib/rootage";
 import { getDefaultModes, stringifyValueLit } from "./rootage";
-import { TokenValue } from "./token-cell";
-import { TokenTable, TokenTableItem } from "./token-table";
+import type { TokenValue } from "./token-cell";
+import type { TokenTableItem } from "./token-table";
 
-interface TokenReferenceProps {
+export interface TokenReferenceProps {
   groups?: string[];
   regex?: RegExp;
 }
 
-export async function TokenReference(props: TokenReferenceProps) {
+/** `<TokenReference>`가 보여 줄 토큰 행. `src/components/mdx/TokenReference.astro`가 island에 넘긴다. */
+export async function getTokenReferenceItems(props: TokenReferenceProps) {
   const rootage = await getRootage();
   const groups = props.groups ?? [];
   const modes = getDefaultModes(rootage);
+  const { regex } = props;
 
-  const filterFn = props.regex
-    ? (id: string) => props.regex!.test(id)
+  const filterFn = regex
+    ? (id: string) => regex.test(id)
     : (id: string) => id.startsWith(`$${groups.join(".")}`);
 
-  const tableItems: TokenTableItem[] = rootage.tokenIds.filter(filterFn).map((tokenId) => {
+  return rootage.tokenIds.filter(filterFn).map((tokenId): TokenTableItem => {
     const { path, value } = resolveToken(rootage, tokenId, modes);
 
     const valuesWithDescription: TokenValue[] = path.slice(1).map((tokenRef) => ({
@@ -37,6 +39,4 @@ export async function TokenReference(props: TokenReferenceProps) {
       resolvedValue: value,
     };
   });
-
-  return <TokenTable items={tableItems} />;
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { MotionProvider } from "./MotionProvider";
 import { getSafeAreaPreviewRules, type PreviewSafeAreaInsets } from "./safe-area-preview";
 import * as React from "react";
 import { twMerge as cn } from "tailwind-merge";
@@ -32,7 +33,14 @@ export function ComponentPreview(props: ComponentPreviewProps) {
       return <div>컴포넌트가 존재하지 않습니다.</div>;
     }
 
-    return <Component />;
+    // Breeze 예제는 motion 기능을 지연 로드하는 provider 아래에서만 움직인다.
+    return platform === "breeze" ? (
+      <MotionProvider>
+        <Component />
+      </MotionProvider>
+    ) : (
+      <Component />
+    );
   }, [name]);
 
   return (

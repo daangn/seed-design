@@ -1,5 +1,4 @@
 export { SeedCodeBlockAuto } from "./seed-code-block-auto";
-export { SeedDynamicCodeBlock, SeedCodeTabs, type SeedCodeTabItem } from "./code-block-async";
 export {
   CodeBlockTabs,
   CodeBlockTabsList,

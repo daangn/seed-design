@@ -1,7 +1,4 @@
-import { resolveToken } from "@seed-design/rootage-core";
-import { getRootage } from "@/lib/rootage";
 import { ColorSwatch } from "./color-swatch";
-import { getDefaultModes } from "./rootage";
 
 export interface ColorGridProps {
   scales: {
@@ -10,33 +7,12 @@ export interface ColorGridProps {
   }[];
 }
 
-export async function ColorGrid(props: ColorGridProps) {
-  const rootage = await getRootage();
-  const defaultModes = getDefaultModes(rootage);
-  const scales = props.scales;
-  const rows = scales.map((scale) => {
-    const tokens = rootage.tokenIds
-      // `gray`가 `gray-alpha-*`까지 잡지 않도록 prefix 뒤에는 숫자 스텝만 허용한다.
-      .filter((id) => new RegExp(`^\\$color\\.palette\\.${scale.prefix}-\\d+$`).test(id))
-      .map((id) => {
-        const { value: lightValue } = resolveToken(rootage, id, {
-          ...defaultModes,
-          color: "theme-light",
-        });
-        const { value: darkValue } = resolveToken(rootage, id, {
-          ...defaultModes,
-          color: "theme-dark",
-        });
-        return {
-          identifier: id,
-          lightHex: (lightValue as { kind: "ColorHexLit"; value: string }).value,
-          darkHex: (darkValue as { kind: "ColorHexLit"; value: string }).value,
-        };
-      });
+export interface ColorGridRow {
+  name: string;
+  tokens: { identifier: string; lightHex: string; darkHex: string }[];
+}
 
-    return { name: scale.name, tokens };
-  });
-
+export function ColorGrid({ rows }: { rows: ColorGridRow[] }) {
   return (
     <div className="flex flex-col gap-1 w-full">
       <div className="flex gap-1 justify-center">

@@ -13,6 +13,7 @@ import { env } from "../env";
 import { preserveRuleElements } from "../llms/rule-elements";
 import { codeBlockTabsSource } from "../satteri/code-block-tabs-source";
 import { omitTypeTableFromText } from "../satteri/omit-type-table";
+import { rehypeMdxIslands } from "../satteri/rehype-mdx-islands";
 import { remarkDocGen } from "../satteri/remark-doc-gen";
 import { remarkApplyLlmsFilter } from "../satteri/remark-llms-filter";
 import {
@@ -23,7 +24,7 @@ import {
 
 // `astro.config.ts`가 Vite alias 없이 읽는 모듈이라, 여기서 닿는 파일은 모두 상대 경로로 import한다.
 
-/** Fumadocs 컬렉션 이름과 콘텐츠 디렉터리. `src/content.config.ts`와 `lib/source.tsx`가 함께 쓴다. */
+/** Fumadocs 컬렉션 이름과 콘텐츠 디렉터리. `src/content.config.ts`와 `lib/source.ts`가 함께 쓴다. */
 export const CONTENT_COLLECTIONS = {
   docs: "content/docs",
   "get-started": "content/get-started",
@@ -100,6 +101,7 @@ export function createFumadocsOptions(): FumadocsOptions {
       // heading 뒤에 붙는 `[#id]`는 heading 텍스트의 일부로 읽혀 slug를 바꿉니다.
       remarkLlms({ as: "", headingIds: false }),
     ],
+    hastPlugins: [rehypeMdxIslands()],
     rehypeCodeOptions: {
       lazy: true,
       langs: ["ts", "js", "html", "tsx", "mdx"],

@@ -1,7 +1,12 @@
-import type { SeedCodeTabItem } from "./code-block-async";
+export interface PackageManagerTabItem {
+  value: string;
+  label: string;
+  code: string;
+  lang: string;
+}
 
 /** Build npm/yarn/pnpm/bun install-command tabs for a set of dependencies. */
-export function packageManagerTabItems(dependencies: string[]): SeedCodeTabItem[] {
+export function packageManagerTabItems(dependencies: string[]): PackageManagerTabItem[] {
   const deps = dependencies.join(" ");
   return [
     { value: "npm", label: "npm", lang: "bash", code: `npm install ${deps}` },

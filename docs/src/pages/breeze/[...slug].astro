@@ -1,0 +1,42 @@
+---
+import type { InferGetStaticPropsType } from "astro";
+import { docsStaticPaths, loadDocsPage } from "@/lib/docs-page";
+import { getLLMMarkdownUrl } from "@/lib/llms/config";
+import { buildDocsPageJsonLd, buildDocsPageMetadata } from "@/lib/seo";
+import { getBreezeSource } from "@/lib/source";
+import DocsPage from "@/src/components/DocsPage.astro";
+
+export const getStaticPaths = () => docsStaticPaths(getBreezeSource);
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props;
+const source = await getBreezeSource();
+const { Content, toc, lastModified } = await loadDocsPage(page);
+const markdownUrl = getLLMMarkdownUrl("breeze", page.slugs);
+---
+
+<DocsPage
+  metadata={buildDocsPageMetadata({
+    url: page.url,
+    title: page.data.title,
+    description: page.data.description,
+  })}
+  section="breeze"
+  markdownUrl={markdownUrl}
+  jsonLd={buildDocsPageJsonLd(page)}
+  Content={Content}
+  pathname={page.url}
+  tree={source.pageTree}
+  motion
+  page={{
+    title: page.data.title,
+    description: page.data.description,
+    layout: page.data.layout,
+    full: page.data.full,
+    toc,
+    lastUpdate: lastModified,
+    showPageActions: page.slugs.length > 0,
+    markdownUrl,
+  }}
+/>

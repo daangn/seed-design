@@ -1,30 +1,63 @@
-import { type SerializedPageTree, useFumadocsLoader } from "fumadocs-core/source/client";
+import { IconLockLine } from "@karrotmarket/react-monochrome-icon";
+import type * as PageTree from "fumadocs-core/page-tree";
 import { DocsLayout } from "fumadocs-ui/layouts/notebook";
 import { RootProvider } from "fumadocs-ui/provider/astro";
 import { NuqsAdapter } from "nuqs/adapters/react";
-import type { ReactNode } from "react";
+import { type ComponentType, type ReactNode, type SVGProps, useMemo } from "react";
+import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
+import { DocsVersionSwitcher } from "@/components/docs-version-switcher";
 import { NoSidebarDocsLayout } from "@/components/layout/no-sidebar-docs-layout";
+import { MotionProvider } from "@/components/MotionProvider";
 import DefaultSearchDialog from "@/components/search/search";
+import type { ChangelogPlatform } from "@/lib/changelog-platform";
+import { type ArchivePlatform, archivePaths } from "@/lib/docs-archive";
+import { isPageTreeIconName, type PageTreeIconName } from "@/lib/page-tree-icons";
 import { TAGS } from "@/lib/search-tags";
 import { DocsPageRenderer, type DocsPageRendererProps } from "./docs-page-renderer";
 import { baseOptions } from "./layout-config";
+import type { PageCoverImage } from "./overview-layout";
+import { ProsePage } from "./prose-page";
 
 export interface DocsShellProps {
   /** 현재 페이지 경로. `usePathname()`이 돌려주는 값이다. */
   pathname: string;
-  /** `source.serializePageTree()` 결과. */
-  tree: SerializedPageTree;
+  /** `source.pageTree`. 아이콘은 이름 문자열로 들어온다(`lib/source.ts`). */
+  tree: PageTree.Root;
   /** 검색 다이얼로그가 처음 고르는 섹션 태그. */
   defaultSearchTag?: string;
   /** get-started·updates처럼 사이드바가 없는 섹션이면 `false`. */
   sidebar?: boolean;
+  /** 사이드바 상단에 버전 전환 메뉴를 두는 플랫폼 섹션. archive 채널에서는 검색도 이 섹션으로 좁힌다. */
+  platform?: ArchivePlatform;
+  /** Breeze 예제가 쓰는 motion 기능을 지연 로드한다. */
+  motion?: boolean;
   /** 아티클 프레젠테이션. 없으면 children을 DocsLayout에 그대로 넣는다. */
   page?: Omit<DocsPageRendererProps, "children" | "platformStatus" | "meta" | "llmOptions">;
-  /** Astro named slot으로 받는 서버 렌더링 조각. */
+  /** get-started처럼 TOC 없는 산문 페이지. `page` 대신 쓴다. */
+  prose?: { title: string; description?: string; coverImage?: PageCoverImage };
+  /** changelog 페이지면 기본 LLMs.txt 메뉴 대신 changelog 전용 메뉴를 렌더링한다. */
+  changelog?: { platform: ChangelogPlatform; fallbackUrl: string };
+  /** Astro named slot(`platform-status`, `meta`)으로 받는 서버 렌더링 조각. */
   platformStatus?: ReactNode;
   meta?: ReactNode;
-  llmOptions?: ReactNode;
   children?: ReactNode;
+}
+
+const pageTreeIcons: Record<PageTreeIconName, ComponentType<SVGProps<SVGSVGElement>>> = {
+  Lock: IconLockLine,
+};
+
+/** 직렬화되어 넘어온 아이콘 이름을 React 노드로 바꾼다. */
+function withIcons<Node extends PageTree.Node | PageTree.Root>(node: Node): Node {
+  const next = { ...node };
+  if ("icon" in next && typeof next.icon === "string" && isPageTreeIconName(next.icon)) {
+    const Icon = pageTreeIcons[next.icon];
+    next.icon = <Icon />;
+  }
+  if ("index" in next && next.index) next.index = withIcons(next.index);
+  if ("children" in next) next.children = next.children.map(withIcons);
+  if ("fallback" in next && next.fallback) next.fallback = withIcons(next.fallback);
+  return next;
 }
 
 /**
@@ -36,16 +69,21 @@ export function DocsShell({
   tree,
   defaultSearchTag,
   sidebar = true,
+  platform,
+  motion = false,
   page,
+  prose,
+  changelog,
   platformStatus,
   meta,
-  llmOptions,
   children,
 }: DocsShellProps) {
-  const data = useFumadocsLoader({ tree });
+  const pageTree = useMemo(() => withIcons(tree), [tree]);
   const Layout = sidebar ? DocsLayout : NoSidebarDocsLayout;
+  const searchTags =
+    platform && archivePaths.prefix ? [TAGS[platform]] : Object.values(TAGS);
 
-  return (
+  const shell = (
     <NuqsAdapter>
       <RootProvider
         pathname={pathname}
@@ -53,20 +91,54 @@ export function DocsShell({
           SearchDialog: DefaultSearchDialog,
           options: {
             ...(defaultSearchTag ? { defaultTag: defaultSearchTag } : {}),
-            tags: Object.values(TAGS),
+            tags: searchTags,
           },
         }}
       >
-        <Layout {...baseOptions} tree={data.tree}>
+        <Layout
+          {...baseOptions}
+          {...(platform
+            ? {
+                sidebar: {
+                  ...baseOptions.sidebar,
+                  banner: <DocsVersionSwitcher platform={platform} />,
+                },
+              }
+            : {})}
+          tree={pageTree}
+        >
           {page ? (
             <DocsPageRenderer
               {...page}
               platformStatus={platformStatus}
               meta={meta}
-              llmOptions={llmOptions}
+              llmOptions={
+                changelog ? (
+                  <ChangelogLLMOptions
+                    platform={changelog.platform}
+                    fallbackUrl={changelog.fallbackUrl}
+                  />
+                ) : undefined
+              }
             >
               {children}
             </DocsPageRenderer>
+          ) : prose ? (
+            <ProsePage title={prose.title} description={prose.description}>
+              {prose.coverImage ? (
+                <div className="not-prose mb-8 md:mb-10">
+                  <img
+                    src={prose.coverImage.src}
+                    alt={prose.coverImage.alt}
+                    width={prose.coverImage.width}
+                    height={prose.coverImage.height}
+                    className="block h-auto w-full rounded-r4"
+                    loading="eager"
+                  />
+                </div>
+              ) : null}
+              {children}
+            </ProsePage>
           ) : (
             children
           )}
@@ -74,4 +146,6 @@ export function DocsShell({
       </RootProvider>
     </NuqsAdapter>
   );
+
+  return motion ? <MotionProvider>{shell}</MotionProvider> : shell;
 }

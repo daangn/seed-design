@@ -1,0 +1,72 @@
+---
+import { HighlightedPre } from "@/components/codeblock/highlighted-pre";
+import { packageManagerTabItems } from "@/components/codeblock/package-manager";
+import { MdxIsland } from "@/components/mdx-island";
+import type { MdxIslandNode } from "@/lib/satteri/rehype-mdx-islands";
+
+interface Props {
+  dependencies?: string[];
+  steps: { title: string; snippets: { content: string; lang: string }[] }[];
+}
+
+const { dependencies, steps } = Astro.props;
+
+// 하이라이트된 코드는 정적 slot으로 두고, tree에는 slot 참조만 남긴다.
+const codes: { code: string; lang: string }[] = [];
+const code = (content: string, lang: string): MdxIslandNode => {
+  codes.push({ code: content, lang });
+  return { slot: `s${codes.length - 1}` };
+};
+
+const stepNodes: MdxIslandNode[] = [];
+if (dependencies) {
+  stepNodes.push([
+    "Step",
+    {},
+    ["Heading", { as: "h3" }, "의존성 설치"],
+    [
+      "CodeTabs",
+      {
+        groupId: "package-manager",
+        items: packageManagerTabItems(dependencies).map((item) => ({
+          value: item.value,
+          label: item.label,
+          children: code(item.code, item.lang),
+        })),
+      },
+    ],
+  ]);
+}
+for (const step of steps) {
+  stepNodes.push([
+    "Step",
+    {},
+    ["Heading", { as: "h3" }, step.title],
+    ...step.snippets.map(
+      (snippet): MdxIslandNode => ["CodeBlock", {}, code(snippet.content, snippet.lang)],
+    ),
+  ]);
+}
+
+const tree: MdxIslandNode[] = [
+  [
+    "ErrorBoundary",
+    {},
+    [
+      "Accordions",
+      { type: "single" },
+      ["Accordion", { title: "Manual Installation", id: "manual-install" }, ["Steps", {}, ...stepNodes]],
+    ],
+  ],
+];
+---
+
+<MdxIsland client:visible tree={tree}>
+  {
+    codes.map((item, index) => (
+      <Fragment slot={`s${index}`}>
+        <HighlightedPre code={item.code} lang={item.lang} />
+      </Fragment>
+    ))
+  }
+</MdxIsland>

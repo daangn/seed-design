@@ -90,7 +90,7 @@ export function resolveCoverImage(cover: string): {
 
 /**
  * 페이지 URL(`page.url`, 예: `/react/components/action-button`)에서 섹션을 뽑아 폴백 카드를
- * 찾는다. 모든 fumadocs 소스의 baseUrl이 `/` + 섹션명이라(`lib/source.tsx`) 첫 경로 세그먼트가
+ * 찾는다. 모든 fumadocs 소스의 baseUrl이 `/` + 섹션명이라(`lib/source.ts`) 첫 경로 세그먼트가
  * 곧 섹션 키다. 에셋이 실제로 없으면 undefined를 돌려 기본 카드로 떨어뜨린다.
  */
 function resolveSectionOgImage(url?: string): OgImage | undefined {

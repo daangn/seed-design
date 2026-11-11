@@ -1,0 +1,44 @@
+---
+import type { InferGetStaticPropsType } from "astro";
+import { coverImageProps, docsStaticPaths, loadDocsPage } from "@/lib/docs-page";
+import { getLLMMarkdownUrl } from "@/lib/llms/config";
+import { getComponentStatus } from "@/lib/rootage";
+import { buildDocsPageJsonLd, buildDocsPageMetadata, deprecatedTitle } from "@/lib/seo";
+import { getGetStartedSource } from "@/lib/source";
+import DocsPage from "@/src/components/DocsPage.astro";
+
+export const getStaticPaths = () => docsStaticPaths(getGetStartedSource);
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props;
+const source = await getGetStartedSource();
+const [{ Content }, { deprecated }] = await Promise.all([
+  loadDocsPage(page),
+  getComponentStatus({ slug: page.slugs }, { deprecated: page.data.deprecated }),
+]);
+const markdownUrl = getLLMMarkdownUrl("get-started", page.slugs);
+---
+
+<DocsPage
+  metadata={buildDocsPageMetadata({
+    url: page.url,
+    title: page.data.title,
+    heading: page.data.heading,
+    description: page.data.description,
+    coverImage: page.data.coverImage,
+    deprecated,
+  })}
+  section="get-started"
+  markdownUrl={markdownUrl}
+  jsonLd={buildDocsPageJsonLd(page)}
+  Content={Content}
+  pathname={page.url}
+  tree={source.pageTree}
+  sidebar={false}
+  prose={{
+    title: deprecatedTitle(page.data.heading ?? page.data.title, deprecated),
+    description: page.data.description,
+    coverImage: coverImageProps(page.data.coverImage, "SEED Design System"),
+  }}
+/>
