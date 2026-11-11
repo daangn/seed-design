@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/mcp",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "^2.0.0",
-    "@seed-design/figma": "2.1.0",
+    "@seed-design/figma": "3.0.1",
     "cac": "^7.0.0",
     "figma-api": "2.1.4-beta",
     "uuid": "^14.0.0",

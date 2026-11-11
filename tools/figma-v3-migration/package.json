@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.130.0",
-    "@seed-design/figma-extractor": "^2.0.0",
+    "@seed-design/figma-extractor": "^2.0.1",
     "@types/node": "^25.0.0",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
