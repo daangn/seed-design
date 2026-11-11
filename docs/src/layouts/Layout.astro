@@ -61,6 +61,8 @@ const {
     <Analytics />
   </head>
   <body>
+    {/* 문서 셸을 유지하는 이동은 `<body>` 요소와 그 속성을 두고 바로 아래의 island·script만 바꾼다
+        (`components/layout/shell-navigation.ts`). 여기에 다른 요소를 두면 이동할 때 이전 것이 남는다. */}
     {/* 아래 넷은 서버에서 아무것도 그리지 않고 브라우저 상태(주소·localStorage·테마)로만 동작한다.
         `client:load`로 두면 Astro가 렌더러를 고르려고 컴포넌트를 직접 호출해 dev에서 React hook 경고가 난다.
         배너와 ThemeSync는 페이지 이동에도 유지한다. 배너는 effect 뒤에 그려져, 다시 mount하면 이동할 때마다

@@ -4,7 +4,14 @@ import type * as PageTree from "fumadocs-core/page-tree";
 import { DocsLayout } from "fumadocs-ui/layouts/notebook";
 import { RootProvider } from "fumadocs-ui/provider/astro";
 import { NuqsAdapter } from "nuqs/adapters/react";
-import { type ComponentType, type ReactNode, type SVGProps, useEffect, useMemo } from "react";
+import {
+  type ComponentType,
+  Fragment,
+  type ReactNode,
+  type SVGProps,
+  useEffect,
+  useMemo,
+} from "react";
 import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
 import {
   TokenReferencePage,
@@ -27,6 +34,7 @@ import { DocsPageRenderer, type DocsPageRendererProps } from "./docs-page-render
 import { baseOptions } from "./layout-config";
 import type { PageCoverImage } from "./overview-layout";
 import { ProsePage } from "./prose-page";
+import { useShellPage } from "./shell-page";
 
 export interface DocsShellProps {
   /** 현재 페이지 경로. `usePathname()`이 돌려주는 값이다. */
@@ -99,23 +107,25 @@ function renderTocTitle(title: ReactNode | TocTitleSegment[]): ReactNode {
 /**
  * 문서 페이지의 React island. 사이드바·헤더·검색·TOC가 같은 context를 공유해야 해서 notebook
  * `DocsLayout`과 아티클 셸을 한 island로 묶고, MDX 본문은 Astro가 렌더링한 slot으로 받는다.
+ * 클라이언트 이동에서는 island를 유지한 채 새 페이지의 props와 본문만 받는다(`shell-navigation.ts`).
  */
-export function DocsShell({
-  pathname,
-  tree,
-  defaultSearchTag,
-  sidebar = true,
-  platform,
-  motion = false,
-  page,
-  prose,
-  token,
-  published,
-  changelog,
-  platformStatus,
-  meta,
-  children,
-}: DocsShellProps) {
+export function DocsShell(astroProps: DocsShellProps) {
+  const {
+    pathname,
+    tree,
+    defaultSearchTag,
+    sidebar = true,
+    platform,
+    motion = false,
+    page,
+    prose,
+    token,
+    published,
+    changelog,
+    platformStatus,
+    meta,
+    children,
+  } = useShellPage() ?? astroProps;
   const pageTree = useMemo(() => withIcons(tree), [tree]);
 
   // hydrate 전에는 layout의 열 폭 transition을 끈다(`src/styles/global.css`의 `data-docs-hydrated`).
@@ -133,6 +143,9 @@ export function DocsShell({
   const shell = (
     <NuqsAdapter>
       <RootProvider
+        // Next.js는 섹션마다 layout(`app/<section>/layout.tsx`)이 따로 있어, 섹션 안에서는 사이드바 상태가
+        // 유지되고 다른 섹션으로 가면 새로 그려졌다. 섹션은 경로의 첫 마디다(archive 채널도 `/react/v3/…`).
+        key={pathname.split("/")[1]}
         // archive 채널의 주소는 trailing slash로 끝난다. Next.js의 `usePathname()`도 그 형태를 돌려줬다.
         pathname={archivePaths.pageHref(pathname)}
         components={{ Link: PageLink }}
@@ -157,60 +170,65 @@ export function DocsShell({
             : {})}
           tree={pageTree}
         >
-          {page ? (
-            <DocsPageRenderer
-              {...page}
-              toc={toc}
-              platformStatus={platformStatus}
-              meta={
-                published ? (
-                  <div
-                    className={clsx(
-                      "not-prose mt-2 mb-3 flex items-center gap-1.5 text-base text-fd-muted-foreground",
-                      published.release ? "justify-start" : "justify-center",
-                    )}
-                  >
-                    <time dateTime={published.date.toISOString()}>
-                      {formatPublishedDate(published.date)}
-                    </time>
-                    <ArticleShareButton title={published.title} />
+          {/* Next.js가 page segment를 이동마다 새로 mount하던 것처럼 페이지 부분은 경로마다 새로 그린다.
+              같은 DOM을 다시 쓰면 페이지 사이에 위치가 달라진 요소(제목·목차 항목)가 layout shift로 잡히고,
+              페이지 안 컴포넌트 상태가 다음 페이지로 이어진다. */}
+          <Fragment key={pathname}>
+            {page ? (
+              <DocsPageRenderer
+                {...page}
+                toc={toc}
+                platformStatus={platformStatus}
+                meta={
+                  published ? (
+                    <div
+                      className={clsx(
+                        "not-prose mt-2 mb-3 flex items-center gap-1.5 text-base text-fd-muted-foreground",
+                        published.release ? "justify-start" : "justify-center",
+                      )}
+                    >
+                      <time dateTime={published.date.toISOString()}>
+                        {formatPublishedDate(published.date)}
+                      </time>
+                      <ArticleShareButton title={published.title} />
+                    </div>
+                  ) : (
+                    meta
+                  )
+                }
+                llmOptions={
+                  changelog ? (
+                    <ChangelogLLMOptions
+                      platform={changelog.platform}
+                      fallbackUrl={changelog.fallbackUrl}
+                    />
+                  ) : undefined
+                }
+              >
+                {children}
+              </DocsPageRenderer>
+            ) : prose ? (
+              <ProsePage title={prose.title} description={prose.description}>
+                {prose.coverImage ? (
+                  <div className="not-prose mb-8 md:mb-10">
+                    <img
+                      src={prose.coverImage.src}
+                      alt={prose.coverImage.alt}
+                      width={prose.coverImage.width}
+                      height={prose.coverImage.height}
+                      className="block h-auto w-full rounded-r4"
+                      loading="eager"
+                    />
                   </div>
-                ) : (
-                  meta
-                )
-              }
-              llmOptions={
-                changelog ? (
-                  <ChangelogLLMOptions
-                    platform={changelog.platform}
-                    fallbackUrl={changelog.fallbackUrl}
-                  />
-                ) : undefined
-              }
-            >
-              {children}
-            </DocsPageRenderer>
-          ) : prose ? (
-            <ProsePage title={prose.title} description={prose.description}>
-              {prose.coverImage ? (
-                <div className="not-prose mb-8 md:mb-10">
-                  <img
-                    src={prose.coverImage.src}
-                    alt={prose.coverImage.alt}
-                    width={prose.coverImage.width}
-                    height={prose.coverImage.height}
-                    className="block h-auto w-full rounded-r4"
-                    loading="eager"
-                  />
-                </div>
-              ) : null}
-              {children}
-            </ProsePage>
-          ) : token ? (
-            <TokenReferencePage {...token} />
-          ) : (
-            children
-          )}
+                ) : null}
+                {children}
+              </ProsePage>
+            ) : token ? (
+              <TokenReferencePage {...token} />
+            ) : (
+              children
+            )}
+          </Fragment>
         </Layout>
       </RootProvider>
     </NuqsAdapter>

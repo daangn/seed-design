@@ -9,37 +9,22 @@ import { ClientRouter } from "astro:transitions";
 
 <script>
   import { swapFunctions } from "astro:transitions/client";
-
-  const SIDEBAR_SCROLLER = "#nd-sidebar .seed-scroll-fog";
-
-  /** 사이드바 트리를 식별한다. 섹션(React·Lynx 등)마다 트리가 다르다. */
-  function sidebarTree(doc: Document) {
-    return [...doc.querySelectorAll("#nd-sidebar a")].map((a) => a.getAttribute("href")).join(" ");
-  }
+  import { swapShellBody } from "@/components/layout/shell-navigation";
 
   document.addEventListener("astro:before-swap", (event) => {
     const { newDocument } = event;
 
-    // 기본 swap에서 `swapRootAttributes`만 뺀다. `<html>`에는 테마 상태(`class="dark"`,
-    // `style="color-scheme"`, `data-seed-user-color-scheme`)와 `data-docs-hydrated`가 있는데,
-    // 기본 swap은 이를 새 페이지의 정적 값(라이트)으로 되돌려 이동할 때마다 깜빡인다.
-    // 모든 페이지가 `Layout.astro`의 같은 정적 속성을 내보내므로 바꿀 속성이 없다.
+    // 기본 swap에서 `swapRootAttributes`를 뺀다. `<html>`에는 테마 상태(`class="dark"`, `style="color-scheme"`,
+    // `data-seed-user-color-scheme`)와 `data-docs-hydrated`가 있는데, 기본 swap은 이를 새 페이지의 정적 값(라이트)으로
+    // 되돌려 이동할 때마다 깜빡인다. 모든 페이지가 `Layout.astro`의 같은 정적 속성을 내보내므로 바꿀 속성이 없다.
     event.swap = () => {
-      // Next.js는 섹션 layout을 유지해 같은 섹션 안에서는 사이드바 스크롤 위치가 그대로였다.
-      // 트리가 같으면 교체 직후 paint 전에 위치를 되살린다.
-      const scrollTop =
-        sidebarTree(document) === sidebarTree(newDocument)
-          ? document.querySelector(SIDEBAR_SCROLLER)?.scrollTop
-          : undefined;
-
       swapFunctions.deselectScripts(newDocument);
       swapFunctions.swapHeadElements(newDocument);
+      // 문서 셸(`DocsShell`)을 유지할 수 있으면 셸은 두고 페이지 부분만 바꾼다. 아니면 body를 통째로 바꾼다.
+      if (swapShellBody(newDocument)) return;
       const restoreFocus = swapFunctions.saveFocus();
       swapFunctions.swapBodyElement(newDocument.body, document.body);
       restoreFocus();
-
-      const scroller = document.querySelector<HTMLElement>(SIDEBAR_SCROLLER);
-      if (scroller && scrollTop) scroller.scrollTop = scrollTop;
     };
   });
 </script>

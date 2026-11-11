@@ -56,10 +56,16 @@ Astro·Fumadocs 기반 SEED 문서 사이트다. `content/`가 문서 원천이�
 
 ### 클라이언트 이동
 
-- 페이지 이동은 Astro `ClientRouter`가 `<body>`를 바꿔 처리한다(`src/components/DocsClientRouter.astro`). `<script>`와 `is:inline` script는 문서를 처음 불러올 때 한 번만 실행된다 → 페이지마다 실행할 코드는 `astro:page-load`에 걸거나 island의 mount effect에 둔다.
+- 페이지 이동은 Astro `ClientRouter`가 처리하고, swap은 `src/components/DocsClientRouter.astro`가 바꾼다. `<script>`와 `is:inline` script는 문서를 처음 불러올 때 한 번만 실행된다 → 페이지마다 실행할 코드는 `astro:page-load`에 걸거나 island의 mount effect에 둔다.
 - 이동할 때 `<html>` 속성은 바꾸지 않는다. 테마 상태가 거기 있기 때문이다 → 페이지마다 다른 값을 `<html>`에 두지 말고 `<body>` 안에 둔다.
-- `DocsShell`에 `transition:persist`를 붙이지 않는다. 유지된 island는 새 props로 다시 그리지만 slot(MDX 본문)은 이전 DOM에서 읽어 본문이 바뀌지 않는다. 셸은 이동할 때마다 다시 hydrate된다.
-- island의 첫 render는 서버 HTML과 같아야 한다. 첫 render에서 `<html>` 속성이나 `localStorage`를 읽으면 hydration이 실패해 island 전체를 다시 그리고, 이동할 때 사이드바 스크롤 위치와 예제 상태가 사라진다 → `useSyncExternalStore`의 server snapshot이나 effect에서 읽는다(`hooks/useTheme.ts`).
+- 문서 셸(`DocsShell`)은 이동해도 mount된 채 남고 새 페이지의 props와 slot(MDX 본문·`platform-status`·`meta`)만 받는다(`components/layout/shell-navigation.ts`). 셸은 `astro-island[component-export="DocsShell"]`로 찾는다. 양쪽 문서의 `<body>` 바로 아래에 셸이 있으면 `<body>` 요소와 셸, `transition:persist` island를 그대로 두고 바로 아래의 island·script 등 페이지 노드만 새 것으로 바꾼 뒤, 새 문서의 셸 island에서 읽은 props와 slot DOM을 mount된 셸에 동기로 그린다. 셸이 `document.body`에 portal로 붙인 메뉴·side panel이 살아 있어야 하기 때문이다.
+- `DocsShell`에 `transition:persist`를 붙이지 않는다. Astro는 유지한 island의 slot을 이전 DOM에서 읽고, `@fumadocs/astro`의 `onBeforeSwap`은 `persist-props` 없는 persist island의 slot에 새 slot 내용을 옮기며, Astro의 body 교체는 셸의 portal을 떨어진 이전 body에 남긴다 → 셸을 쓰는 새 페이지는 표시 없이 `DocsShell`을 `client:load`로 그리면 된다. export 이름을 바꾸면 `shell-navigation.ts`의 selector도 고친다. 맞지 않으면 모든 이동이 body 교체로 넘어간다.
+- 셸을 유지하지 못하는 이동은 Astro 기본 교체(`swapRootAttributes`만 뺀 것)로 `<body>`를 통째로 바꾼다. 한쪽에 셸이 없음(landing `/`, 404, `/blocks/*`), 셸이 아직 hydrate 전, 새 props를 읽지 못함, 새 페이지에 `<video>`·`<audio>`·declarative shadow DOM이나 `<body>` 바로 아래가 아닌 `transition:persist`가 있음이 해당한다. 화면은 맞고 셸 상태만 초기화된다.
+- `Layout.astro`의 `<body>` 바로 아래에는 island·script 등 `shell-navigation.ts`의 `PAGE_ELEMENTS`에 있는 요소만 둔다. 다른 요소는 이동해도 이전 것이 남는다(실행 중에 붙은 portal을 남기려는 규칙이다). 페이지마다 다른 값을 `<body>` 속성에 두지 않는다.
+- 셸 안의 컴포넌트는 페이지가 바뀌어도 mount된 채 새 props를 받는다 → 페이지마다 다른 값은 props나 `usePathname()`에서 읽는다. mount할 때 `location`을 한 번 읽어 state로 두지 않는다. 셸이 다시 그려지는 시점에는 주소가 아직 이전 페이지다.
+- 경로의 첫 마디(섹션)가 바뀌면 셸 안의 layout을 새로 mount한다. Next.js의 섹션별 `layout.tsx`와 같다 → 섹션 안에서 유지할 셸 상태가 섹션 밖까지 이어지길 기대하지 않는다.
+- 알려진 위험(관찰된 버그는 아니다): 유지된 셸 root는 처음 문서의 React `identifierPrefix`(island의 `prefix` 속성)를 계속 쓴다. prefix는 한 페이지 안에서만 겹치지 않으므로 나중 페이지 본문의 island가 같은 prefix를 받으면 그 안의 `useId`가 셸의 id와 겹칠 수 있다 → id 중복이 의심되면 셸과 본문 island의 `prefix`부터 비교한다.
+- island의 첫 render는 서버 HTML과 같아야 한다. 첫 render에서 `<html>` 속성이나 `localStorage`를 읽으면 hydration이 실패해 island 전체를 다시 그리고 사용자가 바꾼 상태가 사라진다 → `useSyncExternalStore`의 server snapshot이나 effect에서 읽는다(`hooks/useTheme.ts`).
 - page view를 `astro:page-load`에서 보내지 않는다. GA4와 PostHog가 router의 `history.pushState`로 이미 센다(`src/components/Analytics.astro`).
 - 문서 전체를 다시 불러와야 하는 링크에는 `data-astro-reload`를 붙인다. 자체 router를 쓰는 페이지는 `Layout`에 `clientRouter={false}`를 넘긴다(`/admin`).
 
