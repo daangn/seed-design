@@ -90,7 +90,7 @@
 .seed-chip-tabs__trigger--variant_neutralOutline {
     background-color: var(--seed-color-bg-transparent);
     --seed-chip-tabs-stroke-width: 1px;
-    border-color: var(--seed-color-stroke-neutral-muted)
+    border-color: var(--seed-color-stroke-neutral-weak)
 }
 .seed-chip-tabs__triggerLabel--variant_neutralOutline {
     color: var(--seed-color-fg-neutral)

@@ -28,7 +28,7 @@ export const vars = {
     "disabled": {
       "root": {
         "color": "var(--seed-color-bg-disabled)",
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)"
       },
       "icon": {
         "color": "var(--seed-color-fg-disabled)"

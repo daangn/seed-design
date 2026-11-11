@@ -806,8 +806,8 @@ data:
     $color.stroke.neutral-weak:
       description: 요소의 외곽을 그려 형태를 만드는 선입니다. 카드, 인풋 필드, 아웃라인 버튼처럼 선 자체가 요소의 경계를 정의할 때 사용됩니다. (weak)
       values:
-        theme-light: $color.palette.gray-400
-        theme-dark: $color.palette.gray-400
+        theme-light: $color.palette.gray-alpha-400
+        theme-dark: $color.palette.gray-alpha-400
     $color.stroke.positive-solid:
       description: 성공적인 작업, 확인, 또는 긍정적인 상태를 나타내는 데 사용됩니다. (solid)
       values:

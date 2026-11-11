@@ -373,7 +373,7 @@ declare const artifact: {
                 };
                 "strokeColor": {
                   "type": "color";
-                  "value": "$color.stroke.neutral-muted";
+                  "value": "$color.stroke.neutral-weak";
                 };
                 "strokeWidth": {
                   "type": "dimension";

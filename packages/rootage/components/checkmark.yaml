@@ -67,7 +67,7 @@ data:
       disabled:
         root:
           color: $color.bg.disabled
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-weak
         icon:
           color: $color.fg.disabled
       disabled,selected:

@@ -118,7 +118,7 @@
 }
 .seed-checkmark__root--variant_square-disabled_true {
     background-color: var(--seed-color-bg-disabled);
-    border-color: var(--seed-color-stroke-neutral-muted)
+    border-color: var(--seed-color-stroke-neutral-weak)
 }
 .seed-checkmark__icon--variant_square-disabled_true {
     color: var(--seed-color-fg-disabled)

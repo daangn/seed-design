@@ -349,7 +349,7 @@ text {
   --seed-color-stroke-neutral-muted: #00000010;
   --seed-color-stroke-neutral-solid: #555d6d;
   --seed-color-stroke-neutral-subtle: #0000000c;
-  --seed-color-stroke-neutral-weak: #dcdee3;
+  --seed-color-stroke-neutral-weak: #000f3323;
   --seed-color-stroke-positive-solid: #079171;
   --seed-color-stroke-positive-weak: #b9e9d2;
   --seed-color-stroke-warning-solid: #9b7821;
@@ -579,7 +579,7 @@ text {
   --seed-color-stroke-neutral-muted: #ffffff17;
   --seed-color-stroke-neutral-solid: #dcdee3;
   --seed-color-stroke-neutral-subtle: #ffffff0d;
-  --seed-color-stroke-neutral-weak: #393d46;
+  --seed-color-stroke-neutral-weak: #d0deff46;
   --seed-color-stroke-positive-solid: #22b27f;
   --seed-color-stroke-positive-weak: #20493b;
   --seed-color-stroke-warning-solid: #ca901c;
