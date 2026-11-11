@@ -1,7 +1,7 @@
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { act, fireEvent, render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, jest } from "bun:test";
+import { afterAll, beforeAll, describe, expect, it, jest } from "bun:test";
 
 import * as React from "react";
 
@@ -2749,5 +2749,105 @@ describe("useSelect virtual click", () => {
 
     expect(trigger).toHaveAttribute("aria-expanded", "true");
     expect(expectSingleHighlight(trigger)).toHaveAttribute("data-value", "apple");
+  });
+});
+
+const safeAreaObservers = new Set<FakeResizeObserver>();
+let sentinelHeight = 0;
+
+class FakeResizeObserver implements ResizeObserver {
+  readonly targets: Element[] = [];
+
+  constructor(private readonly callback: ResizeObserverCallback) {
+    safeAreaObservers.add(this);
+  }
+
+  observe(target: Element) {
+    this.targets.push(target);
+  }
+
+  unobserve() {}
+
+  disconnect() {
+    safeAreaObservers.delete(this);
+  }
+
+  // 보고할 때마다 크기를 바꿔서, sentinel이 inset 변화로 받아들이게 해요.
+  report() {
+    sentinelHeight += 1;
+    const contentRect = new DOMRect(0, 0, 0, sentinelHeight);
+    this.callback(
+      this.targets.map((target) => ({
+        target,
+        contentRect,
+        borderBoxSize: [],
+        contentBoxSize: [],
+        devicePixelContentBoxSize: [],
+      })),
+      this,
+    );
+  }
+}
+
+// autoUpdate도 ResizeObserver를 쓰므로, safe area sentinel(body 바로 아래 aria-hidden 요소의
+// 자식)을 관찰하는 observer에게만 보고해요.
+function reportSafeAreaSentinel() {
+  for (const observer of safeAreaObservers) {
+    const watchesSentinel = observer.targets.some(
+      (target) =>
+        target.parentElement?.getAttribute("aria-hidden") === "true" &&
+        target.parentElement.parentElement === document.body,
+    );
+    if (watchesSentinel) act(() => observer.report());
+  }
+}
+
+describe("useSelect (safe area re-read)", () => {
+  const originalResizeObserver = window.ResizeObserver;
+
+  beforeAll(() => {
+    window.ResizeObserver = FakeResizeObserver;
+    // happy-dom은 layout이 없어 viewport가 0×0이라, 가용 높이를 잴 수 있게 크기를 줘요.
+    Object.defineProperty(document.documentElement, "clientWidth", {
+      configurable: true,
+      value: 1024,
+    });
+    Object.defineProperty(document.documentElement, "clientHeight", {
+      configurable: true,
+      value: 768,
+    });
+  });
+
+  afterAll(() => {
+    window.ResizeObserver = originalResizeObserver;
+    Reflect.deleteProperty(document.documentElement, "clientWidth");
+    Reflect.deleteProperty(document.documentElement, "clientHeight");
+  });
+
+  it("reads the current inset when it opens and when an inset changes while open", async () => {
+    const Probe = ({ open }: { open: boolean }) => <BasicSelect open={open} />;
+
+    // happy-dom에서는 닫힘 전환이 끝나지 않아, 한 번만 열고 열린 채로 inset을 바꿔요.
+    const { getByTestId, rerender } = render(<Probe open={false} />);
+    await waitForPositioning();
+    const positioner = getByTestId("positioner");
+    const getAvailableHeight = () =>
+      Number.parseFloat(positioner.style.getPropertyValue("--seed-select-available-height"));
+
+    positioner.style.setProperty("--seed-safe-area-bottom", "34px");
+    rerender(<Probe open />);
+    await waitForPositioning();
+    const withOpeningInset = getAvailableHeight();
+
+    positioner.style.setProperty("--seed-safe-area-bottom", "0px");
+    reportSafeAreaSentinel();
+    await waitForPositioning();
+    const withoutInset = getAvailableHeight();
+    expect(withOpeningInset).toBe(withoutInset - 34);
+
+    positioner.style.setProperty("--seed-safe-area-bottom", "58px");
+    reportSafeAreaSentinel();
+    await waitForPositioning();
+    expect(getAvailableHeight()).toBe(withoutInset - 58);
   });
 });
