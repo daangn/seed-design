@@ -17,7 +17,7 @@
         "@testing-library/react": "^16.3.0",
         "@testing-library/user-event": "^14.6.1",
         "@types/bun": "^1.3.8",
-        "agent-lynx": "0.14.27",
+        "agent-lynx": "0.14.29",
         "bunchee": "^6.5.1",
         "figma-api": "2.1.4-beta",
         "knip": "^6.0.0",
@@ -3312,7 +3312,7 @@
 
     "@lynx-js/debug-metadata-rsbuild-plugin": ["@lynx-js/debug-metadata-rsbuild-plugin@0.2.3", "", { "dependencies": { "@lynx-js/debug-metadata": "^0.1.0" }, "peerDependencies": { "@rsbuild/core": "^2.0.0" }, "optionalPeers": ["@rsbuild/core"] }, "sha512-fsSN9lGYHjmnL94rI9T8/HnOAM1VHAIGBgH6Stv+uUrAa7GiKuaytIu2dO6wZ0oGGzHFHPXmCmMNVbw5yQRWlQ=="],
 
-    "@lynx-js/devtool-connector": ["@lynx-js/devtool-connector@0.18.6", "", { "dependencies": { "@lynx-js/debug-metadata": "0.1.0", "@yume-chan/adb": "3.0.0-beta.4" } }, "sha512-KtKGgFXHnegVPSaIGoSouBlecLhMjf3BEPN2ZB2LGUxBO20Y6zOTdz890wZ11sGM/xWxgB6SfAmojtNETOHQ7g=="],
+    "@lynx-js/devtool-connector": ["@lynx-js/devtool-connector@0.18.8", "", { "dependencies": { "@lynx-js/debug-metadata": "0.1.0", "@yume-chan/adb": "3.0.0-beta.4" } }, "sha512-LoZ9HRHLrBj8KObiJ8u/zTSvPQRtasG2gDumIJS8MFP5vrUWIHJKwqBnhvEV6hQE3+CUM/u+AtpKJwUL3cI/7A=="],
 
     "@lynx-js/gesture-runtime": ["@lynx-js/gesture-runtime@2.1.3", "", { "peerDependencies": { "@lynx-js/react": "*", "@lynx-js/types": "*" } }, "sha512-p8ckoJ1ly399LsYKmuJTDivp4/kIUystzYrtRtRZ38ruYVV01O/3Bwi5CT6tylqFCnX+WriX/r0ZlHnkOnx8jw=="],
 
@@ -4768,7 +4768,7 @@
 
     "agent-base": ["agent-base@6.0.2", "", { "dependencies": { "debug": "4" } }, "sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ=="],
 
-    "agent-lynx": ["agent-lynx@0.14.27", "", { "dependencies": { "@lynx-js/devtool-connector": "0.18.6", "@lynx-js/trace-processor": "0.0.1" }, "bin": { "agent-lynx": "./dist/index.mjs" } }, "sha512-fCaVmy1KucsgWrRZ7u0FXbg0JyyMFcj8oY4X/FprWV1q5NrmJwgjqGWnD6O00byh69zdmOyu7DAGTsIUudvIzg=="],
+    "agent-lynx": ["agent-lynx@0.14.29", "", { "dependencies": { "@lynx-js/devtool-connector": "0.18.8", "@lynx-js/trace-processor": "0.0.1" }, "bin": { "agent-lynx": "./dist/index.mjs" } }, "sha512-igN4om1xnbBSnqRpxa9y3qWC2hdgfMRVKtrVYHAOEXasvZcj3lEdB1FkF9dvLuHtVl03AWLjS1KArbrGUAjcCQ=="],
 
     "ajv": ["ajv@8.17.1", "", { "dependencies": { "fast-deep-equal": "^3.1.3", "fast-uri": "^3.0.1", "json-schema-traverse": "^1.0.0", "require-from-string": "^2.0.2" } }, "sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g=="],
 
