@@ -13,18 +13,11 @@ import {
   useTypeahead,
   useInteractions,
   useTransitionStatus,
-  type MiddlewareState,
   type Placement,
+  type Side,
 } from "@floating-ui/react";
 import { useControllableState } from "@seed-design/react-use-controllable-state";
-import {
-  buttonProps,
-  dataAttr,
-  elementProps,
-  observeSafeAreaInsets,
-  readSafeAreaInsets,
-  safeAreaInsetStyle,
-} from "@seed-design/dom-utils";
+import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 
 const MIN_HEIGHT = 200;
@@ -36,9 +29,19 @@ const MIN_HEIGHT = 200;
 // top<->bottom, and the synchronous reposition re-renders pinned the main thread.
 // Folding the insets into the collision boundary instead keeps placement stable.
 //
-// So the positioner re-declares the insets from env() via `safeAreaInsetStyle` and the
-// collision padding reads them back as px, which also keeps this layer self-contained
-// from the global SEED safe-area tokens.
+// So, like Snackbar's `useSafeOffset`, the positioner re-declares the insets from
+// env() here and the hook reads them back as px (see the effect after useFloating),
+// which also keeps this layer self-contained from the global SEED safe-area tokens.
+const SAFE_AREA_STYLE = {
+  "--seed-safe-area-top": "env(safe-area-inset-top)",
+  "--seed-safe-area-right": "env(safe-area-inset-right)",
+  "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
+  "--seed-safe-area-left": "env(safe-area-inset-left)",
+} as React.CSSProperties;
+
+const SIDES = ["top", "right", "bottom", "left"] as const satisfies readonly Side[];
+
+const ZERO_INSETS: Record<Side, number> = { top: 0, right: 0, bottom: 0, left: 0 };
 
 function getTransformOrigin(placement: string) {
   const [side, align] = placement.split("-");
@@ -176,21 +179,17 @@ export function useMenu(props: UseMenuProps) {
     matchReferenceWidth = false,
   } = props;
 
+  const [safeArea, setSafeArea] = useState(ZERO_INSETS);
+
   // Inset the viewport collision boundary so flip/size/shift keep the menu clear of
   // the notch, home indicator and side insets, not just the viewport edge.
   // overflowPadding is measured from the safe area's boundary, so it keeps the same gap
   // from what's visible whether or not an edge has an inset.
-  // host는 resize 없이 inset을 바꿀 수 있어서, 위치를 계산할 때마다 positioner의 inset을
-  // 새로 읽어요.
-  const collisionPadding = ({ elements }: MiddlewareState) => {
-    const insets = readSafeAreaInsets(elements.floating);
-
-    return {
-      top: insets.top + overflowPadding,
-      right: insets.right + overflowPadding,
-      bottom: insets.bottom + overflowPadding,
-      left: insets.left + overflowPadding,
-    };
+  const collisionPadding = {
+    top: safeArea.top + overflowPadding,
+    right: safeArea.right + overflowPadding,
+    bottom: safeArea.bottom + overflowPadding,
+    left: safeArea.left + overflowPadding,
   };
 
   const setOpen = useCallback(
@@ -240,8 +239,8 @@ export function useMenu(props: UseMenuProps) {
     placement,
     middleware: [
       offset(gutter),
-      size((state) => ({
-        padding: collisionPadding(state),
+      size({
+        padding: collisionPadding,
         apply({ availableHeight, rects, elements }) {
           elements.floating.style.setProperty(
             "--seed-menu-available-height",
@@ -254,12 +253,9 @@ export function useMenu(props: UseMenuProps) {
             );
           }
         },
-      })),
-      flip((state) => ({
-        padding: collisionPadding(state),
-        fallbackStrategy: "initialPlacement",
-      })),
-      shift((state) => ({ padding: collisionPadding(state) })),
+      }),
+      flip({ padding: collisionPadding, fallbackStrategy: "initialPlacement" }),
+      shift({ padding: collisionPadding }),
     ],
   });
 
@@ -280,14 +276,38 @@ export function useMenu(props: UseMenuProps) {
     );
   }, [mounted, floatingRefs.reference, floatingRefs.floating, context]);
 
-  // floating-ui는 위치를 확정할 때마다 `context`를 새로 만들지만 `update`는 그대로예요.
-  const { update } = context;
+  // Read the env()-resolved insets off the positioner, which carries the env()
+  // declarations via SAFE_AREA_STYLE. Key on the reactive `elements.floating`, not
+  // `refs.floating`: the ref object's identity never changes, so an effect depending
+  // on it runs only once at mount — before FloatingPortal has committed the positioner
+  // child — reads a null ref, bails, and never re-fires, leaving `safeArea` stuck at
+  // zeros. `elements.floating` updates when the positioner mounts (it stays mounted
+  // even while closed), so the insets are read before the first open and the menu
+  // clears the safe area on its first frame. Re-read on resize for orientation changes.
+  const floatingElement = context.elements.floating;
 
   useEffect(() => {
-    if (!mounted) return;
+    if (!floatingElement) return;
 
-    return observeSafeAreaInsets(update);
-  }, [mounted, update]);
+    const read = () => {
+      const styles = getComputedStyle(floatingElement);
+      const inset = (side: Side) =>
+        Number.parseInt(styles.getPropertyValue(`--seed-safe-area-${side}`), 10) || 0;
+      const next = {
+        top: inset("top"),
+        right: inset("right"),
+        bottom: inset("bottom"),
+        left: inset("left"),
+      };
+
+      setSafeArea((prev) => (SIDES.every((side) => prev[side] === next[side]) ? prev : next));
+    };
+
+    read();
+    window.addEventListener("resize", read);
+
+    return () => window.removeEventListener("resize", read);
+  }, [floatingElement]);
 
   const click = useClick(context, {
     enabled: !disabled,
@@ -361,7 +381,7 @@ export function useMenu(props: UseMenuProps) {
 
     positionerProps: elementProps({
       ...stateProps,
-      style: { ...safeAreaInsetStyle, ...floatingStyles },
+      style: { ...SAFE_AREA_STYLE, ...floatingStyles },
     }),
 
     contentProps: elementProps({

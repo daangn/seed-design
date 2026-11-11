@@ -6,20 +6,31 @@ import {
   size,
   useFloating,
   useTransitionStatus,
-  type MiddlewareState,
   type OpenChangeReason,
   type Placement,
+  type Side,
 } from "@floating-ui/react";
-import {
-  observeSafeAreaInsets,
-  readSafeAreaInsets,
-  safeAreaInsetStyle,
-} from "@seed-design/dom-utils";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type * as React from "react";
 import type { SelectOpenChangeDetails } from "./useSelect";
 
 const MIN_HEIGHT = 200;
+
+// flip/size/shift derive collisions from numeric padding, so the safe-area insets
+// have to reach floating-ui as numbers — a CSS env() value alone can't. The
+// positioner re-declares the insets from env() here and the hook reads them back
+// as px (see the effect after useFloating), which keeps this layer self-contained
+// from the global SEED safe-area tokens.
+const SAFE_AREA_STYLE = {
+  "--seed-safe-area-top": "env(safe-area-inset-top)",
+  "--seed-safe-area-right": "env(safe-area-inset-right)",
+  "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
+  "--seed-safe-area-left": "env(safe-area-inset-left)",
+} as React.CSSProperties;
+
+const SIDES = ["top", "right", "bottom", "left"] as const satisfies readonly Side[];
+
+const ZERO_INSETS: Record<Side, number> = { top: 0, right: 0, bottom: 0, left: 0 };
 
 function getTransformOrigin(placement: string) {
   const [side, align] = placement.split("-");
@@ -79,23 +90,17 @@ export function useSelectFloating(props: UseSelectFloatingProps) {
     strategy = "absolute",
   } = props;
 
-  // flip/size/shift derive collisions from numeric padding, so the safe-area insets
-  // have to reach floating-ui as numbers — a CSS env() value alone can't. Inset the
-  // viewport collision boundary so they keep the listbox clear of the notch, home
-  // indicator and side insets, not just the viewport edge.
+  const [safeArea, setSafeArea] = useState(ZERO_INSETS);
+
+  // Inset the viewport collision boundary so flip/size/shift keep the listbox clear
+  // of the notch, home indicator and side insets, not just the viewport edge.
   // overflowPadding is measured from the safe area's boundary, so it keeps the same gap
   // from what's visible whether or not an edge has an inset.
-  // positioner는 `safeAreaInsetStyle`로 inset을 다시 선언해요. host는 resize 없이 inset을
-  // 바꿀 수 있어서, 위치를 계산할 때마다 그 값을 새로 읽어요.
-  const collisionPadding = ({ elements }: MiddlewareState) => {
-    const insets = readSafeAreaInsets(elements.floating);
-
-    return {
-      top: insets.top + overflowPadding,
-      right: insets.right + overflowPadding,
-      bottom: insets.bottom + overflowPadding,
-      left: insets.left + overflowPadding,
-    };
+  const collisionPadding = {
+    top: safeArea.top + overflowPadding,
+    right: safeArea.right + overflowPadding,
+    bottom: safeArea.bottom + overflowPadding,
+    left: safeArea.left + overflowPadding,
   };
 
   // Every other open/close runs through our own handlers; the one state change
@@ -135,13 +140,10 @@ export function useSelectFloating(props: UseSelectFloatingProps) {
     placement,
     middleware: [
       offset(gutter),
-      flip((state) => ({
-        padding: collisionPadding(state),
-        fallbackStrategy: "initialPlacement",
-      })),
-      shift((state) => ({ padding: collisionPadding(state) })),
-      size((state) => ({
-        padding: collisionPadding(state),
+      flip({ padding: collisionPadding, fallbackStrategy: "initialPlacement" }),
+      shift({ padding: collisionPadding }),
+      size({
+        padding: collisionPadding,
         apply({ availableHeight, rects, elements }) {
           elements.floating.style.setProperty(
             "--seed-select-available-height",
@@ -152,7 +154,7 @@ export function useSelectFloating(props: UseSelectFloatingProps) {
             `${rects.reference.width}px`,
           );
         },
-      })),
+      }),
     ],
   });
 
@@ -169,11 +171,11 @@ export function useSelectFloating(props: UseSelectFloatingProps) {
   // the trigger even while the listbox is animating out.
   const mounted = status !== "unmounted";
 
-  // Key the autoUpdate effect on the reactive `elements`, not `refs.*`: the ref objects'
+  // Key the effects below on the reactive `elements`, not `refs.*`: the ref objects'
   // identity never changes, so an effect depending on them runs only once at mount —
   // before FloatingPortal has committed the positioner child — reads a null ref, bails,
   // and never re-fires. `elements` updates when each element attaches (the positioner
-  // stays mounted even while closed), so the effect runs against real nodes.
+  // stays mounted even while closed), so both effects run against real nodes.
   const referenceElement = context.elements.reference;
   const floatingElement = context.elements.floating;
 
@@ -189,17 +191,36 @@ export function useSelectFloating(props: UseSelectFloatingProps) {
     return autoUpdate(referenceElement, floatingElement, update);
   }, [mounted, referenceElement, floatingElement, update]);
 
+  // Read the env()-resolved insets off the positioner, which carries the env()
+  // declarations via SAFE_AREA_STYLE. Re-read on resize for orientation changes.
   useEffect(() => {
-    if (!mounted) return;
+    if (!floatingElement) return;
 
-    return observeSafeAreaInsets(update);
-  }, [mounted, update]);
+    const read = () => {
+      const styles = getComputedStyle(floatingElement);
+      const inset = (side: Side) =>
+        Number.parseInt(styles.getPropertyValue(`--seed-safe-area-${side}`), 10) || 0;
+      const next = {
+        top: inset("top"),
+        right: inset("right"),
+        bottom: inset("bottom"),
+        left: inset("left"),
+      };
+
+      setSafeArea((prev) => (SIDES.every((side) => prev[side] === next[side]) ? prev : next));
+    };
+
+    read();
+    window.addEventListener("resize", read);
+
+    return () => window.removeEventListener("resize", read);
+  }, [floatingElement]);
 
   return {
     context,
     status,
     transformOrigin: getTransformOrigin(context.placement),
-    positionerStyle: { ...safeAreaInsetStyle, ...floatingStyles } as React.CSSProperties,
+    positionerStyle: { ...SAFE_AREA_STYLE, ...floatingStyles } as React.CSSProperties,
 
     refs: {
       trigger: (node: HTMLElement | null) => floatingRefs.setReference(node),
