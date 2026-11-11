@@ -36,6 +36,7 @@ export {
   AttachmentDisplayItemImage,
   AttachmentDisplayItemMetadata,
   AttachmentDisplayItemRemoveButton,
+  AttachmentDisplayItemReorderHandle,
   AttachmentDisplayItemThumbnail,
   type AttachmentDisplayItemActionButtonProps,
   type AttachmentDisplayItemBackdropProps,
@@ -44,6 +45,7 @@ export {
   type AttachmentDisplayItemMetadataProps,
   type AttachmentDisplayItemProps,
   type AttachmentDisplayItemRemoveButtonProps,
+  type AttachmentDisplayItemReorderHandleProps,
   type AttachmentDisplayItemThumbnailProps,
 } from "./AttachmentDisplayItem";
 

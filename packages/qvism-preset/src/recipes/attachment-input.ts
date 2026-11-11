@@ -148,6 +148,7 @@ const attachmentInputItem = defineSlotRecipe({
     "backdrop",
     "actionButton",
     "removeButton",
+    "reorderHandle",
   ],
   base: {
     root: {
@@ -183,15 +184,21 @@ const attachmentInputItem = defineSlotRecipe({
         ...removeButtonMask,
       },
 
+      [pseudo("[data-reorderable]", not("[data-dragging]"), not("[data-readonly]"))]: {
+        cursor: "grab",
+      },
+
+      // Snippets copied before ItemReorderHandle existed make the root itself the dnd-kit
+      // activator, which carries role="button" and aria-grabbed. Those copies can outlive
+      // package upgrades.
       [pseudo("[role='button']", not("[aria-grabbed=true]"), not("[data-readonly]"))]: {
         cursor: "grab",
       },
 
-      // Shrinks the whole item while it is being dragged (dnd-kit sets
-      // [aria-grabbed=true]). The individual `scale` composes with the
-      // `transform: translate` dnd-kit applies to move the item instead of
-      // clobbering it.
-      [pseudo("[aria-grabbed=true]")]: {
+      // Shrinks the whole item while it is being dragged. The individual `scale`
+      // composes with the `transform: translate` dnd-kit applies to move the item
+      // instead of clobbering it.
+      [pseudo(":is([aria-grabbed=true], [data-dragging])")]: {
         ...createScaleFeedbackStyles(),
 
         // Disable the remove button mask while dragging — see the slot's
@@ -341,13 +348,30 @@ const attachmentInputItem = defineSlotRecipe({
         }),
       },
 
-      // dnd-kit's useSortable sets [aria-grabbed=true] directly on the root <li>
-      // and headless does not expose this state, so child slots can only react
-      // via an ancestor selector. While dragging the mask is also disabled (size: 0),
-      // so we hide the button to keep the interaction and visuals consistent.
-      "[aria-grabbed=true] &": {
+      // `dragging` emits data-dragging on the root; aria-grabbed covers snippets where the
+      // root itself is the dnd-kit activator. Hide the remove button because the root also
+      // disables its matching mask cutout.
+      ":is([aria-grabbed=true], [data-dragging]) &": {
         display: "none",
       },
+    },
+    reorderHandle: {
+      position: "absolute",
+      inset: 0,
+
+      // PointerSensor listens on the item root as well, so the full-size keyboard handle
+      // does not need to intercept pointer hit-testing over the item's contents.
+      pointerEvents: "none",
+
+      border: "none",
+      padding: 0,
+      background: "transparent",
+      borderRadius: "inherit",
+      cursor: "inherit",
+      transition: FOCUS_RING_TRANSITION,
+
+      ...createFocusRingRestStyles(),
+      [pseudo(focusVisible)]: createFocusRingStyles(),
     },
   },
   variants: {
@@ -372,7 +396,7 @@ const attachmentInputItem = defineSlotRecipe({
             }),
           },
 
-          "[aria-grabbed=true] &": {
+          ":is([aria-grabbed=true], [data-dragging]) &": {
             ...onlyIcon({
               color: itemVars.typeFile.dragging.thumbnailIcon.color,
             }),
@@ -388,7 +412,7 @@ const attachmentInputItem = defineSlotRecipe({
             color: itemVars.typeFile.readonly.name.color,
           },
 
-          "[aria-grabbed=true] &": {
+          ":is([aria-grabbed=true], [data-dragging]) &": {
             color: itemVars.typeFile.dragging.name.color,
           },
         },
@@ -397,7 +421,7 @@ const attachmentInputItem = defineSlotRecipe({
             color: itemVars.typeFile.readonly.size.color,
           },
 
-          "[aria-grabbed=true] &": {
+          ":is([aria-grabbed=true], [data-dragging]) &": {
             color: itemVars.typeFile.dragging.size.color,
           },
         },
@@ -429,7 +453,7 @@ const attachmentInputItem = defineSlotRecipe({
             opacity: itemVars.typeImage.readonly.root.opacity,
           },
 
-          [pseudo("[aria-grabbed=true]")]: {
+          [pseudo(":is([aria-grabbed=true], [data-dragging])")]: {
             opacity: itemVars.typeImage.dragging.root.opacity,
           },
         },
