@@ -269,8 +269,8 @@
   --seed-color-bg-neutral-solid-muted-pressed: var(--seed-color-palette-gray-900);
   --seed-color-bg-neutral-subtle: var(--seed-color-palette-gray-00);
   --seed-color-bg-neutral-weak: var(--seed-color-palette-gray-200);
-  --seed-color-bg-neutral-weak-alpha: var(--seed-color-palette-static-black-alpha-200);
-  --seed-color-bg-neutral-weak-alpha-pressed: var(--seed-color-palette-static-black-alpha-300);
+  --seed-color-bg-neutral-weak-alpha: var(--seed-color-palette-gray-alpha-200);
+  --seed-color-bg-neutral-weak-alpha-pressed: var(--seed-color-palette-gray-alpha-300);
   --seed-color-bg-neutral-weak-pressed: var(--seed-color-palette-gray-300);
   --seed-color-bg-overlay: var(--seed-color-palette-static-black-alpha-700);
   --seed-color-bg-overlay-muted: var(--seed-color-palette-static-black-alpha-500);
@@ -501,8 +501,8 @@
   --seed-color-bg-neutral-solid-muted-pressed: var(--seed-color-palette-gray-500);
   --seed-color-bg-neutral-subtle: var(--seed-color-palette-gray-100);
   --seed-color-bg-neutral-weak: var(--seed-color-palette-gray-300);
-  --seed-color-bg-neutral-weak-alpha: var(--seed-color-palette-static-white-alpha-200);
-  --seed-color-bg-neutral-weak-alpha-pressed: var(--seed-color-palette-static-white-alpha-300);
+  --seed-color-bg-neutral-weak-alpha: var(--seed-color-palette-gray-alpha-200);
+  --seed-color-bg-neutral-weak-alpha-pressed: var(--seed-color-palette-gray-alpha-300);
   --seed-color-bg-neutral-weak-pressed: var(--seed-color-palette-gray-400);
   --seed-color-bg-overlay: var(--seed-color-palette-static-black-alpha-700);
   --seed-color-bg-overlay-muted: var(--seed-color-palette-static-black-alpha-500);
