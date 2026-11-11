@@ -2,7 +2,7 @@ import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 import { File, Files, Folder } from "fumadocs-ui/components/files";
 import { Heading } from "fumadocs-ui/components/heading";
 import { Step, Steps } from "fumadocs-ui/components/steps";
-import type { ComponentType, ReactNode } from "react";
+import { type ComponentType, Fragment, type ReactNode } from "react";
 import { Accordion, Accordions } from "@/components/accordion";
 import { BlockPreview } from "@/components/block-preview";
 import {
@@ -88,7 +88,8 @@ export function MdxIsland({ tree, ...slots }: MdxIslandProps) {
 
   const render = (node: MdxIslandNode, key: number): ReactNode => {
     if (typeof node === "string") return node;
-    if (!Array.isArray(node)) return slots[node.slot] as ReactNode;
+    // 형제 배열 안에 놓이므로 key가 필요하다.
+    if (!Array.isArray(node)) return <Fragment key={key}>{slots[node.slot] as ReactNode}</Fragment>;
 
     const [name, props, ...children] = node;
     const Component = islandComponents[name];
