@@ -70,7 +70,8 @@ function isIslandComponent(node: HastNode): boolean {
 function isBlank(node: HastNode): boolean {
   if (node.type === "text") return node.value.trim() === "";
   if (node.type === "mdxFlowExpression" || node.type === "mdxTextExpression") {
-    return /^(?:\s|\/\*[\s\S]*?\*\/)*$/.test(node.value);
+    // `{/* 주석 */}`만 든 expression. 주석을 지우고 남는 것이 있는지 본다.
+    return node.value.replace(/\/\*[\s\S]*?\*\//g, "").trim() === "";
   }
   return false;
 }
