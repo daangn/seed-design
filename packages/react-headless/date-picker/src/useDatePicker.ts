@@ -2,7 +2,7 @@
 
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
-import { ariaAttr, dataAttr, elementProps } from "@seed-design/dom-utils";
+import { ariaAttr, buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import * as React from "react";
 import {
   addDays,
@@ -699,7 +699,7 @@ export function useDatePicker(props: UseDatePickerProps) {
           "aria-selected": ariaAttr(selectionState.isSelected),
           ...stateProps,
         }),
-        buttonProps: {
+        buttonProps: buttonProps({
           type: "button",
           tabIndex: disabled ? -1 : focused ? 0 : -1,
           disabled,
@@ -767,7 +767,7 @@ export function useDatePicker(props: UseDatePickerProps) {
             event.preventDefault();
             moveFocus(nextDate);
           },
-        },
+        }),
       };
     },
     [

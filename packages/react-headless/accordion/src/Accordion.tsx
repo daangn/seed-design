@@ -76,9 +76,9 @@ export interface AccordionHeaderProps extends React.HTMLAttributes<HTMLHeadingEl
  */
 export const AccordionHeader = forwardRef<HTMLHeadingElement, AccordionHeaderProps>(
   ({ headingLevel = 3, ...props }, ref) => {
-    const Comp = `h${headingLevel}` as keyof React.JSX.IntrinsicElements;
+    const Comp = `h${headingLevel}` as const;
 
-    return <Comp ref={ref as React.ForwardedRef<any>} {...props} />;
+    return <Comp ref={ref} {...props} />;
   },
 );
 AccordionHeader.displayName = "AccordionHeader";
