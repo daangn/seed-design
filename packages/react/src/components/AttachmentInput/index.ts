@@ -30,6 +30,7 @@ export {
   AttachmentInputItemMetadata,
   AttachmentInputItemName,
   AttachmentInputItemRemoveButton,
+  AttachmentInputItemReorderHandle,
   AttachmentInputItemSize,
   AttachmentInputItemThumbnail,
   type AttachmentInputItemActionButtonProps,
@@ -40,6 +41,7 @@ export {
   type AttachmentInputItemNameProps,
   type AttachmentInputItemProps,
   type AttachmentInputItemRemoveButtonProps,
+  type AttachmentInputItemReorderHandleProps,
   type AttachmentInputItemSizeProps,
   type AttachmentInputItemThumbnailProps,
 } from "./AttachmentInputItem";
