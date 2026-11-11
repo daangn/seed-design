@@ -1,5 +1,14 @@
 # @seed-design/lynx-react
 
+## 1.2.2
+
+### Patch Changes
+
+- 5830218: Text Field의 `maxGraphemeCount` 글자 수 계산에 쓰는 `unicode-segmenter`를 0.17로 업데이트합니다. 계산 속도가 빨라지고, 일부 이모지·인도계 문자 조합의 글자 경계가 `Intl.Segmenter`와 다르게 계산되던 문제가 수정됩니다.
+- b1f2121: Lynx `FloatingActionButton`의 `extended`를 `false`에서 `true`로 바꾸면 펼침 애니메이션이 중간에 멈칫하던 문제를 수정합니다.
+- Updated dependencies [5830218]
+  - @seed-design/lynx-react-text-field@1.2.2
+
 ## 1.2.1
 
 ### Patch Changes

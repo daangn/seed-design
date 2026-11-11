@@ -171,7 +171,7 @@
     },
     "ecosystem/figma-extractor": {
       "name": "@seed-design/figma-extractor",
-      "version": "2.0.0",
+      "version": "2.0.1",
       "bin": {
         "figma-extractor": "./bin/index.mjs",
       },
@@ -514,7 +514,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "2.1.0",
+      "version": "3.0.1",
       "dependencies": {
         "change-case": "^5.4.4",
         "ts-pattern": "^5.7.0",
@@ -523,7 +523,7 @@
         "@figma/plugin-typings": "^1.130.0",
         "@figma/rest-api-spec": "^0.47.0",
         "@karrotmarket/icon-data": "^1.34.0",
-        "@seed-design/figma-extractor": "^2.0.0",
+        "@seed-design/figma-extractor": "^2.0.1",
         "typescript": "^6.0.3",
       },
     },
@@ -551,7 +551,7 @@
     },
     "packages/lynx-react": {
       "name": "@seed-design/lynx-react",
-      "version": "1.2.1",
+      "version": "1.2.2",
       "dependencies": {
         "@lynx-js/lynx-ui-common": "^3.130.0",
         "@seed-design/lynx-react-accordion": "^1.0.1",
@@ -584,7 +584,7 @@
         "@seed-design/lynx-react-slider": "^1.0.1",
         "@seed-design/lynx-react-switch": "^1.0.1",
         "@seed-design/lynx-react-tabs": "^1.1.1",
-        "@seed-design/lynx-react-text-field": "^1.2.1",
+        "@seed-design/lynx-react-text-field": "^1.2.2",
         "@seed-design/lynx-react-toggle": "^1.0.1",
         "@seed-design/lynx-react-use-controllable-state": "^1.0.1",
         "@seed-design/lynx-react-use-press-tap": "^1.0.1",
@@ -1202,7 +1202,7 @@
     },
     "packages/lynx-react-headless/text-field": {
       "name": "@seed-design/lynx-react-text-field",
-      "version": "1.2.1",
+      "version": "1.2.2",
       "dependencies": {
         "@seed-design/lynx-react-field": "^1.0.1",
         "@seed-design/lynx-react-keyboard-avoiding-scroll-view": "^1.0.2",
@@ -1326,11 +1326,11 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "3.0.0",
+      "version": "3.0.1",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/server": "^2.0.0",
-        "@seed-design/figma": "2.1.0",
+        "@seed-design/figma": "3.0.1",
         "cac": "^7.0.0",
         "figma-api": "2.1.4-beta",
         "uuid": "^14.0.0",
@@ -2465,7 +2465,7 @@
       "name": "@seed-design/figma-codegen",
       "version": "0.0.0",
       "dependencies": {
-        "@seed-design/figma": "2.1.0",
+        "@seed-design/figma": "3.0.1",
       },
       "devDependencies": {
         "@create-figma-plugin/build": "^4.0.1",
@@ -2507,7 +2507,7 @@
       "dependencies": {
         "@karrotmarket/react-monochrome-icon": "^1.17.0",
         "@seed-design/css": "3.2.1",
-        "@seed-design/figma": "2.1.0",
+        "@seed-design/figma": "3.0.1",
         "@seed-design/migration-index": "2.0.1",
         "@seed-design/react": "3.2.1",
         "@seed-design/vite-plugin": "2.1.1",
@@ -2564,7 +2564,7 @@
       },
       "devDependencies": {
         "@figma/plugin-typings": "^1.130.0",
-        "@seed-design/figma-extractor": "^2.0.0",
+        "@seed-design/figma-extractor": "^2.0.1",
         "@types/node": "^25.0.0",
         "@types/react": "^19.1.6",
         "@types/react-dom": "^19.1.5",
