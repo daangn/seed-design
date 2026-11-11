@@ -67,7 +67,7 @@ export const SnackbarActionButton = forwardRef<HTMLButtonElement, SnackbarAction
 );
 
 export interface SnackbarAvoidOverlapProps {
-  children: React.ReactElement;
+  children: React.ReactElement<{ ref?: React.Ref<HTMLElement> }>;
 }
 
 export const SnackbarAvoidOverlap = (props: SnackbarAvoidOverlapProps) => {
