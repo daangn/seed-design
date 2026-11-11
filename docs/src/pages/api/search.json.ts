@@ -57,6 +57,14 @@ function buildBreadcrumbs(tree: Root, url: string) {
   return trail.filter((crumb, index) => crumb !== trail[index - 1]);
 }
 
+/**
+ * `structuredData()` loads the page's compiled MDX module. `astro dev` compiles a module when it is
+ * first asked for and keeps it (about 20 MB a page), so indexing every page's body there exhausts
+ * the heap and takes the server down. The dev index covers titles, descriptions and breadcrumbs
+ * only; body text is searchable in a build.
+ */
+const NO_BODY: StructuredData = { headings: [], contents: [] };
+
 /** Map a docs source's pages into search indexes under a single tag. */
 async function indexSource(source: IndexableSource, tag: string): Promise<AdvancedIndex[]> {
   return Promise.all(
@@ -66,7 +74,7 @@ async function indexSource(source: IndexableSource, tag: string): Promise<Advanc
           id: page.url,
           title: page.data.title,
           description: page.data.description,
-          structuredData: await page.data.structuredData(),
+          structuredData: import.meta.env.DEV ? NO_BODY : await page.data.structuredData(),
           breadcrumbs: buildBreadcrumbs(source.pageTree, page.url),
           tag,
           url: page.url,

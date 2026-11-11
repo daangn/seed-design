@@ -44,10 +44,12 @@ const { metadata, viewport = "width=device-width, initial-scale=1" } = Astro.pro
     <Analytics />
   </head>
   <body>
-    <LatestVersionBanner client:load />
-    <ThemeSync client:load />
-    <RecentPagesRecorder client:idle />
+    {/* 아래 넷은 서버에서 아무것도 그리지 않고 브라우저 상태(주소·localStorage·테마)로만 동작한다.
+        `client:load`로 두면 Astro가 렌더러를 고르려고 컴포넌트를 직접 호출해 dev에서 React hook 경고가 난다. */}
+    <LatestVersionBanner client:only="react" />
+    <ThemeSync client:only="react" />
+    <RecentPagesRecorder client:only="react" />
     <slot />
-    <SiteAnnouncementBanner client:load />
+    <SiteAnnouncementBanner client:only="react" />
   </body>
 </html>

@@ -8,7 +8,14 @@ SEED Design System의 통합 문서 사이트입니다. Astro와 Fumadocs를 기
 bun dev
 ```
 
-브라우저에서 <http://localhost:4321>을 엽니다.
+브라우저에서 <http://localhost:3000>을 엽니다.
+
+개발 서버의 검색은 문서 제목과 설명만 찾습니다. 본문까지 검색하려면 빌드한 결과를 띄웁니다.
+
+```bash
+bun run build
+bun run start
+```
 
 ## Docs cold/warm 빌드 측정
 
