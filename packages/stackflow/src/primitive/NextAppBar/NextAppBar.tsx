@@ -44,3 +44,17 @@ export const NextAppBarMain = forwardRef<HTMLDivElement, NextAppBarMainProps>((p
   return <Primitive.div ref={ref} {...props} />;
 });
 NextAppBarMain.displayName = "NextAppBarMain";
+
+export interface NextAppBarAccessoryProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+/** Its height is added to the screen's `--app-bar-offset` while it is mounted. */
+export const NextAppBarAccessory = forwardRef<HTMLDivElement, NextAppBarAccessoryProps>(
+  (props, ref) => {
+    const { refs } = useNextAppBarContext();
+
+    return <Primitive.div ref={composeRefs(refs.accessory, ref)} {...props} />;
+  },
+);
+NextAppBarAccessory.displayName = "NextAppBarAccessory";

@@ -135,7 +135,7 @@ export function CaseRootClose() {
 export function CaseTransparentGradient() {
   return (
     <NextAppScreen contentOffsetTop="none">
-      <NextAppBar tone="transparent">
+      <NextAppBar tone="gradient">
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
@@ -158,7 +158,7 @@ export function CaseTransparentGradient() {
 export function CaseTransparentPale() {
   return (
     <NextAppScreen contentOffsetTop="none">
-      <NextAppBar tone="transparent">
+      <NextAppBar tone="gradient">
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
@@ -397,7 +397,7 @@ export function CaseSwipeClip() {
 export function CaseSwipeTransparent() {
   return (
     <NextAppScreen contentOffsetTop="none">
-      <NextAppBar tone="transparent">
+      <NextAppBar tone="gradient">
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>

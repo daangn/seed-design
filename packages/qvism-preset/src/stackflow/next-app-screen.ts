@@ -139,7 +139,10 @@ export const nextAppScreen = defineSlotRecipe({
       overflow: "hidden",
 
       "--app-bar-height": navVars.base.enabled.root.height,
-      "--app-bar-offset": "calc(var(--app-bar-height) + var(--seed-safe-area-top))",
+      // `--app-bar-accessory-height` is written by `NextAppBar` while it has an
+      // accessory, so content starts below whatever hangs under the bar.
+      "--app-bar-offset":
+        "calc(var(--app-bar-height) + var(--seed-safe-area-top) + var(--app-bar-accessory-height, 0px))",
 
       // The screen takes ONE slot of the activity's 5-wide z-index band, and
       // the z-index makes it a stacking context so every part below is ordered
