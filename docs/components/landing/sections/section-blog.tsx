@@ -1,7 +1,7 @@
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import clsx from "clsx";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "fumadocs-core/link";
 import { RevealText } from "../components/reveal-text";
 import { BLOG_HEADING, BLOG_POSTS, REGIONS, Z } from "../lib/landing-content";
 import { SectionLayer } from "../section-layer";

@@ -1,5 +1,5 @@
-import { getLLMText } from "@/app/_llms/get-llm-text";
-import { getGetStartedSource } from "@/app/source";
+import { getLLMText } from "@/lib/llms/get-llm-text";
+import { getGetStartedSource } from "@/lib/source";
 import { notFound } from "next/navigation";
 
 export const revalidate = false;

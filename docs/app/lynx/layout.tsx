@@ -1,5 +1,5 @@
 import { archivePaths } from "@/lib/docs-archive";
-import { TAGS } from "@/app/api/search/constants";
+import { TAGS } from "@/lib/search-tags";
 import DefaultSearchDialog from "@/components/search/search";
 import { DocsVersionSwitcher } from "@/components/docs-version-switcher";
 import { DocsLayout } from "fumadocs-ui/layouts/notebook";

@@ -3,7 +3,7 @@
 import { ContentPlaceholder } from "@/registry/react/ui/content-placeholder";
 import clsx from "clsx";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "fumadocs-core/link";
 import type { ComponentProps, ReactNode } from "react";
 
 // LinkProps doesn't include classNames and else

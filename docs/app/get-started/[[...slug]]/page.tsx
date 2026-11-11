@@ -1,5 +1,5 @@
-import { getLLMMarkdownUrl } from "@/app/_llms/config";
-import { getGetStartedSource } from "@/app/source";
+import { getLLMMarkdownUrl } from "@/lib/llms/config";
+import { getGetStartedSource } from "@/lib/source";
 import { ProsePage } from "@/components/layout/prose-page";
 import { loadMarkdownPage } from "@/lib/load-markdown-page";
 import { getComponentStatus } from "@/lib/rootage";

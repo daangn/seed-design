@@ -1,6 +1,6 @@
 import { archivePaths } from "@/lib/docs-archive";
-import { baseUrl } from "@/app/metadata";
-import { getLynxSource } from "@/app/source";
+import { baseUrl } from "@/lib/metadata";
+import { getLynxSource } from "@/lib/source";
 
 export const revalidate = false;
 

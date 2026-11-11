@@ -1,5 +1,5 @@
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
-import Link from "next/link";
+import Link from "fumadocs-core/link";
 import { SeedSymbol } from "@/components/layout/seed-symbol";
 import { BrandLogo } from "../brand-logo";
 import { type FooterLink, FOOTER_CONTACT, FOOTER_MENU, FOOTER_MORE } from "../lib/landing-content";

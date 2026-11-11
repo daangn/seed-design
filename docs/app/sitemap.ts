@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { baseUrl } from "@/app/metadata";
+import { baseUrl } from "@/lib/metadata";
 import {
   getDocsSource,
   getGetStartedSource,
@@ -11,7 +11,7 @@ import {
   getLynxSource,
   getAiIntegrationSource,
   getUpdatesSource,
-} from "@/app/source";
+} from "@/lib/source";
 import { getMarkdownPageLastModified } from "@/lib/git-timestamps";
 
 export const dynamic = "force-static";

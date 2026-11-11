@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "full": {
+      "type": "boolean"
+    },
+    "_openapi": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {}
+    },
+    "_asyncapi": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {}
+    },
+    "deprecated": {
+      "type": "boolean"
+    },
+    "layout": {
+      "default": "docs",
+      "type": "string",
+      "enum": [
+        "docs",
+        "overview"
+      ]
+    },
+    "featured": {
+      "type": "boolean"
+    },
+    "coverImageFigmaId": {
+      "type": "string"
+    },
+    "coverImage": {
+      "type": "string"
+    },
+    "heading": {
+      "type": "string"
+    },
+    "componentIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title"
+  ]
+}

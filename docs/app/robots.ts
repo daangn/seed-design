@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { baseUrl } from "@/app/metadata";
+import { baseUrl } from "@/lib/metadata";
 
 // output: "export" 환경이므로 빌드 시 out/robots.txt로 떨어져야 한다.
 export const dynamic = "force-static";

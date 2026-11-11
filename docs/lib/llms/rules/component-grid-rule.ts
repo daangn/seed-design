@@ -1,5 +1,5 @@
 import type { MdxJsxFlowElement } from "mdast-util-mdx-jsx";
-import { baseUrl } from "@/app/metadata";
+import { baseUrl } from "@/lib/metadata";
 import { getLLMMarkdownUrl } from "../config";
 import { catalogGridManifest } from "./component-grid-manifest";
 import type { Rule } from "./types";

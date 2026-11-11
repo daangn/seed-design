@@ -1,6 +1,6 @@
-import { env } from "@/app/env";
-import { getLLMMarkdownUrl } from "@/app/_llms/config";
-import { getUpdatesSource } from "@/app/source";
+import { env } from "@/lib/env";
+import { getLLMMarkdownUrl } from "@/lib/llms/config";
+import { getUpdatesSource } from "@/lib/source";
 import {
   createFigmaClient,
   fetchFigmaImageUrls,

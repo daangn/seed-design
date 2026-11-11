@@ -1,8 +1,8 @@
 import { archivePaths } from "@/lib/docs-archive";
-import { baseUrl } from "@/app/metadata";
-import type { LLMPage } from "@/app/_llms/types";
-import { getDisplayTitle, sortCategories } from "@/app/_llms/utils";
-import { getReactSource } from "@/app/source";
+import { baseUrl } from "@/lib/metadata";
+import type { LLMPage } from "@/lib/llms/types";
+import { getDisplayTitle, sortCategories } from "@/lib/llms/utils";
+import { getReactSource } from "@/lib/source";
 
 export const revalidate = false;
 

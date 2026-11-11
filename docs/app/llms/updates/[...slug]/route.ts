@@ -1,5 +1,5 @@
-import { createLLMTextRoute } from "@/app/_llms/llms-route";
-import { getUpdatesSource } from "@/app/source";
+import { createLLMTextRoute } from "@/lib/llms/llms-route";
+import { getUpdatesSource } from "@/lib/source";
 
 export const revalidate = false;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname } from "fumadocs-core/framework";
 
 // ponytail: 최상위 IA(8개, layout.config.tsx의 sidebar.tabs를 미러)라 사실상 drift 없음 →
 // 무거운 layout.config(아이콘·JSX 포함)에 결합하지 않고 로컬 맵으로 둔다.

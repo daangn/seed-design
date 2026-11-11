@@ -1,4 +1,4 @@
-import { baseUrl } from "@/app/metadata";
+import { baseUrl } from "@/lib/metadata";
 
 export const revalidate = false;
 

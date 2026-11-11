@@ -1,5 +1,5 @@
-import { baseUrl } from "@/app/metadata";
-import { getBreezeSource } from "@/app/source";
+import { baseUrl } from "@/lib/metadata";
+import { getBreezeSource } from "@/lib/source";
 
 export const revalidate = false;
 

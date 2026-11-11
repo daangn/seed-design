@@ -1,6 +1,5 @@
 import { archivePaths } from "@/lib/docs-archive";
-import type { Metadata } from "next";
-import { baseUrl } from "@/app/metadata";
+import { baseUrl } from "@/lib/metadata";
 import {
   COVER_IMAGE_HEIGHT,
   COVER_IMAGE_WIDTH,
@@ -91,7 +90,7 @@ export function resolveCoverImage(cover: string): {
 
 /**
  * 페이지 URL(`page.url`, 예: `/react/components/action-button`)에서 섹션을 뽑아 폴백 카드를
- * 찾는다. 모든 fumadocs 소스의 baseUrl이 `/` + 섹션명이라(`app/source.tsx`) 첫 경로 세그먼트가
+ * 찾는다. 모든 fumadocs 소스의 baseUrl이 `/` + 섹션명이라(`lib/source.tsx`) 첫 경로 세그먼트가
  * 곧 섹션 키다. 에셋이 실제로 없으면 undefined를 돌려 기본 카드로 떨어뜨린다.
  */
 function resolveSectionOgImage(url?: string): OgImage | undefined {
@@ -109,6 +108,30 @@ function resolveSectionOgImage(url?: string): OgImage | undefined {
     height: COVER_IMAGE_HEIGHT,
     alt: SITE_NAME,
     type: "image/png",
+  };
+}
+
+/** `src/components/SeoHead.astro`가 `<head>` 태그로 옮기는 페이지 메타데이터. */
+export interface SeoMetadata {
+  metadataBase: URL;
+  title?: string;
+  description?: string;
+  alternates?: { canonical: string };
+  openGraph: {
+    type: "website" | "article";
+    publishedTime?: string;
+    siteName: string;
+    locale: string;
+    url?: string;
+    title?: string;
+    description?: string;
+    images: OgImage[];
+  };
+  twitter: {
+    card: "summary_large_image";
+    title?: string;
+    description?: string;
+    images: string[];
   };
 }
 
@@ -148,7 +171,7 @@ export function buildSeoMetadata({
   image = DEFAULT_OG_IMAGE,
   url,
   publishedTime,
-}: SeoInput = {}): Metadata {
+}: SeoInput = {}): SeoMetadata {
   const shared = {
     ...(title !== undefined ? { title } : {}),
     ...(description !== undefined ? { description } : {}),
@@ -220,7 +243,7 @@ export function buildDocsPageMetadata({
   deprecated,
   url,
   publishedTime,
-}: DocsPageMetadataInput): Metadata {
+}: DocsPageMetadataInput): SeoMetadata {
   const displayTitle = deprecatedTitle(heading ?? title, deprecated);
   const cover = coverImage ? resolveCoverImage(coverImage) : null;
 
@@ -242,14 +265,9 @@ export function buildDocsPageMetadata({
  */
 export function buildDocsPageJsonLd(page: {
   url: string;
-  data: {
-    title: string;
-    description?: string;
-    frontmatter: Record<string, unknown> & { heading?: string; publishedAt?: string | Date };
-  };
+  data: { title: string; description?: string; heading?: string; publishedAt?: string | Date };
 }) {
-  const { title, description } = page.data;
-  const { heading, publishedAt } = page.data.frontmatter;
+  const { title, description, heading, publishedAt } = page.data;
   const absoluteUrl = new URL(page.url, baseUrl).toString();
   const datePublished =
     publishedAt instanceof Date ? publishedAt.toISOString() : (publishedAt ?? undefined);

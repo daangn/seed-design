@@ -1,0 +1,52 @@
+---
+import "@/src/styles/layer-order.css";
+import "@seed-design/css/base.layered.css";
+import "simple-reveal/index.css";
+import "@/src/styles/global.css";
+
+import { LatestVersionBanner } from "@/components/latest-version-banner";
+import { RecentPagesRecorder } from "@/components/recent-pages-recorder";
+import { SiteAnnouncementBanner } from "@/components/site-announcement-banner";
+import ThemeSync from "@/components/theme-sync";
+import { archivePaths } from "@/lib/docs-archive";
+import type { SeoMetadata } from "@/lib/seo";
+import Analytics from "@/src/components/Analytics.astro";
+import SeoHead from "@/src/components/SeoHead.astro";
+
+interface Props {
+  metadata: SeoMetadata;
+}
+
+const { metadata } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ko" data-seed data-seed-user-color-scheme="light" data-seed-color-mode="system">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <SeoHead metadata={metadata} />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href={archivePaths.asset("/favicon.ico")} sizes="32x32" />
+    <link rel="icon" href={archivePaths.asset("/favicon.svg")} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={archivePaths.asset("/apple-touch-icon.png")} />
+    <link rel="manifest" href={archivePaths.asset("/site.webmanifest")} />
+    {/* Pretendard (dynamic-subset variable weight 100–900). Rebrand PoC font,
+        served from jsDelivr for now — self-host before daangn/prod. Applied as the
+        base font-family in src/styles/global.css. */}
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="anonymous" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
+    />
+    <slot name="head" />
+    <Analytics />
+  </head>
+  <body>
+    <LatestVersionBanner client:load />
+    <ThemeSync client:load />
+    <RecentPagesRecorder client:idle />
+    <slot />
+    <SiteAnnouncementBanner client:load />
+  </body>
+</html>

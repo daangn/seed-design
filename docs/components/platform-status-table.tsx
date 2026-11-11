@@ -6,7 +6,7 @@ import { isExternalUrl } from "@/lib/url";
 import { IconCheckmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import { Icon } from "@seed-design/react";
-import Link from "next/link";
+import Link from "fumadocs-core/link";
 import { Fragment } from "react";
 
 interface PlatformStatusTableProps {

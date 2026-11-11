@@ -10,18 +10,23 @@ interface ComponentPreviewProps {
   safeAreaInsets?: PreviewSafeAreaInsets;
 }
 
+// 예제는 이름으로 고르므로 번들러가 미리 알 수 있게 후보를 glob으로 등록하고, 실제 import는 지연한다.
+const examples = import.meta.glob<{ default: React.ComponentType }>([
+  "../examples/react/**/*.tsx",
+  "../examples/breeze/**/*.tsx",
+]);
+
 export function ComponentPreview(props: ComponentPreviewProps) {
   const { name, isolate, safeAreaInsets } = props;
 
   const Preview = React.useMemo(() => {
     const [platform, ...pathSegments] = name.split("/");
     const examplePath = pathSegments.join("/");
-    const Component =
-      platform === "react"
-        ? React.lazy(() => import(`../examples/react/${examplePath}.tsx`))
-        : platform === "breeze"
-          ? React.lazy(() => import(`../examples/breeze/${examplePath}.tsx`))
-          : undefined;
+    const load =
+      platform === "react" || platform === "breeze"
+        ? examples[`../examples/${platform}/${examplePath}.tsx`]
+        : undefined;
+    const Component = load ? React.lazy(load) : undefined;
 
     if (!Component) {
       return <div>컴포넌트가 존재하지 않습니다.</div>;

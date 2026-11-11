@@ -13,7 +13,7 @@ Next.js·Fumadocs 기반 SEED 문서 사이트다. `content/`가 문서 원천�
 
 - `content/` 아래에는 `AGENTS.md`를 두지 않는다. Fumadocs가 문서 콘텐츠로 인식한다 → 콘텐츠 규칙은 이 파일에 쓴다.
 - 문서 영역을 추가하거나 문서를 이동·이름 변경·삭제하면 `packages/docs-mcp/src/config.ts`의 `SECTIONS` 매핑을 함께 고친다.
-- 새 MDX 컴포넌트를 문서에 도입하면 `app/_llms/AGENTS.md` 절차로 룰과 fixture를 추가한다. 문서 내용만 바꿀 때는 해당하지 않는다.
+- 새 MDX 컴포넌트를 문서에 도입하면 `lib/llms/AGENTS.md` 절차로 룰과 fixture를 추가한다. 문서 내용만 바꿀 때는 해당하지 않는다.
 
 ### MDX 작성
 
@@ -46,7 +46,7 @@ Next.js·Fumadocs 기반 SEED 문서 사이트다. `content/`가 문서 원천�
 - utility가 없는 자리는 v4 축약 문법으로 넘긴다: `bg-[var(--x)]` 대신 `bg-(--x)`, fallback은 `right-(--x,0px)`.
 - `font-`·`text-`처럼 한 namespace가 여러 속성에 걸리면 타입을 붙인다: `font-(family-name:--x)`, `text-(length:--x)`.
 
-### `app/global.css`
+### `src/styles/global.css`
 
 - 컴포넌트·위젯 전용 스타일은 넣지 않는다 → 해당 컴포넌트의 Tailwind `className`으로 처리한다. `global.css`에는 빌드 설정, 디자인 토큰, 루트 요소, 외부 라이브러리, 문서 전체 reset·타이포만 둔다.
 - recipe override에 전역 `!important`를 쓰지 않는다 → 상태는 inline style이나 component-local Tailwind로, 마크다운 자식 selector는 `components/mdx-components.tsx`나 component-local selector로 처리한다.

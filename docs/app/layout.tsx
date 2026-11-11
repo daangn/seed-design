@@ -35,7 +35,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <link rel="manifest" href={archivePaths.asset("/site.webmanifest")} />
         {/* Pretendard (dynamic-subset variable weight 100–900). Rebrand PoC font,
             served from jsDelivr for now — self-host before daangn/prod. Applied as the
-            base font-family in app/global.css. */}
+            base font-family in src/styles/global.css. */}
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
         <link
           rel="stylesheet"

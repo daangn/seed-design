@@ -1,6 +1,6 @@
 import { archivePaths } from "@/lib/docs-archive";
-import { getLLMMarkdownUrl } from "@/app/_llms/config";
-import { getLynxSource } from "@/app/source";
+import { getLLMMarkdownUrl } from "@/lib/llms/config";
+import { getLynxSource } from "@/lib/source";
 import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
 import { LynxCompatibilityBadges } from "@/components/lynx-compatibility";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";

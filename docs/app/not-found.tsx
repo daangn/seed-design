@@ -8,7 +8,7 @@ import { getDocsSource, getLynxSource, getReactSource } from "./source";
 import { DOCS_PAGE_CONTENT_ID } from "@/components/layout/docs-page-content-id";
 import { NoSidebarDocsLayout } from "@/components/layout/no-sidebar-docs-layout";
 import DefaultSearchDialog from "@/components/search/search";
-import { TAGS } from "@/app/api/search/constants";
+import { TAGS } from "@/lib/search-tags";
 
 export default async function NotFound() {
   const docsSource = await (archivePaths.platform === "lynx"

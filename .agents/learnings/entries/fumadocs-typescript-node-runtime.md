@@ -1,7 +1,7 @@
 ---
 id: fumadocs-typescript-node-runtime
 description: "fumadocs-typescript 5.6 이상(TypeScript 7 sync API)을 쓰는 docs type table generator를 Bun에서 실행하거나 테스트할 때, 또는 `bun test`에서 `stdout._handle.fd` TypeError·`SyncRpcChannel` 오류를 조사할 때 읽는다. Next.js 빌드(Node)에서는 정상이고 Bun 런타임에서만 실패하는 조건과, 테스트에서 generator를 Node로 돌리는 방법, 선언 경로 대소문자 차이를 다룬다."
-scope: ["docs/components/type-table/**", "docs/app/source.tsx"]
+scope: ["docs/components/type-table/**", "docs/lib/source.tsx"]
 status: active
 ---
 

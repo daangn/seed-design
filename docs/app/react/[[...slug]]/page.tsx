@@ -1,6 +1,6 @@
 import { archivePaths } from "@/lib/docs-archive";
-import { getLLMMarkdownUrl } from "@/app/_llms/config";
-import { getReactSource } from "@/app/source";
+import { getLLMMarkdownUrl } from "@/lib/llms/config";
+import { getReactSource } from "@/lib/source";
 import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { loadMarkdownPage } from "@/lib/load-markdown-page";

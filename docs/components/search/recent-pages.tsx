@@ -3,7 +3,7 @@
 import { Autocomplete } from "@base-ui/react/autocomplete";
 import clsx from "clsx";
 import { useSearch } from "fumadocs-ui/components/dialog/search";
-import { useRouter } from "next/navigation";
+import { useRouter } from "fumadocs-core/framework";
 import type { RecentPage } from "@/hooks/useRecentPages";
 import { Breadcrumbs, ROW_ACTIVE_CLASS_NAME, ROW_CLASS_NAME } from "./row";
 

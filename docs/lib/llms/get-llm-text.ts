@@ -15,7 +15,7 @@ import { getPlatformStatusMarkdown } from "./rules/platform-status-rule";
 async function platformStatusBlock(page: LLMPage, section: Section): Promise<string> {
   if (section !== "components") return "";
   const slugId = page.slugs.at(-1);
-  const componentIds = page.data.frontmatter.componentIds ?? (slugId ? [slugId] : []);
+  const componentIds = page.data.componentIds ?? (slugId ? [slugId] : []);
   if (componentIds.length === 0) return "";
   const table = await getPlatformStatusMarkdown(componentIds);
   return table ? `${table}\n\n` : "";
@@ -42,7 +42,7 @@ export async function getLLMText(page: LLMPage, section: Section): Promise<strin
   const sourceUrl = getGitHubSourceUrl(section, page.path);
   const platformStatus = await platformStatusBlock(page, section);
   const lynxCompatibility = getLynxCompatibilityBlock(
-    page.data.frontmatter.compatibility?.lynx,
+    page.data.compatibility?.lynx,
     section,
   );
 

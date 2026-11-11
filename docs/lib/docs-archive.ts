@@ -1,5 +1,5 @@
-// This value is embedded by Next.js. An unset value keeps the existing Pages build unchanged.
-const DOCS_ARCHIVE_CHANNEL = process.env.NEXT_PUBLIC_DOCS_ARCHIVE_CHANNEL ?? "";
+// Vite embeds this value (`envPrefix`). An unset value keeps the existing Pages build unchanged.
+const DOCS_ARCHIVE_CHANNEL = import.meta.env.NEXT_PUBLIC_DOCS_ARCHIVE_CHANNEL ?? "";
 
 export type ArchivePlatform = "react" | "lynx";
 

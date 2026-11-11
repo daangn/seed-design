@@ -1,5 +1,5 @@
-import { getLLMMarkdownUrl } from "@/app/_llms/config";
-import { getBreezeSource } from "@/app/source";
+import { getLLMMarkdownUrl } from "@/lib/llms/config";
+import { getBreezeSource } from "@/lib/source";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { loadMarkdownPage } from "@/lib/load-markdown-page";
 import { buildDocsPageJsonLd, buildDocsPageMetadata } from "@/lib/seo";

@@ -1,7 +1,7 @@
-import { baseUrl } from "@/app/metadata";
-import type { LLMPage } from "@/app/_llms/types";
-import { sortCategories } from "@/app/_llms/utils";
-import { getAiIntegrationSource } from "@/app/source";
+import { baseUrl } from "@/lib/metadata";
+import type { LLMPage } from "@/lib/llms/types";
+import { sortCategories } from "@/lib/llms/utils";
+import { getAiIntegrationSource } from "@/lib/source";
 
 export const revalidate = false;
 

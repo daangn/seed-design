@@ -1,7 +1,7 @@
 import { Api as Figma } from "figma-api";
 import { FlatCache } from "flat-cache";
 import path from "node:path";
-import { env } from "@/app/env";
+import { env } from "../../lib/env";
 import { getFigmaImageCacheKey, type FetchFigmaImageUrlsOptions } from "./figma-image-manifest";
 
 export type { FetchFigmaImageUrlsOptions } from "./figma-image-manifest";

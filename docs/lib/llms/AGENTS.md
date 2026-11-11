@@ -1,10 +1,10 @@
-# docs/app/_llms
+# docs/lib/llms
 
-`app/source.tsx`의 remark 파이프라인이 만든 `processed` MDX를 MDX AST 룰로 정제해 llms.txt 텍스트를 만든다. 결과는 `llms-route.ts`가 서빙한다.
+`lib/source.tsx`의 remark 파이프라인이 만든 `processed` MDX를 MDX AST 룰로 정제해 llms.txt 텍스트를 만든다. 결과는 `llms-route.ts`가 서빙한다.
 
 ## 검증
 
-- 변환 동작을 바꿨으면 `bun test docs/app/_llms`를 실행한다.
+- 변환 동작을 바꿨으면 `bun test docs/lib/llms`를 실행한다.
 
 ## 작업 절차
 

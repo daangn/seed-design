@@ -1,5 +1,5 @@
 import { formatPublishedDate } from "@/lib/format-date";
-import Link from "next/link";
+import Link from "fumadocs-core/link";
 
 interface ReleaseCardProps {
   href: string;

@@ -10,7 +10,7 @@ import { EXIT, visit } from "unist-util-visit";
 
 /**
  * Everything Markdown itself can turn into an element here. A row's content is the Markdown its
- * page was serialized to, and `structureStringify` (see app/source.tsx) leaves whitelisted MDX
+ * page was serialized to, and `structureStringify` (see lib/source.tsx) leaves whitelisted MDX
  * components in it as raw JSX — so a tag outside this set names one of those components, and
  * goes to `MdxTagBadge` rather than being rendered as an element nobody styled.
  */

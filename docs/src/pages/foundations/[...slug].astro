@@ -1,0 +1,93 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { DocsShell } from "@/components/layout/docs-shell";
+import { mdxComponents } from "@/components/mdx-components";
+import { getMarkdownPageLastModified } from "@/lib/git-timestamps";
+import { getLLMMarkdownUrl } from "@/lib/llms/config";
+import { getComponentStatus } from "@/lib/rootage";
+import { TAGS } from "@/lib/search-tags";
+import {
+  buildDocsPageJsonLd,
+  buildDocsPageMetadata,
+  deprecatedTitle,
+  resolveCoverImage,
+} from "@/lib/seo";
+import { getFoundationsSource } from "@/lib/source";
+import { findTabbedFolder, tabbedFolderLabel } from "@/lib/tabbed";
+import DocsHead from "@/src/components/DocsHead.astro";
+import Layout from "@/src/layouts/Layout.astro";
+
+export const getStaticPaths = (async () => {
+  const source = await getFoundationsSource();
+  return source.getPages().map((page) => ({
+    params: { slug: page.slugs.join("/") || undefined },
+    props: { page },
+  }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props;
+const source = await getFoundationsSource();
+const [{ body: Content, toc }, lastModified, { deprecated }] = await Promise.all([
+  page.data.load(),
+  getMarkdownPageLastModified(page.absolutePath),
+  getComponentStatus({ slug: page.slugs }, { deprecated: page.data.deprecated }),
+]);
+
+// 탭형 subject 폴더는 상단 헤더(title/description/thumbnail)를 meta.json에서 온 **고정** 값으로
+// 쓴다(탭 전환에도 불변 → 시프팅 없음). 각 탭 frontmatter의 description/coverImage는 페이지에
+// 렌더하지 않고 OG/공유(metadata)에만 쓴다. 비탭 페이지는 기존대로 page 데이터.
+const tabbedFolder = findTabbedFolder(source.pageTree.children, page.url);
+const folderLabel = tabbedFolder ? tabbedFolderLabel(tabbedFolder) : undefined;
+const heading = (tabbedFolder ? folderLabel : page.data.heading) ?? page.data.title;
+const coverBase = tabbedFolder ? tabbedFolder.coverImage : page.data.coverImage;
+const cover = coverBase ? resolveCoverImage(coverBase) : null;
+const markdownUrl = getLLMMarkdownUrl("foundations", page.slugs);
+---
+
+<Layout
+  metadata={buildDocsPageMetadata({
+    url: page.url,
+    title: page.data.title,
+    // 페이지 h1과 동일한 파생(탭형이면 폴더 이름) — og:title이 탭 전환에도 subject를 유지.
+    heading: tabbedFolder ? folderLabel : page.data.heading,
+    description: page.data.description,
+    coverImage: page.data.coverImage,
+    deprecated,
+  })}
+>
+  <DocsHead
+    slot="head"
+    section="foundations"
+    markdownUrl={markdownUrl}
+    jsonLd={buildDocsPageJsonLd(page)}
+  />
+  <DocsShell
+    client:load
+    pathname={page.url}
+    tree={await source.serializePageTree(source.pageTree)}
+    defaultSearchTag={TAGS.foundations.value}
+    page={{
+      title: deprecatedTitle(heading, deprecated),
+      description: tabbedFolder ? tabbedFolder.description : page.data.description,
+      coverImage: cover
+        ? {
+            src: cover.thumbnail,
+            alt: `${heading} cover image`,
+            width: cover.og.width,
+            height: cover.og.height,
+          }
+        : undefined,
+      layout: page.data.layout,
+      full: page.data.full,
+      tabbed: tabbedFolder != null,
+      toc,
+      lastUpdate: lastModified,
+      showPageActions: page.slugs.length > 0,
+      markdownUrl,
+    }}
+  >
+    <Content components={mdxComponents} />
+  </DocsShell>
+</Layout>

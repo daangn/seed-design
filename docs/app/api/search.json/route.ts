@@ -10,12 +10,12 @@ import {
   getPatternsSource,
   getReactSource,
   getUpdatesSource,
-} from "@/app/source";
+} from "@/lib/source";
 import type { MarkdownRenderer } from "@fumadocs/satteri/local-md";
 import { AdvancedIndex, createSearchAPI } from "fumadocs-core/search/server";
 import { findPath, type Root } from "fumadocs-core/page-tree";
 import { koreanTokenizer } from "@/components/search/tokenizer";
-import { TAGS } from "@/app/api/search/constants";
+import { TAGS } from "@/lib/search-tags";
 import { getEntrySearchText } from "@/lib/changelog-entry";
 import type { ChangelogPlatform } from "@/lib/changelog-platform";
 import { getChangelogHref } from "@/components/changelog-viewer/utils";

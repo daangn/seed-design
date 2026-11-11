@@ -3,7 +3,9 @@ import type { Section, SectionConfig } from "./types";
 
 const GITHUB_OWNER = "daangn";
 const GITHUB_REPO = "seed-design";
-const GITHUB_BRANCH = process.env.SEED_DOCS_SOURCE_REF ?? "dev";
+// 브라우저 번들에는 `process`가 없다. 빌드 시점의 ref는 서버 렌더링에서만 읽는다.
+const GITHUB_BRANCH =
+  (typeof process === "undefined" ? undefined : process.env.SEED_DOCS_SOURCE_REF) ?? "dev";
 
 export const sectionConfigs: Record<Section, SectionConfig> = {
   "get-started": {

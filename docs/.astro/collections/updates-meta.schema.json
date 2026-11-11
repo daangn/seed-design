@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pagesIndex": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "root": {
+      "type": [
+        "boolean",
+        "string"
+      ]
+    },
+    "defaultOpen": {
+      "type": "boolean"
+    },
+    "collapsible": {
+      "type": "boolean"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "layout": {
+      "type": "string",
+      "enum": [
+        "tabs"
+      ]
+    },
+    "coverImage": {
+      "type": "string"
+    },
+    "$schema": {
+      "type": "string"
+    }
+  }
+}

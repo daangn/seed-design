@@ -4,7 +4,7 @@ import { baseOptions } from "../layout.config";
 import { getPatternsSource } from "../source";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import DefaultSearchDialog from "@/components/search/search";
-import { TAGS } from "@/app/api/search/constants";
+import { TAGS } from "@/lib/search-tags";
 
 export default async function Layout({ children }: { children: ReactNode }) {
   const patternsSource = await getPatternsSource();

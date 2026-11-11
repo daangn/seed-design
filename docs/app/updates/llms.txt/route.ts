@@ -1,7 +1,7 @@
-import { getLLMMarkdownUrl, sectionConfigs, shouldIncludeInFullText } from "@/app/_llms/config";
-import { getDisplayTitle } from "@/app/_llms/utils";
-import { baseUrl } from "@/app/metadata";
-import { getUpdatesSource } from "@/app/source";
+import { getLLMMarkdownUrl, sectionConfigs, shouldIncludeInFullText } from "@/lib/llms/config";
+import { getDisplayTitle } from "@/lib/llms/utils";
+import { baseUrl } from "@/lib/metadata";
+import { getUpdatesSource } from "@/lib/source";
 
 export const revalidate = false;
 

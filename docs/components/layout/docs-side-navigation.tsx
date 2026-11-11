@@ -3,7 +3,7 @@
 import { ScrollFog, SideNavigation as SeedSideNavigation } from "@seed-design/react";
 import { useTreeContext } from "fumadocs-ui/contexts/tree";
 import type { SidebarProps } from "fumadocs-ui/layouts/notebook/slots/sidebar";
-import { usePathname } from "next/navigation";
+import { usePathname } from "fumadocs-core/framework";
 import { createElement } from "react";
 import { buildSidebarGroups, DocsSideNavigationGroups } from "./docs-side-navigation-items";
 

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { RootProvider } from "fumadocs-ui/provider/next";
-import { TAGS } from "@/app/api/search/constants";
+import { TAGS } from "@/lib/search-tags";
 import { LandingSearchDialog } from "@/components/search/search";
 import { LandingExperience } from "@/components/landing/landing-experience";
 import { buildSeoMetadata } from "@/lib/seo";

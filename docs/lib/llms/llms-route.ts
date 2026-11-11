@@ -1,6 +1,6 @@
-import { getLLMText } from "@/app/_llms/get-llm-text";
-import type { LLMPage, Section } from "@/app/_llms/types";
-import { notFound } from "next/navigation";
+import { getLLMText } from "@/lib/llms/get-llm-text";
+import type { LLMPage, Section } from "@/lib/llms/types";
+import { notFound } from "fumadocs-core/framework";
 
 /** The subset of a fumadocs source that a per-section llms.txt route consumes. */
 interface LLMTextRouteSource {

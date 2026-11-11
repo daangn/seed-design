@@ -1,5 +1,5 @@
-import { getLLMMarkdownUrl } from "@/app/_llms/config";
-import { getComponentsSource } from "@/app/source";
+import { getLLMMarkdownUrl } from "@/lib/llms/config";
+import { getComponentsSource } from "@/lib/source";
 import { DocsPageRenderer } from "@/components/layout/docs-page-renderer";
 import { loadMarkdownPage } from "@/lib/load-markdown-page";
 import { PlatformStatusTable } from "@/components/platform-status-table";

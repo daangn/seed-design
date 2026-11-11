@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { notFound } from "next/navigation";
+import { notFound } from "fumadocs-core/framework";
 
 export function BlockRenderer({ name }: { name: string }) {
   const Block = React.useMemo(() => {

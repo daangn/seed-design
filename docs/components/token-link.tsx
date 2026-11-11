@@ -4,7 +4,7 @@ import { archivePaths } from "@/lib/docs-archive";
 
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import { tokenReferenceHref } from "@/lib/token-search";
-import Link from "next/link";
+import Link from "fumadocs-core/link";
 import type { ReactNode } from "react";
 
 export const TokenLink = ({

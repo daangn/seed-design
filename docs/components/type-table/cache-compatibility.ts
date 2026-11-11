@@ -11,7 +11,7 @@ const TYPE_TABLE_CACHE_COMPATIBILITY_FILES = [
   resolve(DOCS_DIRECTORY, "../bun.lock"),
   resolve(DOCS_DIRECTORY, "package.json"),
   resolve(DOCS_DIRECTORY, "tsconfig.json"),
-  resolve(DOCS_DIRECTORY, "app/source.tsx"),
+  resolve(DOCS_DIRECTORY, "lib/source.tsx"),
   resolve(DOCS_DIRECTORY, "components/type-table/cache-compatibility.ts"),
   resolve(DOCS_DIRECTORY, "components/type-table/generator.ts"),
 ];
