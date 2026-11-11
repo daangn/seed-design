@@ -1680,6 +1680,7 @@
       "version": "1.1.1",
       "dependencies": {
         "@floating-ui/react": "^0.27.0",
+        "@seed-design/dom-utils": "^2.1.0",
         "@seed-design/react-use-controllable-state": "^2.0.1",
       },
       "devDependencies": {
