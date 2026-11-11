@@ -34,7 +34,7 @@ export type SnackbarRendererProps = {};
 
 export const SnackbarRenderer = (_props: SnackbarRendererProps) => {
   const api = useSnackbarContext();
-  return api.currentSnackbar?.render();
+  return <>{api.currentSnackbar?.render()}</>;
 };
 
 export interface SnackbarRootProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
