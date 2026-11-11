@@ -250,7 +250,7 @@ data:
       enabled:
         root:
           color: $color.bg.transparent
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-weak
           strokeWidth: 1px
         label:
           color: $color.fg.neutral
@@ -269,7 +269,7 @@ data:
       disabled:
         root:
           color: $color.bg.transparent
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-weak
         label:
           color: $color.fg.disabled
         icon:
@@ -285,7 +285,7 @@ data:
       enabled:
         root:
           color: $color.bg.transparent
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-weak
           strokeWidth: 1px
         label:
           color: $color.fg.brand
@@ -304,7 +304,7 @@ data:
       disabled:
         root:
           color: $color.bg.transparent
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-weak
         label:
           color: $color.fg.disabled
         icon:

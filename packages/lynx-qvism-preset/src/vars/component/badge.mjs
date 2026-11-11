@@ -88,7 +88,7 @@ export const vars = {
   "toneNeutralVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral-muted)"

@@ -45,7 +45,7 @@
 }
 .seed-checkmark__root--variant_square:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-disabled);
-    border-color: var(--seed-color-stroke-neutral-muted);
+    border-color: var(--seed-color-stroke-neutral-weak);
 }
 .seed-checkmark__icon--variant_square:is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     display: block;

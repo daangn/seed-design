@@ -764,7 +764,7 @@
     --seed-color-stroke-neutral-muted: var(--seed-color-palette-static-black-alpha-300);
     --seed-color-stroke-neutral-solid: var(--seed-color-palette-gray-800);
     --seed-color-stroke-neutral-subtle: var(--seed-color-palette-static-black-alpha-200);
-    --seed-color-stroke-neutral-weak: var(--seed-color-palette-gray-400);
+    --seed-color-stroke-neutral-weak: var(--seed-color-palette-gray-alpha-400);
     --seed-color-stroke-positive-solid: var(--seed-color-palette-green-700);
     --seed-color-stroke-positive-weak: var(--seed-color-palette-green-300);
     --seed-color-stroke-warning-solid: var(--seed-color-palette-yellow-700);
@@ -994,7 +994,7 @@
     --seed-color-stroke-neutral-muted: var(--seed-color-palette-static-white-alpha-100);
     --seed-color-stroke-neutral-solid: var(--seed-color-palette-gray-800);
     --seed-color-stroke-neutral-subtle: var(--seed-color-palette-static-white-alpha-50);
-    --seed-color-stroke-neutral-weak: var(--seed-color-palette-gray-400);
+    --seed-color-stroke-neutral-weak: var(--seed-color-palette-gray-alpha-400);
     --seed-color-stroke-positive-solid: var(--seed-color-palette-green-700);
     --seed-color-stroke-positive-weak: var(--seed-color-palette-green-300);
     --seed-color-stroke-warning-solid: var(--seed-color-palette-yellow-700);
@@ -1833,7 +1833,7 @@
     background: var(--seed-color-bg-transparent);
     border-style: solid;
     border-width: 1px;
-    border-color: var(--seed-color-stroke-neutral-muted);
+    border-color: var(--seed-color-stroke-neutral-weak);
     color: var(--seed-color-fg-brand);
     font-weight: var(--seed-font-weight-bold);
     --seed-prefix-icon-color: var(--seed-color-fg-brand);
@@ -1857,7 +1857,7 @@
 
   .seed-action-button--variant_brandOutline:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-transparent);
-    border-color: var(--seed-color-stroke-neutral-muted);
+    border-color: var(--seed-color-stroke-neutral-weak);
     color: var(--seed-color-fg-disabled);
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
     --seed-suffix-icon-color: var(--seed-color-fg-disabled);
@@ -1872,7 +1872,7 @@
     background: var(--seed-color-bg-transparent);
     border-style: solid;
     border-width: 1px;
-    border-color: var(--seed-color-stroke-neutral-muted);
+    border-color: var(--seed-color-stroke-neutral-weak);
     color: var(--seed-color-fg-neutral);
     font-weight: var(--seed-font-weight-bold);
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
@@ -1896,7 +1896,7 @@
 
   .seed-action-button--variant_neutralOutline:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-transparent);
-    border-color: var(--seed-color-stroke-neutral-muted);
+    border-color: var(--seed-color-stroke-neutral-weak);
     color: var(--seed-color-fg-disabled);
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
     --seed-suffix-icon-color: var(--seed-color-fg-disabled);
@@ -3084,7 +3084,7 @@
   }
 
   .seed-badge__root--tone_neutral-variant_outline {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
     color: var(--seed-color-fg-neutral-muted);
   }
 
@@ -3863,7 +3863,7 @@
 
   .seed-checkmark__root--variant_square:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-disabled);
-    border-color: var(--seed-color-stroke-neutral-muted);
+    border-color: var(--seed-color-stroke-neutral-weak);
   }
 
   .seed-checkmark__icon--variant_square:is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
@@ -4119,7 +4119,7 @@
 
   .seed-chip__root--variant_outlineStrong {
     background: var(--seed-color-bg-transparent);
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
     --seed-icon-color: var(--seed-color-fg-neutral);
   }
 
@@ -4422,7 +4422,7 @@
 
   .seed-chip-tabs__trigger--variant_neutralOutline {
     background-color: var(--seed-color-bg-transparent);
-    border: 1px solid var(--seed-color-stroke-neutral-muted);
+    border: 1px solid var(--seed-color-stroke-neutral-weak);
     color: var(--seed-color-fg-neutral);
   }
 
@@ -9303,7 +9303,7 @@
     background: var(--seed-color-bg-transparent);
     font-weight: var(--seed-font-weight-medium);
     color: var(--seed-color-fg-neutral);
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
     --track-color: var(--seed-color-palette-gray-500);
     --range-color: var(--seed-color-fg-neutral);
     --seed-count-font-weight: var(--seed-font-weight-bold);

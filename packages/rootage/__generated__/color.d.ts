@@ -2237,11 +2237,11 @@ declare const artifact: {
         "values": {
           "theme-light": {
             "type": "color";
-            "value": "$color.palette.gray-400";
+            "value": "$color.palette.gray-alpha-400";
           };
           "theme-dark": {
             "type": "color";
-            "value": "$color.palette.gray-400";
+            "value": "$color.palette.gray-alpha-400";
           };
         };
         "description": "요소의 외곽을 그려 형태를 만드는 선입니다. 카드, 인풋 필드, 아웃라인 버튼처럼 선 자체가 요소의 경계를 정의할 때 사용됩니다. (weak)";

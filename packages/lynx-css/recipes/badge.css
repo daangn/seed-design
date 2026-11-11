@@ -107,7 +107,7 @@
     color: var(--seed-color-fg-on-neutral-solid)
 }
 .seed-badge__root--tone_neutral-variant_outline {
-    border-color: var(--seed-color-stroke-neutral-muted);
+    border-color: var(--seed-color-stroke-neutral-weak);
     color: var(--seed-color-fg-neutral-muted)
 }
 .seed-badge__label--tone_neutral-variant_outline {

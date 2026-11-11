@@ -110,7 +110,7 @@
   }
 
   .seed-badge__root--tone_neutral-variant_outline {
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
     color: var(--seed-color-fg-neutral-muted);
   }
 
