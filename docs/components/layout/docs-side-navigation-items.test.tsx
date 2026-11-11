@@ -3,8 +3,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SideNavigation } from "@seed-design/react";
 import type * as PageTree from "fumadocs-core/page-tree";
-import { AppRouterContext } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { FrameworkProvider, type Router } from "fumadocs-core/framework";
 import { DocsMobileNavAccordion } from "../header/mobile-nav-accordion";
 import { buildSidebarGroups, DocsSideNavigationGroups } from "./docs-side-navigation-items";
 import { isSidebarFolderItem } from "./lib/sidebar-items";
@@ -39,22 +38,22 @@ for (const mobile of [false, true]) {
   describe(mobile ? "mobile folder" : "desktop folder", () => {
     function setup(pathname: string, node = folder) {
       let destination = pathname;
-      const router: AppRouterInstance = {
+      const router: Router = {
         push(href) {
           destination = href;
         },
-        back() {},
-        forward() {},
         refresh() {},
-        replace() {},
-        prefetch() {},
       };
       function tree(path: string) {
         const groups = buildSidebarGroups([node], path);
         const item = groups[0].items[0];
         if (!isSidebarFolderItem(item)) throw new Error("Expected folder");
         return (
-          <AppRouterContext.Provider value={router}>
+          <FrameworkProvider
+            usePathname={() => path}
+            useParams={() => ({})}
+            useRouter={() => router}
+          >
             {mobile ? (
               <DocsMobileNavAccordion
                 value="styling"
@@ -77,7 +76,7 @@ for (const mobile of [false, true]) {
                 </SideNavigation.Root>
               </SideNavigation.Provider>
             )}
-          </AppRouterContext.Provider>
+          </FrameworkProvider>
         );
       }
       const result = render(tree(pathname));
