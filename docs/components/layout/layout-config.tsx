@@ -33,8 +33,8 @@ function SidebarTabIconContainer({
  * Shared layout configurations
  *
  * you can configure layouts individually from:
- * Home Layout: app/(home)/layout.tsx
- * Docs Layout: app/docs/layout.tsx
+ * Home Layout: components/landing/landing-page.tsx
+ * Docs Layout: components/layout/docs-shell.tsx
  */
 export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
   githubUrl: "https://github.com/daangn/seed-design",

@@ -4,7 +4,7 @@ import type { TagItem } from "fumadocs-ui/contexts/search";
  * Search filter chips — kept in sync with the site header sections (nav-items.ts),
  * minus Get Started. React/Lynx are shown as separate chips even though the header
  * groups them under "Develop". Sections without a chip (get-started, breeze, and the
- * legacy /docs tree) are still indexed under their own tag in app/api/search/route.ts
+ * legacy /docs tree) are still indexed under their own tag in src/pages/api/search.json.ts
  * and only surface under the "All" filter.
  */
 export const TAGS = {

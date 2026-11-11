@@ -1,9 +1,9 @@
 /* Updates 아티클 공용 프리셋. 이 파일에는 "유틸/MDX로 옮기면 회귀가 나는" 규칙만 남긴다. 나머지
-   소제목·본문 크기·색은 `[slug]/page.tsx`의 bodyClassName(prose 유틸)로, 코어밸류 들여쓰기·CTA 간격은
+   소제목·본문 크기·색은 `src/pages/updates/[slug].astro`의 bodyClassName(prose 유틸)로, 코어밸류 들여쓰기·CTA 간격은
    MDX className으로, 이미지 radius·다크 fringe 교정은 전역 mdx-components.tsx img로 옮겼다
    (radius는 Updates 전용이 아니라 docs 전체가 랜딩과 같은 10/12px을 쓴다).
-   `docs/app/updates/layout.tsx` 최상단의 `import "./updates-article.css"`로 Updates 라우트
-   세그먼트에만 스코프되어 로드된다(전역 global.css가 아님 — 다른 docs 라우트엔 로드되지 않는다).
+   `docs/src/pages/updates/[slug].astro` 최상단의 `import "@/src/styles/updates-article.css"`로 Updates 아티클
+   페이지에만 스코프되어 로드된다(전역 global.css가 아님 — 다른 docs 라우트엔 로드되지 않는다).
 
    ⚠️ 모든 규칙은 반드시 언레이어드(top-level, @layer 밖)로 유지해야 한다. 언레이어드는 layer를
    무조건 이기므로 Tailwind `@layer utilities`와 fumadocs `:where()` 타이포그래피 프리셋을 모두
