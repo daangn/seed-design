@@ -53,7 +53,7 @@ type GlassElement = MainThread.Element & {
 
 /**
  * Lynx serializes a color with alpha < 255 as `argb(r, g, b, 0)`: the alpha is lost and iOS cannot parse it.
- * Such a color gives no tint instead of a wrong one.
+ * Such a color gives no tint instead of a wrong one (https://github.com/lynx-family/lynx/issues/10814).
  */
 function toGlassTintColor(computed: string | undefined): string {
   "main thread";
@@ -114,9 +114,6 @@ export interface LiquidGlassViewProps extends LynxHostProps<"view"> {
  *
  * - iOS blur-view does not draw `background*`, so the recipe background is kept and copied to the glass tint whenever
  *   `className` (the recipe state) or the color scheme changes, like native SEED's `tintColor ?? spec.root.color`.
- * - Lynx iOS blur-view does not draw the glass effect it creates with the element. It draws once a glass prop changes
- *   and the effect is applied again, so the first layout flips `glass-style` for one frame
- *   (https://github.com/lynx-family/lynx/issues/10824).
  * - Content stays in the glass even when the tint changes. Rendering it behind the content instead loses the
  *   interactive response on the content, because the content views take the touches.
  */
@@ -124,20 +121,14 @@ export const LiquidGlassView = React.forwardRef<unknown, LiquidGlassViewProps>((
   const { glass, disabled, children, className, ...nativeProps } = props;
   const elementRef = useMainThreadRef<GlassElement | null>(null);
   const frameRef = useMainThreadRef<number>(0);
-  const appliedRef = useMainThreadRef(false);
+  const laidOutRef = useMainThreadRef(false);
   const { preferredColorScheme } = useSeedContext();
-  const glassStyle = glass.style;
 
+  // The main-thread ref may not be bound when the first effect runs, so sync again on the first layout.
   const handleLayoutChange: NonNullable<LynxViewProps["main-thread:bindlayoutchange"]> = () => {
     "main thread";
-    const element = elementRef.current;
-    if (appliedRef.current || !element) return;
-    appliedRef.current = true;
-    element.setAttribute("glass-style", glassStyle === "clear" ? "regular" : "clear");
-    requestAnimationFrame(() => {
-      element.setAttribute("glass-style", glassStyle);
-    });
-    // The main-thread ref may not be bound when the first effect runs.
+    if (laidOutRef.current || !elementRef.current) return;
+    laidOutRef.current = true;
     scheduleGlassTintSync(elementRef, frameRef);
   };
 
@@ -157,7 +148,7 @@ export const LiquidGlassView = React.forwardRef<unknown, LiquidGlassViewProps>((
       )}
       className={className}
       blur-effect="glass"
-      glass-style={glassStyle}
+      glass-style={glass.style}
       glass-interactive={glass.interactive && !disabled}
       ios-user-interface-style={preferredColorScheme}
     >
