@@ -142,7 +142,12 @@ export function DocsPageRenderer({
       <DocsPage
         // articleClassName은 전달된 라우트(예: Updates)에서만 붙어, 그 라우트 전용 스코프 CSS의
         // 진입점이 된다. 미전달 시 클래스가 붙지 않아 다른 docs 페이지엔 영향이 없다.
-        className={clsx(full ? undefined : "*:mx-auto *:w-full", articleClassName)}
+        className={clsx(
+          full ? undefined : "*:mx-auto *:w-full",
+          // 목차 열을 본문보다 먼저 예약하는 표시다(`src/styles/global.css`의 `.docs-toc-rail`).
+          !full && tableOfContent?.enabled !== false && "docs-toc-rail",
+          articleClassName,
+        )}
         toc={toc}
         full={full}
         breadcrumb={{ enabled: false }}

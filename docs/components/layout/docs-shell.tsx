@@ -4,7 +4,7 @@ import type * as PageTree from "fumadocs-core/page-tree";
 import { DocsLayout } from "fumadocs-ui/layouts/notebook";
 import { RootProvider } from "fumadocs-ui/provider/astro";
 import { NuqsAdapter } from "nuqs/adapters/react";
-import { type ComponentType, type ReactNode, type SVGProps, useMemo } from "react";
+import { type ComponentType, type ReactNode, type SVGProps, useEffect, useMemo } from "react";
 import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
 import {
   TokenReferencePage,
@@ -110,6 +110,11 @@ export function DocsShell({
   children,
 }: DocsShellProps) {
   const pageTree = useMemo(() => withIcons(tree), [tree]);
+
+  // hydrate 전에는 layout의 열 폭 transition을 끈다(`src/styles/global.css`의 `data-docs-hydrated`).
+  useEffect(() => {
+    document.documentElement.setAttribute("data-docs-hydrated", "");
+  }, []);
   const Layout = sidebar ? DocsLayout : NoSidebarDocsLayout;
   const searchTags = platform && archivePaths.prefix ? [TAGS[platform]] : Object.values(TAGS);
 

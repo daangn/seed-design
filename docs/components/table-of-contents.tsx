@@ -208,6 +208,7 @@ function TocList({ list, onItemClick, variant }: TocListProps) {
 export function SeedTableOfContents({ container, header, footer, list }: TOCProps): ReactNode {
   // 항목이 없어도(헤딩 없는 페이지) 이 컨테이너는 렌더해 우측 열 폭(--fd-toc-width)을 예약한다
   // → 콘텐츠 가로 위치가 페이지마다 흔들리지 않는다. 대신 항목이 없으면 안쪽 UI는 비워둔다.
+  // 폭(200px)을 바꾸면 `src/styles/global.css`의 `.docs-toc-rail` 규칙도 같이 바꾼다.
   const items = useTOCItems();
   return (
     <div

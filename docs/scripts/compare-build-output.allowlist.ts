@@ -235,6 +235,22 @@ export const allowlist: AllowlistEntry[] = [
     },
   },
   {
+    id: "toc-rail-marker",
+    stage: "html",
+    reason:
+      "목차 열을 본문보다 먼저 예약하려고 문서 article에 `docs-toc-rail` class를 붙였다. 기준선은 뒤에 오는 `#nd-toc`가 파싱된 뒤에야 열이 생겨, 문서가 천천히 도착하면 본문이 왼쪽으로 밀렸다(같은 조건에서 CLS 0.06).",
+    element: (el) => {
+      const value = el.attrs.get("class");
+      if (el.tag !== "article" || value === undefined) return undefined;
+
+      const tokens = value.split(" ");
+      if (!tokens.includes("docs-toc-rail")) return undefined;
+
+      el.attrs.set("class", tokens.filter((token) => token !== "docs-toc-rail").join(" "));
+      return "changed";
+    },
+  },
+  {
     id: "css-module-class-names",
     stage: "html",
     reason:
@@ -267,11 +283,11 @@ export const allowlist: AllowlistEntry[] = [
       el.tag === "span" && el.attrs.get("style")?.startsWith("--shiki-") ? "unwrap" : undefined,
   },
   {
-    id: "shiki-light-flake-react-v3-date-picker",
+    id: "shiki-light-flake-date-picker",
     stage: "html",
     reason:
-      "같은 소스의 react 아카이브 빌드 두 개(out-archive-react-1·2)에서 이 쪽 type table 인라인 코드의 Shiki light 색만 843곳 달랐다. 한쪽 빌드가 keyword·constant·string 색을 기본 전경색 #24292E로 떨어뜨린 빌드 비결정성이라 이 쪽에서만 light 색을 비교하지 않는다.",
-    match: /^react\/v3\/components\/date-picker\/index\.html$/,
+      "React Date Picker 쪽의 type table 인라인 코드는 같은 소스를 다시 빌드해도 Shiki light 색이 달라진다. 기준선의 react 아카이브 빌드 두 개(out-archive-react-1·2)에서 843곳이 달랐고(한쪽이 keyword·constant·string 색을 기본 전경색 #24292E로 떨어뜨림), Astro 기본 빌드에서도 빌드에 따라 연산자 색이 문자열 색으로 나온다. dark 색과 텍스트는 같아서 이 쪽에서만 light 색을 비교하지 않는다.",
+    match: /^react\/(?:v3\/)?components\/date-picker(?:\.html|\/index\.html)$/,
     element: (el) => {
       const style = el.attrs.get("style");
       if (el.tag !== "span" || !style?.startsWith("--shiki-light:")) return undefined;
