@@ -1,4 +1,4 @@
-import type { MetadataRoute } from "next";
+import type { APIRoute } from "astro";
 import { baseUrl } from "@/lib/metadata";
 import {
   getDocsSource,
@@ -14,9 +14,7 @@ import {
 } from "@/lib/source";
 import { getMarkdownPageLastModified } from "@/lib/git-timestamps";
 
-export const dynamic = "force-static";
-
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export const GET: APIRoute = async () => {
   const [
     docsSource,
     getStartedSource,
@@ -41,7 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getUpdatesSource(),
   ]);
 
-  return await Promise.all(
+  const urls = await Promise.all(
     [
       ...docsSource.getPages(),
       ...getStartedSource.getPages(),
@@ -55,11 +53,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...updatesSource.getPages(),
     ].map(async (page) => {
       const lastModified = await getMarkdownPageLastModified(page.absolutePath);
+      const lastmod = lastModified ? `<lastmod>${lastModified.toISOString()}</lastmod>\n` : "";
 
-      return {
-        url: new URL(page.url, baseUrl).href,
-        ...(lastModified && { lastModified: new Date(lastModified) }),
-      };
+      return `<url>\n<loc>${new URL(page.url, baseUrl).href}</loc>\n${lastmod}</url>\n`;
     }),
   );
-}
+
+  return new Response(
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("")}</urlset>\n`,
+    { headers: { "Content-Type": "application/xml" } },
+  );
+};

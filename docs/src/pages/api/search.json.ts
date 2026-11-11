@@ -11,8 +11,9 @@ import {
   getReactSource,
   getUpdatesSource,
 } from "@/lib/source";
-import type { MarkdownRenderer } from "@fumadocs/satteri/local-md";
-import { AdvancedIndex, createSearchAPI } from "fumadocs-core/search/server";
+import type { APIRoute } from "astro";
+import type { StructuredData } from "fumadocs-core/mdx-plugins/remark-structure";
+import { type AdvancedIndex, createSearchAPI } from "fumadocs-core/search/server";
 import { findPath, type Root } from "fumadocs-core/page-tree";
 import { koreanTokenizer } from "@/components/search/tokenizer";
 import { TAGS } from "@/lib/search-tags";
@@ -22,9 +23,6 @@ import { getChangelogHref } from "@/components/changelog-viewer/utils";
 import { sectionLabel } from "@/lib/docs-sections";
 import { parseChangelog } from "@/lib/parse-changelog";
 
-// it should be cached forever
-export const revalidate = false;
-
 type IndexableSource = {
   pageTree: Root;
   getPages: () => {
@@ -32,7 +30,7 @@ type IndexableSource = {
     data: {
       title: string;
       description?: string;
-      load: () => Promise<MarkdownRenderer<Record<string, unknown>>>;
+      structuredData: () => Promise<StructuredData>;
     };
   }[];
 };
@@ -62,18 +60,18 @@ function buildBreadcrumbs(tree: Root, url: string) {
 /** Map a docs source's pages into search indexes under a single tag. */
 async function indexSource(source: IndexableSource, tag: string): Promise<AdvancedIndex[]> {
   return Promise.all(
-    source.getPages().map(async (page) => {
-      const { structuredData } = await page.data.load();
-      return {
-        id: page.url,
-        title: page.data.title,
-        description: page.data.description,
-        structuredData,
-        breadcrumbs: buildBreadcrumbs(source.pageTree, page.url),
-        tag,
-        url: page.url,
-      } satisfies AdvancedIndex;
-    }),
+    source.getPages().map(
+      async (page) =>
+        ({
+          id: page.url,
+          title: page.data.title,
+          description: page.data.description,
+          structuredData: await page.data.structuredData(),
+          breadcrumbs: buildBreadcrumbs(source.pageTree, page.url),
+          tag,
+          url: page.url,
+        }) satisfies AdvancedIndex,
+    ),
   );
 }
 
@@ -113,7 +111,7 @@ async function getChangelogIndexes(platform: ChangelogPlatform): Promise<Advance
   });
 }
 
-export const { staticGET: GET } = createSearchAPI("advanced", {
+const { staticGET } = createSearchAPI("advanced", {
   indexes: async () => {
     if (archivePaths.platform === "lynx") {
       return indexSource(await getLynxSource(), TAGS.lynx.value);
@@ -175,3 +173,5 @@ export const { staticGET: GET } = createSearchAPI("advanced", {
   // export that Cloudflare Pages refuses past 25 MiB.
   sort: { enabled: false },
 });
+
+export const GET: APIRoute = () => staticGET();
