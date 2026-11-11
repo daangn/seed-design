@@ -4,7 +4,7 @@ import { fillImageStyle } from "@/components/fill-image-style";
 import { Autocomplete } from "@base-ui/react/autocomplete";
 import clsx from "clsx";
 import { useSearch } from "fumadocs-ui/components/dialog/search";
-import Link from "fumadocs-core/link";
+import { PageLink as Link } from "@/components/link";
 import { useRouter } from "fumadocs-core/framework";
 import { useMemo } from "react";
 import { COMPONENT_RESULT_LIMIT, type ComponentSearchEntry } from "@/lib/component-search";

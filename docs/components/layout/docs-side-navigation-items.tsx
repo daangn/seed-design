@@ -5,7 +5,7 @@ import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import { SideNavigation as SeedSideNavigation, useSideNavigationContext } from "@seed-design/react";
 import clsx from "clsx";
 import type * as PageTree from "fumadocs-core/page-tree";
-import Link from "fumadocs-core/link";
+import { PageLink as Link } from "@/components/link";
 import { useRouter } from "fumadocs-core/framework";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";

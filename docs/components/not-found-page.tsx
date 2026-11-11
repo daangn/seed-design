@@ -1,4 +1,4 @@
-import Link from "fumadocs-core/link";
+import { PageLink as Link } from "@/components/link";
 import type * as PageTree from "fumadocs-core/page-tree";
 import { ActionButton } from "seed-design/ui/action-button";
 import { DOCS_PAGE_CONTENT_ID } from "@/components/layout/docs-page-content-id";

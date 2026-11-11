@@ -13,6 +13,7 @@ import {
 import { ArticleShareButton } from "@/components/updates/share-button";
 import { DocsVersionSwitcher } from "@/components/docs-version-switcher";
 import { InlineCode } from "@/components/inline-code";
+import { PageLink } from "@/components/link";
 import { NoSidebarDocsLayout } from "@/components/layout/no-sidebar-docs-layout";
 import { MotionProvider } from "@/components/MotionProvider";
 import DefaultSearchDialog from "@/components/search/search";
@@ -73,6 +74,11 @@ function withIcons<Node extends PageTree.Node | PageTree.Root>(node: Node): Node
   return next;
 }
 
+/** 전체 페이지 이동. archive 채널에서는 `Link`와 같은 trailing slash 규칙을 따른다. */
+function navigate(url: string) {
+  window.location.assign(archivePaths.pageHref(url));
+}
+
 /** `rehypeTocTitles`가 조각 배열로 내보낸 제목(inline code 포함)을 React 노드로 되돌린다. */
 function renderTocTitle(title: ReactNode | TocTitleSegment[]): ReactNode {
   if (!Array.isArray(title)) return title;
@@ -115,7 +121,10 @@ export function DocsShell({
   const shell = (
     <NuqsAdapter>
       <RootProvider
-        pathname={pathname}
+        // archive 채널의 주소는 trailing slash로 끝난다. Next.js의 `usePathname()`도 그 형태를 돌려줬다.
+        pathname={archivePaths.pageHref(pathname)}
+        components={{ Link: PageLink }}
+        navigate={navigate}
         search={{
           SearchDialog: DefaultSearchDialog,
           options: {

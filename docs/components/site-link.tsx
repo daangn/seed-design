@@ -1,4 +1,4 @@
-import NextLink from "fumadocs-core/link";
+import { PageLink as NextLink } from "@/components/link";
 import type { ComponentProps } from "react";
 
 type SiteLinkProps = Omit<ComponentProps<"a">, "href"> & { href: string };

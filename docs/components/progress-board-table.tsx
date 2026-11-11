@@ -5,7 +5,7 @@ import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import IconILowercaseSerifCircleLine from "@karrotmarket/react-monochrome-icon/IconILowercaseSerifCircleLine";
 import { BadgeLabel, BadgeRoot } from "@seed-design/react";
-import Link from "fumadocs-core/link";
+import { PageLink as Link } from "@/components/link";
 import type { CSSProperties } from "react";
 import { PLATFORM_CONFIG, PLATFORM_STATUS_LABELS } from "@/lib/platform-status";
 import { isExternalUrl } from "@/lib/url";

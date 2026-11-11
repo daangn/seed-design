@@ -47,6 +47,14 @@ export function createArchivePaths(channel: string) {
     asset(path: string) {
       return prefix && isLocal(path) && !isScoped(path) ? `${prefix}/_assets${path}` : path;
     },
+    // Archive pages are deployed as directories. Like Next.js `trailingSlash: true`, give local page
+    // links a trailing slash; paths that name a file (`/llms.txt`) are left alone.
+    pageHref(href: string) {
+      if (!prefix || !isLocal(href)) return href;
+      const [, pathname, suffix] = /^([^?#]*)(.*)$/.exec(href) ?? [];
+      if (pathname.endsWith("/") || /\.[^/]+$/.test(pathname)) return href;
+      return `${pathname}/${suffix}`;
+    },
     endpoint(path: string) {
       return prefix && isLocal(path) && !isScoped(path) ? `${prefix}${path}` : path;
     },

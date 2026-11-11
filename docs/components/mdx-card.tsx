@@ -1,7 +1,7 @@
 import { archivePaths } from "@/lib/docs-archive";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import clsx from "clsx";
-import Link from "fumadocs-core/link";
+import { DocsLink as Link } from "@/components/link";
 import type { AnchorHTMLAttributes, HTMLAttributes, ReactNode } from "react";
 
 const CARD =

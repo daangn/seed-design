@@ -6,7 +6,7 @@ import { isExternalUrl } from "@/lib/url";
 import { IconCheckmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import { Icon } from "@seed-design/react";
-import Link from "fumadocs-core/link";
+import { PageLink as Link } from "@/components/link";
 import { Fragment } from "react";
 
 interface PlatformStatusTableProps {
@@ -81,9 +81,7 @@ export async function PlatformStatusTable({
 }: PlatformStatusTableProps) {
   const components = (
     await Promise.all(
-      componentIds.map((id) =>
-        client.fetch<ComponentData>(COMPONENT_QUERY, { id }),
-      ),
+      componentIds.map((id) => client.fetch<ComponentData>(COMPONENT_QUERY, { id })),
     )
   ).filter((c): c is ComponentData => Boolean(c));
 

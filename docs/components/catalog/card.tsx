@@ -4,7 +4,7 @@ import { fillImageStyle } from "@/components/fill-image-style";
 
 import { ContentPlaceholder } from "@/registry/react/ui/content-placeholder";
 import clsx from "clsx";
-import Link from "fumadocs-core/link";
+import { PageLink as Link } from "@/components/link";
 import type { ComponentProps, ReactNode } from "react";
 
 // LinkProps doesn't include classNames and else

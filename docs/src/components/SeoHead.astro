@@ -1,4 +1,5 @@
 ---
+import { archivePaths } from "@/lib/docs-archive";
 import type { SeoMetadata } from "@/lib/seo";
 
 interface Props {
@@ -7,18 +8,20 @@ interface Props {
 
 const { metadataBase, title, description, alternates, openGraph, twitter } = Astro.props.metadata;
 const absolute = (url: string) => new URL(url, metadataBase).toString();
+// archive 채널의 페이지 주소는 trailing slash로 끝난다.
+const pageUrl = (url: string) => absolute(archivePaths.pageHref(url));
 ---
 
 {title !== undefined && <title>{title}</title>}
 {description && <meta name="description" content={description} />}
-{alternates && <link rel="canonical" href={absolute(alternates.canonical)} />}
+{alternates && <link rel="canonical" href={pageUrl(alternates.canonical)} />}
 {openGraph.title !== undefined && <meta property="og:title" content={openGraph.title} />}
 {
   openGraph.description && (
     <meta property="og:description" content={openGraph.description} />
   )
 }
-{openGraph.url !== undefined && <meta property="og:url" content={absolute(openGraph.url)} />}
+{openGraph.url !== undefined && <meta property="og:url" content={pageUrl(openGraph.url)} />}
 <meta property="og:site_name" content={openGraph.siteName} />
 <meta property="og:locale" content={openGraph.locale} />
 {

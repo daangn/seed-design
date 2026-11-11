@@ -1,6 +1,6 @@
 import { fillImageStyle } from "@/components/fill-image-style";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
-import Link from "fumadocs-core/link";
+import { PageLink as Link } from "@/components/link";
 import { InfiniteCarousel } from "../components/infinite-carousel";
 import { RevealText } from "../components/reveal-text";
 import {

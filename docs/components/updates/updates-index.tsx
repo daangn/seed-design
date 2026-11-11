@@ -10,7 +10,7 @@ import { formatPublishedDate } from "@/lib/format-date";
 import { resolveCoverImage } from "@/lib/seo";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import { ReleaseCard } from "./release-card";
-import Link from "fumadocs-core/link";
+import { PageLink as Link } from "@/components/link";
 
 const client = env.figmaPersonalAccessToken
   ? createFigmaClient(env.figmaPersonalAccessToken)

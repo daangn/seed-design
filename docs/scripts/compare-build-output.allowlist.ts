@@ -156,6 +156,15 @@ export const allowlist: AllowlistEntry[] = [
     normalize: (text) => text.replace(/\.[0-9a-f]{8}\.lynx\.bundle/g, ".«hash».lynx.bundle"),
   },
   {
+    id: "archive-headers-bundle-path",
+    stage: "file",
+    reason:
+      "아카이브 `_headers`의 immutable 캐시 규칙은 번들 디렉터리를 가리킨다. Next.js는 `_assets/_next/static/*`, Astro는 `_assets/_astro/*`다.",
+    match: /^_headers$/,
+    normalize: (text) =>
+      text.replace(/\/_assets\/(?:_next\/static|_astro)\/\*/g, "/_assets/«bundle»/*"),
+  },
+  {
     id: "sitemap-url-order",
     stage: "file",
     reason:

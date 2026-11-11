@@ -12,6 +12,7 @@ import {
 } from "@karrotmarket/react-monochrome-icon";
 import { Accordion, Accordions } from "@/components/accordion";
 import { Callout } from "@/components/callout";
+import { DocsLink as Link } from "@/components/link";
 import { Pre } from "fumadocs-ui/components/codeblock";
 import { File, Files, Folder } from "fumadocs-ui/components/files";
 import { Step, Steps } from "fumadocs-ui/components/steps";
@@ -38,8 +39,6 @@ import { ProgressBoardTable } from "./progress-board-table";
 import { DocsCard, DocsCards } from "./mdx-card";
 import { TableRoot } from "./table";
 
-const MdxLink = defaultMdxComponents.a!;
-
 /**
  * Astro가 정적으로 렌더링하는 React MDX 컴포넌트. 상호작용이 필요한 컴포넌트는
  * `lib/satteri/rehype-mdx-islands.ts`가 island로 바꾸고, 빌드 시점 데이터가 필요한 컴포넌트는
@@ -49,7 +48,7 @@ export const mdxComponents: MDXComponents = {
   ...defaultMdxComponents,
 
   code: InlineCode,
-  a: ({ href, ...props }) => <MdxLink {...props} href={href ? archivePaths.link(href) : href} />,
+  a: ({ href, ...props }) => <Link {...props} href={href ? archivePaths.link(href) : href} />,
 
   // Markdown table → SEED custom table design (single source in ./table)
   table: TableRoot,

@@ -1,7 +1,7 @@
 import { fillImageStyle } from "@/components/fill-image-style";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import clsx from "clsx";
-import Link from "fumadocs-core/link";
+import { PageLink as Link } from "@/components/link";
 import { RevealText } from "../components/reveal-text";
 import { BLOG_HEADING, BLOG_POSTS, REGIONS, Z } from "../lib/landing-content";
 import { SectionLayer } from "../section-layer";
