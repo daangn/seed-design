@@ -10,8 +10,12 @@ export interface FigmaRestClient {
   ): Promise<string>;
 }
 
-export function createFigmaRestClient(personalAccessToken: string): FigmaRestClient {
-  const api = new FigmaApi({ personalAccessToken });
+export type FigmaRestClientOptions =
+  | { personalAccessToken: string }
+  | { oAuthToken: string };
+
+export function createFigmaRestClient(options: FigmaRestClientOptions): FigmaRestClient {
+  const api = new FigmaApi(options);
 
   return {
     async getFileNodes(fileKey: string, nodeIds: string[]): Promise<GetFileNodesResponse> {
