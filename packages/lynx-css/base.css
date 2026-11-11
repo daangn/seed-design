@@ -321,8 +321,8 @@ text {
   --seed-color-bg-neutral-solid-muted-pressed: #2a3038;
   --seed-color-bg-neutral-subtle: #fff;
   --seed-color-bg-neutral-weak: #f3f4f5;
-  --seed-color-bg-neutral-weak-alpha: #0000000c;
-  --seed-color-bg-neutral-weak-alpha-pressed: #00000010;
+  --seed-color-bg-neutral-weak-alpha: #14273b0d;
+  --seed-color-bg-neutral-weak-alpha-pressed: #000f2d11;
   --seed-color-bg-neutral-weak-pressed: #eeeff1;
   --seed-color-bg-overlay: #00000074;
   --seed-color-bg-overlay-muted: #0000002c;
@@ -551,8 +551,8 @@ text {
   --seed-color-bg-neutral-solid-muted-pressed: #5b606a;
   --seed-color-bg-neutral-subtle: #16171b;
   --seed-color-bg-neutral-weak: #2b2e35;
-  --seed-color-bg-neutral-weak-alpha: #ffffff20;
-  --seed-color-bg-neutral-weak-alpha-pressed: #ffffff2e;
+  --seed-color-bg-neutral-weak-alpha: #c8ddff25;
+  --seed-color-bg-neutral-weak-alpha-pressed: #cfddff35;
   --seed-color-bg-neutral-weak-pressed: #393d46;
   --seed-color-bg-overlay: #00000074;
   --seed-color-bg-overlay-muted: #0000002c;
