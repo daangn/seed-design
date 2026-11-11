@@ -1,6 +1,6 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { lazyComponent } from "@/components/lazy-component";
 
 /**
  * `IconLibrary`를 온디맨드 청크로 분리한다.
@@ -22,7 +22,7 @@ import dynamic from "next/dynamic";
  * `mdx-components.tsx`는 서버 모듈이라 `ssr: false`를 직접 못 쓴다(Next 15+ 제약).
  * 이 파일이 클라이언트 경계 역할을 한다.
  */
-const LazyIconLibrary = dynamic(() => import("./icons").then((mod) => mod.IconLibrary), {
+const LazyIconLibrary = lazyComponent(() => import("./icons").then((mod) => mod.IconLibrary), {
   ssr: false,
 });
 

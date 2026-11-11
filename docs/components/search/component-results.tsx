@@ -3,7 +3,6 @@
 import { Autocomplete } from "@base-ui/react/autocomplete";
 import clsx from "clsx";
 import { useSearch } from "fumadocs-ui/components/dialog/search";
-import Image from "next/image";
 import Link from "fumadocs-core/link";
 import { useRouter } from "fumadocs-core/framework";
 import { useMemo } from "react";
@@ -54,14 +53,13 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
     >
       <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-bg-transparent-selected">
         {entry.thumbnail ? (
-          <Image
+          <img
             src={entry.thumbnail}
             alt=""
-            fill
             loading="lazy"
             decoding="async"
             sizes="(min-width: 768px) 224px, 45vw"
-            className="object-cover"
+            className="absolute inset-0 size-full object-cover"
           />
         ) : null}
       </div>

@@ -1,6 +1,5 @@
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import clsx from "clsx";
-import Image from "next/image";
 import Link from "fumadocs-core/link";
 import { RevealText } from "../components/reveal-text";
 import { BLOG_HEADING, BLOG_POSTS, REGIONS, Z } from "../lib/landing-content";
@@ -63,13 +62,14 @@ export function SectionBlog() {
                         hover. Kept separate from the Image so the CSS scale doesn't fight
                         GSAP's reveal transform on [data-reveal]. */}
                     <div className="relative size-full motion-safe:transition-transform motion-safe:duration-[600ms] motion-safe:ease-out motion-safe:group-hover:[transform:scale(1.05)]">
-                      <Image
+                      <img
                         data-reveal
                         src={post.image}
                         alt=""
-                        fill
+                        loading="lazy"
+                        decoding="async"
                         sizes="(min-width: 1024px) 33vw, 100vw"
-                        className="object-cover will-change-transform"
+                        className="absolute inset-0 size-full object-cover will-change-transform"
                       />
                     </div>
                   </div>

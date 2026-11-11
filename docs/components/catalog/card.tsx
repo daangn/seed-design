@@ -2,7 +2,6 @@
 
 import { ContentPlaceholder } from "@/registry/react/ui/content-placeholder";
 import clsx from "clsx";
-import Image from "next/image";
 import Link from "fumadocs-core/link";
 import type { ComponentProps, ReactNode } from "react";
 
@@ -35,10 +34,9 @@ export function CatalogCard({
       >
         <ContentPlaceholder type="image" className="absolute inset-0 size-full" />
         {coverImageSrc ? (
-          <Image
+          <img
             src={coverImageSrc}
             alt=""
-            fill
             loading="lazy"
             decoding="async"
             sizes="(min-width: 1280px) 33vw, 50vw"

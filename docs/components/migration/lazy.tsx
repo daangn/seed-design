@@ -1,7 +1,7 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import type { ComponentProps } from "react";
+import { lazyComponent } from "@/components/lazy-component";
 
 import type {
   V2Icon as V2IconImpl,
@@ -28,10 +28,10 @@ import type { IconographyMigrationIndex as IconographyMigrationIndexImpl } from 
  * `mdx-components.tsx`는 서버 모듈이라 이 파일이 클라이언트 경계 역할을 한다.
  */
 
-const LazyV3Icon = dynamic(() => import("./icon").then((mod) => mod.V3Icon));
-const LazyV2Icon = dynamic(() => import("./icon").then((mod) => mod.V2Icon));
-const LazyV2IconColor = dynamic(() => import("./icon").then((mod) => mod.V2IconColor));
-const LazyIconographyMigrationIndex = dynamic(() =>
+const LazyV3Icon = lazyComponent(() => import("./icon").then((mod) => mod.V3Icon));
+const LazyV2Icon = lazyComponent(() => import("./icon").then((mod) => mod.V2Icon));
+const LazyV2IconColor = lazyComponent(() => import("./icon").then((mod) => mod.V2IconColor));
+const LazyIconographyMigrationIndex = lazyComponent(() =>
   import("./iconography-migration-index").then((mod) => mod.IconographyMigrationIndex),
 );
 
