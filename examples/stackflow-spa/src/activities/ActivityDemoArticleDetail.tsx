@@ -48,12 +48,12 @@ const ActivityDemoArticleDetail: ActivityComponentType<"ActivityDemoArticleDetai
 
   const categoryName = CATEGORIES.find((c) => c.id === article?.categoryId)?.name;
   const [isImageLoading, setIsImageLoading] = useState(true);
-  const [tone, setTone] = useState<NextAppBarProps["tone"]>("transparent");
+  const [tone, setTone] = useState<NextAppBarProps["tone"]>("gradient");
   const imageBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => setTone(entry.isIntersecting ? "transparent" : "layer"),
+      ([entry]) => setTone(entry.isIntersecting ? "gradient" : "layer"),
       { threshold: [0, 0.1, 0.5, 1], rootMargin: "0px" },
     );
 
