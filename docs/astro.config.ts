@@ -5,6 +5,7 @@ import react from "@astrojs/react";
 import fumadocs from "@fumadocs/astro";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
+import { defaultClientConditions, defaultServerConditions } from "vite";
 import { createFumadocsOptions } from "./lib/content/satteri-options";
 
 const archiveChannel = process.env.NEXT_PUBLIC_DOCS_ARCHIVE_CHANNEL;
@@ -52,10 +53,12 @@ export default defineConfig({
     ],
     // Lynx Web runtime의 worker는 ES module이다.
     worker: { format: "es" },
+    ssr: { resolve: { conditions: ["seed-layered", ...defaultServerConditions] } },
     envPrefix: ["NEXT_PUBLIC_", "PUBLIC_"],
     resolve: {
-      // `@seed-design/css`의 recipe를 `@layer`로 감싼 진입점으로 연결한다.
-      conditions: ["seed-layered"],
+      // `@seed-design/css`의 recipe를 `@layer`로 감싼 진입점으로 연결한다. `conditions`를 지정하면
+      // Vite 기본값이 사라지므로(예: `browser`) 기본 조건을 함께 넘긴다.
+      conditions: ["seed-layered", ...defaultClientConditions],
       // CSS를 import하거나 `seed-layered` 조건으로 해석해야 하는 패키지는 Vite를 거쳐야 한다.
       noExternal: ["fumadocs-ui", /^@seed-design\//],
       alias: {
