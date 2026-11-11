@@ -60,7 +60,6 @@ jobs:
             ${{ runner.os }}-figma-images-
 
       - uses: ./.github/actions/setup
-        id: setup
         with:
           build-packages: true
           build-rootage: true

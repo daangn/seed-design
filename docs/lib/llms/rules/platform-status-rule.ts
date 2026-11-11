@@ -3,6 +3,7 @@ import { apiVersion, dataset, projectId } from "../../../sanity-studio/env";
 import { ALL_COMPONENTS_QUERY } from "../../../sanity-studio/lib/queries";
 import type { ComponentData, PlatformStatus } from "../../../sanity-studio/lib/types";
 import { PLATFORM_CONFIG, PLATFORM_STATUS_LABELS } from "../../../lib/platform-status";
+import { INCLUDE_SANITY_TABLES } from "../config";
 import { escapeCell, markdownRow } from "./markdown-utils";
 
 // 컴포넌트 문서 페이지엔 본문 <PlatformStatusTable> 노드가 없다(플랫폼 상태를 헤더에서 렌더).
@@ -49,6 +50,10 @@ let initPromise: Promise<void> | null = null;
 
 async function fetchAndCacheComponentData(): Promise<void> {
   const cache = new Map<string, ComponentData>();
+  if (!INCLUDE_SANITY_TABLES) {
+    componentDataCache = cache;
+    return;
+  }
   try {
     const components = await sanityClient.fetch<ComponentData[]>(ALL_COMPONENTS_QUERY);
     for (const component of components) {

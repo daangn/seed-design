@@ -7,6 +7,14 @@ const GITHUB_REPO = "seed-design";
 const GITHUB_BRANCH =
   (typeof process === "undefined" ? undefined : process.env.SEED_DOCS_SOURCE_REF) ?? "dev";
 
+/**
+ * llms 텍스트에 Sanity의 플랫폼 상태 표와 progress board 표를 넣을지 정한다.
+ *
+ * Next.js 정적 export에서는 이 조회가 항상 실패해 표 없이 배포돼 왔다. Astro에서는 조회가 성공하므로,
+ * 배포된 llms 산출물을 그대로 유지하려고 꺼 둔다. 켜면 `llms/components/*.txt`에 표가 추가된다.
+ */
+export const INCLUDE_SANITY_TABLES = false;
+
 export const sectionConfigs: Record<Section, SectionConfig> = {
   "get-started": {
     contentDir: "get-started",

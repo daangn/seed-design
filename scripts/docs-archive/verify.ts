@@ -71,9 +71,11 @@ export async function verifyArchive(archive: ArchiveDefinition, fetcher: typeof 
   if (!html.includes(`href="${canonical}"`) && !html.includes(`href="${canonical}/"`)) {
     throw new Error(`${prefix}: homepage canonical URL is missing`);
   }
+  // 보관본은 빌드 당시 프레임워크의 번들 경로를 그대로 둔다. Next.js로 만든 보관본은 `_next`, Astro는 `_astro`다.
+  const bundleRoots = [`${prefix}/_assets/_next/`, `${prefix}/_assets/_astro/`];
   const script = [...html.matchAll(/src="([^"<>]+)"/g)]
     .map((match) => match[1])
-    .find((src) => src.startsWith(`${prefix}/_assets/_next/`) && /\.js(?:\?|$)/.test(src));
+    .find((src) => bundleRoots.some((root) => src.startsWith(root)) && /\.js(?:\?|$)/.test(src));
   if (!script) throw new Error(`${prefix}: JavaScript path is missing`);
   await (await get(script.slice(prefix.length))).body?.cancel();
   await (await get(`/${archive.probe.document}/`)).body?.cancel();

@@ -82,7 +82,7 @@ export async function PlatformStatusTable({
   const components = (
     await Promise.all(
       componentIds.map((id) =>
-        client.fetch<ComponentData>(COMPONENT_QUERY, { id }, { cache: "no-store" }),
+        client.fetch<ComponentData>(COMPONENT_QUERY, { id }),
       ),
     )
   ).filter((c): c is ComponentData => Boolean(c));

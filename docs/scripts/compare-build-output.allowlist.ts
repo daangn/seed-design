@@ -141,12 +141,39 @@ export const allowlist: AllowlistEntry[] = [
     match: /(?:^|\/)_not-found\.html$/,
   },
   {
+    id: "lynx-bundle-content-hash",
+    stage: "path",
+    reason:
+      "Lynx 예제 번들 이름의 content hash는 빌드 경로에 따라 달라진다. 같은 checkout에서 캐시를 지우고 다시 빌드하면 같지만, entry 디렉터리 이름(`.next/lynx-entries` → `.cache/lynx-entries`)만 바꿔도 20개가, checkout 경로가 달라도 일부가 바뀐다. 번들 목록은 hash를 지운 `manifest.json`으로 비교한다.",
+    match: /(?:^|\/)__lynx__\/[\w-]+\.[0-9a-f]{8}\.lynx\.bundle$/,
+  },
+  {
+    id: "lynx-manifest-bundle-hash",
+    stage: "file",
+    reason:
+      "`lynx-bundle-content-hash`와 같은 이유로 manifest가 가리키는 번들 이름의 hash만 다르다. hash를 지우고 예제 목록과 나머지 필드를 비교한다.",
+    match: /(?:^|\/)__lynx__\/(?:e2e-)?manifest\.json$/,
+    normalize: (text) => text.replace(/\.[0-9a-f]{8}\.lynx\.bundle/g, ".«hash».lynx.bundle"),
+  },
+  {
     id: "sitemap-url-order",
     stage: "file",
     reason:
       "같은 소스를 두 번 빌드해도 `<url>` 순서가 달라진다(source loader의 페이지 열거 순서가 비결정적). `<url>` 블록을 정렬해 집합으로 비교한다.",
     match: /(?:^|\/)sitemap\.xml$/,
     normalize: sortSitemapUrls,
+  },
+  {
+    id: "sitemap-lastmod-commit-time-tie",
+    stage: "file",
+    reason:
+      "`content/lynx/components/action-button.mdx`를 고친 커밋 여러 개가 같은 committer 시각을 갖는다. `lib/git-timestamps.ts`가 그중 먼저 만난 커밋의 시각을 쓰는데, 순회 순서는 HEAD에 따라 달라진다. 기준선(dev HEAD)과 작업 브랜치에서 이 URL의 `lastmod`만 달라 비교에서 뺀다.",
+    match: /(?:^|\/)sitemap\.xml$/,
+    normalize: (text) =>
+      text.replace(
+        /(<loc>https:\/\/seed-design\.io\/lynx\/components\/action-button<\/loc>\s*<lastmod>)[^<]+/,
+        "$1«lastmod»",
+      ),
   },
   {
     id: "search-index-insertion-order",
@@ -220,6 +247,15 @@ export const allowlist: AllowlistEntry[] = [
       el.attrs.set("class", normalized);
       return "changed";
     },
+  },
+  {
+    id: "yaml-code-block-highlight",
+    stage: "html",
+    reason:
+      "문서에 하나뿐인 `yaml` 코드 블록(ai-integration/skill/doctor)이 기준선에서는 하이라이트 없이 나왔다. Astro 빌드는 Markdown frontmatter 하이라이트가 렌더링 순서에 좌우되지 않도록 yaml 문법을 미리 올리므로(`lib/content/satteri-options.ts`) 이 블록에도 토큰 색이 붙는다. 텍스트는 같아서 이 쪽에서만 Shiki 토큰 span을 풀어 비교한다.",
+    match: /^ai-integration\/skill\/doctor(?:\.html|\/index\.html)$/,
+    element: (el) =>
+      el.tag === "span" && el.attrs.get("style")?.startsWith("--shiki-") ? "unwrap" : undefined,
   },
   {
     id: "shiki-light-flake-react-v3-date-picker",

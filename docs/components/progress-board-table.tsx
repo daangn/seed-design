@@ -72,11 +72,7 @@ function StatusBadge({
 }
 
 export async function ProgressBoardTable() {
-  const components = await client.fetch<ComponentData[]>(
-    ALL_COMPONENTS_QUERY,
-    {},
-    { cache: "no-store" },
-  );
+  const components = await client.fetch<ComponentData[]>(ALL_COMPONENTS_QUERY);
 
   if (!components || components.length === 0) {
     return <div>컴포넌트 데이터가 없습니다.</div>;

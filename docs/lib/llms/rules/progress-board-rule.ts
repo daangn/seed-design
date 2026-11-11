@@ -9,6 +9,7 @@ import {
   PLATFORM_CONFIG,
   PLATFORM_STATUS_LABELS,
 } from "../../../lib/platform-status";
+import { INCLUDE_SANITY_TABLES } from "../config";
 import { escapeCell, markdownRow } from "./markdown-utils";
 
 const sanityClient = createClient({ projectId, dataset, apiVersion, useCdn: false });
@@ -65,6 +66,10 @@ let componentsCache: ComponentData[] | null = null;
 let initPromise: Promise<void> | null = null;
 
 async function fetchAndCacheComponents(): Promise<void> {
+  if (!INCLUDE_SANITY_TABLES) {
+    componentsCache = [];
+    return;
+  }
   try {
     componentsCache = await sanityClient.fetch<ComponentData[]>(ALL_COMPONENTS_QUERY);
   } catch {

@@ -88,7 +88,7 @@ const HEAD_LINK_RELS = new Set([
   "apple-touch-icon",
   "manifest",
 ]);
-const HEAD_META_NAMES = /^(?:description|color-scheme|viewport|twitter:.*)$/;
+const HEAD_META_NAMES = /^(?:description|color-scheme|viewport|robots|referrer|twitter:.*)$/;
 const HEAD_META_PROPERTIES = /^(?:og|article):/;
 const BOOLEAN_ATTRS = new Set(
   "allowfullscreen async autofocus autoplay checked controls default defer disabled formnovalidate hidden inert ismap itemscope loop multiple muted nomodule novalidate open playsinline readonly required reversed selected".split(
@@ -793,17 +793,20 @@ async function compare(options: Options) {
       const hashes = [sha256(a), sha256(b)];
       if (hashes[0] === hashes[1]) return undefined;
 
-      const entry = fileEntries.find((candidate) => candidate.match.test(file));
+      // 경로에 맞는 항목을 순서대로 모두 적용한다. 한 파일에 허용 사유가 둘 이상일 수 있다.
+      const entries = fileEntries.filter((candidate) => candidate.match.test(file));
       const decoder = new TextDecoder();
-      if (entry && entry.normalize(decoder.decode(a)) === entry.normalize(decoder.decode(b))) {
-        for (const side of SIDES) fire(entry.id, side);
+      const normalize = (bytes: Uint8Array) =>
+        entries.reduce((text, entry) => entry.normalize(text), decoder.decode(bytes));
+      if (entries.length > 0 && normalize(a) === normalize(b)) {
+        for (const entry of entries) for (const side of SIDES) fire(entry.id, side);
         return undefined;
       }
       return {
         path: file,
         baseline: { size: a.byteLength, sha256: hashes[0] },
         candidate: { size: b.byteLength, sha256: hashes[1] },
-        normalizedBy: entry?.id,
+        normalizedBy: entries.map((entry) => entry.id).join(", ") || undefined,
         hint: firstTextDifference(file, a, b),
       };
     },

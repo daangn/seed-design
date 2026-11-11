@@ -13,5 +13,6 @@ const source = await (archivePaths.platform === "lynx"
 ---
 
 <Layout metadata={buildSeoMetadata()}>
+  <meta slot="head" name="robots" content="noindex" />
   <NotFoundPage client:load tree={source.pageTree} />
 </Layout>

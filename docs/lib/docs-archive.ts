@@ -43,7 +43,7 @@ export function createArchivePaths(channel: string) {
         },
       };
     },
-    // Public assets and Next chunks are copied here by the archive exporter.
+    // Public assets and Astro chunks are copied here by the archive exporter.
     asset(path: string) {
       return prefix && isLocal(path) && !isScoped(path) ? `${prefix}/_assets${path}` : path;
     },

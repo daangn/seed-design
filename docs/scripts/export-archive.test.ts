@@ -19,7 +19,7 @@ async function fixture() {
   for (const [name, content] of Object.entries({
     "out/react/v2/index.html": "archive page",
     "out/react/v2/components/button/index.html": "archive button",
-    "out/_next/static/chunk.js": "archive chunk",
+    "out/_astro/chunk.js": "archive chunk",
     "out/blocks/footer-01/index.html": "block example",
     "public/logo.svg": "logo",
     "out/logo.svg": "logo",
@@ -55,7 +55,7 @@ it("exports a self-contained React archive with old CLI URL compatibility", asyn
   });
   const read = (name: string) => readFile(path.join(output, name), "utf8");
   expect(await read("react/v2/index.html")).toBe("archive page");
-  expect(await read("react/v2/_assets/_next/static/chunk.js")).toBe("archive chunk");
+  expect(await read("react/v2/_assets/_astro/chunk.js")).toBe("archive chunk");
   expect(await read("react/v2/_examples/blocks/footer-01/index.html")).toBe("block example");
   expect(await read("react/v2/sitemap.xml")).toBe(
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://seed-design.io/react/v2/</loc></url><url><loc>https://seed-design.io/react/v2/components/button/</loc></url></urlset>\n',
@@ -81,7 +81,7 @@ it("exports a self-contained React archive with old CLI URL compatibility", asyn
     sourceDirty: true,
   });
   expect(await read("_headers")).toBe(
-    "/react/v2/_assets/_next/static/*\n  Cache-Control: public, max-age=31536000, immutable\n/react/v2/__registry__/*\n  Access-Control-Allow-Origin: *\n",
+    "/react/v2/_assets/_astro/*\n  Cache-Control: public, max-age=31536000, immutable\n/react/v2/__registry__/*\n  Access-Control-Allow-Origin: *\n",
   );
   expect(await Bun.file(path.join(output, "react/2.0/index.html")).exists()).toBe(false);
   expect(await Bun.file(path.join(output, "react/v2/_assets/react/v2/index.html")).exists()).toBe(
@@ -160,7 +160,7 @@ it("exports a self-contained Lynx archive with its example bundles and redirects
   });
   const read = (name: string) => readFile(path.join(output, name), "utf8");
   expect(await read("lynx/v0/components/action-button/index.html")).toBe("lynx action button");
-  expect(await read("lynx/v0/_assets/_next/static/chunk.js")).toBe("archive chunk");
+  expect(await read("lynx/v0/_assets/_astro/chunk.js")).toBe("archive chunk");
   expect(await read("lynx/v0/_assets/__lynx__/web-core.css")).toBe("lynx-view {}");
   expect(await read("lynx/v0/_assets/__lynx__/badge/preview.12345678.lynx.bundle")).toBe(
     "native bundle",
@@ -178,7 +178,7 @@ it("exports a self-contained Lynx archive with its example bundles and redirects
     "/lynx/v0/old /lynx/v0/new 301\n/lynx/v0/llms/lynx/old /lynx/v0/llms/lynx/new 301\n/lynx/v0/lynx/* /lynx/v0/:splat 302\n",
   );
   expect(await read("_headers")).toBe(
-    "/lynx/v0/_assets/_next/static/*\n  Cache-Control: public, max-age=31536000, immutable\n/lynx/v0/__registry__/*\n  Access-Control-Allow-Origin: *\n",
+    "/lynx/v0/_assets/_astro/*\n  Cache-Control: public, max-age=31536000, immutable\n/lynx/v0/__registry__/*\n  Access-Control-Allow-Origin: *\n",
   );
   expect(JSON.parse(await read("lynx/v0/archive.json"))).toEqual({
     platform: "lynx",
