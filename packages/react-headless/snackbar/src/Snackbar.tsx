@@ -90,5 +90,8 @@ export const SnackbarAvoidOverlap = (props: SnackbarAvoidOverlapProps) => {
     };
   }, [overlapTracker, id]);
 
-  return React.cloneElement(children, { ref: childRef });
+  // Safe because `ref` is the only prop cloned onto the child; narrowing the public type would reject typed children.
+  return React.cloneElement(children as React.ReactElement<{ ref?: React.Ref<HTMLElement> }>, {
+    ref: childRef,
+  });
 };
