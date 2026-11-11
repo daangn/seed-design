@@ -120,7 +120,16 @@ export function normalizeViewDate(
   locale: string,
   weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6,
 ) {
-  return visibleRange === "week" ? getWeekStart(date, locale, weekStartsOn) : startOfMonth(date);
+  return getVisibleWeekCount(visibleRange) === undefined
+    ? startOfMonth(date)
+    : getWeekStart(date, locale, weekStartsOn);
+}
+
+/** 주 단위 레이아웃이 한 번에 표시하는 주 수입니다. 월 단위 레이아웃은 `undefined`입니다. */
+export function getVisibleWeekCount(visibleRange: DatePickerVisibleRange) {
+  if (visibleRange === "week") return 1;
+  if (visibleRange === "twoWeeks") return 2;
+  return undefined;
 }
 
 export function getLocalToday(): DatePickerDate {

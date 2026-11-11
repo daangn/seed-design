@@ -163,6 +163,26 @@
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
 }
+[data-view-enter-from] .seed-date-picker__weekRow {
+    animation: seed-enter;
+    animation-timing-function: var(--seed-timing-function-enter);
+    animation-duration: var(--seed-duration-d6);
+    --seed-enter-translate-x: var(--seed-date-picker-view-enter-offset);
+    --seed-enter-translate-y: 0;
+    --seed-enter-opacity: 0;
+    --seed-enter-scale: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+    [data-view-enter-from] .seed-date-picker__weekRow {
+        --seed-enter-translate-x: 0;
+    }
+}
+[data-view-enter-from='right'] .seed-date-picker__weekRow {
+    --seed-date-picker-view-enter-offset: 20px;
+}
+[data-view-enter-from='left'] .seed-date-picker__weekRow {
+    --seed-date-picker-view-enter-offset: -20px;
+}
 .seed-date-picker__dateCell {
     position: relative;
     min-width: 0;
@@ -432,6 +452,12 @@
     height: 24px;
 }
 .seed-date-picker__wheelView--visibleRange_week [data-wheel-picker-indicator] {
+    inset-inline: 0;
+}
+.seed-date-picker__weekday--visibleRange_twoWeeks {
+    height: 24px;
+}
+.seed-date-picker__wheelView--visibleRange_twoWeeks [data-wheel-picker-indicator] {
     inset-inline: 0;
 }
 @media (min-width: 480px) {

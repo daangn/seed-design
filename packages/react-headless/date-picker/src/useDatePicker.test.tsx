@@ -416,6 +416,61 @@ describe("useDatePicker", () => {
     expect(onViewDateChange).not.toHaveBeenCalled();
   });
 
+  it("Two Weeks는 시작 주부터 2주를 표시하고 2주씩 이동한다", () => {
+    const { result } = renderDatePicker({ visibleRange: "twoWeeks" });
+
+    expect(result.current.viewDate).toEqual({ year: 2026, month: 6, day: 28 });
+    expect(result.current.months[0]?.weeks.map((week) => week.key)).toEqual([
+      "2026-06-28",
+      "2026-07-05",
+    ]);
+    expect(result.current.headerLabel).toBe("2026년 7월");
+    expect(result.current.nextButtonProps["aria-label"]).toBe("다음 2주");
+
+    act(() => result.current.nextButtonProps.onClick());
+
+    expect(result.current.viewDate).toEqual({ year: 2026, month: 7, day: 12 });
+    expect(result.current.headerLabel).toBe("2026년 7월");
+
+    const preventDefault = () => {};
+    act(() =>
+      getCell(result, 13).buttonProps.onKeyDown?.({
+        key: "PageDown",
+        shiftKey: false,
+        defaultPrevented: false,
+        nativeEvent: { isComposing: false },
+        preventDefault,
+      } as unknown as React.KeyboardEvent<HTMLButtonElement>),
+    );
+
+    expect(result.current.focusedDate).toEqual({ year: 2026, month: 7, day: 27 });
+    expect(result.current.viewDate).toEqual({ year: 2026, month: 7, day: 26 });
+  });
+
+  it("Two Weeks는 첫 줄의 가운데 날짜가 속한 월을 제목으로 쓰고, 그 월이 범위 밖이면 범위 안쪽 월을 쓴다", () => {
+    // 7/26–8/1: 가운데 날짜 7/29가 7월입니다. 같은 주에서 Week는 끝 날짜의 월(8월)을 씁니다.
+    const julyMajority = renderDatePicker({
+      visibleRange: "twoWeeks",
+      defaultViewDate: { year: 2026, month: 7, day: 30 },
+    });
+    expect(julyMajority.result.current.headerLabel).toBe("2026년 7월");
+
+    // 3/29–4/4: 가운데 날짜 4/1이 4월입니다.
+    const aprilMajority = renderDatePicker({
+      visibleRange: "twoWeeks",
+      defaultViewDate: { year: 2026, month: 4, day: 2 },
+    });
+    expect(aprilMajority.result.current.headerLabel).toBe("2026년 4월");
+
+    // 2025/12/28–2026/1/3: 가운데 날짜 12/31이 yearRange 밖이라 1월을 씁니다.
+    const outOfRange = renderDatePicker({
+      visibleRange: "twoWeeks",
+      yearRange: { start: 2026, end: 2026 },
+      defaultViewDate: { year: 2026, month: 1, day: 1 },
+    });
+    expect(outOfRange.result.current.headerLabel).toBe("2026년 1월");
+  });
+
   it("Week의 다음 달이 이동 가능한 월 범위 밖이면 이전 달을 기준 월로 사용한다", () => {
     const { result } = renderDatePicker({
       visibleRange: "week",

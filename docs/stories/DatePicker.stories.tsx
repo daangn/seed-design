@@ -4,6 +4,7 @@ import {
   ContinuousDatePicker,
   DatePicker,
   TwoMonthDatePicker,
+  TwoWeekDatePicker,
   WeekDatePicker,
   type DatePickerProps,
 } from "seed-design/ui/date-picker";
@@ -13,7 +14,7 @@ import { withVisualTestParameters } from "./utils/parameters";
 
 type DatePickerPreviewProps = DatePickerProps & {
   previewWidth?: string;
-  layout?: "month" | "twoMonths" | "week";
+  layout?: "month" | "twoMonths" | "week" | "twoWeeks";
 };
 
 const customCellProps = {
@@ -33,7 +34,13 @@ const DatePickerPreview = ({
   ...props
 }: DatePickerPreviewProps) => {
   const Component =
-    layout === "twoMonths" ? TwoMonthDatePicker : layout === "week" ? WeekDatePicker : DatePicker;
+    layout === "twoMonths"
+      ? TwoMonthDatePicker
+      : layout === "week"
+        ? WeekDatePicker
+        : layout === "twoWeeks"
+          ? TwoWeekDatePicker
+          : DatePicker;
 
   return (
     <Box width={previewWidth} maxWidth="100%">
@@ -85,6 +92,9 @@ const conditionMap = {
     },
     Week: {
       layout: "week",
+    },
+    "Two Weeks": {
+      layout: "twoWeeks",
     },
     "Custom Cell": {
       ...customCellProps,

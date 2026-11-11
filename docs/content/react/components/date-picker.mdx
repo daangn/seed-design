@@ -54,6 +54,13 @@ Wheel Picker는 `ui:date-picker`의 Registry 의존성으로 함께 설치됩니
   name="WeekDatePickerProps"
 />
 
+### TwoWeekDatePicker
+
+<react-type-table
+  path="./registry/react/ui/date-picker.tsx"
+  name="TwoWeekDatePickerProps"
+/>
+
 ### ContinuousDatePicker
 
 <react-type-table
@@ -70,9 +77,12 @@ Date Picker는 레이아웃에 따라 다음 공개 컴포넌트로 나뉩니다
 - `DatePicker`: 현재 월의 실제 주 수만 렌더링합니다.
 - `TwoMonthDatePicker`: 연속한 두 달을 가로로 표시합니다. 이전·다음 버튼은 한 달씩 이동합니다.
 - `WeekDatePicker`: 한 주만 표시하며 이전·다음 버튼은 한 주씩 이동합니다.
+- `TwoWeekDatePicker`: 연속한 두 주를 두 줄로 표시합니다. 이전·다음 버튼은 두 주씩 이동합니다.
 - `ContinuousDatePicker`: `monthRange` 안의 월을 세로로 가상화합니다. `monthRange`를 생략하면 `yearRange`를 월 범위로 변환합니다. `height`, `minHeight`, `maxHeight` 중 하나를 반드시 지정합니다.
 
 한 달과 두 달 레이아웃은 항상 6주 높이를 확보하지 않고 각 월에 필요한 4~6주만 렌더링합니다.
+
+이전·다음 버튼, 방향키, `PageUp`·`PageDown`, 월·연도 휠로 표시 구간이 바뀌면 새 날짜 줄이 이동한 방향에서 20px 밀려 들어오며 나타납니다. 다음 구간은 오른쪽에서, 이전 구간은 왼쪽에서 들어오고 RTL locale에서는 반대입니다. `prefers-reduced-motion: reduce` 환경에서는 이동 없이 페이드만 적용합니다. `ContinuousDatePicker`는 스크롤로 이동하므로 이 트랜지션을 쓰지 않습니다.
 
 Date Picker는 자체적으로 고정 폭이나 최대 폭을 제한하지 않고 부모 컨테이너의 너비를 채웁니다. 한 달과 두 달 레이아웃에 필요한 가로 크기는 사용하는 화면에서 적절한 너비의 컨테이너로 감싸서 결정하세요.
 
@@ -208,9 +218,9 @@ Date Picker는 시간과 시간대를 해석하지 않는 달력 날짜인 `Date
 
 제목을 누르면 Time Picker와 같은 Wheel Picker로 전환합니다. 연도 휠은 반복하지 않고 `yearRange` 안에서 이동하며, 월 휠은 반복합니다. `yearRange`의 기본값은 `today`를 기준으로 앞뒤 100년입니다.
 
-Month는 달력 그리드 자리에 Wheel Picker를 표시합니다. Week는 대체할 그리드가 한 주뿐이므로 달력을 그대로 두고, 제목에 붙은 popover 안에 작은(`small`) Wheel Picker를 표시합니다. 제목을 다시 누르거나, popover 바깥을 누르거나, `Escape`를 누르거나, 포커스가 popover 밖으로 나가면 고른 월로 이동하며 닫힙니다. popover를 열면 포커스가 popover로 이동하고, 닫으면 제목으로 돌아옵니다. Week가 두 달에 걸치면 제목과 Wheel Picker는 다음 달을 표시하고, 다음 달이 이동 가능한 월 범위 밖이면 이전 달을 표시합니다.
+Month는 달력 그리드 자리에 Wheel Picker를 표시합니다. Week와 Two Weeks는 대체할 그리드가 한두 주뿐이므로 달력을 그대로 두고, 제목에 붙은 popover 안에 작은(`small`) Wheel Picker를 표시합니다. 제목을 다시 누르거나, popover 바깥을 누르거나, `Escape`를 누르거나, 포커스가 popover 밖으로 나가면 고른 월로 이동하며 닫힙니다. popover를 열면 포커스가 popover로 이동하고, 닫으면 제목으로 돌아옵니다. Week가 두 달에 걸치면 제목과 Wheel Picker는 다음 달을 표시하고, 다음 달이 이동 가능한 월 범위 밖이면 이전 달을 표시합니다. Two Weeks는 첫 줄의 가운데 날짜가 속한 월, 즉 첫 줄에서 더 많은 날짜를 차지하는 월을 표시합니다. 그 월이 이동 가능한 월 범위 밖이면 범위 안쪽 월을 표시합니다.
 
-Month 계열의 표시 기준 날짜는 월의 첫날, Week는 locale의 주 시작일로 정규화합니다.
+Month 계열의 표시 기준 날짜는 월의 첫날, Week와 Two Weeks는 locale의 주 시작일로 정규화합니다.
 
 ### Locale
 

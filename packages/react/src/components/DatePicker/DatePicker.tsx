@@ -21,11 +21,15 @@ import { Box, type BoxProps } from "../Box/Box";
 import { Icon } from "../Icon/Icon";
 
 // Month는 44px × 7개 항목으로 308px viewport를 만들고, 336px 컨테이너 안에 중앙 정렬합니다.
-// Week는 Wheel Picker small 크기(36px × 5개 항목)를 popover 안에 그대로 사용합니다.
+// Week·Two Weeks는 Wheel Picker small 크기(36px × 5개 항목)를 popover 안에 그대로 사용합니다.
 const MONTH_WHEEL_ITEM_SIZE = 44;
 const MONTH_WHEEL_VISIBLE_ITEM_COUNT = 7;
 const MONTH_WHEEL_SCROLL_FOG_SIZE = 102;
 const WEEK_WHEEL_POPOVER_GUTTER = 4;
+
+function isWeekLayout(visibleRange: DatePickerVisibleRange) {
+  return visibleRange === "week" || visibleRange === "twoWeeks";
+}
 
 type DatePickerCssProperties = React.CSSProperties & {
   "--seed-date-picker-continuous-spacer-height"?: string;
@@ -44,8 +48,17 @@ function composeRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
   };
 }
 
+interface DatePickerSizeProps {
+  /** Continuous 스크롤 영역의 높이입니다. Continuous에서는 `height`·`minHeight`·`maxHeight` 중 하나가 필요합니다. */
+  height?: BoxProps["height"];
+  /** Continuous 스크롤 영역의 최소 높이입니다. */
+  minHeight?: BoxProps["minHeight"];
+  /** Continuous 스크롤 영역의 최대 높이입니다. */
+  maxHeight?: BoxProps["maxHeight"];
+}
+
 type DatePickerRootElementProps = PrimitiveProps &
-  Pick<BoxProps, "height" | "minHeight" | "maxHeight"> &
+  DatePickerSizeProps &
   Omit<
     React.HTMLAttributes<HTMLDivElement>,
     "children" | "defaultValue" | "onChange" | "onValueChange"
@@ -261,7 +274,7 @@ export interface DatePickerHeaderProps {
 export const DatePickerHeader = React.forwardRef<HTMLDivElement, DatePickerHeaderProps>(
   ({ leftIcon, rightIcon, headerIcon }, ref) => {
     const { api, classNames } = useDatePickerContext();
-    // Week의 연·월 Wheel popover는 제목 버튼에 붙습니다.
+    // Week·Two Weeks의 연·월 Wheel popover는 제목 버튼에 붙습니다.
     const popover = usePopoverContext();
 
     if (api.visibleRange === "continuous" || api.visibleRange === "twoMonths") return null;
@@ -351,7 +364,7 @@ export interface DatePickerWheelColumn {
 
 export interface DatePickerWheelRenderProps {
   rootProps: React.HTMLAttributes<HTMLDivElement> & {
-    /** Month는 `medium`, Week popover는 `small` 크기를 사용합니다. */
+    /** Month는 `medium`, Week·Two Weeks popover는 `small` 크기를 사용합니다. */
     size: "small" | "medium";
     itemSize?: number;
     visibleItemCount?: number;
@@ -403,7 +416,7 @@ export const DatePickerWheel = React.forwardRef<HTMLDivElement, DatePickerWheelP
       className: classNames.wheelView,
     };
 
-    if (api.visibleRange === "week") {
+    if (isWeekLayout(api.visibleRange)) {
       // Popover가 Escape·바깥 누르기·상위 layer 닫힘과 focus 이동·복귀를 맡습니다.
       return (
         <PopoverPrimitive.Positioner className={classNames.wheelPositioner}>
@@ -441,10 +454,41 @@ export interface DatePickerCalendarProps {
   rightIcon: React.ReactNode;
 }
 
+function getDateOrder(date: { year: number; month: number; day: number }) {
+  return date.year * 10000 + date.month * 100 + date.day;
+}
+
+/**
+ * 표시 구간이 바뀌면 이동 방향을 `data-view-enter-from`에 남기고 날짜 줄의 진입 애니메이션을 다시 재생합니다.
+ * 애니메이션 자체는 recipe의 weekRow가 정의합니다.
+ */
+function useViewTransition(api: ReturnType<typeof useDatePicker>) {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const viewOrder = getDateOrder(api.viewDate);
+  const previousViewOrderRef = React.useRef(viewOrder);
+
+  React.useLayoutEffect(() => {
+    const previousViewOrder = previousViewOrderRef.current;
+    previousViewOrderRef.current = viewOrder;
+    const container = containerRef.current;
+    if (!container || previousViewOrder === viewOrder) return;
+
+    const isNext = viewOrder > previousViewOrder;
+    // 속성을 지웠다가 스타일을 한 번 반영한 뒤 다시 붙여, 다시 마운트되지 않은 줄(Two Months에서 자리만 옮긴 달 등)도
+    // 같은 방향으로 연달아 이동할 때 처음부터 재생합니다.
+    container.removeAttribute("data-view-enter-from");
+    void container.offsetWidth;
+    container.setAttribute("data-view-enter-from", isNext !== api.isRtl ? "right" : "left");
+  }, [api.isRtl, viewOrder]);
+
+  return containerRef;
+}
+
 export const DatePickerCalendar = React.forwardRef<HTMLDivElement, DatePickerCalendarProps>(
   ({ leftIcon, rightIcon }, ref) => {
     const { api, classNames, renderDateCellContent, renderDateCellSupplement } =
       useDatePickerContext();
+    const viewTransitionRef = useViewTransition(api);
 
     if (api.visibleRange === "continuous") {
       return (
@@ -488,7 +532,7 @@ export const DatePickerCalendar = React.forwardRef<HTMLDivElement, DatePickerCal
 
     return (
       <Primitive.div
-        ref={ref}
+        ref={composeRefs(ref, viewTransitionRef)}
         data-wheel-open={api.isWheelOpen && api.visibleRange === "month" ? "" : undefined}
         aria-hidden={api.isWheelOpen && api.visibleRange === "month" ? true : undefined}
         className={classNames.months}
@@ -585,7 +629,7 @@ export const DatePickerRoot = React.forwardRef<HTMLDivElement, DatePickerRootPro
         value={{ api, classNames, renderDateCellContent, renderDateCellSupplement }}
       >
         <PopoverPrimitive.Root
-          open={api.visibleRange === "week" && api.isWheelOpen}
+          open={isWeekLayout(api.visibleRange) && api.isWheelOpen}
           // 바깥 누르기·Escape로 닫아도 제목 버튼으로 닫을 때처럼 고른 월을 반영합니다.
           onOpenChange={(open) => {
             if (!open) api.closeWheel();
