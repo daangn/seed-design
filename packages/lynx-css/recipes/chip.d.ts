@@ -23,6 +23,7 @@ declare interface ChipVariant {
   * @default false
   */
   disabled: boolean;
+glass: boolean;
 }
 
 declare type ChipVariantMap = {
