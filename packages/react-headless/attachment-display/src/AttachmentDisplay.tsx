@@ -156,5 +156,5 @@ export interface AttachmentDisplayContextProps {
 }
 
 export const AttachmentDisplayContext = (props: AttachmentDisplayContextProps) => {
-  return props.children(useAttachmentDisplayContext());
+  return <>{props.children(useAttachmentDisplayContext())}</>;
 };
