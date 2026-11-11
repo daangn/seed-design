@@ -33,7 +33,7 @@ export interface DatePickerMonthRange {
 }
 
 export type DatePickerSelectionMode = "single" | "range" | "multiple";
-export type DatePickerVisibleRange = "month" | "twoMonths" | "continuous" | "week";
+export type DatePickerVisibleRange = "month" | "twoMonths" | "continuous" | "week" | "twoWeeks";
 
 export type DatePickerValue =
   | DatePickerDate
@@ -73,6 +73,10 @@ export interface DatePickerAriaLabels {
   previousWeek: string;
   /** 다음 주 버튼의 접근성 이름입니다. */
   nextWeek: string;
+  /** Two Weeks의 이전 2주 버튼 접근성 이름입니다. */
+  previousTwoWeeks: string;
+  /** Two Weeks의 다음 2주 버튼 접근성 이름입니다. */
+  nextTwoWeeks: string;
   /** 연도 Wheel의 접근성 이름입니다. */
   yearWheel: string;
   /** 월 Wheel의 접근성 이름입니다. */
@@ -110,7 +114,7 @@ interface DatePickerCommonProps {
    * @default "month"
    */
   visibleRange?: DatePickerVisibleRange;
-  /** 제어할 표시 기준 날짜입니다. Month 계열에서는 월의 첫날, Week에서는 주 시작일로 정규화합니다. */
+  /** 제어할 표시 기준 날짜입니다. Month 계열에서는 월의 첫날, Week·Two Weeks에서는 주 시작일로 정규화합니다. */
   viewDate?: DatePickerDate;
   /** 제어하지 않는 방식으로 사용할 때의 초기 표시 기준 날짜입니다. */
   defaultViewDate?: DatePickerDate;

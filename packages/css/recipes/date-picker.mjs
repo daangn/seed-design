@@ -135,7 +135,8 @@ export const datePickerVariantMap = {
     "month",
     "twoMonths",
     "continuous",
-    "week"
+    "week",
+    "twoWeeks"
   ]
 };
 

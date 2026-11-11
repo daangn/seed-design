@@ -9,9 +9,12 @@ import { WheelPicker, type WheelPickerColumn } from "./wheel-picker";
 
 type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
 
+type DatePickerSizeProps = Pick<SeedDatePicker.RootProps, "height" | "minHeight" | "maxHeight">;
+
+// height·minHeight·maxHeight는 Continuous 스크롤 영역에만 쓰므로 ContinuousDatePicker만 받습니다.
 type DatePickerSharedProps = DistributiveOmit<
   SeedDatePicker.RootProps,
-  "children" | "asChild" | "monthRange" | "visibleRange"
+  "children" | "asChild" | "monthRange" | "visibleRange" | keyof DatePickerSizeProps
 >;
 
 type ContinuousSizeConstraint =
@@ -27,6 +30,7 @@ export type DatePickerActions = SeedDatePicker.Actions;
 export type DatePickerProps = DatePickerSharedProps;
 export type TwoMonthDatePickerProps = DatePickerSharedProps;
 export type WeekDatePickerProps = DatePickerSharedProps;
+export type TwoWeekDatePickerProps = DatePickerSharedProps;
 export type ContinuousDatePickerProps = DatePickerSharedProps &
   ContinuousSizeConstraint & {
     /**
@@ -36,10 +40,11 @@ export type ContinuousDatePickerProps = DatePickerSharedProps &
     monthRange?: SeedDatePicker.RootProps["monthRange"];
   };
 
-type DatePickerImplementationProps = DatePickerSharedProps & {
-  visibleRange: SeedDatePicker.RootProps["visibleRange"];
-  monthRange?: SeedDatePicker.RootProps["monthRange"];
-};
+type DatePickerImplementationProps = DatePickerSharedProps &
+  DatePickerSizeProps & {
+    visibleRange: SeedDatePicker.RootProps["visibleRange"];
+    monthRange?: SeedDatePicker.RootProps["monthRange"];
+  };
 
 function renderWheelPicker({
   rootProps,
@@ -82,6 +87,11 @@ export const WeekDatePicker = React.forwardRef<HTMLDivElement, WeekDatePickerPro
   (props, ref) => <DatePickerImplementation ref={ref} {...props} visibleRange="week" />,
 );
 WeekDatePicker.displayName = "WeekDatePicker";
+
+export const TwoWeekDatePicker = React.forwardRef<HTMLDivElement, TwoWeekDatePickerProps>(
+  (props, ref) => <DatePickerImplementation ref={ref} {...props} visibleRange="twoWeeks" />,
+);
+TwoWeekDatePicker.displayName = "TwoWeekDatePicker";
 
 export const ContinuousDatePicker = React.forwardRef<HTMLDivElement, ContinuousDatePickerProps>(
   (props, ref) => <DatePickerImplementation ref={ref} {...props} visibleRange="continuous" />,

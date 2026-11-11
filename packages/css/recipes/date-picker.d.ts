@@ -2,7 +2,7 @@ declare interface DatePickerVariant {
   /**
   * @default "month"
   */
-  visibleRange: "month" | "twoMonths" | "continuous" | "week";
+  visibleRange: "month" | "twoMonths" | "continuous" | "week" | "twoWeeks";
 }
 
 declare type DatePickerVariantMap = {
