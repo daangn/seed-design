@@ -15,6 +15,7 @@ declare interface FloatingActionButtonVariant {
   * @default false
   */
   transitionEnabled: boolean;
+glass: boolean;
 }
 
 declare type FloatingActionButtonVariantMap = {

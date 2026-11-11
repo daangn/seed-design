@@ -87,6 +87,23 @@ Floating Action Button은 [`Float`](/lynx/foundation/layout/float)와 함께 사
   ```
 </LynxComponentExample>
 
+### Glass Effect
+
+`glassEffect`로 iOS Liquid Glass를 적용합니다. `style`은 glass 재질(`"regular"`·`"clear"`)을, `interactive`는 glass가 터치에 직접 반응할지를 정합니다. glass일 때는 현재 상태의 배경색이 glass tint가 되고, 그림자를 그리지 않습니다.
+
+<LynxComponentExample name="lynx/floating-action-button/glass-effect">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/floating-action-button/glass-effect.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<Callout type="warning">
+Liquid Glass는 실험적인 구현입니다. 앱 root `SeedProvider`에 `supportsLiquidGlass`를 넘겨야 활성화되며, 지금은 iOS 26 이상에서만 그립니다. 활성화 방법과 제약은 [Host Integration](/lynx/getting-started/host-integration#liquid-glass-ios)을 참고하세요. 이 예제는 미리보기를 위해 예제 안에서만 `supportsLiquidGlass`를 켭니다.
+</Callout>
+
 ## 웹 버전과의 차이
 
 - `onClick` 대신 `bindtap`을 사용합니다. React state를 바꾸는 handler의 첫 줄에는 `"background only"`를 두세요.

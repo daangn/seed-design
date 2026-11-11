@@ -171,6 +171,10 @@
 .seed-chip__root--disabled_true {
     opacity: 0.5
 }
+.seed-chip__root--glass_true {
+    --seed-chip-stroke-width: 0px;
+    transition-duration: 0s
+}
 .seed-chip__root--size_small-layout_withText {
     min-width: 44px
 }

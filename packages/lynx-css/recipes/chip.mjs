@@ -162,6 +162,10 @@ export const chipVariantMap = {
   "disabled": [
     true,
     false
+  ],
+  "glass": [
+    true,
+    false
   ]
 };
 

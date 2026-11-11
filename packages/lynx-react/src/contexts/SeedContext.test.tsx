@@ -208,3 +208,37 @@ describe("useSeedClassName", () => {
     );
   });
 });
+
+describe("SeedProvider glassEffect", () => {
+  function renderGlass(tree: (children: ReactNode) => ReactNode) {
+    return renderHook(() => useSeedContext(), {
+      wrapper: ({ children }: { children: ReactNode }) => tree(children),
+    });
+  }
+
+  it("normalizes true, inherits when omitted, and cancels with false", () => {
+    expect(
+      renderGlass((children) => <SeedProvider glassEffect>{children}</SeedProvider>).result.current
+        .glassEffect,
+    ).toEqual({ style: "regular", interactive: false });
+
+    expect(
+      renderGlass((children) => (
+        <SeedProvider supportsLiquidGlass glassEffect={{ style: "clear", interactive: true }}>
+          <SeedProvider>{children}</SeedProvider>
+        </SeedProvider>
+      )).result.current,
+    ).toMatchObject({
+      supportsLiquidGlass: true,
+      glassEffect: { style: "clear", interactive: true },
+    });
+
+    expect(
+      renderGlass((children) => (
+        <SeedProvider supportsLiquidGlass glassEffect>
+          <SeedProvider glassEffect={false}>{children}</SeedProvider>
+        </SeedProvider>
+      )).result.current,
+    ).toMatchObject({ supportsLiquidGlass: true, glassEffect: undefined });
+  });
+});

@@ -182,6 +182,23 @@ Lynx `Chip`은 별도 `ui:chip` snippet 없이 `@seed-design/lynx-react` 패키�
   ```
 </LynxComponentExample>
 
+### Glass Effect
+
+`glassEffect`로 iOS Liquid Glass를 적용합니다. `style`은 glass 재질(`"regular"`·`"clear"`)을, `interactive`는 glass가 터치에 직접 반응할지를 정합니다. glass일 때는 현재 상태의 배경색이 glass tint가 되고, 테두리를 그리지 않습니다.
+
+<LynxComponentExample name="lynx/chip/glass-effect">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip/glass-effect.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<Callout type="warning">
+Liquid Glass는 실험적인 구현입니다. 앱 root `SeedProvider`에 `supportsLiquidGlass`를 넘겨야 활성화되며, 지금은 iOS 26 이상에서만 그립니다. 활성화 방법과 제약은 [Host Integration](/lynx/getting-started/host-integration#liquid-glass-ios)을 참고하세요. 이 예제는 미리보기를 위해 예제 안에서만 `supportsLiquidGlass`를 켭니다.
+</Callout>
+
 ## 이전 버전에서 옮기기
 
 - `Chip.Root`·`ChipRoot`(Props 타입 포함)를 제거했습니다. React와 같이 `Chip.Button`·`ChipButton`을 사용하세요. 동작과 스타일은 같습니다.
