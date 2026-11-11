@@ -311,7 +311,7 @@
   --seed-color-stroke-neutral-muted: var(--seed-color-palette-static-black-alpha-300);
   --seed-color-stroke-neutral-solid: var(--seed-color-palette-gray-800);
   --seed-color-stroke-neutral-subtle: var(--seed-color-palette-static-black-alpha-200);
-  --seed-color-stroke-neutral-weak: var(--seed-color-palette-gray-400);
+  --seed-color-stroke-neutral-weak: var(--seed-color-palette-gray-alpha-400);
   --seed-color-stroke-positive-solid: var(--seed-color-palette-green-700);
   --seed-color-stroke-positive-weak: var(--seed-color-palette-green-300);
   --seed-color-stroke-warning-solid: var(--seed-color-palette-yellow-700);
@@ -543,7 +543,7 @@
   --seed-color-stroke-neutral-muted: var(--seed-color-palette-static-white-alpha-100);
   --seed-color-stroke-neutral-solid: var(--seed-color-palette-gray-800);
   --seed-color-stroke-neutral-subtle: var(--seed-color-palette-static-white-alpha-50);
-  --seed-color-stroke-neutral-weak: var(--seed-color-palette-gray-400);
+  --seed-color-stroke-neutral-weak: var(--seed-color-palette-gray-alpha-400);
   --seed-color-stroke-positive-solid: var(--seed-color-palette-green-700);
   --seed-color-stroke-positive-weak: var(--seed-color-palette-green-300);
   --seed-color-stroke-warning-solid: var(--seed-color-palette-yellow-700);

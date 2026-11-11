@@ -9,7 +9,7 @@
     border-width: var(--seed-reaction-button-stroke-width);
     border-style: solid;
     --seed-reaction-button-stroke-width: 1px;
-    border-color: var(--seed-color-stroke-neutral-muted);
+    border-color: var(--seed-color-stroke-neutral-weak);
     --track-color: var(--seed-color-palette-gray-500);
     --range-color: var(--seed-color-fg-neutral);
     transition: background-color var(--seed-duration-color-transition) var(--seed-timing-function-easing), border-color var(--seed-duration-color-transition) var(--seed-timing-function-easing)
@@ -108,7 +108,7 @@
 .seed-reaction-button__root--disabled_true {
     background: var(--seed-color-bg-disabled);
     --seed-reaction-button-stroke-width: 0px;
-    border-color: var(--seed-color-stroke-neutral-muted)
+    border-color: var(--seed-color-stroke-neutral-weak)
 }
 .seed-reaction-button__label--disabled_true {
     color: var(--seed-color-fg-disabled)

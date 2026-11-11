@@ -125,7 +125,7 @@ data:
     tone=neutral, variant=outline:
       enabled:
         root:
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-weak
         label:
           color: $color.fg.neutral-muted
 
