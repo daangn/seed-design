@@ -88,6 +88,7 @@ jobs:
           cache-scope: ${{ github.ref_name }}
           default-branch: ${{ github.event.repository.default_branch }}
           benchmark-cache-key: ${{ inputs.benchmark-cache-key }}
+          restore-astro-pages: true
 
       - name: Build Docs
         id: build-docs
@@ -103,16 +104,21 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=6144
           DOCS_ARCHIVE_PLATFORM: ${{ steps.target.outputs.archive-platform }}
           DOCS_ARCHIVE_VERSION: ${{ steps.target.outputs.archive-version }}
+          # 프리뷰는 안 바뀐 페이지를 캐시에서 복원한다. Production은 항상 전부 렌더링한다.
+          SEED_DOCS_INCREMENTAL_BUILD: "1"
+          BUILD_LOG: ${{ runner.temp }}/docs-build.log
         run: |
           build_started_at="$(date +%s)"
           set +e
+          set -o pipefail
           if [ -n "$DOCS_ARCHIVE_VERSION" ]; then
-            bun run "build:archive:$DOCS_ARCHIVE_PLATFORM" "$DOCS_ARCHIVE_VERSION"
+            bun run "build:archive:$DOCS_ARCHIVE_PLATFORM" "$DOCS_ARCHIVE_VERSION" 2>&1 | tee "$BUILD_LOG"
           else
-            bun run build
+            bun run build 2>&1 | tee "$BUILD_LOG"
           fi
           status=$?
           echo "duration-seconds=$(( $(date +%s) - build_started_at ))" >> "$GITHUB_OUTPUT"
+          echo "restored-pages=$(grep -c '(restored)' "$BUILD_LOG")" >> "$GITHUB_OUTPUT"
           echo "lynx-cache-size-kib=$(du -sk .cache/lynx-rspeedy 2>/dev/null | cut -f1 || echo 0)" >> "$GITHUB_OUTPUT"
           echo "exit-code=$status" >> "$GITHUB_OUTPUT"
           exit "$status"
@@ -124,6 +130,8 @@ jobs:
           LYNX_CACHE_HIT: ${{ steps.restore-build-cache.outputs.lynx-cache-hit }}
           LYNX_CACHE_MATCHED_KEY: ${{ steps.restore-build-cache.outputs.lynx-cache-matched-key }}
           LYNX_CACHE_PRIMARY_KEY: ${{ steps.restore-build-cache.outputs.lynx-cache-primary-key }}
+          ASTRO_CACHE_HIT: ${{ steps.restore-build-cache.outputs.astro-cache-hit }}
+          RESTORED_PAGES: ${{ steps.build-docs.outputs.restored-pages }}
           BUILD_DURATION_SECONDS: ${{ steps.build-docs.outputs.duration-seconds }}
           LYNX_CACHE_SIZE_KIB: ${{ steps.build-docs.outputs.lynx-cache-size-kib }}
           BUILD_EXIT_CODE: ${{ steps.build-docs.outputs.exit-code }}
@@ -145,6 +153,8 @@ jobs:
             echo "| Lynx Rspeedy cache exact hit | ${LYNX_CACHE_HIT:-false} |"
             echo "| Lynx Rspeedy cache matched key | ${LYNX_CACHE_MATCHED_KEY:-none} |"
             echo "| Lynx Rspeedy cache primary key | ${LYNX_CACHE_PRIMARY_KEY:-unknown} |"
+            echo "| Astro page cache exact hit | ${ASTRO_CACHE_HIT:-false} |"
+            echo "| Astro pages restored from cache | ${RESTORED_PAGES:-not-recorded} |"
             echo "| Total docs build time (seconds) | ${BUILD_DURATION_SECONDS:-not-recorded} |"
             echo "| Lynx Rspeedy cache size (KiB) | ${LYNX_CACHE_SIZE_KIB:-not-recorded} |"
             echo "| Build exit code | ${BUILD_EXIT_CODE:-not-recorded} |"
@@ -163,6 +173,13 @@ jobs:
         with:
           path: docs/.cache/fumadocs-typescript
           key: ${{ steps.restore-build-cache.outputs.fumadocs-cache-primary-key }}
+
+      - name: Save Astro page cache
+        if: ${{ steps.restore-build-cache.outputs.astro-cache-hit != 'true' && hashFiles('docs/.cache/astro/incremental-build.json') != '' }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: docs/.cache/astro
+          key: ${{ steps.restore-build-cache.outputs.astro-cache-primary-key }}
 
       - name: Save Figma image cache
         uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5

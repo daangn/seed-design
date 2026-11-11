@@ -1,5 +1,5 @@
 name: Restore docs build caches
-description: Restore shared Lynx Rspeedy and Fumadocs TypeScript caches
+description: Restore shared Lynx Rspeedy, Fumadocs TypeScript, and Astro page caches
 
 inputs:
   cache-generation:
@@ -15,6 +15,10 @@ inputs:
     description: Optional isolated namespace for reproducible cache benchmarks
     required: false
     default: ""
+  restore-astro-pages:
+    description: Whether to restore rendered pages for the Astro incremental build
+    required: false
+    default: "false"
 
 outputs:
   lynx-cache-hit:
@@ -35,6 +39,15 @@ outputs:
   fumadocs-cache-primary-key:
     description: Primary key to use when saving the Fumadocs TypeScript cache
     value: ${{ steps.restore-fumadocs.outputs.cache-primary-key }}
+  astro-cache-hit:
+    description: Whether the Astro page cache primary key was restored exactly
+    value: ${{ steps.restore-astro.outputs.cache-hit }}
+  astro-cache-matched-key:
+    description: Key of the Astro page cache that was restored
+    value: ${{ steps.restore-astro.outputs.cache-matched-key }}
+  astro-cache-primary-key:
+    description: Primary key to use when saving the Astro page cache
+    value: ${{ steps.restore-astro.outputs.cache-primary-key }}
 
 runs:
   using: composite
@@ -54,6 +67,9 @@ runs:
       run: |
         lynx_namespace="${RUNNER_OS}-docs-lynx-rspeedy-v1-"
         fumadocs_namespace="${RUNNER_OS}-fumadocs-typescript-v2-"
+        # Astro가 설정·lockfile·모듈 해시로 캐시의 호환성을 스스로 확인하므로 호환성 해시를 두지 않는다.
+        # 맞지 않는 캐시는 페이지를 다시 렌더링할 뿐이다.
+        astro_namespace="${RUNNER_OS}-docs-astro-pages-v1-"
         # 외부 Actions cache와 내부 JSON generation이 같은 호환성 기준을 사용한다.
         # 이 해시는 setup 단계에서 복원되는 lib와 .ultra.cache.json 같은 생성물을 제외한다.
         fumadocs_compatibility_hash="$(bun -e 'import { typeTableCacheCompatibilityHash } from "./docs/components/type-table/cache-compatibility.ts"; process.stdout.write(typeTableCacheCompatibilityHash)')"
@@ -61,6 +77,7 @@ runs:
         if [ -n "$BENCHMARK_CACHE_KEY" ]; then
           lynx_namespace+="benchmark-${BENCHMARK_CACHE_KEY}-"
           fumadocs_namespace+="benchmark-${BENCHMARK_CACHE_KEY}-"
+          astro_namespace+="benchmark-${BENCHMARK_CACHE_KEY}-"
         fi
 
         lynx_namespace+="${LYNX_COMPATIBILITY_HASH}-"
@@ -70,6 +87,7 @@ runs:
         echo "lynx-restore-prefix=${lynx_namespace}scope-${DEFAULT_BRANCH}-" >> "$GITHUB_OUTPUT"
         echo "fumadocs-primary-key=${fumadocs_namespace}scope-${CACHE_SCOPE}-${CACHE_GENERATION}" >> "$GITHUB_OUTPUT"
         echo "fumadocs-restore-prefix=${fumadocs_namespace}scope-${DEFAULT_BRANCH}-" >> "$GITHUB_OUTPUT"
+        echo "astro-primary-key=${astro_namespace}scope-${CACHE_SCOPE}-${CACHE_GENERATION}" >> "$GITHUB_OUTPUT"
 
     - name: Restore Lynx Rspeedy cache
       id: restore-lynx
@@ -89,6 +107,16 @@ runs:
         restore-keys: |
           ${{ steps.keys.outputs.fumadocs-restore-prefix }}
 
+    # 렌더링한 페이지를 재사용한다(`docs/lib/incremental-build.ts`). 기본 브랜치는 이 캐시를 만들지
+    # 않으므로 현재 브랜치의 키만 찾는다.
+    - name: Restore Astro page cache
+      id: restore-astro
+      if: ${{ inputs.restore-astro-pages == 'true' }}
+      uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
+      with:
+        path: docs/.cache/astro
+        key: ${{ steps.keys.outputs.astro-primary-key }}
+
     - name: Report cache restore
       shell: bash
       env:
@@ -98,6 +126,10 @@ runs:
         FUMADOCS_CACHE_HIT: ${{ steps.restore-fumadocs.outputs.cache-hit }}
         FUMADOCS_CACHE_MATCHED_KEY: ${{ steps.restore-fumadocs.outputs.cache-matched-key }}
         FUMADOCS_CACHE_PRIMARY_KEY: ${{ steps.restore-fumadocs.outputs.cache-primary-key }}
+        ASTRO_CACHE_ENABLED: ${{ inputs.restore-astro-pages }}
+        ASTRO_CACHE_HIT: ${{ steps.restore-astro.outputs.cache-hit }}
+        ASTRO_CACHE_MATCHED_KEY: ${{ steps.restore-astro.outputs.cache-matched-key }}
+        ASTRO_CACHE_PRIMARY_KEY: ${{ steps.restore-astro.outputs.cache-primary-key }}
         CACHE_SCOPE: ${{ inputs.cache-scope }}
         DEFAULT_BRANCH: ${{ inputs.default-branch }}
       run: |
@@ -131,6 +163,9 @@ runs:
           echo "| --- | --- | --- | --- | --- |"
           report_cache "Lynx Rspeedy" "$LYNX_CACHE_HIT" "$LYNX_CACHE_MATCHED_KEY" "$LYNX_CACHE_PRIMARY_KEY"
           report_cache "Fumadocs TypeScript" "$FUMADOCS_CACHE_HIT" "$FUMADOCS_CACHE_MATCHED_KEY" "$FUMADOCS_CACHE_PRIMARY_KEY"
+          if [ "$ASTRO_CACHE_ENABLED" = "true" ]; then
+            report_cache "Astro pages" "$ASTRO_CACHE_HIT" "$ASTRO_CACHE_MATCHED_KEY" "$ASTRO_CACHE_PRIMARY_KEY"
+          fi
           echo
           echo "Lookup order: current branch ($CACHE_SCOPE), then default branch ($DEFAULT_BRANCH)."
         } >> "$GITHUB_STEP_SUMMARY"

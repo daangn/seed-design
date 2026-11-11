@@ -36,6 +36,11 @@ export default defineConfig({
     }),
   },
   integrations: [react(), mdx(), fumadocs(createFumadocsOptions())],
+  // 다른 docs 빌드 캐시(`.cache/lynx-rspeedy` 등)와 같은 곳에 둔다.
+  cacheDir: "./.cache/astro",
+  // 안 바뀐 페이지의 렌더링을 건너뛴다. 캐시 키는 `lib/incremental-build.ts`가 만들고, 깨끗한 checkout을
+  // 전제로 하므로 CI의 프리뷰 빌드에서만 켠다.
+  experimental: { incrementalBuild: process.env.SEED_DOCS_INCREMENTAL_BUILD === "1" },
   // dev 주소는 CLI의 로컬 `BASE_URL`과 `lib/metadata.ts`가 전제하는 3000번을 유지한다. portless처럼
   // `PORT`를 정해 주는 실행기 아래에서는 그 포트를 따른다.
   server: { port: Number(process.env.PORT) || 3000, allowedHosts: [".test"] },

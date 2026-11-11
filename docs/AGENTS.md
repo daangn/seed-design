@@ -20,6 +20,7 @@ Astro·Fumadocs 기반 SEED 문서 사이트다. `content/`가 문서 원천이�
 - MDX 컴포넌트는 기본으로 빌드 때 정적 HTML이 된다. 브라우저에서 상호작용해야 하는 컴포넌트는 `lib/satteri/rehype-mdx-islands.ts`의 `ISLAND_ROOTS`(부모의 context에 의존하면 `ISLAND_MEMBERS`)와 `components/mdx-island.tsx`의 `islandComponents`에 같은 이름으로 등록한다.
 - island의 props는 직렬화되어 브라우저로 넘어간다. 빌드 시점 데이터(파일·registry·생성 manifest)가 필요한 컴포넌트는 `src/components/mdx/`에 `.astro` wrapper로 만들고 `src/components/mdx/components.ts`에 등록한다.
 - island 경계에는 `<astro-island>`·`<astro-slot>` 래퍼가 DOM에 남아 `>`·`+`·`:first-child` 선택자가 끊긴다. 본문 전체가 `.prose > astro-slot` 아래에 있다 → island나 slot 경계를 건너는 구조 선택자(Tailwind의 `*:`·`[&>…]` 포함)를 추가하면 `src/styles/astro-wrappers.css`에 래퍼를 건너는 대응 규칙을 함께 둔다.
+- 프리뷰 빌드는 안 바뀐 페이지를 캐시에서 복원한다. 문서 페이지가 렌더링 때 모듈 import나 `content/` 밖 추적 파일이 아닌 데이터(외부 API 응답, 추적하지 않는 생성물)를 새로 읽게 되면 `lib/incremental-build.ts`의 캐시 키에 그 입력을 넣는다. 넣을 수 없으면 그 route의 `getStaticPaths`에서 `cacheKey`를 빼 항상 렌더링하게 한다.
 - `astro.config.ts`에서 도달하는 모듈(`lib/content/satteri-options.ts`와 그 import)에서는 `@/` alias를 쓰지 않는다. 설정을 불러올 때는 Vite alias가 적용되지 않는다 → 상대 경로로 import한다.
 
 ### MDX 작성

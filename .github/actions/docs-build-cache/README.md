@@ -1,10 +1,10 @@
 # 문서 빌드 캐시
 
-문서 프리뷰와 Production 빌드는 이 액션으로 `docs/.cache/lynx-rspeedy`와 `docs/.cache/fumadocs-typescript`를 복원한다. 두 경로는 무효화 기준이 달라 archive와 namespace를 따로 둔다. 한쪽 key가 정확히 일치해 저장 단계가 생략되어도 다른 쪽은 독립적으로 저장된다.
+문서 프리뷰와 Production 빌드는 이 액션으로 `docs/.cache/lynx-rspeedy`와 `docs/.cache/fumadocs-typescript`를 복원한다. 프리뷰 빌드는 `docs/.cache/astro`(렌더링한 페이지)도 복원한다. 경로마다 무효화 기준이 달라 archive와 namespace를 따로 둔다. 한쪽 key가 정확히 일치해 저장 단계가 생략되어도 다른 쪽은 독립적으로 저장된다.
 
 Lynx Rspeedy namespace는 운영체제, 의존성, Lynx 빌드 설정의 해시로 구성한다. 일반적인 문서와 패키지 소스는 해시에서 제외한다. 해당 변경은 Rspack persistent cache의 의존성 추적에 맡겨 영향받은 작업만 다시 실행한다. Fumadocs namespace는 의존성과 TypeScript 및 타입 테이블 생성 설정을 포함한다. Fumadocs 자체 캐시는 입력 파일 내용과 패키지 버전으로 항목을 무효화한다.
 
-Astro·Vite가 `docs/.astro`와 `docs/node_modules` 아래에 만드는 빌드 캐시는 복원하지 않는다. 커밋 사이에 재사용해도 안전한지 확인하지 않았다. Figma 이미지 캐시(`docs/.cache/figma-image`)는 각 workflow가 직접 복원·저장한다.
+Figma 이미지 캐시(`docs/.cache/figma-image`)는 각 workflow가 직접 복원·저장한다.
 
 ## 복원 순서
 
@@ -24,3 +24,16 @@ GitHub Actions 캐시는 같은 key의 내용을 갱신할 수 없다. Productio
 ## Fumadocs 타입 캐시
 
 Fumadocs 타입 캐시는 `docs/components/type-table/generator.ts`가 `.cache/fumadocs-typescript`에 쓴다. 별도 Fumadocs archive는 의존성, TypeScript 설정, 타입 테이블 generator와 Fumadocs 설정이 같을 때만 재사용한다.
+
+## Astro 페이지 캐시
+
+프리뷰 빌드는 `restore-astro-pages: true`와 `SEED_DOCS_INCREMENTAL_BUILD=1`로 Astro의 `experimental.incrementalBuild`를 켠다. Astro는 `docs/.cache/astro`에 렌더링한 HTML과 manifest를 두고, 다음 빌드에서 안 바뀐 페이지는 렌더링하지 않고 복사한다. 번들링과 MDX 컴파일은 매번 다시 한다.
+
+페이지를 재사용할지는 두 가지로 정한다.
+
+- Astro가 계산하는 해시: 설정, lockfile, route와 컴파일된 MDX의 모듈 그래프
+- `docs/lib/incremental-build.ts`가 만드는 `cacheKey`: 모듈 그래프 밖에서 렌더링 때 읽는 입력. `docs/content` 밖의 추적 파일 전체, 모든 문서의 frontmatter와 page tree, Lynx 예제 manifest, Sanity의 컴포넌트 상태, 문서의 Git 수정일이다.
+
+그래서 문서 본문만 고친 push는 그 문서만 다시 렌더링하고, 코드·의존성·frontmatter가 바뀐 push는 전부 다시 렌더링한다. `docs/content` 밖에 커밋되지 않은 변경이 있으면 캐시를 쓰지 않고 로그에 `[incremental-build]` 경고를 남긴다. 빌드 요약의 `Astro pages restored from cache`가 복원한 페이지 수다.
+
+이 캐시는 호환성 해시 없이 브랜치마다 `baseline` 하나만 저장하고, 기본 브랜치 캐시로 내려가지 않는다. Production 빌드는 캐시를 켜지 않고 항상 모든 페이지를 렌더링한다. 프리뷰에서 페이지가 낡아 보이면 Actions에서 해당 브랜치의 `docs-astro-pages` 캐시를 지우고 다시 실행한다.

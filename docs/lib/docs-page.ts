@@ -1,8 +1,10 @@
 import { getMarkdownPageLastModified } from "@/lib/git-timestamps";
+import { docsPageCacheKey } from "@/lib/incremental-build";
 import { resolveCoverImage } from "@/lib/seo";
 
 interface SourcePage {
   slugs: string[];
+  absolutePath?: string;
 }
 
 /** 섹션 `[...slug].astro`의 `getStaticPaths`. source의 모든 페이지를 route로 만든다. */
@@ -11,10 +13,13 @@ export async function docsStaticPaths<Page extends SourcePage>(
   routeSlug: (slug: string[]) => string[] = (slug) => slug,
 ) {
   const source = await getSource();
-  return source.getPages().map((page) => ({
-    params: { slug: routeSlug(page.slugs).join("/") || undefined },
-    props: { page },
-  }));
+  return Promise.all(
+    source.getPages().map(async (page) => ({
+      params: { slug: routeSlug(page.slugs).join("/") || undefined },
+      props: { page },
+      cacheKey: await docsPageCacheKey(page),
+    })),
+  );
 }
 
 interface LoadablePage<Body, Toc> {

@@ -3,6 +3,7 @@ import type { GetStaticPaths } from "astro";
 import { resolveReferences, resolveToken } from "@seed-design/rootage-core";
 import { DocsShell } from "@/components/layout/docs-shell";
 import { getDefaultModes } from "@/components/rootage";
+import { siteCacheKey } from "@/lib/incremental-build";
 import { getRootage } from "@/lib/rootage";
 import { TAGS } from "@/lib/search-tags";
 import { buildSeoMetadata } from "@/lib/seo";
@@ -10,8 +11,8 @@ import { getFoundationsSource } from "@/lib/source";
 import Layout from "@/src/layouts/Layout.astro";
 
 export const getStaticPaths = (async () => {
-  const rootage = await getRootage();
-  return rootage.tokenIds.map((id) => ({ params: { id } }));
+  const [rootage, cacheKey] = await Promise.all([getRootage(), siteCacheKey()]);
+  return rootage.tokenIds.map((id) => ({ params: { id }, cacheKey }));
 }) satisfies GetStaticPaths;
 
 const tokenId = Astro.params.id as `$${string}`;
