@@ -225,6 +225,7 @@ describe("useNavigationMenu (safe area)", () => {
 });
 
 const safeAreaObservers = new Set<FakeResizeObserver>();
+let sentinelHeight = 0;
 
 class FakeResizeObserver implements ResizeObserver {
   readonly targets: Element[] = [];
@@ -243,8 +244,20 @@ class FakeResizeObserver implements ResizeObserver {
     safeAreaObservers.delete(this);
   }
 
+  // 보고할 때마다 크기를 바꿔서, sentinel이 inset 변화로 받아들이게 해요.
   report() {
-    this.callback([], this);
+    sentinelHeight += 1;
+    const contentRect = new DOMRect(0, 0, 0, sentinelHeight);
+    this.callback(
+      this.targets.map((target) => ({
+        target,
+        contentRect,
+        borderBoxSize: [],
+        contentBoxSize: [],
+        devicePixelContentBoxSize: [],
+      })),
+      this,
+    );
   }
 }
 
@@ -308,7 +321,6 @@ describe("useNavigationMenu (safe area re-read)", () => {
     positioner.style.setProperty("--seed-safe-area-bottom", "0px");
     rerender(<Probe open />);
     await act(async () => {});
-    reportSafeAreaSentinel();
     const withoutInset = getAvailableHeight();
 
     rerender(<Probe open={false} />);

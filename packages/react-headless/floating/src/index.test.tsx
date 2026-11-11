@@ -8,6 +8,7 @@ import { usePositionedFloating } from "./index";
 const waitForPositioning = () => act(async () => {});
 
 const observers = new Set<FakeResizeObserver>();
+let sentinelHeight = 0;
 
 class FakeResizeObserver implements ResizeObserver {
   readonly targets: Element[] = [];
@@ -26,8 +27,20 @@ class FakeResizeObserver implements ResizeObserver {
     observers.delete(this);
   }
 
+  // 보고할 때마다 크기를 바꿔서, sentinel이 inset 변화로 받아들이게 해요.
   report() {
-    this.callback([], this);
+    sentinelHeight += 1;
+    const contentRect = new DOMRect(0, 0, 0, sentinelHeight);
+    this.callback(
+      this.targets.map((target) => ({
+        target,
+        contentRect,
+        borderBoxSize: [],
+        contentBoxSize: [],
+        devicePixelContentBoxSize: [],
+      })),
+      this,
+    );
   }
 }
 
@@ -119,7 +132,6 @@ describe("usePositionedFloating", () => {
     it("repositions when an inset changes while open, without a resize", async () => {
       const { getByTestId } = render(<Floating />);
       await waitForPositioning();
-      reportSafeAreaSentinel();
 
       const positioner = getByTestId("positioner");
       positioner.style.setProperty("--seed-safe-area-bottom", "0px");

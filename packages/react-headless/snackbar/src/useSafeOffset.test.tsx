@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { useSafeOffset } from "./useSafeOffset";
 
 const observers = new Set<FakeResizeObserver>();
+let sentinelHeight = 0;
 
 class FakeResizeObserver implements ResizeObserver {
   readonly targets: Element[] = [];
@@ -23,8 +24,20 @@ class FakeResizeObserver implements ResizeObserver {
     observers.delete(this);
   }
 
+  // 보고할 때마다 크기를 바꿔서, sentinel이 inset 변화로 받아들이게 해요.
   report() {
-    this.callback([], this);
+    sentinelHeight += 1;
+    const contentRect = new DOMRect(0, 0, 0, sentinelHeight);
+    this.callback(
+      this.targets.map((target) => ({
+        target,
+        contentRect,
+        borderBoxSize: [],
+        contentBoxSize: [],
+        devicePixelContentBoxSize: [],
+      })),
+      this,
+    );
   }
 }
 
@@ -86,7 +99,6 @@ describe("useSafeOffset", () => {
   it("recomputes the offset when the bottom inset changes without a resize", () => {
     const { getByTestId } = render(<Probe />);
     const region = getByTestId("region");
-    reportSafeAreaSentinel();
 
     region.style.setProperty("--seed-safe-area-bottom", "34px");
     reportSafeAreaSentinel();
