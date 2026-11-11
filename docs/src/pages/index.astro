@@ -1,0 +1,14 @@
+---
+import { LandingPage } from "@/components/landing/landing-page";
+import { buildSeoMetadata } from "@/lib/seo";
+import Layout from "@/src/layouts/Layout.astro";
+---
+
+<Layout
+  metadata={buildSeoMetadata({
+    title: "SEED Design System",
+    description: "SEED는 당근 제품을 위해 통합된 디자인 언어입니다.",
+  })}
+>
+  <LandingPage client:load />
+</Layout>

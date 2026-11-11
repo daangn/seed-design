@@ -1,0 +1,19 @@
+---
+import type { GetStaticPaths } from "astro";
+import { BlockRenderer } from "@/components/block-renderer";
+import { BlockThemeListener } from "@/components/block-theme-listener";
+import { buildSeoMetadata } from "@/lib/seo";
+import { registryBlock } from "@/registry/react/registry-block";
+import Layout from "@/src/layouts/Layout.astro";
+
+// MDX의 `BlockPreview`가 iframe으로 띄우는 block 미리보기. docs 내비게이션 없이 block만 렌더링한다.
+export const getStaticPaths = (() =>
+  registryBlock.items.map((item) => ({ params: { name: item.id } }))) satisfies GetStaticPaths;
+
+const { name } = Astro.params;
+---
+
+<Layout metadata={buildSeoMetadata()}>
+  <BlockThemeListener client:load />
+  <BlockRenderer client:load name={name} />
+</Layout>

@@ -1,16 +1,20 @@
 import { IconLockLine } from "@karrotmarket/react-monochrome-icon";
+import clsx from "clsx";
 import type * as PageTree from "fumadocs-core/page-tree";
 import { DocsLayout } from "fumadocs-ui/layouts/notebook";
 import { RootProvider } from "fumadocs-ui/provider/astro";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { type ComponentType, type ReactNode, type SVGProps, useMemo } from "react";
 import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
+import { TokenReferencePage, type TokenReferencePageProps } from "@/components/token-reference-page";
+import { ArticleShareButton } from "@/components/updates/share-button";
 import { DocsVersionSwitcher } from "@/components/docs-version-switcher";
 import { NoSidebarDocsLayout } from "@/components/layout/no-sidebar-docs-layout";
 import { MotionProvider } from "@/components/MotionProvider";
 import DefaultSearchDialog from "@/components/search/search";
 import type { ChangelogPlatform } from "@/lib/changelog-platform";
 import { type ArchivePlatform, archivePaths } from "@/lib/docs-archive";
+import { formatPublishedDate } from "@/lib/format-date";
 import { isPageTreeIconName, type PageTreeIconName } from "@/lib/page-tree-icons";
 import { TAGS } from "@/lib/search-tags";
 import { DocsPageRenderer, type DocsPageRendererProps } from "./docs-page-renderer";
@@ -35,6 +39,10 @@ export interface DocsShellProps {
   page?: Omit<DocsPageRendererProps, "children" | "platformStatus" | "meta" | "llmOptions">;
   /** get-started처럼 TOC 없는 산문 페이지. `page` 대신 쓴다. */
   prose?: { title: string; description?: string; coverImage?: PageCoverImage };
+  /** 토큰 레퍼런스 페이지. `page` 대신 쓴다. */
+  token?: TokenReferencePageProps;
+  /** Updates 글의 게시일 메타(공유 버튼 포함). `page`와 함께 쓴다. */
+  published?: { title: string; date: Date; release: boolean };
   /** changelog 페이지면 기본 LLMs.txt 메뉴 대신 changelog 전용 메뉴를 렌더링한다. */
   changelog?: { platform: ChangelogPlatform; fallbackUrl: string };
   /** Astro named slot(`platform-status`, `meta`)으로 받는 서버 렌더링 조각. */
@@ -73,6 +81,8 @@ export function DocsShell({
   motion = false,
   page,
   prose,
+  token,
+  published,
   changelog,
   platformStatus,
   meta,
@@ -111,7 +121,23 @@ export function DocsShell({
             <DocsPageRenderer
               {...page}
               platformStatus={platformStatus}
-              meta={meta}
+              meta={
+                published ? (
+                  <div
+                    className={clsx(
+                      "not-prose mt-2 mb-3 flex items-center gap-1.5 text-base text-fd-muted-foreground",
+                      published.release ? "justify-start" : "justify-center",
+                    )}
+                  >
+                    <time dateTime={published.date.toISOString()}>
+                      {formatPublishedDate(published.date)}
+                    </time>
+                    <ArticleShareButton title={published.title} />
+                  </div>
+                ) : (
+                  meta
+                )
+              }
               llmOptions={
                 changelog ? (
                   <ChangelogLLMOptions
@@ -139,6 +165,8 @@ export function DocsShell({
               ) : null}
               {children}
             </ProsePage>
+          ) : token ? (
+            <TokenReferencePage {...token} />
           ) : (
             children
           )}

@@ -15,16 +15,17 @@ import SeoHead from "@/src/components/SeoHead.astro";
 
 interface Props {
   metadata: SeoMetadata;
+  viewport?: string;
 }
 
-const { metadata } = Astro.props;
+const { metadata, viewport = "width=device-width, initial-scale=1" } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="ko" data-seed data-seed-user-color-scheme="light" data-seed-color-mode="system">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content={viewport} />
     <SeoHead metadata={metadata} />
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" href={archivePaths.asset("/favicon.ico")} sizes="32x32" />

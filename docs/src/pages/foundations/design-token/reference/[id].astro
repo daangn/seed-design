@@ -1,0 +1,47 @@
+---
+import type { GetStaticPaths } from "astro";
+import { resolveReferences, resolveToken } from "@seed-design/rootage-core";
+import { DocsShell } from "@/components/layout/docs-shell";
+import { getDefaultModes } from "@/components/rootage";
+import { getRootage } from "@/lib/rootage";
+import { TAGS } from "@/lib/search-tags";
+import { buildSeoMetadata } from "@/lib/seo";
+import { getFoundationsSource } from "@/lib/source";
+import Layout from "@/src/layouts/Layout.astro";
+
+export const getStaticPaths = (async () => {
+  const rootage = await getRootage();
+  return rootage.tokenIds.map((id) => ({ params: { id } }));
+}) satisfies GetStaticPaths;
+
+const tokenId = Astro.params.id as `$${string}`;
+const [rootage, source] = await Promise.all([getRootage(), getFoundationsSource()]);
+const decl = rootage.tokenEntities[tokenId];
+const collection = decl.collection;
+const defaultModes = getDefaultModes(rootage);
+
+const definitions = rootage.tokenCollectionEntities[collection].modes.map(({ id: mode }) => {
+  const { path, value } = resolveToken(rootage, tokenId, { ...defaultModes, [collection]: mode });
+
+  return {
+    mode,
+    path: path.map((id) => ({ id, description: rootage.tokenEntities[id]?.description })),
+    value,
+  };
+});
+---
+
+<Layout metadata={buildSeoMetadata({ title: tokenId, description: decl.description ?? undefined })}>
+  <DocsShell
+    client:load
+    pathname={`/foundations/design-token/reference/${encodeURIComponent(tokenId)}`}
+    tree={source.pageTree}
+    defaultSearchTag={TAGS.foundations.value}
+    token={{
+      tokenId,
+      description: decl.description,
+      definitions,
+      references: resolveReferences(rootage, tokenId, defaultModes),
+    }}
+  />
+</Layout>
