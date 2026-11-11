@@ -7,7 +7,27 @@
     "security:minimumReleaseAgeNpm"
   ],
   "baseBranchPatterns": ["dev"],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/vendor/**",
+    "**/__tests__/**",
+    "**/test/**",
+    "**/tests/**",
+    "**/__fixtures__/**"
+  ],
+  "minimumReleaseAge": "3 days",
+  "internalChecksFilter": "strict",
   "packageRules": [
+    {
+      "description": "Match bunfig.toml minimumReleaseAgeExcludes",
+      "matchPackageNames": [
+        "@seed-design/rootage-artifacts",
+        "@kaptures/cli",
+        "@kaptures/storybook"
+      ],
+      "minimumReleaseAge": "0 days"
+    },
     {
       "matchPackageNames": ["tailwindcss"],
       "matchFileNames": ["packages/tailwind3-plugin/**"],
@@ -37,6 +57,12 @@
     {
       "matchPackageNames": ["bun"],
       "groupName": "bun"
+    },
+    {
+      "description": "lynx-stack packages must be updated together",
+      "matchSourceUrls": ["https://github.com/lynx-family/lynx-stack"],
+      "groupName": "lynx-stack",
+      "groupSlug": "lynx-stack"
     }
   ]
 }
