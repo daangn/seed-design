@@ -13,7 +13,13 @@ afterEach(() => {
   document.body.replaceChildren();
 });
 
-function renderQuantityPicker(props: Partial<QuantityPickerRootProps> = {}): RenderResult {
+type WithOptional<T, K extends keyof T> = T extends unknown
+  ? Omit<T, K> & Partial<Pick<T, K>>
+  : never;
+
+function renderQuantityPicker(
+  props: WithOptional<QuantityPickerRootProps, "min" | "max"> = {},
+): RenderResult {
   return render(
     <QuantityPickerRoot min={0} max={5} aria-label="수량" {...props}>
       <QuantityPickerDecrementButton aria-label="줄이기" />

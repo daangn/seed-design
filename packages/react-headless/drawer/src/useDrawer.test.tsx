@@ -782,8 +782,8 @@ describe("키보드 리포지션", () => {
 
     let measuredDrawerHeight = 560;
     const rectSpy = spyOn(window.HTMLElement.prototype, "getBoundingClientRect").mockImplementation(
-      function () {
-        const size = this.dataset.testid === "drawer" ? measuredDrawerHeight : 0;
+      function (this: HTMLElement) {
+        const size = this.dataset["testid"] === "drawer" ? measuredDrawerHeight : 0;
 
         return {
           x: 0,
@@ -832,8 +832,8 @@ describe("키보드 리포지션", () => {
 
     let measuredDrawerHeight = 560;
     const rectSpy = spyOn(window.HTMLElement.prototype, "getBoundingClientRect").mockImplementation(
-      function () {
-        const size = this.dataset.testid === "drawer" ? measuredDrawerHeight : 0;
+      function (this: HTMLElement) {
+        const size = this.dataset["testid"] === "drawer" ? measuredDrawerHeight : 0;
 
         return {
           x: 0,
