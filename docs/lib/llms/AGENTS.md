@@ -1,6 +1,6 @@
 # docs/lib/llms
 
-`lib/source.ts`의 remark 파이프라인이 만든 `processed` MDX를 MDX AST 룰로 정제해 llms.txt 텍스트를 만든다. 결과는 `llms-route.ts`가 서빙한다.
+`lib/content/satteri-options.ts`의 Sätteri 파이프라인이 만든 `processed` MDX(`page.data.getText("processed")`)를 MDX AST 룰로 정제해 llms.txt 텍스트를 만든다. 결과는 `llms-route.ts`와 `src/pages/**/llms.txt.ts` 엔드포인트가 내보낸다.
 
 ## 검증
 

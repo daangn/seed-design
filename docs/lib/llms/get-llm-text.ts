@@ -32,19 +32,14 @@ export function getLynxCompatibilityBlock(
 
 export async function getLLMText(page: LLMPage, section: Section): Promise<string> {
   await ensureRulesReady();
-  const renderer = await page.data.load();
-  const { exports } = await renderer.render();
   const processed = archiveMarkdown(
-    normalizeLLMBody(exports.processed),
+    normalizeLLMBody(await page.data.getText("processed")),
     section === archivePaths.platform ? archivePaths.channel : "",
     "mdx",
   );
   const sourceUrl = getGitHubSourceUrl(section, page.path);
   const platformStatus = await platformStatusBlock(page, section);
-  const lynxCompatibility = getLynxCompatibilityBlock(
-    page.data.compatibility?.lynx,
-    section,
-  );
+  const lynxCompatibility = getLynxCompatibilityBlock(page.data.compatibility?.lynx, section);
 
   return `# ${page.data.title}
 URL: ${page.url}
