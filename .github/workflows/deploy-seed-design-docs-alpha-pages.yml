@@ -31,6 +31,11 @@ on:
         required: false
         type: string
         default: ""
+      skip-page-cache:
+        description: "Render every page instead of restoring unchanged pages from the cache"
+        required: false
+        type: boolean
+        default: false
       benchmark-cache-key:
         description: "Optional identifier for a reproducible cold/warm Docs benchmark"
         required: false
@@ -59,6 +64,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # 문서의 수정일은 Git 이력에서 읽는다. 얕은 clone에서는 모든 문서가 배포 커밋 시각을 받아
+          # 커밋마다 모든 페이지가 바뀐다. blob 없이 commit과 tree만 받아 이력을 채운다.
+          fetch-depth: 0
+          filter: blob:none
 
       - name: Restore Figma image cache
         if: ${{ !inputs.skip-figma-cache }}
@@ -88,7 +98,6 @@ jobs:
           cache-scope: ${{ github.ref_name }}
           default-branch: ${{ github.event.repository.default_branch }}
           benchmark-cache-key: ${{ inputs.benchmark-cache-key }}
-          restore-astro-pages: true
 
       - name: Build Docs
         id: build-docs
@@ -104,8 +113,8 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=6144
           DOCS_ARCHIVE_PLATFORM: ${{ steps.target.outputs.archive-platform }}
           DOCS_ARCHIVE_VERSION: ${{ steps.target.outputs.archive-version }}
-          # 프리뷰는 안 바뀐 페이지를 캐시에서 복원한다. Production은 항상 전부 렌더링한다.
-          SEED_DOCS_INCREMENTAL_BUILD: "1"
+          # 안 바뀐 페이지는 렌더링하지 않고 캐시에서 복원한다.
+          SEED_DOCS_INCREMENTAL_BUILD: ${{ inputs.skip-page-cache && '0' || '1' }}
           BUILD_LOG: ${{ runner.temp }}/docs-build.log
         run: |
           build_started_at="$(date +%s)"

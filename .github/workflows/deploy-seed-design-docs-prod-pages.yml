@@ -27,6 +27,11 @@ on:
         required: false
         type: string
         default: ""
+      skip-page-cache:
+        description: "Render every page instead of restoring unchanged pages from the cache"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -49,6 +54,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # 문서의 수정일은 Git 이력에서 읽는다. 얕은 clone에서는 모든 문서가 배포 커밋 시각을 받아
+          # 커밋마다 모든 페이지가 바뀐다. blob 없이 commit과 tree만 받아 이력을 채운다.
+          fetch-depth: 0
+          filter: blob:none
 
       - name: Restore Figma image cache
         if: ${{ !inputs.skip-figma-cache }}
@@ -84,6 +94,8 @@ jobs:
           # Figma image processing exceeded Node's default ~2GB heap on CI with the Next build.
           # Kept until the Astro build is measured without it.
           NODE_OPTIONS: --max-old-space-size=6144
+          # 안 바뀐 페이지는 렌더링하지 않고 캐시에서 복원한다.
+          SEED_DOCS_INCREMENTAL_BUILD: ${{ inputs.skip-page-cache && '0' || '1' }}
         run: |
           bun run build
 
@@ -106,6 +118,13 @@ jobs:
         with:
           path: docs/.cache/fumadocs-typescript
           key: ${{ steps.restore-build-cache.outputs.fumadocs-cache-primary-key }}
+
+      - name: Save Astro page cache
+        if: ${{ steps.restore-build-cache.outputs.astro-cache-hit != 'true' && hashFiles('docs/.cache/astro/incremental-build.json') != '' }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: docs/.cache/astro
+          key: ${{ steps.restore-build-cache.outputs.astro-cache-primary-key }}
 
       - name: Save Figma image cache
         uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5

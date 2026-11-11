@@ -24,8 +24,9 @@ import { ALL_COMPONENTS_QUERY } from "@/sanity-studio/lib/queries";
  * Astro는 route와 컴파일된 MDX의 모듈 그래프를 스스로 해시한다. 여기서는 그 그래프 밖에서 렌더링
  * 시점에 읽는 입력만 다룬다.
  *
- * - `content/` 밖의 추적 파일 전체: registry, rootage, CHANGELOG, package.json 버전처럼 페이지가
- *   파일 시스템에서 읽는 데이터의 원천이다. 하나라도 바뀌면 모든 페이지를 다시 렌더링한다.
+ * - `content/` 밖의 추적 파일: registry, rootage, CHANGELOG, package.json 버전처럼 페이지가 파일
+ *   시스템에서 읽는 데이터의 원천이다. 하나라도 바뀌면 모든 페이지를 다시 렌더링한다. 렌더링에 쓰이지
+ *   않는 것이 분명한 경로(`UNRELATED_PREFIXES`)만 뺀다.
  * - 모든 문서의 frontmatter와 page tree: 사이드바, 이전·다음 링크, 목록형 컴포넌트가 다른 문서의
  *   제목·설명을 쓴다.
  * - Lynx 예제 manifest: 번들 이름에 content hash가 들어가고 추적되지 않는 생성물이다.
@@ -51,28 +52,37 @@ function git(root: string, ...args: string[]): string {
   });
 }
 
-const CONTENT_PREFIX = "docs/content/";
+/**
+ * fingerprint에서 빼는 경로. `docs/content/`는 Astro의 MDX 해시와 `contentFingerprint()`가 따로 본다.
+ * 나머지는 빌드가 읽지 않는 저장소 운영 파일이다. 여기에 경로를 더할 때는 문서 페이지가 그 아래 파일을
+ * 읽지 않는지 확인한다. 잘못 빼면 낡은 페이지가 배포되고, 빼지 않으면 렌더링을 더 할 뿐이다.
+ */
+const UNRELATED_PREFIXES = ["docs/content/", ".changeset/", ".github/", ".agents/", ".claude/"];
+
+function isRelated(filePath: string): boolean {
+  return !UNRELATED_PREFIXES.some((prefix) => filePath.startsWith(prefix));
+}
 
 /**
- * `content/` 밖 추적 파일의 fingerprint. HEAD의 tree로 계산하므로, 커밋되지 않은 변경이 있으면 실제
- * 입력을 대표하지 못한다. 그때는 `undefined`를 돌려줘 캐시를 쓰지 않는다.
+ * 렌더링에 쓰일 수 있는 추적 파일의 fingerprint. HEAD의 tree로 계산하므로, 커밋되지 않은 변경이 있으면
+ * 실제 입력을 대표하지 못한다. 그때는 `undefined`를 돌려줘 캐시를 쓰지 않는다.
  */
 function trackedFilesFingerprint(): string | undefined {
   try {
     const root = git(process.cwd(), "rev-parse", "--show-toplevel").trim();
     const dirty = git(root, "status", "--porcelain")
       .split("\n")
-      .filter((line) => line !== "" && !line.slice(3).startsWith(CONTENT_PREFIX));
+      .filter((line) => line !== "" && isRelated(line.slice(3)));
     if (dirty.length > 0) {
       console.warn(
-        `[incremental-build] content/ 밖에 커밋되지 않은 변경이 ${dirty.length}건 있어 페이지 캐시를 쓰지 않습니다. 예: ${dirty[0]}`,
+        `[incremental-build] 커밋되지 않은 변경이 ${dirty.length}건 있어 페이지 캐시를 쓰지 않습니다. 예: ${dirty[0]}`,
       );
       return undefined;
     }
 
     const tree = git(root, "ls-tree", "-r", "HEAD")
       .split("\n")
-      .filter((line) => !line.slice(line.indexOf("\t") + 1).startsWith(CONTENT_PREFIX));
+      .filter((line) => isRelated(line.slice(line.indexOf("\t") + 1)));
     return sha256(...tree);
   } catch (error) {
     console.warn("[incremental-build] Git 상태를 읽지 못해 페이지 캐시를 쓰지 않습니다.", error);
@@ -130,12 +140,21 @@ export function siteCacheKey(): Promise<string | undefined> {
     const tracked = trackedFilesFingerprint();
     if (tracked === undefined) return undefined;
     try {
-      return sha256(
+      const inputs = {
         tracked,
-        await contentFingerprint(),
-        await lynxManifestFingerprint(),
-        await sanityFingerprint(),
+        content: await contentFingerprint(),
+        lynx: await lynxManifestFingerprint(),
+        sanity: await sanityFingerprint(),
+        // llms Markdown 주소와 changelog 링크가 가리키는 ref.
+        sourceRef: process.env.SEED_DOCS_SOURCE_REF ?? "",
+      };
+      // 캐시가 빗나갔을 때 어느 입력이 바뀌었는지 이전 빌드 로그와 비교할 수 있게 남긴다.
+      console.info(
+        `[incremental-build] 캐시 키 입력: ${Object.entries(inputs)
+          .map(([name, value]) => `${name}=${value.slice(0, 12)}`)
+          .join(" ")}`,
       );
+      return sha256(...Object.values(inputs));
     } catch (error) {
       console.warn(
         "[incremental-build] 캐시 키 입력을 읽지 못해 페이지 캐시를 쓰지 않습니다.",
