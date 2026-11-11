@@ -54,6 +54,15 @@ Astro·Fumadocs 기반 SEED 문서 사이트다. `content/`가 문서 원천이�
 - utility가 없는 자리는 v4 축약 문법으로 넘긴다: `bg-[var(--x)]` 대신 `bg-(--x)`, fallback은 `right-(--x,0px)`.
 - `font-`·`text-`처럼 한 namespace가 여러 속성에 걸리면 타입을 붙인다: `font-(family-name:--x)`, `text-(length:--x)`.
 
+### 클라이언트 이동
+
+- 페이지 이동은 Astro `ClientRouter`가 `<body>`를 바꿔 처리한다(`src/components/DocsClientRouter.astro`). `<script>`와 `is:inline` script는 문서를 처음 불러올 때 한 번만 실행된다 → 페이지마다 실행할 코드는 `astro:page-load`에 걸거나 island의 mount effect에 둔다.
+- 이동할 때 `<html>` 속성은 바꾸지 않는다. 테마 상태가 거기 있기 때문이다 → 페이지마다 다른 값을 `<html>`에 두지 말고 `<body>` 안에 둔다.
+- `DocsShell`에 `transition:persist`를 붙이지 않는다. 유지된 island는 새 props로 다시 그리지만 slot(MDX 본문)은 이전 DOM에서 읽어 본문이 바뀌지 않는다. 셸은 이동할 때마다 다시 hydrate된다.
+- island의 첫 render는 서버 HTML과 같아야 한다. 첫 render에서 `<html>` 속성이나 `localStorage`를 읽으면 hydration이 실패해 island 전체를 다시 그리고, 이동할 때 사이드바 스크롤 위치와 예제 상태가 사라진다 → `useSyncExternalStore`의 server snapshot이나 effect에서 읽는다(`hooks/useTheme.ts`).
+- page view를 `astro:page-load`에서 보내지 않는다. GA4와 PostHog가 router의 `history.pushState`로 이미 센다(`src/components/Analytics.astro`).
+- 문서 전체를 다시 불러와야 하는 링크에는 `data-astro-reload`를 붙인다. 자체 router를 쓰는 페이지는 `Layout`에 `clientRouter={false}`를 넘긴다(`/admin`).
+
 ### `src/styles/global.css`
 
 - 컴포넌트·위젯 전용 스타일은 넣지 않는다 → 해당 컴포넌트의 Tailwind `className`으로 처리한다. `global.css`에는 빌드 설정, 디자인 토큰, 루트 요소, 외부 라이브러리, 문서 전체 reset·타이포만 둔다.

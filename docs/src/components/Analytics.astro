@@ -2,6 +2,11 @@
 const GA_MEASUREMENT_ID = "G-02SS22W02G";
 ---
 
+{/* 아래 script는 처음 로드할 때 한 번만 실행된다. `ClientRouter`는 이미 실행한 script를 다시 실행하지 않는다.
+    클라이언트 이동의 page view는 `astro:page-load`에서 따로 보내지 않는다. Next.js 사이트처럼 GA4의 향상된
+    측정(브라우저 기록 이벤트 기반 페이지 변경)과 PostHog의 `capture_pageview: "history_change"`(`defaults`가
+    켠다)가 router의 `history.pushState`를 보고 한 번씩 센다. 여기서 또 보내면 두 번 집계된다. */}
+
 <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
 ></script>
 <script is:inline define:vars={{ GA_MEASUREMENT_ID }}>

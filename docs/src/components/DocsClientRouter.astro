@@ -1,0 +1,45 @@
+---
+import { ClientRouter } from "astro:transitions";
+---
+
+{/* 페이지 이동을 문서 전체 로드 대신 `<body>` 교체로 처리한다(Next.js 사이트의 클라이언트 이동과 같다).
+    Chrome처럼 View Transitions API가 있는 브라우저는 `<html transition:animate="none">`으로 애니메이션을 끄고,
+    없는 브라우저는 `fallback="swap"`으로 바로 교체한다. */}
+<ClientRouter fallback="swap" />
+
+<script>
+  import { swapFunctions } from "astro:transitions/client";
+
+  const SIDEBAR_SCROLLER = "#nd-sidebar .seed-scroll-fog";
+
+  /** 사이드바 트리를 식별한다. 섹션(React·Lynx 등)마다 트리가 다르다. */
+  function sidebarTree(doc: Document) {
+    return [...doc.querySelectorAll("#nd-sidebar a")].map((a) => a.getAttribute("href")).join(" ");
+  }
+
+  document.addEventListener("astro:before-swap", (event) => {
+    const { newDocument } = event;
+
+    // 기본 swap에서 `swapRootAttributes`만 뺀다. `<html>`에는 테마 상태(`class="dark"`,
+    // `style="color-scheme"`, `data-seed-user-color-scheme`)와 `data-docs-hydrated`가 있는데,
+    // 기본 swap은 이를 새 페이지의 정적 값(라이트)으로 되돌려 이동할 때마다 깜빡인다.
+    // 모든 페이지가 `Layout.astro`의 같은 정적 속성을 내보내므로 바꿀 속성이 없다.
+    event.swap = () => {
+      // Next.js는 섹션 layout을 유지해 같은 섹션 안에서는 사이드바 스크롤 위치가 그대로였다.
+      // 트리가 같으면 교체 직후 paint 전에 위치를 되살린다.
+      const scrollTop =
+        sidebarTree(document) === sidebarTree(newDocument)
+          ? document.querySelector(SIDEBAR_SCROLLER)?.scrollTop
+          : undefined;
+
+      swapFunctions.deselectScripts(newDocument);
+      swapFunctions.swapHeadElements(newDocument);
+      const restoreFocus = swapFunctions.saveFocus();
+      swapFunctions.swapBodyElement(newDocument.body, document.body);
+      restoreFocus();
+
+      const scroller = document.querySelector<HTMLElement>(SIDEBAR_SCROLLER);
+      if (scroller && scrollTop) scroller.scrollTop = scrollTop;
+    };
+  });
+</script>

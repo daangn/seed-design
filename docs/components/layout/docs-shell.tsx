@@ -74,9 +74,16 @@ function withIcons<Node extends PageTree.Node | PageTree.Root>(node: Node): Node
   return next;
 }
 
-/** 전체 페이지 이동. archive 채널에서는 `Link`와 같은 trailing slash 규칙을 따른다. */
+/**
+ * `useRouter().push`가 부르는 이동. 링크 클릭과 같이 Astro `ClientRouter`로 문서를 다시 불러오지 않고 이동한다.
+ * archive 채널에서는 `Link`와 같은 trailing slash 규칙을 따른다.
+ */
 function navigate(url: string) {
-  window.location.assign(archivePaths.pageHref(url));
+  // `astro:` 가상 모듈은 Astro 빌드에만 있다. 이 파일을 함께 불러오는 `bun test`·Storybook에서도
+  // 모듈을 읽을 수 있도록 이동할 때 import한다.
+  void import("astro:transitions/client").then((router) =>
+    router.navigate(archivePaths.pageHref(url)),
+  );
 }
 
 /** `rehypeTocTitles`가 조각 배열로 내보낸 제목(inline code 포함)을 React 노드로 되돌린다. */
