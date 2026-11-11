@@ -16,6 +16,7 @@ if (archiveChannel && !/^(?:react|lynx)\/v(?:0|[1-9]\d*|1\.(?:0|[1-9]\d*))$/.tes
 }
 
 const root = fileURLToPath(new URL(".", import.meta.url));
+const serverConditions = ["seed-layered", ...defaultServerConditions];
 
 export default defineConfig({
   site: "https://seed-design.io",
@@ -35,7 +36,9 @@ export default defineConfig({
     }),
   },
   integrations: [react(), mdx(), fumadocs(createFumadocsOptions())],
-  server: { allowedHosts: [".test"] },
+  // dev 주소는 CLI의 로컬 `BASE_URL`과 `lib/metadata.ts`가 전제하는 3000번을 유지한다. portless처럼
+  // `PORT`를 정해 주는 실행기 아래에서는 그 포트를 따른다.
+  server: { port: Number(process.env.PORT) || 3000, allowedHosts: [".test"] },
   vite: {
     plugins: [
       tailwindcss(),
@@ -53,7 +56,13 @@ export default defineConfig({
     ],
     // Lynx Web runtime의 worker는 ES module이다.
     worker: { format: "es" },
-    ssr: { resolve: { conditions: ["seed-layered", ...defaultServerConditions] } },
+    // `postcss.config.js`는 Lynx 예제 빌드용이다. Vite가 그 파일을 읽으면 Tailwind가 두 번 돈다.
+    css: { postcss: { plugins: [] } },
+    // 페이지 HTML이 링크하는 CSS는 서버 쪽 환경이 만든다. 정적 빌드는 `prerender`, dev는 `ssr` 환경에서
+    // 렌더링하고, 환경마다 조건을 따로 받으므로 둘 다 지정한다. 빠뜨리면 `@layer` 없는 recipe CSS가
+    // 나가서 Tailwind 유틸리티로 덮어쓴 스타일이 recipe에 밀린다.
+    ssr: { resolve: { conditions: serverConditions } },
+    environments: { prerender: { resolve: { conditions: serverConditions } } },
     envPrefix: ["NEXT_PUBLIC_", "PUBLIC_"],
     resolve: {
       // `@seed-design/css`의 recipe를 `@layer`로 감싼 진입점으로 연결한다. `conditions`를 지정하면

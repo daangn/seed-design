@@ -2,6 +2,7 @@
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
 @import "@seed-design/tailwind4-theme";
+@import "./astro-wrappers.css";
 @source "../**/*.{astro,js,jsx,ts,tsx,mdx}";
 @source "../../components/**/*.{js,jsx,ts,tsx,mdx}";
 @source "../../content/**/*.mdx";
@@ -90,7 +91,7 @@
   --color-fd-ring: #262626;
 }
 
-/* Rebrand: Pretendard as the primary UI font (loaded via CDN in app/layout.tsx).
+/* Rebrand: Pretendard as the primary UI font (loaded via CDN in src/layouts/Layout.astro).
    Unlayered so it wins over Tailwind's preflight html font-family. Pretendard covers
    Latin + Korean, so it replaces the old Inter(latin)+system-Korean stack. */
 html {
