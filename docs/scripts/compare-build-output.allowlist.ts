@@ -261,8 +261,8 @@ export const allowlist: AllowlistEntry[] = [
     id: "yaml-code-block-highlight",
     stage: "html",
     reason:
-      "문서에 하나뿐인 `yaml` 코드 블록(ai-integration/skill/doctor)이 기준선에서는 하이라이트 없이 나왔다. Astro 빌드는 Markdown frontmatter 하이라이트가 렌더링 순서에 좌우되지 않도록 yaml 문법을 미리 올리므로(`lib/content/satteri-options.ts`) 이 블록에도 토큰 색이 붙는다. 텍스트는 같아서 이 쪽에서만 Shiki 토큰 span을 풀어 비교한다.",
-    match: /^ai-integration\/skill\/doctor(?:\.html|\/index\.html)$/,
+      "기준선은 yaml 문법이 이미 올라와 있을 때만 yaml 토큰에 색을 붙이는데, 그 여부가 쪽 렌더링 순서에 달려 빌드마다 달라진다. 문서에 하나뿐인 `yaml` 코드 블록(ai-integration/skill/doctor)은 하이라이트 없이 나왔고, Markdown 코드 블록의 frontmatter(ai-integration/skill)는 같은 소스의 기준선 빌드 사이에서도 붙었다 안 붙었다 했다. Astro 빌드는 yaml 문법을 미리 올려(`lib/content/satteri-options.ts`) 항상 색을 붙인다. 텍스트는 같아서 이 두 쪽에서만 Shiki 토큰 span을 풀어 비교한다.",
+    match: /^ai-integration\/skill(?:\/doctor)?(?:\.html|\/index\.html)$/,
     element: (el) =>
       el.tag === "span" && el.attrs.get("style")?.startsWith("--shiki-") ? "unwrap" : undefined,
   },
