@@ -517,7 +517,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "3.0.1",
+      "version": "3.0.2",
       "dependencies": {
         "change-case": "^5.4.4",
         "ts-pattern": "^5.7.0",
@@ -1329,11 +1329,11 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "3.0.1",
+      "version": "3.0.2",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/server": "^2.0.0",
-        "@seed-design/figma": "3.0.1",
+        "@seed-design/figma": "3.0.2",
         "cac": "^7.0.0",
         "figma-api": "2.1.4-beta",
         "uuid": "^14.0.0",
@@ -2472,7 +2472,7 @@
       "name": "@seed-design/figma-codegen",
       "version": "0.0.0",
       "dependencies": {
-        "@seed-design/figma": "3.0.1",
+        "@seed-design/figma": "3.0.2",
       },
       "devDependencies": {
         "@create-figma-plugin/build": "^4.0.1",
@@ -2514,7 +2514,7 @@
       "dependencies": {
         "@karrotmarket/react-monochrome-icon": "^1.17.0",
         "@seed-design/css": "3.3.0",
-        "@seed-design/figma": "3.0.1",
+        "@seed-design/figma": "3.0.2",
         "@seed-design/migration-index": "2.0.1",
         "@seed-design/react": "3.3.0",
         "@seed-design/vite-plugin": "2.1.1",
