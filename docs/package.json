@@ -35,8 +35,8 @@
     "build:archive:lynx": "bun scripts/build-archive.ts lynx"
   },
   "dependencies": {
-    "@astrojs/markdown-satteri": "0.4.6",
-    "@astrojs/mdx": "8.1.2",
+    "@astrojs/markdown-satteri": "0.4.7",
+    "@astrojs/mdx": "8.1.3",
     "@astrojs/react": "^7.1.4",
     "@base-ui/react": "^1.7.0",
     "@dnd-kit/abstract": "^0.5.0",
@@ -81,7 +81,7 @@
     "@stackflow/core": "^1.2.0",
     "@stackflow/plugin-renderer-basic": "^1.1.13",
     "@stackflow/react": "^1.5.1",
-    "astro": "7.4.6",
+    "astro": "7.4.8",
     "change-case": "^5.4.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
