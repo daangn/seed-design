@@ -1,4 +1,5 @@
 import { readDeprecatedGlobalProp } from "./deprecated-global-props";
+import { resolveColorScheme } from "./resolve-color-scheme";
 
 export type ColorMode = "system" | "light-only" | "dark-only";
 
@@ -33,16 +34,16 @@ export interface GetSeedClassNameOptions {
  * ```
  */
 export function getSeedClassName(options?: GetSeedClassNameOptions): string {
-  const { colorMode = "system", colorScheme } = options ?? {};
+  const { colorMode, colorScheme } = options ?? {};
+  const scheme = resolveColorScheme(
+    colorMode,
+    () =>
+      colorScheme ??
+      readDeprecatedGlobalProp(
+        typeof lynx !== "undefined" ? lynx.__globalProps : undefined,
+        "theme",
+      ),
+  );
 
-  if (colorMode === "light-only") return "seed-user-color-scheme-light";
-  if (colorMode === "dark-only") return "seed-user-color-scheme-dark";
-
-  const systemTheme =
-    colorScheme ??
-    readDeprecatedGlobalProp(typeof lynx !== "undefined" ? lynx.__globalProps : undefined, "theme");
-
-  return typeof systemTheme === "string" && systemTheme.toLowerCase() === "dark"
-    ? "seed-user-color-scheme-dark"
-    : "seed-user-color-scheme-light";
+  return `seed-user-color-scheme-${scheme}`;
 }

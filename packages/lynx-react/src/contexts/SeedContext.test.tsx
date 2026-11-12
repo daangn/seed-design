@@ -198,6 +198,21 @@ describe("useSeedClassName", () => {
     ).toBe("seed-user-color-scheme-light");
   });
 
+  it("uses the provider colorMode unless the option sets one, inheriting it into nested providers", () => {
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <SeedProvider colorMode="dark-only" preferredColorScheme="light">
+        <SeedProvider preferredMotion="reduced">{children}</SeedProvider>
+      </SeedProvider>
+    );
+
+    expect(renderHook(() => useSeedClassName(), { wrapper }).result.current).toBe(
+      "seed-user-color-scheme-dark",
+    );
+    expect(
+      renderHook(() => useSeedClassName({ colorMode: "system" }), { wrapper }).result.current,
+    ).toBe("seed-user-color-scheme-light");
+  });
+
   it("falls back to the deprecated theme global prop, then light", () => {
     setGlobalProps({ theme: "dark" });
     expect(renderHook(() => useSeedClassName()).result.current).toBe("seed-user-color-scheme-dark");

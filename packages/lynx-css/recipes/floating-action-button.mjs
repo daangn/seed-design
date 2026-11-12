@@ -25,10 +25,6 @@ const defaultVariant = {
 
 const compoundVariants = [
   {
-    "glass": true,
-    "transitionEnabled": true
-  },
-  {
     "extended": true,
     "transitionEnabled": true
   }
@@ -73,3 +69,12 @@ export function floatingActionButton(props) {
 Object.assign(floatingActionButton, { splitVariantProps: (props) => splitVariantProps(props, floatingActionButtonVariantMap) });
 
 // @recipe(seed): floating-action-button
+
+// Generated from Rootage component specs and color tokens by scripts/generate-glass-tint.mjs. Do not edit directly.
+// Liquid Glass tint (`root.color`) per variant and state, resolved for each color scheme.
+export const glassTint = {
+  base: {
+    enabled: { light: "#ff6600", dark: "#ff6600" },
+    pressed: { light: "#e14d00", dark: "#ff9e65" },
+  },
+};

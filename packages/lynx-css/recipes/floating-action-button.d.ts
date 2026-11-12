@@ -35,3 +35,17 @@ export declare const floatingActionButton: ((
     props: T,
   ) => [FloatingActionButtonVariantProps, Omit<T, keyof FloatingActionButtonVariantProps>];
 }
+
+// Generated from Rootage component specs and color tokens by scripts/generate-glass-tint.mjs. Do not edit directly.
+// Liquid Glass tint (`root.color`) per variant and state, resolved for each color scheme.
+export interface GlassTint {
+  light: string;
+  dark: string;
+}
+
+export declare const glassTint: {
+  base: {
+    enabled: GlassTint;
+    pressed: GlassTint;
+  };
+};

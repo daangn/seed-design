@@ -43,3 +43,31 @@ export declare const chip: ((
     props: T,
   ) => [ChipVariantProps, Omit<T, keyof ChipVariantProps>];
 }
+
+// Generated from Rootage component specs and color tokens by scripts/generate-glass-tint.mjs. Do not edit directly.
+// Liquid Glass tint (`root.color`) per variant and state, resolved for each color scheme.
+export interface GlassTint {
+  light: string;
+  dark: string;
+}
+
+export declare const glassTint: {
+  variantSolid: {
+    enabled: GlassTint;
+    pressed: GlassTint;
+    selected: GlassTint;
+    selectedPressed: GlassTint;
+  };
+  variantOutlineStrong: {
+    enabled: GlassTint;
+    pressed: GlassTint;
+    selected: GlassTint;
+    selectedPressed: GlassTint;
+  };
+  variantOutlineWeak: {
+    enabled: GlassTint;
+    pressed: GlassTint;
+    selected: GlassTint;
+    selectedPressed: GlassTint;
+  };
+};

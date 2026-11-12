@@ -50,7 +50,7 @@ root.render(
 | `light-only` | (무관) | `seed-user-color-scheme-light` |
 | `dark-only` | (무관) | `seed-user-color-scheme-dark` |
 
-`system`일 때 색상 스킴은 `colorScheme` 옵션, `SeedProvider`의 `preferredColorScheme`, `lynx.__globalProps.theme` 순서로 정하고, 모두 없으면 `"light"`입니다. Global props에서 읽는 동작은 다음 메이저 버전에서 제거될 예정입니다.
+`colorMode` 옵션을 생략하면 `SeedProvider`의 `colorMode`를 쓰고, 그 값도 없으면 `system`입니다. `system`일 때 색상 스킴은 `colorScheme` 옵션, `SeedProvider`의 `preferredColorScheme`, `lynx.__globalProps.theme` 순서로 정하고, 모두 없으면 `"light"`입니다. Global props에서 읽는 동작은 다음 메이저 버전에서 제거될 예정입니다.
 
 ## 동작 방식
 

@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
 
+import { ColorModeProvider } from "../../contexts/ColorModeContext";
 import { SeedProvider } from "../../contexts/SeedContext";
 import { AccessibilityElementScope } from "../../utils/accessibility";
 import * as Chip from "./Chip.namespace";
@@ -449,6 +450,87 @@ describe("Chip Liquid Glass", () => {
     expect(root).toHaveClass("seed-chip__root--pressed_false");
     expect(root).toHaveAttribute("accessibility-role-description", "button");
     expect(root).toHaveTextContent("칩");
+  });
+
+  it("tints the glass with the recipe state's background for the applied theme", () => {
+    const Example = (props: {
+      variant?: "solid" | "outlineStrong" | "outlineWeak";
+      checked?: boolean;
+      interactive?: boolean;
+      colorMode?: "system" | "light-only" | "dark-only";
+      subtreeColorMode?: "system" | "light-only" | "dark-only";
+      scheme?: "light" | "dark";
+    }) => {
+      const chip = (
+        <Chip.Toggle
+          variant={props.variant}
+          checked={props.checked ?? false}
+          glassEffect={{ interactive: props.interactive ?? false }}
+        >
+          <Chip.Label>칩</Chip.Label>
+        </Chip.Toggle>
+      );
+      return (
+        <SeedProvider
+          supportsLiquidGlass
+          colorMode={props.colorMode}
+          preferredColorScheme={props.scheme}
+        >
+          {props.subtreeColorMode ? (
+            <ColorModeProvider colorMode={props.subtreeColorMode}>{chip}</ColorModeProvider>
+          ) : (
+            chip
+          )}
+        </SeedProvider>
+      );
+    };
+    const { rerender } = render(<Example />);
+    const tint = () => getChipRoot().getAttribute("glass-tint-color");
+    const scheme = () => getChipRoot().getAttribute("ios-user-interface-style");
+    // The testing library cannot target `<blur-view>`, so touches start on the label and bubble to the root.
+    const touch = (type: "touchstart" | "touchcancel") => {
+      const label = getChipRoot().querySelector(".seed-chip__label");
+      if (!label) throw new Error("Expected Chip label to exist.");
+      fireEvent(label, new Event(`bindEvent:${type}`, { bubbles: true }));
+    };
+
+    // bg.neutral-weak-alpha keeps its alpha. With no host preference, iOS keeps following the system appearance.
+    expect(tint()).toBe("#14273b0d");
+    expect(scheme()).toBeNull();
+
+    touch("touchstart");
+    expect(tint()).toBe("#000f2d11");
+    touch("touchcancel");
+
+    rerender(<Example checked />);
+    expect(tint()).toBe("#2a3038");
+    touch("touchstart");
+    expect(tint()).toBe("#555d6d");
+    touch("touchcancel");
+
+    rerender(<Example variant="outlineWeak" checked scheme="dark" />);
+    expect(tint()).toBe("#2b2e35");
+    expect(scheme()).toBe("dark");
+
+    rerender(<Example variant="outlineStrong" scheme="dark" />);
+    expect(tint()).toBe("#ffffff00");
+
+    // The applied theme follows colorMode, not the host preference.
+    rerender(<Example colorMode="dark-only" scheme="light" />);
+    expect(tint()).toBe("#c8ddff25");
+    expect(scheme()).toBe("dark");
+    rerender(<Example colorMode="light-only" scheme="dark" />);
+    expect(tint()).toBe("#14273b0d");
+    expect(scheme()).toBe("light");
+    // A subtree can override the app colorMode.
+    rerender(<Example colorMode="light-only" subtreeColorMode="dark-only" scheme="light" />);
+    expect(tint()).toBe("#c8ddff25");
+    expect(scheme()).toBe("dark");
+
+    // Interactive glass draws its own press response, so the tint stays the enabled color.
+    rerender(<Example interactive />);
+    touch("touchstart");
+    expect(tint()).toBe("#14273b0d");
   });
 
   it("lets the component glassEffect override the tree intent", () => {

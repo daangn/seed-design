@@ -1,7 +1,11 @@
 import * as React from "@lynx-js/react";
 import clsx from "clsx";
 
-import { chip, type ChipVariantProps } from "@seed-design/lynx-css/recipes/chip";
+import {
+  chip,
+  glassTint as chipGlassTint,
+  type ChipVariantProps,
+} from "@seed-design/lynx-css/recipes/chip";
 import { useCheckbox, type UseCheckboxProps } from "@seed-design/lynx-react-checkbox";
 import {
   RadioGroupRoot as HeadlessRadioGroupRoot,
@@ -28,6 +32,7 @@ import {
   type SuffixIconProps,
 } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
+import { capitalize } from "../../utils/resolve-recipe-token";
 import {
   LiquidGlassView,
   useLiquidGlass,
@@ -44,6 +49,13 @@ interface ChipRootViewProps
   extends Omit<ChipVariantProps, "glass">,
     Omit<LynxHostProps<"view">, keyof ChipVariantProps> {
   liquidGlass: ActiveLiquidGlass | null;
+}
+
+/** The recipe's root background for these variants. Disabled only lowers the opacity. */
+function getChipGlassTint({ variant = "solid", selected, pressed }: ChipVariantProps) {
+  const states = chipGlassTint[`variant${capitalize(variant)}`];
+  if (selected) return pressed ? states.selectedPressed : states.selected;
+  return pressed ? states.pressed : states.enabled;
 }
 
 const ChipRootView = React.forwardRef<unknown, ChipRootViewProps>((props, ref) => {
@@ -90,6 +102,7 @@ const ChipRootView = React.forwardRef<unknown, ChipRootViewProps>((props, ref) =
               {...mergeProps(ref ? { ref } : {}, nativeProps)}
               glass={liquidGlass}
               disabled={variantProps.disabled ?? false}
+              tint={getChipGlassTint(variantProps)}
               className={clsx(classes.root, className)}
             >
               {children}

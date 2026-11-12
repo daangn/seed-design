@@ -182,4 +182,37 @@ describe("FloatingActionButton Liquid Glass", () => {
     expect(root?.tagName.toLowerCase()).toBe("blur-view");
     expect(root).toHaveAttribute("glass-interactive", "true");
   });
+
+  it("tints the glass with the enabled and pressed background for the applied theme", () => {
+    const { container, rerender } = render(
+      <SeedProvider supportsLiquidGlass glassEffect preferredColorScheme="light">
+        <FloatingActionButtonRoot>
+          <FloatingActionButtonLabel>글쓰기</FloatingActionButtonLabel>
+        </FloatingActionButtonRoot>
+      </SeedProvider>,
+    );
+    const root = () => container.querySelector<HTMLElement>(".seed-floating-action-button__root");
+    // The testing library cannot target `<blur-view>`, so touches start on the label and bubble to the root.
+    const touch = (type: "touchstart" | "touchend") => {
+      const label = root()?.querySelector(".seed-floating-action-button__label");
+      if (!label) throw new Error("Expected FloatingActionButton label to exist.");
+      fireEvent(label, new Event(`bindEvent:${type}`, { bubbles: true }));
+    };
+
+    expect(root()).toHaveAttribute("glass-tint-color", "#ff6600");
+    touch("touchstart");
+    expect(root()).toHaveAttribute("glass-tint-color", "#e14d00");
+    touch("touchend");
+
+    rerender(
+      <SeedProvider supportsLiquidGlass glassEffect preferredColorScheme="dark">
+        <FloatingActionButtonRoot>
+          <FloatingActionButtonLabel>글쓰기</FloatingActionButtonLabel>
+        </FloatingActionButtonRoot>
+      </SeedProvider>,
+    );
+    touch("touchstart");
+    expect(root()).toHaveAttribute("glass-tint-color", "#ff9e65");
+    expect(root()).toHaveAttribute("ios-user-interface-style", "dark");
+  });
 });
