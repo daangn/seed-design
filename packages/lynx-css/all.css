@@ -3619,7 +3619,6 @@ text {
 
 .seed-chip__root--glass_true {
   --seed-chip-stroke-width: 0px;
-  transition-duration: 0s;
 }
 
 .seed-chip__root--size_small-layout_withText {
@@ -4383,10 +4382,6 @@ text {
 
 .seed-floating-action-button__root--glass_true {
   box-shadow: none;
-}
-
-.seed-floating-action-button__root--glass_true-transitionEnabled_true {
-  transition-duration: 0s, var(--seed-duration-d4), var(--seed-duration-d4), var(--seed-duration-d4), var(--seed-duration-d4);
 }
 
 .seed-floating-action-button__root--extended_true-transitionEnabled_true {

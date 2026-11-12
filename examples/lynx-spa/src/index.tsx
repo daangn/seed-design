@@ -49,7 +49,7 @@ function toSafeAreaInsets(g: HostGlobalProps): SafeAreaInsets | undefined {
 }
 
 function Page() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
+  const seedClassName = useSeedClassName();
   return (
     <page className={`${seedClassName} bg-bg-layer-default`}>
       <App />
