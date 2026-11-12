@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@karrotmarket/icon-data": "^1.34.0",
-    "@karrotmarket/lynx-monochrome-icon": "1.20.0",
-    "@karrotmarket/lynx-multicolor-icon": "1.27.0",
+    "@karrotmarket/lynx-monochrome-icon": "1.30.0",
+    "@karrotmarket/lynx-multicolor-icon": "1.32.0",
     "@lynx-js/react": "0.129.1",
     "@seed-design/lynx-css": "workspace:*",
     "@seed-design/lynx-react": "workspace:*",
