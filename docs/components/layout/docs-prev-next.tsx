@@ -2,7 +2,7 @@
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import clsx from "clsx";
 import { usePathname } from "fumadocs-core/framework";
-import Link from "fumadocs-core/link";
+import { DocsLink as Link } from "@/components/link";
 import type { FooterProps } from "fumadocs-ui/layouts/docs/page/slots/footer";
 import { useFooterItems } from "fumadocs-ui/utils/use-footer-items";
 import { useMemo } from "react";

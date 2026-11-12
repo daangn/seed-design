@@ -1,0 +1,89 @@
+---
+import "@/src/styles/updates-article.css";
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import clsx from "clsx";
+import {
+  createFigmaClient,
+  fetchFigmaImageUrls,
+} from "@/components/figma-image/fetch-figma-image-urls";
+import { loadDocsPage } from "@/lib/docs-page";
+import { env } from "@/lib/env";
+import { getLLMMarkdownUrl } from "@/lib/llms/config";
+import { TAGS } from "@/lib/search-tags";
+import { buildDocsPageJsonLd, buildDocsPageMetadata, resolveCoverImage } from "@/lib/seo";
+import { getUpdatesSource } from "@/lib/source";
+import DocsPage from "@/src/components/DocsPage.astro";
+
+export const getStaticPaths = (async () => {
+  const source = await getUpdatesSource();
+  return source.getPages().map((page) => ({ params: { slug: page.slugs[0] }, props: { page } }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props;
+const source = await getUpdatesSource();
+const { Content, toc, lastModified } = await loadDocsPage(page);
+const markdownUrl = getLLMMarkdownUrl("updates", page.slugs);
+const publishedDate = page.data.publishedAt ? new Date(page.data.publishedAt) : null;
+const isRelease = page.data.category === "release";
+
+const { coverImage, coverImageFigmaId } = page.data;
+const client = env.figmaPersonalAccessToken
+  ? createFigmaClient(env.figmaPersonalAccessToken)
+  : undefined;
+const coverUrl = isRelease
+  ? undefined
+  : coverImage
+    ? resolveCoverImage(coverImage).thumbnail
+    : coverImageFigmaId && client && env.figmaFileKey
+      ? (
+          await fetchFigmaImageUrls({
+            client,
+            fileKey: env.figmaFileKey,
+            nodeIds: [coverImageFigmaId],
+            options: { format: "png", scale: 2 },
+          })
+        ).get(coverImageFigmaId)
+      : undefined;
+---
+
+<DocsPage
+  metadata={buildDocsPageMetadata({
+    url: page.url,
+    title: page.data.title,
+    description: page.data.description,
+    coverImage,
+    publishedTime: publishedDate?.toISOString(),
+  })}
+  section="updates"
+  markdownUrl={markdownUrl}
+  jsonLd={buildDocsPageJsonLd(page)}
+  Content={Content}
+  pathname={page.url}
+  tree={source.pageTree}
+  sidebar={false}
+  defaultSearchTag={TAGS.updates.value}
+  published={publishedDate
+    ? { title: page.data.title, date: publishedDate, release: isRelease }
+    : undefined}
+  page={{
+    title: page.data.title,
+    description: isRelease ? page.data.description : undefined,
+    coverImage: coverUrl
+      ? { src: coverUrl, alt: `${page.data.title} cover image`, width: 1600, height: 900 }
+      : undefined,
+    coverClassName: "!max-w-[1024px]",
+    toc: isRelease ? toc : [],
+    tableOfContent: isRelease ? { single: false } : { enabled: false },
+    lastUpdate: lastModified,
+    markdownUrl,
+    topSpacing: true,
+    // 스코프 CSS(`src/styles/updates-article.css`)의 진입점. 릴리즈 노트에는 붙이지 않는다.
+    articleClassName: isRelease ? undefined : "updates-article",
+    bodyClassName: isRelease
+      ? undefined
+      : "prose-h2:text-[1.75rem] prose-h3:text-[1.5rem] prose-p:text-[1.125rem] prose-li:text-[1.125rem] prose-p:leading-[1.7] prose-li:leading-[1.7] prose-em:text-[color:var(--seed-color-palette-gray-700)]",
+    titleClassName: clsx("text-balance break-keep", !isRelease && "text-center"),
+  }}
+/>

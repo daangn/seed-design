@@ -55,7 +55,7 @@ export async function exportArchive({
         .map((url) => `<url><loc>${url}</loc></url>`)
         .join("")}</urlset>\n`,
     );
-    await copy(path.join(input, "_next"), path.join(archive, "_assets/_next"));
+    await copy(path.join(input, "_astro"), path.join(archive, "_assets/_astro"));
     if (platform === "react") {
       await copy(path.join(input, "blocks"), path.join(archive, "_examples/blocks"));
     }
@@ -103,7 +103,7 @@ export async function exportArchive({
     await writeFile(path.join(staging, "_redirects"), `${redirects.join("\n")}\n`);
     await writeFile(
       path.join(staging, "_headers"),
-      `${prefix}/_assets/_next/static/*\n  Cache-Control: public, max-age=31536000, immutable\n${prefix}/__registry__/*\n  Access-Control-Allow-Origin: *\n`,
+      `${prefix}/_assets/_astro/*\n  Cache-Control: public, max-age=31536000, immutable\n${prefix}/__registry__/*\n  Access-Control-Allow-Origin: *\n`,
     );
     await writeFile(
       path.join(archive, "archive.json"),

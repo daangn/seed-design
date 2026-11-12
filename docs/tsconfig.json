@@ -17,20 +17,18 @@
     "types": ["bun", "node"],
     "paths": {
       "@/*": ["./*"],
-      "seed-design/*": ["./registry/react/*"]
-    },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+      "seed-design/*": ["./registry/react/*"],
+      "next/dynamic": ["./components/next-dynamic.ts"]
+    }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
-  ],
-  "exclude": ["node_modules", "examples/lynx/**", "lynx.config.ts", "scripts/lynx-examples/**"]
+  "include": [".astro/types.d.ts", "**/*.ts", "**/*.tsx"],
+  // astro.config.ts: docs의 vite(8.0.x)와 Astro가 쓰는 vite(8.3.x)의 타입이 섞여 tsc가 비교하지 못한다.
+  // 설정 값은 Astro가 실행 시점에 검증한다.
+  "exclude": [
+    "node_modules",
+    "astro.config.ts",
+    "examples/lynx/**",
+    "lynx.config.ts",
+    "scripts/lynx-examples/**"
+  ]
 }

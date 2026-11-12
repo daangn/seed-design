@@ -1,0 +1,36 @@
+---
+import { DocsShell } from "@/components/layout/docs-shell";
+import {
+  UPDATES_COVER_IMAGE,
+  UPDATES_DESCRIPTION,
+  UPDATES_TITLE,
+  UpdatesIndex,
+} from "@/components/updates/updates-index";
+import { getLLMMarkdownUrl } from "@/lib/llms/config";
+import { TAGS } from "@/lib/search-tags";
+import { buildSeoMetadata, resolveCoverImage } from "@/lib/seo";
+import { getUpdatesSource } from "@/lib/source";
+import DocsHead from "@/src/components/DocsHead.astro";
+import Layout from "@/src/layouts/Layout.astro";
+
+const source = await getUpdatesSource();
+---
+
+<Layout
+  metadata={buildSeoMetadata({
+    title: UPDATES_TITLE,
+    description: UPDATES_DESCRIPTION,
+    image: resolveCoverImage(UPDATES_COVER_IMAGE).og,
+  })}
+>
+  <DocsHead slot="head" section="updates" markdownUrl={getLLMMarkdownUrl("updates", [])} />
+  <DocsShell
+    client:load
+    pathname="/updates"
+    tree={source.pageTree}
+    sidebar={false}
+    defaultSearchTag={TAGS.updates.value}
+  >
+    <UpdatesIndex />
+  </DocsShell>
+</Layout>

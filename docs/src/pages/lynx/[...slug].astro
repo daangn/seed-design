@@ -1,0 +1,66 @@
+---
+import type { InferGetStaticPropsType } from "astro";
+import { LynxCompatibilityBadges } from "@/components/lynx-compatibility";
+import { archivePaths } from "@/lib/docs-archive";
+import { coverImageProps, docsStaticPaths, loadDocsPage } from "@/lib/docs-page";
+import { getLLMMarkdownUrl } from "@/lib/llms/config";
+import { TAGS } from "@/lib/search-tags";
+import { buildDocsPageJsonLd, buildDocsPageMetadata } from "@/lib/seo";
+import { getLynxSource } from "@/lib/source";
+import { findTabbedFolder, tabbedFolderLabel } from "@/lib/tabbed";
+import DocsPage from "@/src/components/DocsPage.astro";
+
+// Astro가 `getStaticPaths`를 모듈 최상위로 끌어올리므로 frontmatter 변수를 참조하지 않는다.
+export const getStaticPaths = () =>
+  docsStaticPaths(getLynxSource, archivePaths.routes("lynx").routeSlug);
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props;
+const source = await getLynxSource();
+const { Content, toc, lastModified } = await loadDocsPage(page);
+
+// 탭형 subject 폴더는 헤더(title/description)를 meta.json에서 온 고정 값으로 쓴다
+// — 탭을 바꿔도 subject가 유지되도록(foundations 라우트와 같은 규칙).
+const tabbedFolder = findTabbedFolder(source.pageTree.children, page.url);
+const folderLabel = tabbedFolder ? tabbedFolderLabel(tabbedFolder) : undefined;
+const displayTitle = folderLabel ?? page.data.heading ?? page.data.title;
+const markdownUrl = getLLMMarkdownUrl("lynx", page.slugs);
+const isChangelog = page.slugs.join("/") === "updates/changelog";
+const cover = coverImageProps(page.data.coverImage, `${displayTitle} cover image`);
+---
+
+<DocsPage
+  metadata={buildDocsPageMetadata({
+    url: page.url,
+    title: page.data.title,
+    // h1과 같은 순서로 파생해야 og:title이 화면과 어긋나지 않는다.
+    // 탭형은 폴더 이름이 우선(탭을 바꿔도 subject 유지)이고, 이름이 없으면 페이지 제목으로 떨어진다.
+    heading: folderLabel ?? page.data.heading,
+    description: page.data.description,
+    coverImage: page.data.coverImage,
+  })}
+  section="lynx"
+  markdownUrl={markdownUrl}
+  jsonLd={buildDocsPageJsonLd(page)}
+  Content={Content}
+  pathname={page.url}
+  tree={source.pageTree}
+  defaultSearchTag={TAGS.lynx.value}
+  platform="lynx"
+  changelog={isChangelog ? { platform: "lynx", fallbackUrl: markdownUrl } : undefined}
+  page={{
+    title: displayTitle,
+    description: tabbedFolder?.description ?? page.data.description,
+    coverImage: cover ? { ...cover, src: archivePaths.asset(cover.src) } : undefined,
+    layout: page.data.layout,
+    full: isChangelog ? true : page.data.full,
+    toc: isChangelog ? [] : toc,
+    lastUpdate: lastModified,
+    tableOfContent: isChangelog ? { enabled: false } : { single: false },
+    showPageActions: page.slugs.length > 0,
+    markdownUrl,
+  }}
+>
+  <LynxCompatibilityBadges slot="meta" compatibility={page.data.compatibility?.lynx} />
+</DocsPage>

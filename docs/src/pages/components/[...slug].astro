@@ -1,0 +1,65 @@
+---
+import type { InferGetStaticPropsType } from "astro";
+import { PlatformStatusTable } from "@/components/platform-status-table";
+import { coverImageProps, docsStaticPaths, loadDocsPage } from "@/lib/docs-page";
+import { getLLMMarkdownUrl } from "@/lib/llms/config";
+import { getComponentStatus } from "@/lib/rootage";
+import { TAGS } from "@/lib/search-tags";
+import { buildDocsPageJsonLd, buildDocsPageMetadata, deprecatedTitle } from "@/lib/seo";
+import { getComponentsSource } from "@/lib/source";
+import DocsPage from "@/src/components/DocsPage.astro";
+
+export const getStaticPaths = () => docsStaticPaths(getComponentsSource);
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props;
+const source = await getComponentsSource();
+const [{ Content, toc, lastModified }, { deprecated }] = await Promise.all([
+  loadDocsPage(page),
+  getComponentStatus({ slug: page.slugs }, { deprecated: page.data.deprecated }),
+]);
+
+const displayTitle = deprecatedTitle(page.data.heading ?? page.data.title, deprecated);
+const markdownUrl = getLLMMarkdownUrl("components", page.slugs);
+
+// 플랫폼 상태를 헤더에 렌더한다. componentIds 프론트매터가 있으면 그 목록(서브컴포넌트를
+// 여럿 다루는 list/manner-temp), 없으면 slug 하나로 간주한다.
+const slugId = page.slugs.at(-1);
+const componentIds = page.data.componentIds ?? (slugId ? [slugId] : []);
+---
+
+<DocsPage
+  metadata={buildDocsPageMetadata({
+    url: page.url,
+    title: page.data.title,
+    heading: page.data.heading,
+    description: page.data.description,
+    coverImage: page.data.coverImage,
+    deprecated,
+  })}
+  section="components"
+  markdownUrl={markdownUrl}
+  jsonLd={buildDocsPageJsonLd(page)}
+  Content={Content}
+  pathname={page.url}
+  tree={source.pageTree}
+  defaultSearchTag={TAGS.components.value}
+  page={{
+    title: displayTitle,
+    description: page.data.description,
+    coverImage: coverImageProps(page.data.coverImage, `${displayTitle} cover image`),
+    layout: page.data.layout,
+    full: page.data.full,
+    toc,
+    lastUpdate: lastModified,
+    showPageActions: page.slugs.length > 0,
+    markdownUrl,
+  }}
+>
+  {
+    componentIds.length > 0 && (
+      <PlatformStatusTable slot="platform-status" componentIds={componentIds} inHeader />
+    )
+  }
+</DocsPage>

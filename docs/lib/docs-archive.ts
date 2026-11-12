@@ -1,5 +1,5 @@
-// This value is embedded by Next.js. An unset value keeps the existing Pages build unchanged.
-const DOCS_ARCHIVE_CHANNEL = process.env.NEXT_PUBLIC_DOCS_ARCHIVE_CHANNEL ?? "";
+// Vite embeds this value (`envPrefix`). An unset value keeps the existing Pages build unchanged.
+const DOCS_ARCHIVE_CHANNEL = import.meta.env.NEXT_PUBLIC_DOCS_ARCHIVE_CHANNEL ?? "";
 
 export type ArchivePlatform = "react" | "lynx";
 
@@ -43,9 +43,17 @@ export function createArchivePaths(channel: string) {
         },
       };
     },
-    // Public assets and Next chunks are copied here by the archive exporter.
+    // Public assets and Astro chunks are copied here by the archive exporter.
     asset(path: string) {
       return prefix && isLocal(path) && !isScoped(path) ? `${prefix}/_assets${path}` : path;
+    },
+    // Archive pages are deployed as directories. Like Next.js `trailingSlash: true`, give local page
+    // links a trailing slash; paths that name a file (`/llms.txt`) are left alone.
+    pageHref(href: string) {
+      if (!prefix || !isLocal(href)) return href;
+      const [, pathname, suffix] = /^([^?#]*)(.*)$/.exec(href) ?? [];
+      if (pathname.endsWith("/") || /\.[^/]+$/.test(pathname)) return href;
+      return `${pathname}/${suffix}`;
     },
     endpoint(path: string) {
       return prefix && isLocal(path) && !isScoped(path) ? `${prefix}${path}` : path;

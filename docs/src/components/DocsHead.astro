@@ -1,0 +1,33 @@
+---
+import { getLLMMarkdownUrl } from "@/lib/llms/config";
+import type { Section } from "@/lib/llms/types";
+
+interface Props {
+  /** 이 페이지가 속한 llms 섹션. `markdownUrl`과 짝이 되어 llms.txt 링크 릴레이션을 만든다. */
+  section: Section;
+  markdownUrl: string;
+  /** schema.org 구조화 데이터. `lib/seo.ts`의 `buildDocsPageJsonLd(page)` 결과를 넘긴다. */
+  jsonLd?: object;
+}
+
+const { section, markdownUrl, jsonLd } = Astro.props;
+const llmsTxtUrl = getLLMMarkdownUrl(section, []);
+
+// JSON.stringify는 `<`를 이스케이프하지 않는다. frontmatter description에 마크업이 들어가는
+// 경우가 실제로 있어서(예: content/lynx/hooks/use-seed-class-name.mdx의 `<page>`),
+// `</script>`가 섞이면 브라우저가 script를 조기 종료하고 뒤를 HTML로 해석한다.
+// 유니코드 이스케이프는 JSON 문자열 안에서 동등하므로 JSON-LD 의미는 그대로다.
+const json = jsonLd
+  ? JSON.stringify(jsonLd)
+      .replace(/</g, "\\u003c")
+      .replace(/>/g, "\\u003e")
+      .replace(/&/g, "\\u0026")
+  : undefined;
+---
+
+{/* llms.txt v2가 정의한 두 링크 릴레이션. `alternate`는 이 페이지의 마크다운 버전을,
+    `describedby`는 그 페이지를 커버하는 llms.txt를 가리킨다(https://llmstxt.org/).
+    섹션 루트는 자기 자신이 llms.txt라 alternate가 describedby와 같은 URL이 된다. */}
+{markdownUrl !== llmsTxtUrl && <link rel="alternate" type="text/markdown" href={markdownUrl} />}
+<link rel="describedby" href={llmsTxtUrl} />
+{json && <script is:inline type="application/ld+json" set:html={json} />}

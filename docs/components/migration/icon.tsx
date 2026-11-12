@@ -2,7 +2,7 @@ import { archivePaths } from "@/lib/docs-archive";
 import * as V3Icons from "@karrotmarket/react-monochrome-icon";
 import * as V3ColorIcons from "@karrotmarket/react-multicolor-icon";
 import * as V2Icons from "@seed-design/react-icon";
-import Link from "fumadocs-core/link";
+import { DocsLink as Link } from "@/components/link";
 import * as changecase from "change-case";
 
 export const V3Icon = ({

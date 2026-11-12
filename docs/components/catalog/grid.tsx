@@ -1,5 +1,5 @@
-import { env } from "@/app/env";
-import { getComponentsSource, getFoundationsSource, getPatternsSource } from "@/app/source";
+import { env } from "@/lib/env";
+import { getComponentsSource, getFoundationsSource, getPatternsSource } from "@/lib/source";
 import { CatalogCard } from "@/components/catalog/card";
 import {
   createFigmaClient,
@@ -75,13 +75,13 @@ export async function CatalogGrid({ pathPrefix }: CatalogGridProps) {
     for (const page of catalogSource.getPages()) {
       if (page.slugs.length !== 1) continue;
       if (page.url === base || NON_CATALOG_URLS.has(page.url)) continue;
-      if (page.data.frontmatter.deprecated) continue;
+      if (page.data.deprecated) continue;
       items.push({
         key: page.url,
         title: page.data.title,
         url: page.url,
-        coverImage: page.data.frontmatter.coverImage,
-        coverImageFigmaId: page.data.frontmatter.coverImageFigmaId,
+        coverImage: page.data.coverImage,
+        coverImageFigmaId: page.data.coverImageFigmaId,
       });
     }
   }
@@ -96,13 +96,13 @@ export async function CatalogGrid({ pathPrefix }: CatalogGridProps) {
       if (!url) continue;
       // 대표 페이지는 deprecated 판별과 cover 이미지에만 쓰고, 제목은 폴더명을 쓴다.
       const repPage = pageByUrl.get(node.index?.url ?? url);
-      if (repPage?.data.frontmatter.deprecated) continue;
+      if (repPage?.data.deprecated) continue;
       items.push({
         key: url,
         title: node.name as ReactNode,
         url,
-        coverImage: repPage?.data.frontmatter.coverImage,
-        coverImageFigmaId: repPage?.data.frontmatter.coverImageFigmaId,
+        coverImage: repPage?.data.coverImage,
+        coverImageFigmaId: repPage?.data.coverImageFigmaId,
       });
       continue;
     }
@@ -111,13 +111,13 @@ export async function CatalogGrid({ pathPrefix }: CatalogGridProps) {
     if (items.some((item) => item.url === node.url)) continue;
 
     const page = pageByUrl.get(node.url);
-    if (!page || page.data.frontmatter.deprecated) continue;
+    if (!page || page.data.deprecated) continue;
     items.push({
       key: node.url,
       title: page.data.title,
       url: node.url,
-      coverImage: page.data.frontmatter.coverImage,
-      coverImageFigmaId: page.data.frontmatter.coverImageFigmaId,
+      coverImage: page.data.coverImage,
+      coverImageFigmaId: page.data.coverImageFigmaId,
     });
   }
 

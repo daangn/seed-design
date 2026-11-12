@@ -13,7 +13,7 @@ on:
       - ".github/workflows/deploy-seed-design-docs-prod-pages.yml"
       - ".github/actions/setup/action.yml"
       - ".bun-version"
-      - ".github/actions/nextjs-cache/**"
+      - ".github/actions/docs-build-cache/**"
       - ".github/actions/check-docs-links/**"
   workflow_dispatch:
     inputs:
@@ -27,6 +27,11 @@ on:
         required: false
         type: string
         default: ""
+      skip-page-cache:
+        description: "Render every page instead of restoring unchanged pages from the cache"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -49,6 +54,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # 문서의 수정일은 Git 이력에서 읽는다. 얕은 clone에서는 모든 문서가 배포 커밋 시각을 받아
+          # 커밋마다 모든 페이지가 바뀐다. blob 없이 commit과 tree만 받아 이력을 채운다.
+          fetch-depth: 0
+          filter: blob:none
 
       - name: Restore Figma image cache
         if: ${{ !inputs.skip-figma-cache }}
@@ -60,31 +70,32 @@ jobs:
             ${{ runner.os }}-figma-images-
 
       - uses: ./.github/actions/setup
-        id: setup
         with:
           build-packages: true
           build-rootage: true
 
-      - name: Restore Next.js cache
-        id: restore-nextjs-cache
-        uses: ./.github/actions/nextjs-cache
+      - name: Restore docs build caches
+        id: restore-build-cache
+        uses: ./.github/actions/docs-build-cache
         with:
           # Production keeps publishing refreshed state for the default-branch fallback.
           cache-generation: ${{ github.sha }}
           cache-scope: ${{ github.ref_name }}
           default-branch: ${{ github.event.repository.default_branch }}
-          legacy-build-cache-key-suffix: ${{ steps.setup.outputs.build-cache-key-suffix }}
 
       - name: Build Docs
         working-directory: ./docs
         env:
-          # docs uses Next static export, so NEXT_PUBLIC_* values must be present at build time.
+          # docs is a static Astro build, so NEXT_PUBLIC_* values must be present at build time.
           FIGMA_CACHE_DISABLED: ${{ inputs.skip-figma-cache && '1' || '0' }}
           FIGMA_BYPASS_CACHE_NODE_IDS: ${{ inputs.bypass-cache-node-ids }}
           NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
           NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
-          # Figma image processing + Next webpack export exceed Node's default ~2GB heap on CI.
+          # Figma image processing exceeded Node's default ~2GB heap on CI with the Next build.
+          # Kept until the Astro build is measured without it.
           NODE_OPTIONS: --max-old-space-size=6144
+          # 안 바뀐 페이지는 렌더링하지 않고 캐시에서 복원한다.
+          SEED_DOCS_INCREMENTAL_BUILD: ${{ inputs.skip-page-cache && '0' || '1' }}
         run: |
           bun run build
 
@@ -94,19 +105,26 @@ jobs:
         with:
           out-dir: ${{ github.workspace }}/docs/out
 
-      - name: Save Next.js cache
-        if: ${{ steps.restore-nextjs-cache.outputs.cache-hit != 'true' }}
+      - name: Save Lynx Rspeedy cache
+        if: ${{ steps.restore-build-cache.outputs.lynx-cache-hit != 'true' }}
         uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
         with:
-          path: docs/.next/cache
-          key: ${{ steps.restore-nextjs-cache.outputs.cache-primary-key }}
+          path: docs/.cache/lynx-rspeedy
+          key: ${{ steps.restore-build-cache.outputs.lynx-cache-primary-key }}
 
       - name: Save Fumadocs TypeScript cache
-        if: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-hit != 'true' && hashFiles('docs/.next/cache/fumadocs-typescript/**') != '' }}
+        if: ${{ steps.restore-build-cache.outputs.fumadocs-cache-hit != 'true' && hashFiles('docs/.cache/fumadocs-typescript/**') != '' }}
         uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
         with:
-          path: docs/.next/cache/fumadocs-typescript
-          key: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-primary-key }}
+          path: docs/.cache/fumadocs-typescript
+          key: ${{ steps.restore-build-cache.outputs.fumadocs-cache-primary-key }}
+
+      - name: Save Astro page cache
+        if: ${{ steps.restore-build-cache.outputs.astro-cache-hit != 'true' && hashFiles('docs/.cache/astro/incremental-build.json') != '' }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: docs/.cache/astro
+          key: ${{ steps.restore-build-cache.outputs.astro-cache-primary-key }}
 
       - name: Save Figma image cache
         uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5

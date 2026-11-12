@@ -1,0 +1,30 @@
+---
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+import { DocsShell, type DocsShellProps } from "@/components/layout/docs-shell";
+import { mdxComponents } from "@/src/components/mdx/components";
+import type { Section } from "@/lib/llms/types";
+import type { SeoMetadata } from "@/lib/seo";
+import DocsHead from "@/src/components/DocsHead.astro";
+import Layout from "@/src/layouts/Layout.astro";
+
+interface Props extends Omit<DocsShellProps, "children" | "platformStatus" | "meta"> {
+  metadata: SeoMetadata;
+  /** 이 페이지가 속한 llms 섹션. */
+  section: Section;
+  markdownUrl: string;
+  jsonLd: object;
+  /** `page.data.load()`가 돌려준 MDX 본문. */
+  Content: AstroComponentFactory;
+}
+
+const { metadata, section, markdownUrl, jsonLd, Content, ...shell } = Astro.props;
+---
+
+<Layout metadata={metadata}>
+  <DocsHead slot="head" section={section} markdownUrl={markdownUrl} jsonLd={jsonLd} />
+  <DocsShell client:load {...shell}>
+    <Fragment slot="platform-status"><slot name="platform-status" /></Fragment>
+    <Fragment slot="meta"><slot name="meta" /></Fragment>
+    <Content components={mdxComponents} />
+  </DocsShell>
+</Layout>

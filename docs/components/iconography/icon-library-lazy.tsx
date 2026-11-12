@@ -1,6 +1,6 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { lazyComponent } from "@/components/lazy-component";
 
 /**
  * `IconLibrary`를 온디맨드 청크로 분리한다.
@@ -10,19 +10,16 @@ import dynamic from "next/dynamic";
  * (`@karrotmarket/icon-data`) 양쪽 다, 이름으로 조회해야 해서 네임스페이스로 가져오므로
  * tree shaking도 안 된다. 아이콘이 추가될수록 커지는 쪽이다.
  *
- * 이걸 `components/mdx-components.tsx`에서 직접 import하면 그 맵을 공유하는 모든
- * `[[...slug]]` 라우트의 번들에 들어가서, `<IconLibrary>`를 쓰는 문서가
+ * 이걸 `components/mdx-island.tsx`의 island registry에서 직접 import하면 island가 있는 모든
+ * 문서 페이지의 번들에 들어가서, `<IconLibrary>`를 쓰는 문서가
  * `content/foundations/iconography/library.mdx` 하나뿐인데도 전체 문서 페이지가
  * 내려받게 된다.
  *
  * `ssr: false`인 이유: nuqs URL 상태를 쓰는 브라우저 전용 아이콘 브라우저라 서버 HTML의
- * 가치가 없다. 에이전트용 마크다운은 `app/_llms/rules/icon-library.ts`가 빌드타임에 따로
+ * 가치가 없다. 에이전트용 마크다운은 `lib/llms/rules/icon-library.ts`가 빌드타임에 따로
  * 만들므로 영향받지 않는다.
- *
- * `mdx-components.tsx`는 서버 모듈이라 `ssr: false`를 직접 못 쓴다(Next 15+ 제약).
- * 이 파일이 클라이언트 경계 역할을 한다.
  */
-const LazyIconLibrary = dynamic(() => import("./icons").then((mod) => mod.IconLibrary), {
+const LazyIconLibrary = lazyComponent(() => import("./icons").then((mod) => mod.IconLibrary), {
   ssr: false,
 });
 

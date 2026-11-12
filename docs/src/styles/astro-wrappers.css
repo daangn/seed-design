@@ -1,0 +1,141 @@
+/* Astro island 경계의 래퍼를 건너서 구조 선택자를 다시 잇는다.
+
+   Astro는 hydrate하는 컴포넌트를 `<astro-island>`로, island에 넘긴 slot을 `<astro-slot>`으로 감싼다. 둘 다
+   `display: contents`라 box는 없지만 DOM에는 남아서, `A > B`·`h2 + *`·`:first-child` 같은 선택자가 래퍼에서
+   끊긴다. 문서 본문은 통째로 `DocsShell`의 slot이고(`.prose > astro-slot > …`), 본문 안의 island마다
+   `astro-island`가 하나씩 더 생긴다.
+
+   이 파일은 문서에서 실제로 쓰는 구조 규칙을 래퍼 너머로 한 번씩 더 적는다. 원래 규칙과 같은 layer에 두고
+   선언도 그대로 옮긴다. 새 구조 선택자를 island 경계에 걸쳐 쓰게 되면 여기에 대응 규칙을 추가한다.
+
+   - 래퍼는 두 겹까지 겹친다(`astro-slot > astro-island`).
+   - 래퍼 주변에는 Astro의 hydration `<script>`, React가 스트리밍한 `<script>`·`<link>`, 쓰이지 않은 slot의
+     `<template>`이 형제로 끼어든다. `:first-child` 대신 `:nth-child(1 of …)`로 이들을 빼고 센다. */
+
+@layer utilities {
+  /* `.prose > :first-child`, `.prose > :last-child` (fumadocs typography).
+     원본에서 `table`의 margin 규칙은 이 규칙 뒤에 와서 이긴다. 여기서는 `table`을 빼서 같은 결과를 낸다. */
+  .prose
+  :where(
+    .prose > :is(astro-slot, astro-island):nth-child(1 of :not(script, style, template, link)) > *,
+    .prose
+      > astro-slot:nth-child(1 of :not(script, style, template, link))
+      > astro-island:nth-child(1 of :not(script, style, template, link))
+      > *
+  ):nth-child(1 of :not(script, style, template, link)):not(table):not(
+    :where([class~="not-prose"], [class~="not-prose"] *)
+  ) {
+    margin-top: 0;
+  }
+  .prose
+    :where(
+      .prose
+        > :is(astro-slot, astro-island):nth-last-child(1 of :not(script, style, template, link))
+        > *,
+      .prose
+        > astro-slot:nth-last-child(1 of :not(script, style, template, link))
+        > astro-island:nth-last-child(1 of :not(script, style, template, link))
+        > *
+    ):nth-last-child(1 of :not(script, style, template, link)):not(table):not(
+      :where([class~="not-prose"], [class~="not-prose"] *)
+    ) {
+    margin-bottom: 0;
+  }
+
+  /* `.prose > ul > li p`, `.prose > :is(ul, ol) > li > p:first-child` … (fumadocs typography).
+     `li p` 규칙은 원본에도 `ul`에만 있다. */
+  .prose
+  :where(.prose > astro-slot > ul > li p):not(
+    :where([class~="not-prose"], [class~="not-prose"] *)
+  ) {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+  }
+  .prose
+    :where(.prose > astro-slot > :is(ul, ol) > li > p:first-child):not(
+      :where([class~="not-prose"], [class~="not-prose"] *)
+    ) {
+    margin-top: 1.25em;
+  }
+  .prose
+    :where(.prose > astro-slot > :is(ul, ol) > li > p:last-child):not(
+      :where([class~="not-prose"], [class~="not-prose"] *)
+    ) {
+    margin-bottom: 1.25em;
+  }
+
+  /* `hr + *`, `h2 + *`, `h3 + *`, `h4 + *` (fumadocs typography).
+     원본에서 `img`·`picture`·`video`·`figure`·`table`의 margin 규칙은 이 규칙 뒤에 와서 이긴다. */
+  .prose
+  :where(
+    :is(hr, h2, h3, h4) + :is(astro-slot, astro-island) > *,
+    :is(hr, h2, h3, h4) + script + :is(astro-slot, astro-island) > *,
+    :is(hr, h2, h3, h4)
+      + astro-slot
+      > astro-island:nth-child(1 of :not(script, style, template, link))
+      > *
+  ):nth-child(1 of :not(script, style, template, link)):not(img, picture, video, figure, table):not(
+    :where([class~="not-prose"], [class~="not-prose"] *)
+  ) {
+    margin-top: 0;
+  }
+
+  /* `.prose-no-margin > :first-child`, `[&>*:first-child]:mt-0`와 그 `:last-child` 짝 */
+  :is(.prose-no-margin, .\[\&\>\*\:first-child\]\:mt-0)
+    > :is(astro-slot, astro-island):nth-child(1 of :not(script, style, template, link))
+    > :nth-child(1 of :not(script, style, template, link)),
+  :is(.prose-no-margin, .\[\&\>\*\:first-child\]\:mt-0)
+    > astro-slot:nth-child(1 of :not(script, style, template, link))
+    > astro-island:nth-child(1 of :not(script, style, template, link))
+    > :nth-child(1 of :not(script, style, template, link)) {
+    margin-top: 0;
+  }
+  :is(.prose-no-margin, .\[\&\>\*\:last-child\]\:mb-0)
+    > :is(astro-slot, astro-island):nth-last-child(1 of :not(script, style, template, link))
+    > :nth-last-child(1 of :not(script, style, template, link)),
+  :is(.prose-no-margin, .\[\&\>\*\:last-child\]\:mb-0)
+    > astro-slot:nth-last-child(1 of :not(script, style, template, link))
+    > astro-island:nth-last-child(1 of :not(script, style, template, link))
+    > :nth-last-child(1 of :not(script, style, template, link)) {
+    margin-bottom: 0;
+  }
+
+  /* `[&>figure]:my-0`, `[&>figure]:rounded-none`, `[&>figure]:border-0` (Do/Don't 격자, 코드 탭) */
+  .\[\&\>figure\]\:my-0 > :is(astro-slot, astro-island) > figure,
+  .\[\&\>figure\]\:my-0 > astro-slot > astro-island > figure {
+    margin-block: 0;
+  }
+  .\[\&\>figure\]\:rounded-none > :is(astro-slot, astro-island) > figure,
+  .\[\&\>figure\]\:rounded-none > astro-slot > astro-island > figure {
+    border-radius: 0;
+  }
+  .\[\&\>figure\]\:border-0 > :is(astro-slot, astro-island) > figure,
+  .\[\&\>figure\]\:border-0 > astro-slot > astro-island > figure {
+    border-style: var(--tw-border-style);
+    border-width: 0;
+  }
+
+  /* `*:max-w-[900px]`, `*:mx-auto`, `*:w-full` (`DocsPage` article의 직계 자식) */
+  .\*\:max-w-\[900px\] > astro-slot > * {
+    max-width: 900px;
+  }
+  .\*\:mx-auto > astro-slot > * {
+    margin-inline: auto;
+  }
+  .\*\:w-full > astro-slot > * {
+    width: 100%;
+  }
+}
+
+/* `.seed-callout__description > :first-child`, `> :last-child` (global.css, 언레이어드) */
+.seed-callout__description > :is(astro-slot, astro-island):nth-child(
+    1 of :not(script, style, template, link)
+  )
+  > :nth-child(1 of :not(script, style, template, link)) {
+  margin-top: 0;
+}
+.seed-callout__description
+  > :is(astro-slot, astro-island):nth-last-child(1 of :not(script, style, template, link))
+  > :nth-last-child(1 of :not(script, style, template, link)) {
+  margin-bottom: 0;
+}

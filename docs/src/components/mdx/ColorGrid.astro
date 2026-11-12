@@ -1,0 +1,10 @@
+---
+import { ColorGrid, type ColorGridProps } from "@/components/color-grid";
+import { getColorGridRows } from "@/components/color-grid-rows";
+
+type Props = ColorGridProps;
+
+const rows = await getColorGridRows(Astro.props.scales);
+---
+
+<ColorGrid client:visible rows={rows} />

@@ -1,6 +1,6 @@
 import { normalizeSearchText } from "./search-text";
 
-/** Static JSON index built by `app/api/token-search/route.ts`. */
+/** Static JSON index built by `src/pages/api/token-search.ts`. */
 export const TOKEN_SEARCH_API = "/api/token-search";
 
 const TOKEN_REFERENCE_URL = "/foundations/design-token/reference";

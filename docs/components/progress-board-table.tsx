@@ -5,7 +5,7 @@ import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import IconILowercaseSerifCircleLine from "@karrotmarket/react-monochrome-icon/IconILowercaseSerifCircleLine";
 import { BadgeLabel, BadgeRoot } from "@seed-design/react";
-import Link from "next/link";
+import { PageLink as Link } from "@/components/link";
 import type { CSSProperties } from "react";
 import { PLATFORM_CONFIG, PLATFORM_STATUS_LABELS } from "@/lib/platform-status";
 import { isExternalUrl } from "@/lib/url";
@@ -72,11 +72,7 @@ function StatusBadge({
 }
 
 export async function ProgressBoardTable() {
-  const components = await client.fetch<ComponentData[]>(
-    ALL_COMPONENTS_QUERY,
-    {},
-    { cache: "no-store" },
-  );
+  const components = await client.fetch<ComponentData[]>(ALL_COMPONENTS_QUERY);
 
   if (!components || components.length === 0) {
     return <div>컴포넌트 데이터가 없습니다.</div>;

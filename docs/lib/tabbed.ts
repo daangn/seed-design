@@ -4,7 +4,7 @@ import type * as PageTree from "fumadocs-core/page-tree";
  * 탭형 subject 폴더 헬퍼 (서버·클라이언트 공용).
  *
  * meta.json `layout: "tabs"`(source.config.ts docsMetaSchema)가 폴더를 "탭형"으로
- * 선언하면 page tree transformer(app/source.tsx)가 폴더 노드에 같은 값을 스탬프한다.
+ * 선언하면 page tree transformer(lib/source.ts)가 폴더 노드에 같은 값을 스탬프한다.
  * 사이드바는 그 폴더를 펼치지 않고 leaf 하나로, 페이지 상단엔 형제 탭 스트립
  * (DocsTabStrip)을 렌더한다. 트리는 클라이언트로 직렬화되므로 서버(page.tsx)와
  * 클라이언트(사이드바/탭 스트립)가 같은 노드 prop을 읽는다.

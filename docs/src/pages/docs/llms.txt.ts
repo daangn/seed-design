@@ -1,0 +1,70 @@
+import type { APIRoute } from "astro";
+import { baseUrl } from "@/lib/metadata";
+import type { LLMPage } from "@/lib/llms/types";
+import { getDisplayTitle, sortCategories } from "@/lib/llms/utils";
+import { getDocsSource } from "@/lib/source";
+
+// IA 개편으로 foundation/components/guidelines/resources는 각자 최상위 섹션으로 빠져나갔고
+// (`/foundations`, `/components`, `/patterns`) `/docs`에는 migration만 남았다.
+const categoryOrder = ["migration"];
+
+const categoryDescriptions: Record<string, string> = {
+  migration: "마이그레이션 가이드",
+};
+
+export const GET: APIRoute = async () => {
+  const docsSource = await getDocsSource();
+  const pages = docsSource.getPages();
+
+  const categories = new Map<string, LLMPage[]>();
+  for (const page of pages) {
+    if (page.slugs.length === 0) continue;
+    const category = page.slugs[0];
+    if (!categories.has(category)) {
+      categories.set(category, []);
+    }
+    categories.get(category)!.push(page);
+  }
+
+  const categoryList = sortCategories(categories, categoryOrder)
+    .map(([category, categoryPages]) => {
+      const description = categoryDescriptions[category] ?? "";
+      const pageList = categoryPages
+        .map((page) => {
+          const slugsWithExt = page.slugs.map((s, i) =>
+            i === page.slugs.length - 1 ? `${s}.txt` : s,
+          );
+          const llmsUrl = new URL(`/llms/docs/${slugsWithExt.join("/")}`, baseUrl);
+          const displayTitle = getDisplayTitle(page, categoryPages);
+          const deprecatedLabel = page.data.deprecated ? " (Deprecated)" : "";
+          return { displayTitle, line: `- [${displayTitle}](${llmsUrl})${deprecatedLabel}` };
+        })
+        .sort((a, b) => a.displayTitle.localeCompare(b.displayTitle))
+        .map((x) => x.line)
+        .join("\n");
+      return `### ${category}
+
+${description}
+
+${pageList}`;
+    })
+    .join("\n\n");
+
+  return new Response(`# SEED Guidelines - LLM Reference
+
+마이그레이션 등 디자인 참고 문서입니다.
+
+## Quick Access
+
+- [전체 문서 (llms-full.txt)](${new URL("/docs/llms-full.txt", baseUrl)}): 모든 참고 문서를 하나의 파일로
+
+## Categories
+
+${categoryList}
+
+## Related Sections
+
+- [Foundations](${new URL("/foundations/llms.txt", baseUrl)}): 색상, 타이포그래피 등 디자인 파운데이션
+- [Components](${new URL("/components/llms.txt", baseUrl)}): 컴포넌트 디자인 스펙
+`);
+};
