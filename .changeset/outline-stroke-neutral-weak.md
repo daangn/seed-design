@@ -8,6 +8,6 @@
 
 - Action Button의 `neutralOutline`·`brandOutline` variant
 - Badge의 `tone=neutral`, `variant=outline`
-- Chip과 Chip Tabs의 `outlineStrong` variant
+- Chip의 `outlineStrong`·`outlineWeak` variant와 Chip Tabs의 `outlineStrong` variant
 - Reaction Button
 - Checkbox `square` variant의 비활성 상태

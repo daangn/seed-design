@@ -142,7 +142,7 @@ export const vars = {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-transparent)",
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "strokeWidth": "1px"
       },
       "label": {
