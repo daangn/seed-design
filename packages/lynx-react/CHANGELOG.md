@@ -1,5 +1,22 @@
 # @seed-design/lynx-react
 
+## 1.3.0
+
+### Minor Changes
+
+- 1d6ddf8: `SeedProvider`에 `colorMode`를 추가하고 `ColorModeProvider`를 공개합니다. `useSeedClassName()`은 `colorMode` 옵션을 생략하면 `SeedProvider`의 값을 쓰고, 없으면 지금처럼 `"system"`입니다. 하위 트리에 `seed-color-mode-*-only` class로 테마를 덮어쓴 영역은 같은 값의 `ColorModeProvider`로 감싸면 Liquid Glass tint도 그 테마를 따릅니다. 기존 `useSeedClassName({ colorMode })`·`getSeedClassName()` 사용은 그대로 동작합니다.
+- 0e76c07: Chip과 FloatingActionButton을 iOS Liquid Glass(`<blur-view blur-effect="glass">`)로 그릴 수 있습니다. `SeedProvider`의 `supportsLiquidGlass`가 켜져 있을 때, `SeedProvider`나 컴포넌트의 `glassEffect`로 적용하며 컴포넌트 값이 `SeedProvider` 값을 덮어씁니다. glass일 때는 현재 상태의 Recipe 배경색이 glass tint가 됩니다. tint는 Rootage 토큰에서 테마별로 생성한 값(Chip·FloatingActionButton Recipe 모듈의 `glassTint`)이며, 반투명 색도 alpha를 유지합니다. `className`으로 바꾼 배경은 tint에 반영되지 않습니다. 값을 넘기지 않으면 지금과 같이 그려집니다.
+
+### Patch Changes
+
+- Updated dependencies [74d831f]
+- Updated dependencies [f84d6b3]
+- Updated dependencies [0e76c07]
+- Updated dependencies [3a777ad]
+- Updated dependencies [3a777ad]
+  - @seed-design/lynx-react-scale-feedback@1.1.1
+  - @seed-design/lynx-css@1.3.0
+
 ## 1.2.2
 
 ### Patch Changes

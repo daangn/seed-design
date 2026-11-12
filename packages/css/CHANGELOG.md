@@ -1,5 +1,35 @@
 # @seed-design/css
 
+## 3.3.0
+
+### Minor Changes
+
+- 4c11a3c: `AttachmentInput`과 `AttachmentDisplay`에 순서 변경 버튼인 `ItemReorderHandle`과 항목의 `dragging` prop을 추가합니다. 순서 변경 중에도 항목이 목록 항목으로 유지되어, 스크린 리더와 키보드에서 순서 변경 버튼과 제거 버튼을 따로 탐색할 수 있습니다.
+  
+  - 기존에 복사한 reorderable snippet은 그대로 동작합니다. 개선을 적용하려면 `npx @seed-design/cli@latest add ui:attachment-field-reorderable` 또는 `ui:attachment-display-field-reorderable`로 다시 설치하세요.
+- f84d6b3: `$color.bg.neutral-weak-alpha`와 `$color.bg.neutral-weak-alpha-pressed`가 gray 램프와 톤이 일치하는 `gray-alpha` 팔레트를 사용하도록 바꿉니다.
+  
+  - `bg.neutral-weak-alpha`: `static-black-alpha-200`(light) / `static-white-alpha-200`(dark) → `gray-alpha-200`
+  - `bg.neutral-weak-alpha-pressed`: `static-black-alpha-300`(light) / `static-white-alpha-300`(dark) → `gray-alpha-300`
+  - 명도는 거의 같고 색조만 gray 램프에 맞춰집니다. Chip(`variant=solid`), Chip Tabs(`neutralSolid`), Segmented Control, Side Navigation 스크롤바의 배경색이 함께 바뀝니다.
+- 3a777ad: 선만으로 형태가 정해지는 컴포넌트의 외곽선을 `$color.stroke.neutral-muted`에서 `$color.stroke.neutral-weak`로 변경해 더 잘 보이게 합니다.
+  
+  - Action Button의 `neutralOutline`·`brandOutline` variant
+  - Badge의 `tone=neutral`, `variant=outline`
+  - Chip의 `outlineStrong`·`outlineWeak` variant와 Chip Tabs의 `outlineStrong` variant
+  - Reaction Button
+  - Checkbox `square` variant의 비활성 상태
+- 72b5e2b: Date Picker에 두 주를 두 줄로 표시하는 `visibleRange: "twoWeeks"` 레이아웃을 추가합니다.
+  
+  - 이전·다음 버튼과 `PageUp`·`PageDown`은 두 주씩 이동합니다. 제목은 첫 줄에서 더 많은 날짜를 차지하는 월을 표시합니다.
+  - Continuous를 제외한 모든 레이아웃에서 표시 구간이 바뀌면 새 날짜 줄이 이동한 방향에서 20px 밀려 들어오며 나타납니다. `prefers-reduced-motion: reduce` 환경에서는 페이드만 적용합니다.
+  - `npx @seed-design/cli@latest add ui:date-picker`로 `TwoWeekDatePicker`가 포함된 Registry 컴포넌트를 설치할 수 있습니다.
+- 3a777ad: `$color.stroke.neutral-weak`를 반투명 팔레트 `$color.palette.gray-alpha-400`으로 변경합니다. 레이어·유색 배경에서 외곽선 대비가 일정해집니다.
+  
+  - light 테마의 흰 배경과 dark 테마의 basement에서는 지금과 같은 색으로 보입니다.
+  - dark 테마의 default·floating 레이어에서는 외곽선이 더 또렷해집니다.
+  - 중간 톤 이미지 위에서는 외곽선 대비가 낮아질 수 있습니다.
+
 ## 3.2.1
 
 ### Patch Changes

@@ -1,5 +1,27 @@
 # @seed-design/rootage-artifacts
 
+## 3.3.0
+
+### Minor Changes
+
+- f84d6b3: `$color.bg.neutral-weak-alpha`와 `$color.bg.neutral-weak-alpha-pressed`가 gray 램프와 톤이 일치하는 `gray-alpha` 팔레트를 사용하도록 바꿉니다.
+  
+  - `bg.neutral-weak-alpha`: `static-black-alpha-200`(light) / `static-white-alpha-200`(dark) → `gray-alpha-200`
+  - `bg.neutral-weak-alpha-pressed`: `static-black-alpha-300`(light) / `static-white-alpha-300`(dark) → `gray-alpha-300`
+  - 명도는 거의 같고 색조만 gray 램프에 맞춰집니다. Chip(`variant=solid`), Chip Tabs(`neutralSolid`), Segmented Control, Side Navigation 스크롤바의 배경색이 함께 바뀝니다.
+- 3a777ad: 선만으로 형태가 정해지는 컴포넌트의 외곽선을 `$color.stroke.neutral-muted`에서 `$color.stroke.neutral-weak`로 변경해 더 잘 보이게 합니다.
+  
+  - Action Button의 `neutralOutline`·`brandOutline` variant
+  - Badge의 `tone=neutral`, `variant=outline`
+  - Chip의 `outlineStrong`·`outlineWeak` variant와 Chip Tabs의 `outlineStrong` variant
+  - Reaction Button
+  - Checkbox `square` variant의 비활성 상태
+- 3a777ad: `$color.stroke.neutral-weak`를 반투명 팔레트 `$color.palette.gray-alpha-400`으로 변경합니다. 레이어·유색 배경에서 외곽선 대비가 일정해집니다.
+  
+  - light 테마의 흰 배경과 dark 테마의 basement에서는 지금과 같은 색으로 보입니다.
+  - dark 테마의 default·floating 레이어에서는 외곽선이 더 또렷해집니다.
+  - 중간 톤 이미지 위에서는 외곽선 대비가 낮아질 수 있습니다.
+
 ## 3.2.0
 
 ### Minor Changes
