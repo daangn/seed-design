@@ -41,7 +41,7 @@
         "@fumadocs/satteri": "^0.7.1",
         "@gsap/react": "^2.1.2",
         "@karrotmarket/icon-data": "^1.34.0",
-        "@karrotmarket/lynx-monochrome-icon": "1.20.0",
+        "@karrotmarket/lynx-monochrome-icon": "1.30.0",
         "@karrotmarket/react-monochrome-icon": "^1.17.0",
         "@karrotmarket/react-multicolor-icon": "^1.17.0",
         "@lottiefiles/react-lottie-player": "^3.6.0",
@@ -123,7 +123,7 @@
         "@chromatic-com/storybook": "^5.0.0",
         "@figma/rest-api-spec": "^0.47.0",
         "@kaptures/storybook": "0.15.3",
-        "@karrotmarket/lynx-multicolor-icon": "1.27.0",
+        "@karrotmarket/lynx-multicolor-icon": "1.32.0",
         "@lynx-js/config-rsbuild-plugin": "0.2.5",
         "@lynx-js/react": "0.129.1",
         "@lynx-js/react-rsbuild-plugin": "0.22.2",
@@ -288,8 +288,8 @@
       "version": "1.0.0",
       "dependencies": {
         "@karrotmarket/icon-data": "^1.34.0",
-        "@karrotmarket/lynx-monochrome-icon": "1.20.0",
-        "@karrotmarket/lynx-multicolor-icon": "1.27.0",
+        "@karrotmarket/lynx-monochrome-icon": "1.30.0",
+        "@karrotmarket/lynx-multicolor-icon": "1.32.0",
         "@lynx-js/react": "0.129.1",
         "@seed-design/lynx-css": "workspace:*",
         "@seed-design/lynx-react": "workspace:*",
@@ -3266,15 +3266,15 @@
 
     "@kaptures/storybook": ["@kaptures/storybook@0.15.3", "", { "peerDependencies": { "storybook": "^10.5.6" } }, "sha512-tKy/6y2QO1qPs1gaMlQASsrT9xhgDe+AWmy810WKDs7aGT3ZC+b7pxv08IJaWf3VHpTNtuCYZwljCx8LY9y01w=="],
 
-    "@karrotmarket/assets-monochrome": ["@karrotmarket/assets-monochrome@1.26.0", "", {}, "sha512-Kf1wPy7lX49WpEw1o383gPJUx95abXRTvELhq+1Gi/HXZSWiNoLXUZoiI8VG6wFwFOgr7PFjFHrSQuuj8JLWWw=="],
+    "@karrotmarket/assets-monochrome": ["@karrotmarket/assets-monochrome@1.36.0", "", {}, "sha512-X+2ZoJPxGCSWX85sCU5k0fgk3uBZb/v+kQLFk5EB+x3iysC983BLuvSplwz7maN3D5/s1bKTlxKyb2sbg5I5WQ=="],
 
-    "@karrotmarket/assets-multicolor": ["@karrotmarket/assets-multicolor@1.29.0", "", {}, "sha512-XMZE5XF7cq8XZ1BlttTvJbrYN7BSqE5P9Eq4yRkeIW7WHxSkmjjHI4LkbLf+GkRuJz/Llhzrlm8mVQsy3wmwOg=="],
+    "@karrotmarket/assets-multicolor": ["@karrotmarket/assets-multicolor@1.34.0", "", {}, "sha512-Y/kgZiCdK6K9/QKP5UVwlJ2A/S9DGtANAP1TJDOmeXEfXZxDPDM3epo66NYjqp6HyNLl1rGyMu+/2AhINIP7rA=="],
 
     "@karrotmarket/icon-data": ["@karrotmarket/icon-data@1.34.0", "", {}, "sha512-zjtPezoyCcNX5n0FYTtwFgeNsson1M3yLSP5Vy5G0yebzpR1GPFLRvlDPzwB3SjUKzyhR6XIvypYBXSY5QK39w=="],
 
-    "@karrotmarket/lynx-monochrome-icon": ["@karrotmarket/lynx-monochrome-icon@1.20.0", "", { "dependencies": { "@karrotmarket/assets-monochrome": "^1.24.0" }, "peerDependencies": { "@lynx-js/react": "*", "@lynx-js/types": "*" } }, "sha512-E4hnkdGdIEgLWltw4wFPO8ohx27veJ2wSzw/LS0WrbLaBgz7yKeyT0ziuBZXF1xFR4X7dS+3D8ektJDCLSqKdQ=="],
+    "@karrotmarket/lynx-monochrome-icon": ["@karrotmarket/lynx-monochrome-icon@1.30.0", "", { "dependencies": { "@karrotmarket/assets-monochrome": "^1.36.0" }, "peerDependencies": { "@lynx-js/react": "*", "@lynx-js/types": "*" } }, "sha512-EBnz0f8GwhrNSq3OTJIewOcHrEPrGF1C7X0mEGeoOvinwH/IxNglzLzS9uKy/lpfdPYlBfVqvlxwnBn7DoJkRQ=="],
 
-    "@karrotmarket/lynx-multicolor-icon": ["@karrotmarket/lynx-multicolor-icon@1.27.0", "", { "dependencies": { "@karrotmarket/assets-multicolor": "^1.29.0" }, "peerDependencies": { "@lynx-js/react": "*", "@lynx-js/types": "*" } }, "sha512-IqtL1teZnsM6XwMKEiTDxGNbttpIz13O4IxRYhFcIXH0vqUK2p+Yh9YQ81HPwK8T0HQM0MAWsMOuOhVvCatfMA=="],
+    "@karrotmarket/lynx-multicolor-icon": ["@karrotmarket/lynx-multicolor-icon@1.32.0", "", { "dependencies": { "@karrotmarket/assets-multicolor": "^1.34.0" }, "peerDependencies": { "@lynx-js/react": "*", "@lynx-js/types": "*" } }, "sha512-iLCbFudOFLljB2tFBCM1gKnBbjn2jPR/coOlxUG8NNJRdXXZRZ48wUf/1RmXzQR0TV8rjD2rUMuMJTOKy+pP6w=="],
 
     "@karrotmarket/react-monochrome-icon": ["@karrotmarket/react-monochrome-icon@1.17.0", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-r89zaxc6FeMpmTWz0u6TbasROhl1OWrqk+WRPgPDmEpUfydW4x7j88F30WAe5cOGZlrTklna3K79XovF3wBI2g=="],
 
