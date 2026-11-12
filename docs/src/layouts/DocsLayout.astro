@@ -47,7 +47,7 @@ const searchTags = platform && archivePaths.prefix ? [TAGS[platform]] : Object.v
 // fumadocs notebook `Container`(`nav.mode: "top"`)와 같은 grid. 열 폭 변수는 빌드 때 사이드바·목차 유무를
 // 알기 때문에 fumadocs의 `layout:` variant(`:has(> …)`) 대신 아래 class로 root에 직접 둔다.
 const gridStyle = [
-  `grid-template: ". header header header ." "sidebar sidebar toc-popover toc-popover ." "sidebar sidebar main toc ." 1fr / minmax(min-content, 1fr) var(--fd-sidebar-col) minmax(0, calc(var(--fd-layout-width,97rem) - var(--fd-sidebar-col) - var(--fd-toc-width))) var(--fd-toc-width) minmax(min-content, 1fr)`,
+  `grid-template: ". header header header ." "sidebar sidebar toc-popover toc-popover ." "sidebar sidebar main toc ." 1fr / minmax(min-content, 1fr) var(--fd-sidebar-width) minmax(0, calc(var(--fd-layout-width,97rem) - var(--fd-sidebar-width) - var(--fd-toc-width))) var(--fd-toc-width) minmax(min-content, 1fr)`,
   "--fd-docs-row-1: var(--fd-banner-height, 0px)",
   "--fd-docs-row-2: calc(var(--fd-docs-row-1) + var(--fd-header-height))",
   "--fd-docs-row-3: calc(var(--fd-docs-row-2) + var(--fd-toc-popover-height))",
@@ -58,11 +58,8 @@ const gridStyle = [
   <slot name="head" slot="head" />
   <div
     id="nd-notebook-layout"
-    data-sidebar-collapsed="false"
     class:list={[
-      // 사이드바 열. Cmd/Ctrl+B로 내비게이션 island가 `data-sidebar-collapsed`를 바꾸면 0px로 접힌다.
-      "[--fd-sidebar-col:var(--fd-sidebar-width)] data-[sidebar-collapsed=true]:[--fd-sidebar-col:0px]",
-      "grid overflow-x-clip min-h-(--fd-docs-height) auto-cols-auto auto-rows-auto [--fd-docs-height:100dvh] [--fd-toc-popover-height:0px] [transition:--fd-sidebar-col_150ms]",
+      "grid overflow-x-clip min-h-(--fd-docs-height) auto-cols-auto auto-rows-auto [--fd-docs-height:100dvh] [--fd-toc-popover-height:0px]",
       // 헤더 높이: 모바일 bar 64px, 태블릿 72px, 데스크톱 76px(`components/header/docs-header.tsx`).
       "[--fd-header-height:64px] min-[968px]:[--fd-header-height:72px] min-[1120px]:[--fd-header-height:76px]",
       sidebar

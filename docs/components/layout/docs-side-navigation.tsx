@@ -1,7 +1,7 @@
 "use client";
 
 import { ScrollFog, SideNavigation as SeedSideNavigation } from "@seed-design/react";
-import { type ReactNode, useEffect } from "react";
+import type { ReactNode } from "react";
 import { DocsVersionSwitcher } from "@/components/docs-version-switcher";
 import { MobileNavPanel } from "@/components/header/mobile-nav-panel";
 import { mobileNavOpenStore } from "@/components/header/open-stores";
@@ -81,39 +81,6 @@ export function DocsSideNavigation({
   );
 }
 
-/**
- * Cmd/Ctrl+B로 사이드바 열을 접고 편다. 조건은 fumadocs `SidebarProvider`와 같다(768px 이상, 입력 중·dialog
- * 안에서는 무시). 그리드 루트(`DocsLayout.astro`)는 정적 마크업이라 속성만 바꾸고, 열 폭은 루트의 class가
- * `data-sidebar-collapsed`에 따라 정한다. 사이드바 없는 페이지에서도 기준처럼 단축키를 가로챈다(열 폭은 0이라
- * 화면은 그대로다). 상태는 저장하지 않아 새로 고치면 펼쳐진다.
- */
-function useSidebarCollapseHotKey() {
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.defaultPrevented || event.isComposing || event.keyCode === 229) return;
-      if (isTypingTarget(event.target)) return;
-      if (!(event.metaKey || event.ctrlKey) || event.shiftKey || event.altKey || event.key !== "b")
-        return;
-      if (window.matchMedia("(width < 768px)").matches) return;
-      event.preventDefault();
-      const layout = document.getElementById("nd-notebook-layout");
-      if (!layout) return;
-      const collapsed = layout.getAttribute("data-sidebar-collapsed") === "true";
-      layout.setAttribute("data-sidebar-collapsed", String(!collapsed));
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
-}
-
-/** fumadocs `useHotKey`의 `ignoreTyping`과 같은 판정. */
-function isTypingTarget(target: EventTarget | null): boolean {
-  if (!(target instanceof HTMLElement)) return false;
-  if (target.isContentEditable) return true;
-  if (["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)) return true;
-  return target.closest('[role="dialog"]') !== null;
-}
-
 /** 모바일 메뉴 패널. 헤더의 메뉴 버튼이 `mobileNavOpenStore`로 연다. */
 function DocsMobileNavPanel({ section }: { section?: { title: string; groups: SidebarGroup[] } }) {
   const open = mobileNavOpenStore.useOpen();
@@ -138,8 +105,6 @@ export function DocsNavigationIsland({
   sectionTitle?: string;
   groups?: SidebarGroup[];
 }) {
-  useSidebarCollapseHotKey();
-
   return (
     <DocsFrameworkProvider pathname={pathname}>
       {sidebar && groups && (

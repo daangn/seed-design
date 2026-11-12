@@ -57,7 +57,7 @@ Astro·Fumadocs 기반 SEED 문서 사이트다. `content/`가 문서 원천이�
 ### 문서 셸
 
 - 셸은 정적 마크업(`src/layouts/DocsLayout.astro`, `src/components/DocsPage.astro`)과 상호작용이 필요한 부분만 맡는 작은 island로 나뉜다. 셸에 조각을 더할 때 JS가 필요 없으면 client 지시어 없이 정적으로 그린다.
-- grid 열 폭 변수(`--fd-header-height`·`--fd-sidebar-width`·`--fd-toc-width`)와 접힌 사이드바 열은 `DocsLayout.astro` 루트의 class가 정한다. 헤더 높이·사이드바 폭·목차 폭을 바꾸면 루트 class와 해당 컴포넌트를 함께 고친다. fumadocs `layout:` variant(`#nd-…-layout:has(> …)`)로 하위 요소가 폭을 정하게 하지 않는다 → island 래퍼 안에서는 맞지 않고, 본문 뒤의 요소면 첫 paint 뒤에 열이 생겨 본문이 밀린다.
+- grid 열 폭 변수(`--fd-header-height`·`--fd-sidebar-width`·`--fd-toc-width`)는 `DocsLayout.astro` 루트의 class가 정한다. 헤더 높이·사이드바 폭·목차 폭을 바꾸면 루트 class와 해당 컴포넌트를 함께 고친다. fumadocs `layout:` variant(`#nd-…-layout:has(> …)`)로 하위 요소가 폭을 정하게 하지 않는다 → island 래퍼 안에서는 맞지 않고, 본문 뒤의 요소면 첫 paint 뒤에 열이 생겨 본문이 밀린다.
 - article 직계 자식에 거는 `*:` utility는 island 래퍼 안쪽 요소에 닿지 않는다 → article 직계 자식에 island를 두면 같은 class를 island에 prop으로 넘겨 붙인다(`DocsTabStripIsland`).
 - island끼리는 React context를 나누지 못한다 → 열림 상태처럼 함께 쓰는 값은 `components/header/open-stores.ts`의 모듈 store로 잇는다. 새 의존성을 들이지 않는다.
 - page tree를 island props로 넘기지 않는다. 모든 페이지 HTML에 tree 전체가 직렬화된다 → `.astro`에서 그 island가 그리는 값(사이드바 `groups`, 탭 목록)으로 줄여 넘긴다.
