@@ -25,7 +25,7 @@ import { getSeedClassName, type GetSeedClassNameOptions } from "../utils/get-see
  * }
  *
  * root.render(
- *   <SeedProvider colorMode="system" preferredColorScheme="dark">
+ *   <SeedProvider preferredColorScheme="dark">
  *     <Page />
  *   </SeedProvider>,
  * );

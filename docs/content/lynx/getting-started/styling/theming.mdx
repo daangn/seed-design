@@ -32,16 +32,13 @@ function Page() {
 }
 
 root.render(
-  <SeedProvider
-    colorMode="system"
-    preferredColorScheme={/* 호스트 설정에서 읽은 "light" | "dark" */ "dark"}
-  >
+  <SeedProvider preferredColorScheme={/* 호스트 설정에서 읽은 "light" | "dark" */ "dark"}>
     <Page />
   </SeedProvider>,
 );
 ```
 
-`useSeedClassName()`은 `colorMode`(옵션을 생략하면 `SeedProvider`의 값)에 따라 `seed-user-color-scheme-light` 또는 `seed-user-color-scheme-dark` 클래스를 반환하고, `preferredColorScheme`이 바뀌면 다시 계산합니다.
+`useSeedClassName()`은 `colorMode`에 따라 `seed-user-color-scheme-light` 또는 `seed-user-color-scheme-dark` 클래스를 반환합니다. `colorMode` 옵션을 생략하면 `SeedProvider`의 `colorMode`를 쓰고, `colorMode`나 `preferredColorScheme`이 바뀌면 다시 계산합니다.
 훅을 쓸 수 없는 곳에서는 `getSeedClassName({ colorMode, colorScheme })`에 색상 스킴을 직접 넘깁니다.
 
 ### `colorMode` 옵션
@@ -53,7 +50,7 @@ root.render(
 | `light-only` | (무관) | `seed-user-color-scheme-light` |
 | `dark-only` | (무관) | `seed-user-color-scheme-dark` |
 
-`system`으로 설정하면 `SeedProvider`의 `preferredColorScheme`을 따릅니다. 값을 넘기지 않으면 `lynx.__globalProps.theme`을 읽고, 그 값도 없으면 라이트 모드입니다. Global props에서 읽는 동작은 다음 메이저 버전에서 제거될 예정입니다.
+`SeedProvider`의 `colorMode`를 생략해도 `system`입니다. `system`이면 `SeedProvider`의 `preferredColorScheme`을 따릅니다. 값을 넘기지 않으면 `lynx.__globalProps.theme`을 읽고, 그 값도 없으면 라이트 모드입니다. Global props에서 읽는 동작은 다음 메이저 버전에서 제거될 예정입니다.
 
 ## 테마 클래스 이해하기
 
@@ -183,7 +180,7 @@ function MyComponent() {
 
 오버라이드된 영역 내부의 모든 하위 요소는 CSS 커스텀 프로퍼티 상속을 통해 해당 테마의 토큰을 사용합니다.
 
-Liquid Glass tint처럼 CSS 변수를 읽지 못하는 곳은 JS에서 테마를 정합니다. 오버라이드한 영역을 같은 값의 `ColorModeProvider`로 감싸세요.
+SEED는 Liquid Glass tint처럼 CSS 변수를 읽지 못하는 곳의 테마를 JS에서 정합니다. 오버라이드한 영역을 같은 값의 `ColorModeProvider`로 감싸세요.
 
 ```tsx
 import { ColorModeProvider } from "@seed-design/lynx-react";

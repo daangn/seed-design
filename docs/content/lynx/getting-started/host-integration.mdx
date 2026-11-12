@@ -12,13 +12,13 @@ SEED는 특정 호스트의 global props 키를 직접 읽지 않고, 앱이 `Se
 | prop | 타입 | 사용하는 곳 | 생략했을 때 |
 | --- | --- | --- | --- |
 | `colorMode` | `"system" \| "light-only" \| "dark-only"` | `useSeedClassName`의 기본 `colorMode`, Liquid Glass tint | 바깥 값, 없으면 `"system"` |
-| `preferredColorScheme` | `"light" \| "dark"` | `useSeedClassName`의 `colorMode: "system"`, 아이콘 색상 동기화 | `"light"` |
+| `preferredColorScheme` | `"light" \| "dark"` | `useSeedClassName`의 `colorMode: "system"`, 아이콘 색상 동기화, Liquid Glass tint | `"light"` |
 | `preferredMotion` | `"default" \| "reduced"` | [Scale Feedback](/lynx/components/concepts/scale-feedback). `"reduced"`이면 눌림 축소를 끕니다 | `"default"` |
 | `safeAreaInsets` | `{ top, right, bottom, left }` (논리 px) | `useSafeArea`, `Box`의 `"safeArea"`, AppBar, Dialog, MenuSheet, floating 레이어 경계 | `env(safe-area-inset-*)` |
 
 화면 크기는 넘기지 않습니다. SEED는 [`useViewport`](/lynx/hooks/use-viewport)로 현재 LynxView 크기를 직접 측정합니다.
 
-`preferredColorScheme`은 호스트가 선호하는 값입니다. root `colorMode`를 적용한 결과가 아니므로, `colorMode: "dark-only"`인 앱에서도 호스트 설정을 그대로 넘기세요. 앱의 `colorMode`는 `SeedProvider`에 넘깁니다. CSS 변수를 읽을 수 없는 Liquid Glass tint는 두 값으로 적용된 테마를 정하고, `useSeedClassName`도 `colorMode` 옵션을 생략하면 이 값을 씁니다.
+`preferredColorScheme`은 호스트가 선호하는 값이며, 앱의 `colorMode`를 적용한 결과가 아닙니다. `colorMode="dark-only"`인 앱에서도 호스트 설정을 그대로 넘기세요. 앱의 `colorMode`는 `SeedProvider`의 `colorMode`로 따로 넘깁니다. SEED는 두 값으로 적용할 테마를 정합니다. `useSeedClassName`은 `colorMode` 옵션을 생략하면 이 테마를 쓰고, CSS 변수를 읽지 못하는 Liquid Glass tint도 이 테마를 따릅니다.
 
 ## 적용하기
 
@@ -40,7 +40,7 @@ interface HostGlobalProps {
 }
 
 function Page() {
-  // `SeedProvider`의 `colorMode`를 씁니다.
+  // 옵션을 생략하면 `SeedProvider`의 `colorMode`를 씁니다.
   const seedClassName = useSeedClassName();
   return (
     <page className={seedClassName}>
@@ -67,7 +67,6 @@ function Root() {
   const g = lynx.__globalProps as HostGlobalProps;
   return (
     <SeedProvider
-      colorMode="system"
       preferredColorScheme={g.theme === "dark" ? "dark" : "light"}
       preferredMotion={g.motion === "reduced" ? "reduced" : "default"}
       safeAreaInsets={toSafeAreaInsets(g)}
@@ -80,7 +79,7 @@ function Root() {
 root.render(<Root />);
 ```
 
-`useSeedClassName`은 `SeedProvider` 안에서 호출해야 `preferredColorScheme`을 읽습니다. 위 예제처럼 `<page>`를 그리는 컴포넌트를 Provider 안쪽에 둡니다.
+`useSeedClassName`은 `SeedProvider` 안에서 호출해야 `colorMode`와 `preferredColorScheme`을 읽습니다. 위 예제처럼 `<page>`를 그리는 컴포넌트를 Provider 안쪽에 둡니다.
 
 `SeedProvider`가 없어도 오류는 나지 않습니다. 호스트 값이 없는 환경에서는 위 표의 "생략했을 때" 값으로 동작합니다.
 
@@ -117,7 +116,7 @@ Chip과 FloatingActionButton은 iOS Liquid Glass로 그릴 수 있습니다. 호
 - `supportsLiquidGlass`는 호스트가 판단해 넘깁니다. SEED는 플랫폼이나 OS 버전을 따로 확인하지 않습니다. Lynx `<blur-view>`의 `blur-effect="glass"`를 그릴 수 있는 호스트(iOS 26 이상, glass를 지원하는 XElement `blur-view` 등록)에서만 `true`를 넘기세요. 그릴 수 없는 호스트에서 켜면 배경이 투명해질 수 있습니다.
 - `glassEffect`의 `true`는 `{}`와 같습니다(`style: "regular"`, `interactive: false`). `false`는 바깥에서 이어받은 효과를 끕니다.
 - glass일 때 배경 대신 현재 상태의 배경색이 glass tint가 되고, Chip의 테두리와 FloatingActionButton의 그림자는 그리지 않습니다. 눌림 축소(Scale Feedback)도 쓰지 않으며, `interactive: true`이면 눌림 배경 대신 glass가 터치에 반응합니다.
-- tint는 `SeedProvider`의 `colorMode`와 `preferredColorScheme`으로 정한 테마의 Recipe 배경색입니다. `className`으로 배경을 바꿔도 tint는 바뀌지 않습니다. 하위 트리에 `seed-color-mode-light-only`·`seed-color-mode-dark-only` class를 줬다면 그 트리를 같은 값의 `ColorModeProvider`로 감싸세요.
+- tint는 `SeedProvider`의 `colorMode`와 `preferredColorScheme`으로 정한 테마의 Recipe 배경색입니다. `className`으로 배경을 바꿔도 tint는 바뀌지 않습니다. 하위 트리에 `seed-color-mode-light-only`·`seed-color-mode-dark-only` class를 줬다면 그 트리를 같은 값의 `ColorModeProvider`로 감싸세요([Theming](/lynx/getting-started/styling/theming#일부-요소에만-테마-오버라이드하기)).
 
 ```tsx
 <SeedProvider supportsLiquidGlass={g.liquidGlass === true}>
