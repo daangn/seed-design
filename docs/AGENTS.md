@@ -54,6 +54,14 @@ Astro·Fumadocs 기반 SEED 문서 사이트다. `content/`가 문서 원천이�
 - utility가 없는 자리는 v4 축약 문법으로 넘긴다: `bg-[var(--x)]` 대신 `bg-(--x)`, fallback은 `right-(--x,0px)`.
 - `font-`·`text-`처럼 한 namespace가 여러 속성에 걸리면 타입을 붙인다: `font-(family-name:--x)`, `text-(length:--x)`.
 
+### 페이지 이동과 사이드바 상태
+
+- 링크 이동은 문서 전체 로드다. client router(`ClientRouter`)를 두지 않는다 → 이동을 빠르게 하려면 `astro.config.ts`의 `prefetch`(hover 때 다음 HTML을 받아 둔다)를 쓴다.
+- 데스크톱 사이드바의 폴더 열림 상태와 스크롤 위치는 `components/layout/docs-sidebar-restore.tsx`가 이어 준다. 떠날 때(`visibilitychange` → hidden) 사이드바 트리 id별 `sessionStorage` key에 남기고, 다음 문서의 HTML을 파싱하는 동안 사이드바 안의 inline script(목록 앞 설정, 폴더마다 하나, 목록 뒤 스크롤)가 되살린다. 현재 페이지가 든 폴더는 저장 상태와 관계없이 열린다. 모바일 메뉴 패널은 되살리지 않는다.
+- 되살리는 script를 island 뒤나 `<head>`로 옮기지 않는다. island의 HTML에 본문 전체가 들어 있어 첫 paint보다 늦거나 사이드바가 아직 없다 → 사이드바 마크업 안에 둔다.
+- SEED Collapsible의 열림 마크업(root·trigger·icon·content의 `data-open`, trigger의 `aria-expanded`·`aria-controls`, content의 `hidden`), scroller selector(`#nd-sidebar .seed-scroll-fog`)와 파싱 중 목록을 올려 두는 transform이 걸리는 그 직접 자식, 폴더 script가 폴더 root의 마지막 자식이라는 배치가 바뀌면 script의 DOM 조작도 맞춘다. 맞지 않으면 hydration은 조용히 통과하고(prod는 속성을 비교하지 않는다) 화면과 React state가 어긋난다 → `astro dev`에서 저장 상태를 둔 채 hydration 경고가 없는지, 느린 HTML 서버로 프레임마다 사이드바가 그대로인지 확인한다(`.agents/learnings/entries/docs-load-time-flicker-and-shift.md`).
+- island의 첫 render는 hydration 시점의 DOM과 같아야 한다. 보통은 서버 HTML이다. 첫 render에서 `<html>` 속성이나 `localStorage`를 읽으면 hydration이 실패해 island 전체를 다시 그리고 사용자가 바꾼 상태가 사라진다 → `useSyncExternalStore`의 server snapshot이나 effect에서 읽는다(`hooks/useTheme.ts`). 예외는 HTML 파싱 중 inline script가 DOM을 바꾸고 바꾼 값을 전역에 남긴 경우다. 첫 render는 그 전역을 읽어 바뀐 DOM과 맞춘다(`restoredFolderOpen`).
+
 ### `src/styles/global.css`
 
 - 컴포넌트·위젯 전용 스타일은 넣지 않는다 → 해당 컴포넌트의 Tailwind `className`으로 처리한다. `global.css`에는 빌드 설정, 디자인 토큰, 루트 요소, 외부 라이브러리, 문서 전체 reset·타이포만 둔다.

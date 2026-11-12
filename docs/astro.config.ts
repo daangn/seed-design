@@ -36,6 +36,9 @@ export default defineConfig({
     }),
   },
   integrations: [react(), mdx(), fumadocs(createFumadocsOptions())],
+  // 링크 이동은 문서 전체 로드다. 같은 origin 링크에 hover하면 다음 HTML을 `<link rel="prefetch">`로 받아 둔다.
+  // 다른 origin 링크는 Astro가 건너뛴다.
+  prefetch: { prefetchAll: true, defaultStrategy: "hover" },
   // 다른 docs 빌드 캐시(`.cache/lynx-rspeedy` 등)와 같은 곳에 둔다.
   cacheDir: "./.cache/astro",
   // 안 바뀐 페이지의 렌더링을 건너뛴다. 캐시 키는 `lib/incremental-build.ts`가 만들고, 깨끗한 checkout을
