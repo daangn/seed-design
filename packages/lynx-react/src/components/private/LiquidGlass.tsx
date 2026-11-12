@@ -1,10 +1,12 @@
 /// <reference path="../../blur-view.d.ts" />
 import * as React from "@lynx-js/react";
+import { useMainThreadRef } from "@lynx-js/react";
+import type { MainThread } from "@lynx-js/types";
 import type { GlassTint } from "@seed-design/lynx-css/recipes/chip";
 
 import { useColorMode } from "../../contexts/ColorModeContext";
 import { useSeedContext, type SeedGlassEffect } from "../../contexts/SeedContext";
-import type { LynxHostProps, LynxViewRef } from "../../types";
+import type { LynxHostProps, LynxViewProps, LynxViewRef } from "../../types";
 import { resolveGlassEffect, type ResolvedGlassEffect } from "../../utils/glass-effect";
 import { mergeProps } from "../../utils/merge-props";
 import { resolveColorScheme } from "../../utils/resolve-color-scheme";
@@ -63,11 +65,17 @@ export interface LiquidGlassViewProps extends LynxHostProps<"view"> {
  * - iOS blur-view does not draw `background*`, and `glass-tint-color` takes a resolved color, not a CSS variable. The
  *   caller passes the recipe state's background resolved for both themes, and the applied theme picks one, like native
  *   SEED's `spec.root.color`. A `className` that overrides the background does not change the tint.
+ * - Lynx iOS blur-view does not draw the glass effect it creates with the element. It draws once a glass prop changes
+ *   and the effect is applied again, so the first layout flips `glass-style` for one frame
+ *   (https://github.com/lynx-family/lynx/issues/10824).
  * - Content stays in the glass even when the tint changes. Rendering it behind the content instead loses the
  *   interactive response on the content, because the content views take the touches.
  */
 export const LiquidGlassView = React.forwardRef<unknown, LiquidGlassViewProps>((props, ref) => {
   const { glass, disabled, tint, children, className, ...nativeProps } = props;
+  const elementRef = useMainThreadRef<MainThread.Element | null>(null);
+  const appliedRef = useMainThreadRef(false);
+  const glassStyle = glass.style;
   const colorMode = useColorMode();
   const { preferredColorScheme } = useSeedContext();
   // Same rule as the root `<page>` className, so the tint matches the CSS theme.
@@ -75,12 +83,27 @@ export const LiquidGlassView = React.forwardRef<unknown, LiquidGlassViewProps>((
   // Under `"system"` an unknown host preference stays unset, so iOS follows the system appearance.
   const userInterfaceStyle = colorMode === "system" ? preferredColorScheme : colorScheme;
 
+  const handleLayoutChange: NonNullable<LynxViewProps["main-thread:bindlayoutchange"]> = () => {
+    "main thread";
+    const element = elementRef.current;
+    if (appliedRef.current || !element) return;
+    appliedRef.current = true;
+    element.setAttribute("glass-style", glassStyle === "clear" ? "regular" : "clear");
+    requestAnimationFrame(() => {
+      element.setAttribute("glass-style", glassStyle);
+    });
+  };
+
   return (
     <blur-view
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...mergeProps(
+        { "main-thread:ref": elementRef, "main-thread:bindlayoutchange": handleLayoutChange },
+        ref ? { ref: ref as LynxViewRef } : {},
+        nativeProps,
+      )}
       className={className}
       blur-effect="glass"
-      glass-style={glass.style}
+      glass-style={glassStyle}
       glass-interactive={glass.interactive && !disabled}
       glass-tint-color={tint[colorScheme]}
       ios-user-interface-style={userInterfaceStyle}
