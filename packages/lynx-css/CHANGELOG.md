@@ -1,5 +1,28 @@
 # @seed-design/lynx-css
 
+## 1.3.0
+
+### Minor Changes
+
+- f84d6b3: `$color.bg.neutral-weak-alpha`와 `$color.bg.neutral-weak-alpha-pressed`가 gray 램프와 톤이 일치하는 `gray-alpha` 팔레트를 사용하도록 바꿉니다.
+  
+  - `bg.neutral-weak-alpha`: `static-black-alpha-200`(light) / `static-white-alpha-200`(dark) → `gray-alpha-200`
+  - `bg.neutral-weak-alpha-pressed`: `static-black-alpha-300`(light) / `static-white-alpha-300`(dark) → `gray-alpha-300`
+  - 명도는 거의 같고 색조만 gray 램프에 맞춰집니다. Chip(`variant=solid`), Chip Tabs(`neutralSolid`), Segmented Control, Side Navigation 스크롤바의 배경색이 함께 바뀝니다.
+- 0e76c07: Chip과 FloatingActionButton을 iOS Liquid Glass(`<blur-view blur-effect="glass">`)로 그릴 수 있습니다. `SeedProvider`의 `supportsLiquidGlass`가 켜져 있을 때, `SeedProvider`나 컴포넌트의 `glassEffect`로 적용하며 컴포넌트 값이 `SeedProvider` 값을 덮어씁니다. glass일 때는 현재 상태의 Recipe 배경색이 glass tint가 됩니다. tint는 Rootage 토큰에서 테마별로 생성한 값(Chip·FloatingActionButton Recipe 모듈의 `glassTint`)이며, 반투명 색도 alpha를 유지합니다. `className`으로 바꾼 배경은 tint에 반영되지 않습니다. 값을 넘기지 않으면 지금과 같이 그려집니다.
+- 3a777ad: 선만으로 형태가 정해지는 컴포넌트의 외곽선을 `$color.stroke.neutral-muted`에서 `$color.stroke.neutral-weak`로 변경해 더 잘 보이게 합니다.
+  
+  - Action Button의 `neutralOutline`·`brandOutline` variant
+  - Badge의 `tone=neutral`, `variant=outline`
+  - Chip의 `outlineStrong`·`outlineWeak` variant와 Chip Tabs의 `outlineStrong` variant
+  - Reaction Button
+  - Checkbox `square` variant의 비활성 상태
+- 3a777ad: `$color.stroke.neutral-weak`를 반투명 팔레트 `$color.palette.gray-alpha-400`으로 변경합니다. 레이어·유색 배경에서 외곽선 대비가 일정해집니다.
+  
+  - light 테마의 흰 배경과 dark 테마의 basement에서는 지금과 같은 색으로 보입니다.
+  - dark 테마의 default·floating 레이어에서는 외곽선이 더 또렷해집니다.
+  - 중간 톤 이미지 위에서는 외곽선 대비가 낮아질 수 있습니다.
+
 ## 1.2.1
 
 ### Patch Changes
