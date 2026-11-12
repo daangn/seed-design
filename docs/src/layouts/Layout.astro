@@ -3,7 +3,11 @@ import "@seed-design/css/base.layered.css";
 import "simple-reveal/index.css";
 import "@/src/styles/global.css";
 
-import { LatestVersionBanner } from "@/components/latest-version-banner";
+import {
+  LatestVersionBanner,
+  latestVersionBannerScript,
+  latestVersionBannerStyle,
+} from "@/components/latest-version-banner";
 import { RecentPagesRecorder } from "@/components/recent-pages-recorder";
 import { SiteAnnouncementBanner } from "@/components/site-announcement-banner";
 import ThemeSync from "@/components/theme-sync";
@@ -28,6 +32,9 @@ const { metadata, viewport = "width=device-width, initial-scale=1" } = Astro.pro
     {/* cascade layer 순서를 모든 stylesheet보다 먼저 선언한다. CSS 파일로 두면 dev 서버가 recipe CSS를
         먼저 주입해 `seed-components`가 Tailwind `base`보다 낮아지고, preflight가 recipe의 padding을 지운다. */}
     <style is:inline set:html={layerOrder} />
+    {/* 최신 버전 안내 배너가 뜰 문서면 첫 paint 전에 그 자리를 비워 둔다(`components/latest-version-banner.tsx`). */}
+    <script is:inline set:html={latestVersionBannerScript} />
+    <style is:inline set:html={latestVersionBannerStyle} />
     <meta name="viewport" content={viewport} />
     <SeoHead metadata={metadata} />
     <meta name="color-scheme" content="light dark" />
