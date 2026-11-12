@@ -3,15 +3,7 @@ import { getCollection } from "astro:content";
 import { type ContentStorage, loader, type PageTreeTransformer } from "fumadocs-core/source";
 import { archivePaths } from "@/lib/docs-archive";
 import { markFeatured } from "@/lib/featured";
-import { isPageTreeIconName } from "@/lib/page-tree-icons";
 import { markTabbedFolder, type TabbedFolderNode } from "@/lib/tabbed";
-
-/**
- * page tree는 island props로 직렬화되므로 아이콘을 React 노드가 아니라 이름으로 남긴다.
- * `components/layout/docs-shell.tsx`가 브라우저에서 같은 이름으로 아이콘을 고른다.
- */
-const iconHandler = (icon: string | undefined) =>
-  icon && isPageTreeIconName(icon) ? icon : undefined;
 
 // meta.json `layout: "tabs"`를 폴더 노드에 기록해 탭형 헤더와 사이드바가 함께 사용합니다.
 function tabbedFolderTransformer<S extends ContentStorage>(): PageTreeTransformer<S> {
@@ -55,7 +47,6 @@ async function createSourceLoader<Page extends PageEntry, Meta extends MetaEntry
   // source를 첫 인자로 넘겨야 page·meta 타입이 options(transformer)보다 먼저 추론된다.
   return loader(toFumadocsSource(await pages, await meta), {
     baseUrl,
-    icon: iconHandler,
     pageTree: { transformers: [tabbedFolderTransformer(), featuredTransformer()] },
   });
 }

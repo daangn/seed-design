@@ -3,7 +3,7 @@ import { NotFoundPage } from "@/components/not-found-page";
 import { archivePaths } from "@/lib/docs-archive";
 import { buildSeoMetadata } from "@/lib/seo";
 import { getDocsSource, getLynxSource, getReactSource } from "@/lib/source";
-import Layout from "@/src/layouts/Layout.astro";
+import DocsLayout from "@/src/layouts/DocsLayout.astro";
 
 const source = await (archivePaths.platform === "lynx"
   ? getLynxSource()
@@ -12,7 +12,13 @@ const source = await (archivePaths.platform === "lynx"
     : getDocsSource());
 ---
 
-<Layout metadata={buildSeoMetadata()}>
+<DocsLayout
+  metadata={buildSeoMetadata()}
+  pathname="/404"
+  tree={source.pageTree}
+  sidebar={false}
+  platform={archivePaths.platform}
+>
   <meta slot="head" name="robots" content="noindex" />
-  <NotFoundPage client:load tree={source.pageTree} />
-</Layout>
+  <NotFoundPage />
+</DocsLayout>

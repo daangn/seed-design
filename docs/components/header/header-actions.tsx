@@ -7,9 +7,9 @@ import {
   IconSunFill,
 } from "@karrotmarket/react-monochrome-icon";
 import clsx from "clsx";
-import { useSearchContext } from "fumadocs-ui/contexts/search";
 import { useTheme as useFumaTheme } from "fumadocs-ui/provider/base";
 import type { ReactNode } from "react";
+import { searchOpenStore } from "./open-stores";
 
 /** Circular icon button (r-full, neutral-weak, 16px icon). */
 export function ActionButton({
@@ -64,12 +64,12 @@ export function ThemeToggle({ className, size }: { className?: string; size?: st
   );
 }
 
+/** docs 헤더의 검색 버튼. 검색 창은 검색 island가 그린다(landing은 자체 버튼을 쓴다). */
 export function SearchButton({ className, size }: { className?: string; size?: string }) {
-  const { setOpenSearch } = useSearchContext();
   return (
     <ActionButton
       label="검색"
-      onClick={() => setOpenSearch(true)}
+      onClick={() => searchOpenStore.set(true)}
       className={className}
       size={size}
     >

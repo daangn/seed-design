@@ -1,13 +1,12 @@
 import type * as PageTree from "fumadocs-core/page-tree";
 
 /**
- * 탭형 subject 폴더 헬퍼 (서버·클라이언트 공용).
+ * 탭형 subject 폴더 헬퍼. 빌드 때(`.astro`와 사이드바 목록 계산) 쓴다.
  *
  * meta.json `layout: "tabs"`(source.config.ts docsMetaSchema)가 폴더를 "탭형"으로
  * 선언하면 page tree transformer(lib/source.ts)가 폴더 노드에 같은 값을 스탬프한다.
  * 사이드바는 그 폴더를 펼치지 않고 leaf 하나로, 페이지 상단엔 형제 탭 스트립
- * (DocsTabStrip)을 렌더한다. 트리는 클라이언트로 직렬화되므로 서버(page.tsx)와
- * 클라이언트(사이드바/탭 스트립)가 같은 노드 prop을 읽는다.
+ * (DocsTabStrip)을 렌더한다. 둘 다 이 표시를 읽어 빌드 때 목록을 만든다.
  *
  * fumadocs-core는 번들 청크 re-export라 `declare module` 증강이 불안정하다 —
  * 교차 인터페이스 + 이 파일 안의 cast로만 다룬다.
@@ -45,6 +44,30 @@ export function findTabbedFolder(nodes: PageTree.Node[], url: string): TabbedFol
     if (nested) return nested;
   }
   return null;
+}
+
+export interface TabbedFolderTab {
+  name: string;
+  url: string;
+}
+
+/**
+ * 탭 스트립의 탭 목록(인덱스가 첫 탭, 이어서 직속 자식 페이지). island props로 넘기므로 이름은 문자열이어야 한다.
+ * 인덱스가 없거나 탭이 2개 미만이면 빈 배열이다(탭 스트립을 그리지 않는다).
+ */
+export function tabbedFolderTabs(folder: TabbedFolderNode): TabbedFolderTab[] {
+  if (!folder.index) return [];
+  const pages = [
+    folder.index,
+    ...folder.children.filter((child): child is PageTree.Item => child.type === "page"),
+  ];
+  if (pages.length < 2) return [];
+  return pages.map((page) => {
+    if (typeof page.name !== "string") {
+      throw new Error(`탭 이름이 문자열이 아닙니다: ${page.url}`);
+    }
+    return { name: page.name, url: page.url };
+  });
 }
 
 /** 탭형 페이지 h1/og용 라벨. 폴더 이름의 원천은 meta.json `title`(string)이다. */

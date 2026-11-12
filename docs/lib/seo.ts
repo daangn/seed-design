@@ -228,7 +228,7 @@ export interface DocsPageMetadataInput {
 /**
  * Append a "(Deprecated)" suffix to a display title when the page is deprecated —
  * idempotent, so a title that already carries the suffix is left as-is. Shared by the
- * section detail Page bodies (DocsPageRenderer title / cover alt) and buildDocsPageMetadata
+ * section routes (`[...slug].astro` title / cover alt) and buildDocsPageMetadata
  * so the on-page heading and the metadata title never diverge.
  */
 export function deprecatedTitle(title: string, deprecated?: boolean): string {

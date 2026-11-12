@@ -14,7 +14,7 @@
 /* 소제목 위쪽 여백을 본문과 넉넉히 띄운다. fumadocs 기본 prose typography(built CSS에서
    `.prose :where(h2):not(:where(...)){margin-top:2em}` = h2 24px 기준 48px, h3는
    `margin-top:1.6em` = 20px 기준 32px)의 marginTop을 기준값으로 삼아 2배로 키운다: h2 48px×2
-   = 96px(6rem), h3 32px×2 = 64px(4rem). page.tsx bodyClassName에서 h2/h3 font-size를 키웠으므로
+   = 96px(6rem), h3 32px×2 = 64px(4rem). `[slug].astro`의 bodyClassName에서 h2/h3 font-size를 키웠으므로
    (h2 1.75rem / h3 1.5rem) em이 아닌 rem 절대값으로 고정해, 폰트 크기와 무관하게 "기본 대비 2배
    간격"을 유지한다. em은 부모 font-size에 연동돼 크기를 만질 때마다 간격이 딸려 움직이므로 쓰지 않는다.
 

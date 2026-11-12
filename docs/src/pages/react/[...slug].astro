@@ -64,7 +64,7 @@ const cover = coverImageProps(page.data.coverImage, `${displayTitle} cover image
     full: isChangelog ? true : page.data.full,
     toc: isChangelog ? [] : toc,
     lastUpdate: lastModified,
-    tableOfContent: isChangelog ? { enabled: false } : { single: false },
+    tableOfContent: isChangelog ? { enabled: false } : undefined,
     showPageActions: page.slugs.length > 0,
     markdownUrl,
   }}

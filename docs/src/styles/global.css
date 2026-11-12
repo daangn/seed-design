@@ -140,23 +140,6 @@ pre code {
    recipe(@layer seed-components)에 flex 아이템 min-width:0도, 중첩 블록의 여백 리셋도 없다. packages/*는
    daangn 소유라 못 고치니 여기서 언레이어드로 보정한다(언레이어드가 layer를 무조건 이겨 !important 불필요). */
 
-/* 목차 열 폭은 `#nd-toc`가 자기 class로 예약한다(fumadocs의 `layout:` variant, `:has(> …)`). 그런데 `#nd-toc`는
-   본문 뒤에 오는 요소라, HTML이 다 파싱되기 전에 화면이 그려지면 열이 나중에 생기면서 본문이 왼쪽으로
-   밀린다. 본문보다 앞에 오는 article(`docs-page-renderer.tsx`가 붙이는 `.docs-toc-rail`)로 같은 폭을 먼저
-   예약한다. 값과 breakpoint는 `components/table-of-contents.tsx`의 `xl:layout:[--fd-toc-width:200px]`과 같다. */
-@media (width >= 80rem) {
-  :is(#nd-docs-layout, #nd-notebook-layout):has(#nd-page.docs-toc-rail) {
-    --fd-toc-width: 200px;
-  }
-}
-
-/* 사이드바 열 폭도 `<aside>`가 파싱돼야 정해지고, layout root에는 그 폭의 transition이 걸려 있다. HTML이 나눠
-   도착해 root가 먼저 그려지면 열이 0에서 열리는 애니메이션이 돌면서 본문이 따라 밀린다. 사이드바를 접고 펴는
-   조작은 hydrate 뒤에만 할 수 있으므로 그 전에는 transition을 끈다(`DocsShell`이 hydrate 후 속성을 붙인다). */
-:root:not([data-docs-hydrated]) :is(#nd-docs-layout, #nd-notebook-layout) {
-  transition: none;
-}
-
 /* 긴 코드블록/Tabs가 Callout 밖으로 넘치지 않고 카드 안에서 스크롤되도록 flex 아이템이 줄어들 수 있게 한다. */
 .seed-callout__content {
   min-width: 0;

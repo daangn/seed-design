@@ -19,7 +19,7 @@ Astro·Fumadocs 기반 SEED 문서 사이트다. `content/`가 문서 원천이�
 
 - MDX 컴포넌트는 기본으로 빌드 때 정적 HTML이 된다. 브라우저에서 상호작용해야 하는 컴포넌트는 `lib/satteri/rehype-mdx-islands.ts`의 `ISLAND_ROOTS`(부모의 context에 의존하면 `ISLAND_MEMBERS`)와 `components/mdx-island.tsx`의 `islandComponents`에 같은 이름으로 등록한다.
 - island의 props는 직렬화되어 브라우저로 넘어간다. 빌드 시점 데이터(파일·registry·생성 manifest)가 필요한 컴포넌트는 `src/components/mdx/`에 `.astro` wrapper로 만들고 `src/components/mdx/components.ts`에 등록한다.
-- island 경계에는 `<astro-island>`·`<astro-slot>` 래퍼가 DOM에 남아 `>`·`+`·`:first-child` 선택자가 끊긴다. 본문 전체가 `.prose > astro-slot` 아래에 있다 → island나 slot 경계를 건너는 구조 선택자(Tailwind의 `*:`·`[&>…]` 포함)를 추가하면 `src/styles/astro-wrappers.css`에 래퍼를 건너는 대응 규칙을 함께 둔다.
+- island 경계에는 `<astro-island>`·`<astro-slot>` 래퍼가 DOM에 남아 `>`·`+`·`:first-child` 선택자가 끊긴다. 본문은 정적 마크업이라 `.prose`의 직계 자식이고, 래퍼는 본문 안의 MDX island와 그 slot에만 생긴다 → island나 slot 경계를 건너는 구조 선택자(Tailwind의 `*:`·`[&>…]` 포함)를 추가하면 `src/styles/astro-wrappers.css`에 래퍼를 건너는 대응 규칙을 함께 둔다.
 - CI 빌드는 안 바뀐 페이지를 캐시에서 복원한다(Production 포함). 문서 페이지가 렌더링 때 모듈 import나 `content/` 밖 추적 파일이 아닌 데이터(외부 API 응답, 추적하지 않는 생성물)를 새로 읽게 되면 `lib/incremental-build.ts`의 캐시 키에 그 입력을 넣는다. 넣을 수 없으면 그 route의 `getStaticPaths`에서 `cacheKey`를 빼 항상 렌더링하게 한다.
 - `astro.config.ts`에서 도달하는 모듈(`lib/content/satteri-options.ts`와 그 import)에서는 `@/` alias를 쓰지 않는다. 설정을 불러올 때는 Vite alias가 적용되지 않는다 → 상대 경로로 import한다.
 
@@ -54,11 +54,19 @@ Astro·Fumadocs 기반 SEED 문서 사이트다. `content/`가 문서 원천이�
 - utility가 없는 자리는 v4 축약 문법으로 넘긴다: `bg-[var(--x)]` 대신 `bg-(--x)`, fallback은 `right-(--x,0px)`.
 - `font-`·`text-`처럼 한 namespace가 여러 속성에 걸리면 타입을 붙인다: `font-(family-name:--x)`, `text-(length:--x)`.
 
+### 문서 셸
+
+- 셸은 정적 마크업(`src/layouts/DocsLayout.astro`, `src/components/DocsPage.astro`)과 상호작용이 필요한 부분만 맡는 작은 island로 나뉜다. 셸에 조각을 더할 때 JS가 필요 없으면 client 지시어 없이 정적으로 그린다.
+- grid 열 폭 변수(`--fd-header-height`·`--fd-sidebar-width`·`--fd-toc-width`)와 접힌 사이드바 열은 `DocsLayout.astro` 루트의 class가 정한다. 헤더 높이·사이드바 폭·목차 폭을 바꾸면 루트 class와 해당 컴포넌트를 함께 고친다. fumadocs `layout:` variant(`#nd-…-layout:has(> …)`)로 하위 요소가 폭을 정하게 하지 않는다 → island 래퍼 안에서는 맞지 않고, 본문 뒤의 요소면 첫 paint 뒤에 열이 생겨 본문이 밀린다.
+- article 직계 자식에 거는 `*:` utility는 island 래퍼 안쪽 요소에 닿지 않는다 → article 직계 자식에 island를 두면 같은 class를 island에 prop으로 넘겨 붙인다(`DocsTabStripIsland`).
+- island끼리는 React context를 나누지 못한다 → 열림 상태처럼 함께 쓰는 값은 `components/header/open-stores.ts`의 모듈 store로 잇는다. 새 의존성을 들이지 않는다.
+- page tree를 island props로 넘기지 않는다. 모든 페이지 HTML에 tree 전체가 직렬화된다 → `.astro`에서 그 island가 그리는 값(사이드바 `groups`, 탭 목록)으로 줄여 넘긴다.
+
 ### 페이지 이동과 사이드바 상태
 
 - 링크 이동은 문서 전체 로드다. client router(`ClientRouter`)를 두지 않는다 → 이동을 빠르게 하려면 `astro.config.ts`의 `prefetch`(hover 때 다음 HTML을 받아 둔다)를 쓴다.
 - 데스크톱 사이드바의 폴더 열림 상태와 스크롤 위치는 `components/layout/docs-sidebar-restore.tsx`가 이어 준다. 떠날 때(`visibilitychange` → hidden) 사이드바 트리 id별 `sessionStorage` key에 남기고, 다음 문서의 HTML을 파싱하는 동안 사이드바 안의 inline script(목록 앞 설정, 폴더마다 하나, 목록 뒤 스크롤)가 되살린다. 현재 페이지가 든 폴더는 저장 상태와 관계없이 열린다. 모바일 메뉴 패널은 되살리지 않는다.
-- 되살리는 script를 island 뒤나 `<head>`로 옮기지 않는다. island의 HTML에 본문 전체가 들어 있어 첫 paint보다 늦거나 사이드바가 아직 없다 → 사이드바 마크업 안에 둔다.
+- 되살리는 script를 사이드바 island 뒤나 `<head>`로 옮기지 않는다. island 뒤에는 본문 HTML이 이어져 첫 paint보다 늦고, `<head>`에서는 사이드바가 아직 없다 → 사이드바 마크업 안에 둔다.
 - SEED Collapsible의 열림 마크업(root·trigger·icon·content의 `data-open`, trigger의 `aria-expanded`·`aria-controls`, content의 `hidden`), scroller selector(`#nd-sidebar .seed-scroll-fog`)와 파싱 중 목록을 올려 두는 transform이 걸리는 그 직접 자식, 폴더 script가 폴더 root의 마지막 자식이라는 배치가 바뀌면 script의 DOM 조작도 맞춘다. 맞지 않으면 hydration은 조용히 통과하고(prod는 속성을 비교하지 않는다) 화면과 React state가 어긋난다 → `astro dev`에서 저장 상태를 둔 채 hydration 경고가 없는지, 느린 HTML 서버로 프레임마다 사이드바가 그대로인지 확인한다(`.agents/learnings/entries/docs-load-time-flicker-and-shift.md`).
 - layout 위쪽 흐름에 늦게 끼어드는 요소(`client:only` island, effect에서 정하는 요소)는 첫 paint 전에 자리를 비워 둔다. 비워 두지 않으면 나타날 때 사이드바를 포함한 문서 전체가 밀린다. 최신 버전 안내 배너는 `components/latest-version-banner.tsx`의 `latestVersionBannerScript`(`Layout.astro`의 `<head>`)가 아카이브 빌드·host·닫힘 key로 띄울지 정해 `<html data-latest-version-banner>`를 붙이고, 같은 파일의 style이 자리와 `--fd-banner-height`를 잡는다. 조건을 바꿀 때는 이 script만 고친다 → 컴포넌트는 표시를 읽을 뿐이다. 배너는 `localhost`·`127.0.0.1`·운영 host에서 뜨지 않으므로 `docs.localhost`처럼 다른 host로 띄워 측정한다.
 - island의 첫 render는 hydration 시점의 DOM과 같아야 한다. 보통은 서버 HTML이다. 첫 render에서 `<html>` 속성이나 `localStorage`를 읽으면 hydration이 실패해 island 전체를 다시 그리고 사용자가 바꾼 상태가 사라진다 → `useSyncExternalStore`의 server snapshot이나 effect에서 읽는다(`hooks/useTheme.ts`). 예외는 HTML 파싱 중 inline script가 DOM을 바꾸고 바꾼 값을 전역에 남긴 경우다. 첫 render는 그 전역을 읽어 바뀐 DOM과 맞춘다(`restoredFolderOpen`).

@@ -1,30 +1,325 @@
 ---
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
-import { DocsShell, type DocsShellProps } from "@/components/layout/docs-shell";
-import { mdxComponents } from "@/src/components/mdx/components";
+import type { TOCItemType } from "fumadocs-core/toc";
+import type * as PageTree from "fumadocs-core/page-tree";
+import { ChangelogLLMOptions } from "@/components/changelog-viewer/changelog-llm-options";
+import { DocsPrevNext, findPrevNext } from "@/components/layout/docs-prev-next";
+import { DocsTabStripIsland } from "@/components/layout/docs-tab-strip";
+import { DOC_TITLE_CLASS } from "@/components/layout/lib/doc-title";
+import { PageLastUpdate } from "@/components/layout/page-last-update";
+import { SectionLabel } from "@/components/layout/section-label";
+import { SiteFooter } from "@/components/layout/site-footer";
+import { LLMOptions } from "@/components/page-actions";
+import { DocsTableOfContents } from "@/components/table-of-contents";
+import { ArticleShareButton } from "@/components/updates/share-button";
+import type { ChangelogPlatform } from "@/lib/changelog-platform";
+import { type ArchivePlatform, archivePaths } from "@/lib/docs-archive";
+import { formatPublishedDate } from "@/lib/format-date";
 import type { Section } from "@/lib/llms/types";
 import type { SeoMetadata } from "@/lib/seo";
+import { findTabbedFolder, tabbedFolderLabel, tabbedFolderTabs } from "@/lib/tabbed";
 import DocsHead from "@/src/components/DocsHead.astro";
-import Layout from "@/src/layouts/Layout.astro";
+import { mdxComponents } from "@/src/components/mdx/components";
+import DocsLayout from "@/src/layouts/DocsLayout.astro";
 
-interface Props extends Omit<DocsShellProps, "children" | "platformStatus" | "meta"> {
+interface CoverImage {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+interface Props {
   metadata: SeoMetadata;
   /** 이 페이지가 속한 llms 섹션. */
   section: Section;
   markdownUrl: string;
-  jsonLd: object;
-  /** `page.data.load()`가 돌려준 MDX 본문. */
-  Content: AstroComponentFactory;
+  jsonLd?: object;
+  /** `page.data.load()`가 돌려준 MDX 본문. 없으면 default slot을 본문으로 쓴다(`/updates` 목록). */
+  Content?: AstroComponentFactory;
+  /** 현재 페이지 경로(`page.url`). */
+  pathname: string;
+  /** 섹션의 `source.pageTree`. */
+  tree: PageTree.Root;
+  /** 검색 창이 처음 고르는 섹션 태그. */
+  defaultSearchTag?: string;
+  /** get-started·updates처럼 사이드바가 없는 섹션이면 `false`. */
+  sidebar?: boolean;
+  /** 사이드바 상단에 버전 전환 메뉴를 두는 플랫폼 섹션. archive 채널에서는 검색도 이 섹션으로 좁힌다. */
+  platform?: ArchivePlatform;
+  /** 표준 아티클 또는 overview 레이아웃. */
+  page?: {
+    title: string;
+    description?: string;
+    coverImage?: CoverImage;
+    /**
+     * 커버 이미지 컨테이너에 덧붙일 클래스. 기본 커버 폭은 콘텐츠 캡(`*:max-w-[900px]`)과 같다.
+     * 콘텐츠보다 살짝 넓은 커버가 필요할 때 폭 오버라이드용(예: `!max-w-[1024px]`).
+     */
+    coverClassName?: string;
+    /** 콘텐츠 영역 레이아웃. "overview"면 표준 아티클 셸 대신 자체 레이아웃. */
+    layout?: "docs" | "overview";
+    full?: boolean;
+    toc: TOCItemType[];
+    lastUpdate?: Date;
+    /** `enabled: false`면 목차 열을 두지 않는다. full 페이지에는 목차 열이 없다. */
+    tableOfContent?: { enabled?: boolean };
+    markdownUrl: string;
+    /** LLMs.txt/action controls. Hide on section overview/root pages. */
+    showPageActions?: boolean;
+    /** 섹션 라벨과 제목 사이 여백을 키운다 — 제목·메타·커버를 한 세트로 보이게(예: Updates 글). */
+    topSpacing?: boolean;
+    /** 아티클 루트에 덧붙일 클래스. 라우트별 스코프 CSS의 진입점이다(예: Updates 글의 `updates-article`). */
+    articleClassName?: string;
+    /** 제목(h1)에 덧붙일 클래스(예: Updates 글의 `text-center`). */
+    titleClassName?: string;
+    /**
+     * 본문(`.prose`)에 덧붙일 클래스. `prose-*` 유틸은 `@layer utilities`라 fumadocs 기본 타이포그래피
+     * (`@layer components`)를 이기고 `.not-prose` 내부는 자동 제외되므로, 라우트 전용 소제목·본문 크기/색을
+     * CSS 파일 없이 스코프한다.
+     */
+    bodyClassName?: string;
+  };
+  /** get-started·updates 목록처럼 TOC 없는 산문 페이지. `page` 대신 쓴다. */
+  prose?: { title: string; titleClassName?: string; description?: string; coverImage?: CoverImage };
+  /** Updates 글의 게시일 메타(공유 버튼 포함). `page`와 함께 쓴다. */
+  published?: { title: string; date: Date; release: boolean };
+  /** changelog 페이지면 기본 LLMs.txt 메뉴 대신 changelog 전용 메뉴를 렌더링한다. */
+  changelog?: { platform: ChangelogPlatform; fallbackUrl: string };
 }
 
-const { metadata, section, markdownUrl, jsonLd, Content, ...shell } = Astro.props;
+const {
+  metadata,
+  section,
+  markdownUrl,
+  jsonLd,
+  Content,
+  pathname,
+  tree,
+  defaultSearchTag,
+  sidebar = true,
+  platform,
+  page,
+  prose,
+  published,
+  changelog,
+} = Astro.props;
+
+// 클라이언트 컴포넌트의 `usePathname()`과 같은 값. archive 채널의 주소는 trailing slash로 끝난다.
+const currentPath = archivePaths.pageHref(pathname);
+const article = page && page.layout !== "overview" ? page : undefined;
+const full = page?.full ?? false;
+// 비-full 아티클은 목차 항목이 없어도 오른쪽 열을 예약한다 → 콘텐츠 가로 위치가 페이지마다 흔들리지 않는다.
+const tocEnabled = article != null && !full && article.tableOfContent?.enabled !== false;
+const { previous, next } = article ? findPrevNext(tree, currentPath) : {};
+const tabbedFolder = article ? findTabbedFolder(tree.children, currentPath) : null;
+const tabs = tabbedFolder ? tabbedFolderTabs(tabbedFolder) : [];
+const cover = prose?.coverImage ?? page?.coverImage;
 ---
 
-<Layout metadata={metadata}>
+<DocsLayout
+  metadata={metadata}
+  pathname={pathname}
+  tree={tree}
+  defaultSearchTag={defaultSearchTag}
+  sidebar={sidebar}
+  toc={tocEnabled}
+  platform={platform}
+>
   <DocsHead slot="head" section={section} markdownUrl={markdownUrl} jsonLd={jsonLd} />
-  <DocsShell client:load {...shell}>
-    <Fragment slot="platform-status"><slot name="platform-status" /></Fragment>
-    <Fragment slot="meta"><slot name="meta" /></Fragment>
-    <Content components={mdxComponents} />
-  </DocsShell>
-</Layout>
+  {
+    prose ? (
+      <div id="nd-page" class="[grid-area:main] w-full px-4 py-10 md:px-6 md:py-16 xl:px-8">
+        <div class="mx-auto w-full max-w-[1100px]">
+          <header class="not-prose mb-10 md:mb-14">
+            {/* get-started/updates 제목 스케일: text-3xl→md:text-[40px] (데스크탑 40px 고정). */}
+            <h1
+              class:list={[
+                "text-fd-foreground text-3xl font-medium tracking-tight text-balance md:text-[40px]",
+                prose.titleClassName,
+              ]}
+            >
+              {prose.title}
+            </h1>
+            {prose.description && (
+              <p class="text-fd-muted-foreground mt-4 text-base font-light text-pretty">
+                {prose.description}
+              </p>
+            )}
+          </header>
+          <div class="prose flex-1 max-w-none prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
+            {cover && (
+              <div class="not-prose mb-8 md:mb-10">
+                <img
+                  src={cover.src}
+                  alt={cover.alt}
+                  width={cover.width}
+                  height={cover.height}
+                  class="block h-auto w-full rounded-r4"
+                  loading="eager"
+                />
+              </div>
+            )}
+            {Content ? <Content components={mdxComponents} /> : <slot />}
+          </div>
+          <SiteFooter />
+        </div>
+      </div>
+    ) : page && !article ? (
+      <div id="nd-page" class="[grid-area:main] w-full px-4 py-10 md:px-6 md:py-16 xl:px-8">
+        {/* overview: 기본은 표준 상세와 같은 900px 폭, grid-only overview는 full 폭을 사용한다. */}
+        <div class={full ? "max-w-none" : "max-w-[900px]"}>
+          <header class="not-prose mb-10 md:mb-14">
+            <h1 class:list={["text-fd-foreground", DOC_TITLE_CLASS, "text-balance"]}>{page.title}</h1>
+            {page.description && (
+              <p class="text-fd-muted-foreground mt-4 text-base font-light text-pretty">
+                {page.description}
+              </p>
+            )}
+          </header>
+          {cover && (
+            <div class="not-prose mb-8 md:mb-10">
+              <img
+                src={cover.src}
+                alt={cover.alt}
+                width={cover.width}
+                height={cover.height}
+                class="block h-auto w-full rounded-r4"
+                loading="eager"
+              />
+            </div>
+          )}
+          <div class="prose flex-1 max-w-none prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
+            {Content ? <Content components={mdxComponents} /> : <slot />}
+          </div>
+        </div>
+      </div>
+    ) : article ? (
+      <main class="grid [grid-area:main]">
+        <article
+          id="nd-page"
+          class:list={[
+            "flex flex-col min-w-0 px-4 py-6 gap-4 md:px-6 md:pt-8 xl:px-8 xl:pt-14",
+            full ? "*:max-w-[1285px]" : "*:max-w-[900px] *:mx-auto *:w-full",
+            article.articleClassName,
+          ]}
+        >
+          {/* 상세 페이지 최상단: 현재 섹션명(좌) + LLMs.txt(우) 한 줄. */}
+          <div class="flex flex-row items-center justify-between gap-2 mb-2">
+            <SectionLabel pathname={currentPath} />
+            {article.showPageActions !== false &&
+              (changelog ? (
+                <ChangelogLLMOptions
+                  client:load
+                  platform={changelog.platform}
+                  fallbackUrl={changelog.fallbackUrl}
+                />
+              ) : (
+                <LLMOptions client:load markdownUrl={article.markdownUrl} />
+              ))}
+          </div>
+          {/* topSpacing: 섹션 라벨과 제목 사이 간격을 키워 제목·메타·커버가 한 세트로 보이게 한다. */}
+          <h1
+            class:list={[
+              DOC_TITLE_CLASS,
+              article.topSpacing && "mt-8 md:mt-14",
+              article.titleClassName,
+            ]}
+          >
+            {article.title}
+          </h1>
+          {
+            article.description && (
+              <p class="mb-8 text-fd-muted-foreground text-base font-light">
+                {article.description}
+              </p>
+            )
+          }
+          {
+            published ? (
+              <div
+                class:list={[
+                  "not-prose mt-2 mb-3 flex items-center gap-1.5 text-base text-fd-muted-foreground",
+                  published.release ? "justify-start" : "justify-center",
+                ]}
+              >
+                <time datetime={published.date.toISOString()}>
+                  {formatPublishedDate(published.date)}
+                </time>
+                <ArticleShareButton client:load title={published.title} />
+              </div>
+            ) : (
+              <slot name="meta" />
+            )
+          }
+          <slot name="platform-status" />
+          {
+            cover && (
+              <div class:list={["not-prose mb-8 md:mb-10", article.coverClassName]}>
+                <img
+                  src={cover.src}
+                  alt={cover.alt}
+                  width={cover.width}
+                  height={cover.height}
+                  class="block h-auto w-full rounded-r4"
+                  loading="eager"
+                />
+              </div>
+            )
+          }
+          {/* 탭형 subject면 커버 아래 sticky 탭 스트립. */}
+          {
+            tabbedFolder && tabs.length > 0 && (
+              <DocsTabStripIsland
+                client:load
+                pathname={pathname}
+                tabs={tabs}
+                label={tabbedFolderLabel(tabbedFolder) ?? "Section"}
+                className={full ? "max-w-[1285px]" : "max-w-[900px] mx-auto w-full"}
+              />
+            )
+          }
+          <div
+            class:list={[
+              "prose flex-1 prose-p:break-keep prose-p:text-pretty prose-headings:text-balance",
+              article.bodyClassName,
+            ]}
+          >
+            {Content ? <Content components={mdxComponents} /> : <slot />}
+          </div>
+          <div class="flex flex-row flex-wrap items-center justify-between gap-4 empty:hidden">{article.lastUpdate && <PageLastUpdate client:idle date={article.lastUpdate} />}</div>
+          <DocsPrevNext previous={previous} next={next} />
+        </article>
+      </main>
+    ) : null
+  }
+  {
+    tocEnabled && article && (
+      <div
+        id="nd-toc"
+        class="sticky top-(--fd-docs-row-3) [grid-area:toc] h-[calc(var(--fd-docs-height)-var(--fd-docs-row-3))] flex flex-col w-(--fd-toc-width) pt-12 pe-4 pb-2 max-xl:hidden"
+      >
+        {article.toc.length > 0 && <DocsTableOfContents client:idle toc={article.toc} />}
+      </div>
+    )
+  }
+  {/* 사이트 footer를 콘텐츠 아래 새 행(main-end 라인)에 둔다. gridRowStart가 없으면 auto-placement가 비어 있는
+      상단 header 행에 넣는다. 폭은 그 페이지의 콘텐츠와 같은 결로 맞춘다: 비-full(목차 있는 상세·overview)은
+      main 열만 차지하고 900px로 캡해 콘텐츠 축에 맞추고, full은 main+toc를 가로질러 넓은 콘텐츠와 맞춘다.
+      좌측 패딩은 article(`#nd-page`)과 같다. */}
+  {
+    page && (
+      <div
+        class="px-4 md:px-6 xl:px-8 pb-14"
+        style={{
+          gridColumn: full ? "main-start / toc-end" : "main-start / main-end",
+          gridRowStart: "main-end",
+        }}
+      >
+        <div class={full ? undefined : "mx-auto max-w-[900px]"}>
+          <SiteFooter />
+        </div>
+      </div>
+    )
+  }
+</DocsLayout>

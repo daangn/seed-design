@@ -28,7 +28,7 @@ const SIDEBAR_ITEM_LABEL_CLASS = "t4-regular";
 const SIDEBAR_GROUP_LABEL_CLASS = "t2-regular px-2.5 pb-1 text-fd-muted-foreground/70";
 const SIDEBAR_REGULAR_WEIGHT = "var(--seed-font-weight-regular)";
 
-function getSidebarItemRootClass(current: boolean) {
+function getSidebarItemRootClass(current?: boolean) {
   // No active background here: the SEED side-navigation-menu-item recipe already paints
   // the current item with `bg-transparent-selected` (hue-0 static-alpha, same token the
   // prev/next cards use). We only set the active text color; adding a `bg-fd-accent`
@@ -51,7 +51,7 @@ function getSidebarItemLabelPadding(level: number) {
   return SIDEBAR_ITEM_LABEL_PADDING_BASE + level * SIDEBAR_ITEM_LABEL_PADDING_PER_LEVEL;
 }
 
-function getSidebarItemLabelClass(current: boolean) {
+function getSidebarItemLabelClass(current?: boolean) {
   return clsx(
     SIDEBAR_ITEM_LABEL_CLASS,
     current ? "text-fd-foreground" : "text-fd-muted-foreground",
@@ -119,6 +119,12 @@ function flattenPages(node: PageTree.Node, level = 1): FlattenedPage[] {
   return [];
 }
 
+/** island props로 직렬화되므로 이름은 문자열이어야 한다. meta.json·frontmatter의 title이 원천이다. */
+function labelOf(node: PageTree.Node): string {
+  if (typeof node.name === "string") return node.name;
+  throw new Error(`사이드바 항목 이름이 문자열이 아닙니다: ${node.$id ?? node.type}`);
+}
+
 /** Fumadocs page tree → SEED SideNavigation groups. A `separator` opens a new group;
  *  `page`/`folder` nodes fill the current group (folders become collapsible sub-lists). */
 export function buildSidebarGroups(nodes: PageTree.Node[], pathname: string): SidebarGroup[] {
@@ -126,12 +132,12 @@ export function buildSidebarGroups(nodes: PageTree.Node[], pathname: string): Si
     const external = page.external === true;
     return {
       key: page.$id ?? page.url ?? index,
-      label: page.name,
+      label: labelOf(page),
       level,
       // External links (e.g. `external:[llms.txt](/llms.txt)`) are never the current route.
-      current: !external && page.url === pathname,
-      external,
-      featured: isFeatured(page),
+      ...(!external && page.url === pathname ? { current: true } : {}),
+      ...(external ? { external: true } : {}),
+      ...(isFeatured(page) ? { featured: true } : {}),
       href: page.url,
     };
   };
@@ -149,8 +155,7 @@ export function buildSidebarGroups(nodes: PageTree.Node[], pathname: string): Si
       // hairline divider between groups (used to split Overview/Progress Board from the rest).
       current = {
         key: node.$id ?? `sep-${index}`,
-        label: node.name,
-        divider: node.name == null,
+        ...(node.name == null ? { divider: true } : { label: labelOf(node) }),
         items: [],
       };
       return;
@@ -177,22 +182,22 @@ export function buildSidebarGroups(nodes: PageTree.Node[], pathname: string): Si
       if (isTabbedFolder(node) && indexUrl != null) {
         current.items.push({
           key: node.$id ?? `tabbed-folder-${index}`,
-          label: node.name,
+          label: labelOf(node),
           level: 0,
-          current: containsActive(node, pathname),
+          ...(containsActive(node, pathname) ? { current: true } : {}),
           // 폴더 라벨은 meta.json `title`이지만 `featured`는 인덱스 페이지 frontmatter에서 온다.
-          featured: indexPage != null && isFeatured(indexPage),
+          ...(indexPage != null && isFeatured(indexPage) ? { featured: true } : {}),
           href: indexUrl,
         });
         return;
       }
       current.items.push({
         key: node.$id ?? `folder-${index}`,
-        label: node.name,
+        label: labelOf(node),
         defaultOpen: node.defaultOpen ?? false,
         collapsible: node.collapsible ?? true,
         current: containsActive(node, pathname),
-        index: indexPage ? leaf(indexPage, index, 0) : undefined,
+        ...(indexPage ? { index: leaf(indexPage, index, 0) } : {}),
         items: node.children
           .filter((child) => child.type !== "page" || child.url !== indexUrl)
           .flatMap((child) => flattenPages(child, 2))

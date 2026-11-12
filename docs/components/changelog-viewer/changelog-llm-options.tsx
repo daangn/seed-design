@@ -7,6 +7,7 @@ import { ALL } from "@/components/changelog-viewer/constants";
 import { LLMOptions } from "@/components/page-actions";
 import { Suspense } from "react";
 import { useQueryState } from "nuqs";
+import { NuqsAdapter } from "nuqs/adapters/react";
 
 const SCOPE = "@seed-design/";
 
@@ -52,8 +53,10 @@ export function ChangelogLLMOptions({
   platform: ChangelogPlatform;
 }) {
   return (
-    <Suspense fallback={<LLMOptions markdownUrl={fallbackUrl} />}>
-      <ChangelogLLMOptionsInner fallbackUrl={fallbackUrl} platform={platform} />
-    </Suspense>
+    <NuqsAdapter>
+      <Suspense fallback={<LLMOptions markdownUrl={fallbackUrl} />}>
+        <ChangelogLLMOptionsInner fallbackUrl={fallbackUrl} platform={platform} />
+      </Suspense>
+    </NuqsAdapter>
   );
 }

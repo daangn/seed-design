@@ -1,0 +1,93 @@
+---
+import type * as PageTree from "fumadocs-core/page-tree";
+import { DocsHeaderIsland } from "@/components/header/docs-header";
+import { DocsNavigationIsland } from "@/components/layout/docs-side-navigation";
+import { buildSidebarGroups } from "@/components/layout/docs-side-navigation-items";
+import { DocsSearch } from "@/components/search/docs-search";
+import { type ArchivePlatform, archivePaths } from "@/lib/docs-archive";
+import { resolveDocsSection } from "@/lib/docs-sections";
+import { TAGS } from "@/lib/search-tags";
+import type { SeoMetadata } from "@/lib/seo";
+import Layout from "@/src/layouts/Layout.astro";
+
+interface Props {
+  metadata: SeoMetadata;
+  /** 현재 페이지 경로(`page.url`). */
+  pathname: string;
+  /** 섹션의 `source.pageTree`. */
+  tree: PageTree.Root;
+  /** 검색 창이 처음 고르는 섹션 태그. */
+  defaultSearchTag?: string;
+  /** get-started·updates·404처럼 사이드바가 없으면 `false`. */
+  sidebar?: boolean;
+  /** 오른쪽 목차 열(xl 이상 200px)을 예약한다. */
+  toc?: boolean;
+  /** 사이드바 상단에 버전 전환 메뉴를 두는 플랫폼 섹션. archive 채널에서는 검색도 이 섹션으로 좁힌다. */
+  platform?: ArchivePlatform;
+}
+
+const {
+  metadata,
+  pathname,
+  tree,
+  defaultSearchTag,
+  sidebar = true,
+  toc = false,
+  platform,
+} = Astro.props;
+
+// 사이드바·모바일 패널 목록. `current` 판정은 클라이언트 `usePathname()`과 같은 값으로 한다.
+const currentPath = archivePaths.pageHref(pathname);
+const section = resolveDocsSection(currentPath);
+const groups = section ? buildSidebarGroups(tree.children, currentPath) : undefined;
+
+// archive 채널에서는 검색을 이 플랫폼 섹션으로 좁힌다.
+const searchTags = platform && archivePaths.prefix ? [TAGS[platform]] : Object.values(TAGS);
+
+// fumadocs notebook `Container`(`nav.mode: "top"`)와 같은 grid. 열 폭 변수는 빌드 때 사이드바·목차 유무를
+// 알기 때문에 fumadocs의 `layout:` variant(`:has(> …)`) 대신 아래 class로 root에 직접 둔다.
+const gridStyle = [
+  `grid-template: ". header header header ." "sidebar sidebar toc-popover toc-popover ." "sidebar sidebar main toc ." 1fr / minmax(min-content, 1fr) var(--fd-sidebar-col) minmax(0, calc(var(--fd-layout-width,97rem) - var(--fd-sidebar-col) - var(--fd-toc-width))) var(--fd-toc-width) minmax(min-content, 1fr)`,
+  "--fd-docs-row-1: var(--fd-banner-height, 0px)",
+  "--fd-docs-row-2: calc(var(--fd-docs-row-1) + var(--fd-header-height))",
+  "--fd-docs-row-3: calc(var(--fd-docs-row-2) + var(--fd-toc-popover-height))",
+].join("; ");
+---
+
+<Layout metadata={metadata}>
+  <slot name="head" slot="head" />
+  <div
+    id="nd-notebook-layout"
+    data-sidebar-collapsed="false"
+    class:list={[
+      // 사이드바 열. Cmd/Ctrl+B로 내비게이션 island가 `data-sidebar-collapsed`를 바꾸면 0px로 접힌다.
+      "[--fd-sidebar-col:var(--fd-sidebar-width)] data-[sidebar-collapsed=true]:[--fd-sidebar-col:0px]",
+      "grid overflow-x-clip min-h-(--fd-docs-height) auto-cols-auto auto-rows-auto [--fd-docs-height:100dvh] [--fd-toc-popover-height:0px] [transition:--fd-sidebar-col_150ms]",
+      // 헤더 높이: 모바일 bar 64px, 태블릿 72px, 데스크톱 76px(`components/header/docs-header.tsx`).
+      "[--fd-header-height:64px] min-[968px]:[--fd-header-height:72px] min-[1120px]:[--fd-header-height:76px]",
+      sidebar
+        ? "[--fd-sidebar-width:0px] min-[968px]:[--fd-sidebar-width:184px] min-[1120px]:[--fd-sidebar-width:208px] min-[1280px]:[--fd-sidebar-width:240px]"
+        : "[--fd-sidebar-width:0px]",
+      toc ? "[--fd-toc-width:0px] xl:[--fd-toc-width:200px]" : "[--fd-toc-width:0px]",
+    ]}
+    style={gridStyle}
+  >
+    <a href="#nd-page" class="sr-only">Skip to Content</a>
+    <DocsHeaderIsland client:load pathname={pathname} />
+    <DocsNavigationIsland
+      client:load
+      pathname={pathname}
+      platform={platform}
+      sidebar={sidebar}
+      sectionTitle={section?.label}
+      groups={groups}
+    />
+    <DocsSearch
+      client:only="react"
+      pathname={pathname}
+      defaultTag={defaultSearchTag}
+      tags={searchTags}
+    />
+    <slot />
+  </div>
+</Layout>

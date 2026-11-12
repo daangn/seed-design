@@ -1,11 +1,11 @@
 "use client";
 
-import type * as PageTree from "fumadocs-core/page-tree";
-import { useTreeContext } from "fumadocs-ui/contexts/tree";
+import clsx from "clsx";
 import { usePathname, useRouter } from "fumadocs-core/framework";
 import { useRef, type CSSProperties } from "react";
 import { TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
-import { findTabbedFolder } from "@/lib/tabbed";
+import type { TabbedFolderTab } from "@/lib/tabbed";
+import { DocsFrameworkProvider } from "./docs-framework-provider";
 
 // Docs 전용 탭 스타일 override(SEED Tabs 스니펫 위에 inline style로 recipe를 덮음).
 // 값이 unlayered recipe라 className보다 inline style이 확실하다(chip-tab-trigger.tsx와 같은 이유).
@@ -29,37 +29,32 @@ const TAB_TRIGGER_STYLE: CSSProperties = {
  * "탭형 subject" 폴더(meta.json `layout: "tabs"`)의 형제 페이지를 상단 탭 스트립으로
  * 렌더한다(M3식 routed tabs). SEED Tabs 스니펫(seed-design/ui/tabs)의 line 스타일을 쓰되, 각 탭은
  * 별도 라우트라 `value=현재 경로` + `onValueChange→router.push`로 탐색한다(SEED SideNavigation과
- * 같은 버튼+router 방식). 현재 경로가 탭형 폴더 안이 아니면 null.
- *
- * 트리 판정은 사이드바와 동일한 `useTreeContext` — 탭형 여부는 page tree transformer가
- * 폴더 노드에 스탬프한 값을 읽는다(lib/tabbed.ts).
+ * 같은 버튼+router 방식). 탭 목록은 `DocsPage.astro`가 빌드 때 page tree에서 계산해 넘긴다(`lib/tabbed.ts`).
  */
-export function DocsTabStrip() {
-  const { root } = useTreeContext();
+function DocsTabStrip({
+  tabs,
+  label,
+  className,
+}: {
+  tabs: TabbedFolderTab[];
+  label: string;
+  className?: string;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const anchorRef = useRef<HTMLDivElement>(null);
 
-  const folder = findTabbedFolder(root.children, pathname);
-  if (!folder?.index) return null;
-
-  const tabs = [
-    folder.index,
-    ...folder.children.filter((child): child is PageTree.Item => child.type === "page"),
-  ];
-  if (tabs.length < 2) return null;
-
-  const label = typeof folder.name === "string" ? folder.name : "Section";
-
   return (
     <>
       {/* 스크롤 기준점. sticky로 붙은 스트립은 이미 제자리라 스스로는 스크롤되지 않는다. */}
-      <div ref={anchorRef} aria-hidden className="scroll-mt-(--fd-docs-row-2)" />
+      <div ref={anchorRef} aria-hidden className={clsx("scroll-mt-(--fd-docs-row-2)", className)} />
       <nav
         aria-label={`${label} tabs`}
-        // 전 사이즈 sticky — 탭형 페이지에선 메뉴형 ToC 팝오버를 끄고(page-renderer) 탭이 그 자리를
-        // 차지한다. bg-fd-background: sticky 시 스크롤 본문이 뒤로 비치지 않게. 사이트 헤더(z-40) 아래.
-        className="not-prose mb-4 bg-fd-background sticky top-(--fd-docs-row-2) z-30"
+        // 전 사이즈 sticky. bg-fd-background: sticky 시 스크롤 본문이 뒤로 비치지 않게. 사이트 헤더(z-40) 아래.
+        className={clsx(
+          "not-prose mb-4 bg-fd-background sticky top-(--fd-docs-row-2) z-30",
+          className,
+        )}
       >
         <TabsRoot
           value={pathname}
@@ -83,5 +78,28 @@ export function DocsTabStrip() {
         </TabsRoot>
       </nav>
     </>
+  );
+}
+
+/**
+ * 탭 스트립 island. article의 직계 자식이 `astro-island`가 되므로, article이 직계 자식에 거는 폭·정렬
+ * (`*:max-w-[900px] *:mx-auto *:w-full`)은 `className`으로 받아 스트립에 직접 붙인다.
+ */
+export function DocsTabStripIsland({
+  pathname,
+  tabs,
+  label,
+  className,
+}: {
+  pathname: string;
+  tabs: TabbedFolderTab[];
+  /** 탭형 폴더 이름. `<nav>`의 aria-label에 쓴다. */
+  label: string;
+  className?: string;
+}) {
+  return (
+    <DocsFrameworkProvider pathname={pathname}>
+      <DocsTabStrip tabs={tabs} label={label} className={className} />
+    </DocsFrameworkProvider>
   );
 }

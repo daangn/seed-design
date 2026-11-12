@@ -75,7 +75,7 @@ const coverUrl = isRelease
       : undefined,
     coverClassName: "!max-w-[1024px]",
     toc: isRelease ? toc : [],
-    tableOfContent: isRelease ? { single: false } : { enabled: false },
+    tableOfContent: isRelease ? undefined : { enabled: false },
     lastUpdate: lastModified,
     markdownUrl,
     topSpacing: true,

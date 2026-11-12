@@ -5,7 +5,6 @@ import {
   fetchFigmaImageUrls,
 } from "@/components/figma-image/fetch-figma-image-urls";
 import { BLOG_POSTS } from "@/components/landing/lib/landing-content";
-import { ProsePage } from "@/components/layout/prose-page";
 import { formatPublishedDate } from "@/lib/format-date";
 import { resolveCoverImage } from "@/lib/seo";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
@@ -149,29 +148,17 @@ function UpdateCardLink({ card }: { card: UpdateCard }) {
  * 릴리즈 노트(`category: release`)는 썸네일 없는 카드로 위에, 블로그 글은 카드 그리드로 아래에.
  * 릴리즈 노트는 버전마다 나가는 잦은 글이라 매번 16:9 커버를 만들지 않는다.
  */
-/** `/updates` 목록 본문. 상호작용이 없어 Astro가 정적으로 렌더링한다. */
+/**
+ * `/updates` 목록 본문(커버 아래 카드 목록). 상호작용이 없어 Astro가 정적으로 렌더링한다.
+ * 제목·설명·커버는 `src/pages/updates/index.astro`가 그린다.
+ */
 export async function UpdatesIndex() {
-  const cover = resolveCoverImage(UPDATES_COVER_IMAGE);
   const cards = await buildCards();
   const releases = cards.filter((card) => card.category === "release");
   const posts = cards.filter((card) => card.category !== "release");
 
   return (
-    <ProsePage
-      title={UPDATES_TITLE}
-      titleClassName="text-balance break-keep"
-      description={UPDATES_DESCRIPTION}
-    >
-      <div className="not-prose mb-8 md:mb-10">
-        <img
-          src={cover.thumbnail}
-          alt="업데이트 표지"
-          width={cover.og.width}
-          height={cover.og.height}
-          className="block h-auto w-full rounded-r4"
-          loading="eager"
-        />
-      </div>
+    <>
       {releases.length > 0 && (
         <section className="not-prose mb-12 md:mb-16">
           <h2 className={SECTION_HEADING_CLASS}>Release Notes</h2>
@@ -196,6 +183,6 @@ export async function UpdatesIndex() {
           ))}
         </div>
       </section>
-    </ProsePage>
+    </>
   );
 }

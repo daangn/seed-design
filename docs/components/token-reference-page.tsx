@@ -1,6 +1,6 @@
 import { IconArrowRightLine } from "@karrotmarket/react-monochrome-icon";
 import type { AST } from "@seed-design/rootage-core";
-import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
+import { DocsBody, DocsDescription, DocsTitle } from "fumadocs-ui/page";
 import { Fragment } from "react";
 import { stringifyValueLit } from "@/components/rootage";
 import { TableRoot } from "@/components/table";
@@ -19,7 +19,10 @@ export interface TokenReferencePageProps {
   references: string[];
 }
 
-/** `/foundations/design-token/reference/<id>` 본문. 데이터는 Astro 페이지가 빌드 시점에 계산한다. */
+/**
+ * `/foundations/design-token/reference/<id>`의 제목·설명·본문. 데이터는 Astro 페이지가 빌드 시점에 계산하고,
+ * article 껍데기와 함께 정적으로 그린다.
+ */
 export function TokenReferencePage({
   tokenId,
   description,
@@ -27,7 +30,7 @@ export function TokenReferencePage({
   references,
 }: TokenReferencePageProps) {
   return (
-    <DocsPage tableOfContent={{ enabled: false }}>
+    <>
       <DocsTitle>{tokenId}</DocsTitle>
       <DocsDescription>{description}</DocsDescription>
       <DocsBody className="prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
@@ -75,6 +78,6 @@ export function TokenReferencePage({
           </tbody>
         </TableRoot>
       </DocsBody>
-    </DocsPage>
+    </>
   );
 }

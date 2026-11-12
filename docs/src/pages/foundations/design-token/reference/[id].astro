@@ -1,14 +1,14 @@
 ---
 import type { GetStaticPaths } from "astro";
 import { resolveReferences, resolveToken } from "@seed-design/rootage-core";
-import { DocsShell } from "@/components/layout/docs-shell";
 import { getDefaultModes } from "@/components/rootage";
+import { TokenReferencePage } from "@/components/token-reference-page";
 import { siteCacheKey } from "@/lib/incremental-build";
 import { getRootage } from "@/lib/rootage";
 import { TAGS } from "@/lib/search-tags";
 import { buildSeoMetadata } from "@/lib/seo";
 import { getFoundationsSource } from "@/lib/source";
-import Layout from "@/src/layouts/Layout.astro";
+import DocsLayout from "@/src/layouts/DocsLayout.astro";
 
 export const getStaticPaths = (async () => {
   const [rootage, cacheKey] = await Promise.all([getRootage(), siteCacheKey()]);
@@ -32,17 +32,24 @@ const definitions = rootage.tokenCollectionEntities[collection].modes.map(({ id:
 });
 ---
 
-<Layout metadata={buildSeoMetadata({ title: tokenId, description: decl.description ?? undefined })}>
-  <DocsShell
-    client:load
-    pathname={`/foundations/design-token/reference/${encodeURIComponent(tokenId)}`}
-    tree={source.pageTree}
-    defaultSearchTag={TAGS.foundations.value}
-    token={{
-      tokenId,
-      description: decl.description,
-      definitions,
-      references: resolveReferences(rootage, tokenId, defaultModes),
-    }}
-  />
-</Layout>
+<DocsLayout
+  metadata={buildSeoMetadata({ title: tokenId, description: decl.description ?? undefined })}
+  pathname={`/foundations/design-token/reference/${encodeURIComponent(tokenId)}`}
+  tree={source.pageTree}
+  defaultSearchTag={TAGS.foundations.value}
+>
+  <main class="grid [grid-area:main]">
+    {/* fumadocs 문서 article과 같은 껍데기. 아래 padding 40px은 기본 footer 자리(빈 칸 + gap 16px)를 포함한다. */}
+    <article
+      id="nd-page"
+      class="flex flex-col min-w-0 px-4 pt-6 pb-10 gap-4 md:px-6 md:pt-8 xl:px-8 xl:pt-14 *:max-w-[900px]"
+    >
+      <TokenReferencePage
+        tokenId={tokenId}
+        description={decl.description}
+        definitions={definitions}
+        references={resolveReferences(rootage, tokenId, defaultModes)}
+      />
+    </article>
+  </main>
+</DocsLayout>

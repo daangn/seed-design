@@ -53,7 +53,7 @@ function segmentsOf(nodes: readonly HastNode[], out: TocTitleSegment[] = []): To
  *
  * `@fumadocs/astro`는 TOC를 island props로 넘길 수 있게 제목을 일반 문자열로만 내보낸다. 그러면
  * `` ## Using `Checkmark` `` 같은 heading이 TOC에서 code 표시를 잃는다. heading에 inline code가 있으면
- * 제목을 직렬화 가능한 조각 배열로 바꿔 두고, `components/layout/docs-shell.tsx`가 React 노드로 되돌린다.
+ * 제목을 직렬화 가능한 조각 배열로 바꿔 두고, `components/table-of-contents.tsx`가 React 노드로 되돌린다.
  *
  * `rehypeToc` 뒤에 실행해야 한다.
  */

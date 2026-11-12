@@ -1,5 +1,4 @@
 ---
-import { DocsShell } from "@/components/layout/docs-shell";
 import {
   UPDATES_COVER_IMAGE,
   UPDATES_DESCRIPTION,
@@ -10,27 +9,35 @@ import { getLLMMarkdownUrl } from "@/lib/llms/config";
 import { TAGS } from "@/lib/search-tags";
 import { buildSeoMetadata, resolveCoverImage } from "@/lib/seo";
 import { getUpdatesSource } from "@/lib/source";
-import DocsHead from "@/src/components/DocsHead.astro";
-import Layout from "@/src/layouts/Layout.astro";
+import DocsPage from "@/src/components/DocsPage.astro";
 
 const source = await getUpdatesSource();
+const cover = resolveCoverImage(UPDATES_COVER_IMAGE);
 ---
 
-<Layout
+<DocsPage
   metadata={buildSeoMetadata({
     title: UPDATES_TITLE,
     description: UPDATES_DESCRIPTION,
-    image: resolveCoverImage(UPDATES_COVER_IMAGE).og,
+    image: cover.og,
   })}
+  section="updates"
+  markdownUrl={getLLMMarkdownUrl("updates", [])}
+  pathname="/updates"
+  tree={source.pageTree}
+  sidebar={false}
+  defaultSearchTag={TAGS.updates.value}
+  prose={{
+    title: UPDATES_TITLE,
+    titleClassName: "text-balance break-keep",
+    description: UPDATES_DESCRIPTION,
+    coverImage: {
+      src: cover.thumbnail,
+      alt: "업데이트 표지",
+      width: cover.og.width,
+      height: cover.og.height,
+    },
+  }}
 >
-  <DocsHead slot="head" section="updates" markdownUrl={getLLMMarkdownUrl("updates", [])} />
-  <DocsShell
-    client:load
-    pathname="/updates"
-    tree={source.pageTree}
-    sidebar={false}
-    defaultSearchTag={TAGS.updates.value}
-  >
-    <UpdatesIndex />
-  </DocsShell>
-</Layout>
+  <UpdatesIndex />
+</DocsPage>

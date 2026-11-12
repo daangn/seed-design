@@ -1,19 +1,20 @@
 "use client";
 
-import { TOCItem, useTOCSelector } from "fumadocs-core/toc";
-import { TOCScrollArea, useTOCItems } from "fumadocs-ui/components/toc";
+import { TOCItem, type TOCItemType, useTOCSelector } from "fumadocs-core/toc";
+import { TOCProvider, TOCScrollArea, useTOCItems } from "fumadocs-ui/components/toc";
 import { TOCEmpty } from "fumadocs-ui/components/toc/default";
-import type { TOCProps } from "fumadocs-ui/layouts/notebook/page/slots/toc";
 import {
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type ComponentProps,
   type ReactNode,
 } from "react";
 import { twMerge as cn } from "tailwind-merge";
-import { renderInlineCode } from "./inline-code";
+import type { TocTitleSegment } from "@/lib/satteri/rehype-toc-titles";
+import { InlineCode, renderInlineCode } from "./inline-code";
 import {
   buildTocTrackGeometry,
   getActiveTrackClip,
@@ -205,41 +206,34 @@ function TocList({ list, onItemClick, variant }: TocListProps) {
   );
 }
 
-export function SeedTableOfContents({ container, header, footer, list }: TOCProps): ReactNode {
-  // 항목이 없어도(헤딩 없는 페이지) 이 컨테이너는 렌더해 우측 열 폭(--fd-toc-width)을 예약한다
-  // → 콘텐츠 가로 위치가 페이지마다 흔들리지 않는다. 대신 항목이 없으면 안쪽 UI는 비워둔다.
-  // 폭(200px)을 바꾸면 `src/styles/global.css`의 `.docs-toc-rail` 규칙도 같이 바꾼다.
-  const items = useTOCItems();
-  return (
-    <div
-      {...container}
-      id="nd-toc"
-      className={cn(
-        "sticky top-(--fd-docs-row-3) [grid-area:toc] h-[calc(var(--fd-docs-height)-var(--fd-docs-row-3))] flex flex-col w-(--fd-toc-width) pt-12 pe-4 pb-2 xl:layout:[--fd-toc-width:200px] max-xl:hidden",
-        container?.className,
-      )}
-    >
-      {items.length > 0 ? (
-        <>
-          {header}
-          <h3 id="toc-title" className="text-xs font-light leading-4 text-fd-muted-foreground">
-            목차
-          </h3>
-          <TOCScrollArea>
-            <TocList list={list} variant="desktop" />
-          </TOCScrollArea>
-          {footer}
-        </>
-      ) : null}
-    </div>
+/** `rehypeTocTitles`가 조각 배열로 내보낸 제목(inline code 포함)을 React 노드로 되돌린다. */
+function renderTocTitle(title: ReactNode | TocTitleSegment[]): ReactNode {
+  if (!Array.isArray(title)) return title;
+
+  return title.map((segment, index) =>
+    // biome-ignore lint/suspicious/noArrayIndexKey: 조각은 순서가 바뀌지 않는다.
+    typeof segment === "string" ? segment : <InlineCode key={index}>{segment.code}</InlineCode>,
   );
 }
 
 /**
- * 빈 popover 슬롯. <1280(모바일·태블릿)에선 상단 메뉴형 ToC를 전 페이지 공통으로 노출하지 않으므로
- * popover를 렌더하지 않는다(데스크탑 xl+ 우측 레일 SeedTableOfContents만 유지). "use client" 모듈에
- * 둬야 서버 컴포넌트(DocsPageRenderer)에서 슬롯으로 전달 가능(함수는 client reference여야 직렬화됨).
+ * 데스크톱 목차 island. `#nd-toc` 열은 `src/components/DocsPage.astro`가 정적으로 그리고, 여기서는
+ * 목록과 현재 위치 표시(scroll spy)만 맡는다. 항목이 없는 문서에서는 island를 두지 않는다.
  */
-export function HiddenTocPopover(): ReactNode {
-  return null;
+export function DocsTableOfContents({ toc }: { toc: TOCItemType[] }) {
+  const items = useMemo(
+    () => toc.map((item) => ({ ...item, title: renderTocTitle(item.title) })),
+    [toc],
+  );
+
+  return (
+    <TOCProvider toc={items}>
+      <h3 id="toc-title" className="text-xs font-light leading-4 text-fd-muted-foreground">
+        목차
+      </h3>
+      <TOCScrollArea>
+        <TocList variant="desktop" />
+      </TOCScrollArea>
+    </TOCProvider>
+  );
 }

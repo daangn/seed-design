@@ -1,11 +1,7 @@
-"use client";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import clsx from "clsx";
-import { usePathname } from "fumadocs-core/framework";
-import { DocsLink as Link } from "@/components/link";
-import type { FooterProps } from "fumadocs-ui/layouts/docs/page/slots/footer";
-import { useFooterItems } from "fumadocs-ui/utils/use-footer-items";
-import { useMemo } from "react";
+import type * as PageTree from "fumadocs-core/page-tree";
+import { PageLink as Link } from "@/components/link";
 
 // prev/next 두 카드가 공유하는 베이스. 배경/hover를 side navigation 메뉴 항목의
 // active(bg-transparent-selected) / active-hover(bg-transparent-selected-pressed) 색과
@@ -16,25 +12,43 @@ const CARD =
   "text-fg-neutral transition-colors duration-color-transition hover:bg-bg-transparent-selected-pressed";
 
 /**
- * 상세 문서 하단 이전/다음 네비게이션. Fumadocs 기본 Footer 슬롯을 대체한다.
- * prev/next 도출은 기본 구현과 동일(공개 훅 useFooterItems + 현재 pathname).
+ * 현재 문서의 이전·다음 문서. fumadocs `useFooterItems`와 같은 순서로 page tree를 평탄화한다
+ * (폴더는 index 먼저, external 링크 제외).
+ */
+export function findPrevNext(
+  tree: PageTree.Root,
+  pathname: string,
+): { previous?: PageTree.Item; next?: PageTree.Item } {
+  const list: PageTree.Item[] = [];
+  const visit = (node: PageTree.Node) => {
+    if (node.type === "folder") {
+      if (node.index) visit(node.index);
+      for (const child of node.children) visit(child);
+    } else if (node.type === "page" && !node.external) list.push(node);
+  };
+  for (const child of tree.children) visit(child);
+
+  const norm = (url: string) => url.replace(/\/$/, "");
+  const index = list.findIndex((item) => norm(item.url) === norm(pathname));
+  if (index === -1) return {};
+  return { previous: list[index - 1], next: list[index + 1] };
+}
+
+/**
+ * 상세 문서 하단 이전/다음 네비게이션. 빌드 때 정적으로 그린다.
  * 한쪽만 있어도 이전=왼쪽 / 다음=오른쪽 자리를 고정한다(col-start).
  */
-export function DocsPrevNext({ items, className, ...props }: FooterProps) {
-  const footerList = useFooterItems();
-  const pathname = usePathname();
-  const { previous, next } = useMemo(() => {
-    if (items) return items;
-    const norm = (url: string) => url.replace(/\/$/, "");
-    const idx = footerList.findIndex((item) => norm(item.url) === norm(pathname));
-    if (idx === -1) return {};
-    return { previous: footerList[idx - 1], next: footerList[idx + 1] };
-  }, [footerList, items, pathname]);
-
+export function DocsPrevNext({
+  previous,
+  next,
+}: {
+  previous?: PageTree.Item;
+  next?: PageTree.Item;
+}) {
   if (!previous && !next) return null;
 
   return (
-    <div className={clsx("mt-x16 grid grid-cols-2 gap-x6", className)} {...props}>
+    <div className="mt-x16 grid grid-cols-2 gap-x6">
       {previous && (
         <Link href={previous.url} className={clsx(CARD, "col-start-1")}>
           <span className="t4-regular inline-flex items-center gap-x2">
