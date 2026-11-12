@@ -10,32 +10,19 @@ import ThemeSync from "@/components/theme-sync";
 import { archivePaths } from "@/lib/docs-archive";
 import type { SeoMetadata } from "@/lib/seo";
 import Analytics from "@/src/components/Analytics.astro";
-import DocsClientRouter from "@/src/components/DocsClientRouter.astro";
 import SeoHead from "@/src/components/SeoHead.astro";
 import layerOrder from "@/src/styles/layer-order.css?raw";
 
 interface Props {
   metadata: SeoMetadata;
   viewport?: string;
-  /** `false`면 링크 이동이 문서 전체 로드가 된다. 자체 router를 쓰는 Sanity Studio(`/admin`)가 쓴다. */
-  clientRouter?: boolean;
 }
 
-const {
-  metadata,
-  viewport = "width=device-width, initial-scale=1",
-  clientRouter = true,
-} = Astro.props;
+const { metadata, viewport = "width=device-width, initial-scale=1" } = Astro.props;
 ---
 
 <!doctype html>
-<html
-  lang="ko"
-  data-seed="true"
-  data-seed-user-color-scheme="light"
-  data-seed-color-mode="system"
-  transition:animate="none"
->
+<html lang="ko" data-seed="true" data-seed-user-color-scheme="light" data-seed-color-mode="system">
   <head>
     <meta charset="utf-8" />
     {/* cascade layer 순서를 모든 stylesheet보다 먼저 선언한다. CSS 파일로 두면 dev 서버가 recipe CSS를
@@ -57,20 +44,15 @@ const {
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
     />
     <slot name="head" />
-    {clientRouter && <DocsClientRouter />}
     <Analytics />
   </head>
   <body>
-    {/* 문서 셸을 유지하는 이동은 `<body>` 요소와 그 속성을 두고 바로 아래의 island·script만 바꾼다
-        (`components/layout/shell-navigation.ts`). 여기에 다른 요소를 두면 이동할 때 이전 것이 남는다. */}
     {/* 아래 넷은 서버에서 아무것도 그리지 않고 브라우저 상태(주소·localStorage·테마)로만 동작한다.
-        `client:load`로 두면 Astro가 렌더러를 고르려고 컴포넌트를 직접 호출해 dev에서 React hook 경고가 난다.
-        배너와 ThemeSync는 페이지 이동에도 유지한다. 배너는 effect 뒤에 그려져, 다시 mount하면 이동할 때마다
-        깜빡이며 레이아웃을 밀어낸다. RecentPagesRecorder는 mount될 때 기록하므로 유지하지 않고 페이지마다 다시 mount한다. */}
-    <LatestVersionBanner client:only="react" transition:persist="latest-version-banner" />
-    <ThemeSync client:only="react" transition:persist="theme-sync" />
+        `client:load`로 두면 Astro가 렌더러를 고르려고 컴포넌트를 직접 호출해 dev에서 React hook 경고가 난다. */}
+    <LatestVersionBanner client:only="react" />
+    <ThemeSync client:only="react" />
     <RecentPagesRecorder client:only="react" />
     <slot />
-    <SiteAnnouncementBanner client:only="react" transition:persist="site-announcement-banner" />
+    <SiteAnnouncementBanner client:only="react" />
   </body>
 </html>
