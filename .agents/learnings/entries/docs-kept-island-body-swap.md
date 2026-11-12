@@ -2,7 +2,7 @@
 id: docs-kept-island-body-swap
 description: docs에서 클라이언트 이동 사이에 React island를 유지하려고 `transition:persist`를 붙이거나 `astro:before-swap`의 swap을 바꿀 때, 또는 이동 뒤 유지한 island의 메뉴·popover가 열리지 않거나 persist island의 본문이 비거나 이전 페이지 것으로 남을 때 읽는다. Astro `swapBodyElement`가 유지한 island의 portal을 떼어 내는 원인과, 이 사이트에 실린 `@fumadocs/astro` `onBeforeSwap`이 persist island의 slot을 옮기는 조건을 다룬다. 첫 로드나 body 교체 뒤 새로 hydrate되는 island에는 해당하지 않는다.
 scope: ["docs/src/components/**", "docs/src/layouts/**", "docs/src/pages/**", "docs/components/layout/**"]
-status: active
+status: retired
 related: ["docs-astro-script-react-refresh-preamble"]
 ---
 
@@ -25,3 +25,4 @@ related: ["docs-astro-script-react-refresh-preamble"]
 ## 변경 이력
 
 - 2026-11-11: `DocsShell` 유지 작업에서 portal 유실 원인과 fumadocs `onBeforeSwap`의 slot 이동 조건을 기록했다.
+- 2026-11-12: retired. docs가 `ClientRouter`를 걷고 링크 이동을 문서 전체 로드로 바꿨다(`DocsShell` 유지 코드 `shell-navigation.ts`·`DocsClientRouter.astro` 삭제). 이 사이트에는 swap도 `transition:persist` island도 없어 적용할 대상이 없다. 본문의 Astro·`@fumadocs/astro` 동작 관찰은 Astro 7.4.6 기준 기록으로 남긴다. client router를 다시 들이면 현재 버전에서 재확인한다.
