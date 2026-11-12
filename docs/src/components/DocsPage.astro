@@ -129,7 +129,7 @@ const cover = prose?.coverImage ?? page?.coverImage;
   <DocsHead slot="head" section={section} markdownUrl={markdownUrl} jsonLd={jsonLd} />
   {
     prose ? (
-      <div id="nd-page" class="[grid-area:main] w-full px-4 py-10 md:px-6 md:py-16 xl:px-8">
+      <main id="nd-page" class="[grid-area:main] w-full px-4 py-10 md:px-6 md:py-16 xl:px-8">
         <div class="mx-auto w-full max-w-[1100px]">
           <header class="not-prose mb-10 md:mb-14">
             {/* get-started/updates 제목 스케일: text-3xl→md:text-[40px] (데스크탑 40px 고정). */}
@@ -164,9 +164,9 @@ const cover = prose?.coverImage ?? page?.coverImage;
           </div>
           <SiteFooter />
         </div>
-      </div>
+      </main>
     ) : page && !article ? (
-      <div id="nd-page" class="[grid-area:main] w-full px-4 py-10 md:px-6 md:py-16 xl:px-8">
+      <main id="nd-page" class="[grid-area:main] w-full px-4 py-10 md:px-6 md:py-16 xl:px-8">
         {/* overview: 기본은 표준 상세와 같은 900px 폭, grid-only overview는 full 폭을 사용한다. */}
         <div class={full ? "max-w-none" : "max-w-[900px]"}>
           <header class="not-prose mb-10 md:mb-14">
@@ -193,7 +193,7 @@ const cover = prose?.coverImage ?? page?.coverImage;
             {Content ? <Content components={mdxComponents} /> : <slot />}
           </div>
         </div>
-      </div>
+      </main>
     ) : article ? (
       <main class="grid [grid-area:main]">
         <article

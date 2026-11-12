@@ -14,7 +14,7 @@ export function NotFoundPage() {
     // trapped in the narrow main column, and is sized to exactly
     // viewport-minus-header (--fd-header-height) so it fits the row below the
     // header with no vertical scroll.
-    <div
+    <main
       id={DOCS_PAGE_CONTENT_ID}
       className="flex h-[calc(100dvh-var(--fd-header-height,56px))] w-full flex-col items-center justify-center gap-10 overflow-hidden px-4 [grid-column:1/-1]"
     >
@@ -36,6 +36,6 @@ export function NotFoundPage() {
           <Link href={archivePaths.prefix ? `${archivePaths.prefix}/` : "/"}>홈으로</Link>
         </ActionButton>
       </div>
-    </div>
+    </main>
   );
 }
