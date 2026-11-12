@@ -2,17 +2,24 @@ import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { useState, type ReactNode } from "react";
 
-import { Box, HelpBubble as SeedHelpBubble, HStack, Portal, VStack } from "@seed-design/react";
+import {
+  Box,
+  HelpBubble as SeedHelpBubble,
+  HStack,
+  Icon,
+  Portal,
+  VStack,
+} from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import {
-  AppBar,
-  AppBarLeft,
-  AppBarMain,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -119,19 +126,19 @@ const ActivityHelpBubble: StaticActivityComponentType<"ActivityHelpBubble"> = ()
   const [triggerWidth, setTriggerWidth] = useState(40);
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Help Bubble</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="Help Bubble" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <Icon svg={<IconHouseLine />} />
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <HStack pt="x6" justify="center">
           <BottomSheetHelpBubble />
         </HStack>
@@ -295,8 +302,8 @@ const ActivityHelpBubble: StaticActivityComponentType<"ActivityHelpBubble"> = ()
           </HelpBubbleTooltipTriggerPortal>
         </HStack>
         <Box height="100vh" />
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

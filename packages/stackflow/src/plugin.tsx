@@ -1,9 +1,33 @@
 import type { StackflowReactPlugin } from "@stackflow/react";
-import { AppScreenPropsProvider } from "./components";
-import { GlobalInteraction } from "./primitive";
+import { useMemo } from "react";
+import {
+  AppScreenPropsProvider,
+  type NextAppScreenClipRadius,
+  NextAppScreenPropsProvider,
+} from "./components";
+import { NextAppBarPropsProvider } from "./components/NextAppBar/NextAppBar";
+import { GlobalInteraction, NextScreenRegistryProvider, type NextSwipeBackArea } from "./primitive";
 
 export interface SeedPluginOptions {
   theme: "android" | "cupertino";
+
+  /**
+   * Stack-wide default for `NextAppScreen`'s swipe-back area, for apps that
+   * pick it per platform rather than per screen. A screen's own
+   * `swipeBackArea` still wins.
+   *
+   * @default "edge"
+   */
+  swipeBackArea?: NextSwipeBackArea;
+
+  /**
+   * Stack-wide corner radius of the device display, matched by the clip
+   * `NextAppScreen` runs while a transition or a swipe-back gesture is in
+   * flight. A number means px; a string is any CSS length. An object sets each
+   * corner on its own, and a corner it leaves out is square. A screen's own
+   * `clipRadius` still wins, and unset means nothing is clipped.
+   */
+  clipRadius?: NextAppScreenClipRadius;
 }
 
 export const seedPlugin =
@@ -18,10 +42,36 @@ export const seedPlugin =
     wrapStack({ stack, initialContext }) {
       const resolved = typeof options === "function" ? options({ initialContext }) : options;
 
-      return (
-        <AppScreenPropsProvider value={resolved}>
-          <GlobalInteraction>{stack.render()}</GlobalInteraction>
-        </AppScreenPropsProvider>
-      );
+      return <SeedProviders options={resolved}>{stack.render()}</SeedProviders>;
     },
   });
+
+function SeedProviders({
+  options,
+  children,
+}: {
+  options: SeedPluginOptions;
+  children: React.ReactNode;
+}) {
+  const { theme, swipeBackArea, clipRadius } = options;
+
+  // The legacy AppScreen has neither of the NextAppScreen props, and any prop
+  // it doesn't recognize lands on the DOM.
+  const themeProps = useMemo(() => ({ theme }), [theme]);
+  const nextAppScreenProps = useMemo(
+    () => ({ swipeBackArea, clipRadius }),
+    [swipeBackArea, clipRadius],
+  );
+
+  return (
+    <AppScreenPropsProvider value={themeProps}>
+      <NextAppScreenPropsProvider value={nextAppScreenProps}>
+        <NextAppBarPropsProvider value={themeProps}>
+          <NextScreenRegistryProvider>
+            <GlobalInteraction>{children}</GlobalInteraction>
+          </NextScreenRegistryProvider>
+        </NextAppBarPropsProvider>
+      </NextAppScreenPropsProvider>
+    </AppScreenPropsProvider>
+  );
+}

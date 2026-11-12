@@ -12,11 +12,13 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivityAppBarTextButton: {};
+    ActivityLegacyAppBarTextButton: {};
   }
 }
 
-const ActivityAppBarTextButton: StaticActivityComponentType<"ActivityAppBarTextButton"> = () => {
+const ActivityLegacyAppBarTextButton: StaticActivityComponentType<
+  "ActivityLegacyAppBarTextButton"
+> = () => {
   const [lastAction, setLastAction] = useState("없음");
 
   return (
@@ -39,4 +41,4 @@ const ActivityAppBarTextButton: StaticActivityComponentType<"ActivityAppBarTextB
   );
 };
 
-export default ActivityAppBarTextButton;
+export default ActivityLegacyAppBarTextButton;

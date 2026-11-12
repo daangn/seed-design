@@ -1,13 +1,13 @@
 import type { StaticActivityComponentType } from "@stackflow/react/future";
 import {
-  AppBar,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarLeft,
-  AppBarMain,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
 import { useFlow } from "@stackflow/react/future";
 import {
@@ -16,7 +16,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "seed-design/ui/accordion";
-import { Box, HStack, Text, VStack } from "@seed-design/react";
+import { Box, HStack, Icon, Text, VStack } from "@seed-design/react";
 import type { ComponentProps } from "react";
 
 declare module "@stackflow/config" {
@@ -101,19 +101,19 @@ const ActivityAccordion: StaticActivityComponentType<"ActivityAccordion"> = () =
   const { push } = useFlow();
 
   return (
-    <AppScreen>
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Accordion</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="Accordion" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <Icon svg={<IconHouseLine />} />
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack p="x4" gap="x5" align="stretch">
           <AccordionSection
             title="Inline"
@@ -127,8 +127,8 @@ const ActivityAccordion: StaticActivityComponentType<"ActivityAccordion"> = () =
             variant="separated"
           />
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 

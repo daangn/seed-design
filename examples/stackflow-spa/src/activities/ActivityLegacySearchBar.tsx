@@ -7,11 +7,11 @@ import { SearchBar } from "seed-design/ui/search-bar";
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivitySearchBar: {};
+    ActivityLegacySearchBar: {};
   }
 }
 
-const ActivitySearchBar: StaticActivityComponentType<"ActivitySearchBar"> = () => {
+const ActivityLegacySearchBar: StaticActivityComponentType<"ActivityLegacySearchBar"> = () => {
   const { pop } = useFlow();
   const { isRoot } = useActivity();
   const [value, setValue] = useState("");
@@ -47,4 +47,4 @@ const ActivitySearchBar: StaticActivityComponentType<"ActivitySearchBar"> = () =
   );
 };
 
-export default ActivitySearchBar;
+export default ActivityLegacySearchBar;

@@ -6,12 +6,12 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
-    ActivityAppScreenAppBarCustomization: {};
+    ActivityLegacyAppScreenAppBarCustomization: {};
   }
 }
 
-const ActivityAppScreenAppBarCustomization: StaticActivityComponentType<
-  "ActivityAppScreenAppBarCustomization"
+const ActivityLegacyAppScreenAppBarCustomization: StaticActivityComponentType<
+  "ActivityLegacyAppScreenAppBarCustomization"
 > = () => {
   return (
     <AppScreen theme="android">
@@ -32,4 +32,4 @@ const ActivityAppScreenAppBarCustomization: StaticActivityComponentType<
   );
 };
 
-export default ActivityAppScreenAppBarCustomization;
+export default ActivityLegacyAppScreenAppBarCustomization;

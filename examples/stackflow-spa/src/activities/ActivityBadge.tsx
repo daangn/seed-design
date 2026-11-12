@@ -3,14 +3,14 @@ import type { StaticActivityComponentType } from "@stackflow/react/future";
 import { useFlow } from "@stackflow/react/future";
 import { useState } from "react";
 import {
-  AppBar,
-  AppBarLeft,
-  AppBarMain,
-  AppBarBackButton,
-  AppBarIconButton,
-  AppBarRight,
-} from "seed-design/ui/app-bar";
-import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+  NextAppBar,
+  NextAppBarLeft,
+  NextAppBarMain,
+  NextAppBarBackButton,
+  NextAppBarIconButton,
+  NextAppBarRight,
+} from "seed-design/ui/next-app-bar";
+import { NextAppScreen, NextAppScreenContent } from "seed-design/ui/next-app-screen";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Badge, type BadgeProps } from "seed-design/ui/badge";
 import {
@@ -22,7 +22,7 @@ import {
 } from "seed-design/ui/bottom-sheet";
 import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
 import { IconHeartFill, IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { HStack, Portal, Text, VStack } from "@seed-design/react";
+import { HStack, Icon, Portal, Text, VStack } from "@seed-design/react";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { badgeVariantMap } from "@seed-design/css/recipes/badge";
 
@@ -79,19 +79,19 @@ const ActivityBadge: StaticActivityComponentType<"ActivityBadge"> = () => {
   const { push } = useFlow();
 
   return (
-    <AppScreen layerOffsetBottom="safeArea">
-      <AppBar>
-        <AppBarLeft>
-          <AppBarBackButton />
-        </AppBarLeft>
-        <AppBarMain>Badge</AppBarMain>
-        <AppBarRight>
-          <AppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
-            <IconHouseLine />
-          </AppBarIconButton>
-        </AppBarRight>
-      </AppBar>
-      <AppScreenContent>
+    <NextAppScreen>
+      <NextAppBar>
+        <NextAppBarLeft>
+          <NextAppBarBackButton />
+        </NextAppBarLeft>
+        <NextAppBarMain title="Badge" />
+        <NextAppBarRight>
+          <NextAppBarIconButton aria-label="Home" onClick={() => push("ActivityHome", {})}>
+            <Icon svg={<IconHouseLine />} />
+          </NextAppBarIconButton>
+        </NextAppBarRight>
+      </NextAppBar>
+      <NextAppScreenContent>
         <VStack gap="x8" px="spacingX.globalGutter" py="x4">
           {badgeVariantMap.size.map((size) => (
             <VStack key={size} gap="x4">
@@ -199,8 +199,8 @@ const ActivityBadge: StaticActivityComponentType<"ActivityBadge"> = () => {
             </VStack>
           ))}
         </VStack>
-      </AppScreenContent>
-    </AppScreen>
+      </NextAppScreenContent>
+    </NextAppScreen>
   );
 };
 
