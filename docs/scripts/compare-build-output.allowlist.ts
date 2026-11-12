@@ -176,11 +176,11 @@ export const allowlist: AllowlistEntry[] = [
     id: "sitemap-lastmod-commit-time-tie",
     stage: "file",
     reason:
-      "`content/lynx/components/action-button.mdx`를 고친 커밋 여러 개가 같은 committer 시각을 갖는다. `lib/git-timestamps.ts`가 그중 먼저 만난 커밋의 시각을 쓰는데, 순회 순서는 HEAD에 따라 달라진다. 기준선(dev HEAD)과 작업 브랜치에서 이 URL의 `lastmod`만 달라 비교에서 뺀다.",
+      "`content/lynx/components/action-button.mdx`와 `content/components/text-input.mdx`는 각각 마지막으로 고친 커밋 여러 개가 같은 committer 시각을 갖는다. `lib/git-timestamps.ts`가 그중 먼저 만난 커밋의 시각을 쓰는데, 순회 순서는 HEAD에 따라 달라진다. `text-input`의 동률은 `24e9bb768`의 `dev`를 병합한 뒤 생겼다(커밋 `d1e9f956a`·`ee81d57a5`, 같은 committer 시각). 기준선(dev HEAD)과 작업 브랜치에서 이 두 URL의 `lastmod`만 달라 비교에서 뺀다.",
     match: /(?:^|\/)sitemap\.xml$/,
     normalize: (text) =>
       text.replace(
-        /(<loc>https:\/\/seed-design\.io\/lynx\/components\/action-button<\/loc>\s*<lastmod>)[^<]+/,
+        /(<loc>https:\/\/seed-design\.io\/(?:lynx\/components\/action-button|components\/text-input)<\/loc>\s*<lastmod>)[^<]+/g,
         "$1«lastmod»",
       ),
   },
