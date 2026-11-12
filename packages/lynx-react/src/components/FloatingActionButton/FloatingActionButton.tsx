@@ -3,6 +3,7 @@ import clsx from "clsx";
 
 import {
   floatingActionButton,
+  glassTint as floatingActionButtonGlassTint,
   type FloatingActionButtonVariantProps,
 } from "@seed-design/lynx-css/recipes/floating-action-button";
 import { useActionButton, type UseActionButtonProps } from "@seed-design/lynx-react-action-button";
@@ -72,6 +73,11 @@ const FloatingActionButtonRootView = React.forwardRef<unknown, FloatingActionBut
               )}
               glass={liquidGlass}
               disabled={variantProps.disabled ?? false}
+              tint={
+                variantProps.pressed
+                  ? floatingActionButtonGlassTint.base.pressed
+                  : floatingActionButtonGlassTint.base.enabled
+              }
               className={clsx(classNames.root, className)}
             >
               {children}

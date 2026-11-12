@@ -191,12 +191,11 @@ const chip = defineSlotRecipe({
       false: {},
     },
     // iOS Liquid Glass root (`<blur-view>`). Like native SeedChip, drop the stroke; the padding that was reduced by the
-    // stroke width comes back, so the outer size stays the same. iOS blur-view does not draw the background or border,
-    // so the background is only read as the glass tint. No color transition: the tint read must get the new state's
-    // color, not a value in the middle of the transition.
+    // stroke width comes back, so the outer size stays the same. iOS blur-view does not draw the background or border;
+    // lynx-react tints the glass with the same state's `root.color` from the recipe module's `glassTint`.
     // Not in defaultVariants, so roots without glass get no `--glass_*` class.
     glass: {
-      true: { root: { "--seed-chip-stroke-width": "0px", transitionDuration: "0s" } },
+      true: { root: { "--seed-chip-stroke-width": "0px" } },
       false: {},
     },
   },

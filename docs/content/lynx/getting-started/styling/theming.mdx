@@ -16,14 +16,14 @@ SEED는 라이트 모드와 다크 모드를 지원하는 테마 시스템을 �
 ## 전역 설정 적용
 
 `@seed-design/lynx-react`의 `useSeedClassName()` 훅을 사용하여 `<page>` 요소에 테마 클래스를 설정합니다.
-호스트의 다크 모드 설정은 [Host Integration](/lynx/getting-started/host-integration)대로 `SeedProvider`의 `preferredColorScheme`으로 넘깁니다.
+앱의 `colorMode`와 호스트의 다크 모드 설정은 [Host Integration](/lynx/getting-started/host-integration)대로 `SeedProvider`의 `colorMode`·`preferredColorScheme`으로 넘깁니다.
 
 ```tsx
 import { root } from "@lynx-js/react";
 import { SeedProvider, useSeedClassName } from "@seed-design/lynx-react";
 
 function Page() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
+  const seedClassName = useSeedClassName();
   return (
     <page className={seedClassName}>
       <App />
@@ -38,7 +38,7 @@ root.render(
 );
 ```
 
-`useSeedClassName()`은 `colorMode` 옵션에 따라 `seed-user-color-scheme-light` 또는 `seed-user-color-scheme-dark` 클래스를 반환하고, `preferredColorScheme`이 바뀌면 다시 계산합니다.
+`useSeedClassName()`은 `colorMode`에 따라 `seed-user-color-scheme-light` 또는 `seed-user-color-scheme-dark` 클래스를 반환합니다. `colorMode` 옵션을 생략하면 `SeedProvider`의 `colorMode`를 쓰고, `colorMode`나 `preferredColorScheme`이 바뀌면 다시 계산합니다.
 훅을 쓸 수 없는 곳에서는 `getSeedClassName({ colorMode, colorScheme })`에 색상 스킴을 직접 넘깁니다.
 
 ### `colorMode` 옵션
@@ -50,7 +50,7 @@ root.render(
 | `light-only` | (무관) | `seed-user-color-scheme-light` |
 | `dark-only` | (무관) | `seed-user-color-scheme-dark` |
 
-`system`으로 설정하면 `SeedProvider`의 `preferredColorScheme`을 따릅니다. 값을 넘기지 않으면 `lynx.__globalProps.theme`을 읽고, 그 값도 없으면 라이트 모드입니다. Global props에서 읽는 동작은 다음 메이저 버전에서 제거될 예정입니다.
+`SeedProvider`의 `colorMode`를 생략해도 `system`입니다. `system`이면 `SeedProvider`의 `preferredColorScheme`을 따릅니다. 값을 넘기지 않으면 `lynx.__globalProps.theme`을 읽고, 그 값도 없으면 라이트 모드입니다. Global props에서 읽는 동작은 다음 메이저 버전에서 제거될 예정입니다.
 
 ## 테마 클래스 이해하기
 
@@ -179,6 +179,16 @@ function MyComponent() {
 ```
 
 오버라이드된 영역 내부의 모든 하위 요소는 CSS 커스텀 프로퍼티 상속을 통해 해당 테마의 토큰을 사용합니다.
+
+SEED는 Liquid Glass tint처럼 CSS 변수를 읽지 못하는 곳의 테마를 JS에서 정합니다. 오버라이드한 영역을 같은 값의 `ColorModeProvider`로 감싸세요.
+
+```tsx
+import { ColorModeProvider } from "@seed-design/lynx-react";
+
+<ColorModeProvider colorMode="dark-only">
+  <view className="seed-color-mode-dark-only">{/* ... */}</view>
+</ColorModeProvider>;
+```
 
 ## Web과의 비교
 

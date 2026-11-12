@@ -66,9 +66,6 @@
 .seed-floating-action-button__root--glass_true {
     box-shadow: none
 }
-.seed-floating-action-button__root--glass_true-transitionEnabled_true {
-    transition-duration: 0s, var(--seed-duration-d4), var(--seed-duration-d4), var(--seed-duration-d4), var(--seed-duration-d4)
-}
 .seed-floating-action-button__root--extended_true-transitionEnabled_true {
     width: calc(var(--fab-label-width) + var(--seed-dimension-x4) + var(--seed-dimension-x1) + 2 * var(--seed-dimension-x4_5))
 }

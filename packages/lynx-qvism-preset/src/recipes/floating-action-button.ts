@@ -108,7 +108,8 @@ const floatingActionButton = defineSlotRecipe({
       },
     },
     // iOS Liquid Glass root (`<blur-view>`). Liquid Glass draws its own shadow and edge highlight, so drop the Rootage
-    // shadow like native SEED. iOS blur-view does not draw the background, so it is only read as the glass tint.
+    // shadow like native SEED. iOS blur-view does not draw the background; lynx-react tints the glass with the same
+    // state's `root.color` from the recipe module's `glassTint`.
     // Not in defaultVariants, so roots without glass get no `--glass_*` class.
     glass: {
       true: { root: { boxShadow: "none" } },
@@ -116,17 +117,6 @@ const floatingActionButton = defineSlotRecipe({
     },
   },
   compoundVariants: [
-    // Glass: no background-color transition, so the tint read gets the new state's color, not a value in the middle of
-    // the transition. Same order as the base `transition`; `transitionEnabled: false` keeps its own 0s.
-    {
-      glass: true,
-      transitionEnabled: true,
-      css: {
-        root: {
-          transitionDuration: `0s, ${vars.base.enabled.root.layoutDuration}, ${vars.base.enabled.root.layoutDuration}, ${vars.base.enabled.root.layoutDuration}, ${vars.base.enabled.root.layoutDuration}`,
-        },
-      },
-    },
     {
       extended: true,
       transitionEnabled: true,

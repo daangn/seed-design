@@ -16,8 +16,10 @@ import {
 } from "@seed-design/lynx-react-use-safe-area";
 
 import { readDeprecatedGlobalProp } from "../utils/deprecated-global-props";
+import type { ColorMode } from "../utils/get-seed-class-name";
 import { resolveGlassEffect, type ResolvedGlassEffect } from "../utils/glass-effect";
 import { useHostGlobalProps } from "../utils/use-host-global-props";
+import { ColorModeProvider, useColorMode } from "./ColorModeContext";
 
 /**
  * Chip·FloatingActionButton에 적용할 iOS Liquid Glass 표현.
@@ -67,6 +69,11 @@ interface SeedHostValue {
 const SeedContext = createContext<SeedHostValue>({});
 
 export interface SeedProviderProps extends SeedContextValue {
+  /**
+   * 앱의 색상 모드. root `<page>`의 `useSeedClassName()`과 Liquid Glass tint가 이 값으로 적용할 테마를 정한다.
+   * 하위 트리만 덮어쓰려면 `ColorModeProvider`를 쓴다. 생략하면 바깥 값을 이어받고, 없으면 `"system"`이다.
+   */
+  colorMode?: ColorMode;
   children?: ReactNode;
 }
 
@@ -95,6 +102,7 @@ export interface SeedProviderProps extends SeedContextValue {
  * ```
  */
 export function SeedProvider({
+  colorMode,
   preferredColorScheme,
   preferredMotion,
   safeAreaInsets,
@@ -104,6 +112,7 @@ export function SeedProvider({
 }: SeedProviderProps): ReactElement {
   const parent = useContext(SeedContext);
   const parentSafeAreaInsets = useContext(SafeAreaContext);
+  const parentColorMode = useColorMode();
   const stableSafeAreaInsets = useStableSafeAreaInsets(safeAreaInsets);
 
   const resolvedColorScheme = preferredColorScheme ?? parent.preferredColorScheme;
@@ -132,12 +141,12 @@ export function SeedProvider({
     ],
   );
 
-  // safe area와 motion의 원천은 하위 패키지 context다. 값을 생략하면 바깥 값을 그대로 이어 트리 모양을 유지한다.
+  // safe area·motion·color mode의 원천은 각자의 context다. 값을 생략하면 바깥 값을 그대로 이어 트리 모양을 유지한다.
   return (
     <SeedContext.Provider value={value}>
       <PreferredMotionContext.Provider value={resolvedMotion}>
         <SafeAreaContext.Provider value={stableSafeAreaInsets ?? parentSafeAreaInsets}>
-          {children}
+          <ColorModeProvider colorMode={colorMode ?? parentColorMode}>{children}</ColorModeProvider>
         </SafeAreaContext.Provider>
       </PreferredMotionContext.Provider>
     </SeedContext.Provider>
