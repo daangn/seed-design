@@ -1,5 +1,11 @@
 # @seed-design/figma
 
+## 3.0.2
+
+### Patch Changes
+
+- fad6b32: Figma 엔티티를 최신 버전으로 업데이트합니다.
+
 ## 3.0.1
 
 ### Patch Changes
