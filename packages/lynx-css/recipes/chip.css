@@ -78,7 +78,7 @@
 .seed-chip__root--variant_outlineWeak {
     background: var(--seed-color-bg-transparent);
     --seed-chip-stroke-width: 1px;
-    border-color: var(--seed-color-stroke-neutral-muted)
+    border-color: var(--seed-color-stroke-neutral-weak)
 }
 .seed-chip__label--variant_outlineWeak {
     color: var(--seed-color-fg-neutral)
