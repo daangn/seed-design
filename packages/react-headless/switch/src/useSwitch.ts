@@ -21,7 +21,7 @@ interface UseSwitchStateProps {
 function useSwitchState(props: UseSwitchStateProps) {
   const [isChecked, setIsChecked] = useControllableState({
     prop: props.checked,
-    defaultProp: props.defaultChecked,
+    defaultProp: props.defaultChecked ?? false,
     onChange: props.onCheckedChange,
   });
   const [isHovered, setIsHovered] = useState(false);
