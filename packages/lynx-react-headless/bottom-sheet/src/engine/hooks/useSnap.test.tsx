@@ -7,6 +7,7 @@ import { useSnap, type SnapOptions } from "./useSnap";
 import { SheetRoot } from "../SheetRoot";
 import { SheetContent } from "../SheetContent";
 import { SheetHandle } from "../SheetHandle";
+import { SheetView } from "../SheetView";
 
 type TestMotion = {
   finish: (target: number) => void;
@@ -52,6 +53,7 @@ type Snap = ReturnType<typeof useSnap>;
 
 // mini animate.stop()은 완료 callback도 동기 호출한다. 취소 중 presence 전이까지 재현한다.
 const pending = new Map<MotionValue<number>, () => void>();
+const targets: number[] = [];
 const motion: TestMotion = {
   finish(target) {
     for (const [value, complete] of pending) {
@@ -99,7 +101,8 @@ const motion: TestMotion = {
     };
     return instance;
   },
-  animate(value) {
+  animate(value, target) {
+    targets.push(target);
     value.stop();
     return {
       // biome-ignore lint/suspicious/noThenProperty: mini animate의 thenable 계약을 재현한다.
@@ -112,6 +115,7 @@ const motion: TestMotion = {
 
 beforeEach(() => {
   pending.clear();
+  targets.length = 0;
   Object.assign(lynxTestingEnv.mainThread.globalThis, { __sheetTestMotion: motion });
 });
 afterEach(() => {
@@ -386,5 +390,75 @@ describe("sheet touch cancellation", () => {
     await waitSchedule();
     expect(onOpen).toHaveBeenCalledOnce();
     expect(onClose).not.toHaveBeenCalled();
+  });
+});
+
+describe("sheet layer measurement", () => {
+  function renderSheet(props: { screenHeight?: number; side?: "bottom" | "right" } = {}) {
+    const { container } = render(
+      <SheetRoot defaultShow snapPoints={["50%"]} {...props}>
+        <SheetView className="sheet-layer">
+          <SheetContent className="sheet-outer" />
+        </SheetView>
+      </SheetRoot>,
+      { enableMainThread: true, enableBackgroundThread: true },
+    );
+    const layer = container.querySelector(".sheet-layer");
+    const outer = container.querySelector(".sheet-outer");
+    if (!layer || !outer) throw new Error("Expected the sheet layer to mount");
+    const [heightProbe, widthProbe] = Array.from(layer.children);
+    if (!heightProbe || !widthProbe) throw new Error("Expected the layer probes to mount");
+    return {
+      outer: outer as HTMLElement,
+      measure: (width: number, height: number) => {
+        fireEvent.layoutchange(heightProbe, { detail: { width: 0, height } });
+        fireEvent.layoutchange(widthProbe, { detail: { width, height: 0 } });
+      },
+    };
+  }
+
+  it("waits for the layer size before entering at a percentage snap point", async () => {
+    const { outer, measure } = renderSheet();
+    await waitSchedule();
+    expect(targets).toEqual([]);
+    expect(outer.style.width).toBe("100vw");
+    expect(outer.style.height).toBe("150vh");
+
+    measure(757, 844);
+    await waitSchedule();
+    expect(targets).toEqual([422]);
+    expect(outer.style.width).toBe("757px");
+    expect(outer.style.height).toBe("1266px");
+  });
+
+  it("measures the cross axis for a horizontal sheet", async () => {
+    const { outer, measure } = renderSheet({ side: "right" });
+    await waitSchedule();
+    expect(targets).toEqual([]);
+
+    measure(400, 844);
+    await waitSchedule();
+    expect(targets).toEqual([200]);
+    expect(outer.style.width).toBe("600px");
+    expect(outer.style.height).toBe("844px");
+  });
+
+  it("keeps a consumer screenHeight over the measured layer", async () => {
+    const { measure } = renderSheet({ screenHeight: 600 });
+    await waitSchedule();
+    expect(targets).toEqual([300]);
+
+    measure(757, 844);
+    await waitSchedule();
+    expect(targets).toEqual([300]);
+  });
+
+  it("keeps the last size when a hidden layer reports zero", async () => {
+    const { outer, measure } = renderSheet();
+    measure(757, 844);
+    await waitSchedule();
+    measure(0, 0);
+    await waitSchedule();
+    expect(outer.style.height).toBe("1266px");
   });
 });

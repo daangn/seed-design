@@ -41,6 +41,8 @@ export interface SnapOptions {
   enableRTL?: boolean;
   screenHeight?: number;
   screenWidth?: number;
+  /** true인 동안 snap 요청을 보관했다가 `resolvePendingSnapMT`에서 실행한다. */
+  waitForViewport?: boolean;
   rubberBand?: boolean | number | { coeff?: number; max?: number };
   onSnapChange?: (index: number, value: number) => void;
   onDismiss?: () => void;
@@ -62,6 +64,7 @@ export function useSnap({
   enableRTL = false,
   screenHeight: userScreenHeight,
   screenWidth: userScreenWidth,
+  waitForViewport = false,
   rubberBand,
   onSnapChange = noop,
   onDismiss,
@@ -285,6 +288,7 @@ export function useSnap({
 
   function getTargetForSnap(index: number) {
     "main thread";
+    if (waitForViewport) return -1;
     const offsets = getResolvedSnapOffsets();
     if (offsets.length === 0) return -1;
     const i = Math.max(0, Math.min(index, offsets.length - 1));
@@ -422,6 +426,7 @@ export function useSnap({
     getResolvedSnapOffsets,
     getResolvedSnapPointValues,
     handleSheetLayoutChangeMT,
+    resolvePendingSnapMT: controller.resolvePendingSnapMT,
     presenceStateMTRef: controller.presenceStateMTRef,
     onDragStartMT: controller.onDragStartMT,
     onDragEndSnapMT: controller.onDragEndSnapMT,

@@ -157,7 +157,7 @@ Trigger 외의 방식으로 Bottom Sheet를 열고 닫으려면 `open`과 `onOpe
 
 ### Snap Points
 
-`snapPoints`에는 픽셀 숫자, 백분율, 콘텐츠 크기에 맞추는 `"fit"`을 사용할 수 있습니다. 백분율은 LynxView 높이([`useViewport`](/lynx/hooks/use-viewport))를 기준으로 하고, `screenHeight`를 지정하면 그 값을 기준으로 합니다. 배열 순서가 snap index가 되며, `initialSnap`으로 처음 열릴 높이를 정합니다.
+`snapPoints`에는 픽셀 숫자, 백분율, 콘텐츠 크기에 맞추는 `"fit"`을 사용할 수 있습니다. 백분율은 시트가 그려지는 `BottomSheetPositioner` 레이어의 높이를 기준으로 하고, `screenHeight`를 지정하면 그 값을 기준으로 합니다. 레이어는 `container`가 없으면 LynxView, `container="window"`이면 window를 채우므로, 내용 높이로 삽입된 LynxView에서도 시트 높이가 줄어들지 않습니다. 백분율 snap point는 레이어를 측정한 뒤 열리기 시작합니다. 배열 순서가 snap index가 되며, `initialSnap`으로 처음 열릴 높이를 정합니다.
 
 `onSnapChange`에서는 현재 index와 픽셀로 계산된 높이를 받을 수 있습니다. ref의 `snapTo` 메서드를 사용하면 원하는 높이로 이동할 수 있습니다.
 

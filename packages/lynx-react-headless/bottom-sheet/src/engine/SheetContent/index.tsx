@@ -4,7 +4,7 @@ import type { ReactElement } from "@lynx-js/react";
 // LICENSE file in the root directory of this source tree.
 // Modified by SEED Design: adapt style typing and finish canceled drags.
 
-import { useEffect, useMemo, useRef } from "@lynx-js/react";
+import { runOnMainThread, useEffect, useMemo, useRef } from "@lynx-js/react";
 
 import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
 
@@ -48,6 +48,7 @@ export function SheetContent(props: SheetContentProps): ReactElement {
     enableDragToClose = true,
     screenHeight,
     screenWidth,
+    layerSize,
     onSnapChange,
     onShowChange,
     claimedGestureAngles,
@@ -59,6 +60,10 @@ export function SheetContent(props: SheetContentProps): ReactElement {
   } = useSheetContext();
   const isHorizontal = resolvedSide === "left" || resolvedSide === "right";
   const isTop = resolvedSide === "top";
+  // % snap point는 레이어 크기 없이 계산할 수 없으므로, 크기를 받기 전 진입은 fit처럼 대기시킨다.
+  const waitForViewport =
+    (isHorizontal ? screenWidth : screenHeight) === undefined &&
+    snapPoints.some((p) => String(p).trim().endsWith("%"));
   const effectiveRubberBand = rubberBand ?? getDefaultRubberBand(resolvedSide);
 
   // 컨트롤러가 반영한 상태를 외부 변경으로 다시 처리하면 진입·닫기 애니메이션이 중복 실행된다.
@@ -99,6 +104,7 @@ export function SheetContent(props: SheetContentProps): ReactElement {
     getResolvedSnapOffsets,
     getResolvedSnapPointValues,
     handleSheetLayoutChangeMT,
+    resolvePendingSnapMT,
     setContentMTRef,
     maxSnapSize,
     onDragStartMT,
@@ -112,6 +118,7 @@ export function SheetContent(props: SheetContentProps): ReactElement {
     enableRTL,
     screenHeight,
     screenWidth,
+    waitForViewport,
     onSnapChange,
     onDismiss: handleDismissed,
     onBeforeDismiss: handleBeforeDismiss,
@@ -149,6 +156,14 @@ export function SheetContent(props: SheetContentProps): ReactElement {
     onDragEndSnapMT,
     onDragEndCloseMT,
   });
+
+  // 레이어 크기를 받은 렌더에서 새 snap 값으로 대기 중인 진입을 실행한다.
+  const resolvePendingSnap = useMemoizedFn(() => {
+    runOnMainThread(resolvePendingSnapMT)();
+  });
+  useEffect(() => {
+    if (!waitForViewport) resolvePendingSnap();
+  }, [waitForViewport, resolvePendingSnap]);
 
   // controlled 모드의 첫 show=true에서도 진입을 실행하도록 이전 값을 false로 시작한다.
   const prevShowRef = useRef(false);
@@ -192,6 +207,12 @@ export function SheetContent(props: SheetContentProps): ReactElement {
     [handleTouchStartMT, handleTouchMoveMT, handleTouchEndMT],
   );
   const hasFitSnapPoint = snapPoints.some((p) => String(p).trim() === "fit");
+  // 측정 전에는 기존 viewport 단위를 쓴다. 화면 전체 LynxView에서는 두 값이 같다.
+  const layerWidth = layerSize.width === undefined ? "100vw" : `${layerSize.width}px`;
+  const layerHeight = layerSize.height === undefined ? "100vh" : `${layerSize.height}px`;
+  const scaledLayerWidth = layerSize.width === undefined ? "150vw" : `${layerSize.width * 1.5}px`;
+  const scaledLayerHeight =
+    layerSize.height === undefined ? "150vh" : `${layerSize.height * 1.5}px`;
 
   const horizontalContent = (
     <view
@@ -226,8 +247,8 @@ export function SheetContent(props: SheetContentProps): ReactElement {
           position: "absolute",
           top: 0,
           ...(resolvedSide === "left" ? { right: "100%" } : { left: "100%" }),
-          width: "150vw",
-          height: "100vh",
+          width: scaledLayerWidth,
+          height: layerHeight,
           overflow: "hidden",
           transform: "translate(0px, 0px)",
           ...(style as React.CSSProperties),
@@ -257,8 +278,8 @@ export function SheetContent(props: SheetContentProps): ReactElement {
           : {
               top: "100%",
             }),
-        width: "100vw",
-        height: "150vh",
+        width: layerWidth,
+        height: scaledLayerHeight,
         overflow: "hidden",
         transform: "translate(0px, 0px)",
         ...(style as React.CSSProperties),

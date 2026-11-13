@@ -1,5 +1,5 @@
 import { createContext, useContext, type Provider, type RefObject } from "@lynx-js/react";
-import type { SheetRootRef } from "./engine";
+import type { SheetLayerSize, SheetRootRef } from "./engine";
 
 /**
  * 사용자 동작으로 열림 상태가 바뀐 원인입니다. Trigger는 `"trigger"`, CloseButton은 `"closeButton"`,
@@ -23,6 +23,12 @@ export interface UseBottomSheetContext {
    * `open`을 제어하면 `onOpenChange`만 호출하고 시트는 바뀐 `open` 값을 따릅니다.
    */
   setOpen: (open: boolean, details: BottomSheetOpenChangeDetails) => void;
+  /**
+   * Positioner 레이어를 측정한 크기(px)입니다. `vh`·`vw`는 LynxView 기준이라 레이어와 다를 수 있으므로
+   * 레이어 기준 길이는 이 값으로 계산합니다. 측정 전이나 Positioner가 mount되지 않은 동안 축 값은
+   * `undefined`입니다.
+   */
+  layerSize: SheetLayerSize;
 }
 
 const BottomSheetContext = createContext<UseBottomSheetContext | null>(null);

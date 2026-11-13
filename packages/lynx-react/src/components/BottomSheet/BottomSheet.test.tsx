@@ -9,6 +9,7 @@ const sheetMocks = vi.hoisted(() => ({
   rootProps: [] as Array<Record<string, unknown>>,
   triggerTap: vi.fn(),
   closeTap: vi.fn(),
+  layerSize: {} as { width?: number; height?: number },
   safeArea: {
     safeAreaInsetTop: "62px",
     safeAreaInsetRight: "0px",
@@ -19,12 +20,14 @@ const sheetMocks = vi.hoisted(() => ({
 
 vi.mock("@seed-design/lynx-react-bottom-sheet", async () => {
   const React = await vi.importActual<typeof import("@lynx-js/react")>("@lynx-js/react");
-  const Context = React.createContext({ skipAnimation: false });
+  const Context = React.createContext({ skipAnimation: false, layerSize: sheetMocks.layerSize });
 
   const BottomSheetRoot = (props: Record<string, unknown> & { children?: React.ReactNode }) => {
     sheetMocks.rootProps.push(props);
     return (
-      <Context.Provider value={{ skipAnimation: props["skipAnimation"] === true }}>
+      <Context.Provider
+        value={{ skipAnimation: props["skipAnimation"] === true, layerSize: sheetMocks.layerSize }}
+      >
         {props["children"]}
       </Context.Provider>
     );
@@ -76,21 +79,21 @@ describe("BottomSheet", () => {
   beforeEach(() => {
     sheetMocks.contentProps = [];
     sheetMocks.rootProps = [];
+    sheetMocks.layerSize = {};
     sheetMocks.triggerTap.mockClear();
     sheetMocks.closeTap.mockClear();
   });
 
-  it("uses the device logical height when the host does not provide screenHeight", () => {
+  it("leaves the screen size to the headless layer measurement when none is provided", () => {
     render(
       <BottomSheet.Root snapPoints={["45%", "80%"]}>
         <BottomSheet.Content />
       </BottomSheet.Root>,
     );
 
-    expect(sheetMocks.rootProps.at(-1)).toMatchObject({
-      screenHeight: SystemInfo.pixelHeight / SystemInfo.pixelRatio,
-      screenWidth: SystemInfo.pixelWidth / SystemInfo.pixelRatio,
-    });
+    const rootProps = sheetMocks.rootProps.at(-1);
+    expect(rootProps).not.toHaveProperty("screenHeight");
+    expect(rootProps).not.toHaveProperty("screenWidth");
   });
 
   it("preserves a consumer-provided screenHeight", () => {
@@ -243,6 +246,23 @@ describe("BottomSheet", () => {
     expect(sheetMocks.contentProps.at(-1)).toMatchObject({
       style: { paddingBottom: "calc(50vh + 62px)" },
       innerStyle: { flexShrink: 1, maxHeight: "calc(0.9 * 100vh)" },
+    });
+  });
+
+  it("sizes a fitted Content from the measured layer instead of the LynxView viewport", () => {
+    sheetMocks.layerSize = { width: 757, height: 844 };
+    render(
+      <BottomSheet.Root>
+        <BottomSheet.Content />
+      </BottomSheet.Root>,
+    );
+
+    expect(sheetMocks.contentProps.at(-1)).toMatchObject({
+      style: {
+        width: "calc(757px - 59px - 0px)",
+        paddingBottom: "calc(422px + 62px)",
+      },
+      innerStyle: { maxHeight: "calc(0.9 * 844px)" },
     });
   });
 

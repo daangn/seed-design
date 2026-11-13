@@ -29,6 +29,12 @@ export interface SheetMethods {
   show: (opts?: { animate?: boolean; snapAnimation?: SheetTransition }) => void;
 }
 
+/** Positioner 레이어를 측정한 크기(px)다. 측정 전이나 레이어가 mount되지 않은 동안 축 값이 비어 있다. */
+export interface SheetLayerSize {
+  width?: number;
+  height?: number;
+}
+
 export interface SheetContextValue {
   show: boolean;
   forceMount: boolean;
@@ -46,8 +52,12 @@ export interface SheetContextValue {
   side: SheetSide;
   enableRTL: boolean;
   resolvedSide: SheetResolvedSide;
+  /** 사용자가 넘긴 값, 없으면 측정한 레이어 크기다. */
   screenHeight?: number;
   screenWidth?: number;
+  layerSize: SheetLayerSize;
+  /** SheetView가 레이어의 한 축 측정값을 알린다. `undefined`이면 그 축의 값을 지운다. */
+  setLayerSize: (axis: keyof SheetLayerSize, size: number | undefined) => void;
   rubberBand?: boolean | number | { coeff?: number; max?: number };
   dragDisabled?: boolean;
   dismissThreshold?: number;
@@ -73,6 +83,8 @@ export const SheetContext: Context<SheetContextValue> = createContext<SheetConte
   side: "bottom",
   enableRTL: false,
   resolvedSide: "bottom",
+  layerSize: {},
+  setLayerSize: noop,
   onUnmount: noop,
   setUncontrolledShow: noop,
   registerMethods: noop,
