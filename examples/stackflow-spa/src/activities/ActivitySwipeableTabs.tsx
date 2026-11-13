@@ -21,7 +21,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "seed-design/ui/alert-dialog";
-import { ListButtonItem } from "seed-design/ui/list";
+import { NextListButtonItem } from "seed-design/ui/next-list";
 import { ActionButton } from "seed-design/ui/action-button";
 import { useStepOverlay } from "seed-design/stackflow/use-step-overlay";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
@@ -79,7 +79,7 @@ const ActivitySwipeableTabs: StaticActivityComponentType<"ActivitySwipeableTabs"
                     </Box>
                     <AlertDialogRoot {...overlayProps}>
                       <AlertDialogTrigger asChild>
-                        <ListButtonItem title="AlertDialog (step)" />
+                        <NextListButtonItem title="AlertDialog (step)" />
                       </AlertDialogTrigger>
                       <Portal>
                         <AlertDialogContent
