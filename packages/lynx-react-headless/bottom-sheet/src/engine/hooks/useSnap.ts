@@ -6,7 +6,7 @@ import { runOnBackground, runOnMainThread, useMainThreadRef, useMemo } from "@ly
 import type { MainThreadRef } from "@lynx-js/react";
 
 import { noop, useMemoizedFn } from "@lynx-js/lynx-ui-common";
-import type { PresenceState } from "@lynx-js/lynx-ui-presence";
+import { PresenceState } from "@lynx-js/lynx-ui-presence";
 import { animate, useMotionValueRef, useMotionValueRefEvent } from "@lynx-js/motion/mini";
 import type { MotionValue } from "@lynx-js/motion/mini";
 import type { MainThread } from "@lynx-js/types";
@@ -383,11 +383,26 @@ export function useSnap({
 
     if (hasFitSnapPoint) {
       if (fitSizeMTRef.current === 0 && layoutSize <= 0) return;
-      const fitSize = layoutSize > 0 ? layoutSize : fitSizeMTRef.current;
+      const previousFitSize = fitSizeMTRef.current;
+      const fitSize = layoutSize > 0 ? layoutSize : previousFitSize;
       fitSizeMTRef.current = fitSize;
       resolvedSnapPointMTRef.current = innerSnapPointValues.map((v) => (v === -1 ? fitSize : v));
       resolvedSnapOffsetsMTRef.current = innerSnapOffsets.map((o) => (o === -1 ? fitSize : o));
-      controller.resolvePendingSnapMT();
+      if (controller.resolvePendingSnapMT()) return;
+      // 첫 layout은 자식 배치 전이라 padding만 잡힐 수 있다. 진입 중이거나 열린 fit 지점은 바뀐 크기로 다시 snap한다.
+      const presence = controller.presenceStateMTRef.current;
+      const index = Math.max(
+        0,
+        Math.min(controller.snapIndexMTRef.current, innerSnapPointValues.length - 1),
+      );
+      if (
+        fitSize !== previousFitSize &&
+        (presence === PresenceState.Entering || presence === PresenceState.Entered) &&
+        progressMappingMTRef.current.kind !== "drag" &&
+        innerSnapPointValues[index] === -1
+      ) {
+        controller.snapToMT(index, { isEntry: presence === PresenceState.Entering });
+      }
     } else if (contentSizeMTRef.current !== maxSnapSize) {
       updateContentSizeMT(maxSnapSize);
     }

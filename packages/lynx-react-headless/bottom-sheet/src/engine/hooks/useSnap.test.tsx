@@ -173,6 +173,11 @@ async function setup(options: Partial<SnapOptions> = {}) {
     close: (animate = true) => runOnMainThread(snap.closeMT)({ animate }),
     drag: () => runOnMainThread(snap.onDragStartMT)(),
     snapTo: (index: number, animate = true) => runOnMainThread(snap.snapToMT)(index, { animate }),
+    finish: (target: number) =>
+      runOnMainThread((value: number) => {
+        "main thread";
+        (globalThis as TestGlobals).__sheetTestMotion.finish(value);
+      })(target),
   };
 }
 
@@ -195,9 +200,11 @@ describe("sheet progress across layout changes", () => {
     await sheet.frame(150);
     expect((await sheet.state()).progress).toBeCloseTo(0.5);
     await sheet.layout(500);
-    expect((await sheet.state()).position).toBe(150);
+    // The entry retargets to the new height from where it is, without a jump.
+    expect(await sheet.state()).toMatchObject({ position: 150, progress: 0.5 });
+    expect(targets.at(-1)).toBe(500);
     await sheet.frame(180);
-    expect((await sheet.state()).progress).toBeCloseTo(0.6);
+    expect((await sheet.state()).progress).toBeCloseTo(0.5 + (30 / 350) * 0.5);
   });
 
   it("preserves partial-snap opacity when only the maximum height changes", async () => {
@@ -332,6 +339,62 @@ describe("sheet progress across layout changes", () => {
     await sheet.close();
     await sheet.frame(300);
     expect((await sheet.state()).progress).toBeCloseTo(0.5);
+  });
+});
+
+describe("fit size changes after the first layout", () => {
+  it("enters at the laid-out height when the first layout only has the padding", async () => {
+    const sheet = await setup();
+    await sheet.show();
+    // The first layoutchange can arrive before the children are laid out.
+    await sheet.layout(80);
+    expect(targets).toEqual([80]);
+    await sheet.frame(60);
+
+    await sheet.layout(169);
+    expect(targets).toEqual([80, 169]);
+    // The superseded entry's completion must not finish the presence.
+    expect((await sheet.state()).presence).toBe(PresenceState.Entering);
+
+    await sheet.finish(169);
+    expect(await sheet.state()).toEqual({
+      position: 169,
+      progress: 1,
+      presence: PresenceState.Entered,
+    });
+  });
+
+  it("follows an open sheet whose content grows", async () => {
+    const sheet = await setup();
+    await sheet.show(false);
+    await sheet.layout(200);
+    expect((await sheet.state()).presence).toBe(PresenceState.Entered);
+
+    await sheet.layout(320);
+    expect(targets.at(-1)).toBe(320);
+    await sheet.finish(320);
+    expect((await sheet.state()).position).toBe(320);
+  });
+
+  it("does not snap again while the sheet is dragged", async () => {
+    const sheet = await setup();
+    await sheet.show(false);
+    await sheet.layout(200);
+    await sheet.drag();
+    await sheet.frame(150);
+
+    await sheet.layout(320);
+    expect(targets).toEqual([]);
+    expect((await sheet.state()).position).toBe(150);
+  });
+
+  it("leaves an explicit snap point in place when the fit size changes", async () => {
+    const sheet = await setup({ snapPoints: [100, "fit"] });
+    await sheet.layout(300);
+    await sheet.show(false);
+    await sheet.layout(400);
+    expect(targets).toEqual([]);
+    expect((await sheet.state()).position).toBe(100);
   });
 });
 
