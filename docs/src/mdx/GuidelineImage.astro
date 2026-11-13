@@ -1,0 +1,61 @@
+---
+/**
+ * 가이드 문서의 이미지(`Image`, `DoImage`, `DontImage`). 마크업은 기존 `components/guideline/{image,do-image,dont-image}.tsx`와
+ * 같고, 확대는 `zoom` widget이다.
+ */
+import { archivePaths } from "../../lib/docs-archive";
+import { ICONS } from "./icons";
+
+interface Props {
+  kind: "plain" | "do" | "dont";
+  src: string;
+  alt: string;
+  body?: string;
+  class?: string;
+  className?: string;
+}
+
+const { kind, src, alt, body, class: klass, className } = Astro.props;
+const image = {
+  plain: "w-full object-cover rounded-r2",
+  do: "w-full object-cover border border-bg-positive-solid rounded-r2 [&_img]:my-0 bg-palette-gray-100 dark:bg-palette-gray-900",
+  dont: "w-full object-cover border border-bg-critical-solid rounded-r2 [&_img]:my-0 bg-palette-gray-100 dark:bg-palette-gray-900",
+}[kind];
+---
+
+<figure class:list={["flex flex-col gap-1.5 not-prose", kind === "plain" ? "mt-1 mb-4" : "my-4", klass, className]}>
+  <img
+    src={archivePaths.asset(src)}
+    alt={alt}
+    width="773"
+    height="396"
+    loading="lazy"
+    decoding="async"
+    draggable="false"
+    data-widget="zoom"
+    class={`${image} cursor-zoom-in`}
+  />
+  {kind === "plain" && <figcaption class="text-sm text-center text-fg-neutral-subtle">{alt}</figcaption>}
+  {
+    kind === "do" && (
+      <div class="w-full flex gap-2 p-3 bg-bg-positive-weak rounded-r2">
+        <Fragment set:html={ICONS.checkmarkCircleFill} />
+        <div class="text-fg-positive-contrast text-sm flex flex-col break-keep">
+          <div class="font-bold leading-5">Do</div>
+          <div>{body}</div>
+        </div>
+      </div>
+    )
+  }
+  {
+    kind === "dont" && (
+      <div class="w-full flex gap-2 p-3 bg-bg-critical-weak rounded-r2">
+        <Fragment set:html={ICONS.xmarkCircleFill} />
+        <div class="text-fg-critical-contrast text-sm flex flex-col break-keep">
+          <div class="font-bold leading-5">Don’t</div>
+          <div>{body}</div>
+        </div>
+      </div>
+    )
+  }
+</figure>

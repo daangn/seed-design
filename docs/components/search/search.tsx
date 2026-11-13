@@ -3,25 +3,22 @@
 import { archivePaths } from "@/lib/docs-archive";
 
 import { Autocomplete } from "@base-ui/react/autocomplete";
+import { Dialog } from "@base-ui/react/dialog";
+import { navigate } from "astro:transitions/client";
 import { IconMagnifyingglassLine } from "@karrotmarket/react-monochrome-icon";
 import clsx from "clsx";
 import type { SortedResult } from "fumadocs-core/search";
 import { useDocsSearch } from "fumadocs-core/search/client";
 import { staticClient } from "fumadocs-core/search/client/orama-static";
 import { useOnChange } from "fumadocs-core/utils/use-on-change";
-import {
-  SearchDialog,
-  SearchDialogContent,
-  SearchDialogOverlay,
-} from "fumadocs-ui/components/dialog/search";
-import type { SharedProps, TagItem } from "fumadocs-ui/contexts/search";
 import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import { TAGS } from "@/app/api/search/constants";
+import { TAGS, type TagItem } from "@/lib/search-tags";
 import { useRecentPages } from "@/hooks/useRecentPages";
 import { ComponentResults } from "./component-results";
 import { SearchFooter } from "./footer";
 import { NoResults } from "./no-results";
 import { RecentPages } from "./recent-pages";
+import { SelectResultContext } from "./select-result";
 import { SearchResultItem } from "./search-result-item";
 import { SearchResultsState } from "./search-results-state";
 import { SearchTags } from "./tags";
@@ -30,6 +27,12 @@ import { koreanTokenizer } from "./tokenizer";
 import { useComponentSearch } from "./use-component-search";
 import { useTokenSearch } from "./use-token-search";
 import { create } from "zbsearch";
+
+/** 열림 상태는 부르는 쪽이 가진다(문서 셸은 `src/shell/store.ts`의 `searchOpen`). */
+export interface SharedProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
 
 export interface DefaultSearchDialogProps extends SharedProps {
   /** Section tag preselected when the dialog opens (injected per-section layout). */
@@ -225,111 +228,119 @@ export default function DefaultSearchDialog({
     resultsRef.current?.scrollTo({ top: 0 });
   }, [results]);
 
+  // 결과를 고르면 닫고 이동한다. 문서 셸에서는 ClientRouter 이동, landing에서는 전체 로드다.
+  const selectResult = (url: string) => {
+    props.onOpenChange(false);
+    void navigate(url);
+  };
+
   return (
-    <SearchDialog search={search} onSearchChange={setSearch} isLoading={query.isLoading} {...props}>
-      <SearchDialogOverlay
-        className={clsx(DIALOG_LAYER_CLASS_NAME, "!bg-bg-overlay !backdrop-blur-none")}
-        {...(lightOnly && LIGHT_ONLY_PROPS)}
-      />
-      <SearchDialogContent
-        {...(lightOnly && LIGHT_ONLY_PROPS)}
-        className={clsx(
-          DIALOG_LAYER_CLASS_NAME,
-          // Strip fumadocs' single-panel chrome so the pill + card render as two separate
-          // surfaces; the inner wrapper below keeps them as one child (avoids the
-          // between-children border rule) and stacks them with a gap.
-          "!overflow-visible !rounded-none !border-0 !bg-transparent !p-0 !shadow-none",
-          // Desktop: pin the top as if the card were always at its max height, so the
-          // input pill never shifts as the content (recent / results / no-results)
-          // changes size. 316px ≈ half of (input 68 + gap 24 + tags ~59 + results max
-          // 480). Widen so all filter chips fit on one row. Mobile keeps fumadocs' top
-          // anchor (and the landing override below).
-          "!max-w-[720px] md:!top-[max(24px,calc(50%_-_316px))] md:!translate-y-0",
-          contentClassName,
-        )}
-      >
-        {/* `inline` leaves the popup, its focus trap and its scroll lock unrendered — the
-            dialog around it already owns all three — and keeps only what the results need:
-            the arrow keys, the highlight and the ARIA that ties them to the field. `grid`
-            reads the rows from the markup, which is how blocks of three, four and one share
-            one run of keys. Filtering stays ours (`mode="none"`), and binding `open` to the
-            dialog's is what clears the highlight when it closes. */}
-        <Autocomplete.Root
-          inline
-          grid
-          mode="none"
-          open={props.open}
-          onOpenChange={props.onOpenChange}
-          value={search}
-          onValueChange={setSearch}
+    <Dialog.Root open={props.open} onOpenChange={(open) => props.onOpenChange(open)}>
+      <Dialog.Portal>
+        <Dialog.Backdrop
+          className={clsx(
+            DIALOG_LAYER_CLASS_NAME,
+            "fixed inset-0 bg-bg-overlay transition-opacity duration-150 data-[ending-style]:opacity-0 data-[starting-style]:opacity-0",
+          )}
+          {...(lightOnly && LIGHT_ONLY_PROPS)}
+        />
+        <Dialog.Popup
+          {...(lightOnly && LIGHT_ONLY_PROPS)}
+          className={clsx(
+            DIALOG_LAYER_CLASS_NAME,
+            // fumadocs `SearchDialogContent`가 남기던 자리(가운데 정렬, 모바일 top 16px)만 쓴다. pill과 결과 카드는
+            // 따로 그린 두 표면이라 popup 자체에는 배경·테두리·그림자가 없다.
+            "fixed left-1/2 top-4 w-[calc(100%-1rem)] max-w-[720px] -translate-x-1/2 text-fd-popover-foreground outline-none transition-[opacity,scale] duration-150 data-[ending-style]:scale-[0.98] data-[ending-style]:opacity-0 data-[starting-style]:scale-[0.98] data-[starting-style]:opacity-0",
+            // Desktop: pin the top as if the card were always at its max height, so the
+            // input pill never shifts as the content (recent / results / no-results)
+            // changes size. 316px ≈ half of (input 68 + gap 24 + tags ~59 + results max
+            // 480). Mobile keeps the top anchor (and the landing override below).
+            "md:top-[max(24px,calc(50%_-_316px))]",
+            contentClassName,
+          )}
         >
-          <div className="flex flex-col gap-6">
-            <SearchInputPill />
-            <div className="overflow-hidden rounded-2xl border border-stroke-neutral-muted bg-bg-layer-floating">
-              <SearchTags
-                tag={tag}
-                onTagChange={setTag}
-                tags={tags}
-                className="border-b border-stroke-neutral-muted p-3"
-              />
-              <SearchResultsState
-                search={search}
-                error={query.error}
-                isLoading={isLoading}
-                recent={<RecentPages pages={recentPages} />}
-              >
-                <Autocomplete.List ref={resultsRef} className={RESULTS_CLASS_NAME}>
-                  <ComponentResults matches={components} search={search} />
-                  <TokenResults matches={tokens} search={search} />
-                  <div className="p-1">
-                    {/* The promoted blocks already answer the query; a "no results" notice
-                        under them would contradict what's on screen. */}
-                    {results?.rows.length === 0 &&
-                    components.length === 0 &&
-                    tokens.length === 0 ? (
-                      <NoResults />
-                    ) : null}
-                    {results?.rows.map((row) => {
-                      const nested = results.nested.has(row.id);
-                      return (
-                        <Autocomplete.Row
-                          key={row.id}
-                          className={clsx(!nested && BLOCK_START_CLASS_NAME)}
-                        >
-                          {/* Under a filter every result already belongs to the chosen
-                              section, so the trail would open with the chip's own word on
-                              every group. */}
-                          <SearchResultItem
-                            item={row}
-                            showSection={tag === undefined}
-                            nested={nested}
-                          />
-                        </Autocomplete.Row>
-                      );
-                    })}
-                  </div>
-                </Autocomplete.List>
-              </SearchResultsState>
-              <SearchFooter hasItems={hasItems} />
-            </div>
-          </div>
-        </Autocomplete.Root>
-      </SearchDialogContent>
-    </SearchDialog>
+          <Dialog.Title className="sr-only">검색</Dialog.Title>
+          <SelectResultContext value={selectResult}>
+            {/* `inline` leaves the popup, its focus trap and its scroll lock unrendered — the
+                dialog around it already owns all three — and keeps only what the results need:
+                the arrow keys, the highlight and the ARIA that ties them to the field. `grid`
+                reads the rows from the markup, which is how blocks of three, four and one share
+                one run of keys. Filtering stays ours (`mode="none"`), and binding `open` to the
+                dialog's is what clears the highlight when it closes. */}
+            <Autocomplete.Root
+              inline
+              grid
+              mode="none"
+              open={props.open}
+              onOpenChange={props.onOpenChange}
+              value={search}
+              onValueChange={setSearch}
+            >
+              <div className="flex flex-col gap-6">
+                <SearchInputPill />
+                <div className="overflow-hidden rounded-2xl border border-stroke-neutral-muted bg-bg-layer-floating">
+                  <SearchTags
+                    tag={tag}
+                    onTagChange={setTag}
+                    tags={tags}
+                    className="border-b border-stroke-neutral-muted p-3"
+                  />
+                  <SearchResultsState
+                    search={search}
+                    error={query.error}
+                    isLoading={isLoading}
+                    recent={<RecentPages pages={recentPages} />}
+                  >
+                    <Autocomplete.List ref={resultsRef} className={RESULTS_CLASS_NAME}>
+                      <ComponentResults matches={components} search={search} />
+                      <TokenResults matches={tokens} search={search} />
+                      <div className="p-1">
+                        {/* The promoted blocks already answer the query; a "no results" notice
+                            under them would contradict what's on screen. */}
+                        {results?.rows.length === 0 &&
+                        components.length === 0 &&
+                        tokens.length === 0 ? (
+                          <NoResults />
+                        ) : null}
+                        {results?.rows.map((row) => {
+                          const nested = results.nested.has(row.id);
+                          return (
+                            <Autocomplete.Row
+                              key={row.id}
+                              className={clsx(!nested && BLOCK_START_CLASS_NAME)}
+                            >
+                              {/* Under a filter every result already belongs to the chosen
+                                  section, so the trail would open with the chip's own word on
+                                  every group. */}
+                              <SearchResultItem
+                                item={row}
+                                showSection={tag === undefined}
+                                nested={nested}
+                              />
+                            </Autocomplete.Row>
+                          );
+                        })}
+                      </div>
+                    </Autocomplete.List>
+                  </SearchResultsState>
+                  <SearchFooter hasItems={hasItems} />
+                </div>
+              </div>
+            </Autocomplete.Root>
+          </SelectResultContext>
+        </Dialog.Popup>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }
 
 // Mobile (<md): drop the landing search panel below the header with the global
-// gutter on both sides. Desktop keeps fumadocs' default (centered). `!` overrides
-// fumadocs' built-in position classes (left-1/2, top-4, translate, width).
+// gutter on both sides. Desktop keeps the default (centered). `!` overrides the
+// popup's position classes (left-1/2, top-4, translate, width).
 const LANDING_MOBILE_POSITION =
   "max-md:!top-[66px] max-md:!left-(--seed-dimension-spacing-x-global-gutter) max-md:!right-(--seed-dimension-spacing-x-global-gutter) max-md:!bottom-auto max-md:!w-auto max-md:!max-w-none max-md:!translate-x-0 max-md:!translate-y-0";
 
-/**
- * Landing(/) search dialog. RootProvider's `search.options` is typed to fumadocs'
- * DefaultSearchDialogProps (no `contentClassName` or `lightOnly`), so the landing injects its
- * mobile position and its palette here via the SearchDialog component instead of via `options`.
- */
+/** Landing(/) search dialog: its mobile position and its light-only palette. */
 export function LandingSearchDialog(props: SharedProps) {
   return <DefaultSearchDialog {...props} contentClassName={LANDING_MOBILE_POSITION} lightOnly />;
 }

@@ -1,6 +1,7 @@
 import { copyFile, mkdir, readdir, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { basename, dirname, resolve } from "node:path";
 import {
+  BUILD_DATA_MANIFEST_PATH,
   LYNX_E2E_MANIFEST_FILENAME,
   LYNX_MANIFEST_SCHEMA_VERSION,
   LYNX_WEB_CORE_STYLES_FILENAME,
@@ -102,6 +103,7 @@ export async function publishManifestAndBundles(
   manifest: LynxExampleManifest,
   sourceDirectory = STAGING_DIRECTORY,
   publicDirectory = PUBLIC_DIRECTORY,
+  buildDataManifestPath = BUILD_DATA_MANIFEST_PATH,
 ) {
   await mkdir(publicDirectory, { recursive: true });
   const referencedFiles = new Set(["manifest.json", LYNX_WEB_CORE_STYLES_FILENAME]);
@@ -127,6 +129,14 @@ export async function publishManifestAndBundles(
     createE2EManifest(manifest),
   );
   await writeJsonAtomically(publicDirectory, "manifest.json", manifest);
+  // 문서 render는 게시용 manifest를 fs로 읽지 않고 이 사본을 JSON module로 import한다.
+  // module graph에 들어가야 incremental build가 manifest 변경을 감지한다.
+  await mkdir(dirname(buildDataManifestPath), { recursive: true });
+  await writeJsonAtomically(
+    dirname(buildDataManifestPath),
+    basename(buildDataManifestPath),
+    manifest,
+  );
 
   for (const file of await readdir(publicDirectory, { recursive: true })) {
     if (!referencedFiles.has(file) && file.endsWith(".bundle")) {

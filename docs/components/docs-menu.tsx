@@ -1,7 +1,6 @@
 "use client";
 
 import clsx from "clsx";
-import { PopoverContent } from "fumadocs-ui/components/ui/popover";
 import {
   MenuContent,
   type MenuContentProps,
@@ -14,7 +13,7 @@ import {
   MenuTrigger,
   type MenuTriggerProps,
 } from "@/registry/react/ui/menu";
-import { forwardRef, type ButtonHTMLAttributes, type ComponentPropsWithoutRef } from "react";
+import { forwardRef, type ButtonHTMLAttributes } from "react";
 
 /**
  * Retarget the SEED flyout recipe's surface var to the neutral fd-popover gray and lower its
@@ -61,10 +60,3 @@ export const DocsMenuTriggerButton = forwardRef<
   );
 });
 DocsMenuTriggerButton.displayName = "DocsMenuTriggerButton";
-
-export function DocsPopoverContent({
-  className,
-  ...props
-}: ComponentPropsWithoutRef<typeof PopoverContent>) {
-  return <PopoverContent className={clsx("shadow-s2!", className)} {...props} />;
-}

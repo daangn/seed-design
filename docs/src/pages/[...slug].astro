@@ -1,0 +1,25 @@
+---
+/**
+ * 모든 문서 섹션의 단일 route. 섹션별 차이는 `loadDocsPage`가 결정하므로 이 파일은 얇다.
+ * 더 구체적인 route(updates 등)가 우선한다.
+ *
+ * 이 route의 module graph에는 MDX 등록부 전체가 들어간다. 그래서 MDX 컴포넌트나 그것이 import하는 공유 빌드
+ * 데이터(Sanity·rootage·Lynx manifest JSON)가 바뀌면 모든 문서 페이지가 다시 렌더링된다(정합성 우선).
+ * 아래 `await loadDocsPage`는 이 페이지의 모든 React renderer 호출보다 앞이라 렌더 결정성에 영향이 없다.
+ */
+import { type DocsPageRef, listDocsPages, loadDocsPage } from "../content/source";
+import DocsArticle from "../layouts/DocsArticle.astro";
+import DocsShell from "../layouts/DocsShell.astro";
+import { mdxComponents } from "../mdx/components";
+
+export const getStaticPaths = listDocsPages;
+
+const view = await loadDocsPage(Astro.props as DocsPageRef);
+const { Content } = view;
+---
+
+<DocsShell head={view.head} section={view.section} currentPath={view.url} nav={view.nav} tocRail={view.toc !== null}>
+  <DocsArticle view={view}>
+    <Content components={mdxComponents} />
+  </DocsArticle>
+</DocsShell>

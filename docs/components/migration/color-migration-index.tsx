@@ -23,8 +23,8 @@ export interface TokenMappingItem {
   description?: string;
 }
 
-export async function ColorMigrationIndex({ prefix }: ColorMigrationIndexProps) {
-  const rootage = await getRootage();
+export function ColorMigrationIndex({ prefix }: ColorMigrationIndexProps) {
+  const rootage = getRootage();
   const defaultModes = getDefaultModes(rootage);
   const mappings = {
     semantic: semanticColorMappings,

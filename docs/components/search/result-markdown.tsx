@@ -2,7 +2,6 @@
 
 import clsx from "clsx";
 import { createMarkdownRenderer, type MarkdownProps } from "fumadocs-core/content/md";
-import type { CalloutType } from "fumadocs-ui/components/callout";
 import type { Root } from "hast";
 import type { ReactNode } from "react";
 import rehypeRaw from "rehype-raw";
@@ -10,7 +9,7 @@ import { EXIT, visit } from "unist-util-visit";
 
 /**
  * Everything Markdown itself can turn into an element here. A row's content is the Markdown its
- * page was serialized to, and `structureStringify` (see app/source.tsx) leaves whitelisted MDX
+ * page was serialized to, and `structureStringify` (see lib/satteri/search-structure.ts) leaves whitelisted MDX
  * components in it as raw JSX — so a tag outside this set names one of those components, and
  * goes to `MdxTagBadge` rather than being rendered as an element nobody styled.
  */
@@ -111,7 +110,8 @@ const NEUTRAL_BADGE = "bg-bg-neutral-weak-alpha text-fg-neutral-muted";
 
 /**
  * One badge per Fumadocs callout type, mirroring the SEED tone `components/callout.tsx` maps
- * each one to. Keyed off the upstream union, so a type added there breaks this table.
+ * each one to (fumadocs-ui `CalloutType`의 여섯 값). A type the index carries but this table lacks
+ * throws in `calloutBadge`.
  */
 const CALLOUT_BADGE = {
   info: { label: "안내", className: "bg-bg-informative-weak text-fg-informative-contrast" },
@@ -120,7 +120,9 @@ const CALLOUT_BADGE = {
   error: { label: "경고", className: "bg-bg-critical-weak text-fg-critical-contrast" },
   success: { label: "확인", className: "bg-bg-positive-weak text-fg-positive-contrast" },
   idea: { label: "팁", className: NEUTRAL_BADGE },
-} as const satisfies Record<CalloutType, { label: string; className: string }>;
+} as const satisfies Record<string, { label: string; className: string }>;
+
+type CalloutType = keyof typeof CALLOUT_BADGE;
 
 const isCalloutType = (value: string): value is CalloutType => value in CALLOUT_BADGE;
 

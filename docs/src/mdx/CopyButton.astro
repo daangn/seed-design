@@ -1,0 +1,24 @@
+---
+/**
+ * 코드 카드의 복사 버튼(`copy` widget). 마크업은 기존 `components/codeblock/copy-button.tsx`와 같다.
+ * 아이콘은 SVG 문자열이다(React 렌더러를 거치지 않는다, `icons.ts`).
+ */
+import { ICONS } from "./icons";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<button
+  type="button"
+  aria-label="코드 복사"
+  data-widget="copy"
+  class:list={[
+    "group inline-flex shrink-0 items-center justify-center rounded-r1 p-x1 text-fg-neutral-muted transition-colors hover:bg-bg-neutral-weak-pressed",
+    className,
+  ]}
+  set:html={ICONS.copy}
+/>

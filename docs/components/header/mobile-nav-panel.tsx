@@ -8,14 +8,16 @@ import { type DocsVersionPlatform, DocsVersionSwitcher } from "@/components/docs
 import { Icon, Portal, ScrollFog, SidePanel as SeedSidePanel } from "@seed-design/react";
 import clsx from "clsx";
 import { SiteLink } from "@/components/site-link";
-import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { type RefObject, useEffect, useRef, useState } from "react";
+import { type FolderOpenMap, isFolderOpen } from "@/src/shell/nav-folders";
 import {
-  type SidebarFolderItem,
-  type SidebarGroup,
-  type SidebarLeafItem,
-  isSidebarFolderItem,
-} from "../layout/lib/sidebar-items";
+  folderContains,
+  isCurrentLink,
+  type NavFolder,
+  type NavGroup,
+  type NavLink,
+  type SectionNav,
+} from "@/src/shell/nav-model";
 import { SidebarFeaturedDot } from "../layout/sidebar-featured-dot";
 import { SeedMark } from "../landing/seed-mark";
 import { SeedWordmark } from "../landing/seed-wordmark";
@@ -28,15 +30,22 @@ import {
 } from "./mobile-nav-accordion";
 import { NAV_ITEMS, type NavItem } from "./nav-items";
 
+/** 문서 섹션 메뉴. 폴더 열림 상태는 데스크톱 사이드바와 같은 `DocsNav`의 맵이다. */
 export interface MobileNavSection {
-  title: string;
-  groups: SidebarGroup[];
+  nav: SectionNav;
+  platform: DocsVersionPlatform | null;
+  folders: FolderOpenMap;
+  onFolderOpenChange: (folder: NavFolder, open: boolean) => void;
 }
 
 interface MobileNavPanelProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  /** 현재 경로. 주 메뉴·섹션 메뉴의 현재 항목 표시에 쓴다. */
+  pathname: string;
   section?: MobileNavSection;
+  /** overlay를 붙일 요소. 문서 셸은 persist된 `#docs-nav-portal`이다(없으면 `document.body`). */
+  portalContainer?: RefObject<HTMLElement | null>;
 }
 
 type MobileNavView = "menu" | "section";
@@ -127,11 +136,19 @@ function MainMenuItem({
   );
 }
 
-function getSectionItemIndent(item: SidebarLeafItem) {
+function getSectionItemIndent(item: NavLink) {
   return item.level * SECTION_ITEM_INDENT_PER_LEVEL;
 }
 
-function MobileSectionItem({ item, onClose }: { item: SidebarLeafItem; onClose: () => void }) {
+function MobileSectionItem({
+  item,
+  pathname,
+  onClose,
+}: {
+  item: NavLink;
+  pathname: string;
+  onClose: () => void;
+}) {
   return (
     <DocsMobileNavLinkItem
       title={
@@ -142,7 +159,7 @@ function MobileSectionItem({ item, onClose }: { item: SidebarLeafItem; onClose: 
       }
       href={item.href}
       external={item.external}
-      current={item.current}
+      current={isCurrentLink(item, pathname)}
       indent={getSectionItemIndent(item)}
       suffix={
         item.external ? <IconSeedArrow external className="size-4 text-fg-neutral" /> : undefined
@@ -152,20 +169,35 @@ function MobileSectionItem({ item, onClose }: { item: SidebarLeafItem; onClose: 
   );
 }
 
-function MobileSectionFolder({ item, onClose }: { item: SidebarFolderItem; onClose: () => void }) {
+function MobileSectionFolder({
+  item,
+  section,
+  pathname,
+  onClose,
+}: {
+  item: NavFolder;
+  section: MobileNavSection;
+  pathname: string;
+  onClose: () => void;
+}) {
   return (
     <li>
       <DocsMobileNavAccordion
-        value={String(item.key)}
+        value={item.key}
         title={item.label}
-        current={item.current}
-        defaultOpen={item.defaultOpen}
+        current={folderContains(item, pathname)}
+        open={isFolderOpen(section.folders, item)}
+        onOpenChange={(open) => section.onFolderOpenChange(item, open)}
         collapsible={item.collapsible}
-        index={item.index}
+        index={
+          item.index
+            ? { current: isCurrentLink(item.index, pathname), featured: item.index.featured }
+            : undefined
+        }
       >
         <DocsMobileNavList className="mt-2">
           {item.items.map((sub) => (
-            <MobileSectionItem key={sub.key} item={sub} onClose={onClose} />
+            <MobileSectionItem key={sub.key} item={sub} pathname={pathname} onClose={onClose} />
           ))}
         </DocsMobileNavList>
       </DocsMobileNavAccordion>
@@ -176,10 +208,14 @@ function MobileSectionFolder({ item, onClose }: { item: SidebarFolderItem; onClo
 function MobileSectionGroup({
   group,
   isFirst,
+  section,
+  pathname,
   onClose,
 }: {
-  group: SidebarGroup;
+  group: NavGroup;
   isFirst: boolean;
+  section: MobileNavSection;
+  pathname: string;
   onClose: () => void;
 }) {
   return (
@@ -188,21 +224,21 @@ function MobileSectionGroup({
       {group.label && <DocsMobileNavListHeader>{group.label}</DocsMobileNavListHeader>}
       <DocsMobileNavList>
         {group.items.map((item) =>
-          isSidebarFolderItem(item) ? (
-            <MobileSectionFolder key={item.key} item={item} onClose={onClose} />
+          item.kind === "folder" ? (
+            <MobileSectionFolder
+              key={item.key}
+              item={item}
+              section={section}
+              pathname={pathname}
+              onClose={onClose}
+            />
           ) : (
-            <MobileSectionItem key={item.key} item={item} onClose={onClose} />
+            <MobileSectionItem key={item.key} item={item} pathname={pathname} onClose={onClose} />
           ),
         )}
       </DocsMobileNavList>
     </section>
   );
-}
-
-function MobileSectionGroups({ groups, onClose }: { groups: SidebarGroup[]; onClose: () => void }) {
-  return groups.map((group, index) => (
-    <MobileSectionGroup key={group.key} group={group} isFirst={index === 0} onClose={onClose} />
-  ));
 }
 
 function PanelCloseButton({ onClose }: { onClose: () => void }) {
@@ -262,18 +298,17 @@ function MainMenuView({ pathname, onClose }: { pathname: string; onClose: () => 
 
 function SectionView({
   section,
+  pathname,
   onBack,
   onClose,
 }: {
   section: MobileNavSection;
+  pathname: string;
   onBack: () => void;
   onClose: () => void;
 }) {
-  const pathname = usePathname();
   const versionContainer = useRef<HTMLDivElement>(null);
-  const versionPlatform = (
-    ["react", "lynx"] as const satisfies readonly DocsVersionPlatform[]
-  ).find((platform) => pathname === `/${platform}` || pathname.startsWith(`/${platform}/`));
+  const versionPlatform = section.platform;
 
   return (
     <>
@@ -287,7 +322,7 @@ function SectionView({
           <IconChevronLeftLine />
         </button>
         <SeedSidePanel.Title className="t9-medium min-w-0 flex-1 truncate text-fg-neutral">
-          {section.title}
+          {section.nav.label}
         </SeedSidePanel.Title>
         <PanelCloseButton onClose={onClose} />
       </SeedSidePanel.Header>
@@ -303,16 +338,30 @@ function SectionView({
         className={PANEL_SCROLL_FOG_CLASS}
       >
         <div className={PANEL_BODY_CLASS}>
-          <MobileSectionGroups groups={section.groups} onClose={onClose} />
+          {section.nav.groups.map((group, index) => (
+            <MobileSectionGroup
+              key={group.key}
+              group={group}
+              isFirst={index === 0}
+              section={section}
+              pathname={pathname}
+              onClose={onClose}
+            />
+          ))}
         </div>
       </ScrollFog>
     </>
   );
 }
 
-export function MobileNavPanel({ open, onOpenChange, section }: MobileNavPanelProps) {
-  const pathname = usePathname();
-  const initialView: MobileNavView = section?.title ? "section" : "menu";
+export function MobileNavPanel({
+  open,
+  onOpenChange,
+  pathname,
+  section,
+  portalContainer,
+}: MobileNavPanelProps) {
+  const initialView: MobileNavView = section ? "section" : "menu";
   const [view, setView] = useState<MobileNavView>(initialView);
 
   useEffect(() => {
@@ -322,18 +371,19 @@ export function MobileNavPanel({ open, onOpenChange, section }: MobileNavPanelPr
 
   const shouldShowSection = view === "section" && section;
 
-  // Render in a Portal (defaults to document.body) so the panel escapes the
-  // landing's light-only <main> scope, where the --color-* bridge bakes text to
-  // light values. On <body> it follows the global color mode, like on docs pages.
+  // Render in a Portal so the panel escapes the landing's light-only <main> scope, where the
+  // --color-* bridge bakes text to light values. Docs pages pass the persisted `#docs-nav-portal`
+  // so an open panel survives the ClientRouter body swap without being left on the old body.
   return (
     <SeedSidePanel.Root open={open} onOpenChange={onOpenChange} size="small" direction="right">
-      <Portal>
+      <Portal container={portalContainer}>
         <SeedSidePanel.Positioner className={PANEL_POSITIONER_CLASS}>
           <SeedSidePanel.Backdrop />
           <SeedSidePanel.Content aria-label="사이트 메뉴" className={PANEL_CONTENT_CLASS}>
             {shouldShowSection ? (
               <SectionView
                 section={section}
+                pathname={pathname}
                 onBack={() => setView("menu")}
                 onClose={() => onOpenChange(false)}
               />

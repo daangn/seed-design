@@ -1,0 +1,31 @@
+---
+/**
+ * MDX `img`·`ImageZoom`. 확대는 `zoom` widget(정적 `<dialog>`). width/height는 remarkImage가 넣는다.
+ * class는 기존 `components/mdx-components.tsx`의 `img`와 같다.
+ */
+import { archivePaths } from "../../lib/docs-archive";
+
+interface Props {
+  src?: string;
+  alt?: string;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { src, alt, class: klass, className, ...rest } = Astro.props;
+---
+
+<img
+  {...rest}
+  src={typeof src === "string" ? archivePaths.asset(src) : src}
+  alt={alt ?? ""}
+  loading="lazy"
+  decoding="async"
+  data-widget="zoom"
+  class:list={[
+    klass,
+    className,
+    "cursor-zoom-in bg-palette-gray-100 dark:bg-palette-gray-100 rounded-r2_5 lg:rounded-r3 overflow-hidden",
+  ]}
+/>

@@ -4,10 +4,9 @@ import { Autocomplete } from "@base-ui/react/autocomplete";
 import { IconHashLine } from "@karrotmarket/react-monochrome-icon";
 import clsx from "clsx";
 import type { SortedResult } from "fumadocs-core/search";
-import { useSearch } from "fumadocs-ui/components/dialog/search";
-import { useRouter } from "next/navigation";
 import { ResultMarkdown } from "./result-markdown";
 import { Breadcrumbs, ROW_ACTIVE_CLASS_NAME, ROW_CLASS_NAME } from "./row";
+import { useSelectResult } from "./select-result";
 
 /**
  * A single search result, as one cell of the grid the results card is. The row the arrow keys
@@ -33,8 +32,7 @@ export function SearchResultItem({
    * the rows. */
   nested: boolean;
 }) {
-  const { onOpenChange } = useSearch();
-  const router = useRouter();
+  const selectResult = useSelectResult();
 
   return (
     <Autocomplete.Item
@@ -48,8 +46,7 @@ export function SearchResultItem({
         if (event.metaKey || event.ctrlKey) return;
 
         event.preventDefault();
-        onOpenChange(false);
-        router.push(item.url);
+        selectResult(item.url);
       }}
       className={(state) => clsx(ROW_CLASS_NAME, state.highlighted && ROW_ACTIVE_CLASS_NAME)}
     >

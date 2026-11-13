@@ -15,8 +15,8 @@ export {
 
 const DOCS_DIRECTORY =
   basename(process.cwd()) === "docs" ? process.cwd() : resolve(process.cwd(), "docs");
-// Next.js는 `.next/cache` 하위 파일을 빌드 뒤에도 유지하며, 문서 CI도 이 경로를 복원한다.
-const TYPE_TABLE_CACHE_DIRECTORY = resolve(DOCS_DIRECTORY, ".next/cache/fumadocs-typescript");
+// 다른 docs 빌드 캐시(`.cache/astro`, `.cache/lynx-rspeedy`)와 같은 곳에 둔다. CI 캐시 단위 `typetable`이 이 경로다.
+const TYPE_TABLE_CACHE_DIRECTORY = resolve(DOCS_DIRECTORY, ".cache/fumadocs-typescript");
 
 // 아래 경로 정규식은 대소문자를 구분하지 않는다. TypeScript 7 API가 선언 위치로 주는 경로는
 // 정규화된 키라서, 대소문자를 구분하지 않는 파일 시스템(macOS)에서는 소문자로 온다.

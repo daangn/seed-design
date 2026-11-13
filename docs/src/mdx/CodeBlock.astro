@@ -1,0 +1,53 @@
+---
+/**
+ * MDX `pre`. rehype-code(Shiki)가 빌드 때 하이라이트한 `<pre>`의 속성과 children을 받아 SEED 코드 카드를 그린다.
+ * 마크업은 기존 `components/codeblock/code-block.tsx`(+ fumadocs `Pre`의 class)와 같다. 복사는 `copy` widget.
+ * `title`·`icon`은 rehype-code가 붙인 문자열이다(icon은 SVG 문자열, 제목은 `preserveCodeMeta`가 살린다).
+ * `data-code-tab`이 있으면 탭 카드(`CodeBlockTab`) 안이라 카드 없이 `<pre>`만 그린다(`rehypeStaticTabs`).
+ */
+import CopyButton from "./CopyButton.astro";
+
+interface Props {
+  title?: string;
+  icon?: string;
+  "data-code-tab"?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { title, icon, "data-code-tab": inCodeTab, class: className, ...pre } = Astro.props;
+const preClass = ["min-w-full w-max *:flex *:flex-col", className];
+const viewport =
+  "seed-codeblock__viewport fd-scroll-container overflow-auto py-x3 text-[0.875rem] leading-[1.375rem] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-stroke-focus-ring";
+---
+
+{
+  inCodeTab !== undefined ? (
+    <pre {...pre} class:list={preClass}><slot /></pre>
+  ) : (
+    <figure
+      data-code-card="true"
+      class:list={[
+        "shiki seed-codeblock not-prose my-4 flex flex-col overflow-hidden rounded-r3 border border-solid border-stroke-neutral-muted",
+        !title && "relative",
+      ]}
+    >
+      {title ? (
+        <Fragment>
+          <div class="flex items-center gap-x2 px-x5 pt-x3_5 pb-x3">
+            {icon && <span class="flex size-x4 shrink-0 items-center text-fg-neutral-muted [&_svg]:size-full" set:html={icon} />}
+            <figcaption class="flex-1 truncate text-[0.8125rem] text-fg-neutral-muted">{title}</figcaption>
+            <CopyButton />
+          </div>
+          <div class="mx-x5 h-px shrink-0 bg-stroke-neutral-muted" />
+        </Fragment>
+      ) : (
+        <CopyButton class="absolute top-2 right-2 z-[1] rounded-r1 bg-bg-layer-default shadow-s1" />
+      )}
+      <div role="region" tabindex="0" aria-label={title} class={viewport}>
+        <pre {...pre} class:list={preClass}><slot /></pre>
+      </div>
+    </figure>
+  )
+}
+

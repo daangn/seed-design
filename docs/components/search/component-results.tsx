@@ -2,14 +2,11 @@
 
 import { Autocomplete } from "@base-ui/react/autocomplete";
 import clsx from "clsx";
-import { useSearch } from "fumadocs-ui/components/dialog/search";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 import { COMPONENT_RESULT_LIMIT, type ComponentSearchEntry } from "@/lib/component-search";
 import { splitQueryTerms } from "@/lib/search-text";
 import { Highlighted, PromotedSection, ShowMore, toRows, useExpandable } from "./promoted-section";
+import { useSelectResult } from "./select-result";
 
 /**
  * How many cards one arrow-key row holds — the desktop column count, so there a row in the
@@ -27,8 +24,7 @@ const COMPONENT_COLUMNS = 3;
 const COMPONENT_GRID_CLASS_NAME = "grid grid-cols-2 gap-2 md:grid-cols-3";
 
 function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: string[] }) {
-  const { onOpenChange } = useSearch();
-  const router = useRouter();
+  const selectResult = useSelectResult();
 
   return (
     <Autocomplete.Item
@@ -42,8 +38,7 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
         if (event.metaKey || event.ctrlKey) return;
 
         event.preventDefault();
-        onOpenChange(false);
-        router.push(entry.url);
+        selectResult(entry.url);
       }}
       className={(state) =>
         clsx(
@@ -54,14 +49,12 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
     >
       <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-bg-transparent-selected">
         {entry.thumbnail ? (
-          <Image
+          <img
             src={entry.thumbnail}
             alt=""
-            fill
             loading="lazy"
             decoding="async"
-            sizes="(min-width: 768px) 224px, 45vw"
-            className="object-cover"
+            className="absolute inset-0 size-full object-cover"
           />
         ) : null}
       </div>
@@ -69,14 +62,14 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
         {/* The `after` overlay hands the whole card the anchor's own behaviour — the address
             in the status bar, cmd-click, "open in new tab" — from an anchor that wraps only
             the title, so the cover above it is not read out as part of the link's name. */}
-        <Link
+        <a
           href={entry.url}
           className="text-[13px] font-medium leading-snug text-fg-neutral after:absolute after:inset-0 after:rounded-xl focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-stroke-focus-ring"
         >
           <span className="block truncate">
             <Highlighted text={entry.title} terms={terms} />
           </span>
-        </Link>
+        </a>
         {entry.description ? (
           <p className="line-clamp-2 text-[11px] leading-snug text-fg-neutral-subtle">
             <Highlighted text={entry.description} terms={terms} />

@@ -1,0 +1,28 @@
+---
+/**
+ * Updates 글(`/updates/<slug>`). 사이드바 없는 문서 셸에 같은 `DocsArticle`을 쓴다. updates 섹션은 `SECTIONS`에서
+ * `layout: "custom"`이라 단일 문서 route(`[...slug].astro`)가 건너뛴다. 목록(`/updates`)은 Phase 4에서 옮긴다.
+ */
+import "../../styles/updates-article.css";
+import { type DocsPageRef, listSectionPages, loadDocsPage } from "../../content/source";
+import DocsArticle from "../../layouts/DocsArticle.astro";
+import DocsShell from "../../layouts/DocsShell.astro";
+import { mdxComponents } from "../../mdx/components";
+
+export async function getStaticPaths() {
+  return (await listSectionPages("updates")).map((path) => ({
+    params: { slug: path.props.slugs.join("/") },
+    props: path.props,
+    cacheKey: path.cacheKey,
+  }));
+}
+
+const view = await loadDocsPage(Astro.props as DocsPageRef);
+const { Content } = view;
+---
+
+<DocsShell head={view.head} section={view.section} currentPath={view.url} nav={view.nav} tocRail={view.toc !== null}>
+  <DocsArticle view={view}>
+    <Content components={mdxComponents} />
+  </DocsArticle>
+</DocsShell>

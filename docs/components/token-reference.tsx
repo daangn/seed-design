@@ -9,8 +9,8 @@ interface TokenReferenceProps {
   regex?: RegExp;
 }
 
-export async function TokenReference(props: TokenReferenceProps) {
-  const rootage = await getRootage();
+export function TokenReference(props: TokenReferenceProps) {
+  const rootage = getRootage();
   const groups = props.groups ?? [];
   const modes = getDefaultModes(rootage);
 

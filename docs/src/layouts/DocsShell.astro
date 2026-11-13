@@ -1,0 +1,177 @@
+---
+/**
+ * 문서 셸. 문서 섹션(그리고 Phase 4의 updates·토큰 reference·404)이 쓴다.
+ *
+ * 문서 이동은 `<ClientRouter fallback="swap" />`가 클라이언트에서 처리한다(전환 애니메이션 없음). ClientRouter가 없는
+ * 문서(landing·blocks·admin)로 가는 이동은 router가 전체 로드로 넘긴다.
+ *
+ * 불변식
+ * - `<ClientRouter />`는 이 파일에만 있다(`src/structure.test.ts` S-2).
+ * - `client:load`는 `SiteHeader`와 `DocsNav` 두 개뿐이다(산출물 검사 O-1).
+ * - persist는 `DocsNav` island와 portal 루트 div 두 요소뿐이고, 둘 다 children·slot이 없다(O-2, O-3). `DocsNav`는
+ *   사이드바가 없는 페이지에서도 조건 없이 그린다(`nav: null`). 짝이 끊기면 노드가 버려진다.
+ * - `DocsNav`는 `transition:persist-props`다. 이동 뒤 값은 props가 아니라 `#docs-nav-data`에서 store로 간다
+ *   (`client.ts` after-swap → `store.ts#syncNavState`). props와 data script는 같은 `NavState`를 담는다(S1-b).
+ *   data script는 persist 요소 밖에 있어 body와 함께 바뀐다.
+ * - `<html>`의 테마·배너 속성은 head inline bootstrap(`root-attributes.ts`)이 첫 paint 전에, 그리고 `astro:before-swap`에서
+ *   새 문서에 다시 쓴다. 서버 HTML은 테마를 모른다.
+ * - 본문은 어떤 island의 children도 아니다. `DocsArticle.astro`가 레이아웃 그리드의 직접 자식으로 `<main>`·TOC·footer를 그린다.
+ * - 열 폭·높이는 이 파일의 정적 CSS 그리드가 정한다(`:has()`·`layout:` variant 없음). hydration이 레이아웃을 바꾸지 않는다.
+ * - `#nd-notebook-layout`, `#nd-sidebar`, `#nd-page`, `#nd-toc` id와 SEED class·한국어 aria-label은 이전 기간의 baseline
+ *   하네스(`capture.mjs`의 `SEL`)를 고치지 않고 쓰려고 남긴다. `#nd-notebook-layout`은 `check:budget`의 문서 셸
+ *   판정 기준이기도 하다. 그리드 변수 이름(`--fd-*`)도 여러 파일이 쓰므로 그대로 둔다.
+ * - `<html data-build-prefix>`는 이 빌드의 archive 접두사다(latest는 "").
+ */
+import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import { archivePaths } from "../../lib/docs-archive";
+import type { SectionConfig } from "../content/sections";
+import type { SeoHead } from "../content/source";
+import type { SectionNav } from "../shell/nav-model";
+import { DocsNav } from "../shell/DocsNav";
+import { rootAttributesBootstrap } from "../shell/root-attributes";
+import { SiteHeader } from "../shell/SiteHeader";
+import { NAV_DATA_ID, type NavState, serializeNavState } from "../shell/store";
+import Analytics from "../components/Analytics.astro";
+import Banners from "../components/Banners.astro";
+import SeoHeadTags from "../components/SeoHead.astro";
+
+interface Props {
+  head: SeoHead;
+  section: SectionConfig | null;
+  currentPath: string;
+  nav: SectionNav | null;
+  /** 오른쪽 TOC 열을 예약하는가(≥1280px에서 200px). */
+  tocRail: boolean;
+}
+
+const { head, section, currentPath, nav, tocRail } = Astro.props;
+const navState: NavState = { nav, currentPath, platform: section?.platform ?? null };
+---
+
+<!doctype html>
+<html
+  lang="ko"
+  data-seed="true"
+  data-seed-user-color-scheme="light"
+  data-seed-color-mode="system"
+  data-build-prefix={archivePaths.prefix}
+  transition:animate="none"
+>
+  <head>
+    <meta charset="utf-8" />
+    {/* cascade layer 순서를 다른 어떤 CSS보다 먼저 선언한다(dev 서버가 recipe CSS를 먼저 주입해도 순서가 같다). */}
+    <style is:inline>@layer theme, base, seed-base, components, seed-components, utilities;</style>
+    {/* 첫 paint 전에 테마·배너 속성을 적용하고 astro:before-swap 재적용을 등록한다. 세션당 1회 실행. */}
+    <script is:inline set:html={rootAttributesBootstrap()} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href={archivePaths.asset("/favicon.ico")} sizes="32x32" />
+    <link rel="icon" href={archivePaths.asset("/favicon.svg")} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={archivePaths.asset("/apple-touch-icon.png")} />
+    <link rel="manifest" href={archivePaths.asset("/site.webmanifest")} />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="anonymous" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
+    />
+    {/* 기존 Next head와 같은 순서: favicon·manifest 뒤에 페이지 메타·canonical·llms 링크. */}
+    <SeoHeadTags head={head} />
+    <Analytics />
+    <ClientRouter fallback="swap" />
+  </head>
+  <body>
+    <Banners />
+    <div
+      id="nd-notebook-layout"
+      data-sidebar={nav ? "" : undefined}
+      data-toc-rail={tocRail ? "" : undefined}
+    >
+      <a href="#nd-page" class="sr-only">Skip to Content</a>
+      <SiteHeader client:load currentPath={currentPath} sectionId={section?.id ?? null} />
+      <DocsNav
+        client:load
+        transition:persist="docs-nav"
+        transition:persist-props
+        nav={navState.nav}
+        currentPath={navState.currentPath}
+        platform={navState.platform}
+      />
+      <slot />
+    </div>
+    <script is:inline type="application/json" id={NAV_DATA_ID} set:html={serializeNavState(navState)} />
+    {/* persist island의 overlay(모바일 SidePanel)가 붙는 곳. body가 바뀌어도 함께 옮겨진다. */}
+    <div id="docs-nav-portal" transition:persist="docs-nav-portal"></div>
+    {/* 본문 이미지 확대(`zoom` widget). widget은 DOM을 만들지 않으므로 dialog를 여기 둔다. */}
+    <dialog
+      id="docs-zoom-dialog"
+      data-widget="zoom"
+      aria-label="이미지 확대"
+      class="m-auto max-h-none max-w-none cursor-zoom-out bg-transparent p-0 backdrop:bg-fd-background/90"
+    >
+      <img alt="" class="max-h-[90dvh] max-w-[95vw] object-contain" />
+    </dialog>
+    <script>
+      // 번들 module script. 모든 문서 페이지에 같은 src라 세션당 한 번만 실행된다(단축키·이동 hook·본문 widget).
+      // React를 import하는 모듈을 여기서 부르지 않는다.
+      import "../shell/client";
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* fumadocs notebook 그리드(`fumadocs-ui/layouts/notebook/slots/container`)와 같은 영역·변수. 열 폭은 자식의
+     `layout:` variant(`:has()`) 대신 여기서 정적으로 정한다. 값은 baseline structure.json(1440px: header 76,
+     sidebar 240, toc 200)과 기존 컴포넌트의 breakpoint를 따른다. */
+  #nd-notebook-layout {
+    display: grid;
+    overflow-x: clip;
+    min-height: var(--fd-docs-height);
+    grid-auto-columns: auto;
+    grid-auto-rows: auto;
+    --fd-docs-height: 100dvh;
+    --fd-header-height: 64px;
+    --fd-toc-popover-height: 0px;
+    --fd-sidebar-width: 0px;
+    --fd-toc-width: 0px;
+    --fd-docs-row-1: var(--fd-banner-height, 0px);
+    --fd-docs-row-2: calc(var(--fd-docs-row-1) + var(--fd-header-height));
+    --fd-docs-row-3: calc(var(--fd-docs-row-2) + var(--fd-toc-popover-height));
+    --fd-sidebar-col: var(--fd-sidebar-width);
+    --fd-toc-col: var(--fd-toc-width);
+    grid-template:
+      ". header header header ."
+      "sidebar sidebar toc-popover toc-popover ."
+      "sidebar sidebar main toc ." 1fr
+      / minmax(min-content, 1fr) var(--fd-sidebar-col)
+      minmax(0, calc(var(--fd-layout-width, 97rem) - var(--fd-sidebar-col) - var(--fd-toc-col)))
+      var(--fd-toc-col) minmax(min-content, 1fr);
+  }
+
+  @media (min-width: 968px) {
+    #nd-notebook-layout {
+      --fd-header-height: 72px;
+    }
+    #nd-notebook-layout[data-sidebar] {
+      --fd-sidebar-width: 184px;
+    }
+  }
+
+  @media (min-width: 1120px) {
+    #nd-notebook-layout {
+      --fd-header-height: 76px;
+    }
+    #nd-notebook-layout[data-sidebar] {
+      --fd-sidebar-width: 208px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    #nd-notebook-layout[data-sidebar] {
+      --fd-sidebar-width: 240px;
+    }
+    #nd-notebook-layout[data-toc-rail] {
+      --fd-toc-width: 200px;
+    }
+  }
+</style>

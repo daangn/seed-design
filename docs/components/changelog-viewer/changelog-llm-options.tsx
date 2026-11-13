@@ -4,7 +4,7 @@ import { archivePaths } from "@/lib/docs-archive";
 import { getChangelogPlatform, type ChangelogPlatform } from "@/lib/changelog-platform";
 
 import { ALL } from "@/components/changelog-viewer/constants";
-import { LLMOptions } from "@/components/page-actions";
+import { PageActions as LLMOptions } from "@/src/shell/PageActions";
 import { Suspense } from "react";
 import { useQueryState } from "nuqs";
 

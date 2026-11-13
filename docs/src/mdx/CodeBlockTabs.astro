@@ -1,0 +1,25 @@
+---
+/**
+ * remarkCodeTab·remarkNpm이 만든 `<CodeBlockTabs groupId persist><CodeBlockTabsList><CodeBlockTabsTrigger value/>…
+ * </CodeBlockTabsList><CodeBlockTab value/>…</CodeBlockTabs>`. React 구현은 children을 검사해 카드 하나로 합쳤다.
+ * Astro는 children을 볼 수 없으므로 생성 노드 모양 그대로 그리고, 결과 DOM은 기존 `components/codeblock/code-tabs.tsx`
+ * (SEED `ChipTabs` 카드: 머리에 탭 + 복사 버튼, 구분선, 코드 panel)와 같다. 첫 탭·탭 안의 `pre`는 `rehypeWidgetMarkers`가 표시한다.
+ */
+import ChipTabsRoot from "./ChipTabsRoot.astro";
+
+interface Props {
+  groupId?: string;
+  persist?: boolean;
+  defaultValue?: string;
+}
+
+const { groupId } = Astro.props;
+---
+
+<ChipTabsRoot
+  codeCard
+  groupId={groupId}
+  class="shiki seed-codeblock not-prose my-4 flex flex-col overflow-hidden rounded-r3 border border-solid border-stroke-neutral-muted"
+>
+  <slot />
+</ChipTabsRoot>

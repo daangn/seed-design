@@ -1,0 +1,56 @@
+---
+/**
+ * 하이라이트된 HTML(`highlight.ts`)을 담는 코드 카드. 단일 코드는 기존 `SeedCodeBlock`(제목 없음, 떠 있는 복사 버튼),
+ * 여러 탭은 기존 `CodeTabsShell`(머리에 탭 + 복사 버튼)과 같은 마크업이다. React를 렌더링하지 않는다.
+ */
+import ChipTabsContent from "./ChipTabsContent.astro";
+import ChipTabsList from "./ChipTabsList.astro";
+import ChipTabsRoot from "./ChipTabsRoot.astro";
+import ChipTabsTrigger from "./ChipTabsTrigger.astro";
+import CopyButton from "./CopyButton.astro";
+
+interface Props {
+  /** 하나면 탭 없는 카드. */
+  items: Array<{ value: string; label: string; html: string }>;
+  groupId?: string;
+  /** 탭이 있을 때(항목 둘 이상) 문서 안에서 고유한 탭 묶음 id. */
+  tabsId?: string;
+}
+
+const { items, groupId, tabsId } = Astro.props;
+if (items.length > 1 && !tabsId)
+  throw new Error("HighlightedCodeCard: 탭이 있는 카드에는 tabsId가 필요합니다.");
+const viewport =
+  "seed-codeblock__viewport fd-scroll-container overflow-auto py-x3 text-[0.875rem] leading-[1.375rem] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-stroke-focus-ring";
+const card =
+  "shiki seed-codeblock not-prose my-4 flex flex-col overflow-hidden rounded-r3 border border-solid border-stroke-neutral-muted";
+const [single] = items;
+---
+
+{
+  items.length === 1 && single ? (
+    <figure data-code-card="true" class={`${card} relative`}>
+      <CopyButton class="absolute top-2 right-2 z-[1] rounded-r1 bg-bg-layer-default shadow-s1" />
+      <div role="region" tabindex="0" class={viewport} set:html={single.html} />
+    </figure>
+  ) : (
+    <ChipTabsRoot codeCard groupId={groupId} class={card}>
+      <div class="flex items-center gap-x2 px-x5 pt-x3_5 pb-x3">
+        <ChipTabsList tabsId={tabsId ?? ""} class="flex-1 !px-0">
+          {items.map((item, index) => (
+            <ChipTabsTrigger tabsId={tabsId ?? ""} value={item.value} selected={index === 0}>
+              {item.label}
+            </ChipTabsTrigger>
+          ))}
+        </ChipTabsList>
+        <CopyButton />
+      </div>
+      <div class="mx-x5 h-px shrink-0 bg-stroke-neutral-muted" />
+      {items.map((item, index) => (
+        <ChipTabsContent tabsId={tabsId ?? ""} value={item.value} selected={index === 0} focusable class={`${viewport} !flex-none !overflow-auto`}>
+          <Fragment set:html={item.html} />
+        </ChipTabsContent>
+      ))}
+    </ChipTabsRoot>
+  )
+}

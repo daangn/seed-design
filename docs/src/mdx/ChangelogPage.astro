@@ -1,0 +1,19 @@
+---
+/**
+ * `<ChangelogPage platform="react" />`: 패키지 CHANGELOG 목록. Phase 1에서는 필터 UI까지 정적으로 그린다(동작 없음).
+ * Phase 3에서 `ChangelogViewer`를 idle hydrate island로 바꾼다(island props 크기를 함께 정한다).
+ */
+import type { ChangelogPlatform } from "../../lib/changelog-platform";
+import { changelogEntries } from "./changelog-data";
+import { ChangelogViewerWithUrlState } from "./changelog-viewer";
+
+interface Props {
+  platform: ChangelogPlatform;
+}
+
+const { platform } = Astro.props;
+const entries = changelogEntries[platform];
+const packages = [...new Set(entries.map((entry) => entry.package.name))];
+---
+
+<ChangelogViewerWithUrlState platform={platform} entries={entries} packages={packages} />

@@ -22,7 +22,7 @@ function codeRanges(node: Readonly<Nodes>): SourceRange[] {
 
 /**
  * `remarkCodeTab`·`remarkNpm`은 코드 블록을 원문 위치 없는 `<CodeBlockTabs>`로 바꾸고, llms 출력에는
- * 원래 코드 블록을 그대로 남깁니다. llms 룰(`app/_llms/rules/codeblock-tabs-rule.ts`)은 그 JSX를 읽어
+ * 원래 코드 블록을 그대로 남깁니다. llms 룰(`lib/llms/rules/codeblock-tabs-rule.ts`)은 그 JSX를 읽어
  * 탭별 목록을 만들므로, 원래 코드 블록 자리를 생성된 JSX로 바꿔 둡니다. 두 플러그인을 앞뒤로 감싸
  * 실행 전에 원문 범위를 기록하고, 실행 뒤에 생성된 JSX를 그 범위에 씁니다.
  *

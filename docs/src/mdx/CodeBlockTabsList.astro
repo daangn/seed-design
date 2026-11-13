@@ -1,0 +1,18 @@
+---
+/** 탭 코드 카드의 머리 줄(탭 목록 + 복사 버튼)과 구분선. */
+import ChipTabsList from "./ChipTabsList.astro";
+import CopyButton from "./CopyButton.astro";
+
+interface Props {
+  /** 탭 묶음 id(`rehypeWidgetMarkers`). */
+  tabsId: string;
+}
+
+const { tabsId } = Astro.props;
+---
+
+<div class="flex items-center gap-x2 px-x5 pt-x3_5 pb-x3">
+  <ChipTabsList tabsId={tabsId} class="flex-1 !px-0"><slot /></ChipTabsList>
+  <CopyButton />
+</div>
+<div class="mx-x5 h-px shrink-0 bg-stroke-neutral-muted"></div>

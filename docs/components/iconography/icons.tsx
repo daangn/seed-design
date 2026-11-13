@@ -1,6 +1,6 @@
 "use client";
 
-import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { NuqsAdapter } from "nuqs/adapters/react";
 import { Suspense, useEffect, useState } from "react";
 
 import * as MonochormeComponents from "@karrotmarket/react-monochrome-icon";

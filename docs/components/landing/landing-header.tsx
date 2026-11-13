@@ -208,7 +208,7 @@ export function LandingHeader({ variant, tone }: { variant: HeaderVariant; tone:
           </div>
         </div>
       </header>
-      <MobileNavPanel open={panelOpen} onOpenChange={setPanelOpen} />
+      <MobileNavPanel open={panelOpen} onOpenChange={setPanelOpen} pathname="/" />
     </>
   );
 }

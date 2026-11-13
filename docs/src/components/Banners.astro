@@ -1,0 +1,84 @@
+---
+/**
+ * 사이트 배너 둘. 기존 `components/latest-version-banner.tsx`(fumadocs `Banner`)와 `site-announcement-banner.tsx`를
+ * 정적 HTML로 옮겼다. 보일지는 `src/shell/root-attributes.ts`의 head bootstrap이 첫 paint 전에 `<html>` 속성
+ * (`data-banner-latest`, `data-banner-announcement`)으로 정하고 아래 CSS가 그 속성을 읽는다. hydrate가 없어 늦게
+ * 나타나 밀리는 일(CLS)이 없다. 닫기는 `data-banner-dismiss` 버튼을 `src/shell/client.ts`가 위임으로 처리한다.
+ *
+ * - 프리뷰·이전 버전 안내: 맨 위 sticky 3rem. 보일 때 `--fd-banner-height`가 그리드 첫 행을 그만큼 내린다.
+ * - 새 소식: 화면 아래 fixed. 레이아웃에 자리를 차지하지 않는다.
+ */
+import { IconXmarkLine } from "@karrotmarket/react-monochrome-icon";
+import { IconSeedArrow } from "../../components/icon-seed-arrow";
+import { SITE_ANNOUNCEMENT_BANNER } from "../../components/site-announcement-banner-config";
+import { archivePaths } from "../../lib/docs-archive";
+
+const latestHref = archivePaths.prefix
+  ? `https://seed-design.io/${archivePaths.platform}`
+  : "https://seed-design.io";
+const announcement = SITE_ANNOUNCEMENT_BANNER;
+---
+
+<div
+  id="latest-version"
+  class="sticky top-0 z-40 h-12 flex-row items-center justify-center bg-fd-secondary px-4 text-center text-sm font-medium"
+>
+  프리뷰 또는 이전 버전의 문서를 보고 있습니다.
+  <a href={latestHref} class="ml-1 flex items-center gap-0.5 font-medium underline">
+    seed-design.io 방문 <IconSeedArrow className="size-3.5" />
+  </a>
+  <button
+    type="button"
+    aria-label="Close Banner"
+    data-banner-dismiss="latest"
+    class="absolute inset-e-2 top-1/2 inline-flex -translate-y-1/2 items-center justify-center rounded-md p-1.5 text-fd-muted-foreground/50 transition-colors duration-100 hover:bg-fd-accent hover:text-fd-accent-foreground [&_svg]:size-4.5"
+  >
+    <IconXmarkLine aria-hidden="true" />
+  </button>
+</div>
+
+{
+  announcement.enabled && (
+    <div
+      id="site-announcement"
+      class="pointer-events-none fixed inset-x-0 bottom-0 z-[900]"
+      role="region"
+      aria-label="사이트 새 소식"
+    >
+      <div class="pointer-events-auto flex min-h-12 w-full items-stretch overflow-hidden bg-[#1a1c20] pb-[env(safe-area-inset-bottom)]">
+        <a
+          href={announcement.href}
+          data-banner-dismiss="announcement"
+          class="flex min-w-0 flex-1 items-center gap-1 px-5 py-3 text-sm font-semibold text-[#d6fead] transition-colors duration-color-transition hover:bg-[#202329] focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-stroke-focus-ring motion-reduce:transition-none md:text-base"
+        >
+          <span class="line-clamp-2">{announcement.message}</span>
+          <IconSeedArrow className="size-4 flex-none" />
+        </a>
+        <button
+          type="button"
+          aria-label="새 소식 배너 닫기"
+          data-banner-dismiss="announcement"
+          class="flex size-12 flex-none items-center justify-center self-center text-[#d6fead] transition-[background-color,transform] duration-color-transition hover:bg-[#202329] active:[transform:scale(0.96)] focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-stroke-focus-ring motion-reduce:transition-none"
+        >
+          <IconXmarkLine className="size-4" aria-hidden="true" />
+        </button>
+      </div>
+    </div>
+  )
+}
+
+<style is:global>
+  #latest-version,
+  #site-announcement {
+    display: none;
+  }
+  html[data-banner-latest] {
+    --fd-banner-height: 3rem;
+  }
+  html[data-banner-latest] #latest-version {
+    display: flex;
+  }
+  html[data-banner-announcement] #site-announcement {
+    display: block;
+  }
+</style>

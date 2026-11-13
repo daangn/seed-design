@@ -1,0 +1,10 @@
+---
+/**
+ * `<IconLibrary />`: 아이콘 검색·상세 패널(URL 상태는 `nuqs/adapters/react`). React만 그릴 수 있는 내용이라 island다.
+ * 기존 Next 구현(`components/iconography/icon-library-lazy.tsx`)처럼 서버 HTML 없이 브라우저에서만 그린다
+ * (only 지시어). 아이콘 세트 전체를 import하므로 이 문서에서만 받는다.
+ */
+import { IconLibrary } from "../../../components/iconography/icons";
+---
+
+<IconLibrary client:only="react" />

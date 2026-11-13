@@ -1,0 +1,15 @@
+---
+// Google Analytics(기존 `components/google-analytics.tsx`와 같은 측정 ID). 이동별 page_view는 GA4 향상된 측정에 맡긴다.
+// PostHog 초기화는 Phase 2에서 `src/shell/client.ts`로 옮긴다.
+const GA_MEASUREMENT_ID = "G-02SS22W02G";
+---
+
+<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>
+<script is:inline define:vars={{ GA_MEASUREMENT_ID }}>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+  gtag("config", GA_MEASUREMENT_ID);
+</script>
