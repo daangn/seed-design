@@ -19,7 +19,7 @@ import { PresenceState } from "@lynx-js/lynx-ui-presence";
 import { useMotionValueRef } from "@lynx-js/motion/mini";
 
 import { SheetContext } from "../context";
-import type { SheetMethods } from "../context";
+import type { SheetLayerSize, SheetMethods } from "../context";
 import type { SheetRootProps, SheetRootRef } from "../types";
 import { resolveSheetSide } from "../utils";
 
@@ -56,6 +56,14 @@ export const SheetRoot: ForwardRefExoticComponent<SheetRootProps & RefAttributes
     const actualShow = isControlled ? show : uncontrolledShow;
 
     const [mounted, setMounted] = useState<boolean>(actualShow ? true : false);
+
+    // `vh`·`vw`는 레이어가 아니라 LynxView viewport 기준이라, 레이어에 그려지는 시트는 측정한 크기로 계산한다.
+    const [layerSize, setLayerSizeState] = useState<SheetLayerSize>({});
+    const setLayerSize = useCallback((axis: keyof SheetLayerSize, size: number | undefined) => {
+      setLayerSizeState((prev) => (prev[axis] === size ? prev : { ...prev, [axis]: size }));
+    }, []);
+    const resolvedScreenHeight = screenHeight ?? layerSize.height;
+    const resolvedScreenWidth = screenWidth ?? layerSize.width;
 
     useEffect(() => {
       if (actualShow && !mounted) {
@@ -141,8 +149,10 @@ export const SheetRoot: ForwardRefExoticComponent<SheetRootProps & RefAttributes
         side,
         enableRTL,
         resolvedSide,
-        screenHeight,
-        screenWidth,
+        screenHeight: resolvedScreenHeight,
+        screenWidth: resolvedScreenWidth,
+        layerSize,
+        setLayerSize,
         rubberBand,
         dragDisabled,
         dismissThreshold,
@@ -167,8 +177,10 @@ export const SheetRoot: ForwardRefExoticComponent<SheetRootProps & RefAttributes
         side,
         enableRTL,
         resolvedSide,
-        screenHeight,
-        screenWidth,
+        resolvedScreenHeight,
+        resolvedScreenWidth,
+        layerSize,
+        setLayerSize,
         rubberBand,
         dragDisabled,
         dismissThreshold,

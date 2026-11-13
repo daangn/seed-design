@@ -4058,10 +4058,10 @@ text {
 
 .seed-dialog__content {
   box-sizing: border-box;
-  opacity: 0;
   width: 90%;
   min-height: 0;
-  max-height: 80vh;
+  max-height: calc(.8 * var(--dialog-layer-height, 100vh));
+  opacity: 0;
   z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
   background-color: var(--seed-color-bg-layer-floating);
   border-radius: var(--seed-radius-r5);

@@ -9,6 +9,8 @@ export { SheetContent } from "./SheetContent";
 export { SheetHandle } from "./SheetHandle";
 export { SheetView } from "./SheetView";
 export { useSnap } from "./hooks";
+export { useSheetContext } from "./context";
+export type { SheetLayerSize } from "./context";
 
 export type {
   SheetBackdropProps,
