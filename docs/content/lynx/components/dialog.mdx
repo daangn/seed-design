@@ -188,7 +188,7 @@ React 예제는 `closeButton`, `escapeKeyDown`, `interactOutside`별로 확인 D
 
 ### Portalled
 
-`container`를 지정하지 않으면 Dialog는 Lynx view 안에 렌더링됩니다. `container="window"`처럼 native container 이름을 지정하면 host 화면까지 덮는 native overlay에 렌더링됩니다. `overlayLevel`은 overlay의 표시 순서를 정합니다.
+`container`를 지정하지 않으면 Dialog는 Lynx view 안에 렌더링됩니다. `container="window"`처럼 native container 이름을 지정하면 host 화면까지 덮는 native overlay에 렌더링됩니다. `overlayLevel`은 overlay의 표시 순서를 정합니다. `container`를 지정하면 Dialog의 Safe Area 여백은 [`SeedProvider`](/lynx/getting-started/host-integration#overlay-레이어의-safe-area)의 `windowSafeAreaInsets`를 따릅니다.
 
 <LynxComponentExample name="lynx/dialog/portalled" height={520}>
   ```json doc-gen:file

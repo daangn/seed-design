@@ -51,7 +51,9 @@ vi.mock("@lynx-js/lynx-ui-dialog", () => {
 });
 
 import * as Dialog from "./Dialog.namespace";
+import { SafeAreaProvider } from "@seed-design/lynx-react-use-safe-area";
 import { ActionButton } from "../ActionButton";
+import { SeedProvider } from "../../contexts/SeedContext";
 
 interface TestLynxGlobal {
   lynx?: {
@@ -256,5 +258,71 @@ describe("Dialog", () => {
       paddingLeft: "0px",
       opacity: 0.5,
     });
+  });
+});
+
+describe("Dialog window safe area", () => {
+  const viewInsets = { top: 0, right: 0, bottom: 0, left: 0 };
+  const windowInsets = { top: 47, right: 0, bottom: 34, left: 59 };
+
+  function renderInSeed({
+    container,
+    windowSafeAreaInsets,
+  }: {
+    container?: string;
+    windowSafeAreaInsets?: typeof windowInsets;
+  }) {
+    render(
+      <SeedProvider safeAreaInsets={viewInsets} windowSafeAreaInsets={windowSafeAreaInsets}>
+        <Dialog.Root open>
+          <Dialog.Positioner container={container}>
+            <Dialog.Content />
+          </Dialog.Positioner>
+        </Dialog.Root>
+      </SeedProvider>,
+    );
+
+    return dialogViewStyles.at(-1);
+  }
+
+  it("pads a native overlay dialog by the window insets", () => {
+    expect(renderInSeed({ container: "window", windowSafeAreaInsets: windowInsets })).toMatchObject(
+      {
+        paddingTop: "47px",
+        paddingRight: "0px",
+        paddingBottom: "47px",
+        paddingLeft: "59px",
+      },
+    );
+  });
+
+  it("keeps the view insets for a dialog inside the Lynx view", () => {
+    expect(renderInSeed({ windowSafeAreaInsets: windowInsets })).toMatchObject({
+      paddingTop: "0px",
+      paddingLeft: "0px",
+    });
+  });
+
+  it("keeps the view insets for a native overlay dialog without window insets", () => {
+    expect(renderInSeed({ container: "window" })).toMatchObject({
+      paddingTop: "0px",
+      paddingLeft: "0px",
+    });
+  });
+
+  it("prefers window insets over a SafeAreaProvider outside the positioner", () => {
+    render(
+      <SeedProvider windowSafeAreaInsets={windowInsets}>
+        <SafeAreaProvider insets={viewInsets}>
+          <Dialog.Root open>
+            <Dialog.Positioner container="window">
+              <Dialog.Content />
+            </Dialog.Positioner>
+          </Dialog.Root>
+        </SafeAreaProvider>
+      </SeedProvider>,
+    );
+
+    expect(dialogViewStyles.at(-1)).toMatchObject({ paddingTop: "47px", paddingLeft: "59px" });
   });
 });

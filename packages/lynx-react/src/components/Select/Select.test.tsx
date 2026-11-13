@@ -7,6 +7,7 @@ import type * as Floating from "@seed-design/lynx-react-floating";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { Select } from "./index";
+import { SeedProvider } from "../../contexts/SeedContext";
 
 const geometry = vi.hoisted(() => ({
   computePosition: vi.fn(),
@@ -328,5 +329,50 @@ describe("Select", () => {
         width: "180px",
       });
     });
+  });
+});
+
+describe("Select window safe area", () => {
+  const viewInsets = { top: 0, right: 0, bottom: 0, left: 0 };
+  const windowInsets = { top: 59, right: 0, bottom: 34, left: 0 };
+
+  /** `SafeAreaProbe`의 오른쪽 아래 node는 위치 계산 경계의 아래쪽 끝을 하단 inset으로 정합니다. */
+  function renderProbeBottom({
+    container,
+    windowSafeAreaInsets,
+  }: {
+    container?: string;
+    windowSafeAreaInsets?: typeof windowInsets;
+  }) {
+    render(
+      <SeedProvider safeAreaInsets={viewInsets} windowSafeAreaInsets={windowSafeAreaInsets}>
+        <Select.Root>
+          <Select.Trigger accessibility-label="열기" />
+          <Select.Positioner container={container}>
+            <Select.Content />
+          </Select.Positioner>
+        </Select.Root>
+      </SeedProvider>,
+    );
+
+    const probe = Array.from(getRenderedRoot().querySelectorAll<HTMLElement>("view")).find(
+      (element) => element.style.width === "0px" && element.style.right !== "",
+    );
+    if (!probe) throw new Error("Expected the safe area probe to be rendered.");
+    return probe.style.bottom;
+  }
+
+  it("bounds a native overlay list by the window inset", () => {
+    expect(renderProbeBottom({ container: "window", windowSafeAreaInsets: windowInsets })).toBe(
+      "34px",
+    );
+  });
+
+  it("keeps the view inset for a list inside the Lynx view", () => {
+    expect(renderProbeBottom({ windowSafeAreaInsets: windowInsets })).toBe("0px");
+  });
+
+  it("keeps the view inset for a native overlay list without window insets", () => {
+    expect(renderProbeBottom({ container: "window" })).toBe("0px");
   });
 });

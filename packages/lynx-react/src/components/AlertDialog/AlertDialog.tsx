@@ -37,6 +37,7 @@ import {
   getAccessibleText,
   useInsideAccessibilityElement,
 } from "../../utils/accessibility";
+import { OverlaySafeAreaProvider } from "@seed-design/lynx-react-use-safe-area";
 import { useDialogSafeAreaStyle } from "../private/DialogSafeArea";
 
 type AlertDialogComponent<Props> = ((props: Props) => ReactElement) & {
@@ -137,22 +138,33 @@ AlertDialogTrigger.displayName = "AlertDialogTrigger";
 
 export interface AlertDialogPositionerProps extends HeadlessDialogPositionerProps {}
 
-/** @platform Lynx — maps to `DialogView`; refs are unsupported. */
-export const AlertDialogPositioner = forwardRef<never, AlertDialogPositionerProps>(
-  (props, _ref) => {
-    const { className, style, transition = true, ...positionerProps } = props;
-    const classNames = useClassNames();
-    const safeAreaStyle = useDialogSafeAreaStyle();
+function AlertDialogPositionerLayer(props: AlertDialogPositionerProps) {
+  const { className, style, transition = true, ...positionerProps } = props;
+  const classNames = useClassNames();
+  const safeAreaStyle = useDialogSafeAreaStyle();
 
-    return (
-      <HeadlessDialogPositioner
-        {...positionerProps}
-        className={clsx(classNames.positioner, className)}
-        style={{ ...safeAreaStyle, ...style }}
-        transition={transition}
-      />
-    );
-  },
+  return (
+    <HeadlessDialogPositioner
+      {...positionerProps}
+      className={clsx(classNames.positioner, className)}
+      style={{ ...safeAreaStyle, ...style }}
+      transition={transition}
+    />
+  );
+}
+
+/**
+ * @platform Lynx — maps to `DialogView`; refs are unsupported.
+ *
+ * `container`를 지정하면 `SeedProvider`의 `windowSafeAreaInsets`가 있을 때 그 값으로 padding을 정한다.
+ */
+export const AlertDialogPositioner = forwardRef<never, AlertDialogPositionerProps>(
+  (props, _ref) => (
+    // padding을 계산하는 Layer보다 바깥에서 safe area를 정해야 window 기준 값이 padding에 반영된다.
+    <OverlaySafeAreaProvider container={props.container}>
+      <AlertDialogPositionerLayer {...props} />
+    </OverlaySafeAreaProvider>
+  ),
 ) as AlertDialogComponent<AlertDialogPositionerProps>;
 AlertDialogPositioner.displayName = "AlertDialogPositioner";
 
