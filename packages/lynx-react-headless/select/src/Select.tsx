@@ -12,6 +12,7 @@ import {
   computePosition,
   measureFloatingBoundary,
   measureReferenceRect,
+  OverlaySafeAreaProvider,
   SafeAreaProbe,
 } from "@seed-design/lynx-react-floating";
 
@@ -319,33 +320,35 @@ export const SelectPositioner = React.forwardRef<unknown, SelectPositionerProps>
   };
 
   return (
-    <OverlayView
-      container={container}
-      overlayLevel={overlayLevel}
-      overlayViewProps={container ? overlayLayerProps : overlayViewProps}
-      className={className}
-      style={{
-        position: container ? "relative" : "fixed",
-        left: "0px",
-        top: "0px",
-        width: "100%",
-        height: "100%",
-        // view 모드는 visible이 없어 display로 숨깁니다. iOS에서 숨긴 view의 text가 그려지지 않도록
-        // overflow도 함께 바꿉니다. 지운 inline key는 이전 값이 남을 수 있어 항상 지정합니다.
-        ...(container
-          ? {}
-          : { display: mounted ? "flex" : "none", overflow: mounted ? "visible" : "hidden" }),
-        ...style,
-      }}
-    >
-      <view ref={handleLayerRef as ViewProps["ref"]} style={FILL_STYLE} {...nativeProps}>
-        <view style={BACKDROP_STYLE} bindtap={handleBackdropTap}>
-          <SafeAreaProbe nodesRef={safeAreaRef} position="absolute" />
+    <OverlaySafeAreaProvider container={container}>
+      <OverlayView
+        container={container}
+        overlayLevel={overlayLevel}
+        overlayViewProps={container ? overlayLayerProps : overlayViewProps}
+        className={className}
+        style={{
+          position: container ? "relative" : "fixed",
+          left: "0px",
+          top: "0px",
+          width: "100%",
+          height: "100%",
+          // view 모드는 visible이 없어 display로 숨깁니다. iOS에서 숨긴 view의 text가 그려지지 않도록
+          // overflow도 함께 바꿉니다. 지운 inline key는 이전 값이 남을 수 있어 항상 지정합니다.
+          ...(container
+            ? {}
+            : { display: mounted ? "flex" : "none", overflow: mounted ? "visible" : "hidden" }),
+          ...style,
+        }}
+      >
+        <view ref={handleLayerRef as ViewProps["ref"]} style={FILL_STYLE} {...nativeProps}>
+          <view style={BACKDROP_STYLE} bindtap={handleBackdropTap}>
+            <SafeAreaProbe nodesRef={safeAreaRef} position="absolute" />
+          </view>
+          {triggerProxyStyle && <view style={triggerProxyStyle} {...triggerHandlers} />}
+          {children}
         </view>
-        {triggerProxyStyle && <view style={triggerProxyStyle} {...triggerHandlers} />}
-        {children}
-      </view>
-    </OverlayView>
+      </OverlayView>
+    </OverlaySafeAreaProvider>
   );
 });
 SelectPositioner.displayName = "SelectPositioner";

@@ -100,6 +100,7 @@ describe("useSeedContext", () => {
   it("inherits omitted fields from an outer provider and nested safe area", () => {
     const outerInsets = { top: 47, right: 0, bottom: 34, left: 0 };
     const overlayInsets = { top: 0, right: 0, bottom: 0, left: 0 };
+    const windowInsets = { top: 59, right: 0, bottom: 34, left: 0 };
 
     const { result } = renderHook(() => useSeedContext(), {
       wrapper: ({ children }: { children: ReactNode }) => (
@@ -107,6 +108,7 @@ describe("useSeedContext", () => {
           preferredColorScheme="dark"
           preferredMotion="reduced"
           safeAreaInsets={outerInsets}
+          windowSafeAreaInsets={windowInsets}
         >
           <SeedProvider preferredColorScheme="light">
             <SafeAreaProvider insets={overlayInsets}>{children}</SafeAreaProvider>
@@ -119,6 +121,7 @@ describe("useSeedContext", () => {
       preferredColorScheme: "light",
       preferredMotion: "reduced",
       safeAreaInsets: overlayInsets,
+      windowSafeAreaInsets: windowInsets,
     });
   });
 

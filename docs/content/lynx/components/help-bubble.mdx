@@ -169,7 +169,7 @@ Lynx title에서는 React의 `<br />` 대신 native `<text>` 자식과 `"\n"`을
 
 ### Portalled
 
-`container`를 지정하지 않으면 말풍선은 Lynx view 안의 `position: fixed` view로 렌더링됩니다. `container="window"`처럼 native container 이름을 지정하면 native overlay 레이어에 렌더링되어 Lynx view 밖의 host 화면까지 덮습니다. `overlayLevel`은 `container`를 지정했을 때 overlay 레이어의 표시 순서를 정합니다.
+`container`를 지정하지 않으면 말풍선은 Lynx view 안의 `position: fixed` view로 렌더링됩니다. `container="window"`처럼 native container 이름을 지정하면 native overlay 레이어에 렌더링되어 Lynx view 밖의 host 화면까지 덮습니다. `overlayLevel`은 `container`를 지정했을 때 overlay 레이어의 표시 순서를 정합니다. `container`를 지정하면 말풍선 위치를 제한하는 Safe Area 경계는 [`SeedProvider`](/lynx/getting-started/host-integration#overlay-레이어의-safe-area)에 넘긴 `windowSafeAreaInsets`를 따릅니다. 값을 넘기지 않았으면 `safeAreaInsets`를 따릅니다.
 
 overlay 레이어는 말풍선이 아닌 곳의 탭을 아래 화면으로 넘깁니다. `closeOnInteractOutside`가 `true`이면 같은 탭으로 말풍선도 닫힙니다.
 

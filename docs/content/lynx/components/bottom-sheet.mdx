@@ -56,8 +56,6 @@ export function App() {
 
 `BottomSheetTrigger`는 Content 밖에 두세요.
 
-`container`를 지정하지 않으면 Bottom Sheet는 Lynx view 안에 렌더링됩니다. `container="window"`처럼 native container 이름을 지정하면 host 화면까지 덮는 native overlay에 렌더링됩니다. `overlayLevel`은 overlay의 표시 순서를 정합니다. 이 기능을 사용할 때는 앱의 Lynx Engine이 `<overlay>`를 지원해야 합니다.
-
 ### Imperative 제어
 
 `BottomSheetRoot`에 `ref`를 전달하면 `open`, `close`, `snapTo`, `expand`, `collapse` 메서드를 호출할 수 있습니다. 이 메서드로 바꾼 열림 상태는 `onOpenChange`로 알리지 않습니다. `open`을 제어하는 경우에는 메서드 대신 `open` 값을 바꾸세요.
@@ -222,6 +220,16 @@ Lynx에는 배경 탭, 드래그, ESC 닫기를 한 번에 제어하는 `dismiss
 <LynxComponentExample name="lynx/bottom-sheet/handle-only" height={520}>
   ```json doc-gen:file
   {"file":"examples/lynx/bottom-sheet/handle-only.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Portalled
+
+`container`를 지정하지 않으면 Bottom Sheet는 Lynx view 안에 렌더링됩니다. `container="window"`처럼 native container 이름을 지정하면 host 화면까지 덮는 native overlay에 렌더링됩니다. `overlayLevel`은 overlay의 표시 순서를 정합니다. 이 기능을 사용할 때는 앱의 Lynx Engine이 `<overlay>`를 지원해야 합니다. `container`를 지정하면 시트의 Safe Area 여백은 [`SeedProvider`](/lynx/getting-started/host-integration#overlay-레이어의-safe-area)에 넘긴 `windowSafeAreaInsets`를 따릅니다. 값을 넘기지 않았으면 `safeAreaInsets`를 따릅니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/portalled" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/portalled.tsx","codeblock":true}
   ```
 </LynxComponentExample>
 
