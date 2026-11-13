@@ -3,6 +3,9 @@ import { getRectByRef } from "@lynx-js/lynx-ui-common";
 import type { CSSProperties, IntrinsicElements, NodesRef } from "@lynx-js/types";
 import { useSafeArea } from "@seed-design/lynx-react-use-safe-area";
 
+/** @internal overlay 레이어의 window 기준 inset. floating 레이어 패키지가 이 패키지를 통해 쓴다. */
+export { OverlaySafeAreaProvider } from "@seed-design/lynx-react-use-safe-area";
+
 import type { Rect } from "./computePosition.js";
 
 type ViewProps = IntrinsicElements["view"];

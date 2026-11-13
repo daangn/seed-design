@@ -34,6 +34,7 @@ import {
 } from "@lynx-js/react";
 import clsx from "clsx";
 
+import { OverlaySafeAreaProvider } from "@seed-design/lynx-react-use-safe-area";
 import { useSafeArea } from "../../hooks/useSafeArea";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
@@ -177,6 +178,9 @@ export interface BottomSheetPositionerProps extends HeadlessBottomSheetPositione
 /**
  * Backdrop/Content는 반드시 `BottomSheetPositioner` 안에 배치해야 한다.
  *
+ * `container`를 지정하면 native overlay에 렌더링하고, `SeedProvider`의 `windowSafeAreaInsets`가 있으면
+ * 하위 트리의 safe area로 그 값을 쓴다.
+ *
  * `SheetView`는 `mounted || forceMount` 조건으로 자식을 gating하므로 시트가 처음
  * 열리기 전까지는 SheetBackdrop/SheetContent가 마운트되지 않아 motion value
  * 초기화 레이스를 피할 수 있다. Trigger는 이 컴포넌트 밖에 두어야 탭 가능하다.
@@ -184,8 +188,17 @@ export interface BottomSheetPositionerProps extends HeadlessBottomSheetPositione
  * recipe의 `positioner` slot className을 자동 적용해 `position: fixed` + 전체
  * 뷰포트 커버 레이아웃을 보장한다.
  */
+const StyledBottomSheetPositioner = withContext<unknown, BottomSheetPositionerProps>(
+  HeadlessBottomSheetPositioner,
+  "positioner",
+);
+
 export const BottomSheetPositioner: LynxForwardRefComponent<unknown, BottomSheetPositionerProps> =
-  withContext<unknown, BottomSheetPositionerProps>(HeadlessBottomSheetPositioner, "positioner");
+  forwardRef<unknown, BottomSheetPositionerProps>((props, ref) => (
+    <OverlaySafeAreaProvider container={props.container}>
+      <StyledBottomSheetPositioner {...(ref ? { ref } : {})} {...props} />
+    </OverlaySafeAreaProvider>
+  ));
 BottomSheetPositioner.displayName = "BottomSheetPositioner";
 
 ////////////////////////////////////////////////////////////////////////////////////

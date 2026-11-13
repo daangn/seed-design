@@ -56,7 +56,9 @@ function Screen() {
 
 ### Overlay에서 다른 Safe Area 쓰기
 
-같은 LynxView의 `<overlay>`처럼 영역마다 다른 inset이 필요하면 그 영역 안에 `SafeAreaProvider`를 중첩합니다. 그 아래의 `useSafeArea()`와 `Box`의 `"safeArea"`는 가장 가까운 Provider 값을 씁니다.
+Bottom Sheet·Dialog·Select처럼 overlay 레이어를 그리는 컴포넌트에 `container`를 지정하면, 그 레이어 안의 `useSafeArea()`는 `SeedProvider`의 `windowSafeAreaInsets`를 반환합니다. 값을 넘기지 않았으면 레이어 밖과 같은 값을 반환합니다. 자세한 규칙은 [Host Integration](/lynx/getting-started/host-integration#overlay-레이어의-safe-area)을 참고하세요.
+
+영역마다 다른 inset이 필요하면 그 영역 안에 `SafeAreaProvider`를 중첩합니다. 그 아래의 `useSafeArea()`와 `Box`의 `"safeArea"`는 가장 가까운 Provider 값을 씁니다.
 
 ```tsx
 import { SafeAreaProvider } from "@seed-design/lynx-react";
@@ -70,7 +72,7 @@ import { SafeAreaProvider } from "@seed-design/lynx-react";
 
 값 소스 우선순위는 다음과 같습니다.
 
-1. 가장 가까운 `SafeAreaProvider` 또는 `SeedProvider`의 `safeAreaInsets`
+1. 가장 가까운 `SafeAreaProvider` 또는 `SeedProvider`의 `safeAreaInsets`. `container`를 지정한 overlay 레이어 안에서는 `SeedProvider`의 `windowSafeAreaInsets`가 레이어 바깥의 값보다 우선하고, 레이어 안에 중첩한 `SafeAreaProvider`가 그보다 우선합니다.
 2. `lynx.__globalProps.safeAreaInset*` (다음 메이저 버전에서 제거 예정)
 3. `env(safe-area-inset-*)`
 

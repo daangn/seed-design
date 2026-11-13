@@ -31,17 +31,23 @@ interface HostGlobalProps {
   safeAreaInsetRight?: number;
   safeAreaInsetBottom?: number;
   safeAreaInsetLeft?: number;
+  // LynxView 위치와 무관한 window 기준 값. 지원하지 않는 host는 null을 주거나 키를 두지 않는다.
+  windowSafeAreaInsetTop?: number | null;
+  windowSafeAreaInsetRight?: number | null;
+  windowSafeAreaInsetBottom?: number | null;
+  windowSafeAreaInsetLeft?: number | null;
 }
 
 const isValidInset = (value: unknown): value is number =>
   typeof value === "number" && Number.isFinite(value) && value >= 0;
 
-function toSafeAreaInsets(g: HostGlobalProps): SafeAreaInsets | undefined {
-  const top = g.safeAreaInsetTop;
-  const right = g.safeAreaInsetRight;
-  const bottom = g.safeAreaInsetBottom;
-  const left = g.safeAreaInsetLeft;
-  // 4방향 모두 0 이상의 유한한 숫자일 때만 넘긴다. 값이 없거나 음수·NaN이 섞이면 edge별 fallback을 쓴다.
+function toInsets(
+  top: unknown,
+  right: unknown,
+  bottom: unknown,
+  left: unknown,
+): SafeAreaInsets | undefined {
+  // 4방향 모두 0 이상의 유한한 숫자일 때만 넘긴다. 값이 없거나 null·음수·NaN이 섞이면 넘기지 않는다.
   if (!isValidInset(top) || !isValidInset(right) || !isValidInset(bottom) || !isValidInset(left)) {
     return undefined;
   }
@@ -64,7 +70,18 @@ function Root() {
     <SeedProvider
       preferredColorScheme={g.theme?.toLowerCase() === "dark" ? "dark" : "light"}
       preferredMotion={g.motion === "reduced" ? "reduced" : "default"}
-      safeAreaInsets={toSafeAreaInsets(g)}
+      safeAreaInsets={toInsets(
+        g.safeAreaInsetTop,
+        g.safeAreaInsetRight,
+        g.safeAreaInsetBottom,
+        g.safeAreaInsetLeft,
+      )}
+      windowSafeAreaInsets={toInsets(
+        g.windowSafeAreaInsetTop,
+        g.windowSafeAreaInsetRight,
+        g.windowSafeAreaInsetBottom,
+        g.windowSafeAreaInsetLeft,
+      )}
     >
       <Page />
     </SeedProvider>

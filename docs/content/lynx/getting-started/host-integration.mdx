@@ -15,6 +15,7 @@ SEED는 특정 호스트의 global props 키를 직접 읽지 않고, 앱이 `Se
 | `preferredColorScheme` | `"light" \| "dark"` | `useSeedClassName`의 `colorMode: "system"`, 아이콘 색상 동기화, Liquid Glass tint | `"light"` |
 | `preferredMotion` | `"default" \| "reduced"` | [Scale Feedback](/lynx/components/concepts/scale-feedback). `"reduced"`이면 눌림 축소를 끕니다 | `"default"` |
 | `safeAreaInsets` | `{ top, right, bottom, left }` (논리 px) | `useSafeArea`, `Box`의 `"safeArea"`, AppBar, Dialog, MenuSheet, floating 레이어 경계 | `env(safe-area-inset-*)` |
+| `windowSafeAreaInsets` | `{ top, right, bottom, left }` (논리 px) | `container`를 지정한 overlay 레이어([Overlay 레이어의 Safe Area](#overlay-레이어의-safe-area)) | 바깥 값, 없으면 그 레이어도 `safeAreaInsets` |
 
 화면 크기는 넘기지 않습니다. SEED는 [`useViewport`](/lynx/hooks/use-viewport)로 현재 LynxView 크기를 직접 측정합니다.
 
@@ -37,6 +38,11 @@ interface HostGlobalProps {
   safeAreaInsetRight?: number;
   safeAreaInsetBottom?: number;
   safeAreaInsetLeft?: number;
+  // LynxView 위치와 무관한 화면 전체(window) 기준 값입니다. 지원하지 않는 host는 `null`을 주거나 키를 두지 않습니다.
+  windowSafeAreaInsetTop?: number | null;
+  windowSafeAreaInsetRight?: number | null;
+  windowSafeAreaInsetBottom?: number | null;
+  windowSafeAreaInsetLeft?: number | null;
 }
 
 function Page() {
@@ -52,10 +58,13 @@ function Page() {
 const isValidInset = (value: unknown): value is number =>
   typeof value === "number" && Number.isFinite(value) && value >= 0;
 
-function toSafeAreaInsets(g: HostGlobalProps): SafeAreaInsets | undefined {
-  const { safeAreaInsetTop: top, safeAreaInsetRight: right } = g;
-  const { safeAreaInsetBottom: bottom, safeAreaInsetLeft: left } = g;
-  // 4방향 모두 0 이상의 유한한 숫자일 때만 넘깁니다.
+function toInsets(
+  top: unknown,
+  right: unknown,
+  bottom: unknown,
+  left: unknown,
+): SafeAreaInsets | undefined {
+  // 4방향 모두 0 이상의 유한한 숫자일 때만 넘깁니다. `null`이 하나라도 있으면 넘기지 않습니다.
   if (!isValidInset(top) || !isValidInset(right) || !isValidInset(bottom) || !isValidInset(left)) {
     return undefined;
   }
@@ -69,7 +78,18 @@ function Root() {
     <SeedProvider
       preferredColorScheme={g.theme === "dark" ? "dark" : "light"}
       preferredMotion={g.motion === "reduced" ? "reduced" : "default"}
-      safeAreaInsets={toSafeAreaInsets(g)}
+      safeAreaInsets={toInsets(
+        g.safeAreaInsetTop,
+        g.safeAreaInsetRight,
+        g.safeAreaInsetBottom,
+        g.safeAreaInsetLeft,
+      )}
+      windowSafeAreaInsets={toInsets(
+        g.windowSafeAreaInsetTop,
+        g.windowSafeAreaInsetRight,
+        g.windowSafeAreaInsetBottom,
+        g.windowSafeAreaInsetLeft,
+      )}
     >
       <Page />
     </SeedProvider>
@@ -89,9 +109,19 @@ root.render(<Root />);
 
 `safeAreaInsets`를 생략하면 `env(safe-area-inset-*)`를 씁니다. Android에서는 이 CSS 함수가 동작하지 않아 Safe Area가 `0`처럼 보일 수 있으니, 호스트가 값을 주지 않는 경우의 보정도 앱에서 정하세요.
 
-### Overlay 안에서 다른 Safe Area 쓰기
+`safeAreaInsets`는 LynxView가 놓인 자리에서 가려지는 양이고, `windowSafeAreaInsets`는 LynxView 위치와 무관한 화면 전체(window) 기준 inset입니다. LynxView가 화면 전체를 쓰면 두 값이 같고, 탭이나 채팅 화면 상단에 임베드되면 `safeAreaInsets`는 `0`일 수 있습니다. 페이지 root 여백에는 `safeAreaInsets`를 씁니다. SEED는 `windowSafeAreaInsets`를 window에 그리는 overlay 레이어에만 씁니다.
 
-같은 LynxView의 `<overlay>`는 global props를 공유합니다. fullscreen과 overlay에 다른 Safe Area가 필요하면 overlay 콘텐츠 안에 `SafeAreaProvider`를 중첩합니다. 그 영역의 `useSafeArea()`와 `useSeedContext().safeAreaInsets`가 함께 바뀝니다.
+`windowSafeAreaInsets`도 4방향을 모두 넘깁니다. 이 값을 주지 않는 호스트가 있으므로, global props 값이 `null`이거나 없으면 위 예제처럼 넘기지 마세요. 생략하면 overlay 레이어도 `safeAreaInsets`를 씁니다.
+
+### Overlay 레이어의 Safe Area
+
+Bottom Sheet·Menu Sheet·Dialog·Alert Dialog·Menu·Select·Help Bubble에 `container`를 지정하면 컴포넌트가 레이어를 LynxView 밖 window의 native `<overlay>`에 그립니다. 이 레이어는 `windowSafeAreaInsets`를 Safe Area로 씁니다. 시트와 Dialog의 여백, Menu·Select·Help Bubble의 위치 경계가 이 값을 따르고, 레이어 안의 `useSafeArea()`와 `useSeedContext().safeAreaInsets`도 이 값을 반환합니다. SEED는 `container` 값의 종류(`"window"`, iOS의 `"page"`·`"top"` 등)를 구분하지 않습니다.
+
+- `container`가 없는 레이어는 LynxView 안에 그려지므로 `windowSafeAreaInsets`를 넘겨도 `safeAreaInsets`를 씁니다.
+- `windowSafeAreaInsets`를 생략하면 `container`를 지정한 레이어도 가장 가까운 `safeAreaInsets`를 씁니다.
+- Positioner 바깥을 `SafeAreaProvider`로 감싸도 `container`를 지정한 레이어에서는 `windowSafeAreaInsets`가 우선합니다.
+
+레이어 안의 특정 영역만 다른 inset을 쓰려면 그 영역 안에 `SafeAreaProvider`를 중첩합니다. 중첩한 Provider가 `windowSafeAreaInsets`보다 우선하며, 그 영역의 `useSafeArea()`와 `useSeedContext().safeAreaInsets`가 함께 바뀝니다. Dialog·Alert Dialog의 여백은 Positioner가 정하므로 Content 안에 중첩한 Provider의 영향을 받지 않습니다.
 
 ```tsx
 import { SafeAreaProvider } from "@seed-design/lynx-react";

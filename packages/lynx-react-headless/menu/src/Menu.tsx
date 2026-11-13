@@ -12,6 +12,7 @@ import {
   computePosition,
   measureFloatingBoundary,
   measureReferenceRect,
+  OverlaySafeAreaProvider,
   SafeAreaProbe,
 } from "@seed-design/lynx-react-floating";
 import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
@@ -326,28 +327,30 @@ export const MenuPositioner = React.forwardRef<unknown, MenuPositionerProps>((pr
   };
 
   return (
-    <OverlayView
-      container={container}
-      overlayLevel={overlayLevel}
-      overlayViewProps={container ? overlayLayerProps : overlayViewProps}
-      className={className}
-      style={{
-        position: container ? "relative" : "fixed",
-        left: "0px",
-        top: "0px",
-        width: "100%",
-        height: "100%",
-        ...style,
-      }}
-    >
-      <view ref={handleLayerRef as ViewProps["ref"]} style={FILL_STYLE} {...nativeProps}>
-        <view style={BACKDROP_STYLE} bindtap={handleBackdropTap}>
-          <SafeAreaProbe nodesRef={safeAreaRef} position="absolute" />
+    <OverlaySafeAreaProvider container={container}>
+      <OverlayView
+        container={container}
+        overlayLevel={overlayLevel}
+        overlayViewProps={container ? overlayLayerProps : overlayViewProps}
+        className={className}
+        style={{
+          position: container ? "relative" : "fixed",
+          left: "0px",
+          top: "0px",
+          width: "100%",
+          height: "100%",
+          ...style,
+        }}
+      >
+        <view ref={handleLayerRef as ViewProps["ref"]} style={FILL_STYLE} {...nativeProps}>
+          <view style={BACKDROP_STYLE} bindtap={handleBackdropTap}>
+            <SafeAreaProbe nodesRef={safeAreaRef} position="absolute" />
+          </view>
+          {triggerProxyStyle && <view style={triggerProxyStyle} {...triggerHandlers} />}
+          {children}
         </view>
-        {triggerProxyStyle && <view style={triggerProxyStyle} {...triggerHandlers} />}
-        {children}
-      </view>
-    </OverlayView>
+      </OverlayView>
+    </OverlaySafeAreaProvider>
   );
 });
 MenuPositioner.displayName = "MenuPositioner";

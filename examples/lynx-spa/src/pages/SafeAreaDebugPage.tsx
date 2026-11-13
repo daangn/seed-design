@@ -1,8 +1,31 @@
-import { Box, Text, useSafeArea, VStack } from "@seed-design/lynx-react";
+import {
+  ActionButton,
+  Box,
+  DialogBackdrop,
+  DialogContent,
+  DialogDescription,
+  DialogPositioner,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  Text,
+  useSafeArea,
+  useSeedContext,
+  VStack,
+} from "@seed-design/lynx-react";
+
+import {
+  BottomSheetBody,
+  BottomSheetContent,
+  BottomSheetRoot,
+  BottomSheetTrigger,
+} from "../seed-design/ui/bottom-sheet";
 
 interface LynxGlobalProps {
   safeAreaInsetTop?: number | null;
   safeAreaInsetBottom?: number | null;
+  windowSafeAreaInsetTop?: number | null;
+  windowSafeAreaInsetBottom?: number | null;
 }
 
 function getGlobalProps() {
@@ -59,16 +82,49 @@ function SafeAreaPreview({
   );
 }
 
+/** `container="window"` 레이어는 `windowSafeAreaInsets`로 여백을 정한다. */
+function WindowOverlayExamples() {
+  return (
+    <view className="flex flex-row gap-x2">
+      <BottomSheetRoot>
+        <BottomSheetTrigger>
+          <ActionButton variant="neutralWeak">Window sheet</ActionButton>
+        </BottomSheetTrigger>
+        <BottomSheetContent container="window" title="Window sheet">
+          <BottomSheetBody>
+            <text className="t4-regular text-fg-neutral">
+              The bottom padding follows windowSafeAreaInsets.
+            </text>
+          </BottomSheetBody>
+        </BottomSheetContent>
+      </BottomSheetRoot>
+      <DialogRoot>
+        <DialogTrigger>
+          <ActionButton variant="neutralWeak">Window dialog</ActionButton>
+        </DialogTrigger>
+        <DialogPositioner container="window">
+          <DialogBackdrop />
+          <DialogContent>
+            <DialogTitle>Window dialog</DialogTitle>
+            <DialogDescription>The padding follows windowSafeAreaInsets.</DialogDescription>
+          </DialogContent>
+        </DialogPositioner>
+      </DialogRoot>
+    </view>
+  );
+}
+
 export function SafeAreaDebugPage() {
   const globalProps = getGlobalProps();
   const { safeAreaInsetTop, safeAreaInsetBottom } = useSafeArea();
+  const { windowSafeAreaInsets } = useSeedContext();
 
   return (
     <VStack gap="x6">
       <VStack gap="x1">
         <Text textStyle="screenTitle">Safe Area Debug</Text>
         <Text textStyle="t5Regular" color="fg.neutralSubtle">
-          Verify safeAreaInsetTop and safeAreaInsetBottom.
+          Verify safeAreaInsetTop/Bottom and windowSafeAreaInsetTop/Bottom.
         </Text>
       </VStack>
 
@@ -77,6 +133,11 @@ export function SafeAreaDebugPage() {
         <view className="px-x3_5 bg-bg-neutral-weak rounded-r3">
           <DebugRow label="safeAreaInsetTop" value={globalProps?.safeAreaInsetTop} />
           <DebugRow label="safeAreaInsetBottom" value={globalProps?.safeAreaInsetBottom} />
+          <DebugRow label="windowSafeAreaInsetTop" value={globalProps?.windowSafeAreaInsetTop} />
+          <DebugRow
+            label="windowSafeAreaInsetBottom"
+            value={globalProps?.windowSafeAreaInsetBottom}
+          />
         </view>
       </VStack>
 
@@ -85,6 +146,8 @@ export function SafeAreaDebugPage() {
         <view className="px-x3_5 bg-bg-neutral-weak rounded-r3">
           <DebugRow label="useSafeArea().top" value={safeAreaInsetTop} />
           <DebugRow label="useSafeArea().bottom" value={safeAreaInsetBottom} />
+          <DebugRow label="windowSafeAreaInsets.top" value={windowSafeAreaInsets?.top} />
+          <DebugRow label="windowSafeAreaInsets.bottom" value={windowSafeAreaInsets?.bottom} />
         </view>
       </VStack>
 
@@ -102,6 +165,11 @@ export function SafeAreaDebugPage() {
             </view>
           </Box>
         </view>
+      </VStack>
+
+      <VStack gap="x2">
+        <Text textStyle="t6Bold">Window overlay</Text>
+        <WindowOverlayExamples />
       </VStack>
     </VStack>
   );
