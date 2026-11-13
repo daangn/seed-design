@@ -1,4 +1,4 @@
-import { PageLink as NextLink } from "@/components/link";
+import NextLink from "next/link";
 import type { ComponentProps } from "react";
 
 type SiteLinkProps = Omit<ComponentProps<"a">, "href"> & { href: string };

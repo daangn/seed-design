@@ -25,7 +25,7 @@ export function LynxComponentQRCode({
     error?: boolean;
   }>();
   const origin =
-    configuredLynxBundleOrigin(import.meta.env.NEXT_PUBLIC_LYNX_BUNDLE_ORIGIN) ?? browserOrigin;
+    configuredLynxBundleOrigin(process.env.NEXT_PUBLIC_LYNX_BUNDLE_ORIGIN) ?? browserOrigin;
   const resolutionKey = `${name}|${bundlePath}|${origin}|${retry}`;
   const result = resolved?.key === resolutionKey ? resolved : undefined;
   const urls = useMemo(() => {

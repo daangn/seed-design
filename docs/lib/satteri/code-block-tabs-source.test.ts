@@ -3,7 +3,7 @@ import { compileMdx } from "@fumadocs/satteri/compile";
 import { remarkCodeTab } from "@fumadocs/satteri/remark-code-tab";
 import { remarkLlms } from "@fumadocs/satteri/remark-llms";
 import { remarkNpm } from "@fumadocs/satteri/remark-npm";
-import { normalizeLLMBody } from "@/lib/llms/normalize-llm-body";
+import { normalizeLLMBody } from "@/app/_llms/normalize-llm-body";
 import { codeBlockTabsSource } from "./code-block-tabs-source";
 
 async function toLLMBody(source: string) {

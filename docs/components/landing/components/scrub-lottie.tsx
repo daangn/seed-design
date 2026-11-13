@@ -1,12 +1,11 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import type { CSSProperties } from "react";
-import { lazyComponent } from "@/components/lazy-component";
 
-const Player = lazyComponent(
-  () => import("@lottiefiles/react-lottie-player").then((mod) => mod.Player),
-  { ssr: false },
-);
+const Player = dynamic(() => import("@lottiefiles/react-lottie-player").then((mod) => mod.Player), {
+  ssr: false,
+});
 
 /** Minimal slice of lottie-web's AnimationItem we drive from scroll (goToAndStop) or
  *  play once on reveal (goToAndPlay, used by the mobile Values entrance). */

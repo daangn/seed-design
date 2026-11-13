@@ -1,6 +1,6 @@
 import { getChangelogPlatform, type ChangelogPlatform } from "./changelog-platform";
 import { archivePaths } from "./docs-archive";
-import { remarkArchiveLinks } from "@/lib/llms/archive-markdown";
+import { remarkArchiveLinks } from "@/app/_llms/archive-markdown";
 import { existsSync } from "node:fs";
 import { readFile, readdir } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";

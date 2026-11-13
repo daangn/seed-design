@@ -1,6 +1,6 @@
 # docs/registry/react/block
 
-CLI로 설치하는 block snippet이다. 파일 하나가 독립 UI 블록 템플릿이고, MDX의 `BlockPreview`가 `/blocks/<id>` 페이지를 iframe으로 띄우면 `docs/components/block-renderer.tsx`가 id와 같은 이름의 파일을 lazy import해 렌더링한다.
+CLI로 설치하는 block snippet이다. 파일 하나가 독립 UI 블록 템플릿이고, MDX의 `BlockPreview`가 `/blocks/<id>` 페이지를 iframe으로 띄우면 `docs/app/blocks/[name]/block-renderer.tsx`가 id와 같은 이름의 파일을 lazy import해 렌더링한다.
 
 ## 작업 절차
 

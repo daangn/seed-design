@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { recordRecentPage } from "@/hooks/useRecentPages";
 
@@ -8,9 +9,13 @@ import { recordRecentPage } from "@/hooks/useRecentPages";
  * the search dialog's empty state can show recently visited pages. Renders nothing.
  */
 export function RecentPagesRecorder() {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const query = searchParams.toString();
+
   useEffect(() => {
-    recordRecentPage(window.location.pathname, window.location.search.replace(/^\?/, ""));
-  }, []);
+    recordRecentPage(pathname, query);
+  }, [pathname, query]);
 
   return null;
 }

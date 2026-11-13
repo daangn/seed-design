@@ -1,6 +1,6 @@
-import { fillImageStyle } from "@/components/fill-image-style";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
-import { PageLink as Link } from "@/components/link";
+import Image from "next/image";
+import Link from "next/link";
 import { InfiniteCarousel } from "../components/infinite-carousel";
 import { RevealText } from "../components/reveal-text";
 import {
@@ -23,15 +23,7 @@ function ShowcaseCard({ item, isDuplicate }: { item: ShowcaseItem; isDuplicate: 
       className="flex w-[250px] shrink-0 flex-col gap-[4px] rounded-r2_5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stroke-focus-ring lg:w-[430px] lg:gap-2.5 lg:rounded-r3"
     >
       <div className="relative aspect-video w-full overflow-hidden rounded-r2_5 md:rounded-r3">
-        <img
-          src={item.image}
-          alt=""
-          loading="lazy"
-          decoding="async"
-          sizes="430px"
-          className="object-cover"
-          style={fillImageStyle}
-        />
+        <Image src={item.image} alt="" fill sizes="430px" className="object-cover" />
       </div>
       {/* Title + internal-link chevron (→). Shown only on coarse pointers (touch),
           where the "더보기" cursor isn't available; hidden on desktop via pointer:fine. */}

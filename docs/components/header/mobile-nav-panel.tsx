@@ -8,7 +8,7 @@ import { type DocsVersionPlatform, DocsVersionSwitcher } from "@/components/docs
 import { Icon, Portal, ScrollFog, SidePanel as SeedSidePanel } from "@seed-design/react";
 import clsx from "clsx";
 import { SiteLink } from "@/components/site-link";
-import { usePathname } from "fumadocs-core/framework";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import {
   type SidebarFolderItem,

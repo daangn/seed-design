@@ -1,5 +1,6 @@
+import "server-only";
 
-import { getComponentsSource } from "@/lib/source";
+import { getComponentsSource } from "@/app/source";
 import type { ComponentSearchEntry } from "./component-search";
 import { resolveCoverImage } from "./seo";
 
@@ -22,10 +23,10 @@ export async function buildComponentSearchIndex(): Promise<ComponentSearchEntry[
         // section root has no slug at all.
         page.slugs.length === 1 &&
         page.url !== PROGRESS_BOARD_URL &&
-        !page.data.deprecated,
+        !page.data.frontmatter.deprecated,
     )
     .map((page) => {
-      const { coverImage, keywords } = page.data;
+      const { coverImage, keywords } = page.data.frontmatter;
 
       return {
         slug: page.slugs[0],

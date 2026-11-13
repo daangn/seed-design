@@ -1,6 +1,6 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
-import { env } from "@/lib/env";
+import { env } from "@/app/env";
 import { collectFigmaImageIdsFromMdx } from "@/components/figma-image/collect-figma-image-ids";
 import {
   createFigmaClient,

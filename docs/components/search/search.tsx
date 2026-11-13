@@ -16,7 +16,7 @@ import {
 } from "fumadocs-ui/components/dialog/search";
 import type { SharedProps, TagItem } from "fumadocs-ui/contexts/search";
 import { type ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import { TAGS } from "@/lib/search-tags";
+import { TAGS } from "@/app/api/search/constants";
 import { useRecentPages } from "@/hooks/useRecentPages";
 import { ComponentResults } from "./component-results";
 import { SearchFooter } from "./footer";

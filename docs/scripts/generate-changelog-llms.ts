@@ -1,6 +1,6 @@
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { baseUrl } from "@/lib/metadata";
+import { baseUrl } from "@/app/metadata";
 import { getChangelogLlmData } from "@/lib/changelog-llms";
 import { buildChangelogLlmOutputFiles } from "@/lib/changelog-llms-output";
 import { CHANGELOG_PLATFORMS } from "@/lib/changelog-platform";

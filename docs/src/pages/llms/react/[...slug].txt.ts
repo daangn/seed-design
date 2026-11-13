@@ -1,4 +1,0 @@
-import { createLLMTextRoute } from "@/lib/llms/llms-route";
-import { getReactSource } from "@/lib/source";
-
-export const { getStaticPaths, GET } = createLLMTextRoute(getReactSource, "react");

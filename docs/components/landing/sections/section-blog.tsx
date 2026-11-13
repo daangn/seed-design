@@ -1,7 +1,7 @@
-import { fillImageStyle } from "@/components/fill-image-style";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import clsx from "clsx";
-import { PageLink as Link } from "@/components/link";
+import Image from "next/image";
+import Link from "next/link";
 import { RevealText } from "../components/reveal-text";
 import { BLOG_HEADING, BLOG_POSTS, REGIONS, Z } from "../lib/landing-content";
 import { SectionLayer } from "../section-layer";
@@ -63,15 +63,13 @@ export function SectionBlog() {
                         hover. Kept separate from the Image so the CSS scale doesn't fight
                         GSAP's reveal transform on [data-reveal]. */}
                     <div className="relative size-full motion-safe:transition-transform motion-safe:duration-[600ms] motion-safe:ease-out motion-safe:group-hover:[transform:scale(1.05)]">
-                      <img
+                      <Image
                         data-reveal
                         src={post.image}
                         alt=""
-                        loading="lazy"
-                        decoding="async"
+                        fill
                         sizes="(min-width: 1024px) 33vw, 100vw"
                         className="object-cover will-change-transform"
-                        style={fillImageStyle}
                       />
                     </div>
                   </div>

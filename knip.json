@@ -8,7 +8,7 @@
     "**/*.spec.*",
     "**/tools/figma-*/**"
   ],
-  "ignoreDependencies": ["shiki", "chromatic"],
+  "ignoreDependencies": ["shiki", "server-only", "chromatic"],
   "ignoreBinaries": ["build-storybook"],
   "rules": {
     "optionalPeerDependencies": "off"

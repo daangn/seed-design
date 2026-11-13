@@ -1,7 +1,7 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import type { ComponentProps } from "react";
-import { lazyComponent } from "@/components/lazy-component";
 
 import type {
   V2Icon as V2IconImpl,
@@ -17,20 +17,21 @@ import type { IconographyMigrationIndex as IconographyMigrationIndexImpl } from 
  * (`import * as V3Icons from "@karrotmarket/react-monochrome-icon"` 등). 이름으로 조회해야 해서
  * 네임스페이스가 필요하고, 그래서 tree shaking이 안 된다 — 아이콘 세트 전체가 번들에 들어온다.
  *
- * 이걸 `components/mdx-island.tsx`의 island registry에서 직접 import하면 island가 있는 모든 문서
- * 페이지의 번들에 들어간다. 실제 사용처는 `content/react/migration/migrating-icons.mdx`와
+ * 이걸 `components/mdx-components.tsx`에서 직접 import하면 그 맵을 공유하는 모든 `[[...slug]]`
+ * 라우트의 번들에 들어간다. 실제 사용처는 `content/react/migration/migrating-icons.mdx`와
  * `content/docs/migration/migration-reference.mdx` 두 파일뿐이다.
  *
  * `ssr`은 기본값(true)을 쓴다 — 마이그레이션 표는 본문 콘텐츠라 서버 HTML을 남기는 게 낫다.
  * 청크 분리는 `ssr` 값과 무관하게 일어난다.
  *
  * 위 타입 import는 `import type`이라 빌드 시 완전히 지워지므로 번들에 영향이 없다.
+ * `mdx-components.tsx`는 서버 모듈이라 이 파일이 클라이언트 경계 역할을 한다.
  */
 
-const LazyV3Icon = lazyComponent(() => import("./icon").then((mod) => mod.V3Icon));
-const LazyV2Icon = lazyComponent(() => import("./icon").then((mod) => mod.V2Icon));
-const LazyV2IconColor = lazyComponent(() => import("./icon").then((mod) => mod.V2IconColor));
-const LazyIconographyMigrationIndex = lazyComponent(() =>
+const LazyV3Icon = dynamic(() => import("./icon").then((mod) => mod.V3Icon));
+const LazyV2Icon = dynamic(() => import("./icon").then((mod) => mod.V2Icon));
+const LazyV2IconColor = dynamic(() => import("./icon").then((mod) => mod.V2IconColor));
+const LazyIconographyMigrationIndex = dynamic(() =>
   import("./iconography-migration-index").then((mod) => mod.IconographyMigrationIndex),
 );
 

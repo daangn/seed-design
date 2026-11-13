@@ -11,6 +11,11 @@ inputs:
     required: false
     default: 'false'
 
+outputs:
+  build-cache-key-suffix:
+    description: 'OS-independent suffix used for the build output cache key'
+    value: ${{ steps.build-cache-key.outputs.suffix }}
+
 runs:
   using: 'composite'
   steps:

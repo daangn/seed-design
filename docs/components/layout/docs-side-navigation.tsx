@@ -3,10 +3,9 @@
 import { ScrollFog, SideNavigation as SeedSideNavigation } from "@seed-design/react";
 import { useTreeContext } from "fumadocs-ui/contexts/tree";
 import type { SidebarProps } from "fumadocs-ui/layouts/notebook/slots/sidebar";
-import { usePathname } from "fumadocs-core/framework";
+import { usePathname } from "next/navigation";
 import { createElement } from "react";
 import { buildSidebarGroups, DocsSideNavigationGroups } from "./docs-side-navigation-items";
-import { SidebarRestoreSetup, SidebarScrollRestore, sidebarTreeId } from "./docs-sidebar-restore";
 
 /**
  * Docs sidebar rebuilt on the SEED SideNavigation component, wired into fumadocs'
@@ -66,10 +65,8 @@ export function DocsSideNavigation({ banner }: SidebarProps) {
                   "min-h-full [overflow:visible]! px-2! pt-3! pb-20! [--docs-sidebar-item-height:36px] [scrollbar-width:none]! [mask-image:none]! [-webkit-mask-image:none]! min-[1120px]:px-2.5! min-[1120px]:pt-4! min-[1120px]:[--docs-sidebar-item-height:38px] min-[1280px]:px-3! min-[1280px]:pt-5! min-[1280px]:[--docs-sidebar-item-height:40px] [&::-webkit-scrollbar]:hidden [&[data-scrolled]]:shadow-none!"
                 }
               >
-                <SidebarRestoreSetup tree={sidebarTreeId(groups)} />
                 {typeof banner === "function" ? createElement(banner) : banner}
                 <DocsSideNavigationGroups groups={groups} />
-                <SidebarScrollRestore />
               </SeedSideNavigation.Content>
             </ScrollFog>
           </SeedSideNavigation.Root>

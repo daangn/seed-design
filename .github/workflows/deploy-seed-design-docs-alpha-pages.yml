@@ -17,7 +17,7 @@ on:
       - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
       - ".github/actions/setup/action.yml"
       - ".bun-version"
-      - ".github/actions/docs-build-cache/**"
+      - ".github/actions/nextjs-cache/**"
       - ".github/actions/check-docs-links/**"
   workflow_dispatch:
     inputs:
@@ -31,11 +31,6 @@ on:
         required: false
         type: string
         default: ""
-      skip-page-cache:
-        description: "Render every page instead of restoring unchanged pages from the cache"
-        required: false
-        type: boolean
-        default: false
       benchmark-cache-key:
         description: "Optional identifier for a reproducible cold/warm Docs benchmark"
         required: false
@@ -64,11 +59,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          # 문서의 수정일은 Git 이력에서 읽는다. 얕은 clone에서는 모든 문서가 배포 커밋 시각을 받아
-          # 커밋마다 모든 페이지가 바뀐다. blob 없이 commit과 tree만 받아 이력을 채운다.
-          fetch-depth: 0
-          filter: blob:none
 
       - name: Restore Figma image cache
         if: ${{ !inputs.skip-figma-cache }}
@@ -80,6 +70,7 @@ jobs:
             ${{ runner.os }}-figma-images-
 
       - uses: ./.github/actions/setup
+        id: setup
         with:
           build-packages: true
           build-rootage: true
@@ -88,47 +79,42 @@ jobs:
         id: target
         run: bun scripts/docs-archive/build-target.ts
 
-      - name: Restore docs build caches
-        id: restore-build-cache
-        uses: ./.github/actions/docs-build-cache
+      - name: Restore Next.js cache
+        id: restore-nextjs-cache
+        uses: ./.github/actions/nextjs-cache
         with:
           # A branch publishes one immutable baseline per compatibility namespace.
-          # Later pushes restore it exactly instead of creating a cache per SHA.
+          # Later pushes restore it exactly instead of creating a 0.7-1GB cache per SHA.
           cache-generation: ${{ steps.target.outputs.cache-generation }}
           cache-scope: ${{ github.ref_name }}
           default-branch: ${{ github.event.repository.default_branch }}
+          legacy-build-cache-key-suffix: ${{ steps.setup.outputs.build-cache-key-suffix }}
           benchmark-cache-key: ${{ inputs.benchmark-cache-key }}
 
       - name: Build Docs
         id: build-docs
         working-directory: ./docs
         env:
-          # docs is a static Astro build, so NEXT_PUBLIC_* values must be present at build time.
+          # docs uses Next static export, so NEXT_PUBLIC_* values must be present at build time.
           FIGMA_CACHE_DISABLED: ${{ inputs.skip-figma-cache && '1' || '0' }}
           FIGMA_BYPASS_CACHE_NODE_IDS: ${{ inputs.bypass-cache-node-ids }}
           NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
           NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
-          # Figma image processing exceeded Node's default ~2GB heap on CI with the Next build.
-          # Kept until the Astro build is measured without it.
+          # Figma image processing + Next webpack export exceed Node's default ~2GB heap on CI.
           NODE_OPTIONS: --max-old-space-size=6144
           DOCS_ARCHIVE_PLATFORM: ${{ steps.target.outputs.archive-platform }}
           DOCS_ARCHIVE_VERSION: ${{ steps.target.outputs.archive-version }}
-          # 안 바뀐 페이지는 렌더링하지 않고 캐시에서 복원한다.
-          SEED_DOCS_INCREMENTAL_BUILD: ${{ inputs.skip-page-cache && '0' || '1' }}
-          BUILD_LOG: ${{ runner.temp }}/docs-build.log
         run: |
           build_started_at="$(date +%s)"
           set +e
-          set -o pipefail
           if [ -n "$DOCS_ARCHIVE_VERSION" ]; then
-            bun run "build:archive:$DOCS_ARCHIVE_PLATFORM" "$DOCS_ARCHIVE_VERSION" 2>&1 | tee "$BUILD_LOG"
+            bun run "build:archive:$DOCS_ARCHIVE_PLATFORM" "$DOCS_ARCHIVE_VERSION"
           else
-            bun run build 2>&1 | tee "$BUILD_LOG"
+            bun run build
           fi
           status=$?
           echo "duration-seconds=$(( $(date +%s) - build_started_at ))" >> "$GITHUB_OUTPUT"
-          echo "restored-pages=$(grep -c '(restored)' "$BUILD_LOG")" >> "$GITHUB_OUTPUT"
-          echo "lynx-cache-size-kib=$(du -sk .cache/lynx-rspeedy 2>/dev/null | cut -f1 || echo 0)" >> "$GITHUB_OUTPUT"
+          echo "lynx-cache-size-kib=$(du -sk .next/cache/lynx-rspeedy 2>/dev/null | cut -f1 || echo 0)" >> "$GITHUB_OUTPUT"
           echo "exit-code=$status" >> "$GITHUB_OUTPUT"
           exit "$status"
 
@@ -136,19 +122,17 @@ jobs:
         if: ${{ always() }}
         env:
           BENCHMARK_CACHE_KEY: ${{ inputs.benchmark-cache-key }}
-          LYNX_CACHE_HIT: ${{ steps.restore-build-cache.outputs.lynx-cache-hit }}
-          LYNX_CACHE_MATCHED_KEY: ${{ steps.restore-build-cache.outputs.lynx-cache-matched-key }}
-          LYNX_CACHE_PRIMARY_KEY: ${{ steps.restore-build-cache.outputs.lynx-cache-primary-key }}
-          ASTRO_CACHE_HIT: ${{ steps.restore-build-cache.outputs.astro-cache-hit }}
-          RESTORED_PAGES: ${{ steps.build-docs.outputs.restored-pages }}
+          NEXTJS_CACHE_HIT: ${{ steps.restore-nextjs-cache.outputs.cache-hit }}
+          NEXTJS_CACHE_MATCHED_KEY: ${{ steps.restore-nextjs-cache.outputs.cache-matched-key }}
+          NEXTJS_CACHE_PRIMARY_KEY: ${{ steps.restore-nextjs-cache.outputs.cache-primary-key }}
           BUILD_DURATION_SECONDS: ${{ steps.build-docs.outputs.duration-seconds }}
           LYNX_CACHE_SIZE_KIB: ${{ steps.build-docs.outputs.lynx-cache-size-kib }}
           BUILD_EXIT_CODE: ${{ steps.build-docs.outputs.exit-code }}
         run: |
           cache_result="miss"
-          if [ "$LYNX_CACHE_HIT" = "true" ]; then
+          if [ "$NEXTJS_CACHE_HIT" = "true" ]; then
             cache_result="exact hit"
-          elif [ -n "$LYNX_CACHE_MATCHED_KEY" ]; then
+          elif [ -n "$NEXTJS_CACHE_MATCHED_KEY" ]; then
             cache_result="restore-key hit (not exact)"
           fi
 
@@ -158,37 +142,28 @@ jobs:
             echo "| Metric | Value |"
             echo "| --- | --- |"
             echo "| Benchmark cache key | ${BENCHMARK_CACHE_KEY:-default deployment cache} |"
-            echo "| Lynx Rspeedy Actions cache | $cache_result |"
-            echo "| Lynx Rspeedy cache exact hit | ${LYNX_CACHE_HIT:-false} |"
-            echo "| Lynx Rspeedy cache matched key | ${LYNX_CACHE_MATCHED_KEY:-none} |"
-            echo "| Lynx Rspeedy cache primary key | ${LYNX_CACHE_PRIMARY_KEY:-unknown} |"
-            echo "| Astro page cache exact hit | ${ASTRO_CACHE_HIT:-false} |"
-            echo "| Astro pages restored from cache | ${RESTORED_PAGES:-not-recorded} |"
+            echo "| Next.js Actions cache | $cache_result |"
+            echo "| Next.js cache exact hit | ${NEXTJS_CACHE_HIT:-false} |"
+            echo "| Next.js cache matched key | ${NEXTJS_CACHE_MATCHED_KEY:-none} |"
+            echo "| Next.js cache primary key | ${NEXTJS_CACHE_PRIMARY_KEY:-unknown} |"
             echo "| Total docs build time (seconds) | ${BUILD_DURATION_SECONDS:-not-recorded} |"
             echo "| Lynx Rspeedy cache size (KiB) | ${LYNX_CACHE_SIZE_KIB:-not-recorded} |"
             echo "| Build exit code | ${BUILD_EXIT_CODE:-not-recorded} |"
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Save Lynx Rspeedy cache
-        if: ${{ steps.restore-build-cache.outputs.lynx-cache-hit != 'true' }}
+      - name: Save Next.js cache
+        if: ${{ steps.restore-nextjs-cache.outputs.cache-hit != 'true' }}
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
-          path: docs/.cache/lynx-rspeedy
-          key: ${{ steps.restore-build-cache.outputs.lynx-cache-primary-key }}
+          path: docs/.next/cache
+          key: ${{ steps.restore-nextjs-cache.outputs.cache-primary-key }}
 
       - name: Save Fumadocs TypeScript cache
-        if: ${{ steps.restore-build-cache.outputs.fumadocs-cache-hit != 'true' && hashFiles('docs/.cache/fumadocs-typescript/**') != '' }}
+        if: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-hit != 'true' && hashFiles('docs/.next/cache/fumadocs-typescript/**') != '' }}
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
-          path: docs/.cache/fumadocs-typescript
-          key: ${{ steps.restore-build-cache.outputs.fumadocs-cache-primary-key }}
-
-      - name: Save Astro page cache
-        if: ${{ steps.restore-build-cache.outputs.astro-cache-hit != 'true' && hashFiles('docs/.cache/astro/incremental-build.json') != '' }}
-        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-        with:
-          path: docs/.cache/astro
-          key: ${{ steps.restore-build-cache.outputs.astro-cache-primary-key }}
+          path: docs/.next/cache/fumadocs-typescript
+          key: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-primary-key }}
 
       - name: Save Figma image cache
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6

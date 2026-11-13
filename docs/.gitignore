@@ -32,5 +32,3 @@ next-env.d.ts
 storybook-static
 
 dist
-# astro
-/.astro/

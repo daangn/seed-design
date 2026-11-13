@@ -1,3 +1,4 @@
+import "server-only";
 
 import type { AST } from "@seed-design/rootage-core";
 import { resolveToken } from "@seed-design/rootage-core";

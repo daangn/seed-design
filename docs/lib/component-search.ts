@@ -1,6 +1,6 @@
 import { normalizeSearchText } from "./search-text";
 
-/** Static JSON index built by `src/pages/api/component-search.ts`. */
+/** Static JSON index built by `app/api/component-search/route.ts`. */
 export const COMPONENT_SEARCH_API = "/api/component-search";
 
 /**

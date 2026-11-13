@@ -4,7 +4,7 @@ import { archivePaths } from "@/lib/docs-archive";
 
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import { tokenReferenceHref } from "@/lib/token-search";
-import { PageLink as Link } from "@/components/link";
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 export const TokenLink = ({

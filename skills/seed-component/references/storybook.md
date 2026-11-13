@@ -20,7 +20,7 @@ story·`docs/.storybook/`만 바꿨으면 저장소 루트에서 두 명령을 �
 2. `docs/stories/utils/parameters.ts`를 읽는다.
 3. 구조가 가장 가까운 기존 `*.stories.tsx`를 연다. 네 필수 story를 가진 기본 형태는 `docs/stories/Badge.stories.tsx`다.
 
-현재 패턴은 `@storybook/react-vite`의 CSF Next factory API다. 버전과 addon·builder 호환성은 `docs/package.json`에서 확인한다. 설정을 고치면 `docs/.storybook/main.ts`는 `defineMain`, `docs/.storybook/preview.ts`는 `definePreview`를 유지한다.
+현재 패턴은 `@storybook/nextjs-vite`의 CSF Next factory API다. 버전과 addon·builder 호환성은 `docs/package.json`에서 확인한다. 설정을 고치면 `docs/.storybook/main.ts`는 `defineMain`, `docs/.storybook/preview.ts`는 `definePreview`를 유지한다.
 
 ## 기본 형식
 
