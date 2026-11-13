@@ -34,6 +34,8 @@ import {
   getAccessibleText,
   useInsideAccessibilityElement,
 } from "../../utils/accessibility";
+import { useDialogLayerHeight } from "../private/DialogLayer";
+import { OverlaySafeAreaProvider } from "@seed-design/lynx-react-use-safe-area";
 import { useDialogSafeAreaStyle } from "../private/DialogSafeArea";
 type DialogComponent<Props> = ((props: Props) => ReactElement) & {
   displayName?: string;
@@ -136,23 +138,34 @@ DialogTrigger.displayName = "DialogTrigger";
 
 export interface DialogPositionerProps extends HeadlessDialogPositionerProps {}
 
-/**
- * @platform Lynx — maps to `DialogView`; refs are unsupported.
- */
-export const DialogPositioner = forwardRef<never, DialogPositionerProps>((props, _ref) => {
+function DialogPositionerLayer(props: DialogPositionerProps) {
   const { className, style, transition = true, ...positionerProps } = props;
   const classNames = useClassNames();
   const safeAreaStyle = useDialogSafeAreaStyle();
+  const { dialogViewProps, layerStyle } = useDialogLayerHeight(positionerProps.dialogViewProps);
 
   return (
     <HeadlessDialogPositioner
       {...positionerProps}
       className={clsx(classNames.positioner, className)}
-      style={{ ...safeAreaStyle, ...style }}
+      style={{ ...safeAreaStyle, ...layerStyle, ...style }}
       transition={transition}
+      dialogViewProps={dialogViewProps}
     />
   );
-}) as DialogComponent<DialogPositionerProps>;
+}
+
+/**
+ * @platform Lynx — maps to `DialogView`; refs are unsupported.
+ *
+ * `container`를 지정하면 `SeedProvider`의 `windowSafeAreaInsets`가 있을 때 그 값으로 padding을 정한다.
+ */
+export const DialogPositioner = forwardRef<never, DialogPositionerProps>((props, _ref) => (
+  // padding을 계산하는 Layer보다 바깥에서 safe area를 정해야 window 기준 값이 padding에 반영된다.
+  <OverlaySafeAreaProvider container={props.container}>
+    <DialogPositionerLayer {...props} />
+  </OverlaySafeAreaProvider>
+)) as DialogComponent<DialogPositionerProps>;
 DialogPositioner.displayName = "DialogPositioner";
 
 ////////////////////////////////////////////////////////////////////////////////////

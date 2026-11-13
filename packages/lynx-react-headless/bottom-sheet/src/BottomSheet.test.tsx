@@ -83,6 +83,7 @@ vi.mock("./engine", async () => {
     },
     SheetBackdrop,
     SheetHandle: passthrough,
+    useSheetContext: () => ({ layerSize: {} }),
   };
 });
 

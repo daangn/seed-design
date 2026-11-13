@@ -56,8 +56,6 @@ export function App() {
 
 `BottomSheetTrigger`는 Content 밖에 두세요.
 
-`container`를 지정하지 않으면 Bottom Sheet는 Lynx view 안에 렌더링됩니다. `container="window"`처럼 native container 이름을 지정하면 host 화면까지 덮는 native overlay에 렌더링됩니다. `overlayLevel`은 overlay의 표시 순서를 정합니다. 이 기능을 사용할 때는 앱의 Lynx Engine이 `<overlay>`를 지원해야 합니다.
-
 ### Imperative 제어
 
 `BottomSheetRoot`에 `ref`를 전달하면 `open`, `close`, `snapTo`, `expand`, `collapse` 메서드를 호출할 수 있습니다. 이 메서드로 바꾼 열림 상태는 `onOpenChange`로 알리지 않습니다. `open`을 제어하는 경우에는 메서드 대신 `open` 값을 바꾸세요.
@@ -157,7 +155,7 @@ Trigger 외의 방식으로 Bottom Sheet를 열고 닫으려면 `open`과 `onOpe
 
 ### Snap Points
 
-`snapPoints`에는 픽셀 숫자, 백분율, 콘텐츠 크기에 맞추는 `"fit"`을 사용할 수 있습니다. 백분율은 LynxView 높이([`useViewport`](/lynx/hooks/use-viewport))를 기준으로 하고, `screenHeight`를 지정하면 그 값을 기준으로 합니다. 배열 순서가 snap index가 되며, `initialSnap`으로 처음 열릴 높이를 정합니다.
+`snapPoints`에는 픽셀 숫자, 백분율, 콘텐츠 크기에 맞추는 `"fit"`을 사용할 수 있습니다. 백분율은 시트가 그려지는 `BottomSheetPositioner` 레이어의 높이를 기준으로 하고, `screenHeight`를 지정하면 그 값을 기준으로 합니다. 레이어는 `container`가 없으면 LynxView, `container="window"`이면 window를 채우므로, 내용 높이로 삽입된 LynxView에서도 시트 높이가 줄어들지 않습니다. 백분율 snap point는 레이어를 측정한 뒤 열리기 시작합니다. 배열 순서가 snap index가 되며, `initialSnap`으로 처음 열릴 높이를 정합니다.
 
 `onSnapChange`에서는 현재 index와 픽셀로 계산된 높이를 받을 수 있습니다. ref의 `snapTo` 메서드를 사용하면 원하는 높이로 이동할 수 있습니다.
 
@@ -222,6 +220,16 @@ Lynx에는 배경 탭, 드래그, ESC 닫기를 한 번에 제어하는 `dismiss
 <LynxComponentExample name="lynx/bottom-sheet/handle-only" height={520}>
   ```json doc-gen:file
   {"file":"examples/lynx/bottom-sheet/handle-only.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
+### Portalled
+
+`container`를 지정하지 않으면 Bottom Sheet는 Lynx view 안에 렌더링됩니다. `container="window"`처럼 native container 이름을 지정하면 host 화면까지 덮는 native overlay에 렌더링됩니다. `overlayLevel`은 overlay의 표시 순서를 정합니다. 이 기능을 사용할 때는 앱의 Lynx Engine이 `<overlay>`를 지원해야 합니다. `container`를 지정하면 시트의 Safe Area 여백은 [`SeedProvider`](/lynx/getting-started/host-integration#overlay-레이어의-safe-area)에 넘긴 `windowSafeAreaInsets`를 따릅니다. 값을 넘기지 않았으면 `safeAreaInsets`를 따릅니다.
+
+<LynxComponentExample name="lynx/bottom-sheet/portalled" height={520}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/bottom-sheet/portalled.tsx","codeblock":true}
   ```
 </LynxComponentExample>
 

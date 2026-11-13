@@ -34,13 +34,14 @@ import {
 } from "@lynx-js/react";
 import clsx from "clsx";
 
+import { OverlaySafeAreaProvider } from "@seed-design/lynx-react-use-safe-area";
 import { useSafeArea } from "../../hooks/useSafeArea";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
-import { useViewport } from "../../hooks/useViewport";
 import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { IconSlotProvider } from "../Icon/Icon";
+import { getSheetLayerLength } from "../private/SheetLayer";
 import { useSheetScrollGestureProps } from "../private/SheetScrollGesture";
 
 type BottomSheetClassNames = ReturnType<typeof bottomSheet>;
@@ -113,10 +114,6 @@ export const BottomSheetRoot: LynxForwardRefComponent<BottomSheetRootRef, Bottom
     const { children, ...rootProps } = restProps;
     const { headerAlign, skipAnimation } = variantProps;
     const [closeButtonRendered, setCloseButtonRendered] = useState(false);
-    // snap point의 %는 기기 화면이 아니라 BottomSheet가 그려지는 LynxView 크기를 기준으로 한다.
-    const viewport = useViewport();
-    const screenHeight = rootProps.screenHeight ?? viewport.height;
-    const screenWidth = rootProps.screenWidth ?? viewport.width;
 
     const classNames = useMemo(
       () => bottomSheet({ ...variantProps, closeButton: closeButtonRendered }),
@@ -134,8 +131,6 @@ export const BottomSheetRoot: LynxForwardRefComponent<BottomSheetRootRef, Bottom
             <HeadlessBottomSheetRoot
               {...(ref ? { ref } : {})}
               {...rootProps}
-              screenHeight={screenHeight}
-              screenWidth={screenWidth}
               skipAnimation={skipAnimation === true}
             >
               {children}
@@ -183,6 +178,9 @@ export interface BottomSheetPositionerProps extends HeadlessBottomSheetPositione
 /**
  * Backdrop/Content는 반드시 `BottomSheetPositioner` 안에 배치해야 한다.
  *
+ * `container`를 지정하면 native overlay에 렌더링하고, `SeedProvider`의 `windowSafeAreaInsets`가 있으면
+ * 하위 트리의 safe area로 그 값을 쓴다.
+ *
  * `SheetView`는 `mounted || forceMount` 조건으로 자식을 gating하므로 시트가 처음
  * 열리기 전까지는 SheetBackdrop/SheetContent가 마운트되지 않아 motion value
  * 초기화 레이스를 피할 수 있다. Trigger는 이 컴포넌트 밖에 두어야 탭 가능하다.
@@ -190,8 +188,17 @@ export interface BottomSheetPositionerProps extends HeadlessBottomSheetPositione
  * recipe의 `positioner` slot className을 자동 적용해 `position: fixed` + 전체
  * 뷰포트 커버 레이아웃을 보장한다.
  */
+const StyledBottomSheetPositioner = withContext<unknown, BottomSheetPositionerProps>(
+  HeadlessBottomSheetPositioner,
+  "positioner",
+);
+
 export const BottomSheetPositioner: LynxForwardRefComponent<unknown, BottomSheetPositionerProps> =
-  withContext<unknown, BottomSheetPositionerProps>(HeadlessBottomSheetPositioner, "positioner");
+  forwardRef<unknown, BottomSheetPositionerProps>((props, ref) => (
+    <OverlaySafeAreaProvider container={props.container}>
+      <StyledBottomSheetPositioner {...(ref ? { ref } : {})} {...props} />
+    </OverlaySafeAreaProvider>
+  ));
 BottomSheetPositioner.displayName = "BottomSheetPositioner";
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -223,7 +230,7 @@ export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetCon
       ...restProps
     } = props;
     const classNames = useClassNames();
-    const { skipAnimation } = useBottomSheetContext();
+    const { skipAnimation, layerSize } = useBottomSheetContext();
     const fitsContent = useContext(FitsContentContext);
     const { safeAreaInsetTop, safeAreaInsetRight, safeAreaInsetBottom, safeAreaInsetLeft } =
       useSafeArea();
@@ -232,7 +239,7 @@ export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetCon
       <HeadlessBottomSheetContent
         {...mergeProps(ref ? { ref } : {}, restProps)}
         className={clsx(classNames.content, className)}
-        // `SheetContent` pins its outer view with an inline `left: 0` and `width: 100vw`, which a
+        // `SheetContent` pins its outer view with an inline `left: 0` and the layer's width, which a
         // recipe class cannot outrank. Releasing `left` lets the positioner's
         // `justify-content: center` place the sheet. Lynx ignores the positioner's padding when
         // centering an absolute child but centers its margin box, so the side insets go on as
@@ -240,14 +247,16 @@ export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetCon
         // engine owns it.
         style={{
           left: "auto",
-          width: `calc(100vw - ${safeAreaInsetLeft} - ${safeAreaInsetRight})`,
+          width: `calc(${getSheetLayerLength(layerSize.width, "vw")} - ${safeAreaInsetLeft} - ${safeAreaInsetRight})`,
           marginLeft: safeAreaInsetLeft,
           marginRight: safeAreaInsetRight,
           // Lynx has no `min()`, so the two height caps are stacked: this padding leaves the inner
-          // view `100vh - top` of the outer view's `150vh` (set by `SheetContent`) to shrink into,
-          // and the inner `maxHeight` holds the fraction. Explicit snap points size the inner view
-          // themselves, so the caps apply only to a fitted sheet.
-          ...(fitsContent && { paddingBottom: `calc(50vh + ${safeAreaInsetTop})` }),
+          // view the layer height minus `top` of the outer view's 1.5 layer heights (set by
+          // `SheetContent`) to shrink into, and the inner `maxHeight` holds the fraction. Explicit
+          // snap points size the inner view themselves, so the caps apply only to a fitted sheet.
+          ...(fitsContent && {
+            paddingBottom: `calc(${getSheetLayerLength(layerSize.height, "vh", 0.5)} + ${safeAreaInsetTop})`,
+          }),
           ...style,
         }}
         innerStyle={{
@@ -256,7 +265,7 @@ export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetCon
           minHeight: "0",
           ...(fitsContent && {
             flexShrink: 1,
-            maxHeight: `calc(${bottomSheetVars.base.enabled.content.maxHeightFraction} * 100vh)`,
+            maxHeight: `calc(${bottomSheetVars.base.enabled.content.maxHeightFraction} * ${getSheetLayerLength(layerSize.height, "vh")})`,
           }),
           paddingBottom: safeAreaInsetBottom,
           ...innerStyle,

@@ -27,6 +27,7 @@ import clsx from "clsx";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { mergeProps } from "../../utils/merge-props";
 import { usePressTap } from "../../hooks/usePressTap";
+import { OverlaySafeAreaProvider } from "@seed-design/lynx-react-use-safe-area";
 import { useSafeArea } from "../../hooks/useSafeArea";
 import type {
   LynxAccessibilityProps,
@@ -45,6 +46,7 @@ import {
   type BottomSheetHandleProps,
 } from "../BottomSheet/BottomSheet";
 import { IconSlotProvider } from "../Icon/Icon";
+import { getSheetLayerLength } from "../private/SheetLayer";
 import { useSheetScrollGestureProps } from "../private/SheetScrollGesture";
 import {
   AccessibilityElementScope,
@@ -173,16 +175,19 @@ MenuSheetTrigger.displayName = "MenuSheetTrigger";
 export interface MenuSheetPositionerProps extends HeadlessBottomSheetPositionerProps {}
 
 /**
- * Backdrop/Content를 담는 레이어입니다. `container`를 지정하면 native overlay에 렌더링합니다.
+ * Backdrop/Content를 담는 레이어입니다. `container`를 지정하면 native overlay에 렌더링하고,
+ * `SeedProvider`의 `windowSafeAreaInsets`가 있으면 하위 트리의 safe area로 그 값을 씁니다.
  */
 export function MenuSheetPositioner(props: MenuSheetPositionerProps) {
   const classNames = useClassNames();
 
   return (
-    <HeadlessBottomSheetPositioner
-      {...props}
-      className={clsx(classNames.positioner, props.className)}
-    />
+    <OverlaySafeAreaProvider container={props.container}>
+      <HeadlessBottomSheetPositioner
+        {...props}
+        className={clsx(classNames.positioner, props.className)}
+      />
+    </OverlaySafeAreaProvider>
   );
 }
 MenuSheetPositioner.displayName = "MenuSheetPositioner";
@@ -224,7 +229,7 @@ export const MenuSheetContent: LynxForwardRefComponent<unknown, MenuSheetContent
     ...contentProps
   } = props;
   const classNames = useClassNames();
-  const { skipAnimation } = useBottomSheetContext();
+  const { skipAnimation, layerSize } = useBottomSheetContext();
   const { safeAreaInsetTop, safeAreaInsetRight, safeAreaInsetBottom, safeAreaInsetLeft } =
     useSafeArea();
 
@@ -234,19 +239,19 @@ export const MenuSheetContent: LynxForwardRefComponent<unknown, MenuSheetContent
         {...(ref ? { ref } : {})}
         {...contentProps}
         className={clsx(classNames.content, className)}
-        // `SheetContent` pins its outer view with an inline `left: 0` and `width: 100vw`. Releasing
+        // `SheetContent` pins its outer view with an inline `left: 0` and the layer's width. Releasing
         // `left` lets the positioner center the sheet; Lynx ignores the positioner's padding when
         // centering an absolute child but centers its margin box, so the side insets go on as
         // margins and come off the width.
         style={{
           left: "auto",
-          width: `calc(100vw - ${safeAreaInsetLeft} - ${safeAreaInsetRight})`,
+          width: `calc(${getSheetLayerLength(layerSize.width, "vw")} - ${safeAreaInsetLeft} - ${safeAreaInsetRight})`,
           marginLeft: safeAreaInsetLeft,
           marginRight: safeAreaInsetRight,
           // Lynx has no `min()`, so the two height caps are stacked: this padding leaves the inner
-          // view `100vh - top` of the outer view's `150vh` (set by `SheetContent`) to shrink into,
-          // and the inner `maxHeight` holds the fraction.
-          paddingBottom: `calc(50vh + ${safeAreaInsetTop})`,
+          // view the layer height minus `top` of the outer view's 1.5 layer heights (set by
+          // `SheetContent`) to shrink into, and the inner `maxHeight` holds the fraction.
+          paddingBottom: `calc(${getSheetLayerLength(layerSize.height, "vh", 0.5)} + ${safeAreaInsetTop})`,
           ...style,
         }}
         innerClassName={clsx(classNames.contentInner, innerClassName)}
@@ -255,7 +260,7 @@ export const MenuSheetContent: LynxForwardRefComponent<unknown, MenuSheetContent
           flexDirection: "column",
           minHeight: "0",
           flexShrink: 1,
-          maxHeight: `calc(${menuSheetVars.base.enabled.content.maxHeightFraction} * 100vh)`,
+          maxHeight: `calc(${menuSheetVars.base.enabled.content.maxHeightFraction} * ${getSheetLayerLength(layerSize.height, "vh")})`,
           paddingBottom: `calc(${CONTENT_PADDING_BOTTOM} + ${safeAreaInsetBottom})`,
           ...innerStyle,
         }}

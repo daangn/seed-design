@@ -8,16 +8,19 @@ const sheetMocks = vi.hoisted(() => ({
   rootProps: [] as Array<Record<string, unknown>>,
   triggerTap: vi.fn(),
   closeTap: vi.fn(),
+  layerSize: {} as { width?: number; height?: number },
 }));
 
 vi.mock("@seed-design/lynx-react-bottom-sheet", async () => {
   const React = await vi.importActual<typeof import("@lynx-js/react")>("@lynx-js/react");
-  const Context = React.createContext({ skipAnimation: false });
+  const Context = React.createContext({ skipAnimation: false, layerSize: sheetMocks.layerSize });
 
   const BottomSheetRoot = (props: Record<string, unknown> & { children?: React.ReactNode }) => {
     sheetMocks.rootProps.push(props);
     return (
-      <Context.Provider value={{ skipAnimation: props["skipAnimation"] === true }}>
+      <Context.Provider
+        value={{ skipAnimation: props["skipAnimation"] === true, layerSize: sheetMocks.layerSize }}
+      >
         {props["children"]}
       </Context.Provider>
     );
@@ -74,6 +77,7 @@ describe("MenuSheet", () => {
   beforeEach(() => {
     sheetMocks.contentProps = [];
     sheetMocks.rootProps = [];
+    sheetMocks.layerSize = {};
     sheetMocks.triggerTap.mockClear();
     sheetMocks.closeTap.mockClear();
   });
@@ -201,6 +205,23 @@ describe("MenuSheet", () => {
         maxHeight: "calc(0.9 * 100vh)",
         paddingBottom: "calc(16px + 34px)",
       },
+    });
+  });
+
+  it("sizes Content from the measured layer instead of the LynxView viewport", () => {
+    sheetMocks.layerSize = { width: 757, height: 844 };
+    render(
+      <MenuSheet.Root>
+        <MenuSheet.Content />
+      </MenuSheet.Root>,
+    );
+
+    expect(sheetMocks.contentProps.at(-1)).toMatchObject({
+      style: {
+        width: "calc(757px - 0px - 84px)",
+        paddingBottom: "calc(422px + 62px)",
+      },
+      innerStyle: { maxHeight: "calc(0.9 * 844px)" },
     });
   });
 

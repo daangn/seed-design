@@ -65,7 +65,9 @@ const dialog = defineSlotRecipe({
       // insets. Unlike the web recipe, a consumer `width` with `maxWidth` lifted isn't capped at
       // that space: Lynx has no `min()`, so such a width reaches into the insets.
       width: `calc(${vars.base.enabled.content.widthFraction} * 100%)`,
-      maxHeight: `calc(${vars.base.enabled.content.maxHeightFraction} * 100vh)`,
+      // `DialogPositioner` sets the measured layer height; `vh` follows the LynxView instead, which
+      // differs from a `container` layer or an embedded LynxView.
+      maxHeight: `calc(${vars.base.enabled.content.maxHeightFraction} * var(--dialog-layer-height, 100vh))`,
       opacity: vars.base.enabled.content.exitOpacity,
       transform: `scale(${vars.base.enabled.content.enterScale})`,
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",

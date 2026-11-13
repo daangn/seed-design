@@ -1,5 +1,6 @@
 import {
   createContext,
+  useContext,
   useMemo,
   type Context,
   type ReactElement,
@@ -19,6 +20,14 @@ export interface SafeAreaInsets {
  * 앱은 `SafeAreaProvider`나 `SeedProvider`로 값을 넣는다.
  */
 export const SafeAreaContext: Context<SafeAreaInsets | undefined> = createContext<
+  SafeAreaInsets | undefined
+>(undefined);
+
+/**
+ * @internal `@seed-design/lynx-react`의 `SeedProvider`가 넣는 window 기준 inset이다.
+ * LynxView가 놓인 위치와 무관하게 화면 전체에서 가려지는 양이며, `OverlaySafeAreaProvider`만 읽는다.
+ */
+export const WindowSafeAreaContext: Context<SafeAreaInsets | undefined> = createContext<
   SafeAreaInsets | undefined
 >(undefined);
 
@@ -48,4 +57,31 @@ export function SafeAreaProvider({ insets, children }: SafeAreaProviderProps): R
   const value = useStableSafeAreaInsets(insets);
 
   return <SafeAreaContext.Provider value={value}>{children}</SafeAreaContext.Provider>;
+}
+
+export interface OverlaySafeAreaProviderProps {
+  /** 레이어를 감싼 Positioner의 `container`. 값이 무엇이든 지정되면 native `<overlay>`로 그린다. */
+  container?: string | undefined;
+  children?: ReactNode;
+}
+
+/**
+ * @internal overlay를 그리는 Positioner가 레이어를 감싼다.
+ *
+ * `container`를 지정한 레이어는 LynxView 밖 window에 그려지므로, window 기준 inset이 있으면 그 값을 하위 트리의
+ * safe area로 쓴다. `container`가 없거나 window 기준 inset이 없으면 가장 가까운 값을 그대로 잇는다.
+ * 레이어 안에 직접 중첩한 `SafeAreaProvider`는 이 값보다 우선한다.
+ */
+export function OverlaySafeAreaProvider({
+  container,
+  children,
+}: OverlaySafeAreaProviderProps): ReactElement {
+  const parent = useContext(SafeAreaContext);
+  const windowInsets = useContext(WindowSafeAreaContext);
+
+  return (
+    <SafeAreaContext.Provider value={container && windowInsets ? windowInsets : parent}>
+      {children}
+    </SafeAreaContext.Provider>
+  );
 }
