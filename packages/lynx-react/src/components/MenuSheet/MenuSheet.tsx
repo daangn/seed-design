@@ -27,6 +27,7 @@ import clsx from "clsx";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { mergeProps } from "../../utils/merge-props";
 import { usePressTap } from "../../hooks/usePressTap";
+import { OverlaySafeAreaProvider } from "@seed-design/lynx-react-use-safe-area";
 import { useSafeArea } from "../../hooks/useSafeArea";
 import type {
   LynxAccessibilityProps,
@@ -174,16 +175,19 @@ MenuSheetTrigger.displayName = "MenuSheetTrigger";
 export interface MenuSheetPositionerProps extends HeadlessBottomSheetPositionerProps {}
 
 /**
- * Backdrop/Content를 담는 레이어입니다. `container`를 지정하면 native overlay에 렌더링합니다.
+ * Backdrop/Content를 담는 레이어입니다. `container`를 지정하면 native overlay에 렌더링하고,
+ * `SeedProvider`의 `windowSafeAreaInsets`가 있으면 하위 트리의 safe area로 그 값을 씁니다.
  */
 export function MenuSheetPositioner(props: MenuSheetPositionerProps) {
   const classNames = useClassNames();
 
   return (
-    <HeadlessBottomSheetPositioner
-      {...props}
-      className={clsx(classNames.positioner, props.className)}
-    />
+    <OverlaySafeAreaProvider container={props.container}>
+      <HeadlessBottomSheetPositioner
+        {...props}
+        className={clsx(classNames.positioner, props.className)}
+      />
+    </OverlaySafeAreaProvider>
   );
 }
 MenuSheetPositioner.displayName = "MenuSheetPositioner";

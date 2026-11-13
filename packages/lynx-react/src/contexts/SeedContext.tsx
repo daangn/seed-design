@@ -12,6 +12,7 @@ import {
 import {
   SafeAreaContext,
   useStableSafeAreaInsets,
+  WindowSafeAreaContext,
   type SafeAreaInsets,
 } from "@seed-design/lynx-react-use-safe-area";
 
@@ -46,6 +47,11 @@ export interface SeedContextValue {
   preferredMotion?: PreferredMotion;
   /** 하위 트리의 safe area inset. 생략하면 `useSafeArea`가 기존 fallback 경로를 쓴다. */
   safeAreaInsets?: SafeAreaInsets;
+  /**
+   * LynxView 위치와 무관한 화면 전체(window) 기준 inset. `container`를 지정해 native overlay에 그리는 레이어가
+   * 이 값을 쓴다. 생략하면 바깥 값을 이어받고, 없으면 그런 레이어도 가장 가까운 `safeAreaInsets`를 쓴다.
+   */
+  windowSafeAreaInsets?: SafeAreaInsets;
   /**
    * 호스트가 Liquid Glass를 그릴 수 있으면 `true`. 판단은 호스트가 하고 SEED는 이 값만 따른다.
    * `glassEffect`를 켠 트리나 컴포넌트도 이 값이 `true`일 때만 glass로 그린다. 생략하면 바깥 값을 이어받고, 없으면 `false`다.
@@ -94,6 +100,7 @@ export interface SeedProviderProps extends SeedContextValue {
  *       preferredColorScheme={g.theme === "dark" ? "dark" : "light"}
  *       preferredMotion={g.motion === "reduced" ? "reduced" : "default"}
  *       safeAreaInsets={toSafeAreaInsets(g)}
+ *       windowSafeAreaInsets={toWindowSafeAreaInsets(g)}
  *     >
  *       <Page />
  *     </SeedProvider>
@@ -106,6 +113,7 @@ export function SeedProvider({
   preferredColorScheme,
   preferredMotion,
   safeAreaInsets,
+  windowSafeAreaInsets,
   supportsLiquidGlass,
   glassEffect,
   children,
@@ -114,6 +122,8 @@ export function SeedProvider({
   const parentSafeAreaInsets = useContext(SafeAreaContext);
   const parentColorMode = useColorMode();
   const stableSafeAreaInsets = useStableSafeAreaInsets(safeAreaInsets);
+  const parentWindowSafeAreaInsets = useContext(WindowSafeAreaContext);
+  const stableWindowSafeAreaInsets = useStableSafeAreaInsets(windowSafeAreaInsets);
 
   const resolvedColorScheme = preferredColorScheme ?? parent.preferredColorScheme;
   const resolvedMotion = preferredMotion ?? parent.preferredMotion;
@@ -146,7 +156,13 @@ export function SeedProvider({
     <SeedContext.Provider value={value}>
       <PreferredMotionContext.Provider value={resolvedMotion}>
         <SafeAreaContext.Provider value={stableSafeAreaInsets ?? parentSafeAreaInsets}>
-          <ColorModeProvider colorMode={colorMode ?? parentColorMode}>{children}</ColorModeProvider>
+          <WindowSafeAreaContext.Provider
+            value={stableWindowSafeAreaInsets ?? parentWindowSafeAreaInsets}
+          >
+            <ColorModeProvider colorMode={colorMode ?? parentColorMode}>
+              {children}
+            </ColorModeProvider>
+          </WindowSafeAreaContext.Provider>
         </SafeAreaContext.Provider>
       </PreferredMotionContext.Provider>
     </SeedContext.Provider>
@@ -167,11 +183,12 @@ function toMotion(value: unknown): PreferredMotion | undefined {
  * `SeedProvider`가 받은 값을 그대로 돌려준다. 파생 계산은 하지 않는다.
  *
  * Provider가 없거나 필드를 생략하면, 다음 메이저 전까지 기존 global props(`theme`, `motion`)로
- * 그 필드를 채운다(deprecated). `safeAreaInsets`는 global props로 채우지 않는다.
+ * 그 필드를 채운다(deprecated). `safeAreaInsets`·`windowSafeAreaInsets`는 global props로 채우지 않는다.
  */
 export function useSeedContext(): SeedContextValue {
   const host = useContext(SeedContext);
   const safeAreaInsets = useContext(SafeAreaContext);
+  const windowSafeAreaInsets = useContext(WindowSafeAreaContext);
   // deprecated fallback도 host 값 변경에 반응하도록 `globalPropsMode`에 맞게 읽는다.
   const globalProps = useHostGlobalProps();
 
@@ -185,6 +202,7 @@ export function useSeedContext(): SeedContextValue {
       preferredColorScheme,
       preferredMotion,
       safeAreaInsets,
+      windowSafeAreaInsets,
       supportsLiquidGlass: host.supportsLiquidGlass,
       glassEffect: host.glassEffect,
     }),
@@ -192,6 +210,7 @@ export function useSeedContext(): SeedContextValue {
       preferredColorScheme,
       preferredMotion,
       safeAreaInsets,
+      windowSafeAreaInsets,
       host.supportsLiquidGlass,
       host.glassEffect,
     ],

@@ -46,6 +46,7 @@ Menu·Select·HelpBubble처럼 화면 위에 뜨는 레이어의 host 규칙이�
   - 바깥 탭을 막고 backdrop에서 받는 레이어(Menu·Select) → `overlayViewProps`에 `"event-through": false`를 넣는다.
   - 바깥 탭을 아래 화면에 넘기는 비모달 레이어 → 기본값을 두고, 탭을 받아야 하는 콘텐츠 요소에 `event-through={false}`를 준다. 빠뜨리면 콘텐츠 탭도 아래로 넘어간다.
 - 열린 뒤 측정은 열림 effect에서 한다. 두 모드·두 플랫폼 모두 effect 시점의 `boundingClientRect`가 최종 값과 같았다. `bindshowoverlay`에 기대지 않는다 → iOS는 `visible` 상태로 mount한 `<overlay>`에서 이 이벤트를 보내지 않고, `visible`이 false→true로 바뀔 때만 보낸다(Android는 mount 때도 보낸다).
+- 레이어 safe area → Positioner가 레이어를 `@seed-design/lynx-react-use-safe-area`의 `OverlaySafeAreaProvider`(floating 레이어 headless는 `@seed-design/lynx-react-floating`의 재export)로 감싸고 `container`를 넘긴다. `container`가 있으면 `SeedProvider`의 `windowSafeAreaInsets`가 하위 트리의 safe area가 된다. Positioner가 직접 inset을 읽으면(Dialog 계열의 padding) 읽는 컴포넌트를 Provider 안쪽 자식으로 분리한다 → 같은 컴포넌트에서 감싸면 바깥 값을 읽는다.
 - `boundingClientRect`의 `relativeTo: "screen"` 기준이 플랫폼마다 다르다(iOS는 화면, Android는 Lynx view 기준). 위치는 레이어 rect를 뺀 레이어 기준 좌표로 계산한다(Menu·Select의 `overlayRect` 방식).
 - `overlayViewProps.visible`은 `OverlayView`의 `overlayLevel` 지연 표시(첫 2 frame 숨김, lynx-ui가 밝힌 Android 예외 회피)를 덮어쓴다 → 닫힌 동안 mount를 유지할 때만 `visible: false`를 넘기고 열 때는 넘기지 않는다. view 모드는 `visible`이 없으므로 레이어에 `display: none`을 준다. 숨길 때 레이어 안 `bindlayoutchange`가 0 크기로 오므로 측정에 쓰지 않는다.
 - `binddismissoverlay`는 `<overlay>`가 `visible=false`가 될 때마다 온다. 소비자가 `visible: false`로 숨길 때와, iOS에서 `overlayLevel`을 지정해 mount한 직후(지연 표시 전)에도 온다 → 이 둘을 `"dismiss"` reason으로 처리하지 않는다.

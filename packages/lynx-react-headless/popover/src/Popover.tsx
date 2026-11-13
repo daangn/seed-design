@@ -7,6 +7,7 @@ import {
   type FloatingBoundary,
   measureFloatingBoundary,
   measureReferenceRect,
+  OverlaySafeAreaProvider,
   SafeAreaProbe,
 } from "@seed-design/lynx-react-floating";
 import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
@@ -310,35 +311,37 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
   const layerLeft = layerRect?.left ?? 0;
   const layerTop = layerRect?.top ?? 0;
   return (
-    <OverlayView
-      container={container}
-      overlayLevel={overlayLevel}
-      overlayViewProps={overlayViewProps}
-      style={{ width: "100%", height: "100%" }}
-    >
-      <view
-        ref={handleLayerRef as ViewProps["ref"]}
+    <OverlaySafeAreaProvider container={container}>
+      <OverlayView
+        container={container}
+        overlayLevel={overlayLevel}
+        overlayViewProps={overlayViewProps}
         style={{ width: "100%", height: "100%" }}
-        {...globalTapProps}
       >
-        <SafeAreaProbe nodesRef={safeAreaRef} position="absolute" />
         <view
-          {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
-          className={className}
-          style={{
-            position: "absolute",
-            left: toPixel(snapToDevicePixel((position?.left ?? 0) - layerLeft)),
-            top: toPixel(snapToDevicePixel((position?.top ?? 0) - layerTop)),
-            width: position ? toPixel(position.width) : undefined,
-            ...style,
-          }}
-          event-through={false}
-          {...nativeProps}
+          ref={handleLayerRef as ViewProps["ref"]}
+          style={{ width: "100%", height: "100%" }}
+          {...globalTapProps}
         >
-          {children}
+          <SafeAreaProbe nodesRef={safeAreaRef} position="absolute" />
+          <view
+            {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
+            className={className}
+            style={{
+              position: "absolute",
+              left: toPixel(snapToDevicePixel((position?.left ?? 0) - layerLeft)),
+              top: toPixel(snapToDevicePixel((position?.top ?? 0) - layerTop)),
+              width: position ? toPixel(position.width) : undefined,
+              ...style,
+            }}
+            event-through={false}
+            {...nativeProps}
+          >
+            {children}
+          </view>
         </view>
-      </view>
-    </OverlayView>
+      </OverlayView>
+    </OverlaySafeAreaProvider>
   );
 });
 PopoverPositioner.displayName = "PopoverPositioner";

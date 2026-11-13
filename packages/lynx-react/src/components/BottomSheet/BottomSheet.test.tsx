@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { createRef } from "@lynx-js/react";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { LynxPressableProps } from "../../types";
 
 const sheetMocks = vi.hoisted(() => ({
@@ -10,6 +10,8 @@ const sheetMocks = vi.hoisted(() => ({
   triggerTap: vi.fn(),
   closeTap: vi.fn(),
   layerSize: {} as { width?: number; height?: number },
+  /** `true`이면 `useSafeArea`가 실제 context 값을 읽는다. */
+  realSafeArea: false,
   safeArea: {
     safeAreaInsetTop: "62px",
     safeAreaInsetRight: "0px",
@@ -68,11 +70,15 @@ vi.mock("@seed-design/lynx-react-bottom-sheet", async () => {
   };
 });
 
-vi.mock("../../hooks/useSafeArea", () => ({
-  useSafeArea: () => sheetMocks.safeArea,
-}));
+vi.mock("../../hooks/useSafeArea", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("../../hooks/useSafeArea")>();
+  return {
+    useSafeArea: () => (sheetMocks.realSafeArea ? actual.useSafeArea() : sheetMocks.safeArea),
+  };
+});
 
 import * as BottomSheet from "./BottomSheet.namespace";
+import { SeedProvider } from "../../contexts/SeedContext";
 import { ScrollFog } from "../ScrollFog";
 
 describe("BottomSheet", () => {
@@ -377,5 +383,53 @@ describe("BottomSheet", () => {
     rerender(renderSheet(false));
 
     expect(getByText("Title")).not.toHaveClass(closeButtonTitleClass);
+  });
+});
+
+describe("BottomSheet window safe area", () => {
+  const viewInsets = { top: 0, right: 0, bottom: 0, left: 0 };
+  const windowInsets = { top: 62, right: 0, bottom: 34, left: 0 };
+
+  beforeEach(() => {
+    sheetMocks.contentProps = [];
+    sheetMocks.realSafeArea = true;
+  });
+
+  afterEach(() => {
+    sheetMocks.realSafeArea = false;
+  });
+
+  function renderSheet({
+    container,
+    windowSafeAreaInsets,
+  }: {
+    container?: string;
+    windowSafeAreaInsets?: typeof windowInsets;
+  }) {
+    render(
+      <SeedProvider safeAreaInsets={viewInsets} windowSafeAreaInsets={windowSafeAreaInsets}>
+        <BottomSheet.Root>
+          <BottomSheet.Positioner container={container}>
+            <BottomSheet.Content />
+          </BottomSheet.Positioner>
+        </BottomSheet.Root>
+      </SeedProvider>,
+    );
+
+    return (sheetMocks.contentProps.at(-1)?.["innerStyle"] as Record<string, unknown>)[
+      "paddingBottom"
+    ];
+  }
+
+  it("pads a native overlay sheet by the window inset", () => {
+    expect(renderSheet({ container: "window", windowSafeAreaInsets: windowInsets })).toBe("34px");
+  });
+
+  it("keeps the view inset for a sheet inside the Lynx view", () => {
+    expect(renderSheet({ windowSafeAreaInsets: windowInsets })).toBe("0px");
+  });
+
+  it("keeps the view inset for a native overlay sheet without window insets", () => {
+    expect(renderSheet({ container: "window" })).toBe("0px");
   });
 });
