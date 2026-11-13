@@ -182,7 +182,8 @@ export interface SheetRootProps extends ComponentBasicProps {
   /**
    * The height of the Sheet container (screen height).
    * Used in vertical sheet mode (`top` / `bottom`) for percentage snap points
-   * and dismissal calculations.
+   * and dismissal calculations. Defaults to the measured height of the `SheetView` layer; percentage
+   * snap points wait for that measurement before entering.
    * @zh Sheet 容器的高度（屏幕高度）。
    * 在垂直模式（`top` / `bottom`）下，用于计算百分比吸附点和关闭阈值。
    */
@@ -190,7 +191,8 @@ export interface SheetRootProps extends ComponentBasicProps {
   /**
    * The width of the Sheet container (screen width).
    * Used in horizontal drawer mode (`left` / `right` / `start` / `end`) for percentage snap points
-   * and dismissal calculations.
+   * and dismissal calculations. Defaults to the measured width of the `SheetView` layer; percentage
+   * snap points wait for that measurement before entering.
    * @zh Sheet 容器的宽度（屏幕宽度）。在水平抽屉模式（`left` / `right` / `start` / `end`）中用于百分比吸附点和关闭计算。
    */
   screenWidth?: number;

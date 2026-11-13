@@ -11,6 +11,7 @@ import {
   type SheetRootRef,
   type SheetTransition,
   type SheetViewProps,
+  useSheetContext,
 } from "./engine";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { useBottomSheetCloseButton } from "./useBottomSheetCloseButton.js";
@@ -126,27 +127,40 @@ export const BottomSheetRoot = React.forwardRef<SheetRootRef, BottomSheetRootPro
         pendingReasonRef.current = null;
       }
     });
-    const context = React.useMemo<UseBottomSheetContext>(
+    const context = React.useMemo<Omit<UseBottomSheetContext, "layerSize">>(
       () => ({ rootRef, skipAnimation, setOpen }),
       [rootRef, skipAnimation, setOpen],
     );
 
     return (
-      <BottomSheetProvider value={context}>
-        <SheetRoot
-          {...sheetProps}
-          ref={engineRef}
-          show={open}
-          defaultShow={defaultOpen}
-          onShowChange={handleShowChange}
-        >
-          {children}
-        </SheetRoot>
-      </BottomSheetProvider>
+      <SheetRoot
+        {...sheetProps}
+        ref={engineRef}
+        show={open}
+        defaultShow={defaultOpen}
+        onShowChange={handleShowChange}
+      >
+        <BottomSheetContextProvider value={context}>{children}</BottomSheetContextProvider>
+      </SheetRoot>
     );
   },
 );
 BottomSheetRoot.displayName = "BottomSheetRoot";
+
+/** 엔진이 측정한 레이어 크기를 Root context에 더한다. */
+function BottomSheetContextProvider(props: {
+  value: Omit<UseBottomSheetContext, "layerSize">;
+  children?: React.ReactNode;
+}): React.ReactElement {
+  const { value, children } = props;
+  const { layerSize } = useSheetContext();
+  const context = React.useMemo<UseBottomSheetContext>(
+    () => ({ ...value, layerSize }),
+    [value, layerSize],
+  );
+
+  return <BottomSheetProvider value={context}>{children}</BottomSheetProvider>;
+}
 
 export interface BottomSheetTriggerProps extends ViewProps {}
 
