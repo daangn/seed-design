@@ -39,7 +39,7 @@
     "@lynx-js/react": "^0.129.0",
     "@lynx-js/types": "^3.7.0",
     "@seed-design/lynx-vitest-config": "0.0.0",
-    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/jest-dom": "^7.0.0",
     "jsdom": "^29.0.2",
     "vitest": "^5.0.0"
   },
