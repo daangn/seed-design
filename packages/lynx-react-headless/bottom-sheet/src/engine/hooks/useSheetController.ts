@@ -80,6 +80,8 @@ export function useSheetController(
     animate?: boolean;
   } | null>(null);
   const transitionIdMTRef = useMainThreadRef(0);
+  // 완료 전에도 진행 중인 snap의 index를 알아야 크기가 바뀐 fit 지점으로 다시 snap할 수 있다.
+  const snapIndexMTRef = useMainThreadRef(initialSnap);
 
   function completeSnapTransition(index: number, value: number) {
     "main thread";
@@ -103,6 +105,7 @@ export function useSheetController(
     "main thread";
     const transitionId = ++transitionIdMTRef.current;
     pendingSnapMTRef.current = null;
+    snapIndexMTRef.current = index;
     const target = getTargetForSnap(index);
     const values = getResolvedSnapPointValues();
 
@@ -212,10 +215,11 @@ export function useSheetController(
     }
   }
 
+  /** 대기 중인 snap을 실행했으면 true를 반환한다. */
   function resolvePendingSnapMT() {
     "main thread";
     const pending = pendingSnapMTRef.current;
-    if (!pending) return;
+    if (!pending) return false;
 
     pendingSnapMTRef.current = null;
     snapToMT(pending.index, {
@@ -223,6 +227,7 @@ export function useSheetController(
       animationConfig: pending.animationConfig,
       animate: pending.animate,
     });
+    return true;
   }
 
   function onDragStartMT() {
@@ -273,6 +278,7 @@ export function useSheetController(
 
   return {
     presenceStateMTRef,
+    snapIndexMTRef,
     showMT,
     closeMT,
     snapToMT,

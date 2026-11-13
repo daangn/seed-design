@@ -34,6 +34,7 @@ import {
   getAccessibleText,
   useInsideAccessibilityElement,
 } from "../../utils/accessibility";
+import { useDialogLayerHeight } from "../private/DialogLayer";
 import { useDialogSafeAreaStyle } from "../private/DialogSafeArea";
 type DialogComponent<Props> = ((props: Props) => ReactElement) & {
   displayName?: string;
@@ -143,13 +144,15 @@ export const DialogPositioner = forwardRef<never, DialogPositionerProps>((props,
   const { className, style, transition = true, ...positionerProps } = props;
   const classNames = useClassNames();
   const safeAreaStyle = useDialogSafeAreaStyle();
+  const { dialogViewProps, layerStyle } = useDialogLayerHeight(positionerProps.dialogViewProps);
 
   return (
     <HeadlessDialogPositioner
       {...positionerProps}
       className={clsx(classNames.positioner, className)}
-      style={{ ...safeAreaStyle, ...style }}
+      style={{ ...safeAreaStyle, ...layerStyle, ...style }}
       transition={transition}
+      dialogViewProps={dialogViewProps}
     />
   );
 }) as DialogComponent<DialogPositionerProps>;

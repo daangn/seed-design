@@ -1,6 +1,6 @@
 import type { ReactNode } from "@lynx-js/react";
 
-import { render } from "@lynx-js/react/testing-library";
+import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 const dialogViewStyles = vi.hoisted(() => [] as unknown[]);
@@ -26,8 +26,12 @@ vi.mock("@lynx-js/lynx-ui-dialog", () => {
   const DialogView = (props: Record<string, unknown>) => {
     dialogViewStyles.push(props["style"]);
 
+    // Like lynx-ui without `container`, the native props land on the layer view.
     return (
-      <view className={props["className"] as string}>
+      <view
+        {...(props["dialogViewProps"] as Record<string, unknown>)}
+        className={props["className"] as string}
+      >
         {renderChildren(props["children"], { open: props["show"] === true })}
       </view>
     );
@@ -220,6 +224,29 @@ describe("Dialog", () => {
       paddingBottom: "calc(env(safe-area-inset-top) + 34px)",
       paddingLeft: "env(safe-area-inset-left)",
     });
+  });
+
+  it("caps the content at the measured layer height and keeps the consumer's layoutchange", () => {
+    const onLayoutChange = vi.fn();
+    const { container } = render(
+      <Dialog.Root open>
+        <Dialog.Positioner dialogViewProps={{ bindlayoutchange: onLayoutChange }}>
+          <Dialog.Content />
+        </Dialog.Positioner>
+      </Dialog.Root>,
+    );
+    // Until measured, the recipe falls back to `100vh`.
+    expect(dialogViewStyles.at(-1)).not.toHaveProperty("--dialog-layer-height");
+
+    const layer = container.querySelector(".seed-dialog__positioner");
+    if (!layer) throw new Error("Expected the dialog layer to mount");
+    fireEvent.layoutchange(layer, { detail: { width: 757, height: 844 } });
+    expect(dialogViewStyles.at(-1)).toMatchObject({ "--dialog-layer-height": "844px" });
+
+    // A hidden layer reports 0.
+    fireEvent.layoutchange(layer, { detail: { width: 0, height: 0 } });
+    expect(dialogViewStyles.at(-1)).toMatchObject({ "--dialog-layer-height": "844px" });
+    expect(onLayoutChange).toHaveBeenCalledTimes(2);
   });
 
   it("lets the positioner style override the safe area padding", () => {
