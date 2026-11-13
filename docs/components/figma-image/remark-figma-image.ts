@@ -1,6 +1,6 @@
 import type { Image, Paragraph } from "mdast";
 import { defineMdastPlugin, type MdxJsxAttributeNode, type MdxJsxFlowElement } from "satteri";
-import { childrenRange, replaceSource } from "../../lib/satteri/replace-source";
+import { childrenRange, replaceSource } from "@/lib/satteri/replace-source";
 import {
   createFigmaClient,
   fetchFigmaImageUrls,

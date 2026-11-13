@@ -5,14 +5,13 @@ import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import { SideNavigation as SeedSideNavigation, useSideNavigationContext } from "@seed-design/react";
 import clsx from "clsx";
 import type * as PageTree from "fumadocs-core/page-tree";
-import { PageLink as Link } from "@/components/link";
-import { useRouter } from "fumadocs-core/framework";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { isTabbedFolder } from "@/lib/tabbed";
 import { isFeatured } from "@/lib/featured";
 import { SidebarFeaturedDot } from "./sidebar-featured-dot";
-import { SidebarFolderRestore, restoredFolderOpen } from "./docs-sidebar-restore";
 import {
   type SidebarFolderItem,
   type SidebarGroup,
@@ -239,8 +238,7 @@ function DocsSideNavigationItem({ item }: { item: SidebarLeafItem }) {
 function DocsSideNavigationFolder({ item }: { item: SidebarFolderItem }) {
   const { collapsed } = useSideNavigationContext();
   const [open, setOpen] = usePersistentOpenState(
-    // 이전 페이지에서 남긴 상태를 HTML 파싱 중에 되살린 폴더는 그 값으로 시작한다(`docs-sidebar-restore.tsx`).
-    restoredFolderOpen(item.key) ?? item.defaultOpen,
+    item.defaultOpen,
     item.current,
     item.index,
     item.collapsible,
@@ -282,7 +280,6 @@ function DocsSideNavigationFolder({ item }: { item: SidebarFolderItem }) {
           <DocsSideNavigationItem key={sub.key} item={sub} />
         ))}
       </SeedSideNavigation.ItemCollapsibleContent>
-      <SidebarFolderRestore folderKey={item.key} locked={item.current || !item.collapsible} />
     </SeedSideNavigation.ItemCollapsibleRoot>
   );
 }

@@ -11,7 +11,7 @@ import { IconChevronDownSmallLine } from "@karrotmarket/react-monochrome-icon";
 import { DocsNavigationMenuContent } from "./docs-nav-menu-content";
 import clsx from "clsx";
 import { SiteLink } from "@/components/site-link";
-import { usePathname, useRouter } from "fumadocs-core/framework";
+import { usePathname, useRouter } from "next/navigation";
 import { NAV_ITEMS, type NavItem } from "./nav-items";
 
 /** Text stays neutral; hover/current/open state is expressed through pressed background. */

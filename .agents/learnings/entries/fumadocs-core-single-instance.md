@@ -1,6 +1,6 @@
 ---
 id: fumadocs-core-single-instance
-description: "docs의 fumadocs-core·fumadocs-ui를 올린 뒤 문서 빌드의 prerender가 `You need to wrap your application inside FrameworkProvider` 오류로 실패하거나, `node_modules/.bun`에 같은 버전의 fumadocs-core가 peer hash만 다르게 두 벌 생겼을 때 읽는다. Bun isolated 설치에서 optional peer 버전이 갈려 인스턴스가 나뉘는 원인과 확인·해결 순서를 다룬다."
+description: "docs의 fumadocs-core·fumadocs-ui를 올린 뒤 `next build` 정적 export가 `You need to wrap your application inside FrameworkProvider` 오류로 실패하거나, `node_modules/.bun`에 같은 버전의 fumadocs-core가 peer hash만 다르게 두 벌 생겼을 때 읽는다. Bun isolated 설치에서 optional peer 버전이 갈려 인스턴스가 나뉘는 원인과 확인·해결 순서를 다룬다."
 scope: ["docs/package.json", "examples/stackflow-spa/package.json", "bun.lock"]
 status: active
 ---
@@ -16,10 +16,9 @@ status: active
 ## 발생 근거와 적용 조건
 
 - 상황(2026-11-10): `fumadocs-ui` 16.18.1은 `lucide-react ^1.61.0`을 직접 의존한다. 루트에는 `examples/stackflow-spa`의 `lucide-react ^1.40.0`(1.40.0)이 있어, `fumadocs-core`의 optional peer `lucide-react`가 docs 쪽에서는 1.40, `fumadocs-ui` 쪽에서는 1.70으로 해석됐다.
-- 결과: 당시 문서 빌드였던 `next build` 정적 export에서 `/docs/migration/deprecations` prerender가 위 오류로 실패했다. `examples/stackflow-spa`의 `lucide-react`를 `^1.61.0`으로 올리자 두 링크가 같은 인스턴스를 가리키고 빌드가 통과했다.
+- 결과: `/docs/migration/deprecations` prerender가 위 오류로 실패했다. `examples/stackflow-spa`의 `lucide-react`를 `^1.61.0`으로 올리자 두 링크가 같은 인스턴스를 가리키고 빌드가 통과했다.
 - 위험: 오류 메시지만 보고 레이아웃에 provider를 추가하는 우회 수정을 한다.
 
 ## 변경 이력
 
 - 2026-11-10: fumadocs 16.18 업그레이드에서 재현·해결을 확인하고 작성했다.
-- 2026-11-11: docs가 Next.js에서 Astro로 옮겨 가 증상을 `next build`에 묶지 않도록 description을 고치고, 오류를 관찰한 빌드가 `next build`였음을 근거에 남겼다. `astro build`에서는 같은 오류를 재현·재검증하지 않았다.

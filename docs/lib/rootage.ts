@@ -1,6 +1,8 @@
+import "server-only";
 
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { cache } from "react";
 import { buildContext, Exchange } from "@seed-design/rootage-core";
 import index from "@seed-design/rootage-artifacts/index.json";
 
@@ -8,7 +10,7 @@ import index from "@seed-design/rootage-artifacts/index.json";
 // `@seed-design/rootage-artifacts` is the workspace package at `packages/rootage`.
 const ROOTAGE_DATA = join(process.cwd(), "..", "packages", "rootage", "__generated__");
 
-async function loadRootage() {
+export const getRootage = cache(async () => {
   const sourceFiles = await Promise.all(
     index.resources.map(async (resource) => {
       const content = await readFile(join(ROOTAGE_DATA, resource.path), "utf-8");
@@ -19,14 +21,7 @@ async function loadRootage() {
     }),
   );
   return buildContext(sourceFiles);
-}
-
-let rootage: ReturnType<typeof loadRootage> | undefined;
-
-/** 빌드 동안 rootage 산출물을 한 번만 읽는다. */
-export function getRootage() {
-  return (rootage ??= loadRootage());
-}
+});
 
 export async function getRootageMetadata(componentId: string) {
   const rootage = await getRootage();

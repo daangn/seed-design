@@ -232,6 +232,7 @@ jobs:
             ':(exclude,attr:linguist-generated)' \
             ':(exclude)**/package.json' \
             ':(exclude)**/archive/**/*' \
+            ':(exclude)**/.next/**/*' \
             ':(exclude)**/__testfixtures__/**/*' \
             ':(exclude)**/public/**/*'
 

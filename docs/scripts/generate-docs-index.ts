@@ -173,7 +173,7 @@ async function main() {
   const contentDir = path.join(process.cwd(), "content");
   const registryMap = buildRegistryMap();
 
-  // docs/lib/llms/config.ts의 sectionConfigs와 동일한 범위를 다뤄야 한다.
+  // docs/app/_llms/config.ts의 sectionConfigs와 동일한 범위를 다뤄야 한다.
   // 프레임워크 무관한 디자인 문서들(components·foundations·patterns·get-started·updates)은
   // 각자 최상위 URL을 쓰지만 카테고리는 "Design"(docs) 하나로 묶고, 디렉토리가 평평해서
   // slugs[0]으로 섹션을 유추할 수 없으므로 sectionId를 명시한다.

@@ -70,7 +70,7 @@ interface Frontmatter {
 
 export const REQUIRED_OG_COVER_IMAGES: RequiredCoverImageReference[] = [
   { sourceFile: "lib/seo.ts", value: "/og/default" },
-  { sourceFile: "components/updates/updates-index.tsx", value: "/og/updates" },
+  { sourceFile: "app/updates/page.tsx", value: "/og/updates" },
 ];
 
 export function resolveDocsWorkspace(cwd = process.cwd()): DocsWorkspace {

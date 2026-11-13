@@ -7,7 +7,7 @@ import clsx from "clsx";
 import type * as PageTree from "fumadocs-core/page-tree";
 import { useTreeContext } from "fumadocs-ui/contexts/tree";
 import { SiteLink } from "@/components/site-link";
-import { usePathname } from "fumadocs-core/framework";
+import { usePathname } from "next/navigation";
 import type { ComponentProps } from "react";
 import { useState } from "react";
 import { resolveDocsSection } from "@/lib/docs-sections";

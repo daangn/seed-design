@@ -29,7 +29,7 @@ Breeze는 사용자가 CLI(`npx @seed-design/cli@latest add breeze:<name>`)로 �
 자동으로 처리되므로 고치지 않는 것:
 
 - `docs/content/breeze/meta.json`: `"...components"`가 `components/` 아래 문서를 네비게이션에 넣는다.
-- LLM 라우트 `docs/src/pages/breeze/llms.txt.ts`, `docs/src/pages/llms/breeze/[...slug].txt.ts`: content에서 새 문서를 자동으로 포함한다.
+- LLM 라우트 `docs/app/breeze/llms.txt/route.ts`, `docs/app/llms/breeze/[...slug]/route.ts`: content에서 새 문서를 자동으로 포함한다.
 
 ## 규칙
 

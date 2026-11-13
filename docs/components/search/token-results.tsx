@@ -3,8 +3,8 @@
 import { Autocomplete } from "@base-ui/react/autocomplete";
 import clsx from "clsx";
 import { useSearch } from "fumadocs-ui/components/dialog/search";
-import { PageLink as Link } from "@/components/link";
-import { useRouter } from "fumadocs-core/framework";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { type CSSProperties, type ReactNode, useMemo } from "react";
 import { TOKEN_KIND_ICON } from "@/components/token-kind-icon";
 import { splitQueryTerms } from "@/lib/search-text";

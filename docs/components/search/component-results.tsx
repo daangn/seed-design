@@ -1,11 +1,11 @@
 "use client";
 
-import { fillImageStyle } from "@/components/fill-image-style";
 import { Autocomplete } from "@base-ui/react/autocomplete";
 import clsx from "clsx";
 import { useSearch } from "fumadocs-ui/components/dialog/search";
-import { PageLink as Link } from "@/components/link";
-import { useRouter } from "fumadocs-core/framework";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 import { COMPONENT_RESULT_LIMIT, type ComponentSearchEntry } from "@/lib/component-search";
 import { splitQueryTerms } from "@/lib/search-text";
@@ -54,14 +54,14 @@ function ComponentCard({ entry, terms }: { entry: ComponentSearchEntry; terms: s
     >
       <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-bg-transparent-selected">
         {entry.thumbnail ? (
-          <img
+          <Image
             src={entry.thumbnail}
             alt=""
+            fill
             loading="lazy"
             decoding="async"
             sizes="(min-width: 768px) 224px, 45vw"
             className="object-cover"
-            style={fillImageStyle}
           />
         ) : null}
       </div>

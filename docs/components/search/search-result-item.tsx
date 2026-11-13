@@ -5,7 +5,7 @@ import { IconHashLine } from "@karrotmarket/react-monochrome-icon";
 import clsx from "clsx";
 import type { SortedResult } from "fumadocs-core/search";
 import { useSearch } from "fumadocs-ui/components/dialog/search";
-import { useRouter } from "fumadocs-core/framework";
+import { useRouter } from "next/navigation";
 import { ResultMarkdown } from "./result-markdown";
 import { Breadcrumbs, ROW_ACTIVE_CLASS_NAME, ROW_CLASS_NAME } from "./row";
 

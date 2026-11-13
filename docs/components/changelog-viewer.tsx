@@ -8,29 +8,17 @@ import { useChangelogViewerState } from "@/components/changelog-viewer/use-chang
 import { resolveAndGroupEntries } from "@/lib/changelog-data";
 import type { ChangelogEntry } from "@/lib/parse-changelog";
 import type { ChangelogPlatform } from "@/lib/changelog-platform";
-import { NuqsAdapter } from "nuqs/adapters/react";
 import { SnackbarProvider } from "seed-design/ui/snackbar";
 
-interface ChangelogViewerProps {
-  entries: ChangelogEntry[];
-  packages: string[];
-  platform: ChangelogPlatform;
-}
-
-/** 본문에서 독립된 island로 hydrate되므로 URL 상태 adapter를 직접 둔다. */
-export function ChangelogViewer(props: ChangelogViewerProps) {
-  return (
-    <NuqsAdapter>
-      <ChangelogViewerContent {...props} />
-    </NuqsAdapter>
-  );
-}
-
-function ChangelogViewerContent({
+export function ChangelogViewer({
   entries,
   packages: rawPackages,
   platform,
-}: ChangelogViewerProps) {
+}: {
+  entries: ChangelogEntry[];
+  packages: string[];
+  platform: ChangelogPlatform;
+}) {
   const state = useChangelogViewerState(rawPackages, platform);
   const data = resolveAndGroupEntries({
     entries,

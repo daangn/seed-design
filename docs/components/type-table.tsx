@@ -7,7 +7,7 @@ import { archivePaths } from "@/lib/docs-archive";
  */
 
 import { IconChevronDownSmallLine } from "@karrotmarket/react-monochrome-icon";
-import { DocsLink as Link } from "@/components/link";
+import Link from "fumadocs-core/link";
 import { cva } from "class-variance-authority";
 import { twMerge as cn } from "tailwind-merge";
 import { type ComponentProps, type ReactNode, useEffect, useState } from "react";

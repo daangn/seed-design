@@ -9,6 +9,7 @@ reviews:
   path_filters:
     - "!**/package.json"
     - "!**/archive/**/*"
+    - "!**/.next/**/*"
     - "!**/__testfixtures__/**/*"
     - "!**/__generated__/**/*"
     - "!**/__registry__/**/*"

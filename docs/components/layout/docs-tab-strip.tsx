@@ -2,7 +2,7 @@
 
 import type * as PageTree from "fumadocs-core/page-tree";
 import { useTreeContext } from "fumadocs-ui/contexts/tree";
-import { usePathname, useRouter } from "fumadocs-core/framework";
+import { usePathname, useRouter } from "next/navigation";
 import { useRef, type CSSProperties } from "react";
 import { TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 import { findTabbedFolder } from "@/lib/tabbed";
@@ -68,7 +68,7 @@ export function DocsTabStrip() {
             // 전환 전에 즉시 스크롤한다. 이 컴포넌트는 라우트마다 리마운트되고,
             // smooth는 뒤이은 본문 교체에 잘려 중간에 멈춘다.
             anchorRef.current?.scrollIntoView({ block: "start" });
-            router.push(url);
+            router.push(url, { scroll: false });
           }}
           triggerLayout="hug"
           style={TAB_ROOT_STYLE}

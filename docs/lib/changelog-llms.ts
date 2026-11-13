@@ -1,5 +1,5 @@
 import { archivePaths } from "./docs-archive";
-import { archiveMarkdown } from "@/lib/llms/archive-markdown";
+import { archiveMarkdown } from "@/app/_llms/archive-markdown";
 import { buildEntryLookup, type EntryLookup } from "@/lib/changelog-data";
 import type { ChangelogEntry, ChangelogSource } from "./parse-changelog";
 import { getChangelogPlatform, type ChangelogPlatform } from "./changelog-platform";
