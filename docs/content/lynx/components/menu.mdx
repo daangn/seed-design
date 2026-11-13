@@ -181,7 +181,7 @@ Menu가 열려 있는 동안에는 화면 전체를 덮는 레이어가 바깥 �
 
 ### Container
 
-`container`를 지정하지 않으면 Menu 레이어는 Lynx view 안의 `position: fixed` view로 렌더링되고, z-index `99`로 같은 화면의 형제 요소 위에 그려집니다. `container="window"`처럼 native container 이름을 지정하면 native overlay에 렌더링되어 Lynx view 밖의 host 화면까지 덮습니다. `overlayLevel`은 `container`를 지정했을 때 overlay의 표시 순서를 정합니다. `container`를 지정하면 Menu 위치를 제한하는 Safe Area 경계는 [`SeedProvider`](/lynx/getting-started/host-integration#overlay-레이어의-safe-area)의 `windowSafeAreaInsets`를 따릅니다.
+`container`를 지정하지 않으면 Menu 레이어는 Lynx view 안의 `position: fixed` view로 렌더링되고, z-index `99`로 같은 화면의 형제 요소 위에 그려집니다. `container="window"`처럼 native container 이름을 지정하면 native overlay에 렌더링되어 Lynx view 밖의 host 화면까지 덮습니다. `overlayLevel`은 `container`를 지정했을 때 overlay의 표시 순서를 정합니다. `container`를 지정하면 Menu 위치를 제한하는 Safe Area 경계는 [`SeedProvider`](/lynx/getting-started/host-integration#overlay-레이어의-safe-area)에 넘긴 `windowSafeAreaInsets`를 따릅니다. 값을 넘기지 않았으면 `safeAreaInsets`를 따릅니다.
 
 두 방식 모두 레이어 바깥을 탭하면 아래 화면에 탭을 전달하지 않고 `"interactOutside"` reason으로 닫힙니다.
 
