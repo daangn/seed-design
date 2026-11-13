@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@types/node": "^25.0.0",
-    "bunchee": "^6.3.2",
+    "bunchee": "^7.0.0",
     "typescript": "^6.0.3"
   },
   "keywords": [
