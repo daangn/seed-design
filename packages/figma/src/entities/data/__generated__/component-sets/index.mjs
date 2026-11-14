@@ -1476,10 +1476,24 @@ export const privateComponentTopNavigationIOsLiquidGlass = {
       "type": "BOOLEAN"
     },
     "Leading#25356:15": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": false,
+        "minChildren": 1,
+        "maxChildren": 1,
+        "allowPreferredValuesOnly": true
+      }
     },
     "Trailing#25356:17": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": false,
+        "minChildren": 1,
+        "maxChildren": 1,
+        "allowPreferredValuesOnly": true
+      }
     },
     "Type": {
       "type": "VARIANT",
@@ -1496,7 +1510,14 @@ export const privateComponentTopNavigationIOsLiquidGlassButton = {
   "key": "b86b0bc90bfa59e2eaf5412881c39082b5100d8d",
   "componentPropertyDefinitions": {
     "Button#25336:0": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": false,
+        "minChildren": 2,
+        "maxChildren": 3,
+        "allowPreferredValuesOnly": true
+      }
     },
     "Theme": {
       "type": "VARIANT",
@@ -2375,7 +2396,14 @@ export const componentAccordion = {
   "key": "0686a42b92941f42561f73e95ecff0699b86e3a9",
   "componentPropertyDefinitions": {
     "Accordion Group#10588:0": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": false,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     },
     "Size": {
       "type": "VARIANT",
@@ -2708,7 +2736,14 @@ export const componentBottomSheet = {
   "key": "ffe99a21452831c28bd9375aac0aaf37d7ee6a0d",
   "componentPropertyDefinitions": {
     "Contents Slot#6752:0": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     },
     "Title#19787:3": {
       "type": "TEXT"
@@ -3143,7 +3178,8 @@ export const componentDatePicker = {
         "Month with Text",
         "Week",
         "Scrollable",
-        "Two Months"
+        "Two Months",
+        "Two Weeks"
       ]
     }
   }
@@ -3163,7 +3199,14 @@ export const componentDialog = {
       "type": "BOOLEAN"
     },
     "Slot#17906:3": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     },
     "Size": {
       "type": "VARIANT",
@@ -3316,19 +3359,54 @@ export const componentHeader = {
   "key": "161e2ac88e023e18c9657ee699aad2a24f5a10e2",
   "componentPropertyDefinitions": {
     "Left 1st Slot#4518:20": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     },
     "Left 2nd Slot#4518:25": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     },
     "Center Slot#4518:30": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     },
     "Right 1st Slot#4518:35": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     },
     "Right 2nd Slot#4518:40": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     },
     "Has Left 2nd Slot#4518:45": {
       "type": "BOOLEAN"
@@ -3545,7 +3623,14 @@ export const componentListHeader = {
   "key": "88a425714cf186e362b9c420fabf6e39d7bd5155",
   "componentPropertyDefinitions": {
     "Suffix Slot#20032:2": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     },
     "Title#28588:0": {
       "type": "TEXT"
@@ -5458,7 +5543,14 @@ export const componentHeaderItemMenu = {
   "key": "c09d80c557caff256d65b3275a8906049a50bbdc",
   "componentPropertyDefinitions": {
     "Slot#4518:74": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": false,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": true
+      }
     },
     "Size": {
       "type": "VARIANT",
@@ -5637,7 +5729,14 @@ export const componentSelectBoxItemHorizontal = {
   "key": "8174af8ef3654dad996723883f5b84f44f791513",
   "componentPropertyDefinitions": {
     "Contents Slot#6752:6": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     },
     "Title#28452:21": {
       "type": "TEXT"
@@ -5688,7 +5787,14 @@ export const componentSelectBoxItemVertical = {
   "key": "ccc88f0aae500c64e7d43be63c4f1a70baf76bfe",
   "componentPropertyDefinitions": {
     "Content Slot#6765:0": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     },
     "Title#58766:114": {
       "type": "TEXT"
@@ -5781,7 +5887,14 @@ export const componentShortcutGroupFigmaOnly = {
   "key": "8d96720b1a858bf540e19c5c5d8eda279d2c9477",
   "componentPropertyDefinitions": {
     "Slot#4610:1": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": 2,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": true
+      }
     },
     "Show Leading More#7810:9": {
       "type": "BOOLEAN"
