@@ -1,5 +1,11 @@
 {
   "title": "Styling",
   "icon": "Palette",
-  "pages": ["theming", "fonts", "tailwind-css", "cascade-layers"]
+  "pages": [
+    "theming",
+    "font-scaling",
+    "fonts",
+    "tailwind-css",
+    "cascade-layers"
+  ]
 }
