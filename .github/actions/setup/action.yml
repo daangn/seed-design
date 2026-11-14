@@ -52,6 +52,7 @@ runs:
           packages/*/dist
           packages/*/build
           packages/*/lib
+          packages/*/bin
           packages/*/.ultra.cache.json
           packages/*/*/dist
           packages/*/*/build
@@ -60,14 +61,29 @@ runs:
           ecosystem/*/dist
           ecosystem/*/build
           ecosystem/*/lib
+          ecosystem/*/bin
           ecosystem/*/.ultra.cache.json
           ecosystem/*/*/dist
           ecosystem/*/*/build
           ecosystem/*/*/lib
+          ecosystem/*/*/bin
           ecosystem/*/*/.ultra.cache.json
         key: ${{ runner.os }}-build-bun-${{ steps.setup-bun.outputs.bun-version }}-${{ steps.build-cache-key.outputs.suffix }}
         restore-keys: |
           ${{ runner.os }}-build-bun-${{ steps.setup-bun.outputs.bun-version }}-rootage-${{ inputs.build-rootage }}-
+
+    - name: Stamp workspace packages without a build script
+      if: ${{ inputs.build-packages == 'true' && steps.cache-build.outputs.cache-hit != 'true' }}
+      shell: bash
+      run: |
+        # ultra-runner treats a dependency without .ultra.cache.json as changed on every run, so stamp it by tracked content.
+        shopt -s nullglob
+        for pj in packages/*/package.json packages/*/*/package.json ecosystem/*/package.json ecosystem/*/*/package.json; do
+          jq -e '.scripts.build' "$pj" >/dev/null && continue
+          dir=${pj%/package.json}
+          digest=$(git ls-files -s -- "$dir" | git hash-object --stdin)
+          [ "$(cat "$dir/.ultra.cache.json" 2>/dev/null)" = "$digest" ] || printf '%s' "$digest" > "$dir/.ultra.cache.json"
+        done
 
     - name: Install Dependencies
       if: ${{ inputs.build-packages != 'true' || steps.cache-build.outputs.cache-hit != 'true' }}
