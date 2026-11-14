@@ -153,7 +153,7 @@
     "@types/react-dom": "^19.2.3",
     "@typescript/native": "npm:typescript@^7.0.2",
     "chalk": "^5.3.0",
-    "chromatic": "^17.0.0",
+    "chromatic": "^18.0.0",
     "concurrently": "^9.2.1",
     "figma-api": "2.1.4-beta",
     "flat-cache": "^6.1.19",
