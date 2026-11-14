@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@lynx-js/react": "^0.129.0",
-    "@lynx-js/types": "^3.7.0",
+    "@lynx-js/types": "^4.0.0",
     "@seed-design/lynx-vitest-config": "0.0.0",
     "@testing-library/jest-dom": "^7.0.0",
     "jsdom": "^29.0.2",

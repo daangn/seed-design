@@ -34,7 +34,7 @@
     "lightningcss": "^1.29.3"
   },
   "devDependencies": {
-    "@lynx-js/types": "^3.7.0",
+    "@lynx-js/types": "^4.0.0",
     "@seed-design/rootage-artifacts": "3.3.0"
   }
 }
