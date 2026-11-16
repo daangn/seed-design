@@ -31,12 +31,13 @@ safe area inset을 반영하려면 `viewport-fit=cover`가 포함된 `viewport` 
 
 ## inset 값이 정해지는 순서
 
-대부분의 환경에서는 아무것도 지정하지 않아도 됩니다. SEED 컴포넌트와 `Box`의 `"safeArea"` 값은 `--seed-safe-area-top`, `--seed-safe-area-right`, `--seed-safe-area-bottom`, `--seed-safe-area-left` CSS 변수에서 inset을 읽고, `@seed-design/css`의 기본 스타일시트가 이 변수를 `:root`에 선언합니다. 방향마다 다음 순서로 값을 찾아 처음 정의된 값을 사용합니다.
+대부분의 환경에서는 아무것도 지정하지 않아도 됩니다. SEED 컴포넌트와 `Box`의 `"safeArea"` 값은 `--seed-safe-area-top`, `--seed-safe-area-right`, `--seed-safe-area-bottom`, `--seed-safe-area-left` CSS 변수에서 inset을 읽고, `@seed-design/css`의 기본 스타일시트가 이 변수를 `:root`에 선언합니다. 방향마다 다음 순서로 값을 찾아 처음으로 사용할 수 있는 값을 사용합니다.
 
 1. 직접 지정한 `--seed-safe-area-*`
 2. `--native-safe-area-inset-*`
-3. `env(safe-area-inset-*)`. `env()`를 지원하지 않는 환경에서는 `constant(safe-area-inset-*)`
-4. 둘 다 지원하지 않는 환경에서는 `0px`
+3. `env(safe-area-inset-*)`
+4. `constant(safe-area-inset-*)`
+5. `0px`
 
 `--native-safe-area-inset-*`는 웹에서 오버라이드하는 변수가 아닙니다. inset을 바꿔야 하면 `--seed-safe-area-*`를 지정하세요.
 
@@ -55,8 +56,8 @@ SEED 컴포넌트가 사용하는 inset을 바꾸려면 `--seed-safe-area-*`를 
 
 문서 전체에서 바꾸려면 `:root`에 지정합니다. SEED도 `:root`에 이 변수를 선언하므로, 지정한 값이 SEED의 선언보다 cascade에서 우선해야 합니다.
 
-- `base.css`를 사용하면 SEED의 선언은 레이어에 속하지 않습니다. 같은 `:root` 선택자로, SEED 스타일시트보다 뒤에, `@layer` 밖에서 선언하세요.
-- [`base.layered.css`](/react/getting-started/styling/cascade-layers)를 사용하면 SEED의 선언은 `seed-base` 레이어에 속합니다. `@layer` 밖에서 선언하거나, `seed-base`보다 뒤에 오는 레이어에서 선언하세요.
+- `base.css`를 사용하는 경우 SEED의 선언은 레이어에 속하지 않습니다. 같은 `:root` 선택자로, SEED 스타일시트보다 뒤에, `@layer` 밖에서 선언하세요.
+- [`base.layered.css`](/react/getting-started/styling/cascade-layers)를 사용하는 경우 SEED의 선언은 `seed-base` 레이어에 속합니다. `@layer` 밖에서 선언하거나, `seed-base`보다 뒤에 오는 레이어에서 선언하세요.
 
 예를 들어 `--native-safe-area-inset-*`를 사용하지 않고 `env(safe-area-inset-*)` 값만 사용하려면 다음과 같이 지정합니다.
 
