@@ -378,14 +378,21 @@ export function CaseSwipeCrossfade() {
   );
 }
 
+const WINDOW_CORNER_RADIUS_40 = {
+  "--seed-window-corner-radius-top-left": "40px",
+  "--seed-window-corner-radius-top-right": "40px",
+  "--seed-window-corner-radius-bottom-right": "40px",
+  "--seed-window-corner-radius-bottom-left": "40px",
+} as React.CSSProperties;
+
 export function CaseSwipeClip() {
   return (
-    <NextAppScreen clipRadius={40}>
+    <NextAppScreen style={WINDOW_CORNER_RADIUS_40}>
       <NextAppBar>
         <NextAppBarLeft>
           <NextAppBarBackButton />
         </NextAppBarLeft>
-        <NextAppBarMain title="clipRadius 40" />
+        <NextAppBarMain title="window corner radius 40" />
       </NextAppBar>
       <NextAppScreenContent>
         <Filler />
