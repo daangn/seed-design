@@ -119,6 +119,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "activity-bottom-sheet",
+      snippets: [
+        {
+          path: "activity-bottom-sheet.tsx",
+          dependencies: { "@seed-design/react": "^3.0.0" },
+        },
+      ],
+    },
+    {
       id: "side-panel",
       snippets: [
         {

@@ -62,18 +62,18 @@ describe("transitionStyle 결정", () => {
   it("NextAppBar의 tone variant가 background slot 클래스에 반영된다", async () => {
     const { container } = renderStack({
       activities: {
-        Transparent: makeActivity({
-          testId: "transparent",
+        Gradient: makeActivity({
+          testId: "gradient",
           withAppBar: true,
-          appBarProps: { tone: "transparent" },
+          appBarProps: { tone: "gradient" },
         }),
       },
-      initialActivity: "Transparent",
+      initialActivity: "Gradient",
     });
     await settle(container);
 
-    const background = getPart(getScreen(container, "transparent"), "app-bar-background");
-    expect(background?.className).toContain("seed-next-app-bar__background--tone_transparent");
+    const background = getPart(getScreen(container, "gradient"), "app-bar-background");
+    expect(background?.className).toContain("seed-next-app-bar__background--tone_gradient");
 
     const { container: layerContainer } = renderStack({
       activities: {

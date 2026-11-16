@@ -1,3 +1,4 @@
+import type { StyleObject } from "@seed-design/qvism-core";
 import { defineSlotRecipe } from "../utils/define";
 import {
   createFocusRingRestStyles,
@@ -131,7 +132,7 @@ export const nextAppBarMain = defineSlotRecipe({
           color: vars.toneLayer.enabled.subtitle.color,
         },
       },
-      transparent: {
+      gradient: {
         root: {
           color: vars.toneTransparent.enabled.title.color,
         },
@@ -153,8 +154,20 @@ export const nextAppBarMain = defineSlotRecipe({
 
 export const nextAppBar = defineSlotRecipe({
   name: "next-app-bar",
-  slots: ["root", "background", "left", "right", "iconButton", "textButton", "textButtonLabel"],
+  slots: [
+    "root",
+    "background",
+    "row",
+    "accessory",
+    "left",
+    "right",
+    "iconButton",
+    "textButton",
+    "textButtonLabel",
+  ],
   base: {
+    // Row and accessory stack in normal flow, so the root — and the background
+    // filling it — grows with the accessory without being measured.
     root: {
       // The bar lives inside the screen layer (the transition unit), so it has
       // no stack z-index tier — it only needs to sit above the content.
@@ -164,13 +177,25 @@ export const nextAppBar = defineSlotRecipe({
       position: "absolute",
       boxSizing: "border-box",
       width: "100%",
+    },
+    row: {
+      // Containing block for the cupertino Main, which spans the row.
+      position: "relative",
+      boxSizing: "border-box",
       display: "flex",
       alignItems: "flex-end",
 
-      height: `calc(${vars.base.enabled.root.height} + var(--seed-safe-area-top))`,
+      // `--app-bar-height` comes from NextAppScreen, which drops it to 0 when a
+      // host draws the bar natively and the safe area already covers it.
+      height: `calc(var(--app-bar-height, ${vars.base.enabled.root.height}) + var(--seed-safe-area-top))`,
       paddingLeft: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-left))`,
       paddingRight: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-right))`,
       paddingTop: "var(--seed-safe-area-top)",
+    },
+    // Edge to edge without the side insets: content such as `TabsList` keeps
+    // clear of them itself.
+    accessory: {
+      position: "relative",
     },
     background: {
       position: "absolute",
@@ -284,7 +309,7 @@ export const nextAppBar = defineSlotRecipe({
           },
         },
       },
-      transparent: {
+      gradient: {
         background: {
           background: `linear-gradient(180deg, ${vars.toneTransparentGradientTrue.enabled.root.gradient.serialized})`,
           height: `calc(100% + ${vars.toneTransparentGradientTrue.enabled.root.bleedBottom})`,
@@ -307,5 +332,109 @@ export const nextAppBar = defineSlotRecipe({
   defaultVariants: {
     theme: "cupertino",
     tone: "layer",
+  },
+});
+
+const BACKGROUND_BLUR = 20;
+const BACKGROUND_TINT_OPACITY = 0.72;
+const BACKGROUND_TRANSITION = "opacity 200ms";
+
+// `NextAppBarBackground` renders the same number of blur layers.
+const NEXT_APP_BAR_BACKGROUND_BLUR_LAYERS = 8;
+
+/**
+ * Each layer doubles the blur radius of the one below and keeps only its own band, overlapping
+ * its neighbours by half so no step edge shows; the top layer runs to the top edge.
+ */
+const progressiveBlurLayers: Record<`&:nth-child(${number})`, StyleObject> = Object.fromEntries(
+  Array.from({ length: NEXT_APP_BAR_BACKGROUND_BLUR_LAYERS }, (_, index) => {
+    const step = 100 / (NEXT_APP_BAR_BACKGROUND_BLUR_LAYERS + 1);
+    const stops = [
+      `transparent ${index * step}%`,
+      `black ${(index + 1) * step}%`,
+      ...(index < NEXT_APP_BAR_BACKGROUND_BLUR_LAYERS - 1
+        ? [`black ${(index + 2) * step}%`, `transparent ${(index + 3) * step}%`]
+        : []),
+    ];
+    const mask = `linear-gradient(to top, ${stops.join(", ")})`;
+    const backdropFilter = `blur(${BACKGROUND_BLUR / 2 ** (NEXT_APP_BAR_BACKGROUND_BLUR_LAYERS - 1 - index)}px)`;
+
+    return [
+      `&:nth-child(${index + 1})`,
+      {
+        WebkitBackdropFilter: backdropFilter,
+        backdropFilter,
+        WebkitMaskImage: mask,
+        maskImage: mask,
+      },
+    ];
+  }),
+);
+
+/**
+ * What a host-drawn bar sits on. The host draws the title and buttons, so unlike `tone` this
+ * carries no foreground colour.
+ *
+ * Every visual effect sits on the layers, never on the root: an ancestor with opacity, a mask or
+ * a clip becomes the backdrop root, and `backdrop-filter` below it stops reading the content
+ * behind. The tint fades with opacity instead of `color-mix()`, which Safari 15 and Chrome 88
+ * lack.
+ */
+export const nextAppBarBackground = defineSlotRecipe({
+  name: "next-app-bar-background",
+  slots: ["root", "blur", "tint"],
+  base: {
+    root: {
+      position: "absolute",
+      inset: 0,
+      zIndex: -1,
+      pointerEvents: "none",
+    },
+    blur: {
+      position: "absolute",
+      inset: 0,
+      clipPath: "var(--seed-next-app-bar-background-clip-path, none)",
+      transition: BACKGROUND_TRANSITION,
+    },
+    tint: {
+      position: "absolute",
+      inset: 0,
+      clipPath: "var(--seed-next-app-bar-background-clip-path, none)",
+      background: `var(--seed-box-background, ${vars.toneLayer.enabled.root.color})`,
+      transition: BACKGROUND_TRANSITION,
+    },
+  },
+  variants: {
+    material: {
+      progressiveBlur: {
+        blur: progressiveBlurLayers,
+        tint: {
+          opacity: BACKGROUND_TINT_OPACITY,
+          WebkitMaskImage: "linear-gradient(black, transparent)",
+          maskImage: "linear-gradient(black, transparent)",
+        },
+      },
+      // `progressiveBlur` faded out, so switching between the two fades instead of cutting.
+      transparent: {
+        blur: { ...progressiveBlurLayers, opacity: 0 },
+        tint: {
+          opacity: 0,
+          WebkitMaskImage: "linear-gradient(black, transparent)",
+          maskImage: "linear-gradient(black, transparent)",
+        },
+      },
+      translucent: {
+        blur: {
+          WebkitBackdropFilter: `blur(${BACKGROUND_BLUR}px) saturate(180%)`,
+          backdropFilter: `blur(${BACKGROUND_BLUR}px) saturate(180%)`,
+        },
+        tint: {
+          opacity: BACKGROUND_TINT_OPACITY,
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    material: "progressiveBlur",
   },
 });

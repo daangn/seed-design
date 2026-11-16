@@ -10,7 +10,7 @@ declare interface NextAppBarMainVariant {
 /**
   * @default "layer"
   */
-  tone: "layer" | "transparent";
+  tone: "layer" | "gradient";
 }
 
 declare type NextAppBarMainVariantMap = {

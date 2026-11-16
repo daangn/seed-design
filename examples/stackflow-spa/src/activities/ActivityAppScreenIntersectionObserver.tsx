@@ -22,7 +22,7 @@ declare module "@stackflow/config" {
 const ActivityAppScreenIntersectionObserver: StaticActivityComponentType<
   "ActivityAppScreenIntersectionObserver"
 > = () => {
-  const [tone, setTone] = useState<NextAppBarProps["tone"]>("transparent");
+  const [tone, setTone] = useState<NextAppBarProps["tone"]>("gradient");
   const whiteImageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -34,8 +34,8 @@ const ActivityAppScreenIntersectionObserver: StaticActivityComponentType<
           // 이미지 영역을 벗어나면 tone을 layer로 변경
           setTone("layer");
         } else {
-          // 이미지 영역을 포함하면 tone을 transparent로 변경
-          setTone("transparent");
+          // 이미지 영역을 포함하면 tone을 gradient로 변경
+          setTone("gradient");
         }
       },
       {

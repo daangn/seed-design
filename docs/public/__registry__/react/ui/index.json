@@ -41,6 +41,29 @@
     {
       "snippets": [
         {
+          "path": "activity-bottom-sheet.tsx",
+          "dependencies": {
+            "@seed-design/react": "^3.0.0"
+          }
+        }
+      ],
+      "id": "activity-bottom-sheet",
+      "dependencies": [
+        "@seed-design/stackflow",
+        "@stackflow/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "bottom-sheet"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "alert-dialog.tsx",
           "dependencies": {
             "@seed-design/react": "^3.0.0"

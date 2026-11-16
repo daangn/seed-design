@@ -9,7 +9,7 @@ import { spyOn } from "bun:test";
 import { act, render } from "@testing-library/react";
 import { stackflow } from "@stackflow/react";
 import type { ActivityComponentType, StackflowReactPlugin } from "@stackflow/react";
-import { Fragment } from "react";
+import { Fragment, type ReactNode } from "react";
 import { seedPlugin, type SeedPluginOptions } from "../src";
 import { finishAnimations, resetAnimations } from "./waapi";
 
@@ -35,6 +35,8 @@ export interface RenderStackOptions {
   theme?: SeedPluginOptions["theme"];
   swipeBackArea?: SeedPluginOptions["swipeBackArea"];
   transitionDuration?: number;
+  /** Wraps `<Stack />`, such as in a `HostUIProvider`. */
+  wrapper?: (props: { children: ReactNode }) => ReactNode;
 }
 
 export function renderStack(options: RenderStackOptions) {
@@ -53,7 +55,7 @@ export function renderStack(options: RenderStackOptions) {
     ],
   });
 
-  const utils = render(<Stack />);
+  const utils = render(<Stack />, { ...(options.wrapper && { wrapper: options.wrapper }) });
 
   return {
     ...utils,

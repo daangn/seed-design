@@ -35,7 +35,7 @@ export const nextAppBarMainVariantMap = {
   ],
   "tone": [
     "layer",
-    "transparent"
+    "gradient"
   ]
 };
 
