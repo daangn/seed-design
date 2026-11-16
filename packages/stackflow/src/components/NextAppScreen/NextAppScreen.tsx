@@ -3,7 +3,7 @@ import {
   type NextAppScreenVariantProps,
 } from "@seed-design/css/recipes/next-app-screen";
 import { mergeProps } from "@seed-design/dom-utils";
-import { createContext, forwardRef, useContext, useMemo } from "react";
+import { createContext, forwardRef, useContext } from "react";
 import { NextAppScreen as NextAppScreenPrimitive } from "../../primitive";
 import { useNextScreenStatus } from "../../primitive/NextAppScreen/useNextScreenStatus";
 import { createStyleContext, mergeContextProps } from "../../utils/createStyleContext";
@@ -29,37 +29,14 @@ export const NextAppScreenPropsProvider = ({
   <NextAppScreenPropsContext.Provider value={value}>{children}</NextAppScreenPropsContext.Provider>
 );
 
-const CLIP_RADIUS_VARS = {
-  topLeft: "--seed-next-app-screen-clip-radius-top-left",
-  topRight: "--seed-next-app-screen-clip-radius-top-right",
-  bottomRight: "--seed-next-app-screen-clip-radius-bottom-right",
-  bottomLeft: "--seed-next-app-screen-clip-radius-bottom-left",
-} as const;
-
-type ClipRadiusLength = string | number;
-
-export type NextAppScreenClipRadius =
-  | ClipRadiusLength
-  | Partial<Record<keyof typeof CLIP_RADIUS_VARS, ClipRadiusLength>>;
-
 export interface NextAppScreenRootProps
   extends NextAppScreenVariantProps,
-    NextAppScreenPrimitive.RootProps {
-  /**
-   * Corner radius of the device display, matched by the clip that runs while a
-   * transition or a swipe-back gesture is in flight. A number means px; a
-   * string is any CSS length. An object sets each corner on its own, and a
-   * corner it leaves out is square. Unset, the clip follows
-   * `--seed-window-corner-radius-*` where it is defined, and nothing is
-   * clipped elsewhere.
-   */
-  clipRadius?: NextAppScreenClipRadius;
-}
+    NextAppScreenPrimitive.RootProps {}
 
 export const NextAppScreenRoot = forwardRef<HTMLDivElement, NextAppScreenRootProps>(
   (props, ref) => {
     const contextProps = useContext(NextAppScreenPropsContext);
-    const [variantProps, { clipRadius, ...otherProps }] = nextAppScreen.splitVariantProps(
+    const [variantProps, otherProps] = nextAppScreen.splitVariantProps(
       mergeContextProps(contextProps, props),
     );
 
@@ -75,34 +52,12 @@ export const NextAppScreenRoot = forwardRef<HTMLDivElement, NextAppScreenRootPro
       transitionStyle: effectiveTransitionStyle,
     });
 
-    // A var left unset falls back to `--seed-window-corner-radius-*` for that
-    // corner in the recipe, so an explicit clip sets all four.
-    const clipStyle = useMemo(
-      () =>
-        clipRadius === undefined
-          ? undefined
-          : (Object.fromEntries(
-              Object.entries(CLIP_RADIUS_VARS).map(([corner, name]) => {
-                const radius =
-                  typeof clipRadius === "object"
-                    ? (clipRadius[corner as keyof typeof CLIP_RADIUS_VARS] ?? 0)
-                    : clipRadius;
-
-                return [name, typeof radius === "number" ? `${radius}px` : radius];
-              }),
-            ) as React.CSSProperties),
-      [clipRadius],
-    );
-
     return (
       <ClassNamesProvider value={classNames}>
         <NextAppScreenPrimitive.Root
           ref={ref}
           transitionStyle={variantProps.transitionStyle}
-          {...mergeProps(
-            { className: classNames.root, ...(clipStyle && { style: clipStyle }) },
-            otherProps,
-          )}
+          {...mergeProps({ className: classNames.root }, otherProps)}
         />
       </ClassNamesProvider>
     );

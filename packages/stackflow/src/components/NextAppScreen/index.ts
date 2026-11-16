@@ -8,7 +8,6 @@ export {
 } from "./NextAppScreen";
 
 export type {
-  NextAppScreenClipRadius,
   NextAppScreenContentProps,
   NextAppScreenContextProps,
   NextAppScreenDimProps,

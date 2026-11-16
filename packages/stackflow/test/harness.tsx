@@ -34,7 +34,6 @@ export interface RenderStackOptions {
   initialActivity: string;
   theme?: SeedPluginOptions["theme"];
   swipeBackArea?: SeedPluginOptions["swipeBackArea"];
-  clipRadius?: SeedPluginOptions["clipRadius"];
   transitionDuration?: number;
 }
 
@@ -50,7 +49,6 @@ export function renderStack(options: RenderStackOptions) {
       seedPlugin({
         theme: options.theme ?? "cupertino",
         swipeBackArea: options.swipeBackArea,
-        clipRadius: options.clipRadius,
       }),
     ],
   });

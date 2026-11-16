@@ -1,10 +1,6 @@
 import type { StackflowReactPlugin } from "@stackflow/react";
 import { useMemo } from "react";
-import {
-  AppScreenPropsProvider,
-  type NextAppScreenClipRadius,
-  NextAppScreenPropsProvider,
-} from "./components";
+import { AppScreenPropsProvider, NextAppScreenPropsProvider } from "./components";
 import { NextAppBarPropsProvider } from "./components/NextAppBar/NextAppBar";
 import { GlobalInteraction, NextScreenRegistryProvider, type NextSwipeBackArea } from "./primitive";
 
@@ -19,17 +15,6 @@ export interface SeedPluginOptions {
    * @default "edge"
    */
   swipeBackArea?: NextSwipeBackArea;
-
-  /**
-   * Stack-wide corner radius of the device display, matched by the clip
-   * `NextAppScreen` runs while a transition or a swipe-back gesture is in
-   * flight. A number means px; a string is any CSS length. An object sets each
-   * corner on its own, and a corner it leaves out is square. A screen's own
-   * `clipRadius` still wins. Unset, the clip follows
-   * `--seed-window-corner-radius-*` where it is defined, and nothing is
-   * clipped elsewhere.
-   */
-  clipRadius?: NextAppScreenClipRadius;
 }
 
 export const seedPlugin =
@@ -55,15 +40,12 @@ function SeedProviders({
   options: SeedPluginOptions;
   children: React.ReactNode;
 }) {
-  const { theme, swipeBackArea, clipRadius } = options;
+  const { theme, swipeBackArea } = options;
 
   // The legacy AppScreen has neither of the NextAppScreen props, and any prop
   // it doesn't recognize lands on the DOM.
   const themeProps = useMemo(() => ({ theme }), [theme]);
-  const nextAppScreenProps = useMemo(
-    () => ({ swipeBackArea, clipRadius }),
-    [swipeBackArea, clipRadius],
-  );
+  const nextAppScreenProps = useMemo(() => ({ swipeBackArea }), [swipeBackArea]);
 
   return (
     <AppScreenPropsProvider value={themeProps}>
