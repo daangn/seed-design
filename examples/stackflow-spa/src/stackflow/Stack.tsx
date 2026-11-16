@@ -24,7 +24,7 @@ export const { Stack, actions, stepActions } = stackflow({
     basicUIPlugin({ theme }),
     seedPlugin({
       theme,
-      ...(theme === "cupertino" && { swipeBackArea: "full" as const, clipRadius: 55 }),
+      ...(theme === "cupertino" && { swipeBackArea: "full" as const }),
     }),
     iframeSyncPlugin(),
     historySyncPlugin({
