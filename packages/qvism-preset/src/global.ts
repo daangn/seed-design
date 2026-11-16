@@ -24,6 +24,13 @@ export const globalCss = defineGlobalCss({
       "--seed-safe-area-right": "env(safe-area-inset-right)",
     },
 
+    // `--ios-window-corner-radius-*` is never set by SEED; it is an optional input defined outside this stylesheet.
+    // No fallback: where it is undefined these stay undefined too, which next-app-screen relies on to skip its mask.
+    "--seed-window-corner-radius-top-left": "var(--ios-window-corner-radius-top-left)",
+    "--seed-window-corner-radius-top-right": "var(--ios-window-corner-radius-top-right)",
+    "--seed-window-corner-radius-bottom-right": "var(--ios-window-corner-radius-bottom-right)",
+    "--seed-window-corner-radius-bottom-left": "var(--ios-window-corner-radius-bottom-left)",
+
     // users can opt in with `font-family: var(--seed-font-family)`.
     // see: https://seed-design.io/foundations/typography
     "--seed-font-family": [

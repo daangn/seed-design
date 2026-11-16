@@ -96,14 +96,16 @@ const SWIPE_VERTICAL_LAYER_TRANSFORM = `translate3d(0, calc(${SWIPE_RATIO} * ${V
 // `-webkit-mask` is the one spelling every engine takes: WebKit has no
 // unprefixed `mask` before Safari 15.4, and Gecko aliases the prefixed one.
 //
-// The radius vars are read WITHOUT a fallback, so a stack that sets no
-// `clipRadius` leaves the whole shorthand invalid at computed-value time — the
-// mask falls back to `none` and no full-screen mask layer is rasterized. That
-// only holds for the shorthand: split into longhands, the image list would
-// stay valid on its own. Giving the vars a `0px` fallback would mask every
-// transition on every stack instead.
+// A stack that sets no `clipRadius` falls back to `--seed-window-corner-radius-*`,
+// which `global.ts` leaves undefined unless the window's corner radii are known.
+//
+// The chain ends WITHOUT a literal fallback, so where neither is defined the
+// whole shorthand is invalid at computed-value time — the mask falls back to
+// `none` and no full-screen mask layer is rasterized. That only holds for the
+// shorthand: split into longhands, the image list would stay valid on its own.
+// Ending the chain in `0px` would mask every transition on every stack instead.
 const clipSpan = (corner: string) =>
-  `calc(var(--seed-next-app-screen-clip-radius-${corner}) * ${SQUIRCLE_CORNER_SPAN_RATIO})`;
+  `calc(var(--seed-next-app-screen-clip-radius-${corner}, var(--seed-window-corner-radius-${corner})) * ${SQUIRCLE_CORNER_SPAN_RATIO})`;
 
 const TOP_LEFT = clipSpan("top-left");
 const TOP_RIGHT = clipSpan("top-right");

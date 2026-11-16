@@ -25,6 +25,10 @@
   }
 
   :root {
+    --seed-window-corner-radius-top-left: var(--ios-window-corner-radius-top-left);
+    --seed-window-corner-radius-top-right: var(--ios-window-corner-radius-top-right);
+    --seed-window-corner-radius-bottom-right: var(--ios-window-corner-radius-bottom-right);
+    --seed-window-corner-radius-bottom-left: var(--ios-window-corner-radius-bottom-left);
     --seed-font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard Variable", Pretendard, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --seed-font-size-multiplier: 1;
     --seed-font-size-limit-min: .8;

@@ -49,7 +49,9 @@ export interface NextAppScreenRootProps
    * Corner radius of the device display, matched by the clip that runs while a
    * transition or a swipe-back gesture is in flight. A number means px; a
    * string is any CSS length. An object sets each corner on its own, and a
-   * corner it leaves out is square. Unset, nothing is clipped.
+   * corner it leaves out is square. Unset, the clip follows
+   * `--seed-window-corner-radius-*` where it is defined, and nothing is
+   * clipped elsewhere.
    */
   clipRadius?: NextAppScreenClipRadius;
 }
@@ -73,8 +75,8 @@ export const NextAppScreenRoot = forwardRef<HTMLDivElement, NextAppScreenRootPro
       transitionStyle: effectiveTransitionStyle,
     });
 
-    // The recipe reads all four vars without a fallback, so any clip has to set
-    // every one of them or the mask drops out entirely.
+    // A var left unset falls back to `--seed-window-corner-radius-*` for that
+    // corner in the recipe, so an explicit clip sets all four.
     const clipStyle = useMemo(
       () =>
         clipRadius === undefined

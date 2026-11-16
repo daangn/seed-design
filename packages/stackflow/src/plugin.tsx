@@ -25,7 +25,9 @@ export interface SeedPluginOptions {
    * `NextAppScreen` runs while a transition or a swipe-back gesture is in
    * flight. A number means px; a string is any CSS length. An object sets each
    * corner on its own, and a corner it leaves out is square. A screen's own
-   * `clipRadius` still wins, and unset means nothing is clipped.
+   * `clipRadius` still wins. Unset, the clip follows
+   * `--seed-window-corner-radius-*` where it is defined, and nothing is
+   * clipped elsewhere.
    */
   clipRadius?: NextAppScreenClipRadius;
 }

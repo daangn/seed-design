@@ -117,7 +117,7 @@ describe("NextAppScreen anatomy", () => {
     expect(getClipRadii(getScreen(container, "a"))).toEqual(["55px", "2rem", "40px", "0px"]);
   });
 
-  it("clipRadius가 없으면 var를 쓰지 않는다 (recipe의 mask 전체가 무효 = 클립 없음)", async () => {
+  it("clipRadius가 없으면 var를 쓰지 않는다 (recipe가 --seed-window-corner-radius-*로 넘어간다)", async () => {
     const { container } = renderStack({
       activities: { A: makeActivity({ testId: "a" }) },
       initialActivity: "A",
