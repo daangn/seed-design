@@ -16,7 +16,7 @@ safe area inset을 반영하려면 `viewport-fit=cover`가 포함된 `viewport` 
 />
 ```
 
-이 설정이 없으면 iOS WebKit은 `env(safe-area-inset-*)`를 0으로 계산합니다. 따라서 아래에서 설명하는 컴포넌트와 속성도 inset을 반영하지 않습니다.
+이 설정이 없으면 iOS WebKit은 `env(safe-area-inset-*)`를 0으로 계산합니다. 따라서 inset을 `env()`에서 얻는 환경에서는 아래에서 설명하는 컴포넌트와 속성도 inset을 반영하지 않습니다.
 
 ## inset을 반영하는 컴포넌트
 
@@ -28,6 +28,76 @@ safe area inset을 반영하려면 `viewport-fit=cover`가 포함된 `viewport` 
 | [Bottom Sheet](/react/components/bottom-sheet) | 하단 |
 | [Side Panel](/react/components/side-panel) | 상단, 하단, 패널이 붙은 쪽 |
 | [Snackbar](/react/components/snackbar) | 좌우, 하단 |
+
+## inset 값이 정해지는 순서
+
+대부분의 서비스는 아무것도 지정하지 않아도 됩니다. SEED 컴포넌트와 `Box`의 `"safeArea"` 값은 `--seed-safe-area-top`, `--seed-safe-area-right`, `--seed-safe-area-bottom`, `--seed-safe-area-left` CSS 변수에서 inset을 읽고, `@seed-design/css`의 기본 스타일시트가 이 변수를 `:root`에 선언합니다. 방향마다 다음 순서로 값을 찾아 처음 정의된 값을 사용합니다.
+
+1. 직접 지정한 `--seed-safe-area-*`
+2. `--native-safe-area-inset-*`
+3. `env(safe-area-inset-*)`. `env()`를 지원하지 않는 환경에서는 `constant(safe-area-inset-*)`
+4. 둘 다 지원하지 않는 환경에서는 `0px`
+
+아래는 이 순서에 개입해야 하는 경우입니다. inset을 전달하는지, 바꾸는지, 읽는지에 따라 사용하는 변수가 다릅니다.
+
+### 네이티브 앱에서 inset 전달하기
+
+웹뷰를 띄우는 네이티브 앱이 실제 inset을 알고 있고, 첫 렌더링부터 그 값을 반영하려면 네이티브 앱이 `--native-safe-area-inset-*`를 정의합니다. SEED는 이 변수를 정의하지 않고 읽기만 합니다.
+
+```css
+html {
+  --native-safe-area-inset-top: 47px;
+  --native-safe-area-inset-right: 0px;
+  --native-safe-area-inset-bottom: 34px;
+  --native-safe-area-inset-left: 0px;
+}
+```
+
+- SEED가 `:root`에서 이 변수를 읽으므로 `<html>` 요소에 정의합니다. `<body>`나 그 하위 요소에 정의한 값은 반영되지 않습니다.
+- 컴포넌트가 이 값을 `calc()`로 계산하므로, inset이 없는 방향도 `0px`처럼 단위가 있는 길이로 정의합니다.
+- 화면 회전처럼 inset이 바뀌는 시점에는 값을 다시 정의합니다.
+
+웹 서비스 코드에서는 이 변수를 지정하지 않습니다. 값을 바꿔야 하면 아래처럼 `--seed-safe-area-*`를 지정하세요.
+
+### 웹에서 inset 바꾸기
+
+SEED 컴포넌트가 사용하는 inset을 바꾸려면 `--seed-safe-area-*`를 지정합니다. 지정한 요소와 그 하위 요소에 적용됩니다.
+
+화면 가장자리에 닿지 않는 컨테이너나 기기 프레임 미리보기처럼 화면의 일부에서만 바꾸려면 해당 요소에 지정합니다. [문서의 비교 예제](#문서에서-전후-비교하기)도 예제를 감싼 요소에 좌우 값을 지정해 가상의 inset을 만듭니다.
+
+```css
+.device-preview {
+  --seed-safe-area-top: 0px;
+  --seed-safe-area-right: 0px;
+  --seed-safe-area-bottom: 0px;
+  --seed-safe-area-left: 0px;
+}
+```
+
+문서 전체에서 바꾸려면 `:root`에 지정합니다. 이 선언은 SEED 스타일시트보다 뒤에 로드되어야 적용됩니다. `html` 선택자는 `:root`보다 명시도가 낮아서 로드 순서와 관계없이 적용되지 않습니다.
+
+`--native-safe-area-inset-*`가 정의된 환경에서 `env()` 값을 사용해야 할 때도 같은 방법으로 `env()`를 다시 지정합니다.
+
+```css
+:root {
+  --seed-safe-area-top: env(safe-area-inset-top);
+  --seed-safe-area-right: env(safe-area-inset-right);
+  --seed-safe-area-bottom: env(safe-area-inset-bottom);
+  --seed-safe-area-left: env(safe-area-inset-left);
+}
+```
+
+Menu, Navigation Menu, Select, Popover, Tooltip의 floating 요소와 Snackbar의 하단 inset은 자기 요소에 `env(safe-area-inset-*)`를 다시 선언합니다. 따라서 여기에는 지정한 값과 `--native-safe-area-inset-*`가 반영되지 않습니다.
+
+### 직접 작성하는 스타일에서 inset 읽기
+
+직접 작성하는 스타일에 inset이 필요하면 `env(safe-area-inset-*)` 대신 `var(--seed-safe-area-*)`나 `Box`의 `"safeArea"` 값을 사용합니다. 그래야 위 순서로 정해진 값, 즉 SEED 컴포넌트와 같은 값이 적용됩니다.
+
+```css
+.floating-action {
+  bottom: calc(16px + var(--seed-safe-area-bottom));
+}
+```
 
 ## 화면 끝까지 채우기
 
