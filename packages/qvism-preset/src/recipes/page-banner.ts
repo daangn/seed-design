@@ -17,9 +17,9 @@ import {
 import { vars as tokens } from "../vars";
 
 const closeButtonNegativeMargin = `(${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5`;
-// Rebuilds a text token's clamp in px, since the token's static bounds only cancel Android textZoom inside font properties.
+// Android WebView's textZoom scales only font properties, so outside them rem needs `--seed-static-font-scale` to follow the text.
 const fontScaled = (rem: number) =>
-  `clamp(calc(${rem * 16}px * var(--seed-font-size-limit-min)), calc(${rem}rem * var(--seed-font-size-multiplier, 1)), calc(${rem * 16}px * var(--seed-font-size-limit-max)))`;
+  `clamp(calc(${rem * 16}px * var(--seed-font-size-limit-min)), calc(${rem}rem * var(--seed-font-size-multiplier, 1) * var(--seed-static-font-scale, 1)), calc(${rem * 16}px * var(--seed-font-size-limit-max)))`;
 const prefixIconSize = fontScaled(Number.parseFloat(vars.base.enabled.prefixIcon.size));
 // TODO: use `1lh` here once browser support allows.
 const prefixIconMarginTop = `calc((${fontScaled(lineHeight.data.tokens["$line-height.t4"].values.default.value.value)} - ${prefixIconSize}) * 0.5)`;
