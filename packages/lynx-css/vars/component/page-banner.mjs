@@ -8,7 +8,6 @@ export const vars = {
       },
       "prefixIcon": {
         "size": "1rem",
-        "marginTop": "0.125rem",
         "marginRight": "var(--seed-dimension-x2)"
       },
       "content": {

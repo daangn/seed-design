@@ -40,9 +40,6 @@ declare const artifact: {
             "size": {
               "type": "dimension";
             };
-            "marginTop": {
-              "type": "dimension";
-            };
             "marginRight": {
               "type": "dimension";
             };
@@ -186,13 +183,6 @@ declare const artifact: {
                   "type": "dimension";
                   "value": {
                     "value": 1;
-                    "unit": "rem";
-                  };
-                };
-                "marginTop": {
-                  "type": "dimension";
-                  "value": {
-                    "value": 0.125;
                     "unit": "rem";
                   };
                 };

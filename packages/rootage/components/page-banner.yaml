@@ -26,8 +26,6 @@ data:
         properties:
           size:
             type: dimension
-          marginTop:
-            type: dimension
           marginRight:
             type: dimension
           color:
@@ -99,7 +97,6 @@ data:
           minHeight: $dimension.x10
         prefixIcon:
           size: 1rem # should be font scaled (16px)
-          marginTop: 0.125rem # should be font scaled (2px)
           marginRight: $dimension.x2
         content:
           gap: $dimension.x1_5

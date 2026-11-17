@@ -94,7 +94,7 @@
     flex-shrink: 0;
     width: 16sp;
     height: 16sp;
-    margin-top: 2sp;
+    margin-top: calc((var(--seed-line-height-t4) - 16sp) * 0.5);
     margin-right: var(--seed-dimension-x2);
 }
 .seed-page-banner__suffixIcon {

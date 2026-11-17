@@ -1,4 +1,5 @@
 import spec from "@seed-design/rootage-artifacts/components/page-banner";
+import lineHeight from "@seed-design/rootage-artifacts/line-height";
 import { pageBannerCloseButton as closeButtonVars, pageBanner as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
@@ -16,12 +17,12 @@ import {
 import { vars as tokens } from "../vars";
 
 const closeButtonNegativeMargin = `(${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5`;
-// The prefix icon scales with the font so it stays centered on the first text line.
-// TODO: have some better way to derive `--seed-font-size-limit-min/max` and px values
-// NOTE: when updating vars, update px values accordingly
-const fontScaled = (px: number, value: string) =>
-  `clamp(calc(${px}px * var(--seed-font-size-limit-min)), calc(${value} * var(--seed-font-size-multiplier, 1)), calc(${px}px * var(--seed-font-size-limit-max)))`;
-const prefixIconSize = fontScaled(16, vars.base.enabled.prefixIcon.size);
+// Rebuilds a text token's clamp in px, since the token's static bounds only cancel Android textZoom inside font properties.
+const fontScaled = (rem: number) =>
+  `clamp(calc(${rem * 16}px * var(--seed-font-size-limit-min)), calc(${rem}rem * var(--seed-font-size-multiplier, 1)), calc(${rem * 16}px * var(--seed-font-size-limit-max)))`;
+const prefixIconSize = fontScaled(Number.parseFloat(vars.base.enabled.prefixIcon.size));
+// TODO: use `1lh` here once browser support allows.
+const prefixIconMarginTop = `calc((${fontScaled(lineHeight.data.tokens["$line-height.t4"].values.default.value.value)} - ${prefixIconSize}) * 0.5)`;
 const buttonBleedAmount = `(${vars.base.enabled.button.targetHeight} - ${vars.base.enabled.button.lineHeight}) * 0.5`;
 
 const pageBanner = defineSlotRecipe({
@@ -49,7 +50,7 @@ const pageBanner = defineSlotRecipe({
       ...prefixIcon({
         size: prefixIconSize,
         marginRight: vars.base.enabled.prefixIcon.marginRight,
-        marginTop: fontScaled(2, vars.base.enabled.prefixIcon.marginTop),
+        marginTop: prefixIconMarginTop,
       }),
       ...suffixIcon({
         size: vars.base.enabled.suffixIcon.size,
