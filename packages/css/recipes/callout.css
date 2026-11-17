@@ -36,6 +36,7 @@
 .seed-callout__content {
     margin-right: auto;
     line-height: var(--seed-line-height-t4);
+    font-size: var(--seed-font-size-t4);
 }
 .seed-callout__title {
     font-size: var(--seed-font-size-t4);

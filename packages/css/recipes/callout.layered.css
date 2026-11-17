@@ -41,6 +41,7 @@
 
   .seed-callout__content {
     line-height: var(--seed-line-height-t4);
+    font-size: var(--seed-font-size-t4);
     margin-right: auto;
   }
 

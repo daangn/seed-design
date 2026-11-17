@@ -65,6 +65,8 @@ const callout = defineSlotRecipe({
       // we define lineHeight here because some reset.css sets default line-height
       // e.g. tailwind preflight sets * { line-height: 1.5 }
       lineHeight: vars.base.enabled.description.lineHeight,
+      // Title, description and link share these metrics; the content takes them so its strut matches the spans and the line box stays at the line height on every DPR.
+      fontSize: vars.base.enabled.description.fontSize,
     },
     title: {
       fontSize: vars.base.enabled.title.fontSize,
