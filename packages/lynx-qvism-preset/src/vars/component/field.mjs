@@ -10,16 +10,16 @@ export const vars = {
       },
       "indicatorIcon": {
         "color": "var(--seed-color-fg-critical)",
-        "size": "0.375rem",
-        "paddingTop": "0.25rem",
-        "paddingLeft": "0.125rem"
+        "size": "6sp",
+        "paddingTop": "4sp",
+        "paddingLeft": "2sp"
       },
       "indicatorText": {
         "color": "var(--seed-color-fg-neutral-subtle)",
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t5)",
         "fontWeight": "var(--seed-font-weight-regular)",
-        "paddingLeft": "0.25rem"
+        "paddingLeft": "4sp"
       },
       "footer": {
         "paddingX": "var(--seed-dimension-x0_5)",
