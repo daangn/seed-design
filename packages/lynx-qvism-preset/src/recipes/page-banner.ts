@@ -3,7 +3,10 @@ import { r1 } from "../vars/radius";
 import { defineSlotRecipe } from "../utils/define";
 
 const closeButtonNegativeMargin = `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5)`;
-const prefixIconVerticalAdjustMargin = `calc((${vars.base.enabled.root.minHeight} - ${vars.base.enabled.prefixIcon.size}) * 0.5 - ${vars.base.enabled.root.paddingY})`;
+// The prefix icon scales with the font so it stays centered on the first text line.
+// Rootage carries these as rem, which Lynx only converts to sp for tokens, not component vars.
+// NOTE: when updating vars, update sp values accordingly
+const prefixIconSize = "16sp";
 const buttonBleedAmount = `(${vars.base.enabled.button.targetHeight} - ${vars.base.enabled.button.lineHeight}) * 0.5`;
 
 const pageBanner = defineSlotRecipe({
@@ -117,9 +120,9 @@ const pageBanner = defineSlotRecipe({
     },
     prefixIcon: {
       flexShrink: 0,
-      width: vars.base.enabled.prefixIcon.size,
-      height: vars.base.enabled.prefixIcon.size,
-      marginTop: prefixIconVerticalAdjustMargin,
+      width: prefixIconSize,
+      height: prefixIconSize,
+      marginTop: "2sp",
       marginRight: vars.base.enabled.prefixIcon.marginRight,
     },
     suffixIcon: {

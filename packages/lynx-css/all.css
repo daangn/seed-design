@@ -5384,9 +5384,9 @@ text {
 }
 
 .seed-page-banner__prefixIcon {
-  width: var(--seed-dimension-x4);
-  height: var(--seed-dimension-x4);
-  margin-top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * .5 - var(--seed-dimension-x2_5));
+  width: 16sp;
+  height: 16sp;
+  margin-top: 2sp;
   margin-right: var(--seed-dimension-x2);
   flex-shrink: 0;
 }

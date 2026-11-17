@@ -92,9 +92,9 @@
 }
 .seed-page-banner__prefixIcon {
     flex-shrink: 0;
-    width: var(--seed-dimension-x4);
-    height: var(--seed-dimension-x4);
-    margin-top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * 0.5 - var(--seed-dimension-x2_5));
+    width: 16sp;
+    height: 16sp;
+    margin-top: 2sp;
     margin-right: var(--seed-dimension-x2);
 }
 .seed-page-banner__suffixIcon {

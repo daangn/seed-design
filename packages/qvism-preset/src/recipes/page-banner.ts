@@ -16,7 +16,12 @@ import {
 import { vars as tokens } from "../vars";
 
 const closeButtonNegativeMargin = `(${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5`;
-const prefixIconVerticalAdjustMargin = `(${vars.base.enabled.root.minHeight} - ${vars.base.enabled.prefixIcon.size}) * 0.5 - ${vars.base.enabled.root.paddingY}`;
+// The prefix icon scales with the font so it stays centered on the first text line.
+// TODO: have some better way to derive `--seed-font-size-limit-min/max` and px values
+// NOTE: when updating vars, update px values accordingly
+const fontScaled = (px: number, value: string) =>
+  `clamp(calc(${px}px * var(--seed-font-size-limit-min)), calc(${value} * var(--seed-font-size-multiplier, 1)), calc(${px}px * var(--seed-font-size-limit-max)))`;
+const prefixIconSize = fontScaled(16, vars.base.enabled.prefixIcon.size);
 const buttonBleedAmount = `(${vars.base.enabled.button.targetHeight} - ${vars.base.enabled.button.lineHeight}) * 0.5`;
 
 const pageBanner = defineSlotRecipe({
@@ -42,9 +47,9 @@ const pageBanner = defineSlotRecipe({
       paddingBlock: vars.base.enabled.root.paddingY,
 
       ...prefixIcon({
-        size: vars.base.enabled.prefixIcon.size,
+        size: prefixIconSize,
         marginRight: vars.base.enabled.prefixIcon.marginRight,
-        marginTop: `calc(${prefixIconVerticalAdjustMargin})`,
+        marginTop: fontScaled(2, vars.base.enabled.prefixIcon.marginTop),
       }),
       ...suffixIcon({
         size: vars.base.enabled.suffixIcon.size,

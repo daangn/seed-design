@@ -7,7 +7,8 @@ export const vars = {
         "minHeight": "var(--seed-dimension-x10)"
       },
       "prefixIcon": {
-        "size": "var(--seed-dimension-x4)",
+        "size": "1rem",
+        "marginTop": "0.125rem",
         "marginRight": "var(--seed-dimension-x2)"
       },
       "content": {
