@@ -46,6 +46,7 @@ const checkbox = defineSlotRecipe({
       large: {
         root: {
           minHeight: vars.sizeLarge.enabled.root.minHeight,
+          // TODO: use `1lh` here once browser support allows.
           "--checkmark-margin-top": `calc((${vars.sizeLarge.enabled.root.minHeight} - ${checkmarkVars.sizeLarge.enabled.root.size}) / 2)`, // 수직 위치 보정
         },
         label: {

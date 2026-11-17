@@ -46,6 +46,7 @@ const radio = defineSlotRecipe({
       large: {
         root: {
           minHeight: vars.sizeLarge.enabled.root.minHeight,
+          // TODO: use `1lh` here once browser support allows.
           "--radiomark-margin-top": `calc((${vars.sizeLarge.enabled.root.minHeight} - ${radiomarkVars.sizeLarge.enabled.root.size}) / 2)`, // 수직 위치 보정
         },
         label: {

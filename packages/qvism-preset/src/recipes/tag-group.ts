@@ -20,6 +20,7 @@ function createItemIconAlignmentStyles({
   lineHeight: string;
 }) {
   return {
+    // TODO: use `1lh` here once browser support allows.
     "--tag-group-item-inline-icon-offset": `calc(${
       1 - GLYPH_CENTER_EM_RATIO_FALLBACK
     }em - ${lineHeight} / 2)`,

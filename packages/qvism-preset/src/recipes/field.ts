@@ -55,6 +55,7 @@ export const field = defineSlotRecipe({
         size: vars.base.enabled.descriptionIcon.size,
         color: vars.base.enabled.descriptionIcon.color,
         marginRight: vars.base.enabled.descriptionIcon.paddingRight,
+        // TODO: use `1lh` here once browser support allows.
         marginTop: `calc((${vars.base.enabled.description.lineHeight} - ${vars.base.enabled.descriptionIcon.size}) / 2)`,
       }),
     },
