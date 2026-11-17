@@ -13,7 +13,6 @@ import fontWeight from "@seed-design/rootage-artifacts/font-weight";
 import gradient from "@seed-design/rootage-artifacts/gradient";
 import lineHeight from "@seed-design/rootage-artifacts/line-height";
 import radius from "@seed-design/rootage-artifacts/radius";
-import scale from "@seed-design/rootage-artifacts/scale";
 import shadow from "@seed-design/rootage-artifacts/shadow";
 import timingFunction from "@seed-design/rootage-artifacts/timing-function";
 import type { Rule } from "./types";
@@ -275,7 +274,6 @@ export const tokenReferenceRule = createTokenReferenceRule([
   gradient,
   lineHeight,
   radius,
-  scale,
   shadow,
   timingFunction,
 ]);
