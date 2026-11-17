@@ -348,9 +348,6 @@ declare const artifact: {
       "path": "/radius.json";
     },
     {
-      "path": "/scale.json";
-    },
-    {
       "path": "/shadow.json";
     },
     {

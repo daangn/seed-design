@@ -626,12 +626,6 @@ text {
   --seed-shadow-s3: 0px 4px 16px 0px #000c;
 }
 
-:root {
-  --seed-scale-s95: .95;
-  --seed-scale-s97: .97;
-  --seed-scale-s98: .98;
-}
-
 .seed-image-frame__root {
   aspect-ratio: var(--seed-image-frame-ratio);
   flex-shrink: 0;
