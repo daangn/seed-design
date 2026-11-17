@@ -12,8 +12,6 @@ data:
             type: dimension
           paddingY:
             type: dimension
-          minHeight:
-            type: dimension
           color:
             type: color
           gradient:
@@ -94,7 +92,6 @@ data:
         root:
           paddingX: $dimension.x4
           paddingY: $dimension.x2_5
-          minHeight: $dimension.x10
         prefixIcon:
           size: 1rem # should be font scaled (16px)
           marginRight: $dimension.x2

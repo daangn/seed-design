@@ -3,8 +3,7 @@ export declare const vars: {
     "enabled": {
       "root": {
         "paddingX": "var(--seed-dimension-x4)",
-        "paddingY": "var(--seed-dimension-x2_5)",
-        "minHeight": "var(--seed-dimension-x10)"
+        "paddingY": "var(--seed-dimension-x2_5)"
       },
       /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
       "prefixIcon": {

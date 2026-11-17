@@ -12,7 +12,6 @@
     flex-direction: row;
     align-items: flex-start;
     width: 100%;
-    min-height: var(--seed-dimension-x10);
     padding-left: var(--seed-dimension-x4);
     padding-right: var(--seed-dimension-x4);
     padding-top: var(--seed-dimension-x2_5);

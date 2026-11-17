@@ -17,9 +17,6 @@ declare const artifact: {
             "paddingY": {
               "type": "dimension";
             };
-            "minHeight": {
-              "type": "dimension";
-            };
             "color": {
               "type": "color";
             };
@@ -172,10 +169,6 @@ declare const artifact: {
                 "paddingY": {
                   "type": "dimension";
                   "value": "$dimension.x2_5";
-                };
-                "minHeight": {
-                  "type": "dimension";
-                  "value": "$dimension.x10";
                 };
               };
               "prefixIcon": {

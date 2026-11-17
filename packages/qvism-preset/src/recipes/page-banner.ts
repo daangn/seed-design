@@ -42,7 +42,6 @@ const pageBanner = defineSlotRecipe({
       alignItems: "flex-start",
       textAlign: "start",
       width: "100%",
-      minHeight: vars.base.enabled.root.minHeight,
 
       paddingInline: vars.base.enabled.root.paddingX,
       paddingBlock: vars.base.enabled.root.paddingY,
