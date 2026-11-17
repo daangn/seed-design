@@ -781,6 +781,92 @@ data:
   `);
 });
 
+test("getComponentSpecMjs formats inline dimensions with formatDimension", () => {
+  const yaml = `
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          size:
+            type: dimension
+          paddingX:
+            type: dimension
+          gap:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          size: 0.375rem
+          paddingX: 4px
+          gap: $dimension.x2
+`;
+  const model = Authoring.parseComponentSpecDocument(YAML.parse(yaml));
+
+  const { getComponentSpecMjs: generate } = createStringifier({
+    prefix: "test",
+    formatDimension: ({ value, unit }) => `${value}${unit === "rem" ? "sp" : unit}`,
+  });
+
+  expect(generate(model.data)).toMatchInlineSnapshot(`
+    "export const vars = {
+      "base": {
+        "enabled": {
+          "root": {
+            "size": "0.375sp",
+            "paddingX": "4px",
+            "gap": "var(--test-dimension-x2)"
+          }
+        }
+      }
+    }"
+  `);
+});
+
+test("getComponentSpecFiles lays out a module per spec and index modules", () => {
+  const parse = (id: string) =>
+    Authoring.parseComponentSpecDocument(
+      YAML.parse(`
+kind: ComponentSpec
+metadata:
+  id: ${id}
+  name: ${id}
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+  definitions:
+    base:
+      enabled:
+        root:
+          color: "#ffffff"
+`),
+    ).data;
+  const specs = [parse("text-field"), parse("chip")];
+
+  const files = createStringifier({ prefix: "test" }).getComponentSpecFiles(specs);
+
+  expect(files.map(({ path }) => path)).toEqual([
+    "text-field.mjs",
+    "text-field.d.ts",
+    "chip.mjs",
+    "chip.d.ts",
+    "index.mjs",
+    "index.d.ts",
+  ]);
+  expect(files.find(({ path }) => path === "index.mjs")?.code).toBe(
+    `export { vars as textField } from "./text-field.mjs";\nexport { vars as chip } from "./chip.mjs";`,
+  );
+});
+
 describe("getExchangeDts", () => {
   it("should keep token references, enum values and unlike array entries narrow", () => {
     const result = getExchangeDts({

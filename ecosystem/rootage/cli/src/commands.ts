@@ -16,7 +16,12 @@ import {
   tailwind4,
   validate,
 } from "@seed-design/rootage-core";
-import { type GeneratorFunction, runGenerator } from "@seed-design/rootage-core/generator";
+import {
+  type ComponentSpecGeneratorFunction,
+  type GeneratorFunction,
+  runComponentSpecGenerator,
+  runGenerator,
+} from "@seed-design/rootage-core/generator";
 import fs from "fs-extra";
 import path from "node:path";
 import YAML from "yaml";
@@ -144,55 +149,26 @@ async function writeComponentSpec(
   dir: string,
   prefix?: string,
   filter?: CommandOptions<"component-spec">["filter"],
+  generator?: ComponentSpecGeneratorFunction,
 ) {
   const { ctx } = await prepare();
-
-  const tsStringifier = typescript.createStringifier({
-    prefix,
-    resolveTokenValues: createTokenValuesResolver(ctx),
-  });
 
   const specs = getComponentSpecEntries(ctx)
     .filter((entry) => filter?.(entry) ?? true)
     .map(({ spec }) => spec);
+  const options = { prefix, resolveTokenValues: createTokenValuesResolver(ctx) };
 
-  for (const spec of specs) {
-    const mjsCode = tsStringifier.getComponentSpecMjs(spec);
-    const mjsWritePath = path.join(process.cwd(), dir, `${spec.id}.mjs`);
+  const files = generator
+    ? await runComponentSpecGenerator(generator, { componentSpecs: specs }, options)
+    : typescript.createStringifier(options).getComponentSpecFiles(specs);
 
+  for (const file of files) {
     writeFileSync({
-      filename: spec.id,
-      code: mjsCode,
-      writePath: mjsWritePath,
-    });
-
-    const dtsCode = tsStringifier.getComponentSpecDts(spec);
-    const dtsWritePath = path.join(process.cwd(), dir, `${spec.id}.d.ts`);
-
-    writeFileSync({
-      filename: spec.id,
-      code: dtsCode,
-      writePath: dtsWritePath,
+      filename: file.path,
+      code: file.code,
+      writePath: path.join(process.cwd(), dir, file.path),
     });
   }
-
-  const mjsIndexCode = tsStringifier.getComponentSpecIndexMjs(specs);
-  const mjsIndexWritePath = path.join(process.cwd(), dir, "index.mjs");
-
-  writeFileSync({
-    filename: "index",
-    code: mjsIndexCode,
-    writePath: mjsIndexWritePath,
-  });
-
-  const dtsIndexCode = tsStringifier.getComponentSpecIndexDts(specs);
-  const dtsIndexWritePath = path.join(process.cwd(), dir, "index.d.ts");
-
-  writeFileSync({
-    filename: "index",
-    code: dtsIndexCode,
-    writePath: dtsIndexWritePath,
-  });
 }
 
 async function writeTokenCss(
@@ -487,8 +463,11 @@ export const commands = {
     builder: (yargs) => yargs.positional("dir", dirPositional).option("config", configOption),
     handler: async ({ dir, config }) => {
       console.log("Start");
-      const { prefix, filter } = resolveCommandOptions(await loadConfig(config), "component-spec");
-      await writeComponentSpec(dir, prefix, filter);
+      const { prefix, filter, generator } = resolveCommandOptions(
+        await loadConfig(config),
+        "component-spec",
+      );
+      await writeComponentSpec(dir, prefix, filter, generator);
       console.log("Done");
     },
   }),

@@ -1,6 +1,7 @@
 import { camelCase } from "change-case";
 import type {
   ComponentSpecDeclaration,
+  DimensionLit,
   GradientLit,
   PropertyDeclaration,
   StateExpression,
@@ -69,10 +70,15 @@ export function createStringifier(
      * Values follow the collection's declared mode order; unresolved tokens return `undefined`.
      */
     resolveTokenValues?: (token: TokenLit) => ValueLit[] | undefined;
+    /**
+     * Formats an inline dimension in component specs, for platforms that need a unit CSS lacks.
+     * Token references and dimensions nested in other values keep the default CSS formatting.
+     */
+    formatDimension?: (value: DimensionLit) => string;
   } = {},
 ) {
   const cssStringifier = createCssStringifier(options);
-  const { resolveTokenValues } = options;
+  const { resolveTokenValues, formatDimension } = options;
 
   function stringifyStops(gradient: GradientLit): GradientStopVars[] {
     return gradient.stops.map((stop) => ({
@@ -120,6 +126,8 @@ export function createStringifier(
 
       return stops ? { serialized, stops } : { serialized };
     }
+
+    if (formatDimension && decl.value.kind === "DimensionLit") return formatDimension(decl.value);
 
     return cssStringifier.valueOrToken(decl.value);
   }
@@ -282,6 +290,20 @@ export function createStringifier(
     return result.join("\n");
   }
 
+  /** Lays out one `.mjs` and `.d.ts` per spec plus index files, as paths relative to the output directory. */
+  function getComponentSpecFiles(
+    decls: ComponentSpecDeclaration[],
+  ): { path: string; code: string }[] {
+    return [
+      ...decls.flatMap((decl) => [
+        { path: `${decl.id}.mjs`, code: getComponentSpecMjs(decl) },
+        { path: `${decl.id}.d.ts`, code: getComponentSpecDts(decl) },
+      ]),
+      { path: "index.mjs", code: getComponentSpecIndexMjs(decls) },
+      { path: "index.d.ts", code: getComponentSpecIndexDts(decls) },
+    ];
+  }
+
   function getTokenGroups(decls: TokenDeclaration[]): TokenGroup[] {
     const groups: Record<string, TokenDeclaration[]> = {};
 
@@ -377,6 +399,7 @@ export function createStringifier(
     getComponentSpecDts,
     getComponentSpecIndexMjs,
     getComponentSpecIndexDts,
+    getComponentSpecFiles,
     getTokenMjs,
     getTokenDts,
   };
