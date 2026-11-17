@@ -222,6 +222,9 @@ export const AttachmentInputTrigger = React.forwardRef<NodesRef, AttachmentInput
       pressed: trigger.pressed,
       disabled: trigger.disabled,
     });
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+      disabled: trigger.disabled,
+    });
 
     return (
       <triggerRecipe.ClassNamesProvider value={classes}>
@@ -229,6 +232,8 @@ export const AttachmentInputTrigger = React.forwardRef<NodesRef, AttachmentInput
           {...mergeProps(
             forwardedRef ? { ref: forwardedRef } : {},
             trigger.triggerProps,
+            scaleFeedbackTargetProps,
+            scaleFeedbackTriggerProps,
             nativeProps,
           )}
           className={clsx(classes.root, className)}

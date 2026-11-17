@@ -15,6 +15,7 @@ import {
 } from "@seed-design/lynx-react-popover";
 import clsx from "clsx";
 
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxTextRef, LynxViewProps, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
@@ -100,7 +101,7 @@ export const HelpBubbleRoot = React.forwardRef<unknown, HelpBubbleRootProps>((pr
   });
   const side = api.positioned ? (api.side as HelpBubbleSide) : undefined;
   const classes = React.useMemo(
-    () => helpBubble({ open: api.open, positioned: api.positioned, side, pressed: false }),
+    () => helpBubble({ open: api.open, positioned: api.positioned, side }),
     [api.open, api.positioned, side],
   );
 
@@ -340,25 +341,27 @@ export const HelpBubbleCloseButton = React.forwardRef<unknown, HelpBubbleCloseBu
       "accessibility-traits": accessibilityTraits,
       ...nativeProps
     } = props;
-    const { pressed, closeButtonProps } = usePopoverCloseButton({
+    const { closeButtonProps } = usePopoverCloseButton({
       bindtap,
       "main-thread:bindtap": mainThreadBindtap,
       "accessibility-element": accessibilityElement,
       "accessibility-label": accessibilityLabel,
       "accessibility-traits": accessibilityTraits,
     });
-    const { open, positioned, side } = usePopoverContext();
-    const closeButtonClassNames = helpBubble({ open, positioned, side, pressed });
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
+    const classNames = useClassNames();
 
     return (
       <view
         {...mergeProps(
           { flatten: false },
           closeButtonProps,
+          scaleFeedbackTargetProps,
+          scaleFeedbackTriggerProps,
           nativeProps,
           ref ? { ref: ref as LynxViewRef } : {},
         )}
-        className={clsx(closeButtonClassNames.closeButton, className)}
+        className={clsx(classNames.closeButton, className)}
         style={style}
       >
         {children}
