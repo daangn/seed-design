@@ -241,14 +241,42 @@ describe("TextField", () => {
       expect(bindtap).toHaveBeenCalledOnce();
 
       // 입력 위 탭도 Root로 전파되어 native focus가 없던 기기에서 focus를 보완한다.
+      // 0.121.0 미만 testing-library는 tap을 전파하지 않아 버블링 이벤트를 직접 보낸다.
       if (!inputRef.current) throw new Error("Expected native input ref to exist.");
-      fireEvent.tap(inputRef.current as unknown as Element);
+      fireEvent(
+        inputRef.current as unknown as Element,
+        new Event("bindEvent:tap", { bubbles: true }),
+      );
       expect(focusCalls()).toHaveLength(2);
 
       fireEvent.focus(inputRef.current as unknown as Element);
-      fireEvent.tap(root.querySelector(".suffix") as Element);
+      fireEvent(
+        root.querySelector(".suffix") as Element,
+        new Event("bindEvent:tap", { bubbles: true }),
+      );
       expect(focusCalls()).toHaveLength(2);
       expect(bindtap).toHaveBeenCalledTimes(3);
+    });
+
+    it("focuses its own input even when another TextField in the same Field is focused", () => {
+      const firstInputRef = createRef<NodesRef>();
+      render(
+        <Field.Root>
+          <FieldFocusState />
+          <TextField.Root className="first-text-field">
+            <TextField.Input ref={firstInputRef} />
+          </TextField.Root>
+          <TextField.Root className="second-text-field">
+            <TextField.Input />
+          </TextField.Root>
+        </Field.Root>,
+      );
+
+      fireEvent.focus(firstInputRef.current as unknown as Element);
+      expect(getRenderedRoot().querySelector(".field-focus")).toHaveTextContent("true");
+
+      fireEvent.tap(getRenderedRoot().querySelector(".second-text-field") as Element);
+      expect(focusCalls()).toHaveLength(1);
     });
 
     it("keeps consumer ignore-focus overrides", () => {

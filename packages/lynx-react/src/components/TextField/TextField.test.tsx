@@ -402,7 +402,8 @@ describe("TextField", () => {
     textareaRef.current.invoke = invoke as unknown as NodesRef["invoke"];
 
     // wrapper 탭은 Root로 전파되어 Root가 한 번만 focus한다.
-    fireEvent.tap(textareaRoot);
+    // 0.121.0 미만 testing-library는 tap을 전파하지 않아 버블링 이벤트를 직접 보낸다.
+    fireEvent(textareaRoot, new Event("bindEvent:tap", { bubbles: true }));
     expect(invoke).toHaveBeenCalledWith(expect.objectContaining({ method: "focus" }));
     expect(exec).toHaveBeenCalledOnce();
 
@@ -445,7 +446,7 @@ describe("TextField", () => {
     const invoke = vi.fn(() => ({ exec: vi.fn() }));
     textareaRef.current.invoke = invoke as unknown as NodesRef["invoke"];
 
-    fireEvent.tap(textareaRoot);
+    fireEvent(textareaRoot, new Event("bindEvent:tap", { bubbles: true }));
     expect(invoke).not.toHaveBeenCalled();
   });
 
