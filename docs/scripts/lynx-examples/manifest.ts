@@ -155,3 +155,28 @@ async function writeJsonAtomically(directory: string, filename: string, value: u
 export async function readManifest(path: string): Promise<LynxExampleManifest> {
   return JSON.parse(await readFile(path, "utf8")) as LynxExampleManifest;
 }
+
+/**
+ * CI가 캐시에서 복원한 게시 결과(`SEED_DOCS_LYNX_PREBUILT=1`)를 Rspeedy 없이 쓸 수 있는지 확인한다.
+ * manifest가 가리키는 파일이 모두 있고 render용 사본이 게시 manifest와 같아야 한다.
+ */
+export async function verifyPublishedManifest(
+  publicDirectory = PUBLIC_DIRECTORY,
+  buildDataManifestPath = BUILD_DATA_MANIFEST_PATH,
+) {
+  const manifestPath = resolve(publicDirectory, "manifest.json");
+  const manifest = await readManifest(manifestPath);
+  if (manifest.schemaVersion !== LYNX_MANIFEST_SCHEMA_VERSION) {
+    throw new Error(`지원하지 않는 Lynx manifest schema입니다: ${manifestPath}`);
+  }
+  const files = new Set([LYNX_E2E_MANIFEST_FILENAME, LYNX_WEB_CORE_STYLES_FILENAME]);
+  for (const example of Object.values(manifest.examples)) {
+    files.add(example.web.replace("/__lynx__/", ""));
+    files.add(example.lynx.replace("/__lynx__/", ""));
+  }
+  for (const file of files) await assertNonEmpty(resolve(publicDirectory, file));
+  if ((await readFile(buildDataManifestPath, "utf8")) !== (await readFile(manifestPath, "utf8"))) {
+    throw new Error(`render용 Lynx manifest가 게시 manifest와 다릅니다: ${buildDataManifestPath}`);
+  }
+  return Object.keys(manifest.examples).length;
+}
