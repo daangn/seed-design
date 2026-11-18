@@ -228,6 +228,27 @@ describe("Dialog", () => {
     });
   });
 
+  it("computes the larger block inset from the provider's numeric insets", () => {
+    // The provider takes precedence over the deprecated global props.
+    setGlobalProps({ safeAreaInsetTop: 10, safeAreaInsetBottom: 20 });
+    render(
+      <SafeAreaProvider insets={{ top: 24, right: 0, bottom: 34, left: 59 }}>
+        <Dialog.Root open>
+          <Dialog.Positioner>
+            <Dialog.Content />
+          </Dialog.Positioner>
+        </Dialog.Root>
+      </SafeAreaProvider>,
+    );
+
+    expect(dialogViewStyles.at(-1)).toEqual({
+      paddingTop: "34px",
+      paddingRight: "0px",
+      paddingBottom: "34px",
+      paddingLeft: "59px",
+    });
+  });
+
   it("caps the content at the measured layer height and keeps the consumer's layoutchange", () => {
     const onLayoutChange = vi.fn();
     const { container } = render(

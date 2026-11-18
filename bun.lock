@@ -852,7 +852,7 @@
       "dependencies": {
         "@floating-ui/core": "^1.8.0",
         "@lynx-js/lynx-ui-common": "^3.130.0",
-        "@seed-design/lynx-react-use-safe-area": "^1.0.1",
+        "@seed-design/lynx-react-use-safe-area": "^1.1.0",
       },
       "devDependencies": {
         "@lynx-js/react": "^0.129.0",
@@ -927,6 +927,7 @@
         "@seed-design/lynx-react-floating": "^1.0.1",
         "@seed-design/lynx-react-use-controllable-state": "^1.0.0",
         "@seed-design/lynx-react-use-press-tap": "^1.0.0",
+        "@seed-design/lynx-react-use-safe-area": "^1.1.0",
       },
       "devDependencies": {
         "@lynx-js/react": "^0.129.0",
@@ -971,6 +972,7 @@
         "@seed-design/lynx-react-floating": "^1.0.1",
         "@seed-design/lynx-react-use-controllable-state": "^1.0.0",
         "@seed-design/lynx-react-use-press-tap": "^1.0.0",
+        "@seed-design/lynx-react-use-safe-area": "^1.1.0",
       },
       "devDependencies": {
         "@lynx-js/react": "^0.129.0",
@@ -1110,6 +1112,7 @@
         "@seed-design/lynx-react-floating": "^1.0.1",
         "@seed-design/lynx-react-use-controllable-state": "^1.0.0",
         "@seed-design/lynx-react-use-press-tap": "^1.0.0",
+        "@seed-design/lynx-react-use-safe-area": "^1.1.0",
       },
       "devDependencies": {
         "@lynx-js/react": "^0.129.0",

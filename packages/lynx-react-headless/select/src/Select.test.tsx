@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { act, cleanup, createEvent, fireEvent, render } from "@lynx-js/react/testing-library";
 import type * as LynxUiCommon from "@lynx-js/lynx-ui-common";
 import type { Rect } from "@seed-design/lynx-react-floating";
+import { SafeAreaProvider } from "@seed-design/lynx-react-use-safe-area";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { Select, type SelectOpenChangeDetails, type SelectSelectedItem } from "./index.js";
@@ -323,6 +324,22 @@ describe("Select", () => {
     await flush();
 
     // 화면 높이 844 - 하단 inset 34 - overflowPadding 8 = 802까지만 내려옵니다.
+    expect(styleOf(query(".content"))).toContain("top:576px");
+    expect(styleOf(query(".list").parentElement!)).toContain("height:226px");
+  });
+
+  it("keeps the list above the provider's bottom safe area inset without a probe", async () => {
+    triggerBox = { left: 20, top: 520, width: 350, height: 48 };
+    listBox = { left: 0, top: 0, width: 350, height: 300 };
+    const { container } = render(
+      <SafeAreaProvider insets={{ top: 0, right: 0, bottom: 34, left: 0 }}>
+        <TestSelect rootProps={{ defaultOpen: true }} />
+      </SafeAreaProvider>,
+    );
+    await flush();
+
+    expect(container.querySelector('[style*="width: 0px; height: 0px"]')).toBeNull();
+    // 레이어 높이 844 - 하단 inset 34 - overflowPadding 8 = 802까지만 내려옵니다.
     expect(styleOf(query(".content"))).toContain("top:576px");
     expect(styleOf(query(".list").parentElement!)).toContain("height:226px");
   });

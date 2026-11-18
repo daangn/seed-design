@@ -5,11 +5,15 @@ import type { CSSProperties, IntrinsicElements, NodesRef } from "@lynx-js/types"
 import {
   computePosition,
   type FloatingBoundary,
+  getSafeAreaBoundary,
   measureFloatingBoundary,
   measureReferenceRect,
+  measureRootRect,
   OverlaySafeAreaProvider,
   SafeAreaProbe,
+  type SafeAreaProbeProps,
 } from "@seed-design/lynx-react-floating";
+import { SafeAreaContext } from "@seed-design/lynx-react-use-safe-area";
 import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
 
 import { usePopover, type UsePopoverProps } from "./usePopover.js";
@@ -38,6 +42,17 @@ function snapToDevicePixel(value: number) {
   const pixelRatio = typeof SystemInfo === "undefined" ? undefined : SystemInfo.pixelRatio;
   if (typeof pixelRatio !== "number" || pixelRatio <= 0) return value;
   return Math.round(value * pixelRatio) / pixelRatio;
+}
+
+/**
+ * `SafeAreaProvider`(또는 `SeedProvider`)가 없을 때만 deprecated probe로 안전 영역을 측정합니다.
+ * Content와 같은 Provider 값을 보도록 Positioner 본문이 아니라 Content와 같은 하위 트리에서 읽습니다.
+ *
+ * TODO(next major): Provider 값만 쓰고 probe를 제거합니다.
+ */
+function SafeAreaProbeFallback(props: SafeAreaProbeProps) {
+  const insets = React.useContext(SafeAreaContext);
+  return insets ? null : <SafeAreaProbe {...props} />;
 }
 
 function assignNodeRef(ref: React.ForwardedRef<unknown>, node: NodesRef | null) {
@@ -288,7 +303,7 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
   if (!container) {
     return (
       <OverlayView overlayViewProps={overlayViewProps}>
-        <SafeAreaProbe nodesRef={safeAreaRef} position="fixed" />
+        <SafeAreaProbeFallback nodesRef={safeAreaRef} position="fixed" />
         <view
           {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
           className={className}
@@ -323,7 +338,7 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
           style={{ width: "100%", height: "100%" }}
           {...globalTapProps}
         >
-          <SafeAreaProbe nodesRef={safeAreaRef} position="absolute" />
+          <SafeAreaProbeFallback nodesRef={safeAreaRef} position="absolute" />
           <view
             {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
             className={className}
@@ -364,6 +379,7 @@ export interface PopoverContentProps extends StyledViewProps {}
  */
 export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((props, ref) => {
   const { children, className, style, bindlayoutchange, ...nativeProps } = props;
+  const safeAreaInsets = React.useContext(SafeAreaContext);
   const api = usePopoverContext();
   const {
     open,
@@ -388,7 +404,7 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
     finishClose: finishPopoverClose,
   } = api;
   const measurementVersionRef = React.useRef(0);
-  // 매 frame 추적에서 안전 영역은 root 크기가 바뀔 때만 다시 측정합니다.
+  // Provider가 없을 때 매 frame 추적에서 안전 영역은 root 크기가 바뀔 때만 다시 측정합니다.
   const boundaryRef = React.useRef<FloatingBoundary | null>(null);
   const intrinsicWidthRef = React.useRef<number | null>(null);
   const measurementConfigRef = React.useRef(0);
@@ -465,14 +481,18 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
       openEpoch === openEpochRef.current &&
       currentPositionRevision === positionRevisionRef.current;
     try {
-      const [reference, floatingBoundary, layer] = await Promise.all([
+      const [reference, root, layer, legacyBoundary] = await Promise.all([
         measureReferenceRect(referenceNode),
-        measureFloatingBoundary(safeAreaRef.current, boundaryRef.current),
+        measureRootRect(),
         layerNode ? getRectByRef({ current: layerNode }, true) : null,
+        // TODO(next major): Provider가 없을 때의 probe 경로를 제거합니다.
+        safeAreaInsets ? null : measureFloatingBoundary(safeAreaRef.current, boundaryRef.current),
       ]);
       if (!isCurrent()) return;
-      boundaryRef.current = floatingBoundary;
-      const { root, boundary } = floatingBoundary;
+      boundaryRef.current = legacyBoundary;
+      // view 모드는 레이어 없이 page의 `position: fixed`로 그리므로 inset 기준이 root입니다.
+      const boundary =
+        legacyBoundary?.boundary ?? getSafeAreaBoundary(root, layer ?? root, safeAreaInsets);
       const width = widthConstraint ?? intrinsicWidthRef.current ?? intrinsicSize.width;
       const arrow = arrowRef.current;
       const nextPosition = await computePosition({
@@ -522,6 +542,7 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
     placement,
     positionRevisionRef,
     resetPosition,
+    safeAreaInsets,
     safeAreaRef,
     setPosition,
     triggerRef,

@@ -3,6 +3,7 @@ import { act, fireEvent, render } from "@lynx-js/react/testing-library";
 import * as React from "@lynx-js/react";
 import type * as LynxUiCommon from "@lynx-js/lynx-ui-common";
 import type { Rect } from "@seed-design/lynx-react-floating";
+import { SafeAreaProvider, type SafeAreaInsets } from "@seed-design/lynx-react-use-safe-area";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { Popover, usePopoverContext } from "./index.js";
@@ -340,6 +341,33 @@ describe("Popover", () => {
     // 가로 회전: root 크기와 함께 왼쪽 inset 47이 생깁니다.
     rootBox = { left: 0, top: 0, width: 844, height: 390 };
     safeAreaBox = { left: 47, top: 0, width: 750, height: 369 };
+    await flush();
+    expect(positionerStyle()).toContain("left: 55px");
+  });
+
+  it("applies new safe area insets from the provider while tracking without a probe", async () => {
+    referenceBox = { left: 48, top: 300, width: 40, height: 40 };
+    // probe를 측정했다면 쓰였을 값입니다. Provider가 있으면 probe를 그리지 않습니다.
+    safeAreaBox = { left: 100, top: 0, width: 290, height: 844 };
+    const tree = (insets: SafeAreaInsets) => (
+      <SafeAreaProvider insets={insets}>
+        <Popover.Root defaultOpen placement="bottom">
+          <Popover.Anchor>
+            <text>기준</text>
+          </Popover.Anchor>
+          <Bubble withArrow={false} />
+        </Popover.Root>
+      </SafeAreaProvider>
+    );
+    const { container, rerender } = render(tree({ top: 0, right: 0, bottom: 0, left: 0 }));
+    await flush();
+    expect(container.querySelector('[style*="width: 0px; height: 0px"]')).toBeNull();
+    // view 모드는 root 기준입니다. 너비 120인 콘텐츠가 왼쪽 경계 0 + overflowPadding 8까지 밀립니다.
+    expect(positionerStyle()).toContain("left: 8px");
+
+    // 가로 회전: root 크기와 함께 좌우 inset 47이 생깁니다.
+    rootBox = { left: 0, top: 0, width: 844, height: 390 };
+    rerender(tree({ top: 0, right: 47, bottom: 21, left: 47 }));
     await flush();
     expect(positionerStyle()).toContain("left: 55px");
   });
