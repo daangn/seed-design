@@ -101,7 +101,7 @@ export const HelpBubbleRoot = React.forwardRef<unknown, HelpBubbleRootProps>((pr
   });
   const side = api.positioned ? (api.side as HelpBubbleSide) : undefined;
   const classes = React.useMemo(
-    () => helpBubble({ open: api.open, positioned: api.positioned, side, pressed: false }),
+    () => helpBubble({ open: api.open, positioned: api.positioned, side }),
     [api.open, api.positioned, side],
   );
 
@@ -341,7 +341,7 @@ export const HelpBubbleCloseButton = React.forwardRef<unknown, HelpBubbleCloseBu
       "accessibility-traits": accessibilityTraits,
       ...nativeProps
     } = props;
-    const { pressed, closeButtonProps } = usePopoverCloseButton({
+    const { closeButtonProps } = usePopoverCloseButton({
       bindtap,
       "main-thread:bindtap": mainThreadBindtap,
       "accessibility-element": accessibilityElement,
@@ -349,8 +349,7 @@ export const HelpBubbleCloseButton = React.forwardRef<unknown, HelpBubbleCloseBu
       "accessibility-traits": accessibilityTraits,
     });
     const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
-    const { open, positioned, side } = usePopoverContext();
-    const closeButtonClassNames = helpBubble({ open, positioned, side, pressed });
+    const classNames = useClassNames();
 
     return (
       <view
@@ -361,10 +360,10 @@ export const HelpBubbleCloseButton = React.forwardRef<unknown, HelpBubbleCloseBu
           nativeProps,
           ref ? { ref: ref as LynxViewRef } : {},
         )}
-        className={clsx(closeButtonClassNames.closeButton, className)}
+        className={clsx(classNames.closeButton, className)}
         style={style}
       >
-        <view {...scaleFeedbackTargetProps} className={closeButtonClassNames.closeButtonContent}>
+        <view {...scaleFeedbackTargetProps} className={classNames.closeButtonContent}>
           {children}
         </view>
       </view>
