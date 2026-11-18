@@ -5,7 +5,6 @@ import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } fr
 
 import { useSafeArea } from "../hooks/useSafeArea";
 import { useSeedClassName } from "../hooks/useSeedClassName";
-import { resetDeprecatedGlobalPropWarnings } from "../utils/deprecated-global-props";
 import { SeedProvider, useSeedContext } from "./SeedContext";
 
 interface TestLynxGlobal {
@@ -34,7 +33,6 @@ describe("useSeedContext", () => {
 
   beforeEach(() => {
     setGlobalProps({});
-    resetDeprecatedGlobalPropWarnings();
     warn = vi.spyOn(console, "warn").mockImplementation(() => {});
   });
 
@@ -53,7 +51,7 @@ describe("useSeedContext", () => {
     expect(warn).not.toHaveBeenCalled();
   });
 
-  it("prefers provider values over deprecated global props without warning", () => {
+  it("uses provider values", () => {
     setGlobalProps({ theme: "light", motion: "preferred" });
     const insets = { top: 0, right: 0, bottom: 34, left: 0 };
 
@@ -73,28 +71,24 @@ describe("useSeedContext", () => {
     expect(warn).not.toHaveBeenCalled();
   });
 
-  it("fills missing fields from deprecated global props and warns once per key", () => {
+  it("does not read host global props", () => {
     setGlobalProps({
-      theme: "DARK",
+      theme: "dark",
       motion: "reduced",
       safeAreaInsetTop: 47,
     });
 
-    const { result, rerender } = renderHook(() => useSeedContext(), {
+    const { result } = renderHook(() => ({ context: useSeedContext(), safeArea: useSafeArea() }), {
       wrapper: ({ children }: { children: ReactNode }) => <SeedProvider>{children}</SeedProvider>,
     });
-    rerender();
 
-    expect(result.current).toEqual({
-      preferredColorScheme: "dark",
-      preferredMotion: "reduced",
+    expect(result.current.context).toEqual({
+      preferredColorScheme: undefined,
+      preferredMotion: undefined,
       safeAreaInsets: undefined,
     });
-    expect(warn).toHaveBeenCalledTimes(2);
-    expect(warn.mock.calls.map(([message]) => message)).toEqual([
-      expect.stringContaining("lynx.__globalProps.theme"),
-      expect.stringContaining("lynx.__globalProps.motion"),
-    ]);
+    expect(result.current.safeArea.safeAreaInsetTop).toBe("0px");
+    expect(warn).not.toHaveBeenCalled();
   });
 
   it("inherits omitted fields from an outer provider and nested safe area", () => {
@@ -162,7 +156,6 @@ describe("useSeedContext", () => {
 describe("useSeedClassName", () => {
   beforeEach(() => {
     setGlobalProps({});
-    resetDeprecatedGlobalPropWarnings();
     vi.spyOn(console, "warn").mockImplementation(() => {});
   });
 
@@ -213,11 +206,9 @@ describe("useSeedClassName", () => {
     ).toBe("seed-user-color-scheme-light");
   });
 
-  it("falls back to the deprecated theme global prop, then light", () => {
+  it("ignores the host theme global prop and defaults to light", () => {
     setGlobalProps({ theme: "dark" });
-    expect(renderHook(() => useSeedClassName()).result.current).toBe("seed-user-color-scheme-dark");
 
-    setGlobalProps({});
     expect(renderHook(() => useSeedClassName()).result.current).toBe(
       "seed-user-color-scheme-light",
     );

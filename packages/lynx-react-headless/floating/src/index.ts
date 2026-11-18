@@ -1,3 +1,3 @@
 export * from "./computePosition.js";
 export * from "./referenceRect.js";
-export * from "./safeAreaBoundary.jsx";
+export * from "./safeAreaBoundary.js";

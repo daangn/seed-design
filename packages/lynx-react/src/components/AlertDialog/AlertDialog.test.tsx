@@ -16,6 +16,7 @@ vi.mock("@lynx-js/lynx-ui-dialog", async (importOriginal) => {
 
 import * as AlertDialog from "./AlertDialog.namespace";
 import { ActionButton } from "../ActionButton";
+import { SeedProvider, type SeedContextValue } from "../../contexts";
 
 // Open/close transitions are covered in `@seed-design/lynx-react-dialog`. These tests cover the
 // alert defaults layered on top of it against the real `@lynx-js/lynx-ui-dialog` engine.
@@ -47,44 +48,19 @@ function tap(container: Element, selector: string) {
   fireEvent.tap(element);
 }
 
-interface TestLynxGlobal {
-  lynx?: {
-    __globalProps?: {
-      safeAreaInsetTop?: number;
-      safeAreaInsetRight?: number;
-      safeAreaInsetBottom?: number;
-      safeAreaInsetLeft?: number;
-    };
-  };
-  lynxTestingEnv?: {
-    backgroundThread: { globalThis: TestLynxGlobal };
-    mainThread: { globalThis: TestLynxGlobal };
-  };
-}
-
-function setGlobalProps(
-  globalProps: NonNullable<NonNullable<TestLynxGlobal["lynx"]>["__globalProps"]>,
+function renderPositioner(
+  safeAreaInsets: SeedContextValue["safeAreaInsets"],
+  props?: Omit<AlertDialog.PositionerProps, "children">,
 ) {
-  const lynxTestingEnv = (globalThis as TestLynxGlobal).lynxTestingEnv;
-  const globals = [
-    globalThis as TestLynxGlobal,
-    lynxTestingEnv?.backgroundThread.globalThis,
-    lynxTestingEnv?.mainThread.globalThis,
-  ].filter((global): global is TestLynxGlobal => Boolean(global));
-
-  for (const global of globals) {
-    global.lynx = { ...global.lynx, __globalProps: globalProps };
-  }
-}
-
-function renderPositioner(props?: Omit<AlertDialog.PositionerProps, "children">) {
   render(
-    <AlertDialog.Root open>
-      <AlertDialog.Positioner {...props}>
-        <AlertDialog.Backdrop />
-        <AlertDialog.Content />
-      </AlertDialog.Positioner>
-    </AlertDialog.Root>,
+    <SeedProvider safeAreaInsets={safeAreaInsets}>
+      <AlertDialog.Root open>
+        <AlertDialog.Positioner {...props}>
+          <AlertDialog.Backdrop />
+          <AlertDialog.Content />
+        </AlertDialog.Positioner>
+      </AlertDialog.Root>
+    </SeedProvider>,
   );
 
   return dialogViewStyles.at(-1);
@@ -98,7 +74,6 @@ describe("AlertDialog", () => {
 
   afterEach(() => {
     vi.useRealTimers();
-    setGlobalProps({});
   });
 
   it("owns the trigger label while preserving its nested button's visual content", () => {
@@ -263,28 +238,14 @@ describe("AlertDialog", () => {
   });
 
   it("pads the positioner by the side insets and the larger block inset on both sides", () => {
-    setGlobalProps({
-      safeAreaInsetTop: 0,
-      safeAreaInsetRight: 84,
-      safeAreaInsetBottom: 34,
-      safeAreaInsetLeft: 0,
-    });
-
-    expect(renderPositioner()).toEqual({
+    expect(renderPositioner({ top: 0, right: 84, bottom: 34, left: 0 })).toEqual({
       paddingTop: "34px",
       paddingRight: "84px",
       paddingBottom: "34px",
       paddingLeft: "0px",
     });
 
-    setGlobalProps({
-      safeAreaInsetTop: 47,
-      safeAreaInsetRight: 0,
-      safeAreaInsetBottom: 34,
-      safeAreaInsetLeft: 59,
-    });
-
-    expect(renderPositioner()).toEqual({
+    expect(renderPositioner({ top: 47, right: 0, bottom: 34, left: 59 })).toEqual({
       paddingTop: "47px",
       paddingRight: "0px",
       paddingBottom: "47px",
@@ -293,20 +254,22 @@ describe("AlertDialog", () => {
   });
 
   it("keeps the safe area padding in a container and lets the positioner style override it", () => {
-    setGlobalProps({ safeAreaInsetTop: 47, safeAreaInsetBottom: 34, safeAreaInsetLeft: 59 });
+    const insets = { top: 47, right: 0, bottom: 34, left: 59 };
 
-    expect(renderPositioner({ container: "window" })).toEqual({
+    expect(renderPositioner(insets, { container: "window" })).toEqual({
       paddingTop: "47px",
-      paddingRight: "env(safe-area-inset-right)",
+      paddingRight: "0px",
       paddingBottom: "47px",
       paddingLeft: "59px",
       width: "100%",
       height: "100%",
     });
-    expect(renderPositioner({ style: { paddingLeft: "0px", opacity: 0.5 } })).toMatchObject({
-      paddingLeft: "0px",
-      opacity: 0.5,
-    });
+    expect(renderPositioner(insets, { style: { paddingLeft: "0px", opacity: 0.5 } })).toMatchObject(
+      {
+        paddingLeft: "0px",
+        opacity: 0.5,
+      },
+    );
   });
 
   it("wraps the content children in a vertical scroll area", () => {

@@ -51,7 +51,7 @@ root.render(
 | `light-only` | (무관) | `seed-user-color-scheme-light` |
 | `dark-only` | (무관) | `seed-user-color-scheme-dark` |
 
-`colorMode` 옵션을 생략하면 `SeedProvider`의 `colorMode`를 쓰고, 그 값도 없으면 `system`입니다. `system`일 때 색상 스킴은 `colorScheme` 옵션, `SeedProvider`의 `preferredColorScheme`, `lynx.__globalProps.theme` 순서로 정하고, 모두 없으면 `"light"`입니다. Global props에서 읽는 동작은 다음 메이저 버전에서 제거될 예정입니다.
+`colorMode` 옵션을 생략하면 `SeedProvider`의 `colorMode`를 쓰고, 그 값도 없으면 `system`입니다. `system`일 때 색상 스킴은 `colorScheme` 옵션, `SeedProvider`의 `preferredColorScheme` 순서로 정하고, 모두 없으면 `"light"`입니다. `getSeedClassName()`도 `colorScheme`을 생략하면 `"light"`입니다.
 
 ## 동작 방식
 
@@ -73,7 +73,7 @@ className 매핑 로직은 `getSeedClassName()`과 동일합니다. 차이는 `S
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `colorMode` | `"system" \| "light-only" \| "dark-only"` | `SeedProvider`의 `colorMode`, 없으면 `"system"` | 테마 결정 방식입니다. `system`은 색상 스킴을 따르고, `light-only` / `dark-only`는 테마를 고정합니다. |
-| `colorScheme` | `"light" \| "dark"` | `SeedProvider`의 `preferredColorScheme` | `colorMode`가 `system`일 때 적용할 색상 스킴입니다. |
+| `colorScheme` | `"light" \| "dark"` | `SeedProvider`의 `preferredColorScheme`, 없으면 `"light"` | `colorMode`가 `system`일 때 적용할 색상 스킴입니다. |
 
 ### Return
 
@@ -83,5 +83,5 @@ className 매핑 로직은 `getSeedClassName()`과 동일합니다. 차이는 `S
 
 ## 사용 시 주의사항
 
-- `SeedProvider` 안에서 호출해야 `colorMode`와 `preferredColorScheme`을 읽습니다. Provider 밖에서는 `lynx.__globalProps.theme`이나 `"light"`로 동작합니다.
+- `SeedProvider` 안에서 호출해야 `colorMode`와 `preferredColorScheme`을 읽습니다. Provider 밖에서는 `colorScheme` 옵션을 넘기지 않으면 `"light"`로 동작합니다.
 - 훅이므로 컴포넌트 본문에서만 호출할 수 있습니다. 테마 변경에 반응할 필요가 없다면 순수 함수인 `getSeedClassName()`을 사용하세요.

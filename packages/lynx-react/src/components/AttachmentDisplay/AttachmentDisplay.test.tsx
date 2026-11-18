@@ -43,12 +43,8 @@ describe("AttachmentDisplay safe-area extension", () => {
         <AttachmentDisplayControl extendSafeAreaX data-testid="control" />
       </AttachmentDisplayRoot>,
     );
-    expect(styleProperty(getByTestId("control"), "--seed-safe-area-left")).toBe(
-      "env(safe-area-inset-left)",
-    );
-    expect(styleProperty(getByTestId("control"), "--seed-safe-area-right")).toBe(
-      "env(safe-area-inset-right)",
-    );
+    expect(styleProperty(getByTestId("control"), "--seed-safe-area-left")).toBe("0px");
+    expect(styleProperty(getByTestId("control"), "--seed-safe-area-right")).toBe("0px");
   });
 
   it.each([
