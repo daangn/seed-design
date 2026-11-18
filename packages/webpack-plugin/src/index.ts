@@ -1,6 +1,10 @@
+import { createRequire } from "node:module";
 import type { Compiler } from "webpack";
 import type { Compiler as RspackCompiler } from "@rspack/core";
 import { generateThemingScript, type ColorMode } from "@seed-design/css/theming";
+
+// The ESM build has no global `require`, so create one for optional peer lookups.
+const require = createRequire(import.meta.url);
 
 // Optional import attempt for html-webpack-plugin
 let HtmlWebpackPlugin: typeof import("html-webpack-plugin") | undefined;
