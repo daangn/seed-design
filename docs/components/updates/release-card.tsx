@@ -1,5 +1,4 @@
 import { formatPublishedDate } from "@/lib/format-date";
-import Link from "next/link";
 
 interface ReleaseCardProps {
   href: string;
@@ -8,12 +7,12 @@ interface ReleaseCardProps {
   publishedAt?: string;
 }
 
-/** Updates 목록에서만 쓰는 릴리즈 노트 카드. */
+/** Updates 목록(`src/pages/updates/index.astro`)에서만 쓰는 릴리즈 노트 카드. 정적 렌더링이고 링크는 plain `<a>`다. */
 export function ReleaseCard({ href, title, description, publishedAt }: ReleaseCardProps) {
   const published = publishedAt ? new Date(publishedAt) : null;
 
   return (
-    <Link
+    <a
       href={href}
       className="group flex h-full flex-col rounded-r3 bg-bg-transparent-selected px-x5 py-x3_5 text-fg-neutral transition-colors duration-color-transition hover:bg-bg-transparent-selected-pressed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stroke-focus-ring"
     >
@@ -33,6 +32,6 @@ export function ReleaseCard({ href, title, description, publishedAt }: ReleaseCa
           {description}
         </p>
       )}
-    </Link>
+    </a>
   );
 }

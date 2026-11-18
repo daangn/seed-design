@@ -1,0 +1,42 @@
+---
+/**
+ * `/admin` Sanity Studio. ClientRouter 없는 별도 문서이고 Studio는 브라우저에서만 그린다(`client:only`). 주소는
+ * hash history(`/admin#/…`)라 정적 호스팅에서 rewrite가 필요 없다(기존 Next `NextStudio history="hash"`와 같다).
+ * head·컨테이너는 `next-sanity/studio`의 metadata·viewport·`NextStudioLayout`과 같다. Studio JS는 이 페이지에서만 받는다.
+ */
+import Studio from "../../components/studio";
+import { pageHead } from "../content/source";
+import PageShell from "../layouts/PageShell.astro";
+
+const head = pageHead({ referrer: "same-origin", robots: "noindex" });
+---
+
+<PageShell head={head} viewport="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script
+    slot="head"
+    is:inline
+    src="https://core.sanity-cdn.com/bridge.js"
+    async
+    type="module"
+    data-sanity-core="true"></script>
+  <noscript>
+    <div style="position:absolute;top:0;right:0;left:0;bottom:0;background:#fff;z-index:1">
+      <div
+        style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);text-align:center;font-family:helvetica, arial, sans-serif"
+      >
+        <h1>JavaScript disabled</h1>
+        <p>
+          Please <a href="https://www.enable-javascript.com/">enable JavaScript</a> in your browser and reload the page
+          to proceed.
+        </p>
+      </div>
+    </div>
+  </noscript>
+  <div
+    id="sanity"
+    data-ui="NextStudioLayout"
+    style="height:100vh;max-height:100dvh;overscroll-behavior:none;-webkit-font-smoothing:antialiased;overflow:auto"
+  >
+    <Studio client:only="react" />
+  </div>
+</PageShell>

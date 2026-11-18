@@ -26,7 +26,7 @@ const DOCS = path.resolve(import.meta.dir, "..");
  * S-1. 여기에 없는 파일에 `client:*`를 쓰려면 이 목록을 고치면서 이유를 PR에 남긴다.
  * - 문서 셸: DocsNav·SiteHeader(load), Toc·PageActions(idle) — Phase 2
  * - MDX island wrapper: visible·idle·only(load 금지는 O-1)
- * - ClientRouter 없는 별도 문서: landing, blocks iframe, `/admin` — Phase 4
+ * - ClientRouter 없는 별도 문서: landing, blocks iframe, `/admin`(`src/layouts/PageShell.astro`) — Phase 4
  */
 export const DIRECTIVE_FILES = [
   "src/layouts/DocsShell.astro",
@@ -50,14 +50,9 @@ export const ENGINE_FILES = [
 
 /**
  * S-3 임시 허용 목록: 아직 `fumadocs-ui` JS를 import하는 파일. 줄어들기만 한다. 셸 파일은 Phase 2에서, MDX 본문
- * 컴포넌트는 Phase 3에서 0이 됐다. 남은 것은 landing 둘(`components/landing/*`, Phase 4 route)이다.
- * `app/**`(Phase 4에서 옮길 Next 원본, 빌드하지 않음)은 보지 않는다.
+ * 컴포넌트는 Phase 3에서, landing은 Phase 4에서 0이 됐다. 비어 있어야 한다(새 import가 생기면 실패).
  */
-const FUMADOCS_UI_JS_PENDING: readonly string[] = [
-  // landing(`/`)만 남는다. Phase 4가 landing을 옮기며 지운다. 문서 페이지 파일은 Phase 3에서 0이 됐다.
-  "components/landing/landing-experience.tsx",
-  "components/landing/landing-header.tsx",
-];
+const FUMADOCS_UI_JS_PENDING: readonly string[] = [];
 
 interface SourceFile {
   /** docs 기준 POSIX 경로. */
@@ -65,7 +60,7 @@ interface SourceFile {
   text: string;
 }
 
-const SKIP = /^(?:node_modules|out|\.cache|\.astro|app)\/|\.test\.tsx?$/;
+const SKIP = /^(?:node_modules|out|\.cache|\.astro)\/|\.test\.tsx?$/;
 
 async function sources(globs: readonly string[]): Promise<SourceFile[]> {
   const seen = new Map<string, SourceFile>();

@@ -3,6 +3,7 @@
  *
  * 불변식
  * - 리스너는 `document`에 한 번만 등록한다(`client.ts`의 `window` 플래그 아래에서만 `initWidgets`를 부른다).
+ *   예외: 열린 popup(help-bubble·color-swatch)이 열린 동안만 `document`·`window`에 붙였다가 닫을 때 떼는 listener.
  * - 탭·아코디언을 widget으로 처리한다(오너 결정 1). 모든 탭·아코디언에 이 한 방식만 쓴다.
  * - widget은 DOM을 만들지 않는다. aria-*, data-*, hidden, tabindex, src와 CSS 변수(`style`)만 바꾼다(확대 dialog는
  *   `DocsShell.astro`의 정적 요소).
@@ -11,7 +12,16 @@
  * - 이름 목록은 `WIDGETS`의 키 하나다. 마크업은 `WidgetName` 타입의 문자열만 쓴다.
  */
 
-export type WidgetName = "copy" | "tabs" | "zoom" | "heading-link" | "accordion";
+export type WidgetName =
+  | "copy"
+  | "tabs"
+  | "zoom"
+  | "heading-link"
+  | "accordion"
+  | "expand"
+  | "row-highlight"
+  | "help-bubble"
+  | "color-swatch";
 
 interface Widget {
   /** 위임할 이벤트. 모두 버블링하는 이벤트다. */
@@ -328,12 +338,279 @@ const accordion: Widget = {
   },
 };
 
+// ───────────────────────── expand ─────────────────────────
+
+/**
+ * rootage 표의 해결 경로 펼침(`components/token-cell.tsx`). root(행 `tr` 또는 셀 `div`)를 누르면 가장 가까운 `tr`
+ * (없으면 root)에 `data-expanded`를 토글하고, 그 안 모든 TokenCell(`[data-token-cell]`)의 `aria-expanded`를 맞춘다.
+ * 펼친·접힌 마크업은 둘 다 정적으로 있고 `group/expand` + `group-data-expanded/expand:`가 보일 쪽을 고른다.
+ * 행 안의 링크 클릭은 무시한다. 복사·설명 버튼은 자기 widget이 먼저 받는다.
+ */
+const expand: Widget = {
+  events: ["click"],
+  handle(event, root) {
+    const link = (event.target as Element).closest("a");
+    if (link && root.contains(link)) return;
+    const host = root.closest("tr") ?? root;
+    const expanded = !host.hasAttribute("data-expanded");
+    host.toggleAttribute("data-expanded", expanded);
+    for (const cell of host.querySelectorAll("[data-token-cell]")) {
+      cell.setAttribute("aria-expanded", String(expanded));
+    }
+  },
+};
+
+// ───────────────────────── row-highlight ─────────────────────────
+
+/**
+ * 컴포넌트 spec 표(`components/component-variant-table.tsx`)의 행 hover 강조. root(`tbody`) 안에서 hover한 행과
+ * `data-hover-key`가 같은 행 모두에 `data-highlighted`를 붙이고, 같은 key 밖으로 나가면 뗀다.
+ */
+const HOVER_ROW = "tr[data-hover-key]";
+
+function highlightRows(root: HTMLElement, key: string | undefined): void {
+  for (const row of root.querySelectorAll<HTMLElement>(HOVER_ROW)) {
+    row.toggleAttribute("data-highlighted", key !== undefined && row.dataset.hoverKey === key);
+  }
+}
+
+const rowHighlight: Widget = {
+  events: ["mouseover", "mouseout"],
+  handle(event, root) {
+    const row = (event.target as Element).closest<HTMLElement>(HOVER_ROW);
+    if (!row || !root.contains(row)) return;
+    if (event.type === "mouseover") {
+      if (!row.hasAttribute("data-highlighted")) highlightRows(root, row.dataset.hoverKey);
+      return;
+    }
+    const related = (event as MouseEvent).relatedTarget;
+    const next = related instanceof Element ? related.closest<HTMLElement>(HOVER_ROW) : null;
+    if (next && root.contains(next) && next.dataset.hoverKey === row.dataset.hoverKey) return;
+    highlightRows(root, undefined);
+  },
+};
+
+// ───────────────────────── help-bubble ─────────────────────────
+
+/**
+ * 설명 버튼의 HelpBubble(`components/description-button.tsx`). 마크업은 SEED `HelpBubbleTrigger`의 서버 HTML과 같은
+ * recipe class·DOM이고 닫힌 상태로 정적으로 있다. root는 trigger와 positioner를 감싼 요소다.
+ * - 열림: trigger `aria-expanded="true"`, 각 부분에 `data-open`, content `hidden` 없음. 닫힘은 그 반대이고 content의
+ *   exit 애니메이션이 끝나면 `hidden`을 붙인다(애니메이션이 없으면 바로).
+ * - 위치: SEED HelpBubble 기본값(placement top, gutter 4px + arrow tip 8px, viewport 안쪽 16px, arrow padding 14px)을
+ *   흉내 낸다. positioner는 `position: fixed`이고 widget이 CSS 변수(`--help-bubble-x`·`-y`·`-arrow-x`)를 쓴다. 위 공간이
+ *   없으면 bottom으로 뒤집고 `data-side`를 바꾼다(arrow 회전은 CSS).
+ * - 한 번에 하나만 연다. 열린 동안 Esc·바깥 pointerdown으로 닫고, scroll(capture)·resize에 위치를 다시 잡는다. 이
+ *   listener는 열 때 `document`·`window`에 붙이고 닫을 때 뗀다.
+ */
+const BUBBLE_PADDING = 16;
+const BUBBLE_OFFSET = 12;
+const BUBBLE_ARROW = 12;
+const BUBBLE_ARROW_PADDING = 14;
+
+interface OpenBubble {
+  root: HTMLElement;
+  trigger: HTMLElement;
+  positioner: HTMLElement;
+  content: HTMLElement;
+}
+
+let openBubble: OpenBubble | null = null;
+
+function bubbleParts(root: HTMLElement): OpenBubble | undefined {
+  const trigger = root.querySelector<HTMLElement>('[aria-haspopup="dialog"]');
+  const content = document.getElementById(trigger?.getAttribute("aria-controls") ?? "");
+  const positioner = content?.parentElement;
+  return trigger && content && positioner ? { root, trigger, positioner, content } : undefined;
+}
+
+function bubbleStateParts({ trigger, positioner }: OpenBubble): Element[] {
+  // SEED HelpBubble이 상태 속성(`data-side`·`data-open`)을 그리는 부분들. 마크업이 `data-side`로 표시한다.
+  return [trigger, positioner, ...positioner.querySelectorAll("[data-side]")];
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(value, max));
+}
+
+function positionBubble(bubble: OpenBubble): void {
+  const { trigger, positioner, content } = bubble;
+  const viewport = document.documentElement;
+  const vw = viewport.clientWidth;
+  const vh = viewport.clientHeight;
+  // 이전 위치의 오른쪽 끝에 눌려 줄바꿈된 너비로 재지 않도록 왼쪽 끝에서 잰다.
+  positioner.style.setProperty("--help-bubble-x", "0px");
+  positioner.style.setProperty("--seed-popover-available-width", `${vw - BUBBLE_PADDING * 2}px`);
+  // offsetWidth/Height는 enter 애니메이션의 scale에 영향받지 않는다.
+  const width = content.offsetWidth;
+  const height = content.offsetHeight;
+  const anchor = trigger.getBoundingClientRect();
+  const center = anchor.left + anchor.width / 2;
+
+  const x = clamp(center - width / 2, BUBBLE_PADDING, vw - BUBBLE_PADDING - width);
+  const top = anchor.top - BUBBLE_OFFSET - height;
+  const bottom = anchor.bottom + BUBBLE_OFFSET;
+  const side = top < BUBBLE_PADDING && bottom + height <= vh - BUBBLE_PADDING ? "bottom" : "top";
+  const arrowX = clamp(
+    center - x - BUBBLE_ARROW / 2,
+    BUBBLE_ARROW_PADDING,
+    width - BUBBLE_ARROW_PADDING - BUBBLE_ARROW,
+  );
+
+  positioner.style.setProperty("--help-bubble-x", `${x}px`);
+  positioner.style.setProperty("--help-bubble-y", `${side === "top" ? top : bottom}px`);
+  positioner.style.setProperty("--help-bubble-arrow-x", `${arrowX}px`);
+  content.style.setProperty(
+    "--seed-popover-transform-origin",
+    side === "top" ? "center bottom" : "center top",
+  );
+  for (const part of bubbleStateParts(bubble)) part.setAttribute("data-side", side);
+}
+
+function onBubbleReposition(): void {
+  if (!openBubble) return;
+  if (!openBubble.content.isConnected) closeBubble();
+  else positionBubble(openBubble);
+}
+
+function onBubbleKeydown(event: KeyboardEvent): void {
+  if (event.key === "Escape" && !event.isComposing) closeBubble();
+}
+
+function onBubblePointerdown(event: PointerEvent): void {
+  if (!openBubble) return;
+  const target = event.target;
+  if (
+    target instanceof Node &&
+    (openBubble.content.contains(target) || openBubble.trigger.contains(target))
+  )
+    return;
+  closeBubble();
+}
+
+function openHelpBubble(bubble: OpenBubble): void {
+  if (openBubble) closeBubble();
+  openBubble = bubble;
+  bubble.trigger.setAttribute("aria-expanded", "true");
+  bubble.content.hidden = false;
+  for (const part of bubbleStateParts(bubble)) part.setAttribute("data-open", "");
+  positionBubble(bubble);
+  document.addEventListener("scroll", onBubbleReposition, true);
+  window.addEventListener("resize", onBubbleReposition);
+  document.addEventListener("keydown", onBubbleKeydown);
+  document.addEventListener("pointerdown", onBubblePointerdown, true);
+}
+
+function closeBubble(): void {
+  const bubble = openBubble;
+  if (!bubble) return;
+  openBubble = null;
+  document.removeEventListener("scroll", onBubbleReposition, true);
+  window.removeEventListener("resize", onBubbleReposition);
+  document.removeEventListener("keydown", onBubbleKeydown);
+  document.removeEventListener("pointerdown", onBubblePointerdown, true);
+  bubble.trigger.setAttribute("aria-expanded", "false");
+  for (const part of bubbleStateParts(bubble)) part.removeAttribute("data-open");
+  // exit 애니메이션이 있으면 `animationend`(handle)가 `hidden`을 붙인다.
+  const style = window.getComputedStyle(bubble.content);
+  const animated =
+    style.animationName !== "none" &&
+    style.animationDuration.split(",").some((value) => Number.parseFloat(value) > 0);
+  if (!animated || !bubble.content.isConnected) bubble.content.hidden = true;
+}
+
+const helpBubble: Widget = {
+  events: ["click", "animationend"],
+  handle(event, root) {
+    const parts = bubbleParts(root);
+    if (!parts) return;
+    if (event.type === "animationend") {
+      if (event.target === parts.content && !parts.content.hasAttribute("data-open"))
+        parts.content.hidden = true;
+      return;
+    }
+    // content 안 클릭도 여기서 끝난다(행 펼침으로 버블링하지 않는다).
+    if (!parts.trigger.contains(event.target as Node)) return;
+    if (openBubble?.root === root) closeBubble();
+    else openHelpBubble(parts);
+  },
+};
+
+// ───────────────────────── color-swatch ─────────────────────────
+
+/**
+ * 팔레트 색 칸(`components/color-swatch.tsx`). root는 칸 버튼·backdrop 버튼·popup을 감싼 요소다.
+ * 칸(`[data-swatch]`)을 누르면 칸과 popup에 `data-open`을 붙이고 backdrop·popup의 `hidden`을 푼 뒤, popup 위치를
+ * CSS 변수(`--swatch-top`·`--swatch-left`·`--swatch-right`)로 칸 아래 8px·왼쪽 정렬로 둔다(오른쪽이 화면을 넘으면
+ * 오른쪽 정렬). backdrop(`[data-swatch-backdrop]`) 클릭과 Esc로 닫는다. 복사 행은 `copy` widget이 먼저 받는다.
+ */
+const SWATCH_GAP = 8;
+
+let openSwatch: HTMLElement | null = null;
+
+function swatchParts(root: HTMLElement) {
+  return {
+    swatch: root.querySelector<HTMLElement>("[data-swatch]"),
+    backdrop: root.querySelector<HTMLElement>("[data-swatch-backdrop]"),
+    popup: root.querySelector<HTMLElement>("[data-swatch-popup]"),
+  };
+}
+
+function onSwatchKeydown(event: KeyboardEvent): void {
+  if (event.key === "Escape" && !event.isComposing) closeSwatch();
+}
+
+function closeSwatch(): void {
+  const root = openSwatch;
+  if (!root) return;
+  openSwatch = null;
+  document.removeEventListener("keydown", onSwatchKeydown);
+  const { swatch, backdrop, popup } = swatchParts(root);
+  swatch?.removeAttribute("data-open");
+  popup?.removeAttribute("data-open");
+  if (backdrop) backdrop.hidden = true;
+  if (popup) popup.hidden = true;
+}
+
+function openColorSwatch(root: HTMLElement): void {
+  const { swatch, backdrop, popup } = swatchParts(root);
+  if (!swatch || !backdrop || !popup) return;
+  if (openSwatch) closeSwatch();
+  openSwatch = root;
+  const rect = swatch.getBoundingClientRect();
+  popup.style.setProperty("--swatch-top", `${rect.bottom + SWATCH_GAP}px`);
+  popup.style.setProperty("--swatch-left", `${rect.left}px`);
+  popup.style.setProperty("--swatch-right", "auto");
+  swatch.setAttribute("data-open", "");
+  popup.setAttribute("data-open", "");
+  backdrop.hidden = false;
+  popup.hidden = false;
+  if (popup.getBoundingClientRect().right > window.innerWidth) {
+    popup.style.setProperty("--swatch-left", "auto");
+    popup.style.setProperty("--swatch-right", `${window.innerWidth - rect.right}px`);
+  }
+  document.addEventListener("keydown", onSwatchKeydown);
+}
+
+const colorSwatch: Widget = {
+  events: ["click"],
+  handle(event, root) {
+    const target = event.target as Element;
+    if (target.closest("[data-swatch-backdrop]")) closeSwatch();
+    else if (target.closest("[data-swatch]")) openColorSwatch(root);
+  },
+};
+
 const WIDGETS: Record<WidgetName, Widget> = {
   copy,
   tabs,
   zoom,
   "heading-link": headingLink,
   accordion,
+  expand,
+  "row-highlight": rowHighlight,
+  "help-bubble": helpBubble,
+  "color-swatch": colorSwatch,
 };
 
 function widgetName(element: Element): WidgetName | undefined {

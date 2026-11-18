@@ -24,11 +24,8 @@
   "include": [".astro/types.d.ts", "**/*.ts", "**/*.tsx"],
   // astro.config.ts: docs의 vite와 Astro가 쓰는 vite의 타입이 섞여 tsc가 비교하지 못한다.
   // 설정 값은 Astro가 실행 시점에 검증한다.
-  // app/: Astro로 아직 옮기지 않은 Next route(landing·404·updates 목록·토큰 reference·blocks·admin)의 원본이다.
-  // 빌드하지 않고 이전 작업의 참고로만 남긴다(Phase 4에서 옮긴 뒤 지운다).
   "exclude": [
     "node_modules",
-    "app/**",
     "astro.config.ts",
     "examples/lynx/**",
     "lynx.config.ts",

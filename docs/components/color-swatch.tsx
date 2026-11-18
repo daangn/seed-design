@@ -1,17 +1,4 @@
-"use client";
-
 import { IconCheckmarkClipboardLine, IconCheckmarkFill } from "@karrotmarket/react-monochrome-icon";
-import { useCopyButton } from "../hooks/useCopyButton";
-import {
-  forwardRef,
-  RefObject,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
-import { createPortal } from "react-dom";
 
 interface ColorSwatchProps {
   identifier: string;
@@ -19,107 +6,51 @@ interface ColorSwatchProps {
   darkValue: string;
 }
 
-export const ColorSwatch = forwardRef<HTMLButtonElement, ColorSwatchProps>(
-  ({ identifier, lightValue, darkValue }, forwardedRef) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [rect, setRect] = useState<DOMRect | null>(null);
-    const buttonRef = useRef<HTMLButtonElement>(null);
-    const popupRef = useRef<HTMLDivElement>(null);
-
-    const composedRef = useCallback(
-      (node: HTMLButtonElement | null) => {
-        (buttonRef as RefObject<HTMLButtonElement | null>).current = node;
-        if (typeof forwardedRef === "function") forwardedRef(node);
-        else if (forwardedRef) (forwardedRef as RefObject<HTMLButtonElement | null>).current = node;
-      },
-      [forwardedRef],
-    );
-
-    function handleClick() {
-      if (buttonRef.current) {
-        setRect(buttonRef.current.getBoundingClientRect());
-      }
-      setIsOpen(true);
-    }
-
-    useLayoutEffect(() => {
-      if (!isOpen || !popupRef.current || !rect) return;
-      const el = popupRef.current;
-      const popupRect = el.getBoundingClientRect();
-      if (popupRect.right > window.innerWidth) {
-        el.style.left = "";
-        el.style.right = `${window.innerWidth - rect.right}px`;
-      }
-    }, [isOpen, rect]);
-
-    useEffect(() => {
-      if (!isOpen) return;
-      function handleKeyDown(e: KeyboardEvent) {
-        if (e.key === "Escape") setIsOpen(false);
-      }
-      document.addEventListener("keydown", handleKeyDown);
-      return () => document.removeEventListener("keydown", handleKeyDown);
-    }, [isOpen]);
-
-    const label = identifier.replace("$color.palette.", "");
-
-    return (
-      <>
-        <button
-          ref={composedRef}
-          type="button"
-          className={`flex-1 h-12 border cursor-pointer hover:opacity-90 transition-opacity ${isOpen ? "border-fd-primary" : "border-fd-border/20"}`}
-          style={{ backgroundColor: lightValue }}
-          onClick={handleClick}
-          title={label}
-          aria-label={`${label} 색상 정보 열기`}
-        />
-        {isOpen &&
-          createPortal(
-            <>
-              <button
-                type="button"
-                className="fixed inset-0 z-40 cursor-default"
-                aria-label="닫기"
-                onClick={() => setIsOpen(false)}
-              />
-              <div
-                ref={popupRef}
-                className="fixed z-50 bg-fd-background border border-fd-border rounded-xl shadow-xl p-4 min-w-52"
-                style={{
-                  top: (rect?.bottom ?? 0) + 8,
-                  left: rect?.left ?? 0,
-                }}
-              >
-                <p className="text-sm font-semibold mb-3">{label}</p>
-                <CopyRow label="Light" value={lightValue} />
-                <CopyRow label="Dark" value={darkValue} />
-              </div>
-            </>,
-            document.body,
-          )}
-      </>
-    );
-  },
-);
-ColorSwatch.displayName = "ColorSwatch";
-
-interface CopyRowProps {
-  label: string;
-  value: string;
-}
-
-const CopyRow = forwardRef<HTMLButtonElement, CopyRowProps>(({ label, value }, ref) => {
-  const [copied, onClick] = useCopyButton(() => {
-    navigator.clipboard.writeText(value);
-  });
+/**
+ * 팔레트 색 칸. 칸 버튼 뒤에 backdrop 버튼과 popup을 `hidden`으로 정적으로 그린다. 열고 닫기와 popup 위치는
+ * `color-swatch` widget(`src/mdx/widgets.ts`)이, 값 복사는 `copy` widget이 맡는다. popup은 본문 `prose` 안에 있으므로
+ * `not-prose`로 기존 portal(body 아래)과 같은 조판을 쓴다.
+ */
+export function ColorSwatch({ identifier, lightValue, darkValue }: ColorSwatchProps) {
+  const label = identifier.replace("$color.palette.", "");
 
   return (
+    <div data-widget="color-swatch" className="contents">
+      <button
+        type="button"
+        data-swatch=""
+        className="flex-1 h-12 border border-fd-border/20 data-open:border-fd-primary cursor-pointer hover:opacity-90 transition-opacity"
+        style={{ backgroundColor: lightValue }}
+        title={label}
+        aria-label={`${label} 색상 정보 열기`}
+      />
+      <button
+        type="button"
+        data-swatch-backdrop=""
+        hidden
+        className="fixed inset-0 z-40 cursor-default"
+        aria-label="닫기"
+      />
+      <div
+        data-swatch-popup=""
+        hidden
+        className="not-prose fixed z-50 top-(--swatch-top,0px) left-(--swatch-left,0px) right-(--swatch-right,auto) bg-fd-background border border-fd-border rounded-xl shadow-xl p-4 min-w-52"
+      >
+        <p className="text-sm font-semibold mb-3">{label}</p>
+        <CopyRow label="Light" value={lightValue} />
+        <CopyRow label="Dark" value={darkValue} />
+      </div>
+    </div>
+  );
+}
+
+function CopyRow({ label, value }: { label: string; value: string }) {
+  return (
     <button
-      ref={ref}
       type="button"
-      onClick={onClick}
-      className="flex items-center gap-2 w-full py-1.5 text-left hover:bg-fd-muted rounded-md px-1 transition-colors group"
+      data-widget="copy"
+      data-copy-text={value}
+      className="flex items-center gap-2 w-full py-1.5 text-left hover:bg-fd-muted rounded-md px-1 transition-colors group/copy"
     >
       <div
         className="w-5 h-5 rounded-md border border-fd-border/50 flex-none"
@@ -127,15 +58,11 @@ const CopyRow = forwardRef<HTMLButtonElement, CopyRowProps>(({ label, value }, r
       />
       <span className="text-xs text-fd-muted-foreground flex-none w-8">{label}</span>
       <code className="text-xs flex-1 font-mono">{value}</code>
-      {copied ? (
-        <IconCheckmarkFill size={14} className="flex-none" />
-      ) : (
-        <IconCheckmarkClipboardLine
-          size={14}
-          className="flex-none opacity-0 group-hover:opacity-100 transition-opacity text-fd-muted-foreground"
-        />
-      )}
+      <IconCheckmarkFill size={14} className="hidden flex-none group-data-copied/copy:block" />
+      <IconCheckmarkClipboardLine
+        size={14}
+        className="flex-none opacity-0 group-hover/copy:opacity-100 group-data-copied/copy:hidden transition-opacity text-fd-muted-foreground"
+      />
     </button>
   );
-});
-CopyRow.displayName = "CopyRow";
+}

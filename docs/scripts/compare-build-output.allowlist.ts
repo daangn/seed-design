@@ -113,30 +113,7 @@ function canonicalizeOramaDump(json: string): string {
   });
 }
 
-/** Phase 4(문서 밖 route와 배포 표면)에서 옮길 route. 옮기면 해당 항목을 지운다(`.astro-migration/PLAN.md` Phase 4). */
-const PHASE4_ROUTES: Array<{ id: string; match: RegExp; route: string }> = [
-  { id: "phase4-landing", match: /^index\.html$/, route: "landing `/`" },
-  { id: "phase4-not-found", match: /^404\.html$/, route: "404" },
-  { id: "phase4-updates-index", match: /^updates\.html$/, route: "updates 목록 `/updates`" },
-  {
-    id: "phase4-token-reference",
-    match: /^foundations\/design-token\/reference\/[^/]+\.html$/,
-    route: "토큰 reference `/foundations/design-token/reference/[id]`",
-  },
-  { id: "phase4-blocks", match: /^blocks\/[^/]+\.html$/, route: "`/blocks/[name]`" },
-  { id: "phase4-admin", match: /^admin\.html$/, route: "Sanity Studio `/admin`" },
-];
-
 export const allowlist: AllowlistEntry[] = [
-  ...PHASE4_ROUTES.map(
-    ({ id, match, route }): PathEntry => ({
-      id,
-      stage: "path",
-      side: "baseline",
-      reason: `${route}는 Phase 4에서 Astro로 옮긴다. 그전까지 후보 빌드에 없다.`,
-      match,
-    }),
-  ),
   {
     id: "next-bundle-assets",
     stage: "path",
@@ -199,11 +176,11 @@ export const allowlist: AllowlistEntry[] = [
     id: "sitemap-lastmod-commit-time-tie",
     stage: "file",
     reason:
-      "`content/lynx/components/action-button.mdx`와 `content/components/text-input.mdx`는 각각 마지막으로 고친 커밋 여러 개가 같은 committer 시각을 갖는다. `lib/git-timestamps.ts`가 그중 먼저 만난 커밋의 시각을 쓰는데, 순회 순서는 HEAD에 따라 달라진다. `text-input`의 동률은 `24e9bb768`의 `dev`를 병합한 뒤 생겼다(커밋 `d1e9f956a`·`ee81d57a5`, 같은 committer 시각). 기준선(dev HEAD)과 작업 브랜치에서 이 두 URL의 `lastmod`만 달라 비교에서 뺀다.",
+      "`content/lynx/components/action-button.mdx`, `content/components/text-input.mdx`, `content/lynx/getting-started/host-integration.mdx`는 각각 마지막으로 고친 커밋 여러 개가 같은 committer 시각을 갖는다. `lib/git-timestamps.ts`가 그중 먼저 만난 커밋의 시각을 쓰는데, 순회 순서는 HEAD에 따라 달라진다. `text-input`의 동률은 `24e9bb768`의 `dev`를 병합한 뒤 생겼다(커밋 `d1e9f956a`·`ee81d57a5`, 같은 committer 시각). `host-integration`은 `0e76c0785`·`934bd5bda`·`1d6ddf801`(committer 시각 2026-11-12T06:07:22Z 동률, author 시각만 다름)에서 생겼다. 기준선(dev HEAD)과 작업 브랜치에서 이 세 URL의 `lastmod`만 달라 비교에서 뺀다.",
     match: /(?:^|\/)sitemap\.xml$/,
     normalize: (text) =>
       text.replace(
-        /(<loc>https:\/\/seed-design\.io\/(?:lynx\/components\/action-button|components\/text-input)<\/loc>\s*<lastmod>)[^<]+/g,
+        /(<loc>https:\/\/seed-design\.io\/(?:lynx\/components\/action-button|components\/text-input|lynx\/getting-started\/host-integration)<\/loc>\s*<lastmod>)[^<]+/g,
         "$1«lastmod»",
       ),
   },

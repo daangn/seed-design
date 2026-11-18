@@ -1,7 +1,6 @@
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import clsx from "clsx";
-import Image from "next/image";
-import Link from "next/link";
+import { FillImage } from "../components/fill-image";
 import { RevealText } from "../components/reveal-text";
 import { BLOG_HEADING, BLOG_POSTS, REGIONS, Z } from "../lib/landing-content";
 import { SectionLayer } from "../section-layer";
@@ -63,11 +62,10 @@ export function SectionBlog() {
                         hover. Kept separate from the Image so the CSS scale doesn't fight
                         GSAP's reveal transform on [data-reveal]. */}
                     <div className="relative size-full motion-safe:transition-transform motion-safe:duration-[600ms] motion-safe:ease-out motion-safe:group-hover:[transform:scale(1.05)]">
-                      <Image
+                      <FillImage
                         data-reveal
                         src={post.image}
                         alt=""
-                        fill
                         sizes="(min-width: 1024px) 33vw, 100vw"
                         className="object-cover will-change-transform"
                       />
@@ -113,7 +111,7 @@ export function SectionBlog() {
                   {inner}
                 </a>
               ) : (
-                <Link
+                <a
                   key={post.title}
                   href={post.href}
                   data-blog-card
@@ -123,7 +121,7 @@ export function SectionBlog() {
                   className={className}
                 >
                   {inner}
-                </Link>
+                </a>
               );
             })}
           </div>

@@ -1,0 +1,114 @@
+---
+/**
+ * 토큰 상세(`/foundations/design-token/reference/<tokenId>`, rootage 토큰 수만큼). foundations 사이드바가 있는 문서 셸에
+ * 기존 `app/foundations/design-token/reference/[id]/page.tsx`(fumadocs `DocsPage`, TOC 없음)와 같은 마크업을 그린다.
+ * 사이드바에 이 페이지 항목은 없어 활성 항목이 없다(기존과 같다).
+ *
+ * rootage는 동기 module import(`lib/rootage.ts`)이고, route 맨 앞의 `getSectionNav` await는 이 페이지의 모든 React
+ * renderer 호출보다 앞이다.
+ */
+import { IconArrowRightLine } from "@karrotmarket/react-monochrome-icon";
+import { resolveReferences, resolveToken } from "@seed-design/rootage-core";
+import { getDefaultModes, stringifyValueLit } from "../../../../../components/rootage";
+import { TableRoot } from "../../../../../components/table";
+import { TokenLink } from "../../../../../components/token-link";
+import { TypeIndicator } from "../../../../../components/type-indicator";
+import { getRootage } from "../../../../../lib/rootage";
+import { getSectionConfig, isSectionInBuild } from "../../../../content/sections";
+import { getSectionNav, pageHead } from "../../../../content/source";
+import DocsShell from "../../../../layouts/DocsShell.astro";
+
+export function getStaticPaths() {
+  // archive 빌드에는 foundations 섹션(사이드바)이 없다. 보관본은 플랫폼 문서만 담는다.
+  if (!isSectionInBuild("foundations")) return [];
+  return getRootage().tokenIds.map((id) => ({ params: { id } }));
+}
+
+const tokenId = Astro.params.id as `$${string}`;
+const rootage = getRootage();
+const decl = rootage.tokenEntities[tokenId];
+if (!decl) throw new Error(`Unknown token: ${tokenId}`);
+const collection = decl.collection;
+const defaultModes = getDefaultModes(rootage);
+const definitions = rootage.tokenCollectionEntities[collection].modes.map(({ id: mode }) => ({
+  mode,
+  ...resolveToken(rootage, tokenId, { ...defaultModes, [collection]: mode }),
+}));
+const references = resolveReferences(rootage, tokenId, defaultModes);
+
+const section = getSectionConfig("foundations");
+const nav = await getSectionNav("foundations");
+const head = pageHead({ title: tokenId, description: decl.description ?? undefined });
+---
+
+<DocsShell
+  head={head}
+  section={section}
+  currentPath={`/foundations/design-token/reference/${encodeURIComponent(tokenId)}`}
+  nav={nav}
+  tocRail={false}
+>
+  <main class="grid [grid-area:main]" data-layout-main="">
+    <article
+      id="nd-page"
+      data-layout-content=""
+      data-full="false"
+      class="flex flex-col min-w-0 px-4 py-6 gap-4 md:px-6 md:pt-8 xl:px-8 xl:pt-14 *:max-w-[900px]"
+    >
+      <h1 class="text-[1.75em] font-semibold">{tokenId}</h1>
+      <p class="mb-8 text-lg text-fd-muted-foreground">{decl.description}</p>
+      <div class="prose flex-1 prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
+        <h2>Definition</h2>
+        {
+          definitions.map(({ mode, path, value }) => (
+            <>
+              <h3>{mode}</h3>
+              <div class="flex items-center space-x-2">
+                {path.map((id) => {
+                  const description = rootage.tokenEntities[id]?.description;
+                  return (
+                    <>
+                      <div class="flex flex-col gap-1 px-3 py-2 bg-fd-background rounded-md border border-fd-border">
+                        <div class="flex items-center space-x-2">
+                          <TypeIndicator value={value} />
+                          <TokenLink id={id} />
+                        </div>
+                        {description && (
+                          <span class="text-fd-muted-foreground text-sm text-pretty break-keep">{description}</span>
+                        )}
+                      </div>
+                      <IconArrowRightLine className="w-4 h-4" />
+                    </>
+                  );
+                })}
+                <div class="flex items-center space-x-2 px-3 py-2 bg-fd-background rounded-md border border-fd-border">
+                  <TypeIndicator value={value} />
+                  <div>{stringifyValueLit(value)}</div>
+                </div>
+              </div>
+            </>
+          ))
+        }
+        <h2>References</h2>
+        <TableRoot>
+          <thead>
+            <tr>
+              <th>이름</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              references.map((ref) => (
+                <tr>
+                  <td>{ref.startsWith("$") ? <TokenLink id={ref} /> : ref}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </TableRoot>
+      </div>
+      <div class="flex flex-row flex-wrap items-center justify-between gap-4 empty:hidden"></div>
+      <div class="@container grid gap-4 grid-cols-1"></div>
+    </article>
+  </main>
+</DocsShell>

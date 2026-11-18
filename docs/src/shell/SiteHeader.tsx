@@ -33,6 +33,11 @@ import { closeSearch, openMobileNav, openSearch, searchOpen } from "./store";
 import { useAtom } from "./use-store";
 
 const SearchDialog = lazy(() => import("../../components/search/search"));
+const LandingSearchDialog = lazy(() =>
+  import("../../components/search/search").then((module) => ({
+    default: module.LandingSearchDialog,
+  })),
+);
 // NavigationMenu·floating-ui는 사용자가 메뉴 버튼에 다가갈 때 받는다(`components/use-menu-intent.ts`).
 const loadNavMenu = () => import("./SiteNavMenu");
 const SiteNavMenu = lazy(loadNavMenu);
@@ -90,13 +95,13 @@ function SearchButton({ className }: { className: string }) {
 /**
  * 데스크톱 nav. 서버 HTML과 hydrate는 정적 nav(링크 + 메뉴 버튼)이고, 메뉴 버튼에 포인터·focus가 오면 SEED
  * NavigationMenu 판(`SiteNavMenu.tsx`)을 받아 바꿔 그린다. 받았을 때 포인터가 아직 버튼 위에 있거나 이미 눌렀으면
- * 그 메뉴가 열린 채로 시작한다.
+ * 그 메뉴가 열린 채로 시작한다. landing 헤더(`components/landing/landing-header.tsx`)도 같은 nav를 쓴다.
  */
-function SiteNav({ currentPath }: { currentPath: string }) {
+export function SiteNav({ currentPath, className }: { currentPath: string; className?: string }) {
   const intent = useMenuIntent("hover", loadNavMenu);
   const menuItem = NAV_ITEMS.find((item) => item.children?.length);
   const staticNav = (
-    <nav className="flex items-center gap-0.5">
+    <nav className={clsx("flex items-center gap-0.5", className)}>
       {NAV_ITEMS.map((item) => {
         const active = isActive(item, currentPath);
         if (item.children?.length)
@@ -117,7 +122,12 @@ function SiteNav({ currentPath }: { currentPath: string }) {
   const open = intent.clicked || intent.hovering ? (menuItem?.label ?? null) : null;
   return (
     <Suspense fallback={staticNav}>
-      <SiteNavMenu currentPath={currentPath} defaultValue={open} autoFocus={intent.focused} />
+      <SiteNavMenu
+        currentPath={currentPath}
+        defaultValue={open}
+        autoFocus={intent.focused}
+        className={className}
+      />
     </Suspense>
   );
 }
@@ -125,8 +135,17 @@ function SiteNav({ currentPath }: { currentPath: string }) {
 /** 검색 필터. latest는 모든 섹션, archive 빌드는 그 플랫폼 하나(기존 Next 섹션 layout과 같다). */
 const SEARCH_TAGS = archivePaths.platform ? [TAGS[archivePaths.platform]] : Object.values(TAGS);
 
-/** 처음 열릴 때 받는다. 한 번 받은 뒤에는 닫혀도 남겨 두어 닫힘 애니메이션과 다음 열림이 바로 된다. */
-function LazySearch({ sectionId }: { sectionId: string | null }) {
+/**
+ * 처음 열릴 때 받는다. 한 번 받은 뒤에는 닫혀도 남겨 두어 닫힘 애니메이션과 다음 열림이 바로 된다.
+ * landing(`components/landing/landing-page.tsx`)은 모바일 위치와 light 전용 색의 `LandingSearchDialog`를 쓴다.
+ */
+export function LazySearch({
+  sectionId,
+  landing = false,
+}: {
+  sectionId: string | null;
+  landing?: boolean;
+}) {
   const open = useAtom(searchOpen, false);
   const [requested, setRequested] = useState(false);
   useEffect(() => {
@@ -134,9 +153,10 @@ function LazySearch({ sectionId }: { sectionId: string | null }) {
   }, [open]);
   if (!requested) return null;
   const defaultTag = SEARCH_TAGS.find((tag) => tag.value === sectionId)?.value;
+  const Dialog = landing ? LandingSearchDialog : SearchDialog;
   return (
     <Suspense fallback={null}>
-      <SearchDialog
+      <Dialog
         open={open}
         onOpenChange={(next) => (next ? openSearch() : closeSearch())}
         defaultTag={defaultTag}

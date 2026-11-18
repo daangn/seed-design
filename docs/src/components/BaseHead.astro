@@ -1,0 +1,39 @@
+---
+/**
+ * 모든 페이지가 같은 순서로 내는 `<head>` 앞부분(기존 Next 루트 layout의 head와 같다). 문서 셸(`DocsShell.astro`)과
+ * ClientRouter 없는 별도 문서(`PageShell.astro`: landing, blocks, admin)가 함께 쓴다.
+ *
+ * - cascade layer 순서 선언은 다른 어떤 CSS보다 먼저 온다(dev 서버가 recipe CSS를 먼저 주입해도 순서가 같다).
+ * - 테마·배너 bootstrap(`root-attributes.ts`)은 첫 paint 전에 `<html>` 속성을 쓴다.
+ */
+import { archivePaths } from "../../lib/docs-archive";
+import type { PageHead } from "../content/source";
+import { rootAttributesBootstrap } from "../shell/root-attributes";
+import Analytics from "./Analytics.astro";
+import SeoHeadTags from "./SeoHead.astro";
+
+interface Props {
+  head: PageHead;
+  /** `/admin`은 Sanity Studio의 `viewport-fit=cover`를 쓴다. */
+  viewport?: string;
+}
+
+const { head, viewport = "width=device-width, initial-scale=1" } = Astro.props;
+---
+
+<style is:inline>@layer theme, base, seed-base, components, seed-components, utilities;</style>
+<script is:inline set:html={rootAttributesBootstrap()} />
+<meta name="viewport" content={viewport} />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href={archivePaths.asset("/favicon.ico")} sizes="32x32" />
+<link rel="icon" href={archivePaths.asset("/favicon.svg")} type="image/svg+xml" />
+<link rel="apple-touch-icon" href={archivePaths.asset("/apple-touch-icon.png")} />
+<link rel="manifest" href={archivePaths.asset("/site.webmanifest")} />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="anonymous" />
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
+/>
+{/* 기존 Next head와 같은 순서: favicon·manifest 뒤에 페이지 메타·canonical·llms 링크. */}
+<SeoHeadTags head={head} />
+<Analytics />

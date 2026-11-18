@@ -258,8 +258,7 @@ export function docsPageOgImage(
 }
 
 /**
- * 문서 페이지의 schema.org JSON-LD. Next의 `metadata` API로는 `ld+json`을 못 내보내므로
- * 반환값을 `<JsonLd>`(`components/json-ld.tsx`)로 렌더한다.
+ * 문서 페이지의 schema.org JSON-LD. `src/components/SeoHead.astro`가 `<script type="application/ld+json">`으로 낸다.
  */
 export function buildDocsPageJsonLd(page: {
   url: string;

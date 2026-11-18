@@ -163,6 +163,14 @@ export function sectionsForBuild(): readonly SectionConfig[] {
   return platform ? SECTIONS.filter((section) => section.platform === platform) : SECTIONS;
 }
 
+/**
+ * 이 빌드에 그 섹션이 있는가. archive 빌드(`react/v3`, `lynx/v1`)는 그 플랫폼 섹션만 만든다. 섹션 데이터를 쓰는 섹션 밖
+ * route(updates, 토큰 reference)는 없으면 페이지를 내지 않는다(보관본 exporter도 그 경로를 복사하지 않는다).
+ */
+export function isSectionInBuild(id: SectionId): boolean {
+  return sectionsForBuild().some((section) => section.id === id);
+}
+
 export function getSectionConfig(id: SectionId): SectionConfig {
   const section = SECTIONS.find((item) => item.id === id);
   if (!section) throw new Error(`Unknown docs section: ${id}`);

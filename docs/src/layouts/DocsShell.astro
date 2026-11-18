@@ -1,6 +1,6 @@
 ---
 /**
- * 문서 셸. 문서 섹션(그리고 Phase 4의 updates·토큰 reference·404)이 쓴다.
+ * 문서 셸. 문서 섹션과 updates(글·목록)·토큰 reference·404가 쓴다.
  *
  * 문서 이동은 `<ClientRouter fallback="swap" />`가 클라이언트에서 처리한다(전환 애니메이션 없음). ClientRouter가 없는
  * 문서(landing·blocks·admin)로 가는 이동은 router가 전체 로드로 넘긴다.
@@ -26,18 +26,16 @@ import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import { archivePaths } from "../../lib/docs-archive";
 import type { SectionConfig } from "../content/sections";
-import type { SeoHead } from "../content/source";
+import type { PageHead } from "../content/source";
 import type { SectionNav } from "../shell/nav-model";
 import { DocsNav } from "../shell/DocsNav";
-import { rootAttributesBootstrap } from "../shell/root-attributes";
 import { SiteHeader } from "../shell/SiteHeader";
 import { NAV_DATA_ID, type NavState, serializeNavState } from "../shell/store";
-import Analytics from "../components/Analytics.astro";
 import Banners from "../components/Banners.astro";
-import SeoHeadTags from "../components/SeoHead.astro";
+import BaseHead from "../components/BaseHead.astro";
 
 interface Props {
-  head: SeoHead;
+  head: PageHead;
   section: SectionConfig | null;
   currentPath: string;
   nav: SectionNav | null;
@@ -60,24 +58,7 @@ const navState: NavState = { nav, currentPath, platform: section?.platform ?? nu
 >
   <head>
     <meta charset="utf-8" />
-    {/* cascade layer 순서를 다른 어떤 CSS보다 먼저 선언한다(dev 서버가 recipe CSS를 먼저 주입해도 순서가 같다). */}
-    <style is:inline>@layer theme, base, seed-base, components, seed-components, utilities;</style>
-    {/* 첫 paint 전에 테마·배너 속성을 적용하고 astro:before-swap 재적용을 등록한다. 세션당 1회 실행. */}
-    <script is:inline set:html={rootAttributesBootstrap()} />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="light dark" />
-    <link rel="icon" href={archivePaths.asset("/favicon.ico")} sizes="32x32" />
-    <link rel="icon" href={archivePaths.asset("/favicon.svg")} type="image/svg+xml" />
-    <link rel="apple-touch-icon" href={archivePaths.asset("/apple-touch-icon.png")} />
-    <link rel="manifest" href={archivePaths.asset("/site.webmanifest")} />
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="anonymous" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
-    />
-    {/* 기존 Next head와 같은 순서: favicon·manifest 뒤에 페이지 메타·canonical·llms 링크. */}
-    <SeoHeadTags head={head} />
-    <Analytics />
+    <BaseHead head={head} />
     <ClientRouter fallback="swap" />
   </head>
   <body>

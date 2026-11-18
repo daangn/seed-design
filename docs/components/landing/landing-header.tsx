@@ -5,10 +5,10 @@ import {
   IconMagnifyingglassFill,
 } from "@karrotmarket/react-monochrome-icon";
 import clsx from "clsx";
-import { useSearchContext } from "fumadocs-ui/contexts/search";
 import { useState, type ReactNode } from "react";
+import { SiteNav } from "../../src/shell/SiteHeader";
+import { openSearch } from "../../src/shell/store";
 import { MobileNavPanel } from "../header/mobile-nav-panel";
-import { SiteNav } from "../header/nav-menu";
 import { LANDING_LIGHT_ONLY_COLOR_BRIDGE } from "./landing-theme";
 import { SeedMark } from "./seed-mark";
 import { SeedWordmark } from "./seed-wordmark";
@@ -76,9 +76,7 @@ function IconButton({
 export function LandingHeader({ variant, tone }: { variant: HeaderVariant; tone: Tone }) {
   const isExpanded = variant === "expanded";
   const isHidden = variant === "hidden";
-  const { setOpenSearch } = useSearchContext();
   const [panelOpen, setPanelOpen] = useState(false);
-  const openSearch = () => setOpenSearch(true);
   const desktopActionClassName = isExpanded
     ? "bg-palette-static-white-alpha-600"
     : "translate-x-4 bg-transparent";
@@ -151,7 +149,7 @@ export function LandingHeader({ variant, tone }: { variant: HeaderVariant; tone:
               context-only, so the <nav> stays the direct grid child and keeps its placement.
               The constant mx-6 = the pill's inner group gaps (absorbed by the 1fr rails when
               expanded). On "/" nothing matches, so every item renders muted (no active item). */}
-          <SiteNav className="relative z-10 col-start-4 row-start-1 mx-6" density="docs" />
+          <SiteNav currentPath="/" className="relative z-10 col-start-4 row-start-1 mx-6" />
 
           {/* Right: landing search action. The docs (detail) header centers its nav at the true
               container center (`1fr auto 1fr`); this landing bar is a morphing pill grid that

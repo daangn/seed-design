@@ -1,4 +1,4 @@
-// This value is embedded by Next.js. An unset value keeps the existing Pages build unchanged.
+// This value is embedded at build time (`astro.config.ts` define). An unset value keeps the existing Pages build unchanged.
 const DOCS_ARCHIVE_CHANNEL = process.env.NEXT_PUBLIC_DOCS_ARCHIVE_CHANNEL ?? "";
 
 export type ArchivePlatform = "react" | "lynx";
@@ -60,7 +60,7 @@ export function createArchivePaths(channel: string) {
         },
       };
     },
-    // Public assets and Next chunks are copied here by the archive exporter.
+    // Public assets and Astro chunks are copied here by the archive exporter.
     asset(path: string) {
       return prefix && isLocal(path) && !isScoped(path) ? `${prefix}/_assets${path}` : path;
     },

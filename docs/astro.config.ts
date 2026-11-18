@@ -147,10 +147,11 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss(), seedCssGraft(), lynxWebCoreAssetUrls(), publicOgFiles()],
     build: {
-      // 500kB를 넘는 chunk는 모두 첫 로드에 받지 않는 lazy chunk다: IconLibrary(`/foundations/iconography/library`
-      // 한 쪽, client:only, 아이콘 데이터 3.9MB)와 Shiki 언어 문법(언어별 lazy, 최대 0.8MB). Next 산출물에도 4.4MB
-      // chunk가 있었다. 첫 로드 JS는 단계 게이트(Playwright perf)가 잰다.
-      chunkSizeWarningLimit: 4096,
+      // 500kB를 넘는 chunk는 모두 첫 로드에 받지 않는 lazy chunk거나 한 쪽 전용이다: Sanity Studio(`/admin` 한 쪽,
+      // client:only, `sanity` lib 4.3MB), IconLibrary(`/foundations/iconography/library` 한 쪽, client:only, 아이콘
+      // 데이터 3.9MB), Shiki 언어 문법(언어별 lazy, 최대 0.8MB). Next 산출물에도 4.4MB chunk가 있었다. 첫 로드 JS는
+      // 단계 게이트(Playwright perf)가 잰다.
+      chunkSizeWarningLimit: 5120,
       rolldownOptions: {
         onLog(level, log, handler) {
           if (log.code === "EVAL" && ALLOWED_EVAL_MODULES.test(`${log.id ?? ""} ${log.message}`))
@@ -158,6 +159,14 @@ export default defineConfig({
           // 빈 문자열 문장(`''`)은 unified 계열(mdast-util-to-hast)이 JSDoc 타입 참조를 위해 두는 것이라 의미가 없다.
           // 검색 다이얼로그(브라우저 Markdown 렌더러)가 그 모듈을 client 번들에 넣으면서 나온다.
           if (log.code === "MODULE_LEVEL_DIRECTIVE" && log.message.includes('directive ""')) return;
+          // `"use no memo"`는 React Compiler에게 주는 표시라 번들에서 지워져도 동작이 같다. Sanity Studio(`/admin`)가
+          // 끌어오는 `react-compiler-runtime`에만 있다.
+          if (
+            log.code === "MODULE_LEVEL_DIRECTIVE" &&
+            log.message.includes('"use no memo"') &&
+            log.message.includes("react-compiler-runtime")
+          )
+            return;
           handler(level, log);
         },
       },

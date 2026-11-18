@@ -1,0 +1,24 @@
+---
+/**
+ * landing(`/`). ClientRouter 없는 별도 문서이고 본문은 `LandingPage` island 하나다(지금과 같은 전부 클라이언트 경험,
+ * gsap·lenis). 테마는 항상 light(`data-theme-locked`). 셸 `client.ts`를 넣어 Meta/Ctrl+K가 검색을 열고 `d`는
+ * 잠긴 테마라 아무것도 하지 않는다.
+ */
+import { LandingPage } from "../../components/landing/landing-page";
+import { pageHead } from "../content/source";
+import PageShell from "../layouts/PageShell.astro";
+
+const head = pageHead({
+  title: "SEED Design System",
+  description: "SEED는 당근 제품을 위해 통합된 디자인 언어입니다.",
+});
+---
+
+<PageShell head={head} themeLocked="light">
+  <LandingPage client:load />
+</PageShell>
+
+<script>
+  // 문서 셸과 같은 셸 script(단축키·배너 닫기·PostHog). React를 import하는 모듈을 여기서 부르지 않는다.
+  import "../shell/client";
+</script>

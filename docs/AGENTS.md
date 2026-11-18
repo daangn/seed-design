@@ -1,6 +1,6 @@
 # docs
 
-Astro·Fumadocs(데이터 엔진) 기반 SEED 문서 사이트다(Astro 이전 중, `app/`에는 아직 옮기지 않은 Next route 원본만 남아 있고 빌드하지 않는다). `content/`가 문서 원천이고 `registry/`가 CLI로 배포하는 snippet 원천이며, `packages/docs-mcp/src/config.ts`가 `content/` 구조를 MCP section으로 매핑한다.
+Astro·Fumadocs(데이터 엔진) 기반 SEED 문서 사이트다(Astro 이전 중, 모든 route는 `src/pages/`에 있다). `content/`가 문서 원천이고 `registry/`가 CLI로 배포하는 snippet 원천이며, `packages/docs-mcp/src/config.ts`가 `content/` 구조를 MCP section으로 매핑한다.
 
 ## 검증
 

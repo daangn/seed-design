@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { archivePaths } from "../lib/docs-archive";
 
 const sections = ["ai-integration", "breeze", "docs", "lynx", "react"] as const;
 
@@ -60,7 +61,9 @@ async function generateSection(section: (typeof sections)[number]): Promise<{
 
 if (import.meta.main) {
   const startedAt = performance.now();
-  const results = await Promise.all(sections.map(generateSection));
+  // archive 빌드는 그 플랫폼 섹션만 만든다(`src/content/sections.ts#sectionsForBuild`).
+  const targets = archivePaths.platform ? [archivePaths.platform] : sections;
+  const results = await Promise.all(targets.map(generateSection));
   const summary = results
     .map(({ section, fileCount, byteLength }) => `${section} ${fileCount}개/${byteLength}바이트`)
     .join(", ");

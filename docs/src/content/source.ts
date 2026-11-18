@@ -35,8 +35,10 @@ import type { LynxCompatibility } from "../../lib/lynx-compatibility";
 import { getComponentStatus } from "../../lib/rootage";
 import {
   buildDocsPageJsonLd,
+  DEFAULT_OG_IMAGE,
   deprecatedTitle,
   docsPageOgImage,
+  type OgImage,
   resolveCoverImage,
 } from "../../lib/seo";
 import {
@@ -88,19 +90,36 @@ export interface TabStripItem {
   current: boolean;
 }
 
-export interface SeoHead {
-  title: string;
+/**
+ * 모든 페이지의 `<head>` 메타(`src/components/SeoHead.astro`). 없는 필드는 태그를 내지 않는다. 문서 밖 페이지
+ * (landing, 404, updates 목록, 토큰 reference, blocks, admin)는 기존 Next `buildSeoMetadata`처럼 일부만 낸다.
+ */
+export interface PageHead {
+  title?: string;
   description?: string;
   /** 절대 URL. */
-  canonical: string;
+  canonical?: string;
   ogImage: { url: string; width?: number; height?: number; alt?: string; type?: string };
-  jsonLd: object;
+  jsonLd?: object;
   /** `<link rel="alternate" type="text/markdown">`. 섹션 루트면 `llmsTxtUrl`과 같다. */
-  markdownUrl: string;
+  markdownUrl?: string;
   /** `<link rel="describedby">`. */
-  llmsTxtUrl: string;
+  llmsTxtUrl?: string;
   /** Updates 글이면 og:type이 `article`이 된다. */
   publishedTime?: string;
+  /** `<meta name="referrer">`(`/admin`). */
+  referrer?: string;
+  /** `<meta name="robots">`(404, `/admin`). */
+  robots?: string;
+}
+
+/** 문서 페이지의 `<head>` 메타. 문서는 모든 링크 릴레이션을 낸다. */
+export interface SeoHead extends PageHead {
+  title: string;
+  canonical: string;
+  jsonLd: object;
+  markdownUrl: string;
+  llmsTxtUrl: string;
 }
 
 export interface DocsPageView {
@@ -292,6 +311,17 @@ export async function getSectionNav(id: SectionId): Promise<SectionNav> {
   return (await getSection(id)).nav;
 }
 
+/** 문서 밖 페이지의 `<head>` 메타. 기본 OG 이미지는 SEED 브랜드 카드다(기존 Next 루트 metadata와 같다). */
+export function pageHead({
+  image = DEFAULT_OG_IMAGE,
+  ...rest
+}: Omit<PageHead, "ogImage"> & { image?: OgImage } = {}): PageHead {
+  return {
+    ...rest,
+    ogImage: { ...image, url: new URL(archivePaths.asset(image.url), baseUrl).toString() },
+  };
+}
+
 /** 섹션 페이지의 frontmatter 요약. endpoint(llms 목록, sitemap, 컴포넌트 검색)가 쓴다. JSON + Date만. */
 export interface PageSummary {
   url: string;
@@ -303,9 +333,12 @@ export interface PageSummary {
   deprecated?: boolean;
   keywords?: string[];
   coverImage?: string;
+  coverImageFigmaId?: string;
   componentIds?: string[];
   compatibility?: { lynx?: LynxCompatibility };
   publishedAt?: string | Date;
+  /** Updates 글 frontmatter `category`. */
+  category?: "post" | "release";
   lastModified?: Date;
 }
 
@@ -324,9 +357,11 @@ export async function listPages(id: SectionId): Promise<PageSummary[]> {
         ...(data.deprecated !== undefined ? { deprecated: data.deprecated } : {}),
         ...(data.keywords ? { keywords: data.keywords } : {}),
         ...(data.coverImage ? { coverImage: data.coverImage } : {}),
+        ...(data.coverImageFigmaId ? { coverImageFigmaId: data.coverImageFigmaId } : {}),
         ...(data.componentIds ? { componentIds: data.componentIds } : {}),
         ...(data.compatibility ? { compatibility: data.compatibility } : {}),
         ...(data.publishedAt ? { publishedAt: data.publishedAt } : {}),
+        ...(data.category ? { category: data.category } : {}),
         lastModified: await getMarkdownPageLastModified(page.absolutePath),
       };
     }),
@@ -414,7 +449,7 @@ export async function listCatalogItems(pathPrefix: string): Promise<CatalogItem[
   const pages = source.getPages();
   const pageByUrl = new Map(pages.map((page) => [page.url, page]));
   const data = (page: (typeof pages)[number] | undefined) =>
-    page?.data as (PageFrontmatter & { coverImageFigmaId?: string }) | undefined;
+    page?.data as PageFrontmatter | undefined;
   const item = (
     key: string,
     title: string,
@@ -516,6 +551,7 @@ interface PageFrontmatter {
   layout?: "docs" | "overview";
   full?: boolean;
   coverImage?: string;
+  coverImageFigmaId?: string;
   componentIds?: string[];
   compatibility?: { lynx?: LynxCompatibility };
 }
@@ -697,7 +733,8 @@ function buildNavGroups(nodes: PageTree.Node[]): NavGroup[] {
 }
 
 async function createSection(config: SectionConfig) {
-  const entries = await getCollection(config.id);
+  // archive 빌드는 그 플랫폼 collection만 만들어 생성 타입의 key가 줄어든다(`sectionsForBuild`). id는 `SECTIONS`에서 온다.
+  const entries = await getCollection(config.id as CollectionKey);
   const meta = config.hasMeta ? await getCollection(`${config.id}-meta` as CollectionKey) : [];
   const source = loader(toFumadocsSource(entries, meta), {
     baseUrl: config.baseUrl,

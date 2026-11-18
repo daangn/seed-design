@@ -1,0 +1,45 @@
+---
+/**
+ * ClientRouter 없는 별도 문서(landing `/`, `/blocks/[name]`, `/admin`)의 html·head·body. 기존 Next 루트 layout과 같은
+ * head(`BaseHead.astro`)와 배너를 두고 본문은 그 페이지의 island 하나다. 문서 셸(`DocsShell.astro`)에서 이 문서로 가는
+ * 이동은 router가 전체 로드로 넘긴다(새 문서에 ClientRouter가 없다).
+ *
+ * 불변식
+ * - ClientRouter와 `transition:persist`를 두지 않는다(S-2, O-2: 문서 셸이 아닌 페이지의 persist 0).
+ * - `data-theme-locked`이 있으면 저장된 테마와 무관하게 그 테마이고 `d`·테마 버튼이 아무것도 하지 않는다
+ *   (`root-attributes.ts`, landing은 항상 light).
+ */
+import "../styles/global.css";
+import { archivePaths } from "../../lib/docs-archive";
+import Banners from "../components/Banners.astro";
+import BaseHead from "../components/BaseHead.astro";
+import type { PageHead } from "../content/source";
+
+interface Props {
+  head: PageHead;
+  viewport?: string;
+  themeLocked?: "light";
+}
+
+const { head, viewport, themeLocked } = Astro.props;
+---
+
+<!doctype html>
+<html
+  lang="ko"
+  data-seed="true"
+  data-seed-user-color-scheme="light"
+  data-seed-color-mode="system"
+  data-theme-locked={themeLocked}
+  data-build-prefix={archivePaths.prefix}
+>
+  <head>
+    <meta charset="utf-8" />
+    <BaseHead head={head} viewport={viewport} />
+    <slot name="head" />
+  </head>
+  <body>
+    <Banners />
+    <slot />
+  </body>
+</html>

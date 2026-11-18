@@ -3,6 +3,7 @@
  * lazy로 받는다(NavigationMenu·floating-ui가 첫 로드 JS에 들지 않게). 마크업은 정적 nav와 같다(`site-nav-parts.tsx`).
  */
 import { navigate } from "astro:transitions/client";
+import clsx from "clsx";
 import { DocsNavigationMenuContent } from "../../components/header/docs-nav-menu-content";
 import {
   NavigationMenuGroup,
@@ -47,16 +48,19 @@ export default function SiteNavMenu({
   currentPath,
   defaultValue,
   autoFocus,
+  className,
 }: {
   currentPath: string;
   /** 받았을 때 열려 있을 메뉴(받기 전에 누르거나 포인터가 아직 위에 있을 때). */
   defaultValue: string | null;
   /** 받기 전의 정적 버튼에 focus가 있었으면 메뉴 버튼이 이어받는다. */
   autoFocus: boolean;
+  /** 정적 nav(`SiteHeader.tsx#SiteNav`)와 같은 `<nav>` class. */
+  className?: string;
 }) {
   return (
     <NavigationMenuProvider placement="bottom-start" size="small" defaultValue={defaultValue}>
-      <nav className="flex items-center gap-0.5">
+      <nav className={clsx("flex items-center gap-0.5", className)}>
         {NAV_ITEMS.map((item) => {
           const active = isActive(item, currentPath);
           if (item.children?.length)
