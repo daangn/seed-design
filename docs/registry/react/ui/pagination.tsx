@@ -9,14 +9,14 @@ import {
   HStack,
   type HStackProps,
   Icon,
+  PaginationButton,
+  PaginationPageItem,
   useBreakpointValue,
   usePagination,
   type PaginationVisibleItemCount,
   type UsePaginationProps,
 } from "@seed-design/react";
 import * as React from "react";
-import { PaginationButton } from "../lib/pagination-button";
-import { PaginationPageItem } from "../lib/pagination-page-item";
 
 // 앱의 언어에 맞게 locale과 기본 접근성 문구를 수정하세요.
 const numberFormatter = new Intl.NumberFormat("ko-KR");

@@ -2,12 +2,12 @@ import { IconChevronLeftLine, IconChevronRightLine } from "@karrotmarket/react-m
 import {
   HStack,
   type HStackProps,
+  PaginationButton,
   Text,
   useTablePagination,
   type UseTablePaginationProps,
 } from "@seed-design/react";
 import * as React from "react";
-import { PaginationButton } from "../lib/pagination-button";
 import { SelectContent, SelectGroup, SelectItem, SelectRoot, SelectTrigger } from "./select";
 
 const defaultPageSizeOptions = [10, 25, 50] as const;
