@@ -3,12 +3,11 @@ export declare const vars: {
     "enabled": {
       "root": {
         "paddingX": "var(--seed-dimension-x4)",
-        "paddingY": "var(--seed-dimension-x2_5)",
-        "minHeight": "var(--seed-dimension-x10)"
+        "paddingY": "var(--seed-dimension-x2_5)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
       "prefixIcon": {
-        "size": "var(--seed-dimension-x4)",
+        "size": "1rem",
         "marginRight": "var(--seed-dimension-x2)"
       },
       "content": {
@@ -44,7 +43,7 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -75,7 +74,7 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-neutral-solid)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-on-neutral-solid)"
       },
@@ -106,7 +105,7 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-positive-weak)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-positive-contrast)"
       },
@@ -137,7 +136,7 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-positive-solid)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-on-positive-solid)"
       },
@@ -168,7 +167,7 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-informative-weak)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-informative-contrast)"
       },
@@ -199,7 +198,7 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-informative-solid)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-on-informative-solid)"
       },
@@ -230,7 +229,7 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-warning-weak)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-warning-contrast)"
       },
@@ -261,7 +260,7 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-warning-solid)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-on-warning-solid)"
       },
@@ -292,7 +291,7 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-critical-weak)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-critical-contrast)"
       },
@@ -323,7 +322,7 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-critical-solid)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-on-critical-solid)"
       },
@@ -357,7 +356,7 @@ export declare const vars: {
           "serialized": "var(--seed-gradient-glow-magic)"
         }
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },

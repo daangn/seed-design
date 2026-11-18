@@ -17,9 +17,6 @@ declare const artifact: {
             "paddingY": {
               "type": "dimension";
             };
-            "minHeight": {
-              "type": "dimension";
-            };
             "color": {
               "type": "color";
             };
@@ -47,7 +44,7 @@ declare const artifact: {
               "type": "color";
             };
           };
-          "description": "아이콘은 Fill 타입 사용을 권장합니다.";
+          "description": "아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다.";
         };
         "content": {
           "properties": {
@@ -173,15 +170,14 @@ declare const artifact: {
                   "type": "dimension";
                   "value": "$dimension.x2_5";
                 };
-                "minHeight": {
-                  "type": "dimension";
-                  "value": "$dimension.x10";
-                };
               };
               "prefixIcon": {
                 "size": {
                   "type": "dimension";
-                  "value": "$dimension.x4";
+                  "value": {
+                    "value": 1;
+                    "unit": "rem";
+                  };
                 };
                 "marginRight": {
                   "type": "dimension";

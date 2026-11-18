@@ -1,4 +1,5 @@
 import spec from "@seed-design/rootage-artifacts/components/page-banner";
+import lineHeight from "@seed-design/rootage-artifacts/line-height";
 import { pageBannerCloseButton as closeButtonVars, pageBanner as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
@@ -16,7 +17,16 @@ import {
 import { vars as tokens } from "../vars";
 
 const closeButtonNegativeMargin = `(${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5`;
-const prefixIconVerticalAdjustMargin = `(${vars.base.enabled.root.minHeight} - ${vars.base.enabled.prefixIcon.size}) * 0.5 - ${vars.base.enabled.root.paddingY}`;
+// Android WebView's textZoom scales only font properties, so outside them rem needs `--seed-static-font-scale` to follow the text.
+// `limit` must match the clamp of the token being mirrored, or overriding one limit pair skews the result.
+const fontScaled = (rem: number, limit: "font-size" | "line-height") =>
+  `clamp(calc(${rem * 16}px * var(--seed-${limit}-limit-min)), calc(${rem}rem * var(--seed-font-size-multiplier, 1) * var(--seed-static-font-scale, 1)), calc(${rem * 16}px * var(--seed-${limit}-limit-max)))`;
+const prefixIconSize = fontScaled(
+  Number.parseFloat(vars.base.enabled.prefixIcon.size),
+  "font-size",
+);
+// TODO: use `1lh` here once browser support allows.
+const prefixIconMarginTop = `calc((${fontScaled(lineHeight.data.tokens["$line-height.t4"].values.default.value.value, "line-height")} - ${prefixIconSize}) * 0.5)`;
 const buttonBleedAmount = `(${vars.base.enabled.button.targetHeight} - ${vars.base.enabled.button.lineHeight}) * 0.5`;
 
 const pageBanner = defineSlotRecipe({
@@ -36,15 +46,14 @@ const pageBanner = defineSlotRecipe({
       alignItems: "flex-start",
       textAlign: "start",
       width: "100%",
-      minHeight: vars.base.enabled.root.minHeight,
 
       paddingInline: vars.base.enabled.root.paddingX,
       paddingBlock: vars.base.enabled.root.paddingY,
 
       ...prefixIcon({
-        size: vars.base.enabled.prefixIcon.size,
+        size: prefixIconSize,
         marginRight: vars.base.enabled.prefixIcon.marginRight,
-        marginTop: `calc(${prefixIconVerticalAdjustMargin})`,
+        marginTop: prefixIconMarginTop,
       }),
       ...suffixIcon({
         size: vars.base.enabled.suffixIcon.size,
