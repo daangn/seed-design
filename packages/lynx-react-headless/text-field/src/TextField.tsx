@@ -15,6 +15,7 @@ export interface TextFieldRootProps
 /**
  * 스타일 없이 TextField 상태를 하위 입력 파트에 제공하는 native `<view>`입니다.
  * 전달한 ref와 `useTextFieldContext().rootRef`가 같은 node를 가리킵니다.
+ * 어디를 탭해도 입력 파트를 focus하며, 다른 입력의 focus를 해제하지 않도록 `ignore-focus`를 기본으로 켭니다.
  */
 export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
   (props, forwardedRef) => {
@@ -29,6 +30,8 @@ export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
       invalid,
       name,
       nativeInsertionMaxLength,
+      bindtap,
+      "ignore-focus": ignoreFocus,
       ...nativeProps
     } = props;
     const api = useTextField({
@@ -42,7 +45,16 @@ export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
       name,
       nativeInsertionMaxLength,
     });
-    const { rootRef } = api;
+    const { rootRef, rootProps } = api;
+    const handleTap = React.useCallback<NonNullable<ViewProps["bindtap"]>>(
+      (event) => {
+        "background only";
+
+        bindtap?.(event);
+        rootProps.bindtap(event);
+      },
+      [bindtap, rootProps],
+    );
 
     const ref = React.useMemo<React.Ref<NodesRef>>(() => {
       if (!forwardedRef) return rootRef;
@@ -56,7 +68,12 @@ export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
 
     return (
       <TextFieldProvider value={api}>
-        <view ref={ref as ViewProps["ref"]} {...nativeProps}>
+        <view
+          ref={ref as ViewProps["ref"]}
+          {...nativeProps}
+          ignore-focus={ignoreFocus ?? rootProps["ignore-focus"]}
+          bindtap={handleTap}
+        >
           {children}
         </view>
       </TextFieldProvider>

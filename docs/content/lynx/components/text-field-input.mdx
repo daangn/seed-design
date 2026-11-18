@@ -202,6 +202,10 @@ Lynx는 HTML Form을 지원하지 않습니다. `value`와 `onValueChange`를 �
 
 ### Lynx Usage
 
+#### Tap to Focus
+
+입력 영역의 여백·prefix·suffix를 포함해 어디를 탭해도 `TextFieldInput`이 focus됩니다. `disabled`·`readOnly` 상태에서는 focus하지 않습니다. 다른 입력이 focus된 상태에서 탭해도 키보드가 내려가지 않도록 입력 영역에는 `ignore-focus`를, `TextFieldInput`에는 `ignore-focus={false}`를 기본으로 적용합니다. 다른 동작이 필요하면 각 값을 직접 지정하세요.
+
 #### Keyboard Avoidance
 
 `KeyboardAvoidingScrollView.Content` 안에 배치하면 `TextFieldInput`이 focus될 때 자동으로 등록되어 키보드에 가려지지 않는 위치로 스크롤됩니다. `KeyboardAvoidingScrollView.Footer` 안에 배치하면 Footer와 함께 키보드 위로 올라가므로 스크롤하지 않습니다.

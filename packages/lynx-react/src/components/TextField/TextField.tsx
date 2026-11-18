@@ -49,6 +49,7 @@ const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(textInput)
  * `@seed-design/lynx-react-text-field`의 값·Field 상태 위에 SEED recipe와 stroke를 조립한다.
  * Lynx native 입력은 value attribute를 제공하지 않으므로 하위 입력 슬롯이
  * `setValue` UI method로 controlled value를 동기화한다.
+ * Root 어디를 탭해도 입력을 focus하며, 다른 입력의 focus를 해제하지 않도록 `ignore-focus`를 기본으로 켠다.
  */
 export interface TextFieldRootProps
   extends Omit<TextInputVariantProps, "focused">,
@@ -99,7 +100,7 @@ export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
       <TextFieldProvider value={api}>
         <ClassNamesProvider value={classes}>
           <view
-            {...mergeProps({ ref: mergedRef }, nativeProps)}
+            {...mergeProps({ ref: mergedRef }, api.rootProps, nativeProps)}
             className={clsx(classes.root, className)}
           >
             <view className={classes.baseStroke} accessibility-elements-hidden={true} />
@@ -240,7 +241,7 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
       ...otherProps
     } = props;
     const api = useTextFieldInput({ ...otherProps, bindlayoutchange }, ref);
-    const { disabled, focus, notifyLayoutChanged } = api;
+    const { disabled, notifyLayoutChanged } = api;
     const isAndroid = isAndroidRuntime();
     const usesIOSAutoresizeWrapper = autoresize && isIOSRuntime();
     // Android native textarea는 CSS line-height를 무시한다. 실기기에서 관측한
@@ -265,18 +266,6 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
       },
       [autoresize, bindlayoutchange, notifyLayoutChanged],
     );
-    const handleTextareaRootTap = React.useCallback<
-      NonNullable<IntrinsicElements["view"]["bindtap"]>
-    >(
-      (event) => {
-        "background only";
-
-        if (disabled || event.target.uid !== event.currentTarget.uid) return;
-        focus();
-      },
-      [disabled, focus],
-    );
-
     if (api.readOnly) {
       const isPlaceholder = api.value === "";
 
@@ -318,11 +307,11 @@ export const TextFieldTextarea = React.forwardRef<NodesRef, TextFieldTextareaPro
 
     if (!usesIOSAutoresizeWrapper) return textarea;
 
+    // wrapper 탭은 Root로 전파되어 Root가 textarea를 focus한다.
     return (
       <view
         ignore-focus={true}
         className={clsx(classes.textareaRoot, classes.textareaAutoresizeRoot)}
-        bindtap={handleTextareaRootTap}
         bindlayoutchange={notifyLayoutChanged}
       >
         {textarea}

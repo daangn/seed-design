@@ -218,6 +218,67 @@ describe("TextField", () => {
     expect(textarea).toHaveAttribute("android-set-soft-input-mode", "resize");
   });
 
+  describe("Root tap", () => {
+    const focusCalls = () => nativeInvokeCalls.filter((call) => call.method === "focus");
+
+    it("focuses the input from anywhere in the Root and keeps the consumer bindtap", () => {
+      const inputRef = createRef<NodesRef>();
+      const bindtap = vi.fn();
+      render(
+        <TextField.Root className="test-text-field" bindtap={bindtap}>
+          <text className="suffix">원</text>
+          <TextField.Input ref={inputRef} />
+        </TextField.Root>,
+      );
+
+      const root = getTextFieldRoot();
+      // Root 탭이 다른 입력을 blur하지 않게 하고, 상속된 값이 입력의 Android focus를 막지 않게 한다.
+      expect(root).toHaveAttribute("ignore-focus", "true");
+      expect(root.querySelector("input")).toHaveAttribute("ignore-focus", "false");
+
+      fireEvent.tap(root);
+      expect(focusCalls()).toHaveLength(1);
+      expect(bindtap).toHaveBeenCalledOnce();
+
+      // 입력 위 탭도 Root로 전파되어 native focus가 없던 기기에서 focus를 보완한다.
+      if (!inputRef.current) throw new Error("Expected native input ref to exist.");
+      fireEvent.tap(inputRef.current as unknown as Element);
+      expect(focusCalls()).toHaveLength(2);
+
+      fireEvent.focus(inputRef.current as unknown as Element);
+      fireEvent.tap(root.querySelector(".suffix") as Element);
+      expect(focusCalls()).toHaveLength(2);
+      expect(bindtap).toHaveBeenCalledTimes(3);
+    });
+
+    it("keeps consumer ignore-focus overrides", () => {
+      render(
+        <TextField.Root className="test-text-field" ignore-focus={false}>
+          <TextField.Input ignore-focus={true} />
+        </TextField.Root>,
+      );
+
+      expect(getTextFieldRoot()).toHaveAttribute("ignore-focus", "false");
+      expect(getTextFieldRoot().querySelector("input")).toHaveAttribute("ignore-focus", "true");
+    });
+
+    it.each([
+      ["disabled", { disabled: true }],
+      ["readOnly", { readOnly: true }],
+    ])("does not focus the input when %s", (_, state) => {
+      const bindtap = vi.fn();
+      render(
+        <TextField.Root className="test-text-field" bindtap={bindtap} {...state}>
+          <TextField.Input />
+        </TextField.Root>,
+      );
+
+      fireEvent.tap(getTextFieldRoot());
+      expect(focusCalls()).toHaveLength(0);
+      expect(bindtap).toHaveBeenCalledOnce();
+    });
+  });
+
   describe("initial value on engines with and without default-value", () => {
     function renderWithInvoke() {
       const calls = nativeInvokeCalls;
