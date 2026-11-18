@@ -10,11 +10,15 @@ import type {
 } from "@lynx-js/types";
 import {
   computePosition,
+  getSafeAreaBoundary,
   measureFloatingBoundary,
   measureReferenceRect,
+  measureRootRect,
   OverlaySafeAreaProvider,
   SafeAreaProbe,
+  type SafeAreaProbeProps,
 } from "@seed-design/lynx-react-floating";
+import { SafeAreaContext } from "@seed-design/lynx-react-use-safe-area";
 import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
 
 import { useMenu, type UseMenuProps } from "./useMenu.js";
@@ -49,6 +53,17 @@ const FILL_STYLE: CSSProperties = { width: "100%", height: "100%" };
 
 function toPixel(value: number) {
   return `${value}px`;
+}
+
+/**
+ * `SafeAreaProvider`(또는 `SeedProvider`)가 없을 때만 deprecated probe로 안전 영역을 측정합니다.
+ * Content와 같은 Provider 값을 보도록 Positioner 본문이 아니라 Content와 같은 하위 트리에서 읽습니다.
+ *
+ * TODO(next major): Provider 값만 쓰고 probe를 제거합니다.
+ */
+function SafeAreaProbeFallback(props: SafeAreaProbeProps) {
+  const insets = React.useContext(SafeAreaContext);
+  return insets ? null : <SafeAreaProbe {...props} />;
 }
 
 function assignNodeRef(ref: React.ForwardedRef<unknown>, node: NodesRef | null) {
@@ -344,7 +359,7 @@ export const MenuPositioner = React.forwardRef<unknown, MenuPositionerProps>((pr
       >
         <view ref={handleLayerRef as ViewProps["ref"]} style={FILL_STYLE} {...nativeProps}>
           <view style={BACKDROP_STYLE} bindtap={handleBackdropTap}>
-            <SafeAreaProbe nodesRef={safeAreaRef} position="absolute" />
+            <SafeAreaProbeFallback nodesRef={safeAreaRef} position="absolute" />
           </view>
           {triggerProxyStyle && <view style={triggerProxyStyle} {...triggerHandlers} />}
           {children}
@@ -372,6 +387,7 @@ export interface MenuContentProps extends StyledViewProps {}
  */
 export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, ref) => {
   const { children, style, bindlayoutchange, ...nativeProps } = props;
+  const safeAreaInsets = React.useContext(SafeAreaContext);
   const {
     open,
     mounted,
@@ -429,13 +445,16 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
       isOpenRef.current &&
       openEpoch === openEpochRef.current;
     try {
-      const [reference, { boundary }, layer, trigger] = await Promise.all([
+      const [reference, root, layer, trigger, legacyBoundary] = await Promise.all([
         measureReferenceRect(referenceNode),
-        measureFloatingBoundary(safeAreaRef.current),
+        measureRootRect(),
         getRectByRef({ current: layerNode }, true),
         triggerNode ? measureReferenceRect(triggerNode) : null,
+        // TODO(next major): Provider가 없을 때의 probe 경로를 제거합니다.
+        safeAreaInsets ? null : measureFloatingBoundary(safeAreaRef.current),
       ]);
       if (!isCurrent()) return;
+      const boundary = legacyBoundary?.boundary ?? getSafeAreaBoundary(root, layer, safeAreaInsets);
       const intrinsicWidth = matchReferenceWidth
         ? reference.width
         : (intrinsicWidthRef.current ?? intrinsicSize.width);
@@ -481,6 +500,7 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
     overflowPadding,
     placement,
     resetPosition,
+    safeAreaInsets,
     safeAreaRef,
     setPosition,
     triggerRef,
