@@ -31,6 +31,11 @@
   --seed-line-height-limit-max: 1.5;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 [data-seed-platform="ios"] {
   --seed-font-size-limit-max: 1.35;
   --seed-line-height-limit-max: 1.35;
