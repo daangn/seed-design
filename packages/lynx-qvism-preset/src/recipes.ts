@@ -56,6 +56,7 @@ import { tagGroup as lynxTagGroup, tagGroupItem as lynxTagGroupItem } from "./re
 import tabs from "./recipes/tabs";
 import searchInput from "./recipes/search-input";
 import textInput from "./recipes/text-input";
+import timePicker from "./recipes/time-picker";
 import wheelPicker from "./recipes/wheel-picker";
 import {
   attachmentInput,
@@ -138,5 +139,6 @@ export const recipes = {
   tagGroupItem: lynxTagGroupItem,
   tabs,
   textInput,
+  timePicker,
   wheelPicker,
 };
