@@ -1,120 +1,50 @@
 /**
- * 페이지 메뉴 island(LLMS.txt 링크 복사·내용 복사·열기). `DocsArticle.astro`가 `client:idle`로 렌더링한다. 서버 HTML의
- * 버튼이 먼저 보이고 hydrate 뒤에 메뉴와 복사 snackbar가 동작한다. changelog 문서는 같은 메뉴를 viewer가 쓴다.
+ * 페이지 메뉴 island(LLMS.txt 링크 복사·내용 복사·열기). `DocsArticle.astro`가 `client:idle`로 렌더링한다. changelog
+ * 문서는 같은 메뉴를 viewer가 쓴다.
+ *
+ * 서버 HTML과 hydrate는 정적 버튼 하나다. 메뉴·snackbar(`PageActionsMenu.tsx`, SEED Menu·floating-ui)는 사용자가 버튼에
+ * 다가가면 미리 받고 누르면 바꿔 그린다(`components/use-menu-intent.ts`). 메뉴는 열린 채로 시작한다.
  */
-import { IconChevronDownLine, IconSquare2StackedLine } from "@karrotmarket/react-monochrome-icon";
-import { IconSeedArrow } from "@/components/icon-seed-arrow";
-import { IconLink } from "@/components/icons/IconLink";
-import {
-  DocsMenuContent,
-  DocsMenuGroup,
-  DocsMenuItem,
-  DocsMenuRoot,
-  DocsMenuTrigger,
-  DocsMenuTriggerButton,
-} from "@/components/docs-menu";
-import { useState } from "react";
-import { Snackbar, SnackbarProvider, useSnackbarAdapter } from "seed-design/ui/snackbar";
+import { IconChevronDownLine } from "@karrotmarket/react-monochrome-icon";
 import clsx from "clsx";
+import { type ButtonHTMLAttributes, forwardRef, lazy, Suspense } from "react";
+import { DocsMenuTriggerButton } from "@/components/docs-menu-trigger-button";
+import { useMenuIntent } from "@/components/use-menu-intent";
 
-const cache = new Map<string, string>();
+const loadMenu = () => import("./PageActionsMenu");
+const PageActionsMenu = lazy(loadMenu);
+
+/** LLMS.txt 버튼. 정적 버튼과 메뉴 trigger(`asChild`)가 같은 마크업을 쓴다. */
+export const PageActionsButton = forwardRef<
+  HTMLButtonElement,
+  ButtonHTMLAttributes<HTMLButtonElement> & { open: boolean }
+>(({ open, ...props }, ref) => (
+  <DocsMenuTriggerButton ref={ref} {...props}>
+    LLMS.txt
+    <IconChevronDownLine className={clsx("transition-transform", open && "rotate-180")} />
+  </DocsMenuTriggerButton>
+));
+PageActionsButton.displayName = "PageActionsButton";
 
 export function PageActions({
-  /**
-   * A URL to the raw Markdown/MDX content of page
-   */
+  /** A URL to the raw Markdown/MDX content of page */
   markdownUrl,
 }: {
   markdownUrl: string;
 }) {
-  return (
-    <SnackbarProvider>
-      <LLMOptionsContent markdownUrl={markdownUrl} />
-    </SnackbarProvider>
+  const intent = useMenuIntent("click", loadMenu);
+  const trigger = (
+    <PageActionsButton
+      open={false}
+      aria-haspopup="menu"
+      aria-expanded="false"
+      {...intent.triggerProps}
+    />
   );
-}
-
-function LLMOptionsContent({ markdownUrl }: { markdownUrl: string }) {
-  const [open, setOpen] = useState(false);
-  const [isLoading, setLoading] = useState(false);
-  const adapter = useSnackbarAdapter();
-
-  const showCopiedSnackbar = (message: string) => {
-    adapter.create({
-      timeout: 2000,
-      onClose: () => {},
-      render: () => <Snackbar message={message} />,
-    });
-  };
-
-  // markdownUrl은 루트 상대 경로(`/llms/...`)라 그대로 복사하면 붙여넣는 쪽에서 못 연다.
-  const handleCopyUrlClick = async () => {
-    setOpen(false);
-
-    await navigator.clipboard.writeText(new URL(markdownUrl, window.location.href).href);
-    showCopiedSnackbar("링크가 복사되었습니다");
-  };
-
-  const handleCopyClick = async () => {
-    setOpen(false);
-
-    const cached = cache.get(markdownUrl);
-    if (cached) {
-      await navigator.clipboard.writeText(cached);
-      showCopiedSnackbar("내용이 복사되었습니다");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const res = await fetch(markdownUrl);
-      const content = await res.text();
-
-      cache.set(markdownUrl, content);
-      await navigator.clipboard.writeText(content);
-      showCopiedSnackbar("내용이 복사되었습니다");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleOpenClick = () => {
-    window.open(markdownUrl, "_blank", "noopener,noreferrer");
-  };
-
+  if (!intent.requested) return trigger;
   return (
-    <DocsMenuRoot open={open} onOpenChange={setOpen} placement="bottom-end">
-      <DocsMenuTrigger asChild>
-        <DocsMenuTriggerButton>
-          LLMS.txt
-          <IconChevronDownLine className={clsx("transition-transform", open && "rotate-180")} />
-        </DocsMenuTriggerButton>
-      </DocsMenuTrigger>
-      <DocsMenuContent>
-        <DocsMenuGroup>
-          <DocsMenuItem
-            label="링크 복사"
-            suffixIcon={<IconLink />}
-            onClick={() => {
-              void handleCopyUrlClick();
-            }}
-          />
-          <DocsMenuItem
-            disabled={isLoading}
-            label="내용 복사"
-            suffixIcon={<IconSquare2StackedLine />}
-            onClick={() => {
-              void handleCopyClick();
-            }}
-          />
-          <DocsMenuItem
-            label="열기"
-            suffixIcon={<IconSeedArrow external />}
-            onClick={handleOpenClick}
-          />
-        </DocsMenuGroup>
-      </DocsMenuContent>
-    </DocsMenuRoot>
+    <Suspense fallback={trigger}>
+      <PageActionsMenu markdownUrl={markdownUrl} defaultOpen={intent.clicked} />
+    </Suspense>
   );
 }

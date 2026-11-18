@@ -5,7 +5,7 @@
  * - 검증은 기존 `components/lynx-example/index.tsx`와 같다: 코드 children 필수, `fill` 레이아웃이면 height 필수.
  * - manifest는 JSON module import다(`lib/lynx-examples/manifest.ts`). manifest가 바뀌면 Astro의 module graph hash가 바뀌어
  *   문서 route 전체가 다시 렌더링된다.
- * - island는 `LynxExamplePanel` 하나다(S3 probe: 미리보기만. QR·링크 복사는 Phase 3).
+ * - island는 `LynxExamplePanel` 하나다(미리보기 + QR. QR URL이 브라우저 origin에 달려 있어 함께 hydrate한다).
  * - 카드·"미리보기/코드" 탭(widget)·코드 panel·SafeArea 범례는 정적이다(island 밖).
  */
 import { SafeAreaPreviewLegend } from "../../../components/safe-area-preview";
@@ -38,6 +38,7 @@ const entry = lynxExample(name);
     slot="preview"
     client:visible={{ rootMargin: "200px" }}
     webUrl={archivePaths.asset(entry.web)}
+    bundlePath={archivePaths.asset(entry.lynx)}
     example={name}
     height={height}
     safeAreaInsets={safeAreaInsets}

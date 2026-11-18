@@ -1,14 +1,14 @@
 /**
- * `<ProgressBoardTable />`(정적 React). render 중 Sanity를 조회하지 않고 `prepare:sanity-snapshot`이 만든 스냅숏을
- * module로 읽는다(`lib/component-status.ts`). 비고 tooltip(`HelpBubbleTooltipTrigger`)은 정적 렌더링이라 Phase 3에서
- * island 여부를 정한다. island가 되면 스냅숏은 `src/mdx/islands/*.astro`가 읽어 props로 넘긴다(브라우저 번들에 싣지 않게).
+ * `<ProgressBoardTable />`. 비고 tooltip(`HelpBubbleTooltipTrigger`)이 동작해야 해서 React island다
+ * (`src/mdx/islands/ProgressBoardTable.astro`). 스냅숏(`lib/component-status.ts`)은 그 `.astro`가 읽어 props로 넘긴다.
+ * 이 파일은 스냅숏 module을 import하지 않는다(브라우저 번들에 싣지 않게).
  */
 import IconILowercaseSerifCircleLine from "@karrotmarket/react-monochrome-icon/IconILowercaseSerifCircleLine";
 import { BadgeLabel, BadgeRoot } from "@seed-design/react";
 import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import { TableRoot } from "@/components/table";
-import { allComponentStatuses } from "@/lib/component-status";
+import type { ComponentStatus } from "@/lib/component-status";
 import { PLATFORM_CONFIG, PLATFORM_STATUS_LABELS } from "@/lib/platform-status";
 import { isExternalUrl } from "@/lib/url";
 import type { PlatformStatus } from "@/sanity-studio/lib/types";
@@ -66,8 +66,7 @@ function LinkTo({
   );
 }
 
-export function ProgressBoardTable() {
-  const components = allComponentStatuses();
+export function ProgressBoardTable({ components }: { components: ComponentStatus[] }) {
   if (components.length === 0) return <div>컴포넌트 데이터가 없습니다.</div>;
 
   return (

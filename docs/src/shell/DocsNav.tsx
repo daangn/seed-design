@@ -20,7 +20,7 @@
  * - 폴더 열림 상태의 쓰기는 이 컴포넌트만 한다(`nav-folders.ts` 전이 함수). 데스크톱과 모바일 패널이 같은 맵을 쓴다.
  * - overlay(모바일 SidePanel)는 `#docs-nav-portal`(persist된 요소)에 portal한다. body로 portal하면 swap 때 떨어진 body에
  *   남는다. 패널이 열린 채 이동하면 before-swap의 `resetTransientUi()`가 닫는다.
- * - 사이드바 스크롤 위치: `astro:before-swap`에서 저장하고 `astro:after-swap`(paint 전)에서 엔진 분기 없이 복원한다.
+ * - 사이드바 스크롤 위치: `astro:before-swap`에서 저장하고 `astro:after-swap` 다음 rAF(첫 paint 전)에서 엔진 분기 없이 복원한다.
  *   persist 노드를 옮기는 동안 Chromium은 값이 깎이고 WebKit은 0이 되며 Firefox만 유지했다(S1-a).
  * - 링크는 plain `<a>`(SEED `SideNavigation.Item asChild`)다. ClientRouter가 가로챈다. 폴더 trigger로 인덱스에 갈 때만
  *   `navigate()`(`astro:transitions/client`)를 쓴다.
@@ -291,9 +291,11 @@ function useSidebarScrollPreservation(ref: RefObject<HTMLDivElement | null>) {
       if (saved === null) return;
       const top = saved;
       saved = null;
-      apply(top);
-      // 섹션이 바뀌면 목록이 store 갱신의 microtask commit에서 바뀐다. 그 뒤에 한 번 더 맞춘다(같은 task, paint 전).
-      queueMicrotask(() => apply(top));
+      // 다음 frame의 rAF(새 body의 첫 paint 전)에서 한 번 맞춘다. after-swap에서 바로 `scrollTop`을 읽고 쓰면 새 문서
+      // 전체의 style·layout을 교체 task 안에서 강제하고(React 문서 CPU 4×에서 이동당 약 45ms), 이어지는 store commit이
+      // 목록을 바꿔 layout을 한 번 더 하게 된다. rAF에서는 store commit(after-swap 뒤 microtask)까지 끝난 DOM이라 한 번이면
+      // 되고, 그 layout을 같은 frame의 rendering이 다시 쓴다.
+      requestAnimationFrame(() => apply(top));
     };
     document.addEventListener("astro:before-swap", save);
     document.addEventListener("astro:after-swap", restore);

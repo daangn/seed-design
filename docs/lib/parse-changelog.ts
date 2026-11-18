@@ -29,6 +29,8 @@ export type ChangelogContentBlock =
       type: "code";
       code: string;
       lang: string;
+      /** 빌드 때 하이라이트한 `<pre>` HTML(`src/mdx/changelog-data.ts`). 없으면 평문으로 그린다. */
+      html?: string;
     };
 
 export interface ChangelogEntry {

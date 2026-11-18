@@ -1,6 +1,6 @@
 "use client";
 
-import { useCopyButton } from "fumadocs-ui/utils/use-copy-button";
+import { useCopyButton } from "../../hooks/useCopyButton";
 import QRCode from "qrcode";
 import { useEffect, useMemo, useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";

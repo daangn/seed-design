@@ -49,26 +49,14 @@ export const ENGINE_FILES = [
 ] as const;
 
 /**
- * S-3 임시 허용 목록: 아직 `fumadocs-ui` JS를 import하는 파일. 줄어들기만 한다. 셸 파일은 Phase 2에서 0이 됐다.
- * 남은 것은 MDX 본문 컴포넌트와 landing 둘(`components/landing/*`)이다. Phase 3 게이트에서 빈 배열이어야 한다.
+ * S-3 임시 허용 목록: 아직 `fumadocs-ui` JS를 import하는 파일. 줄어들기만 한다. 셸 파일은 Phase 2에서, MDX 본문
+ * 컴포넌트는 Phase 3에서 0이 됐다. 남은 것은 landing 둘(`components/landing/*`, Phase 4 route)이다.
  * `app/**`(Phase 4에서 옮길 Next 원본, 빌드하지 않음)은 보지 않는다.
  */
 const FUMADOCS_UI_JS_PENDING: readonly string[] = [
-  "components/breeze-manual-installation.tsx",
-  "components/callout.tsx",
-  "components/codeblock/client-code-block.tsx",
-  "components/codeblock/code-block-async.tsx",
-  "components/color-swatch.tsx",
-  "components/copy-value.tsx",
-  "components/guideline/do-image.tsx",
-  "components/guideline/dont-image.tsx",
-  "components/guideline/image.tsx",
+  // landing(`/`)만 남는다. Phase 4가 landing을 옮기며 지운다. 문서 페이지 파일은 Phase 3에서 0이 됐다.
   "components/landing/landing-experience.tsx",
   "components/landing/landing-header.tsx",
-  "components/lynx-example/qr-code.tsx",
-  "components/lynx-manual-installation.tsx",
-  "components/manual-installation.tsx",
-  "components/token-table.tsx",
 ];
 
 interface SourceFile {

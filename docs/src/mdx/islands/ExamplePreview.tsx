@@ -4,9 +4,11 @@
  * - 예제 모듈은 `example-modules`에서 이름으로 받는다(변형 A/B는 `astro.config.ts`의 `SEED_DOCS_S3_VARIANT`가 고른다).
  * - 이 island 안에는 Suspense boundary도 서버 `React.lazy`도 없다.
  * - 스타일 래퍼는 `components/component-preview.tsx`와 같다.
+ * - hydrate commit 뒤 `ComponentExample.astro`가 감싼 `[data-example-gate]`의 `inert`를 지운다(layout effect는 commit
+ *   직후, paint 전에 돈다). 그 전에는 미리보기가 입력을 받지 않는다.
  */
-import type { CSSProperties } from "react";
-import { twMerge as cn } from "tailwind-merge";
+import { type CSSProperties, useLayoutEffect, useRef } from "react";
+import clsx from "clsx";
 import { getSafeAreaPreviewRules } from "../../../components/safe-area-preview";
 import { type ExampleName, useExampleComponent } from "./example-modules";
 
@@ -24,9 +26,14 @@ export interface ExamplePreviewProps {
 export function ExamplePreview(props: ExamplePreviewProps) {
   const { name, isolate, safeAreaInsets } = props;
   const Example = useExampleComponent(name);
+  const ref = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    ref.current?.closest("[data-example-gate]")?.removeAttribute("inert");
+  }, []);
 
   return (
     <div
+      ref={ref}
       style={
         safeAreaInsets
           ? ({
@@ -38,7 +45,7 @@ export function ExamplePreview(props: ExamplePreviewProps) {
           : undefined
       }
       data-example-preview={name}
-      className={cn(
+      className={clsx(
         "not-prose leading-[normal] w-full flex flex-col justify-center items-center",
         "bg-bg-layer-default font-(family-name:--seed-font-family)",
         isolate && "isolate",

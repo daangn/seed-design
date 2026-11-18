@@ -46,13 +46,16 @@ async function writeClipboard(text: string): Promise<void> {
 }
 
 function markCopied(button: HTMLElement): void {
-  const label = button.getAttribute("data-copy-label") ?? button.getAttribute("aria-label") ?? "";
-  button.setAttribute("data-copy-label", label);
   button.setAttribute("data-copied", "");
-  button.setAttribute("aria-label", "코드가 복사되었습니다");
+  // 이름을 aria-label로 가진 버튼(코드 복사 아이콘)만 복사됨을 이름으로 알린다. 글자가 이름인 버튼은 그대로 둔다.
+  const label = button.getAttribute("data-copy-label") ?? button.getAttribute("aria-label");
+  if (label !== null) {
+    button.setAttribute("data-copy-label", label);
+    button.setAttribute("aria-label", "코드가 복사되었습니다");
+  }
   window.setTimeout(() => {
     button.removeAttribute("data-copied");
-    button.setAttribute("aria-label", label);
+    if (label !== null) button.setAttribute("aria-label", label);
   }, COPIED_MS);
 }
 
@@ -149,9 +152,18 @@ const tabs: Widget = {
 
 // ───────────────────────── copy ─────────────────────────
 
+/**
+ * `data-copy-text`가 있으면 그 값을(토큰 값·CSS 변수 이름), 없으면 가장 가까운 코드 카드의 보이는 `<pre>`를 복사한다.
+ * 복사 뒤 2초 동안 `data-copied`가 붙는다(아이콘 전환은 CSS).
+ */
 const copy: Widget = {
   events: ["click"],
   handle(_event, root) {
+    const text = root.dataset.copyText;
+    if (text !== undefined) {
+      void writeClipboard(text).then(() => markCopied(root));
+      return;
+    }
     const card = root.closest<HTMLElement>("[data-code-card]");
     if (!card) return;
     // 탭이 있는 카드는 보이는 탭의 `<pre>`를 복사한다.

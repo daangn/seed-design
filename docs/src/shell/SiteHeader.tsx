@@ -2,7 +2,7 @@
  * 문서 헤더 island. `client:load`, persist하지 않는다(이동 뒤 유지할 상태가 없다). 이동마다 새 페이지의 것이 다시
  * hydrate된다. 마크업은 기존 `components/header/{docs-header,site-header,nav-menu,header-actions}.tsx`와 같다.
  *
- * - 데스크톱(≥968px): 로고, SEED NavigationMenu(Develop → React/Lynx), 테마 버튼, 검색 버튼.
+ * - 데스크톱(≥968px): 로고, nav(Develop → React/Lynx는 SEED NavigationMenu, 다가갈 때 lazy), 테마 버튼, 검색 버튼.
  * - 모바일(<968px): 로고, 테마·검색·메뉴 버튼. 메뉴 버튼은 `openMobileNav()`만 부른다(패널은 `DocsNav`).
  * - 검색 다이얼로그: `searchOpen` atom이 처음 true가 될 때 `React.lazy`로 불러온다. 첫 로드 JS에 없다. 이 island는
  *   페이지마다 다시 hydrate되지만 dialog module과 검색 index는 module 캐시라 세션 동안 한 번만 받는다.
@@ -15,47 +15,32 @@
  * (Chromium, CPU 4×), 이동 구간 50ms 넘는 long task 0. 실패 시 escape hatch는 persist(`SiteHeader` 주석 DESIGN 핵심 결정 5).
  */
 import {
-  IconChevronDownSmallLine,
   IconHorizline3VerticalLine,
   IconMagnifyingglassFill,
   IconMoonFill,
   IconSunFill,
 } from "@karrotmarket/react-monochrome-icon";
-import { navigate } from "astro:transitions/client";
 import clsx from "clsx";
 import { lazy, type ReactNode, Suspense, useEffect, useState } from "react";
-import { DocsNavigationMenuContent } from "../../components/header/docs-nav-menu-content";
-import { NAV_ITEMS, type NavItem } from "../../components/header/nav-items";
 import { SeedMark } from "../../components/landing/seed-mark";
 import { SeedWordmark } from "../../components/landing/seed-wordmark";
+import { useMenuIntent } from "../../components/use-menu-intent";
 import { archivePaths } from "../../lib/docs-archive";
-import {
-  NavigationMenuGroup,
-  NavigationMenuItem,
-  NavigationMenuProvider,
-  NavigationMenuRoot,
-  NavigationMenuTrigger,
-} from "../../registry/react/ui/navigation-menu";
 import { TAGS } from "../../lib/search-tags";
 import { toggleTheme } from "./root-attributes";
+import { isActive, NAV_ITEMS, NavLinkItem, NavMenuButton } from "./site-nav-parts";
 import { closeSearch, openMobileNav, openSearch, searchOpen } from "./store";
 import { useAtom } from "./use-store";
 
 const SearchDialog = lazy(() => import("../../components/search/search"));
+// NavigationMenu·floating-ui는 사용자가 메뉴 버튼에 다가갈 때 받는다(`components/use-menu-intent.ts`).
+const loadNavMenu = () => import("./SiteNavMenu");
+const SiteNavMenu = lazy(loadNavMenu);
 
 export interface SiteHeaderProps {
   currentPath: string;
   /** 현재 섹션. 검색 다이얼로그의 기본 필터가 된다(필터 칩이 없는 섹션·404는 "All"). */
   sectionId: string | null;
-}
-
-const itemBase =
-  "flex items-center gap-1 whitespace-nowrap rounded-r2 px-1.5 py-1 text-base text-fg-neutral transition-colors min-[1120px]:px-2 min-[1120px]:py-1.5 min-[1280px]:px-3";
-const itemInteractiveState =
-  "hover:bg-bg-transparent-pressed aria-[expanded=true]:bg-bg-transparent-pressed";
-
-function isActive(item: NavItem, path: string) {
-  return !!item.match?.some((prefix) => path === prefix || path.startsWith(`${prefix}/`));
 }
 
 /** 원형 아이콘 버튼(r-full, 16px 아이콘). 기존 `header-actions.tsx`의 `ActionButton`과 같은 마크업. */
@@ -102,63 +87,38 @@ function SearchButton({ className }: { className: string }) {
   );
 }
 
-function DevelopMenu({ item, active }: { item: NavItem; active: boolean }) {
-  return (
-    <NavigationMenuRoot value={item.label}>
-      <NavigationMenuTrigger asChild>
-        <button
-          type="button"
-          className={clsx(
-            itemBase,
-            itemInteractiveState,
-            active && "bg-bg-transparent-pressed",
-            "cursor-pointer [&_svg]:size-3",
-          )}
-        >
-          {item.label}
-          <IconChevronDownSmallLine />
-        </button>
-      </NavigationMenuTrigger>
-      <DocsNavigationMenuContent>
-        <NavigationMenuGroup>
-          {item.children?.map((child) => (
-            <NavigationMenuItem
-              key={child.label}
-              className="cursor-pointer"
-              label={child.label}
-              onClick={() => void navigate(child.href)}
-            />
-          ))}
-        </NavigationMenuGroup>
-      </DocsNavigationMenuContent>
-    </NavigationMenuRoot>
-  );
-}
-
+/**
+ * 데스크톱 nav. 서버 HTML과 hydrate는 정적 nav(링크 + 메뉴 버튼)이고, 메뉴 버튼에 포인터·focus가 오면 SEED
+ * NavigationMenu 판(`SiteNavMenu.tsx`)을 받아 바꿔 그린다. 받았을 때 포인터가 아직 버튼 위에 있거나 이미 눌렀으면
+ * 그 메뉴가 열린 채로 시작한다.
+ */
 function SiteNav({ currentPath }: { currentPath: string }) {
-  return (
-    <NavigationMenuProvider placement="bottom-start" size="small">
-      <nav className="flex items-center gap-0.5">
-        {NAV_ITEMS.map((item) => {
-          const active = isActive(item, currentPath);
-          if (item.children?.length)
-            return <DevelopMenu key={item.label} item={item} active={active} />;
+  const intent = useMenuIntent("hover", loadNavMenu);
+  const menuItem = NAV_ITEMS.find((item) => item.children?.length);
+  const staticNav = (
+    <nav className="flex items-center gap-0.5">
+      {NAV_ITEMS.map((item) => {
+        const active = isActive(item, currentPath);
+        if (item.children?.length)
           return (
-            <a
+            <NavMenuButton
               key={item.label}
-              href={item.href}
-              className={clsx(
-                itemBase,
-                itemInteractiveState,
-                active && "bg-bg-transparent-pressed",
-              )}
-            >
-              {item.label}
-            </a>
+              item={item}
+              active={active}
+              aria-expanded="false"
+              {...intent.triggerProps}
+            />
           );
-        })}
-      </nav>
-    </NavigationMenuProvider>
+        return <NavLinkItem key={item.label} item={item} active={active} />;
+      })}
+    </nav>
+  );
+  if (!intent.requested) return staticNav;
+  const open = intent.clicked || intent.hovering ? (menuItem?.label ?? null) : null;
+  return (
+    <Suspense fallback={staticNav}>
+      <SiteNavMenu currentPath={currentPath} defaultValue={open} autoFocus={intent.focused} />
+    </Suspense>
   );
 }
 

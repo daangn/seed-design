@@ -1,7 +1,7 @@
 "use client";
 
 import { IconCheckmarkClipboardLine, IconCheckmarkFill } from "@karrotmarket/react-monochrome-icon";
-import { useCopyButton } from "fumadocs-ui/utils/use-copy-button";
+import { useCopyButton } from "../hooks/useCopyButton";
 import {
   forwardRef,
   RefObject,

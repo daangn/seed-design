@@ -42,7 +42,6 @@ import { ColorMigrationIndex } from "../../components/migration/color-migration-
 import { V2Icon, V2IconColor, V3Icon } from "../../components/migration/icon";
 import { IconographyMigrationIndex } from "../../components/migration/iconography-migration-index";
 import { TypographyMigrationIndex } from "../../components/migration/typography-migration-index";
-import { ProgressBoardTable } from "../../components/progress-board-table";
 import { TableRoot } from "../../components/table";
 import { TokenReference } from "../../components/token-reference";
 import Accordion from "./Accordion.astro";
@@ -51,7 +50,6 @@ import BlockCodeTabs from "./BlockCodeTabs.astro";
 import BreezeManualInstallation from "./BreezeManualInstallation.astro";
 import Card from "./Card.astro";
 import CatalogGrid from "./CatalogGrid.astro";
-import ChangelogPage from "./ChangelogPage.astro";
 import CodeBlock from "./CodeBlock.astro";
 import CodeBlockTab from "./CodeBlockTab.astro";
 import CodeBlockTabs from "./CodeBlockTabs.astro";
@@ -72,9 +70,11 @@ import H6 from "./H6.astro";
 import Image from "./Image.astro";
 import InlineCode from "./InlineCode.astro";
 import BlockPreview from "./islands/BlockPreview.astro";
+import ChangelogViewer from "./islands/ChangelogViewer.astro";
 import ComponentExample from "./islands/ComponentExample.astro";
 import IconLibrary from "./islands/IconLibrary.astro";
 import LynxComponentExample from "./islands/LynxComponentExample.astro";
+import ProgressBoardTable from "./islands/ProgressBoardTable.astro";
 import StackflowExample from "./islands/StackflowExample.astro";
 import Link from "./Link.astro";
 import LynxManualInstallation from "./LynxManualInstallation.astro";
@@ -101,14 +101,13 @@ export const mdxComponents = {
   V2Icon,
   V3Icon,
   V2IconColor,
-  // 빌드 데이터를 동기 module import로 직접 읽는다(rootage `lib/rootage.ts`, Sanity 스냅숏 `lib/component-status.ts`).
+  // 빌드 데이터를 동기 module import로 직접 읽는다(rootage `lib/rootage.ts`).
   ComponentSpecBlock,
   TokenReference,
   ColorGrid,
   ColorMigrationIndex,
   TypographyMigrationIndex,
   IconographyMigrationIndex,
-  ProgressBoardTable,
 
   // ── static: .astro(JSX prop, 빌드 데이터, JSX prop 안에 들어감) ──
   a: Link,
@@ -132,7 +131,6 @@ export const mdxComponents = {
   ManualInstallation, // 코드 하이라이트를 await한다 → 아래에 React 없음
   LynxManualInstallation,
   BreezeManualInstallation,
-  ChangelogPage, // CHANGELOG module import. 필터 동작은 Phase 3 island
   FigmaImage: () => null, // remarkFigmaImage가 이미지 노드로 바꾼다
 
   // ── widget-backed static: data-widget 동작은 widgets.ts ──
@@ -159,6 +157,8 @@ export const mdxComponents = {
   StackflowExample, // StackflowIframePreview client:visible
   BlockPreview, // client:visible
   IconLibrary, // client:only(기존처럼 서버 HTML 없음)
+  ChangelogPage: ChangelogViewer, // client:idle. 데이터는 changelog-data.ts module
+  ProgressBoardTable, // client:visible(비고 tooltip). Sanity 스냅숏은 wrapper가 props로
 } as const;
 
 export type MdxComponentName = keyof typeof mdxComponents;
