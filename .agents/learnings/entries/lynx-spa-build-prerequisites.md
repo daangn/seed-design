@@ -1,9 +1,10 @@
 ---
 id: lynx-spa-build-prerequisites
-description: 새 worktree에서 기기 검증용 `bun --filter lynx-spa build`(production bundle)를 처음 실행하거나, 이 build가 `@seed-design/rsbuild-plugin-lynx-icon/lib/index.js` 또는 `@seed-design/tailwind3-plugin/lib/index.cjs`의 `ERR_MODULE_NOT_FOUND`·`Cannot find module`로 멈출 때 읽는다. headless lib 선행 build에서 Ultra가 `No changes. Skipping build...`를 출력했는데도 소비 build가 headless 패키지 해석 실패나 TS2307로 멈출 때도 읽는다. `prepare-workspace.ts`가 준비하지 않는 두 plugin lib와 headless lib의 선행 build 순서와 Ultra cache를 무시하는 `--rebuild` 조건을 다룬다. ASSET_PREFIX·기기 URL 문제는 `iphone-lan-asset-prefix`를 본다.
+description: 새 worktree에서 기기 검증용 `bun --filter lynx-spa build`(production bundle)를 처음 실행하거나, 이 build가 `@seed-design/rsbuild-plugin-lynx-icon/lib/index.js` 또는 `@seed-design/tailwind3-plugin/lib/index.cjs`의 `ERR_MODULE_NOT_FOUND`·`Cannot find module`로 멈출 때 읽는다. headless lib 선행 build에서 Ultra가 `No changes. Skipping build...`를 출력했는데도 소비 build가 headless 패키지 해석 실패나 TS2307로 멈출 때도 읽는다. `prepare-workspace.ts`가 준비하지 않는 두 plugin lib와 headless lib의 선행 build 순서와 Ultra cache를 무시하는 `--rebuild` 조건을 다룬다. ASSET_PREFIX·기기 URL 조건은 `examples/lynx-spa/AGENTS.md`에 있다.
 scope: ["examples/lynx-spa/**", "docs/examples/lynx/**", "packages/lynx-react/**", "packages/lynx-react-headless/**"]
-status: active
-related: ["iphone-lan-asset-prefix", "workspace-installation"]
+status: promoted
+related: ["workspace-installation"]
+promoted_to: ["examples/lynx-spa/AGENTS.md"]
 ---
 
 # lynx-spa production build는 icon·tailwind plugin lib를 먼저 build해야 한다
@@ -30,3 +31,4 @@ related: ["iphone-lan-asset-prefix", "workspace-installation"]
 - 2026-09-30: DES-2655 ReactionButton 기기 검증 중 확인한 선행 build 순서를 기록했다.
 - 2026-10-06: DES-2708 PullToRefresh 환경 준비에서 Ultra cache skip과 `--rebuild` 조건을 추가했다.
 - 2026-10-22: `prepare-workspace.ts`가 lynx-react의 의존 lib까지 빌드한다는 전제를 고치고 `bun lynx-headless:build` 선행 단계를 넣었다. 근거는 `prepare-workspace.ts`의 명령과 SEED-3 리뷰의 Ultra 3.10.5 fixture 결과(`--filter app`은 app만, `--filter +app`일 때만 lib까지 빌드)다. 이 항목에서 실행 재검증은 하지 않았다.
+- 2026-11-18: `lynx-spa-dev-prerequisites`와 합쳐 `examples/lynx-spa/AGENTS.md`「workspace 준비」로 승격했다. 두 plugin·headless lib 선행 빌드와 `--rebuild` 조건이 lynx-spa를 처음 띄우는 모든 작업에 적용되기 때문이다. 실행 재검증은 하지 않았다.

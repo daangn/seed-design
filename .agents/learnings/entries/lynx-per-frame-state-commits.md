@@ -1,9 +1,8 @@
 ---
 id: lynx-per-frame-state-commits
-description: Lynx headless·styled 컴포넌트가 열린 동안 매 frame 바뀌는 값(floating 레이어 위치·측정 rect 등)을 React state·context로 내려줄 때, 또는 여러 HelpBubble·Popover를 띄운 화면에서 스크롤하면 레이어가 늦게 따라오고 "CallLepusMethod called too frequently"(`rLynxChange`)·`NoPatch!`가 몰릴 때 읽는다. Preact가 dirty component마다 따로 commit하는 구조, 값을 context 대신 구독 store로 옮겨 그리는 요소만 렌더링하는 방법, 여러 레이어의 같은 native 측정을 묶는 방법과 logcat·화면 녹화 판정 절차를 다룬다. 측정 높이·좌표의 기기 픽셀 반올림 반복은 `lynx-floating-subpixel-size-loop`을 읽는다.
+description: Lynx headless·styled 컴포넌트가 열린 동안 매 frame 바뀌는 값(floating 레이어 위치·측정 rect 등)을 React state·context로 내려줄 때, 또는 여러 HelpBubble·Popover를 띄운 화면에서 스크롤하면 레이어가 늦게 따라오고 "CallLepusMethod called too frequently"(`rLynxChange`)·`NoPatch!`가 몰릴 때 읽는다. Preact가 dirty component마다 따로 commit하는 구조, 값을 context 대신 구독 store로 옮겨 그리는 요소만 렌더링하는 방법, 여러 레이어의 같은 native 측정을 묶는 방법과 logcat·화면 녹화 판정 절차를 다룬다. 측정 높이·좌표의 기기 픽셀 반올림 반복에는 적용하지 않는다.
 scope: ["packages/lynx-react-headless/**", "packages/lynx-react/src/components/**"]
 status: active
-related: ["lynx-js-call-frequency-warning", "lynx-android-hscroll-transform-rect", "lynx-floating-subpixel-size-loop"]
 verified_at: "2026-10-14"
 ---
 

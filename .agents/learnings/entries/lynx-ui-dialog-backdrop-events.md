@@ -3,7 +3,6 @@ id: lynx-ui-dialog-backdrop-events
 description: "`@lynx-js/lynx-ui-dialog` 기반 Lynx Dialog·AlertDialog(또는 `@seed-design/lynx-react-dialog` Headless)의 Backdrop 탭을 관찰·문서화하거나, `clickToClose={false}`인 Backdrop의 `onClick`이 호출되지 않거나, `container` 모드에서 Backdrop이 탭을 받는지(`event-through`) 판단할 때 읽는다. lynx-ui Backdrop이 `onClick`을 부르는 조건, Backdrop이 스스로 넣는 `event-through`, 기기에서 Backdrop 탭 전달을 판정하는 대조 방법을 다룬다. lynx-ui-sheet 기반 BottomSheet나 OverlayView를 직접 쓰는 Menu·Select에는 적용하지 않는다."
 scope: ["packages/lynx-react/**", "packages/lynx-react-headless/**", "docs/registry/lynx/**", "examples/lynx-spa/**"]
 status: active
-related: ["lynx-ui-presence-test-frames", "playlynx-simulator-overlay-check"]
 ---
 
 # lynx-ui Dialog Backdrop의 onClick은 닫힐 때만 호출된다
@@ -20,7 +19,7 @@ related: ["lynx-ui-presence-test-frames", "playlynx-simulator-overlay-check"]
 - 관찰(DES-2621, iPhone iOS 26.6 PlayLynx, Lynx SDK 1.4.0, agent-lynx 0.14.2): Headless 소비 화면의 `clickToClose={false}` Backdrop에 `onClick` 로그를 두고 `Input.emulateTouchFromMouseEvent`로 Backdrop을 눌렀을 때 로그가 남지 않았다. 같은 좌표·입력으로 `lynx/dialog/preview`는 닫혔다.
 - `lynx/alert-dialog/portalled`(`container="window"`)의 DOM에서 `<overlay>` 아래 Positioner는 `event-through="true"`, Backdrop·Content는 `event-through="false"`였다.
 - 관찰(DES-2621, Galaxy SM-F971N Lynx Go, `adb shell input tap` 실제 터치): `lynx/alert-dialog/portalled`에서 Backdrop과 그 아래 페이지 뒤로 가기 버튼 위치를 눌러도 Dialog가 열린 채였고 페이지도 이동하지 않았다. 같은 overlay의 Action 탭은 Dialog를 닫았다. view 모드에서는 같은 좌표·입력으로 `lynx/dialog/preview`가 닫히고 `lynx/alert-dialog/preview`는 열린 채였다.
-- 미확인: iOS overlay 모드의 실제 터치 결과. CDP 입력은 overlay 레이어에 전달되지 않는다(`playlynx-simulator-overlay-check`).
+- 미확인: iOS overlay 모드의 실제 터치 결과. CDP 입력은 overlay 레이어에 전달되지 않았다.
 
 ## 변경 이력
 

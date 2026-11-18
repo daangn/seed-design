@@ -1,9 +1,8 @@
 ---
 id: lynx-view-default-overflow-clip
-description: Lynx Recipe·styled 컴포넌트에서 `position: absolute`와 음수 offset으로 부모 밖에 걸친 요소(삭제 버튼·badge·indicator 등)가 iOS 기기에서 잘릴 때, 특히 목록의 마지막 항목에서만 잘리고 다른 항목은 다음 형제와 겹쳐 멀쩡해 보일 때 읽는다. 잘라내는 조상을 CDP computed `overflow`로 찾는 방법, `overflow: visible`을 둘 위치, 다크 모드에서 잘림이 보이지 않을 때의 A/B 확인 방법을 다룬다. z-index가 stacking context 때문에 무시되는 문제는 lynx-z-index-stacking-context를 본다.
+description: Lynx Recipe·styled 컴포넌트에서 `position: absolute`와 음수 offset으로 부모 밖에 걸친 요소(삭제 버튼·badge·indicator 등)가 iOS 기기에서 잘릴 때, 특히 목록의 마지막 항목에서만 잘리고 다른 항목은 다음 형제와 겹쳐 멀쩡해 보일 때 읽는다. 잘라내는 조상을 CDP computed `overflow`로 찾는 방법, `overflow: visible`을 둘 위치, 다크 모드에서 잘림이 보이지 않을 때의 A/B 확인 방법을 다룬다. z-index가 stacking context 때문에 무시되는 문제에는 적용하지 않는다.
 scope: ["packages/lynx-qvism-preset/**", "packages/lynx-css/**", "packages/lynx-react/**", "docs/examples/lynx/**"]
 status: active
-related: ["lynx-z-index-stacking-context", "lynx-device-cdp-geometry"]
 verified_at: "2026-10-07"
 ---
 

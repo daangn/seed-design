@@ -3,7 +3,6 @@ id: lynx-multiline-text-overlay
 description: Lynx Recipe·예제에서 `\n`으로 나눈 여러 줄 text가 한 줄만 보이고 잘리거나, 컴포넌트에 넘긴 문자열 label이나 `renderLabel` 같은 render prop·children으로 소비자가 넣은 `<text>`가 보이지 않거나 부모와 다른 색(앱 전역 `text` 색)으로 보이거나, 고정 높이 부모 안 `position: absolute` 말풍선(Value Indicator·tooltip 등)의 label이 첫 줄만 표시되거나, 예제가 `ReferenceError: Intl is not defined`로 "예제를 불러오지 못했습니다."를 띄울 때 읽는다. `white-space: nowrap`, absolute 요소의 남은 높이 제약, 전역 `text` 색이 상속을 덮는 조건과 Recipe 자손 `text` selector, Lynx JS 런타임의 `Intl` 부재를 PlayLynx 기기에서 구분하는 방법과 수정 기준을 다룬다. 단일 줄 text의 말줄임(`text-maxline`)이나 웹 Recipe에는 적용하지 않는다.
 scope: ["packages/lynx-qvism-preset/**", "packages/lynx-css/**", "packages/lynx-react/**", "docs/examples/lynx/**"]
 status: active
-related: ["lynx-device-cdp-geometry", "lynx-example-display-flex"]
 verified_at: "2026-10-02"
 ---
 
@@ -20,7 +19,7 @@ verified_at: "2026-10-02"
 
 ## 발생 근거와 적용 조건
 
-- DES-2629에서 iOS PlayLynx(`com.karrot.playlynx`, iOS 26.6, SDK 1.4.0)의 `examples/lynx-spa` dev bundle로 확인했다.
+- DES-2629에서 iOS PlayLynx(iOS 26.6, SDK 1.4.0)의 `examples/lynx-spa` dev bundle로 확인했다.
   - `lynx/slider/custom-value-indicator-label`은 `Intl.NumberFormat` 때문에 "예제를 불러오지 못했습니다."를 표시했고, console에 main-thread·background 모두 `ReferenceError: Intl is not defined`가 남았다.
   - `Intl`을 제거한 뒤 Value Indicator가 `"thumb 1\n500,000"` 중 `thumb 1`만 표시했다. label의 computed style은 `white-space: nowrap`, 높이 18px(한 줄)였다.
   - nowrap을 지워도 Slider 안에서는 한 줄이었다. 높이 26px 부모 안에서 같은 말풍선 class를 top 50%(남은 13px)·top 10px(남은 80px)·`height: max-content`로 렌더하자, 남은 높이가 작은 경우만 한 줄로 잘렸고 `height: max-content`는 두 줄을 표시했다. `translate(-50%, 0)`·`scale`·`bottom` 고정은 남은 높이가 작으면 모두 한 줄이었다.

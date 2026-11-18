@@ -1,9 +1,9 @@
 ---
 id: lynx-scroll-owner-example-layout
-description: 자체 세로 `<scroll-view>`나 당김·스크롤 제스처를 소유하는 Lynx 컴포넌트(PullToRefresh, KeyboardAvoidingScrollView, LoopScroll 등)의 문서 예제를 추가하거나, `examples/lynx-spa` 문서 예제를 당길 때 제목·설명까지 화면 전체가 함께 출렁일 때 읽는다. `docs/playground/lynx/layout.ts`의 `getExampleLayout` 분류(`center`·`fill`), `DocsExamplePage`가 예제를 바깥 scroll-view로 감싸는 조건, 분류 기준을 다룬다. 예제 안 flex 정렬 문제는 `lynx-example-display-flex`, 컴포넌트 자체 scroll host의 bounce는 `lynx-gesture-intercept-bounce`를 본다.
+description: 자체 세로 `<scroll-view>`나 당김·스크롤 제스처를 소유하는 Lynx 컴포넌트(PullToRefresh, KeyboardAvoidingScrollView, LoopScroll 등)의 문서 예제를 추가하거나, `examples/lynx-spa` 문서 예제를 당길 때 제목·설명까지 화면 전체가 함께 출렁일 때 읽는다. `docs/playground/lynx/layout.ts`의 `getExampleLayout` 분류(`center`·`fill`), `DocsExamplePage`가 예제를 바깥 scroll-view로 감싸는 조건, 분류 기준을 다룬다. 예제 안 flex 정렬이나 컴포넌트 자체 scroll host의 bounce에는 적용하지 않는다.
 scope: ["docs/playground/lynx/**", "docs/examples/lynx/**", "examples/lynx-spa/**"]
-status: active
-related: ["lynx-example-display-flex", "lynx-gesture-intercept-bounce"]
+status: promoted
+promoted_to: ["docs/examples/lynx/AGENTS.md"]
 verified_at: "2026-10-06"
 ---
 
@@ -17,7 +17,7 @@ verified_at: "2026-10-06"
 
 ## 발생 근거와 적용 조건
 
-- DES-2708 PullToRefresh: 분류가 기본 `"scroll"`일 때 iOS 26.5 시뮬레이터 PlayLynx(엔진 4.1)에서 최상단 짧은 당김 중 제목·설명·status·PTR 영역 전체가 약 37–38pt 함께 이동했다. `pull-to-refresh`를 `fill`에 추가한 뒤의 재관찰에서는 바깥 셸 이동이 아니라 Content 내부 bounce에 의한 초과 이동만 기록됐다(`lynx-gesture-intercept-bounce`).
+- DES-2708 PullToRefresh: 분류가 기본 `"scroll"`일 때 iOS 26.5 시뮬레이터 PlayLynx(엔진 4.1)에서 최상단 짧은 당김 중 제목·설명·status·PTR 영역 전체가 약 37–38pt 함께 이동했다. `pull-to-refresh`를 `fill`에 추가한 뒤의 재관찰에서는 바깥 셸 이동이 아니라 Content 내부 bounce에 의한 초과 이동만 기록됐다.
 - `keyboard-avoiding-scroll-view`와 `loop-scroll`은 같은 이유로 이미 `fill`이었다.
 - Android에서 바깥 셸 경합은 따로 확인하지 않았다.
 
@@ -25,3 +25,4 @@ verified_at: "2026-10-06"
 
 - 2026-10-06: DES-2708에서 기록했다.
 - 2026-10-22: Lynx 1.0 dev 병합 후 브랜치 전제·낡은 참조를 정리했다. 실행 재검증은 하지 않았다. 403143aab에서 레이아웃이 `center`·`fill`로 바뀐 데 맞춰 분류 설명을 고쳤다.
+- 2026-11-18: `docs/examples/lynx/AGENTS.md` 레이아웃 규칙에 바깥 scroll-view가 같은 drag를 받는 원인과, 셸 분류를 고치고 컴포넌트 문서에 제약을 적는 규칙을 더해 승격했다. 실행 재검증은 하지 않았다.

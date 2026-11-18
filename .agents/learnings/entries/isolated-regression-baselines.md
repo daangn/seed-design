@@ -3,7 +3,6 @@ id: isolated-regression-baselines
 description: Lynx 기기·문서 예제의 변경 전 기준을 수집하면서 같은 checkout의 예제 catalog·패키지 원천을 편집하거나 watch 서버를 공유할 때 읽는다. 기준 장면의 모듈 해석 실패와 변경본 혼입을 막기 위한 기준 commit·빌드 입력·산출물 고정 방법을 다룬다.
 scope: ["examples/lynx-spa/**", "docs/examples/lynx/**", "packages/lynx-react/**", "packages/lynx-react-headless/**"]
 status: active
-related: ["iphone-lan-asset-prefix"]
 ---
 
 # 기준 결과는 작업 트리와 분리해 고정한다

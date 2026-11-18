@@ -3,7 +3,7 @@ id: lynx-ui-sheet-show-change-sources
 description: "`@seed-design/lynx-react-bottom-sheet` 내부 엔진(`src/engine/`, lynx-ui-sheet 3.133.1에서 가져옴) 기반 Lynx BottomSheet·MenuSheet의 `onOpenChange`에 reason을 붙이거나, ref 호출·controlled `open`·Backdrop 탭을 사용자 동작과 구분해야 하거나, 닫은 뒤 `onOpenChange(false)`가 한 번 더 오거나 이전 동작의 reason이 다음 drag에 섞일 때 읽는다. 엔진이 모든 열림 변경을 하나의 `onShowChange`로 보내는 경로와 호출 시점, reason을 남기고 지우는 기준, ref 변경을 알리지 않는 방법을 다룬다. lynx-ui-dialog 기반 Dialog·AlertDialog나 presence 테스트 frame 문제에는 적용하지 않는다."
 scope: ["packages/lynx-react-headless/**", "packages/lynx-react/src/components/**"]
 status: active
-related: ["lynx-drag-gesture-cdp", "lynx-headless-tree-parity"]
+related: ["lynx-headless-tree-parity"]
 verified_at: "2026-10-01"
 ---
 
