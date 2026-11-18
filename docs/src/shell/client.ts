@@ -3,7 +3,7 @@
  * 모든 문서 페이지에 같은 script라 세션(ClientRouter가 유지되는 동안) 동안 한 번만 평가된다.
  *
  * 이 모듈은 "언제"만 정한다. "무엇을"은 각 소유 모듈에 있다.
- * - 전역 단축키: `HOTKEYS` 표(이 파일). 이 script 전에 누른 Meta/Ctrl+K는 `early-search-hotkey.ts`가 받아 둔다.
+ * - 전역 단축키: `HOTKEYS` 표(이 파일).
  * - 전체 로드 경계(빌드 경계·배포 skew): `navigation-guard.ts`.
  * - swap 직전: 일시 UI 닫기 `store.ts#resetTransientUi`. 테마·배너 재적용은 `root-attributes.ts` bootstrap이 직접 등록한다.
  * - swap 직후(paint 전): `DocsNav`가 읽는 nav 상태 `store.ts#syncNavState`(가장 먼저), widget 동기화
@@ -22,7 +22,6 @@
 import type { TransitionBeforePreparationEvent } from "astro:transitions/client";
 import { recordRecentPage } from "../../lib/recent-pages";
 import { initWidgets, syncWidgets } from "../mdx/widgets";
-import { takeEarlySearchRequest } from "./early-search-hotkey";
 import { installNavigationGuard } from "./navigation-guard";
 import { type BannerId, dismissBanner, toggleTheme } from "./root-attributes";
 import { resetTransientUi, syncNavState, toggleSearch } from "./store";
@@ -136,8 +135,6 @@ export function initShell(): void {
   if (window.__seedDocsShell) return;
   window.__seedDocsShell = true;
   installNavigationGuard(); // before-preparation: 전체 로드 경계가 먼저
-  // 이 script 전에 누른 Meta/Ctrl+K(`early-search-hotkey.ts`의 head inline listener)를 넘겨받는다.
-  if (takeEarlySearchRequest()) toggleSearch();
   document.addEventListener("keydown", onKeydown);
   document.addEventListener("click", onClick);
   document.addEventListener("astro:before-preparation", onBeforePreparation);

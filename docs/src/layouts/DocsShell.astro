@@ -29,7 +29,6 @@ import type { SectionConfig } from "../content/sections";
 import type { PageHead } from "../content/source";
 import type { SectionNav } from "../shell/nav-model";
 import { DocsNav } from "../shell/DocsNav";
-import { earlySearchHotkeyScript } from "../shell/early-search-hotkey";
 import { SiteHeader } from "../shell/SiteHeader";
 import { NAV_DATA_ID, type NavState, serializeNavState } from "../shell/store";
 import Banners from "../components/Banners.astro";
@@ -60,7 +59,6 @@ const navState: NavState = { nav, currentPath, platform: section?.platform ?? nu
   <head>
     <meta charset="utf-8" />
     <BaseHead head={head} />
-    <script is:inline set:html={earlySearchHotkeyScript()} />
     <ClientRouter fallback="swap" />
   </head>
   <body>

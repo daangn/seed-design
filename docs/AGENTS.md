@@ -24,7 +24,7 @@ Astro 정적 셸과 Fumadocs 데이터 엔진으로 만드는 SEED 문서 사이
 ### 셸 변경 위치
 
 - 섹션 목록은 `src/content/sections.ts`의 `SECTIONS` 하나다. collection·route·llms·검색 태그에 섹션 목록을 따로 두지 않는다.
-- 첫 paint 전에 `<html>`에 적용할 사용자 선호(테마, 배너 닫힘)는 `src/shell/root-attributes.ts`에만, 전역 단축키는 `src/shell/client.ts`의 `HOTKEYS`에만(예외: `src/shell/early-search-hotkey.ts`는 `client.ts` 실행 전 Meta/Ctrl+K만 받아 두며 조건을 `HOTKEYS`와 같게 유지한다), 전체 로드로 보내는 이동 경계는 `src/shell/navigation-guard.ts`에만 둔다.
+- 첫 paint 전에 `<html>`에 적용할 사용자 선호(테마, 배너 닫힘)는 `src/shell/root-attributes.ts`에만, 전역 단축키는 `src/shell/client.ts`의 `HOTKEYS`에만, 전체 로드로 보내는 이동 경계는 `src/shell/navigation-guard.ts`에만 둔다.
 - 이동 때 닫아야 하는 일시 UI 상태는 `src/shell/store.ts`에 두고 `resetTransientUi()`에 넣는다.
 
 ### Fumadocs
