@@ -365,7 +365,7 @@ describe("TextField", () => {
     expect(uncorrectedTextarea).toHaveAttribute("line-spacing", "0");
   });
 
-  it("uses an iOS-only sizing wrapper without intercepting native textarea taps", () => {
+  it("uses an iOS-only sizing wrapper whose padding tap focuses the textarea once", () => {
     setSystemInfo({ platform: "iOS" });
 
     const textareaRef = createRef<NodesRef>();
@@ -401,12 +401,9 @@ describe("TextField", () => {
     const invoke = vi.fn(() => ({ exec }));
     textareaRef.current.invoke = invoke as unknown as NodesRef["invoke"];
 
-    // Testing Library의 이벤트 target에는 기기 이벤트의 uid가 없어 wrapper의 target 비교를 재현할 수 없다.
-    // 그래서 textarea tap은 버블링하지 않게 보내 wrapper가 직접 받은 tap만 focus하는지 확인한다.
-    fireNativeEvent(textareaRef.current, textarea, "tap", {}, false);
-    expect(invoke).not.toHaveBeenCalled();
-
-    fireEvent.tap(textareaRoot);
+    // wrapper 탭은 Root로 전파되어 Root가 한 번만 focus한다.
+    // 0.121.0 미만 testing-library는 tap을 전파하지 않아 버블링 이벤트를 직접 보낸다.
+    fireEvent(textareaRoot, new Event("bindEvent:tap", { bubbles: true }));
     expect(invoke).toHaveBeenCalledWith(expect.objectContaining({ method: "focus" }));
     expect(exec).toHaveBeenCalledOnce();
 
@@ -449,8 +446,46 @@ describe("TextField", () => {
     const invoke = vi.fn(() => ({ exec: vi.fn() }));
     textareaRef.current.invoke = invoke as unknown as NodesRef["invoke"];
 
-    fireEvent.tap(textareaRoot);
+    fireEvent(textareaRoot, new Event("bindEvent:tap", { bubbles: true }));
     expect(invoke).not.toHaveBeenCalled();
+  });
+
+  it("focuses the input from Root padding and keeps the consumer bindtap and ignore-focus", () => {
+    const inputRef = createRef<NodesRef>();
+    const bindtap = vi.fn();
+    const renderTextField = (props: { disabled?: boolean; readOnly?: boolean } = {}) => (
+      <TextField.Root bindtap={bindtap} {...props}>
+        <TextField.SuffixText>원</TextField.SuffixText>
+        <TextField.Input ref={inputRef} />
+      </TextField.Root>
+    );
+    const { rerender } = render(renderTextField());
+
+    const root = getTextFieldRoot();
+    expect(root).toHaveAttribute("ignore-focus", "true");
+    expect(root.querySelector("input")).toHaveAttribute("ignore-focus", "false");
+    if (!inputRef.current) throw new Error("Expected native input ref to exist.");
+    const invoke = vi.fn(() => ({ exec: vi.fn() }));
+    inputRef.current.invoke = invoke as unknown as NodesRef["invoke"];
+
+    fireEvent.tap(root);
+    expect(invoke).toHaveBeenCalledOnce();
+    expect(invoke).toHaveBeenCalledWith(expect.objectContaining({ method: "focus" }));
+    expect(bindtap).toHaveBeenCalledOnce();
+
+    rerender(renderTextField({ disabled: true }));
+    fireEvent.tap(getTextFieldRoot());
+    rerender(renderTextField({ readOnly: true }));
+    fireEvent.tap(getTextFieldRoot());
+    expect(invoke).toHaveBeenCalledOnce();
+    expect(bindtap).toHaveBeenCalledTimes(3);
+
+    rerender(
+      <TextField.Root ignore-focus={false}>
+        <TextField.Input />
+      </TextField.Root>,
+    );
+    expect(getTextFieldRoot()).toHaveAttribute("ignore-focus", "false");
   });
 
   it("applies textarea sizing directly when autoresize is false", () => {

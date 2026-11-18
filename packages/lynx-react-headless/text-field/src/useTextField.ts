@@ -1,6 +1,8 @@
 import { useCallback, useMemo, useRef, useState, type RefObject } from "@lynx-js/react";
-import type { NodesRef } from "@lynx-js/types";
+import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
 import { useFieldContext } from "@seed-design/lynx-react-field";
+
+type ViewProps = IntrinsicElements["view"];
 
 export interface UseTextFieldProps {
   value?: string;
@@ -70,6 +72,21 @@ export interface UseTextFieldReturn {
   setValue: (value: string) => void;
   /** focus 상태를 갱신하고 `FieldRoot`에도 알립니다. 같은 함수가 유지됩니다. */
   setFocused: (focused: boolean) => void;
+  /**
+   * 입력 파트가 Root 탭에서 호출할 focus 함수를 등록하고, 등록을 해제하는 함수를 받습니다.
+   * `useTextField` 밖에서 직접 만든 상태에서는 생략할 수 있으며, 이때 Root 탭은 입력을 focus하지 않습니다.
+   */
+  registerInputFocus?: (focus: () => void) => () => void;
+}
+
+/** `TextFieldRoot`의 native `<view>`에 펼치는 props입니다. */
+export interface TextFieldRootNativeProps {
+  /**
+   * Root를 탭해도 다른 입력의 focus를 해제하지 않습니다. 자식에게 상속되므로 입력 파트는 `false`를 명시합니다.
+   */
+  "ignore-focus": boolean;
+  /** disabled·readOnly가 아니고 focus되지 않았으면 등록된 입력 파트를 focus합니다. */
+  bindtap: NonNullable<ViewProps["bindtap"]>;
 }
 
 /**
@@ -82,8 +99,12 @@ export interface UseTextFieldReturn {
  *   focus 상태를 Field에 알립니다. Lynx Field는 prop getter 대신 이 상태를 입력이 직접 쓰는 계약입니다.
  * - `stateProps`·`rootProps` 같은 DOM data/aria 속성과 hover·active·focus-visible 상태가 없습니다.
  * - Lynx native 입력은 value attribute가 없으므로 controlled 값은 입력 파트가 `setValue` UI method로 맞춥니다.
+ * - Root 어디를 탭해도 입력이 focus되도록 `rootProps`를 Root native view에 펼칩니다.
  */
-export function useTextField(props: UseTextFieldProps = {}): UseTextFieldReturn {
+export function useTextField(props: UseTextFieldProps = {}): UseTextFieldReturn & {
+  /** Root native `<view>`에 펼칩니다. 소비자의 `bindtap`과 합성하고, 소비자의 `ignore-focus`가 우선합니다. */
+  rootProps: TextFieldRootNativeProps;
+} {
   const {
     value: controlledValue,
     defaultValue = "",
@@ -129,6 +150,27 @@ export function useTextField(props: UseTextFieldProps = {}): UseTextFieldReturn 
     }
   }, []);
 
+  const inputFocusRef = useRef<(() => void) | null>(null);
+  const registerInputFocus = useCallback((focus: () => void) => {
+    inputFocusRef.current = focus;
+    return () => {
+      if (inputFocusRef.current === focus) inputFocusRef.current = null;
+    };
+  }, []);
+
+  // 입력 위 탭도 Root로 전파되므로, native 탭이 focus로 이어지지 않은 기기에서도 focus를 보완한다.
+  const handleRootTap = useCallback(() => {
+    "background only";
+
+    if (disabled || readOnly || localFocused) return;
+    inputFocusRef.current?.();
+  }, [disabled, readOnly, localFocused]);
+
+  const rootProps = useMemo<TextFieldRootNativeProps>(
+    () => ({ "ignore-focus": true, bindtap: handleRootTap }),
+    [handleRootTap],
+  );
+
   return useMemo(
     () => ({
       rootRef,
@@ -143,6 +185,8 @@ export function useTextField(props: UseTextFieldProps = {}): UseTextFieldReturn 
       focused,
       setValue,
       setFocused,
+      registerInputFocus,
+      rootProps,
     }),
     [
       value,
@@ -156,6 +200,8 @@ export function useTextField(props: UseTextFieldProps = {}): UseTextFieldReturn 
       focused,
       setValue,
       setFocused,
+      registerInputFocus,
+      rootProps,
     ],
   );
 }

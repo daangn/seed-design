@@ -55,6 +55,11 @@ export interface UseTextFieldInputProps {
    * @default KeyboardAvoidingScrollView 안에서 "nothing", 그 밖에서 "unspecified"
    */
   "android-set-soft-input-mode"?: AndroidSetSoftInputMode;
+  /**
+   * Root의 `ignore-focus={true}`가 상속되면 Android가 입력에 focus를 주지 않으므로 `false`를 명시적으로 적용합니다.
+   * @default false
+   */
+  "ignore-focus"?: boolean;
   /** disabled·readOnly가 아닐 때 값 갱신 뒤 호출됩니다. */
   bindinput?: (event: TextFieldInputEvent) => void;
   bindselection?: (event: TextFieldSelectionEvent) => void;
@@ -101,6 +106,7 @@ export interface TextFieldManagedInputProps {
   name?: string;
   "show-soft-input-on-focus": boolean;
   "android-set-soft-input-mode": AndroidSetSoftInputMode;
+  "ignore-focus": boolean;
   bindinput: (event: TextFieldInputEvent) => void;
   bindselection: (event: TextFieldSelectionEvent) => void;
   bindfocus: (event: TextFieldFocusEvent) => void;
@@ -209,6 +215,7 @@ function getReadOnlyTextProps(props: object, ref: Ref<NodesRef>): TextFieldReadO
  * - disabled·readOnly이면 값 변경을 무시하고 native 값을 되돌리며, 키보드 회피에 등록하지 않습니다.
  * - Root의 `nativeInsertionMaxLength`는 범위 선택 교체·composition 중에는 해제합니다.
  * - focus·blur를 Root와 Field에 알리고, 가장 가까운 KeyboardAvoidingScrollView에 Root·Field 영역을 등록합니다.
+ * - disabled·readOnly가 아니면 Root 탭이 이 입력을 focus하도록 Root에 `focus`를 등록합니다.
  *
  * 스타일 props는 그대로 통과시키므로 무스타일 파트와 SEED 스타일 파트가 같은 동작을 씁니다.
  */
@@ -504,6 +511,13 @@ export function useTextFieldInput<P extends UseTextFieldInputProps>(
     }
   }, []);
 
+  const registerInputFocus = textFieldContext.registerInputFocus;
+  const focusable = !disabled && !readOnly;
+  useEffect(() => {
+    if (!focusable) return;
+    return registerInputFocus?.(focus);
+  }, [focus, focusable, registerInputFocus]);
+
   const blur = useCallback(() => {
     "background only";
 
@@ -548,6 +562,7 @@ export function useTextFieldInput<P extends UseTextFieldInputProps>(
       "android-set-soft-input-mode":
         androidSetSoftInputMode ?? (keyboardAvoidance ? "nothing" : "unspecified"),
       ...nativeProps,
+      "ignore-focus": props["ignore-focus"] ?? false,
       bindinput: handleInput,
       bindselection: handleSelection,
       bindfocus: handleFocus,

@@ -201,6 +201,10 @@ Lynx는 HTML Form을 지원하지 않습니다. `value`와 `onValueChange`를 �
 
 Android에서는 SEED typography의 줄 높이를 맞추기 위해 `line-spacing="3.2px"`를 기본으로 적용합니다. `fontSize`나 `lineHeight`를 바꾼다면 이에 맞는 `line-spacing`도 지정하세요. 기본 보정은 `line-spacing={0}`으로 해제할 수 있습니다.
 
+#### Tap to Focus
+
+입력 영역의 여백을 포함해 어디를 탭해도 `TextFieldTextarea`가 focus됩니다. `disabled`·`readOnly` 상태에서는 focus하지 않습니다. 다른 입력이 focus된 상태에서 탭해도 키보드가 내려가지 않도록 입력 영역에는 `ignore-focus`를, `TextFieldTextarea`에는 `ignore-focus={false}`를 기본으로 적용합니다. 다른 동작이 필요하면 각 값을 직접 지정하세요.
+
 #### Keyboard Avoidance
 
 `KeyboardAvoidingScrollView.Content` 안에 배치하면 `TextFieldTextarea`가 focus될 때 자동으로 등록됩니다. autoresize로 레이아웃이 바뀌면 활성 입력 위치를 다시 계산합니다.
