@@ -232,9 +232,11 @@ function DesktopSidebar({
       data-sidebar-placeholder=""
       className="pointer-events-none sticky top-(--fd-docs-row-2) z-20 h-[calc(var(--fd-docs-height)-var(--fd-docs-row-2))] [grid-area:sidebar] *:pointer-events-auto max-[967px]:hidden"
     >
+      {/* aside에 transition을 두지 않는다. `duration-*`만 있으면 `transition-property: all`이라 상속되는 `color`가 테마
+          전환 때 transition되고, Chromium은 그동안 자식의 색 transition을 매 프레임 다시 시작해 글자색이 400ms 넘게 늦는다. */}
       <aside
         id="nd-sidebar"
-        className="absolute inset-y-0 start-0 flex w-full flex-col items-end text-sm duration-250 *:w-(--fd-sidebar-width)"
+        className="absolute inset-y-0 start-0 flex w-full flex-col items-end text-sm *:w-(--fd-sidebar-width)"
       >
         {/* SEED Provider의 ResponsiveCollapseEffect가 1280px 아래에서 접지 않도록 collapsed를 false로 고정한다. */}
         <SideNavigation.Provider collapsed={false}>

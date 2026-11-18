@@ -1,4 +1,4 @@
-import { LazySearch } from "../../src/shell/SiteHeader";
+import { ShellSearch } from "../../src/shell/SiteHeader";
 import { LandingExperience } from "./landing-experience";
 
 /**
@@ -10,7 +10,7 @@ export function LandingPage() {
   return (
     <>
       <LandingExperience />
-      <LazySearch sectionId={null} landing />
+      <ShellSearch sectionId={null} landing />
     </>
   );
 }

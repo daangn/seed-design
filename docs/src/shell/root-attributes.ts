@@ -146,7 +146,13 @@ function reapply(): void {
   window.__seedRootAttributes?.apply(document.documentElement);
 }
 
-/** `d` 단축키와 헤더 버튼이 부른다. 저장 → 적용. 바꾸는 동안 CSS transition을 끈다(기존 next-themes 설정과 같다). */
+/**
+ * `d` 단축키와 헤더 버튼이 부른다. 저장 → 적용. transition을 끄지 않는다 → 요소가 이미 선언한 색 transition
+ * (`transition-colors` 150ms, SEED recipe 등)이 그대로 걸린다. 기존 Next 사이트의 실제 동작과 같다: next-themes
+ * `disableTransitionOnChange`는 `transition:none`을 넣었다가 1ms 뒤 지웠지만 그 사이 style을 확정하지 않아(값을 읽지 않는
+ * `getComputedStyle`) 사용자 입력에서는 다음 style 계산 때 이미 지워져 있었다. 첫 로드(paint 전 bootstrap)와 이동
+ * (swap 전 새 문서에 적용)은 바뀌기 전 style이 없어 transition이 걸리지 않는다.
+ */
 export function toggleTheme(): void {
   const root = document.documentElement;
   if (root.hasAttribute("data-theme-locked")) return;
@@ -156,13 +162,7 @@ export function toggleTheme(): void {
   } catch {
     // 저장할 수 없어도 이 문서에는 적용한다.
   }
-  const style = document.createElement("style");
-  style.textContent = "*,*::before,*::after{transition:none!important}";
-  document.head.appendChild(style);
   reapply();
-  // 계산된 스타일을 한 번 확정한 뒤 transition을 되돌린다.
-  void window.getComputedStyle(document.body).opacity;
-  requestAnimationFrame(() => style.remove());
 }
 
 /** 배너 닫기. 저장 → `<html>` 속성 → CSS가 배너를 숨긴다. */

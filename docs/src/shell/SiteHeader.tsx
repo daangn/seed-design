@@ -4,8 +4,9 @@
  *
  * - 데스크톱(≥968px): 로고, nav(Develop → React/Lynx는 SEED NavigationMenu, 다가갈 때 lazy), 테마 버튼, 검색 버튼.
  * - 모바일(<968px): 로고, 테마·검색·메뉴 버튼. 메뉴 버튼은 `openMobileNav()`만 부른다(패널은 `DocsNav`).
- * - 검색 다이얼로그: `searchOpen` atom이 처음 true가 될 때 `React.lazy`로 불러온다. 첫 로드 JS에 없다. 이 island는
- *   페이지마다 다시 hydrate되지만 dialog module과 검색 index는 module 캐시라 세션 동안 한 번만 받는다.
+ * - 검색 다이얼로그: 첫 로드 JS에 함께 들어 있고 닫힌 채로 mount된다(기존 Next `RootProvider` search `preload`와 같다).
+ *   그래서 hydrate 직후 첫 Meta/Ctrl+K·버튼 클릭에 바로 열린다. 검색 index는 처음 검색어를 입력할 때 받고 module
+ *   캐시라 세션 동안 한 번만 받는다.
  *
  * 불변식
  * - 테마 아이콘은 해·달 둘 다 렌더링하고 CSS(`html.dark`)가 하나를 고른다. 서버 HTML과 hydrate 결과가 테마와 무관하다.
@@ -21,9 +22,10 @@ import {
   IconSunFill,
 } from "@karrotmarket/react-monochrome-icon";
 import clsx from "clsx";
-import { lazy, type ReactNode, Suspense, useEffect, useState } from "react";
+import { lazy, type ReactNode, Suspense } from "react";
 import { SeedMark } from "../../components/landing/seed-mark";
 import { SeedWordmark } from "../../components/landing/seed-wordmark";
+import SearchDialog, { LandingSearchDialog } from "../../components/search/search";
 import { useMenuIntent } from "../../components/use-menu-intent";
 import { archivePaths } from "../../lib/docs-archive";
 import { TAGS } from "../../lib/search-tags";
@@ -32,12 +34,6 @@ import { isActive, NAV_ITEMS, NavLinkItem, NavMenuButton } from "./site-nav-part
 import { closeSearch, openMobileNav, openSearch, searchOpen } from "./store";
 import { useAtom } from "./use-store";
 
-const SearchDialog = lazy(() => import("../../components/search/search"));
-const LandingSearchDialog = lazy(() =>
-  import("../../components/search/search").then((module) => ({
-    default: module.LandingSearchDialog,
-  })),
-);
 // NavigationMenu·floating-ui는 사용자가 메뉴 버튼에 다가갈 때 받는다(`components/use-menu-intent.ts`).
 const loadNavMenu = () => import("./SiteNavMenu");
 const SiteNavMenu = lazy(loadNavMenu);
@@ -136,10 +132,10 @@ export function SiteNav({ currentPath, className }: { currentPath: string; class
 const SEARCH_TAGS = archivePaths.platform ? [TAGS[archivePaths.platform]] : Object.values(TAGS);
 
 /**
- * 처음 열릴 때 받는다. 한 번 받은 뒤에는 닫혀도 남겨 두어 닫힘 애니메이션과 다음 열림이 바로 된다.
+ * 닫힌 채로 늘 mount한다. 처음 열 때 module을 받거나 mount를 기다리지 않아 첫 입력에 열리고 열림 애니메이션도 그대로다.
  * landing(`components/landing/landing-page.tsx`)은 모바일 위치와 light 전용 색의 `LandingSearchDialog`를 쓴다.
  */
-export function LazySearch({
+export function ShellSearch({
   sectionId,
   landing = false,
 }: {
@@ -147,22 +143,15 @@ export function LazySearch({
   landing?: boolean;
 }) {
   const open = useAtom(searchOpen, false);
-  const [requested, setRequested] = useState(false);
-  useEffect(() => {
-    if (open) setRequested(true);
-  }, [open]);
-  if (!requested) return null;
   const defaultTag = SEARCH_TAGS.find((tag) => tag.value === sectionId)?.value;
   const Dialog = landing ? LandingSearchDialog : SearchDialog;
   return (
-    <Suspense fallback={null}>
-      <Dialog
-        open={open}
-        onOpenChange={(next) => (next ? openSearch() : closeSearch())}
-        defaultTag={defaultTag}
-        tags={SEARCH_TAGS}
-      />
-    </Suspense>
+    <Dialog
+      open={open}
+      onOpenChange={(next) => (next ? openSearch() : closeSearch())}
+      defaultTag={defaultTag}
+      tags={SEARCH_TAGS}
+    />
   );
 }
 
@@ -205,7 +194,7 @@ export function SiteHeader({ currentPath, sectionId }: SiteHeaderProps) {
           </ActionButton>
         </div>
       </div>
-      <LazySearch sectionId={sectionId} />
+      <ShellSearch sectionId={sectionId} />
     </header>
   );
 }
