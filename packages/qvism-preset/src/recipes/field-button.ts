@@ -1,5 +1,5 @@
-import spec from "@seed-design/rootage-artifacts/components/input-button";
-import { inputButton as vars } from "../vars/component";
+import spec from "@seed-design/rootage-artifacts/components/field-button";
+import { fieldButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, pseudo, engaged, focusVisible, invalid, not, readOnly } from "../utils/pseudo";
 import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
@@ -12,8 +12,8 @@ import { onlyIcon } from "../utils/icon";
 import { vars as tokens } from "../vars";
 import { breakpoints } from "../utils/breakpoint";
 
-const inputButton = defineSlotRecipe({
-  name: "input-button",
+const fieldButton = defineSlotRecipe({
+  name: "field-button",
   slots: [
     "root",
     "value",
@@ -377,4 +377,4 @@ const inputButton = defineSlotRecipe({
   },
 });
 
-export default inputButton;
+export default fieldButton;

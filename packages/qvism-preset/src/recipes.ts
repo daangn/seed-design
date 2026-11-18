@@ -33,7 +33,7 @@ import imageFrameIcon from "./recipes/image-frame-icon";
 import imageFrameIndicator from "./recipes/image-frame-indicator";
 import imageFrameReactionButton from "./recipes/image-frame-reaction-button";
 import layout from "./recipes/layout";
-import inputButton from "./recipes/input-button";
+import fieldButton from "./recipes/field-button";
 import listHeader from "./recipes/list-header";
 import listItem from "./recipes/list-item";
 import mannerTemp from "./recipes/manner-temp";
@@ -117,7 +117,7 @@ export const recipes = {
   imageFrameIndicator,
   imageFrameIcon,
   imageFrameReactionButton,
-  inputButton,
+  fieldButton,
   layout,
   listHeader,
   listItem,

@@ -9,7 +9,7 @@ import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsPro
 import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
 import { fieldLabel, type FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
-import { inputButton, type InputButtonVariantProps } from "@seed-design/css/recipes/input-button";
+import { fieldButton, type FieldButtonVariantProps } from "@seed-design/css/recipes/field-button";
 import clsx from "clsx";
 
 const { ClassNamesProvider: FieldClassNamesProvider, withContext: withFieldContext } =
@@ -18,8 +18,8 @@ const {
   withProvider,
   withContext,
   useClassNames,
-  PropsProvider: InputButtonPropsProvider,
-} = createSlotRecipeContext(inputButton);
+  PropsProvider: FieldButtonPropsProvider,
+} = createSlotRecipeContext(fieldButton);
 const {
   withProvider: withLabelProvider,
   withContext: withLabelContext,
@@ -32,18 +32,18 @@ const withStateProps = createWithStateProps([useFieldButtonContext]);
 
 export interface FieldButtonRootProps
   extends FieldVariantProps,
-    InputButtonVariantProps,
+    FieldButtonVariantProps,
     FieldButton.RootProps {}
 
 export const FieldButtonRoot = forwardRef<HTMLDivElement, FieldButtonRootProps>(
   ({ className, ...props }, ref) => {
-    const [{ field: fieldVariantProps, inputButton: inputButtonVariantProps }, otherProps] =
-      splitMultipleVariantsProps(props, { field, inputButton });
+    const [{ field: fieldVariantProps, fieldButton: fieldButtonVariantProps }, otherProps] =
+      splitMultipleVariantsProps(props, { field, fieldButton });
 
     const fieldClassNames = field(fieldVariantProps);
 
     return (
-      <InputButtonPropsProvider value={inputButtonVariantProps}>
+      <FieldButtonPropsProvider value={fieldButtonVariantProps}>
         <FieldClassNamesProvider value={fieldClassNames}>
           <FieldButton.Root
             ref={ref}
@@ -51,7 +51,7 @@ export const FieldButtonRoot = forwardRef<HTMLDivElement, FieldButtonRootProps>(
             {...otherProps}
           />
         </FieldClassNamesProvider>
-      </InputButtonPropsProvider>
+      </FieldButtonPropsProvider>
     );
   },
 );
@@ -217,7 +217,7 @@ export const FieldButtonButton = withContext<HTMLButtonElement, FieldButtonButto
 );
 
 export interface FieldButtonControlProps
-  extends InputButtonVariantProps,
+  extends FieldButtonVariantProps,
     PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 

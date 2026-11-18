@@ -1,6 +1,6 @@
 import preview from "../.storybook/preview";
 import { FieldButton, FieldButtonPlaceholder, FieldButtonValue } from "seed-design/ui/field-button";
-import { inputButtonVariantMap } from "@seed-design/css/recipes/input-button";
+import { fieldButtonVariantMap } from "@seed-design/css/recipes/field-button";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { VISUAL_VIEWPORT_PARAMETERS, withVisualTestParameters } from "@/stories/utils/parameters";
@@ -67,7 +67,7 @@ const CommonStoryTemplate = meta.story({
   render: (args, { component }) => (
     <VariantTable
       Component={component!}
-      variantMap={inputButtonVariantMap}
+      variantMap={fieldButtonVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
