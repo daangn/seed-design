@@ -30,7 +30,7 @@ Astro 정적 셸과 Fumadocs 데이터 엔진으로 만드는 SEED 문서 사이
 ### Fumadocs
 
 - `@fumadocs/astro`·`fumadocs-core/source`는 `ENGINE_FILES`(`astro.config.ts`, `lib/content/satteri-options.ts`, `src/content.config.ts`, `src/content/source.ts`)만 import한다. fumadocs 타입은 `src/content/source.ts` 밖으로 내보내지 않는다 → 페이지·island는 `source.ts`의 직렬화 가능한 값만 받는다.
-- `fumadocs-ui` JS를 import하지 않는다. `fumadocs-ui`는 `src/styles/global.css`의 CSS로만 남아 있다.
+- `fumadocs-ui`는 의존성이 아니다. JS·CSS(`@import`·`@plugin`·`@source`) 어디서도 쓰지 않는다(S-3) → `fd-*` 색 토큰·`dark` variant·본문 typography(`prose`, `prose-<요소>:` variant)·Steps·스크롤 utility는 `src/styles/global.css`, 코드 블록 Shiki 색·diff·강조는 `src/styles/shiki.css`에서 고친다.
 
 ### 콘텐츠 구조
 
@@ -73,6 +73,6 @@ Astro 정적 셸과 Fumadocs 데이터 엔진으로 만드는 SEED 문서 사이
 
 - 컴포넌트·위젯 전용 스타일은 넣지 않는다 → 해당 컴포넌트의 Tailwind `className`으로 처리한다. `global.css`에는 빌드 설정, 디자인 토큰, 루트 요소, 외부 라이브러리, 문서 전체 reset·타이포만 둔다.
 - recipe override에 전역 `!important`를 쓰지 않는다 → 상태는 inline style이나 component-local Tailwind로, 마크다운 자식 selector는 MDX 등록부(`src/mdx/components.ts`)가 가리키는 컴포넌트나 component-local selector로 처리한다.
-- Fumadocs의 unlayered 규칙을 덮어야 하면 실제 cascade를 확인한 뒤 inline style이나 대응하는 unlayered global rule을 쓴다.
+- `.dark` 토큰·`shiki.css`의 unlayered 규칙을 덮어야 하면 실제 cascade를 확인한 뒤 inline style이나 대응하는 unlayered global rule을 쓴다.
 - 회색 표면은 기존 SEED 중립 토큰을 쓴다. 공유 recipe를 고치지 말고 문서 wrapper에서 변수를 override한다.
 - cascade layer 순서는 `<head>` 맨 앞 inline 선언이 정한다(`src/components/BaseHead.astro`). CSS 파일 import로 옮기지 않는다 → `astro dev`는 모듈마다 `<style>`을 따로 넣어 layer 순서가 빌드와 달라진다. 스타일을 바꾸면 빌드 결과와 `astro dev`를 둘 다 본다.

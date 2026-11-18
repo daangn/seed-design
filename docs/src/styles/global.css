@@ -1,7 +1,5 @@
 @import "tailwindcss" source(none);
-/* fumadocs-ui는 Phase 7까지 CSS(typography·fd 토큰·variant)로만 남는다. JS import는 없다. */
-@import "fumadocs-ui/css/neutral.css";
-@import "fumadocs-ui/css/preset.css";
+@import "./shiki.css";
 @import "@seed-design/tailwind4-theme";
 /* SEED CSS는 전역 한 파일이다. recipe `.css` side-effect import는 `astro.config.ts`의 graft plugin이 빈 모듈로
    바꾼다. 페이지별로 두면 Astro가 예제 lazy glob을 따라가 모든 예제의 recipe CSS를 문서 route 전체에 붙인다. */
@@ -11,9 +9,549 @@
 @source "../../content/**/*.mdx";
 @source "../../examples/**/*.{js,jsx,ts,tsx,mdx}";
 @source "../../sanity/**/*.{js,jsx,ts,tsx,mdx}";
-/* fumadocs-ui 검색 다이얼로그(이 사이트는 쓰지 않는다)의 `::highlight()` 유틸리티. lightningcss가 이 pseudo-element를
-   몰라 빌드 경고를 낸다. 검색 결과 강조를 다시 쓰게 되면(Phase 2 검색) 이 줄을 지운다. */
-@source not inline("[&_::highlight(fd-search)]:text-fd-primary [&_::highlight(fd-search)]:underline");
+
+/* 문서 셸의 `fd-*` 색 토큰과 `dark` variant. fumadocs-ui `css/neutral.css`·`css/lib/base.css`에서 이 사이트가 쓰는
+   것만 옮겼다. 토큰 이름(`bg-fd-muted` 등)과 `--fd-*` 레이아웃 변수 이름은 유지한다. */
+
+/* 라이트 값. fumadocs 기본값(slate 계열)을 SEED 중립 토큰으로 바꿔 크롬이 푸른 기 없는 회색으로 보이게 한다.
+   테두리는 hue-0 static-alpha 토큰(stroke-neutral-muted), 밝은 면은 SEED gray(bg-neutral-weak = gray-200)다. */
+@theme {
+  --color-fd-background: #ffffff;
+  --color-fd-foreground: var(--seed-color-fg-neutral);
+  --color-fd-muted: var(--seed-color-bg-neutral-weak);
+  --color-fd-muted-foreground: var(--seed-color-fg-neutral-muted);
+  --color-fd-popover: #ffffff;
+  --color-fd-popover-foreground: var(--seed-color-fg-neutral);
+  --color-fd-card: #ffffff;
+  --color-fd-card-foreground: var(--seed-color-fg-neutral);
+  --color-fd-border: var(--seed-color-stroke-neutral-muted);
+  --color-fd-primary: #0f172a;
+  --color-fd-primary-foreground: #f8fafc;
+  --color-fd-secondary: var(--seed-color-bg-neutral-weak);
+  --color-fd-secondary-foreground: var(--seed-color-fg-neutral);
+  --color-fd-accent: var(--seed-color-bg-neutral-weak);
+  --color-fd-accent-foreground: var(--seed-color-fg-neutral);
+  --color-fd-ring: var(--seed-color-stroke-neutral-weak);
+}
+
+/* 다크 값은 이미 중립 회색이라 hex로 둔다. 테두리도 SEED 토큰으로 보내지 않는다: dark로 새로고침하면
+   `data-seed-user-color-scheme`이 잠깐 SSR 기본값("light")으로 시작해, SEED 토큰 테두리가 light alpha로 한 번
+   합성된다. */
+.dark {
+  --color-fd-background: #171717;
+  --color-fd-foreground: #ebebeb;
+  --color-fd-muted: #212121;
+  --color-fd-muted-foreground: #9b9b9b;
+  --color-fd-popover: #191919;
+  --color-fd-popover-foreground: #e0e0e0;
+  --color-fd-card: #1a1a1a;
+  --color-fd-card-foreground: #fafafa;
+  --color-fd-border: #2e2e2e;
+  --color-fd-primary: #fafafa;
+  --color-fd-primary-foreground: #171717;
+  --color-fd-secondary: #212121;
+  --color-fd-secondary-foreground: #fafafa;
+  --color-fd-accent: #2b2b2b;
+  --color-fd-accent-foreground: #e6e6e6;
+  --color-fd-ring: #262626;
+}
+
+.dark #nd-sidebar {
+  --color-fd-muted: hsl(0, 0%, 16%);
+  --color-fd-secondary: hsl(0, 0%, 18%);
+  --color-fd-muted-foreground: hsl(0, 0%, 72%);
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-fd-border, currentColor);
+  }
+
+  body {
+    background-color: var(--color-fd-background);
+    color: var(--color-fd-foreground);
+  }
+}
+
+/* 본문 typography(`prose`)와 MDX 본문 utility. fumadocs-ui 16.19.0이 `@plugin`으로 넣던 `@fumadocs/tailwind@0.1.5`
+   typography의 출력과 `css/lib/base.css`의 utility를 옮겼다. 색은 위 `fd-*` 토큰을 쓴다.
+   `prose-<요소>:` variant는 쓰는 것만 둔다. 새 요소가 필요하면 같은 selector 모양으로 더한다. */
+
+@utility prose {
+  --tw-prose-size: 1;
+  color: var(--tw-prose-body);
+  max-width: none;
+  font-size: calc(1rem * var(--tw-prose-size));
+  line-height: var(--tw-leading, calc(1.75rem * var(--tw-prose-size)));
+  & :where([class~="lead"]):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    font-size: 1.25em;
+    line-height: 1.6;
+    margin-top: 1.2em;
+    margin-bottom: 1.2em;
+    color: var(--tw-prose-lead);
+  }
+  & :where(ul):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    padding-inline-start: calc(1rem * var(--tw-prose-size));
+    list-style-type: disc;
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+  }
+  & :where(li):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+  & :where(ol > li):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    padding-inline-start: 0.375em;
+  }
+  & :where(ul > li):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    padding-inline-start: 0;
+  }
+  & :where(.prose > ul > li p):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+  }
+  &
+    :where(.prose > ul > li > p:first-child):not(
+      :where([class~="not-prose"], [class~="not-prose"] *)
+    ) {
+    margin-top: 1.25em;
+  }
+  &
+    :where(.prose > ul > li > p:last-child):not(
+      :where([class~="not-prose"], [class~="not-prose"] *)
+    ) {
+    margin-bottom: 1.25em;
+  }
+  &
+    :where(.prose > ol > li > p:first-child):not(
+      :where([class~="not-prose"], [class~="not-prose"] *)
+    ) {
+    margin-top: 1.25em;
+  }
+  &
+    :where(.prose > ol > li > p:last-child):not(
+      :where([class~="not-prose"], [class~="not-prose"] *)
+    ) {
+    margin-bottom: 1.25em;
+  }
+  & :where(ul ul, ul ol, ol ul, ol ol):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+  }
+  & :where(dl):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+  }
+  & :where(dt):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: var(--tw-prose-headings);
+    font-weight: 600;
+    margin-top: 1.25em;
+  }
+  & :where(dd):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 0.5em;
+    padding-inline-start: 1.625em;
+  }
+  & :where(hr):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    border-color: var(--tw-prose-hr);
+    border-top-width: 1px;
+    margin-top: 3em;
+    margin-bottom: 3em;
+  }
+  & :where(p):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+  }
+  & :where(strong):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: var(--tw-prose-bold);
+    font-weight: 500;
+  }
+  & :where(a strong):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: inherit;
+  }
+  & :where(blockquote strong):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: inherit;
+  }
+  & :where(thead th strong):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: inherit;
+  }
+  & :where(ol):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    list-style-type: decimal;
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+    padding-inline-start: 1.625em;
+  }
+  & :where(ol[type="A"]):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    list-style-type: upper-alpha;
+  }
+  & :where(ol[type="a"]):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    list-style-type: lower-alpha;
+  }
+  & :where(ol[type="A" s]):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    list-style-type: upper-alpha;
+  }
+  & :where(ol[type="a" s]):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    list-style-type: lower-alpha;
+  }
+  & :where(ol[type="I"]):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    list-style-type: upper-roman;
+  }
+  & :where(ol[type="i"]):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    list-style-type: lower-roman;
+  }
+  & :where(ol[type="I" s]):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    list-style-type: upper-roman;
+  }
+  & :where(ol[type="i" s]):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    list-style-type: lower-roman;
+  }
+  & :where(ol[type="1"]):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    list-style-type: decimal;
+  }
+  & :where(ol > li):not(:where([class~="not-prose"], [class~="not-prose"] *))::marker {
+    font-weight: 400;
+    color: var(--tw-prose-counters);
+  }
+  & :where(ul > li):not(:where([class~="not-prose"], [class~="not-prose"] *))::marker {
+    color: var(--tw-prose-bullets);
+  }
+  & :where(blockquote):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 1.6em;
+    margin-bottom: 1.6em;
+    padding-inline-start: 1em;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--tw-prose-quotes);
+    border-inline-start-width: 0.25rem;
+    border-inline-start-color: var(--tw-prose-quote-borders);
+    quotes: "\201C" "\201D" "\2018" "\2019";
+  }
+  &
+    :where(blockquote p:first-of-type):not(
+      :where([class~="not-prose"], [class~="not-prose"] *)
+    )::before {
+    content: open-quote;
+  }
+  &
+    :where(blockquote p:last-of-type):not(
+      :where([class~="not-prose"], [class~="not-prose"] *)
+    )::after {
+    content: close-quote;
+  }
+  & :where(h1):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: var(--tw-prose-headings);
+    font-weight: 800;
+    font-size: calc(var(--text-3xl) * var(--tw-prose-size));
+    margin-top: 0;
+    margin-bottom: 0.8888889em;
+    line-height: 1.1111111;
+  }
+  & :where(h1 strong):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    font-weight: 900;
+    color: inherit;
+  }
+  & :where(h2):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: var(--tw-prose-headings);
+    font-size: 1.5em;
+    margin-top: 2em;
+    margin-bottom: 1em;
+    line-height: 1.3333333;
+    font-weight: 600;
+  }
+  & :where(h2 strong):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    font-weight: 800;
+    color: inherit;
+  }
+  & :where(h3):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: var(--tw-prose-headings);
+    font-weight: 600;
+    font-size: 1.25em;
+    margin-top: 1.6em;
+    margin-bottom: 0.6em;
+    line-height: 1.6;
+  }
+  & :where(h3 strong):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    font-weight: 700;
+    color: inherit;
+  }
+  & :where(h4):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: var(--tw-prose-headings);
+    font-weight: 600;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.5;
+  }
+  & :where(h4 strong):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    font-weight: 700;
+    color: inherit;
+  }
+  & :where(hr + *):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 0;
+  }
+  & :where(h2 + *):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 0;
+  }
+  & :where(h3 + *):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 0;
+  }
+  & :where(h4 + *):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 0;
+  }
+  & :where(img):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+  & :where(picture):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    display: block;
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+  & :where(picture > img):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  & :where(video):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+  & :where(kbd):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    font-size: 0.875em;
+    border-radius: 0.3125rem;
+    padding-top: 0.1875em;
+    padding-inline-end: 0.375em;
+    padding-bottom: 0.1875em;
+    padding-inline-start: 0.375em;
+    font-weight: 500;
+    font-family: inherit;
+    color: var(--tw-prose-kbd);
+    box-shadow:
+      0 0 0 1px var(--tw-prose-kbd-shadows),
+      0 3px 0 var(--tw-prose-kbd-shadows);
+  }
+  & :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    padding: calc(3px * var(--tw-prose-size));
+    border: solid 1px;
+    font-size: calc(13px * var(--tw-prose-size));
+    border-color: var(--color-fd-border);
+    border-radius: 5px;
+    font-weight: 400;
+    background: var(--color-fd-muted);
+    color: var(--tw-prose-code);
+  }
+  & :where(a code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: inherit;
+  }
+  & :where(h1 code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: inherit;
+    font-size: calc(var(--text-2xl) * var(--tw-prose-size));
+  }
+  & :where(h2 code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: inherit;
+    font-size: 0.875em;
+  }
+  & :where(h3 code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: inherit;
+    font-size: 0.9em;
+  }
+  & :where(h4 code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: inherit;
+  }
+  & :where(blockquote code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: inherit;
+  }
+  & :where(thead th code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: inherit;
+  }
+  & :where(thead th):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: var(--tw-prose-headings);
+    font-weight: 600;
+  }
+  & :where(figure):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+  & :where(figure > *):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  & :where(figcaption):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: var(--tw-prose-captions);
+    font-size: 0.875em;
+    line-height: 1.4285714;
+    margin-top: 0.8571429em;
+  }
+  & :where(a:not([data-card])):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: var(--tw-prose-links);
+    transition: opacity 0.2s;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3.5px;
+    text-decoration-color: var(--color-fd-primary);
+    text-decoration-thickness: 1.5px;
+  }
+  & :where(a:not([data-card]):hover):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    opacity: 80%;
+  }
+  --tw-prose-body: color-mix(in oklab, var(--color-fd-foreground) 90%, transparent);
+  --tw-prose-headings: var(--color-fd-foreground);
+  --tw-prose-lead: var(--color-fd-foreground);
+  --tw-prose-links: var(--color-fd-foreground);
+  --tw-prose-bold: var(--color-fd-foreground);
+  --tw-prose-counters: var(--color-fd-muted-foreground);
+  --tw-prose-bullets: var(--color-fd-muted-foreground);
+  --tw-prose-hr: var(--color-fd-border);
+  --tw-prose-quotes: var(--color-fd-foreground);
+  --tw-prose-quote-borders: var(--color-fd-border);
+  --tw-prose-captions: var(--color-fd-foreground);
+  --tw-prose-code: var(--color-fd-foreground);
+  --tw-prose-th-borders: var(--color-fd-border);
+  --tw-prose-td-borders: var(--color-fd-border);
+  --tw-prose-kbd: var(--color-fd-foreground);
+  --tw-prose-kbd-shadows: color-mix(in oklab, var(--color-fd-primary) 50%, transparent);
+  & :where(.prose > :first-child):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 0;
+  }
+  & :where(.prose > :last-child):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-bottom: 0;
+  }
+  & :where(blockquote > :first-child):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-top: 0;
+  }
+  & :where(blockquote > :last-child):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    margin-bottom: 0;
+  }
+  & :where(table):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    font-size: 0.875em;
+    line-height: 1.7142857;
+    width: 100%;
+    table-layout: auto;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--color-fd-card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-fd-border);
+    overflow: hidden;
+  }
+  & :where(th):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    text-align: start;
+    padding: calc(var(--spacing) * 2.5 * var(--tw-prose-size));
+    border-inline-start: 1px solid var(--color-fd-border);
+    background: var(--color-fd-muted);
+  }
+  & :where(th:first-child):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    border-inline-start: none;
+  }
+  &
+    :where(th:not(tr:last-child > th), td:not(tr:last-child > td)):not(
+      :where([class~="not-prose"], [class~="not-prose"] *)
+    ) {
+    border-bottom: 1px solid var(--color-fd-border);
+  }
+  & :where(td):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    text-align: start;
+    border-inline-start: 1px solid var(--color-fd-border);
+    padding: calc(var(--spacing) * 2.5 * var(--tw-prose-size));
+  }
+  & :where(td:first-child):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    border-inline-start: none;
+  }
+  & :where(tfoot th, tfoot td):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    border-top-width: 1px;
+    border-top-color: var(--tw-prose-th-borders);
+  }
+  & :where(thead th, thead td):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    border-bottom-width: 1px;
+    border-bottom-color: var(--tw-prose-th-borders);
+  }
+}
+
+@utility prose-sm {
+  --tw-prose-size: 0.875;
+  line-height: var(--tw-leading, 1.25rem);
+  &
+    :where(dt, strong, blockquote, h1, h2, h3, h4, kbd, thead th, a:not([data-card])):not(
+      :where([class~="not-prose"], [class~="not-prose"] *)
+    ) {
+    font-weight: 450;
+  }
+}
+
+@custom-variant prose-headings (&
+  :is(
+    :where(h1, h2, h3, h4, h5, h6, th):not(:where([class~="not-prose"], [class~="not-prose"] *))
+  ));
+@custom-variant prose-h2 (&
+  :is(:where(h2):not(:where([class~="not-prose"], [class~="not-prose"] *))));
+@custom-variant prose-h3 (&
+  :is(:where(h3):not(:where([class~="not-prose"], [class~="not-prose"] *))));
+@custom-variant prose-p (&
+  :is(:where(p):not(:where([class~="not-prose"], [class~="not-prose"] *))));
+@custom-variant prose-a (&
+  :is(:where(a):not(:where([class~="not-prose"], [class~="not-prose"] *))));
+@custom-variant prose-em (&
+  :is(:where(em):not(:where([class~="not-prose"], [class~="not-prose"] *))));
+@custom-variant prose-li (&
+  :is(:where(li):not(:where([class~="not-prose"], [class~="not-prose"] *))));
+
+@utility prose-no-margin {
+  & > :first-child {
+    margin-top: 0;
+  }
+
+  & > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* MDX `<Steps>`·`<Step>`(`src/mdx/Steps.astro`·`Step.astro`). */
+@utility fd-steps {
+  counter-reset: step;
+  position: relative;
+  @apply ps-6 ms-2 border-s sm:ms-4 sm:ps-7;
+}
+
+@utility fd-step {
+  &:before {
+    background-color: var(--color-fd-secondary);
+    color: var(--color-fd-secondary-foreground);
+    content: counter(step);
+    counter-increment: step;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    display: flex;
+    position: absolute;
+    @apply size-8 -inset-s-4 rounded-full;
+  }
+}
+
+@utility fd-scroll-container {
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: var(--color-fd-border);
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-corner {
+    display: none;
+  }
+}
 
 .react {
   --primary: var(--react-color);
@@ -37,32 +575,6 @@
   --lynx-color: rgba(0, 0, 0, 1);
   --breeze-color: hsl(26, 100%, 46%);
 
-  /* Rebrand: fumadocs ships Tailwind *slate* (cool) for these fd tokens. Remap to SEED
-     neutral tokens so the docs chrome reads as true gray, not blue-tinted. Borders/input
-     use the hue-0 static-alpha token (stroke-neutral-muted); solid light surfaces use SEED
-     gray (bg-neutral-weak = gray-200, ≈neutral in light). Dark keeps its own neutral hex
-     values below — SEED palette-gray is cool in dark, so it isn't reused for dark solid
-     fills; only the border maps to the hue-0 static-alpha token there too. */
-  --color-fd-background: #ffffff;
-  --color-fd-foreground: var(--seed-color-fg-neutral);
-  --color-fd-muted: var(--seed-color-bg-neutral-weak);
-  --color-fd-muted-foreground: var(--seed-color-fg-neutral-muted);
-  --color-fd-card: #ffffff;
-  --color-fd-card-foreground: var(--seed-color-fg-neutral);
-  --color-fd-popover: #ffffff;
-  --color-fd-popover-foreground: var(--seed-color-fg-neutral);
-  --color-fd-border: var(--seed-color-stroke-neutral-muted);
-  --color-fd-input: var(--seed-color-stroke-neutral-muted);
-  --color-fd-primary: #0f172a;
-  --color-fd-primary-foreground: #f8fafc;
-  --color-fd-secondary: var(--seed-color-bg-neutral-weak);
-  --color-fd-secondary-foreground: var(--seed-color-fg-neutral);
-  --color-fd-accent: var(--seed-color-bg-neutral-weak);
-  --color-fd-accent-foreground: var(--seed-color-fg-neutral);
-  --color-fd-destructive: #ff0000;
-  --color-fd-destructive-foreground: #f8fafc;
-  --color-fd-ring: var(--seed-color-stroke-neutral-weak);
-
   /* Lift Dialog, Sheet z-index for documentation */
   --layer-index: 100;
 }
@@ -72,28 +584,6 @@
   --react-color: 217deg 92% 76%;
   --lynx-color: 280deg 85% 75%;
   --breeze-color: 180deg 82% 76%;
-
-  --color-fd-background: #171717;
-  --color-fd-foreground: #ebebeb;
-  --color-fd-muted: #212121;
-  --color-fd-muted-foreground: #9b9b9b;
-  --color-fd-popover: #191919;
-  --color-fd-popover-foreground: #e0e0e0;
-  --color-fd-card: #1a1a1a;
-  --color-fd-card-foreground: #fafafa;
-  /* Dark fd values already resolve to true neutral (no blue), so they stay as static hex.
-     We intentionally do NOT route the dark border through a SEED token: on a hard reload in
-     dark, `data-seed-user-color-scheme` starts at the SSR default ("light") and useThemeSync
-     flips it a beat later, so a SEED-token border would briefly composite with light alpha.
-     Only the light `:root` above maps to SEED tokens — that's where fumadocs' slate tint was. */
-  --color-fd-border: #2e2e2e;
-  --color-fd-primary: #fafafa;
-  --color-fd-primary-foreground: #171717;
-  --color-fd-secondary: #212121;
-  --color-fd-secondary-foreground: #fafafa;
-  --color-fd-accent: #2b2b2b;
-  --color-fd-accent-foreground: #e6e6e6;
-  --color-fd-ring: #262626;
 }
 
 /* Rebrand: Pretendard as the primary UI font (loaded via CDN in src/layouts/DocsShell.astro).
@@ -108,15 +598,15 @@ html {
 /* Rebrand: titles go one weight lighter (Medium 500) to sit calmly next to the
    thin-stroke logo, while body copy stays at its normal weight. Title spots use
    font-medium / t*-medium directly; this rule matches in-content prose headings to the
-   page title (fumadocs defaults them to 600, which would otherwise outweigh the title).
-   :is() lifts specificity over fumadocs' :where() typography. */
+   page title (`@utility prose` above defaults them to 600, which would otherwise outweigh the title).
+   :is() lifts specificity over the :where() typography of `@utility prose`. */
 .prose :is(h1, h2, h3, h4, h5, h6):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   font-weight: 500;
 }
 
 /* Rebrand: 문서 전체의 강조(<strong>, 마크다운 **...**)를 semibold(600)로 통일한다. 700(bold)은
    본문에서 지나치게 눈에 띄어 가독성을 떨어뜨리므로, 얇은 획의 로고·타이틀(font-medium 500) 흐름과도
-   맞게 한 단계 낮춘다. fumadocs/tailwind typography는 strong을 별도로 강제하지 않으므로 이 전역
+   맞게 한 단계 낮춘다. `@utility prose`는 strong을 별도로 강제하지 않으므로 이 전역
    규칙 하나로 docs 전반이 일관되게 semibold가 된다. */
 strong {
   font-weight: 600;
@@ -167,7 +657,7 @@ pre code {
 /* Rebrand: brand-tinted text selection — the same dark-on-lime treatment everywhere so
    light and dark surfaces read as one brand. Setting both colors also keeps links and
    inline code from carrying their resting text color into the selected state. Unlayered
-   so it wins over fumadocs/Tailwind. The colors live on :root so the search-result <mark>
+   so it wins over Tailwind. The colors live on :root so the search-result <mark>
    highlight can reuse the same lime, including inside the portaled search dialog. */
 :root {
   --selection-bg: #ccffa3;

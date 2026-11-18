@@ -5,9 +5,8 @@
  * 규칙(렌더 결과로만 볼 수 있는 규칙은 `scripts/check-page-budget.ts`의 O-1–O-5가 맡는다)
  * S-1 `client:` directive는 `DIRECTIVE_FILES`에만 있다. MDX 원문(`content/**\/*.mdx`, 코드 블록 밖)에는 없다.
  * S-2 `<ClientRouter`는 `src/layouts/DocsShell.astro`에만 있다.
- * S-3 `@fumadocs/astro`·`fumadocs-core/source`는 `ENGINE_FILES`만 import한다. `fumadocs-ui` JS import는
- *     `FUMADOCS_UI_JS_PENDING`에만 남고, 이 목록은 줄어들기만 한다(더 이상 import하지 않는 파일이 남아 있어도 실패).
- *     CSS `@import`는 Phase 7까지 허용한다(`src/styles/`).
+ * S-3 `@fumadocs/astro`·`fumadocs-core/source`는 `ENGINE_FILES`만 import한다. `fumadocs-ui`는 JS import도 CSS
+ *     `@import`·`@plugin`·`@source`도 없다(Fumadocs는 데이터 엔진으로만 쓴다).
  * S-4 render 경로(`src/layouts`·`src/mdx`·`src/pages`의 `.astro`, `src/pages`의 endpoint `.ts`)는 `fs`를 import하지 않고
  *     `fetch(`를 부르지 않는다. 빌드 데이터는 module로 import한다(incremental build가 낡은 페이지를 복원하지 않게).
  *     휴리스틱이고 최종 판정은 Phase 5의 incremental vs `--force` 산출물 diff다.
@@ -47,12 +46,6 @@ export const ENGINE_FILES = [
   "src/content.config.ts",
   "src/content/source.ts",
 ] as const;
-
-/**
- * S-3 임시 허용 목록: 아직 `fumadocs-ui` JS를 import하는 파일. 줄어들기만 한다. 셸 파일은 Phase 2에서, MDX 본문
- * 컴포넌트는 Phase 3에서, landing은 Phase 4에서 0이 됐다. 비어 있어야 한다(새 import가 생기면 실패).
- */
-const FUMADOCS_UI_JS_PENDING: readonly string[] = [];
 
 interface SourceFile {
   /** docs 기준 POSIX 경로. */
@@ -139,14 +132,15 @@ export function engineImportOutsideEngine(files: SourceFile[]): string[] {
 }
 
 const FUMADOCS_UI_JS = /(?:\bfrom\s*|\bimport\s*\(?\s*)["']fumadocs-ui[/"']/;
+const FUMADOCS_UI_CSS =
+  /@(?:import|plugin|reference|source)\s+(?:not\s+)?(?:url\(\s*)?["'][^"']*\bfumadocs-ui[/"']/;
 
-export function fumadocsUiOutsidePending(files: SourceFile[], pending: readonly string[]) {
-  const importing = files.filter((file) => FUMADOCS_UI_JS.test(file.text)).map((file) => file.path);
-  return {
-    offenders: importing.filter((file) => !pending.includes(file)),
-    /** 이제 import하지 않는데 목록에 남은 파일(목록에서 지운다). */
-    stale: pending.filter((file) => !importing.includes(file)),
-  };
+export function fumadocsUiImports(files: SourceFile[]): string[] {
+  return files
+    .filter((file) =>
+      (file.path.endsWith(".css") ? FUMADOCS_UI_CSS : FUMADOCS_UI_JS).test(file.text),
+    )
+    .map((file) => file.path);
 }
 
 export function renderIo(files: SourceFile[]): string[] {
@@ -202,15 +196,13 @@ describe("S-3 import 경계", () => {
     "components/**/*.{ts,tsx}",
     "hooks/**/*.{ts,tsx}",
   ];
+  const css = ["src/**/*.css", "components/**/*.css"];
 
   test("fumadocs 데이터 엔진은 ENGINE_FILES만 import한다", async () => {
     expect(engineImportOutsideEngine(await sources(code))).toEqual([]);
   });
-  test("fumadocs-ui JS import는 임시 목록에만 있고, 목록은 실제와 같다", async () => {
-    expect(fumadocsUiOutsidePending(await sources(code), FUMADOCS_UI_JS_PENDING)).toEqual({
-      offenders: [],
-      stale: [],
-    });
+  test("fumadocs-ui는 JS·CSS 어디서도 import하지 않는다", async () => {
+    expect(fumadocsUiImports(await sources([...code, ...css]))).toEqual([]);
   });
   test("어기는 예시를 잡는다", () => {
     expect(
@@ -221,14 +213,22 @@ describe("S-3 import 경계", () => {
       ]),
     ).toEqual(["lib/x.ts", "src/y.ts"]);
     expect(
-      fumadocsUiOutsidePending(
-        [
-          fixture("components/a.tsx", 'import { Card } from "fumadocs-ui/components/card";'),
-          fixture("components/b.tsx", 'const m = await import("fumadocs-ui/page");'),
-        ],
-        ["components/b.tsx", "components/gone.tsx"],
-      ),
-    ).toEqual({ offenders: ["components/a.tsx"], stale: ["components/gone.tsx"] });
+      fumadocsUiImports([
+        fixture("components/a.tsx", 'import { Card } from "fumadocs-ui/components/card";'),
+        fixture("components/b.tsx", 'const m = await import("fumadocs-ui/page");'),
+        fixture("src/styles/a.css", '@import "fumadocs-ui/css/preset.css";'),
+        fixture("src/styles/b.css", "@plugin 'fumadocs-ui/dist/tailwind/typography.js';"),
+        fixture("src/styles/c.css", '@source "../../node_modules/fumadocs-ui/dist";'),
+        fixture("src/styles/ok.css", "/* fumadocs-ui `css/lib/shiki.css`에서 옮겼다. */"),
+        fixture("components/ok.tsx", "/** fumadocs-ui `Pre`와 같은 class. */"),
+      ]),
+    ).toEqual([
+      "components/a.tsx",
+      "components/b.tsx",
+      "src/styles/a.css",
+      "src/styles/b.css",
+      "src/styles/c.css",
+    ]);
   });
 });
 

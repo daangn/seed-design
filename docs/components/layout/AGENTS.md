@@ -14,4 +14,4 @@
 
 - 한 사용처만을 위한 인터페이스·팩토리를 만들지 않는다 → prop으로 받고, 두 번째 사례가 생길 때 일반화한다.
 - barrel(index) 없이 파일 경로로 import한다. 파일은 kebab-case, export는 PascalCase named export로 쓴다.
-- `next/*`·`fumadocs-ui` JS를 import하지 않는다 → Astro 정적 렌더링과 island 어디서든 그려지는 plain React로 쓴다.
+- `next/*`·`fumadocs-ui`를 import하지 않는다 → Astro 정적 렌더링과 island 어디서든 그려지는 plain React로 쓴다.

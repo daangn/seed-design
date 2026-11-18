@@ -5,8 +5,8 @@
  * Vite alias(`@/`) 없이 읽히므로 상대 경로 import만 쓴다.
  *
  * `@fumadocs/astro`·`fumadocs-core/source`를 import하는 곳은 이 파일, `src/content.config.ts`,
- * `src/content/source.ts` 셋뿐이다. 버전: `@fumadocs/astro@0.3.0`(정확 고정), `fumadocs-core`·`fumadocs-ui
- * ^16.19.0`, `@fumadocs/satteri ^0.8`, `satteri ^0.11.7`, `@astrojs/react 7.1.8` + `oxc-transform-react 0.156.0`.
+ * `src/content/source.ts` 셋뿐이다. 버전: `@fumadocs/astro@0.3.0`(정확 고정), `fumadocs-core ^16.19.0`,
+ * `@fumadocs/satteri ^0.8`, `satteri ^0.11.7`, `@astrojs/react 7.1.8` + `oxc-transform-react 0.156.0`.
  *
  * 빌드는 Node로 돈다(`bun run astro build`는 bin shebang이 node). `bun --bun astro build`는
  * fumadocs-typescript(type table)가 `stdout._handle.fd` TypeError로 실패한다.
