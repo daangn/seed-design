@@ -123,6 +123,9 @@ declare const artifact: {
       "path": "/components/fab.json";
     },
     {
+      "path": "/components/field-button.json";
+    },
+    {
       "path": "/components/field-label.json";
     },
     {

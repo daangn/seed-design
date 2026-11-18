@@ -3,6 +3,7 @@ kind: ComponentSpec
 metadata:
   id: input-button
   name: Input Button
+  deprecated: Use field-button instead.
 data:
   schema:
     slots:

@@ -3,6 +3,7 @@ declare const artifact: {
   "metadata": {
     "id": "input-button";
     "name": "Input Button";
+    "deprecated": "Use field-button instead.";
   };
   "data": {
     "id": "input-button";

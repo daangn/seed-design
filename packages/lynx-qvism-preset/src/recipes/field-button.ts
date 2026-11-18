@@ -1,4 +1,4 @@
-import { inputButton as vars } from "../vars/component";
+import { fieldButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
 const fieldButton = defineSlotRecipe({
