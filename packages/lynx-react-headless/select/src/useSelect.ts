@@ -151,7 +151,12 @@ export interface UseSelectReturn {
   setTriggerHandlers: (handlers: SelectTriggerHandlers) => void;
   triggerRef: MutableRefObject<NodesRef | null>;
   layerRef: MutableRefObject<NodesRef | null>;
-  /** 위치 계산 경계를 정하는 `SafeAreaProbe` node입니다. */
+  /**
+   * 위치 계산 경계를 정하는 `SafeAreaProbe` node입니다. `SafeAreaProvider`(또는 `SeedProvider`)가 없을 때만
+   * 씁니다.
+   *
+   * @deprecated Provider의 inset으로 경계를 계산하므로 다음 메이저 버전에서 제거합니다.
+   */
   safeAreaRef: MutableRefObject<SafeAreaProbeNodes>;
   isOpenRef: MutableRefObject<boolean>;
   openEpochRef: MutableRefObject<number>;

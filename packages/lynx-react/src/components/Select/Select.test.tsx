@@ -336,43 +336,70 @@ describe("Select window safe area", () => {
   const viewInsets = { top: 0, right: 0, bottom: 0, left: 0 };
   const windowInsets = { top: 59, right: 0, bottom: 34, left: 0 };
 
-  /** `SafeAreaProbe`의 오른쪽 아래 node는 위치 계산 경계의 아래쪽 끝을 하단 inset으로 정합니다. */
-  function renderProbeBottom({
+  /** Provider의 숫자 inset으로 레이어 rect에서 뺀 위치 계산 경계의 아래쪽 끝을 반환합니다. */
+  async function renderBoundaryBottom({
     container,
     windowSafeAreaInsets,
   }: {
     container?: string;
     windowSafeAreaInsets?: typeof windowInsets;
   }) {
+    installRootSelectorQuery();
+    const screen = createRect(0, 0, 390, 844);
+    geometry.getRectByRef.mockImplementation(
+      async (_ref: unknown, _relative: boolean, scrollAreaId?: string) =>
+        scrollAreaId ? createRect(0, 0, 240, 100) : screen,
+    );
+    geometry.computePosition.mockImplementation(async ({ width }: { width: number }) => ({
+      availableWidth: width,
+      availableHeight: 480,
+      left: 0,
+      top: 0,
+      width,
+      height: 100,
+      placement: "bottom",
+      transformOrigin: "50% 0%",
+    }));
     render(
       <SeedProvider safeAreaInsets={viewInsets} windowSafeAreaInsets={windowSafeAreaInsets}>
-        <Select.Root>
+        <Select.Root defaultOpen>
           <Select.Trigger accessibility-label="열기" />
           <Select.Positioner container={container}>
-            <Select.Content />
+            <Select.Content>
+              <Select.ScrollArea>
+                <Select.Group>
+                  <Select.Item value="apple" label="사과">
+                    <Select.ItemLabel />
+                  </Select.Item>
+                </Select.Group>
+              </Select.ScrollArea>
+            </Select.Content>
           </Select.Positioner>
         </Select.Root>
       </SeedProvider>,
     );
 
-    const probe = Array.from(getRenderedRoot().querySelectorAll<HTMLElement>("view")).find(
-      (element) => element.style.width === "0px" && element.style.right !== "",
-    );
-    if (!probe) throw new Error("Expected the safe area probe to be rendered.");
-    return probe.style.bottom;
+    await waitFor(() => expect(geometry.computePosition).toHaveBeenCalled());
+    // Provider가 있으면 probe 없이 숫자 inset으로 계산합니다.
+    expect(
+      Array.from(getRenderedRoot().querySelectorAll<HTMLElement>("view")).some(
+        (element) => element.style.width === "0px" && element.style.height === "0px",
+      ),
+    ).toBe(false);
+    return geometry.computePosition.mock.calls.at(-1)?.[0].boundary.bottom;
   }
 
-  it("bounds a native overlay list by the window inset", () => {
-    expect(renderProbeBottom({ container: "window", windowSafeAreaInsets: windowInsets })).toBe(
-      "34px",
-    );
+  it("bounds a native overlay list by the window inset", async () => {
+    expect(
+      await renderBoundaryBottom({ container: "window", windowSafeAreaInsets: windowInsets }),
+    ).toBe(844 - 34);
   });
 
-  it("keeps the view inset for a list inside the Lynx view", () => {
-    expect(renderProbeBottom({ windowSafeAreaInsets: windowInsets })).toBe("0px");
+  it("keeps the view inset for a list inside the Lynx view", async () => {
+    expect(await renderBoundaryBottom({ windowSafeAreaInsets: windowInsets })).toBe(844);
   });
 
-  it("keeps the view inset for a native overlay list without window insets", () => {
-    expect(renderProbeBottom({ container: "window" })).toBe("0px");
+  it("keeps the view inset for a native overlay list without window insets", async () => {
+    expect(await renderBoundaryBottom({ container: "window" })).toBe(844);
   });
 });

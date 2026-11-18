@@ -14,6 +14,8 @@ vi.mock("@lynx-js/lynx-ui-dialog", async (importOriginal) => {
   return { ...actual, DialogView };
 });
 
+import { SafeAreaProvider } from "@seed-design/lynx-react-use-safe-area";
+
 import * as AlertDialog from "./AlertDialog.namespace";
 import { ActionButton } from "../ActionButton";
 
@@ -285,6 +287,27 @@ describe("AlertDialog", () => {
     });
 
     expect(renderPositioner()).toEqual({
+      paddingTop: "47px",
+      paddingRight: "0px",
+      paddingBottom: "47px",
+      paddingLeft: "59px",
+    });
+  });
+
+  it("computes the larger block inset from the provider's numeric insets", () => {
+    // The provider takes precedence over the deprecated global props.
+    setGlobalProps({ safeAreaInsetTop: 10, safeAreaInsetBottom: 20 });
+    render(
+      <SafeAreaProvider insets={{ top: 47, right: 0, bottom: 34, left: 59 }}>
+        <AlertDialog.Root open>
+          <AlertDialog.Positioner>
+            <AlertDialog.Content />
+          </AlertDialog.Positioner>
+        </AlertDialog.Root>
+      </SafeAreaProvider>,
+    );
+
+    expect(dialogViewStyles.at(-1)).toEqual({
       paddingTop: "47px",
       paddingRight: "0px",
       paddingBottom: "47px",
