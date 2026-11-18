@@ -235,6 +235,8 @@ export interface ModeDeclaration {
   kind: "ModeDeclaration";
   id: string;
   description?: string;
+  /** Lower bound of the mode in px, for collections keyed by viewport width. */
+  minWidth?: number;
 }
 
 export interface TokenCollectionDeclaration {
