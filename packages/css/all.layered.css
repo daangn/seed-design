@@ -3788,7 +3788,7 @@
   .seed-checkbox__label--size_large {
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
-    margin-top: calc(var(--seed-dimension-x9) / 2 - var(--seed-line-height-t5) / 2);
+    margin-top: calc(var(--seed-dimension-x9) / 2 - (var(--seed-line-height-t5) * var(--seed-static-font-scale, 1)) / 2);
   }
 
   .seed-checkbox__root--size_medium {
@@ -3799,7 +3799,7 @@
   .seed-checkbox__label--size_medium {
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
-    margin-top: calc(var(--seed-dimension-x8) / 2 - var(--seed-line-height-t4) / 2);
+    margin-top: calc(var(--seed-dimension-x8) / 2 - (var(--seed-line-height-t4) * var(--seed-static-font-scale, 1)) / 2);
   }
 
   .seed-checkbox-group {
@@ -5484,7 +5484,7 @@
     --seed-prefix-icon-size: var(--seed-dimension-x4);
     --seed-prefix-icon-color: var(--seed-color-fg-neutral-subtle);
     --seed-prefix-icon-margin-right: var(--seed-dimension-x1_5);
-    --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4) - var(--seed-dimension-x4)) / 2);
+    --seed-prefix-icon-margin-top: calc(((var(--seed-line-height-t4) * var(--seed-static-font-scale, 1)) - var(--seed-dimension-x4)) / 2);
     display: flex;
   }
 
@@ -5496,7 +5496,7 @@
     --seed-prefix-icon-size: var(--seed-dimension-x4);
     --seed-prefix-icon-color: var(--seed-color-fg-critical);
     --seed-prefix-icon-margin-right: var(--seed-dimension-x1_5);
-    --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4) - var(--seed-dimension-x4)) / 2);
+    --seed-prefix-icon-margin-top: calc(((var(--seed-line-height-t4) * var(--seed-static-font-scale, 1)) - var(--seed-dimension-x4)) / 2);
     display: flex;
   }
 
@@ -5540,7 +5540,7 @@
 
   .seed-field-label__indicatorText {
     vertical-align: bottom;
-    padding-left: clamp(calc(4px * var(--seed-font-size-limit-min)), .25rem, calc(4px * var(--seed-font-size-limit-max)));
+    padding-left: clamp(calc(4px * var(--seed-font-size-limit-min)), calc(.25rem * var(--seed-font-size-multiplier, 1) * var(--seed-static-font-scale, 1)), calc(4px * var(--seed-font-size-limit-max)));
     color: var(--seed-color-fg-neutral-subtle);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t5);
@@ -5550,10 +5550,10 @@
 
   .seed-field-label__indicatorIcon {
     vertical-align: top;
-    width: clamp(calc(6px * var(--seed-font-size-limit-min)), .375rem, calc(6px * var(--seed-font-size-limit-max)));
-    height: clamp(calc(6px * var(--seed-font-size-limit-min)), .375rem, calc(6px * var(--seed-font-size-limit-max)));
-    margin-top: clamp(calc(4px * var(--seed-font-size-limit-min)), .25rem, calc(4px * var(--seed-font-size-limit-max)));
-    margin-left: clamp(calc(2px * var(--seed-font-size-limit-min)), .125rem, calc(2px * var(--seed-font-size-limit-max)));
+    width: clamp(calc(6px * var(--seed-font-size-limit-min)), calc(.375rem * var(--seed-font-size-multiplier, 1) * var(--seed-static-font-scale, 1)), calc(6px * var(--seed-font-size-limit-max)));
+    height: clamp(calc(6px * var(--seed-font-size-limit-min)), calc(.375rem * var(--seed-font-size-multiplier, 1) * var(--seed-static-font-scale, 1)), calc(6px * var(--seed-font-size-limit-max)));
+    margin-top: clamp(calc(4px * var(--seed-font-size-limit-min)), calc(.25rem * var(--seed-font-size-multiplier, 1) * var(--seed-static-font-scale, 1)), calc(4px * var(--seed-font-size-limit-max)));
+    margin-left: clamp(calc(2px * var(--seed-font-size-limit-min)), calc(.125rem * var(--seed-font-size-multiplier, 1) * var(--seed-static-font-scale, 1)), calc(2px * var(--seed-font-size-limit-max)));
     color: var(--seed-color-fg-critical);
     display: inline;
   }
@@ -7991,8 +7991,8 @@
 
   .seed-page-banner__button {
     cursor: pointer;
-    margin: calc((var(--seed-dimension-x10) - var(--seed-line-height-t3)) * .5 * -1);
-    padding: calc((var(--seed-dimension-x10) - var(--seed-line-height-t3)) * .5);
+    margin: calc((var(--seed-dimension-x10) - (var(--seed-line-height-t3) * var(--seed-static-font-scale, 1))) * .5 * -1);
+    padding: calc((var(--seed-dimension-x10) - (var(--seed-line-height-t3) * var(--seed-static-font-scale, 1))) * .5);
     font-family: inherit;
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3);
@@ -9164,7 +9164,7 @@
   .seed-radio__label--size_large {
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
-    margin-top: calc(var(--seed-dimension-x9) / 2 - var(--seed-line-height-t5) / 2);
+    margin-top: calc(var(--seed-dimension-x9) / 2 - (var(--seed-line-height-t5) * var(--seed-static-font-scale, 1)) / 2);
   }
 
   .seed-radio__root--size_medium {
@@ -9175,7 +9175,7 @@
   .seed-radio__label--size_medium {
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
-    margin-top: calc(var(--seed-dimension-x8) / 2 - var(--seed-line-height-t4) / 2);
+    margin-top: calc(var(--seed-dimension-x8) / 2 - (var(--seed-line-height-t4) * var(--seed-static-font-scale, 1)) / 2);
   }
 
   .seed-radio-group {
@@ -11458,7 +11458,7 @@
   }
 
   .seed-slider__markers {
-    height: var(--seed-line-height-t3);
+    height: calc(var(--seed-line-height-t3) * var(--seed-static-font-scale, 1));
     position: relative;
   }
 
@@ -11829,7 +11829,7 @@
   .seed-switch__label--size_16 {
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3);
-    margin-top: calc(var(--seed-dimension-x6) / 2 - var(--seed-line-height-t3) / 2);
+    margin-top: calc(var(--seed-dimension-x6) / 2 - (var(--seed-line-height-t3) * var(--seed-static-font-scale, 1)) / 2);
   }
 
   .seed-switch__root--size_24 {
@@ -11841,7 +11841,7 @@
   .seed-switch__label--size_24 {
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
-    margin-top: calc(var(--seed-dimension-x6) / 2 - var(--seed-line-height-t4) / 2);
+    margin-top: calc(var(--seed-dimension-x6) / 2 - (var(--seed-line-height-t4) * var(--seed-static-font-scale, 1)) / 2);
   }
 
   .seed-switch__root--size_32 {
@@ -11853,7 +11853,7 @@
   .seed-switch__label--size_32 {
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
-    margin-top: calc(var(--seed-dimension-x8) / 2 - var(--seed-line-height-t5) / 2);
+    margin-top: calc(var(--seed-dimension-x8) / 2 - (var(--seed-line-height-t5) * var(--seed-static-font-scale, 1)) / 2);
   }
 
   .seed-switchmark__root {
@@ -12303,10 +12303,10 @@
   }
 
   .seed-tag-group-item__root--size_t2 {
-    --tag-group-item-inline-icon-offset: calc(.65em - var(--seed-line-height-t2) / 2);
-    --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .35em);
-    --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .35em);
-    --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .35em);
+    --tag-group-item-inline-icon-offset: calc(((.65em - var(--seed-line-height-t2) / 2) * var(--seed-static-font-scale, 1)));
+    --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - (.35em * var(--seed-static-font-scale, 1)));
+    --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - (.35em * var(--seed-static-font-scale, 1)));
+    --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - (.35em * var(--seed-static-font-scale, 1)));
     --seed-icon-size: var(--seed-dimension-x3);
     --seed-icon-font-size: var(--seed-font-size-t2);
     --seed-prefix-icon-size: var(--seed-dimension-x3);
@@ -12317,7 +12317,7 @@
 
   @supports (top: 1cap) {
     .seed-tag-group-item__root--size_t2 {
-      --tag-group-item-inline-icon-offset: calc(1em - var(--seed-line-height-t2) / 2 - .5cap);
+      --tag-group-item-inline-icon-offset: calc(((1em - var(--seed-line-height-t2) / 2) * var(--seed-static-font-scale, 1)) - .5cap);
       --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .5cap);
       --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .5cap);
       --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .5cap);
@@ -12330,10 +12330,10 @@
   }
 
   .seed-tag-group-item__root--size_t3 {
-    --tag-group-item-inline-icon-offset: calc(.65em - var(--seed-line-height-t3) / 2);
-    --tag-group-item-icon-flex-offset: calc(13px / 2 - .35em);
-    --tag-group-item-prefix-icon-flex-offset: calc(13px / 2 - .35em);
-    --tag-group-item-suffix-icon-flex-offset: calc(13px / 2 - .35em);
+    --tag-group-item-inline-icon-offset: calc(((.65em - var(--seed-line-height-t3) / 2) * var(--seed-static-font-scale, 1)));
+    --tag-group-item-icon-flex-offset: calc(13px / 2 - (.35em * var(--seed-static-font-scale, 1)));
+    --tag-group-item-prefix-icon-flex-offset: calc(13px / 2 - (.35em * var(--seed-static-font-scale, 1)));
+    --tag-group-item-suffix-icon-flex-offset: calc(13px / 2 - (.35em * var(--seed-static-font-scale, 1)));
     --seed-icon-size: 13px;
     --seed-icon-font-size: var(--seed-font-size-t3);
     --seed-prefix-icon-size: 13px;
@@ -12344,7 +12344,7 @@
 
   @supports (top: 1cap) {
     .seed-tag-group-item__root--size_t3 {
-      --tag-group-item-inline-icon-offset: calc(1em - var(--seed-line-height-t3) / 2 - .5cap);
+      --tag-group-item-inline-icon-offset: calc(((1em - var(--seed-line-height-t3) / 2) * var(--seed-static-font-scale, 1)) - .5cap);
       --tag-group-item-icon-flex-offset: calc(13px / 2 - .5cap);
       --tag-group-item-prefix-icon-flex-offset: calc(13px / 2 - .5cap);
       --tag-group-item-suffix-icon-flex-offset: calc(13px / 2 - .5cap);
@@ -12357,10 +12357,10 @@
   }
 
   .seed-tag-group-item__root--size_t4 {
-    --tag-group-item-inline-icon-offset: calc(.65em - var(--seed-line-height-t4) / 2);
-    --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .35em);
-    --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .35em);
-    --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .35em);
+    --tag-group-item-inline-icon-offset: calc(((.65em - var(--seed-line-height-t4) / 2) * var(--seed-static-font-scale, 1)));
+    --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - (.35em * var(--seed-static-font-scale, 1)));
+    --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - (.35em * var(--seed-static-font-scale, 1)));
+    --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - (.35em * var(--seed-static-font-scale, 1)));
     --seed-icon-size: var(--seed-dimension-x3_5);
     --seed-icon-font-size: var(--seed-font-size-t4);
     --seed-prefix-icon-size: var(--seed-dimension-x3_5);
@@ -12371,7 +12371,7 @@
 
   @supports (top: 1cap) {
     .seed-tag-group-item__root--size_t4 {
-      --tag-group-item-inline-icon-offset: calc(1em - var(--seed-line-height-t4) / 2 - .5cap);
+      --tag-group-item-inline-icon-offset: calc(((1em - var(--seed-line-height-t4) / 2) * var(--seed-static-font-scale, 1)) - .5cap);
       --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .5cap);
       --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .5cap);
       --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .5cap);

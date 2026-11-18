@@ -4,6 +4,7 @@ import {
   sliderTick as tickVars,
 } from "../vars/component";
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
+import { renderedFontLength } from "../utils/font-scale";
 import { disabled, pseudo, focusVisible, focus, not } from "../utils/pseudo";
 import {
   createFocusRingRestStyles,
@@ -175,7 +176,7 @@ const slider = defineSlotRecipe({
       position: "relative",
 
       // we set height here because all markers' position is absolute
-      height: vars.base.enabled.marker.lineHeight,
+      height: `calc${renderedFontLength(vars.base.enabled.marker.lineHeight)}`,
     },
     valueIndicatorRoot: {
       display: "flex",

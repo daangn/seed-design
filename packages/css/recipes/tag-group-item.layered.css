@@ -26,10 +26,10 @@
   }
 
   .seed-tag-group-item__root--size_t2 {
-    --tag-group-item-inline-icon-offset: calc(.65em - var(--seed-line-height-t2) / 2);
-    --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .35em);
-    --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .35em);
-    --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .35em);
+    --tag-group-item-inline-icon-offset: calc(((.65em - var(--seed-line-height-t2) / 2) * var(--seed-static-font-scale, 1)));
+    --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - (.35em * var(--seed-static-font-scale, 1)));
+    --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - (.35em * var(--seed-static-font-scale, 1)));
+    --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - (.35em * var(--seed-static-font-scale, 1)));
     --seed-icon-size: var(--seed-dimension-x3);
     --seed-icon-font-size: var(--seed-font-size-t2);
     --seed-prefix-icon-size: var(--seed-dimension-x3);
@@ -40,7 +40,7 @@
 
   @supports (top: 1cap) {
     .seed-tag-group-item__root--size_t2 {
-      --tag-group-item-inline-icon-offset: calc(1em - var(--seed-line-height-t2) / 2 - .5cap);
+      --tag-group-item-inline-icon-offset: calc(((1em - var(--seed-line-height-t2) / 2) * var(--seed-static-font-scale, 1)) - .5cap);
       --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .5cap);
       --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .5cap);
       --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3) / 2 - .5cap);
@@ -53,10 +53,10 @@
   }
 
   .seed-tag-group-item__root--size_t3 {
-    --tag-group-item-inline-icon-offset: calc(.65em - var(--seed-line-height-t3) / 2);
-    --tag-group-item-icon-flex-offset: calc(13px / 2 - .35em);
-    --tag-group-item-prefix-icon-flex-offset: calc(13px / 2 - .35em);
-    --tag-group-item-suffix-icon-flex-offset: calc(13px / 2 - .35em);
+    --tag-group-item-inline-icon-offset: calc(((.65em - var(--seed-line-height-t3) / 2) * var(--seed-static-font-scale, 1)));
+    --tag-group-item-icon-flex-offset: calc(13px / 2 - (.35em * var(--seed-static-font-scale, 1)));
+    --tag-group-item-prefix-icon-flex-offset: calc(13px / 2 - (.35em * var(--seed-static-font-scale, 1)));
+    --tag-group-item-suffix-icon-flex-offset: calc(13px / 2 - (.35em * var(--seed-static-font-scale, 1)));
     --seed-icon-size: 13px;
     --seed-icon-font-size: var(--seed-font-size-t3);
     --seed-prefix-icon-size: 13px;
@@ -67,7 +67,7 @@
 
   @supports (top: 1cap) {
     .seed-tag-group-item__root--size_t3 {
-      --tag-group-item-inline-icon-offset: calc(1em - var(--seed-line-height-t3) / 2 - .5cap);
+      --tag-group-item-inline-icon-offset: calc(((1em - var(--seed-line-height-t3) / 2) * var(--seed-static-font-scale, 1)) - .5cap);
       --tag-group-item-icon-flex-offset: calc(13px / 2 - .5cap);
       --tag-group-item-prefix-icon-flex-offset: calc(13px / 2 - .5cap);
       --tag-group-item-suffix-icon-flex-offset: calc(13px / 2 - .5cap);
@@ -80,10 +80,10 @@
   }
 
   .seed-tag-group-item__root--size_t4 {
-    --tag-group-item-inline-icon-offset: calc(.65em - var(--seed-line-height-t4) / 2);
-    --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .35em);
-    --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .35em);
-    --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .35em);
+    --tag-group-item-inline-icon-offset: calc(((.65em - var(--seed-line-height-t4) / 2) * var(--seed-static-font-scale, 1)));
+    --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - (.35em * var(--seed-static-font-scale, 1)));
+    --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - (.35em * var(--seed-static-font-scale, 1)));
+    --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - (.35em * var(--seed-static-font-scale, 1)));
     --seed-icon-size: var(--seed-dimension-x3_5);
     --seed-icon-font-size: var(--seed-font-size-t4);
     --seed-prefix-icon-size: var(--seed-dimension-x3_5);
@@ -94,7 +94,7 @@
 
   @supports (top: 1cap) {
     .seed-tag-group-item__root--size_t4 {
-      --tag-group-item-inline-icon-offset: calc(1em - var(--seed-line-height-t4) / 2 - .5cap);
+      --tag-group-item-inline-icon-offset: calc(((1em - var(--seed-line-height-t4) / 2) * var(--seed-static-font-scale, 1)) - .5cap);
       --tag-group-item-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .5cap);
       --tag-group-item-prefix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .5cap);
       --tag-group-item-suffix-icon-flex-offset: calc(var(--seed-dimension-x3_5) / 2 - .5cap);

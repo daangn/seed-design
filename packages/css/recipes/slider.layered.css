@@ -122,7 +122,7 @@
   }
 
   .seed-slider__markers {
-    height: var(--seed-line-height-t3);
+    height: calc(var(--seed-line-height-t3) * var(--seed-static-font-scale, 1));
     position: relative;
   }
 
