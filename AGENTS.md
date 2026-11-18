@@ -58,6 +58,7 @@
 - 패키지 매니저는 `bun`만 쓴다. 의존성은 `bun add`로 바꾸고 `bun.lock`은 손으로 고치지 않는다.
 - 포맷은 변경한 파일만 `bun biome format --write <파일>`로 맞춘다.
 - `.env`, API key, secret은 읽거나 커밋하지 않는다.
+- 이 저장소는 공개 저장소다. 앱 scheme·bundle ID, 사내망 주소, 기기 식별 정보(시리얼, 사설 IP, 시뮬레이터 이름)는 학습 기록·Skill·커밋 메시지에 쓰지 않는다 → 「앱 deep link」「LAN 주소」「iOS 시뮬레이터」처럼 일반화한다.
 - 사용자 요청이 Skill 지침보다 우선한다. Skill 지침 때문에 멈추거나 방향을 바꾸면 근거가 된 `SKILL.md` 경로와 문장을 사용자에게 밝힌다.
 - Lynx 기기에서 `open`·reload·화면 조작을 하기 전에 [session 소유권과 Card 수명](skills/seed-verify-lynx-component/references/concurrency/session-ownership.md)을 읽고 따른다. 여러 에이전트·worktree가 같은 client를 공유한다.
 
