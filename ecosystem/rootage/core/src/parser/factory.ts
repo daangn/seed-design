@@ -883,23 +883,30 @@ export function createUnresolvedTokenValueDeclaration(
  */
 export function createTokenCollectionDeclaration(
   name: string,
-  modes: Array<{ id: string; description?: string }>,
+  modes: Array<{ id: string; description?: string; minWidth?: number }>,
 ): TokenCollectionDeclaration {
   return {
     kind: "TokenCollectionDeclaration",
     name,
-    modes: modes.map(({ id, description }) => createModeDeclaration(id, description)),
+    modes: modes.map(({ id, description, minWidth }) =>
+      createModeDeclaration(id, description, minWidth),
+    ),
   };
 }
 
 /**
  * ModeDeclaration factory
  */
-export function createModeDeclaration(id: string, description?: string): ModeDeclaration {
+export function createModeDeclaration(
+  id: string,
+  description?: string,
+  minWidth?: number,
+): ModeDeclaration {
   return {
     kind: "ModeDeclaration",
     id,
     description,
+    ...(minWidth !== undefined && { minWidth }),
   };
 }
 

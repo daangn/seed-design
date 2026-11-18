@@ -1,21 +1,22 @@
-// the pixel values are duplicated from packages/css/breakpoints/index.mjs
-// since qvism-preset cannot depend on @seed-design/css (css is generated from qvism-preset)
-// edit both together — nothing checks, and drift silently splits the generated media queries from the runtime store that reads the same names
+// minWidth comes from the "viewport-width" collection in packages/rootage/collections.yaml,
+// the same source that generates @seed-design/css/breakpoints and the Tailwind screens.
 
-import type collections from "@seed-design/rootage-artifacts/collections";
+import collections from "@seed-design/rootage-artifacts/collections";
 
-type Breakpoint = Extract<
+type ViewportWidthCollection = Extract<
   (typeof collections.data)[number],
   { name: "viewport-width" }
->["modes"][number]["id"];
+>;
 
-export const breakpointValues = {
-  base: 0,
-  sm: 480,
-  md: 768,
-  lg: 1280,
-  xl: 1440,
-} as const satisfies Record<Breakpoint, number>;
+type Breakpoint = ViewportWidthCollection["modes"][number]["id"];
+
+const viewportWidth = collections.data.find(
+  (collection): collection is ViewportWidthCollection => collection.name === "viewport-width",
+)!;
+
+export const breakpointValues = Object.fromEntries(
+  viewportWidth.modes.map(({ id, minWidth }) => [id, minWidth]),
+) as { [M in ViewportWidthCollection["modes"][number] as M["id"]]: M["minWidth"] };
 
 type NonBaseBreakpoint = Exclude<Breakpoint, "base">;
 

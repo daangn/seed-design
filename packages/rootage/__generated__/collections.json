@@ -40,23 +40,28 @@
       "modes": [
         {
           "id": "base",
-          "description": "세로 모드 폰"
+          "description": "세로 모드 폰",
+          "minWidth": 0
         },
         {
           "id": "sm",
-          "description": "가로 모드 폰 또는 좁은 태블릿"
+          "description": "가로 모드 폰 또는 좁은 태블릿",
+          "minWidth": 480
         },
         {
           "id": "md",
-          "description": "태블릿"
+          "description": "태블릿",
+          "minWidth": 768
         },
         {
           "id": "lg",
-          "description": "데스크톱"
+          "description": "데스크톱",
+          "minWidth": 1280
         },
         {
           "id": "xl",
-          "description": "넓은 데스크톱"
+          "description": "넓은 데스크톱",
+          "minWidth": 1440
         }
       ]
     }

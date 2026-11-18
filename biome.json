@@ -21,6 +21,7 @@
       "!packages/css/vars/**/*",
       "!packages/css/recipes/**/*",
       "!packages/css/*.css",
+      "!packages/css/breakpoints/**/*",
       "!packages/lynx-css/vars/**/*",
       "!packages/lynx-css/recipes/**/*",
       "!packages/lynx-css/*.css",

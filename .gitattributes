@@ -11,10 +11,11 @@
 # list by hand; update them alongside this file.
 #
 # The css packages are listed per subtree because they also hold hand-written
-# sources -- theming/, breakpoints/, scale-feedback/ and qvism.config.mjs.
+# sources -- theming/, scale-feedback/ and qvism.config.mjs.
 packages/css/vars/**                        linguist-generated
 packages/css/recipes/**                     linguist-generated
 packages/css/*.css                          linguist-generated
+packages/css/breakpoints/**                 linguist-generated
 packages/lynx-css/vars/**                   linguist-generated
 packages/lynx-css/recipes/**                linguist-generated
 # 수동 Recipe: packages/lynx-css/AGENTS.md「수동 Recipe: progress-circle」
