@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import * as React from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
 import type { LynxIconElementProps } from "../../types";
-import { Fragment, useEffect } from "@lynx-js/react";
+import { Fragment, useEffect, type ReactNode } from "@lynx-js/react";
 import {
   act,
   fireEvent,
@@ -10,6 +10,7 @@ import {
   render,
   waitFor,
 } from "@lynx-js/react/testing-library";
+import { SafeAreaProvider, type SafeAreaInsets } from "@seed-design/lynx-react-use-safe-area";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import * as AppBar from "./AppBar.namespace";
@@ -19,14 +20,6 @@ type TestSystemInfo = { platform?: string };
 
 interface TestLynxGlobal {
   SystemInfo?: TestSystemInfo;
-  lynx?: {
-    __globalProps?: {
-      safeAreaInsetTop?: number;
-      safeAreaInsetRight?: number;
-      safeAreaInsetBottom?: number;
-      safeAreaInsetLeft?: number;
-    };
-  };
   lynxTestingEnv?: {
     backgroundThread: {
       globalThis: TestLynxGlobal;
@@ -87,22 +80,12 @@ function setSystemInfo(systemInfo: TestSystemInfo | undefined) {
   }
 }
 
-function setGlobalProps(
-  globalProps: NonNullable<NonNullable<TestLynxGlobal["lynx"]>["__globalProps"]>,
-) {
-  const lynxTestingEnv = (globalThis as TestLynxGlobal).lynxTestingEnv;
-  const globals = [
-    globalThis as TestLynxGlobal,
-    lynxTestingEnv?.backgroundThread.globalThis,
-    lynxTestingEnv?.mainThread.globalThis,
-  ].filter((global): global is TestLynxGlobal => Boolean(global));
-
-  for (const global of globals) {
-    global.lynx = {
-      ...global.lynx,
-      __globalProps: globalProps,
-    };
-  }
+function safeAreaWrapper(insets: Partial<SafeAreaInsets>) {
+  return ({ children }: { children?: ReactNode }) => (
+    <SafeAreaProvider insets={{ top: 0, right: 0, bottom: 0, left: 0, ...insets }}>
+      {children}
+    </SafeAreaProvider>
+  );
 }
 
 function stubPlatform(platform: string | undefined) {
@@ -112,7 +95,6 @@ function stubPlatform(platform: string | undefined) {
 describe("AppBar", () => {
   afterEach(() => {
     setSystemInfo({ platform: "iOS" });
-    setGlobalProps({});
     vi.unstubAllGlobals();
   });
 
@@ -150,9 +132,7 @@ describe("AppBar", () => {
   });
 
   it("applies safe area from useSafeArea to the root layout", () => {
-    setGlobalProps({ safeAreaInsetTop: 47 });
-
-    render(<AppBar.Root theme="cupertino" />);
+    render(<AppBar.Root theme="cupertino" />, { wrapper: safeAreaWrapper({ top: 47 }) });
 
     expectStyle(getAppBarRoot().style, {
       height: "calc(103px)",
@@ -161,9 +141,7 @@ describe("AppBar", () => {
   });
 
   it("adds left and right safe area insets to the root padding", () => {
-    setGlobalProps({ safeAreaInsetRight: 0, safeAreaInsetLeft: 59 });
-
-    render(<AppBar.Root theme="cupertino" />);
+    render(<AppBar.Root theme="cupertino" />, { wrapper: safeAreaWrapper({ right: 0, left: 59 }) });
 
     expectStyle(getAppBarRoot().style, {
       "padding-left": "calc(75px)",
@@ -172,13 +150,12 @@ describe("AppBar", () => {
   });
 
   it("does not read the safe area CSS variable override as the JS layout source", () => {
-    setGlobalProps({ safeAreaInsetTop: 47 });
-
     render(
       <AppBar.Root
         theme="cupertino"
         style={{ "--seed-safe-area-top": "0px" } as AppBar.RootProps["style"]}
       />,
+      { wrapper: safeAreaWrapper({ top: 47 }) },
     );
 
     expectStyle(getAppBarRoot().style, {
@@ -188,14 +165,13 @@ describe("AppBar", () => {
   });
 
   it("keeps Cupertino title-only main centered in the safe-area adjusted bar", () => {
-    setGlobalProps({ safeAreaInsetTop: 47 });
-
     render(
       <AppBar.Root theme="cupertino">
         <AppBar.Main>
           <AppBar.Title>Title</AppBar.Title>
         </AppBar.Main>
       </AppBar.Root>,
+      { wrapper: safeAreaWrapper({ top: 47 }) },
     );
 
     const main = getAppBarRoot().querySelector<HTMLElement>(".seed-app-bar-main__root");
@@ -300,8 +276,6 @@ describe("AppBar", () => {
   });
 
   it("updates centered title padding from left and right layout widths", async () => {
-    setGlobalProps({ safeAreaInsetRight: 0, safeAreaInsetLeft: 59 });
-
     render(
       <AppBar.Root>
         <AppBar.Left>
@@ -314,6 +288,7 @@ describe("AppBar", () => {
           <text>Right</text>
         </AppBar.Right>
       </AppBar.Root>,
+      { wrapper: safeAreaWrapper({ right: 0, left: 59 }) },
     );
 
     const root = getAppBarRoot();

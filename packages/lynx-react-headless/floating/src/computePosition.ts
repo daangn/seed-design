@@ -100,7 +100,7 @@ function getTransformOrigin(placement: Placement) {
 
 /**
  * 모든 좌표와 크기는 동일한 화면 기준 논리 px입니다.
- * boundary는 `measureFloatingBoundary`로 안전 영역을 뺀 rect를 넘깁니다. 결과의 컨테이너 상대 좌표 변환은
+ * boundary는 `getSafeAreaBoundary`로 안전 영역을 뺀 rect를 넘깁니다. 결과의 컨테이너 상대 좌표 변환은
  * 호출자 책임입니다.
  *
  * availableWidth로 너비를 제한했다면 줄바꿈 후 실제 높이를 다시 측정해 호출합니다.

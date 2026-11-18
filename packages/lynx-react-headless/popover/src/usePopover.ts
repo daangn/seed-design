@@ -7,13 +7,7 @@ import {
   type MutableRefObject,
 } from "@lynx-js/react";
 import type { NodesRef } from "@lynx-js/types";
-import type {
-  Placement,
-  Position,
-  Rect,
-  SafeAreaProbeNodes,
-  Side,
-} from "@seed-design/lynx-react-floating";
+import type { Placement, Position, Rect, Side } from "@seed-design/lynx-react-floating";
 import { useControllableState } from "@seed-design/lynx-react-use-controllable-state";
 
 export interface UsePopoverProps {
@@ -110,8 +104,6 @@ export interface UsePopoverReturn {
   anchorRef: MutableRefObject<NodesRef | null>;
   triggerRef: MutableRefObject<NodesRef | null>;
   layerRef: MutableRefObject<NodesRef | null>;
-  /** 위치 계산 경계를 정하는 `SafeAreaProbe` node입니다. */
-  safeAreaRef: MutableRefObject<SafeAreaProbeNodes>;
   arrowRef: MutableRefObject<PopoverArrowGeometry | null>;
   isOpenRef: MutableRefObject<boolean>;
   openEpochRef: MutableRefObject<number>;
@@ -213,7 +205,6 @@ export function usePopover(props: UsePopoverProps = {}): UsePopoverReturn {
   const anchorRef = useRef<NodesRef | null>(null);
   const triggerRef = useRef<NodesRef | null>(null);
   const layerRef = useRef<NodesRef | null>(null);
-  const safeAreaRef = useRef<SafeAreaProbeNodes>({ start: null, end: null });
   const arrowRef = useRef<PopoverArrowGeometry | null>(null);
 
   if (open && !isOpenRef.current) openEpochRef.current += 1;
@@ -307,7 +298,6 @@ export function usePopover(props: UsePopoverProps = {}): UsePopoverReturn {
       anchorRef,
       triggerRef,
       layerRef,
-      safeAreaRef,
       arrowRef,
       isOpenRef,
       openEpochRef,

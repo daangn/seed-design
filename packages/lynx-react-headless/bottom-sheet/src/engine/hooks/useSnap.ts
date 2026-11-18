@@ -60,8 +60,8 @@ export function useSnap({
   snapAnimation = { type: "spring", stiffness: 200, damping: 60 },
   side = "bottom",
   enableRTL = false,
-  screenHeight: userScreenHeight,
-  screenWidth: userScreenWidth,
+  screenHeight = 500,
+  screenWidth = 375,
   rubberBand,
   onSnapChange = noop,
   onDismiss,
@@ -102,17 +102,6 @@ export function useSnap({
     toProgress: 0,
   });
 
-  // TODO(next major): global props 직접 읽기를 제거한다. styled `BottomSheet.Root`는 `SeedProvider` 값을 prop으로 넘긴다.
-  const screenHeight: number =
-    userScreenHeight ??
-    // @ts-expect-error TS2339: 호스트가 제공하는 screenHeight가 ReactLynx GlobalProps 타입에는 선언되어 있지 않다.
-    lynx.__globalProps?.screenHeight ??
-    500;
-  const screenWidth: number =
-    userScreenWidth ??
-    // @ts-expect-error TS2339: 호스트가 제공하는 screenWidth가 ReactLynx GlobalProps 타입에는 선언되어 있지 않다.
-    lynx.__globalProps?.screenWidth ??
-    375;
   const viewportSize = getMainAxisSize(resolvedSide, {
     screenHeight,
     screenWidth,

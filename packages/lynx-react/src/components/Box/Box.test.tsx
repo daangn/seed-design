@@ -1,30 +1,12 @@
 import "@testing-library/jest-dom";
-import { createRef } from "@lynx-js/react";
+import { createRef, type ReactNode } from "@lynx-js/react";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
 import type { NodesRef } from "@lynx-js/types";
+import { SafeAreaProvider, type SafeAreaInsets } from "@seed-design/lynx-react-use-safe-area";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { Text } from "../Text";
 import { Box } from "./Box";
-
-interface TestLynxGlobal {
-  lynx?: {
-    __globalProps?: {
-      safeAreaInsetTop?: number;
-      safeAreaInsetRight?: number;
-      safeAreaInsetBottom?: number;
-      safeAreaInsetLeft?: number;
-    };
-  };
-  lynxTestingEnv?: {
-    backgroundThread: {
-      globalThis: TestLynxGlobal;
-    };
-    mainThread: {
-      globalThis: TestLynxGlobal;
-    };
-  };
-}
 
 function getRenderedRoot() {
   const root = elementTree.root;
@@ -42,40 +24,25 @@ function expectStyle(style: CSSStyleDeclaration, expected: Record<string, string
   }
 }
 
-function setGlobalProps(
-  globalProps: NonNullable<NonNullable<TestLynxGlobal["lynx"]>["__globalProps"]>,
-) {
-  const lynxTestingEnv = (globalThis as TestLynxGlobal).lynxTestingEnv;
-  const globals = [
-    globalThis as TestLynxGlobal,
-    lynxTestingEnv?.backgroundThread.globalThis,
-    lynxTestingEnv?.mainThread.globalThis,
-  ].filter((global): global is TestLynxGlobal => Boolean(global));
-
-  for (const global of globals) {
-    global.lynx = {
-      ...global.lynx,
-      __globalProps: globalProps,
-    };
-  }
+function safeAreaWrapper(insets: Partial<SafeAreaInsets>) {
+  return ({ children }: { children?: ReactNode }) => (
+    <SafeAreaProvider insets={{ top: 0, right: 0, bottom: 0, left: 0, ...insets }}>
+      {children}
+    </SafeAreaProvider>
+  );
 }
 
 describe("Box", () => {
   afterEach(() => {
-    setGlobalProps({});
     vi.unstubAllGlobals();
   });
 
-  it("resolves top and bottom safe area padding from global props", () => {
-    setGlobalProps({
-      safeAreaInsetTop: 47,
-      safeAreaInsetBottom: 34,
-    });
-
+  it("resolves top and bottom safe area padding from SafeAreaProvider", () => {
     render(
       <Box className="box-test" pt="safeArea" pb="safeArea">
         <Text>Box content</Text>
       </Box>,
+      { wrapper: safeAreaWrapper({ top: 47, bottom: 34 }) },
     );
 
     const box = getRenderedRoot().querySelector(".box-test");
@@ -87,16 +54,12 @@ describe("Box", () => {
     });
   });
 
-  it("resolves left and right safe area padding from global props", () => {
-    setGlobalProps({
-      safeAreaInsetRight: 62,
-      safeAreaInsetLeft: 59,
-    });
-
+  it("resolves left and right safe area padding from SafeAreaProvider", () => {
     render(
       <Box className="box-test" pl="safeArea" pr="safeArea">
         <Text>Box content</Text>
       </Box>,
+      { wrapper: safeAreaWrapper({ right: 62, left: 59 }) },
     );
 
     const box = getRenderedRoot().querySelector(".box-test");
@@ -143,13 +106,10 @@ describe("Box", () => {
     });
   });
 
-  it("negates safe area bleed from global props", () => {
-    setGlobalProps({
-      safeAreaInsetRight: 62,
-      safeAreaInsetLeft: 59,
+  it("negates safe area bleed from SafeAreaProvider", () => {
+    render(<Box className="box-test" bleedX="safeArea" />, {
+      wrapper: safeAreaWrapper({ right: 62, left: 59 }),
     });
-
-    render(<Box className="box-test" bleedX="safeArea" />);
 
     const box = getRenderedRoot().querySelector(".box-test");
 
@@ -159,15 +119,15 @@ describe("Box", () => {
     });
   });
 
-  it("negates the env() fallback when the host omits safe area bleed insets", () => {
+  it("negates zero insets when no SafeAreaProvider is present", () => {
     render(<Box className="box-test" bleedX="safeArea" />);
 
     const box = getRenderedRoot().querySelector(".box-test");
 
-    // happy-dom normalizes the `calc(env(...) * -1)` that Box emits.
+    // happy-dom folds the constant `calc(0px * -1)` that Box emits.
     expectStyle((box as HTMLElement).style, {
-      "margin-left": "calc(env(safe-area-inset-left) *-1)",
-      "margin-right": "calc(env(safe-area-inset-right) *-1)",
+      "margin-left": "calc(0px)",
+      "margin-right": "calc(0px)",
     });
   });
 

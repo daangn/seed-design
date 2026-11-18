@@ -4,11 +4,11 @@ import { OverlayView, type OverlayViewProps } from "@lynx-js/lynx-ui-overlay";
 import type { CSSProperties, IntrinsicElements, NodesRef } from "@lynx-js/types";
 import {
   computePosition,
-  type FloatingBoundary,
-  measureFloatingBoundary,
+  getSafeAreaBoundary,
   measureReferenceRect,
-  SafeAreaProbe,
+  measureRootRect,
 } from "@seed-design/lynx-react-floating";
+import { SafeAreaContext } from "@seed-design/lynx-react-use-safe-area";
 import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
 
 import { usePopover, type UsePopoverProps } from "./usePopover.js";
@@ -240,7 +240,7 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
     ...nativeProps
   } = props;
   const api = usePopoverContext();
-  const { setOpen, layerRef, safeAreaRef, positionStore } = api;
+  const { setOpen, layerRef, positionStore } = api;
   const position = usePopoverPosition((snapshot) => snapshot.position);
   const layerRect = usePopoverPosition((snapshot) => snapshot.layerRect);
   const handleGlobalTap = React.useCallback<TapHandler>(
@@ -287,7 +287,6 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
   if (!container) {
     return (
       <OverlayView overlayViewProps={overlayViewProps}>
-        <SafeAreaProbe nodesRef={safeAreaRef} position="fixed" />
         <view
           {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
           className={className}
@@ -321,7 +320,6 @@ export const PopoverPositioner = React.forwardRef<unknown, PopoverPositionerProp
         style={{ width: "100%", height: "100%" }}
         {...globalTapProps}
       >
-        <SafeAreaProbe nodesRef={safeAreaRef} position="absolute" />
         <view
           {...(ref ? { ref: ref as ViewProps["ref"] } : {})}
           className={className}
@@ -361,6 +359,7 @@ export interface PopoverContentProps extends StyledViewProps {}
  */
 export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((props, ref) => {
   const { children, className, style, bindlayoutchange, ...nativeProps } = props;
+  const safeAreaInsets = React.useContext(SafeAreaContext);
   const api = usePopoverContext();
   const {
     open,
@@ -373,7 +372,6 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
     anchorRef,
     triggerRef,
     layerRef,
-    safeAreaRef,
     arrowRef,
     placement,
     gutter,
@@ -385,8 +383,6 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
     finishClose: finishPopoverClose,
   } = api;
   const measurementVersionRef = React.useRef(0);
-  // 매 frame 추적에서 안전 영역은 root 크기가 바뀔 때만 다시 측정합니다.
-  const boundaryRef = React.useRef<FloatingBoundary | null>(null);
   const intrinsicWidthRef = React.useRef<number | null>(null);
   const measurementConfigRef = React.useRef(0);
   const configuredStyleRef = React.useRef(style);
@@ -462,14 +458,14 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
       openEpoch === openEpochRef.current &&
       currentPositionRevision === positionRevisionRef.current;
     try {
-      const [reference, floatingBoundary, layer] = await Promise.all([
+      const [reference, root, layer] = await Promise.all([
         measureReferenceRect(referenceNode),
-        measureFloatingBoundary(safeAreaRef.current, boundaryRef.current),
+        measureRootRect(),
         layerNode ? getRectByRef({ current: layerNode }, true) : null,
       ]);
       if (!isCurrent()) return;
-      boundaryRef.current = floatingBoundary;
-      const { root, boundary } = floatingBoundary;
+      // view 모드는 레이어 없이 page의 `position: fixed`로 그리므로 inset 기준이 root입니다.
+      const boundary = getSafeAreaBoundary(root, layer ?? root, safeAreaInsets);
       const width = widthConstraint ?? intrinsicWidthRef.current ?? intrinsicSize.width;
       const arrow = arrowRef.current;
       const nextPosition = await computePosition({
@@ -519,7 +515,7 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
     placement,
     positionRevisionRef,
     resetPosition,
-    safeAreaRef,
+    safeAreaInsets,
     setPosition,
     triggerRef,
     widthConstraint,
@@ -529,7 +525,6 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
     "background only";
     measurementVersionRef.current += 1;
     intrinsicWidthRef.current = null;
-    boundaryRef.current = null;
     setWidthConstraint(null);
     setIntrinsicSize(null);
     resetPosition();

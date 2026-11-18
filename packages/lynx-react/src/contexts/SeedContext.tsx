@@ -15,10 +15,8 @@ import {
   type SafeAreaInsets,
 } from "@seed-design/lynx-react-use-safe-area";
 
-import { readDeprecatedGlobalProp } from "../utils/deprecated-global-props";
 import type { ColorMode } from "../utils/get-seed-class-name";
 import { resolveGlassEffect, type ResolvedGlassEffect } from "../utils/glass-effect";
-import { useHostGlobalProps } from "../utils/use-host-global-props";
 import { ColorModeProvider, useColorMode } from "./ColorModeContext";
 
 /**
@@ -44,7 +42,7 @@ export interface SeedContextValue {
   preferredColorScheme?: "light" | "dark";
   /** 호스트가 선호하는 모션 강도. `"reduced"`이면 Scale Feedback 등 장식용 모션을 끈다. */
   preferredMotion?: PreferredMotion;
-  /** 하위 트리의 safe area inset. 생략하면 `useSafeArea`가 기존 fallback 경로를 쓴다. */
+  /** 하위 트리의 safe area inset. 생략하면 바깥 값을 이어받고, 없으면 `useSafeArea`가 모든 방향에 `"0px"`를 돌려준다. */
   safeAreaInsets?: SafeAreaInsets;
   /**
    * 호스트가 Liquid Glass를 그릴 수 있으면 `true`. 판단은 호스트가 하고 SEED는 이 값만 따른다.
@@ -153,44 +151,26 @@ export function SeedProvider({
   );
 }
 
-function toColorScheme(value: unknown): "light" | "dark" | undefined {
-  if (typeof value !== "string") return undefined;
-  return value.toLowerCase() === "dark" ? "dark" : "light";
-}
-
-function toMotion(value: unknown): PreferredMotion | undefined {
-  if (value === undefined) return undefined;
-  return value === "reduced" ? "reduced" : "default";
-}
-
 /**
  * `SeedProvider`가 받은 값을 그대로 돌려준다. 파생 계산은 하지 않는다.
  *
- * Provider가 없거나 필드를 생략하면, 다음 메이저 전까지 기존 global props(`theme`, `motion`)로
- * 그 필드를 채운다(deprecated). `safeAreaInsets`는 global props로 채우지 않는다.
+ * Provider가 없거나 필드를 생략하면 그 필드는 `undefined`다.
  */
 export function useSeedContext(): SeedContextValue {
   const host = useContext(SeedContext);
   const safeAreaInsets = useContext(SafeAreaContext);
-  // deprecated fallback도 host 값 변경에 반응하도록 `globalPropsMode`에 맞게 읽는다.
-  const globalProps = useHostGlobalProps();
-
-  const preferredColorScheme =
-    host.preferredColorScheme ?? toColorScheme(readDeprecatedGlobalProp(globalProps, "theme"));
-  const preferredMotion =
-    host.preferredMotion ?? toMotion(readDeprecatedGlobalProp(globalProps, "motion"));
 
   return useMemo(
     () => ({
-      preferredColorScheme,
-      preferredMotion,
+      preferredColorScheme: host.preferredColorScheme,
+      preferredMotion: host.preferredMotion,
       safeAreaInsets,
       supportsLiquidGlass: host.supportsLiquidGlass,
       glassEffect: host.glassEffect,
     }),
     [
-      preferredColorScheme,
-      preferredMotion,
+      host.preferredColorScheme,
+      host.preferredMotion,
       safeAreaInsets,
       host.supportsLiquidGlass,
       host.glassEffect,

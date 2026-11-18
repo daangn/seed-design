@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { act, cleanup, createEvent, fireEvent, render } from "@lynx-js/react/testing-library";
 import type * as LynxUiCommon from "@lynx-js/lynx-ui-common";
 import type { Rect } from "@seed-design/lynx-react-floating";
+import { SafeAreaProvider } from "@seed-design/lynx-react-use-safe-area";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { Select, type SelectOpenChangeDetails, type SelectSelectedItem } from "./index.js";
@@ -40,33 +41,6 @@ function elementForRef(current: unknown) {
   const refAttr = current.refAttr;
   if (!Array.isArray(refAttr)) return null;
   return elementTree.root?.querySelector(`[react-ref-${refAttr[0]}-${refAttr[1]}]`) ?? null;
-}
-
-const PROBE_STYLE = "width:0px;height:0px";
-
-/**
- * SafeAreaProbe는 0×0 view 두 개를 왼쪽 위·오른쪽 아래 순서로 그리고, inline style의 px inset에 놓입니다.
- * jsdom은 `env()` 값을 버리므로 host 값이 없으면 0으로 봅니다.
- */
-function safeAreaProbeRect(element: Element | null) {
-  const style = element ? styleOf(element) : "";
-  if (!style.includes(PROBE_STYLE)) return null;
-  const inset = (edge: string) =>
-    Number(style.match(new RegExp(`(?:^|;)${edge}:([\\d.]+)px`))?.[1] ?? 0);
-  const previous = element?.previousElementSibling;
-  return previous && styleOf(previous).includes(PROBE_STYLE)
-    ? toRect({ left: 390 - inset("right"), top: 844 - inset("bottom"), width: 0, height: 0 })
-    : toRect({ left: inset("left"), top: inset("top"), width: 0, height: 0 });
-}
-
-function setSafeAreaInsetBottom(safeAreaInsetBottom: number | undefined) {
-  for (const target of [
-    lynxTestingEnv.backgroundThread.globalThis,
-    lynxTestingEnv.mainThread.globalThis,
-    globalThis,
-  ] as Array<Record<string, unknown>>) {
-    target["lynx"] = { ...(target["lynx"] as object), __globalProps: { safeAreaInsetBottom } };
-  }
 }
 
 // 측정은 비동기 native query를 거치므로 frame과 macrotask를 번갈아 진행합니다.
@@ -111,7 +85,6 @@ function backdrop() {
 
 beforeEach(() => {
   cleanup();
-  setSafeAreaInsetBottom(undefined);
   frames.length = 0;
   triggerBox = { left: 20, top: 100, width: 350, height: 48 };
   listBox = { left: 0, top: 0, width: 350, height: 200 };
@@ -131,8 +104,6 @@ beforeEach(() => {
   geometry.getRectByRef.mockImplementation(async (ref: { current: unknown }) => {
     if (ref.current === ROOT) return toRect({ left: 0, top: 0, width: 390, height: 844 });
     const element = elementForRef(ref.current);
-    const safeArea = safeAreaProbeRect(element);
-    if (safeArea) return safeArea;
     if (element?.parentElement?.classList.contains("positioner")) {
       return toRect({ left: 0, top: 0, width: 390, height: 844 });
     }
@@ -315,11 +286,14 @@ describe("Select", () => {
     expect(styleOf(query(".content"))).toContain("visibility:visible");
   });
 
-  it("keeps the list above the host's bottom safe area inset", async () => {
-    setSafeAreaInsetBottom(34);
+  it("keeps the list above the provider's bottom safe area inset", async () => {
     triggerBox = { left: 20, top: 520, width: 350, height: 48 };
     listBox = { left: 0, top: 0, width: 350, height: 300 };
-    render(<TestSelect rootProps={{ defaultOpen: true }} />);
+    render(
+      <SafeAreaProvider insets={{ top: 0, right: 0, bottom: 34, left: 0 }}>
+        <TestSelect rootProps={{ defaultOpen: true }} />
+      </SafeAreaProvider>,
+    );
     await flush();
 
     // 화면 높이 844 - 하단 inset 34 - overflowPadding 8 = 802까지만 내려옵니다.

@@ -1,7 +1,7 @@
 import type { ReactNode } from "@lynx-js/react";
 
 import { render } from "@lynx-js/react/testing-library";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 const dialogViewStyles = vi.hoisted(() => [] as unknown[]);
 
@@ -48,45 +48,21 @@ vi.mock("@lynx-js/lynx-ui-dialog", () => {
 
 import * as Dialog from "./Dialog.namespace";
 import { ActionButton } from "../ActionButton";
+import { SeedProvider, type SeedContextValue } from "../../contexts";
 
-interface TestLynxGlobal {
-  lynx?: {
-    __globalProps?: {
-      safeAreaInsetTop?: number;
-      safeAreaInsetRight?: number;
-      safeAreaInsetBottom?: number;
-      safeAreaInsetLeft?: number;
-    };
-  };
-  lynxTestingEnv?: {
-    backgroundThread: { globalThis: TestLynxGlobal };
-    mainThread: { globalThis: TestLynxGlobal };
-  };
-}
-
-function setGlobalProps(
-  globalProps: NonNullable<NonNullable<TestLynxGlobal["lynx"]>["__globalProps"]>,
+function renderPositioner(
+  safeAreaInsets?: SeedContextValue["safeAreaInsets"],
+  style?: Dialog.PositionerProps["style"],
 ) {
-  const lynxTestingEnv = (globalThis as TestLynxGlobal).lynxTestingEnv;
-  const globals = [
-    globalThis as TestLynxGlobal,
-    lynxTestingEnv?.backgroundThread.globalThis,
-    lynxTestingEnv?.mainThread.globalThis,
-  ].filter((global): global is TestLynxGlobal => Boolean(global));
-
-  for (const global of globals) {
-    global.lynx = { ...global.lynx, __globalProps: globalProps };
-  }
-}
-
-function renderPositioner(style?: Dialog.PositionerProps["style"]) {
   render(
-    <Dialog.Root open>
-      <Dialog.Positioner style={style}>
-        <Dialog.Backdrop />
-        <Dialog.Content />
-      </Dialog.Positioner>
-    </Dialog.Root>,
+    <SeedProvider safeAreaInsets={safeAreaInsets}>
+      <Dialog.Root open>
+        <Dialog.Positioner style={style}>
+          <Dialog.Backdrop />
+          <Dialog.Content />
+        </Dialog.Positioner>
+      </Dialog.Root>
+    </SeedProvider>,
   );
 
   return dialogViewStyles.at(-1);
@@ -120,10 +96,6 @@ describe("Dialog", () => {
     const namedTrigger = container.querySelector('.trigger > view[accessibility-element="true"]');
     expect(namedTrigger?.getAttribute("accessibility-label")).toBe("다이얼로그 열기");
     expect(namedTrigger?.textContent).toBe("Open");
-  });
-
-  afterEach(() => {
-    setGlobalProps({});
   });
 
   it("applies SEED slots and renders Body as a vertical scroll-view", () => {
@@ -196,14 +168,7 @@ describe("Dialog", () => {
   });
 
   it("pads the positioner by the side insets and the larger block inset on both sides", () => {
-    setGlobalProps({
-      safeAreaInsetTop: 47,
-      safeAreaInsetRight: 0,
-      safeAreaInsetBottom: 34,
-      safeAreaInsetLeft: 59,
-    });
-
-    expect(renderPositioner()).toEqual({
+    expect(renderPositioner({ top: 47, right: 0, bottom: 34, left: 59 })).toEqual({
       paddingTop: "47px",
       paddingRight: "0px",
       paddingBottom: "47px",
@@ -211,21 +176,22 @@ describe("Dialog", () => {
     });
   });
 
-  it("adds the block insets when one of them falls back to env()", () => {
-    setGlobalProps({ safeAreaInsetBottom: 34 });
-
+  it("treats every inset as 0 without a safe area provider", () => {
     expect(renderPositioner()).toEqual({
-      paddingTop: "calc(env(safe-area-inset-top) + 34px)",
-      paddingRight: "env(safe-area-inset-right)",
-      paddingBottom: "calc(env(safe-area-inset-top) + 34px)",
-      paddingLeft: "env(safe-area-inset-left)",
+      paddingTop: "0px",
+      paddingRight: "0px",
+      paddingBottom: "0px",
+      paddingLeft: "0px",
     });
   });
 
   it("lets the positioner style override the safe area padding", () => {
-    setGlobalProps({ safeAreaInsetLeft: 59 });
-
-    expect(renderPositioner({ paddingLeft: "0px", opacity: 0.5 })).toMatchObject({
+    expect(
+      renderPositioner(
+        { top: 0, right: 0, bottom: 0, left: 59 },
+        { paddingLeft: "0px", opacity: 0.5 },
+      ),
+    ).toMatchObject({
       paddingLeft: "0px",
       opacity: 0.5,
     });

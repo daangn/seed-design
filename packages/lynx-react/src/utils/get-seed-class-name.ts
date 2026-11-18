@@ -1,4 +1,3 @@
-import { readDeprecatedGlobalProp } from "./deprecated-global-props";
 import { resolveColorScheme } from "./resolve-color-scheme";
 
 export type ColorMode = "system" | "light-only" | "dark-only";
@@ -9,7 +8,7 @@ export interface GetSeedClassNameOptions {
    * `colorMode`가 `"system"`일 때 적용할 색상 스킴. 보통 `SeedProvider`에 넘기는
    * `preferredColorScheme`과 같은 값을 넘긴다.
    *
-   * 생략하면 deprecated 경로로 `lynx.__globalProps.theme`을 읽고, 그 값도 없으면 `"light"`다.
+   * 생략하면 `"light"`다.
    */
   colorScheme?: "light" | "dark";
 }
@@ -35,15 +34,7 @@ export interface GetSeedClassNameOptions {
  */
 export function getSeedClassName(options?: GetSeedClassNameOptions): string {
   const { colorMode, colorScheme } = options ?? {};
-  const scheme = resolveColorScheme(
-    colorMode,
-    () =>
-      colorScheme ??
-      readDeprecatedGlobalProp(
-        typeof lynx !== "undefined" ? lynx.__globalProps : undefined,
-        "theme",
-      ),
-  );
+  const scheme = resolveColorScheme(colorMode, () => colorScheme);
 
   return `seed-user-color-scheme-${scheme}`;
 }

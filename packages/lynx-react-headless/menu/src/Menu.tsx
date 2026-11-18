@@ -10,10 +10,11 @@ import type {
 } from "@lynx-js/types";
 import {
   computePosition,
-  measureFloatingBoundary,
+  getSafeAreaBoundary,
   measureReferenceRect,
-  SafeAreaProbe,
+  measureRootRect,
 } from "@seed-design/lynx-react-floating";
+import { SafeAreaContext } from "@seed-design/lynx-react-use-safe-area";
 import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
 
 import { useMenu, type UseMenuProps } from "./useMenu.js";
@@ -249,16 +250,8 @@ export const MenuPositioner = React.forwardRef<unknown, MenuPositionerProps>((pr
   const { children, className, style, container, overlayLevel, overlayViewProps, ...nativeProps } =
     props;
   const overlayEvents = overlayViewProps as OverlayEventProps | undefined;
-  const {
-    mounted,
-    setOpen,
-    finishClose,
-    layerRef,
-    safeAreaRef,
-    layerRect,
-    triggerRect,
-    triggerHandlers,
-  } = useMenuContext();
+  const { mounted, setOpen, finishClose, layerRef, layerRect, triggerRect, triggerHandlers } =
+    useMenuContext();
   // iOS는 overlayLevel을 지정해 mount하면 표시 전에 binddismissoverlay를 한 번 보냅니다. 표시된 뒤의
   // 닫힘만 "dismiss"로 처리합니다. OverlayView처럼 mount 때의 overlayLevel을 기준으로 삼습니다.
   const shownRef = React.useRef(overlayLevel === undefined);
@@ -341,9 +334,7 @@ export const MenuPositioner = React.forwardRef<unknown, MenuPositionerProps>((pr
       }}
     >
       <view ref={handleLayerRef as ViewProps["ref"]} style={FILL_STYLE} {...nativeProps}>
-        <view style={BACKDROP_STYLE} bindtap={handleBackdropTap}>
-          <SafeAreaProbe nodesRef={safeAreaRef} position="absolute" />
-        </view>
+        <view style={BACKDROP_STYLE} bindtap={handleBackdropTap} />
         {triggerProxyStyle && <view style={triggerProxyStyle} {...triggerHandlers} />}
         {children}
       </view>
@@ -369,6 +360,7 @@ export interface MenuContentProps extends StyledViewProps {}
  */
 export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, ref) => {
   const { children, style, bindlayoutchange, ...nativeProps } = props;
+  const safeAreaInsets = React.useContext(SafeAreaContext);
   const {
     open,
     mounted,
@@ -381,7 +373,6 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
     anchorRef,
     triggerRef,
     layerRef,
-    safeAreaRef,
     placement,
     gutter,
     overflowPadding,
@@ -426,13 +417,14 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
       isOpenRef.current &&
       openEpoch === openEpochRef.current;
     try {
-      const [reference, { boundary }, layer, trigger] = await Promise.all([
+      const [reference, root, layer, trigger] = await Promise.all([
         measureReferenceRect(referenceNode),
-        measureFloatingBoundary(safeAreaRef.current),
+        measureRootRect(),
         getRectByRef({ current: layerNode }, true),
         triggerNode ? measureReferenceRect(triggerNode) : null,
       ]);
       if (!isCurrent()) return;
+      const boundary = getSafeAreaBoundary(root, layer, safeAreaInsets);
       const intrinsicWidth = matchReferenceWidth
         ? reference.width
         : (intrinsicWidthRef.current ?? intrinsicSize.width);
@@ -478,7 +470,7 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
     overflowPadding,
     placement,
     resetPosition,
-    safeAreaRef,
+    safeAreaInsets,
     setPosition,
     triggerRef,
     widthConstraint,

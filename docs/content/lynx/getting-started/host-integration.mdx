@@ -12,9 +12,9 @@ SEED는 특정 호스트의 global props 키를 직접 읽지 않고, 앱이 `Se
 | prop | 타입 | 사용하는 곳 | 생략했을 때 |
 | --- | --- | --- | --- |
 | `colorMode` | `"system" \| "light-only" \| "dark-only"` | `useSeedClassName`의 기본 `colorMode`, Liquid Glass tint | 바깥 값, 없으면 `"system"` |
-| `preferredColorScheme` | `"light" \| "dark"` | `useSeedClassName`의 `colorMode: "system"`, 아이콘 색상 동기화, Liquid Glass tint | `"light"` |
+| `preferredColorScheme` | `"light" \| "dark"` | `useSeedClassName`의 `colorMode: "system"`, 아이콘 색상 동기화, Liquid Glass tint | `"light"` 테마 (`useSeedContext()` 값은 `undefined`) |
 | `preferredMotion` | `"default" \| "reduced"` | [Scale Feedback](/lynx/components/concepts/scale-feedback). `"reduced"`이면 눌림 축소를 끕니다 | `"default"` |
-| `safeAreaInsets` | `{ top, right, bottom, left }` (논리 px) | `useSafeArea`, `Box`의 `"safeArea"`, AppBar, Dialog, MenuSheet, floating 레이어 경계 | `env(safe-area-inset-*)` |
+| `safeAreaInsets` | `{ top, right, bottom, left }` (논리 px) | `useSafeArea`, `Box`의 `"safeArea"`, AppBar, Dialog, MenuSheet, floating 레이어 경계 | 네 방향 모두 `"0px"` |
 
 화면 크기는 넘기지 않습니다. SEED는 [`useViewport`](/lynx/hooks/use-viewport)로 현재 LynxView 크기를 직접 측정합니다.
 
@@ -87,7 +87,7 @@ root.render(<Root />);
 
 `safeAreaInsets`는 4방향을 모두 넘깁니다. SEED는 받은 값을 보정하지 않고 그대로 `px`로 쓰므로, 음수나 `NaN` 같은 값은 위 예제처럼 앱에서 걸러 주세요. `0`도 유효한 값이므로, 네이티브가 이미 여백을 확보했다면 `0`을 넘기세요.
 
-`safeAreaInsets`를 생략하면 `env(safe-area-inset-*)`를 씁니다. Android에서는 이 CSS 함수가 동작하지 않아 Safe Area가 `0`처럼 보일 수 있으니, 호스트가 값을 주지 않는 경우의 보정도 앱에서 정하세요.
+`safeAreaInsets`를 생략하면 네 방향 모두 `"0px"`입니다. SEED는 `env(safe-area-inset-*)`로 기기 값을 조회하지 않으니, 호스트가 값을 주지 않는 경우의 보정도 앱에서 정하세요.
 
 ### Overlay 안에서 다른 Safe Area 쓰기
 
@@ -132,7 +132,7 @@ Chip과 FloatingActionButton은 iOS Liquid Glass로 그릴 수 있습니다. 호
 
 ## 넘긴 값 읽기
 
-`useSeedContext()`는 `SeedProvider`가 받은 값을 그대로 돌려줍니다. px 문자열 변환이나 `env()` fallback은 하지 않습니다. 화면에 적용할 Safe Area 값이 필요하면 [`useSafeArea`](/lynx/hooks/use-safe-area)를 사용하세요.
+`useSeedContext()`는 `SeedProvider`가 받은 값을 그대로 돌려줍니다. 넘기지 않은 값은 `undefined`이고, px 문자열 변환은 하지 않습니다. 화면에 적용할 Safe Area 값이 필요하면 [`useSafeArea`](/lynx/hooks/use-safe-area)를 사용하세요.
 
 ```tsx
 import { useSeedContext } from "@seed-design/lynx-react";
@@ -140,11 +140,12 @@ import { useSeedContext } from "@seed-design/lynx-react";
 const { preferredColorScheme, preferredMotion, safeAreaInsets } = useSeedContext();
 ```
 
-## Global Props 직접 읽기
+## 이전 버전에서 옮기기
 
-이전 버전의 SEED는 특정 호스트 앱의 global props 키(`theme`, `motion`, `safeAreaInset*`)를 직접 읽었습니다.
-기존 앱이 바로 깨지지 않도록 다음 메이저 버전 전까지는 `SeedProvider`에 넘기지 않은 값만 이 키에서 채웁니다.
+이전 버전의 SEED는 특정 호스트 앱의 global props 키(`theme`, `motion`, `safeAreaInset*`)를 직접 읽었습니다. 지금은 이 키를 읽지 않으므로, [적용하기](#적용하기)처럼 앱이 값을 읽어 `SeedProvider`로 넘겨야 합니다.
 
-- 키가 실제로 있어 사용되면 개발 빌드에서 키마다 한 번 경고합니다. 키가 없는 호스트에서는 경고하지 않습니다.
-- `safeAreaInsets`를 생략하면 `useSafeArea`가 `safeAreaInset*` global props를 읽고, 값이 없으면 `env(safe-area-inset-*)`를 씁니다.
-- 이 경로는 다음 메이저 버전에서 제거될 예정입니다. 위 [적용하기](#적용하기)처럼 `SeedProvider`로 옮기세요.
+| 이전 global props 키 | `SeedProvider` prop | 넘기지 않았을 때 |
+| --- | --- | --- |
+| `theme` | `preferredColorScheme` | `colorMode: "system"`의 테마가 `"light"` |
+| `motion` | `preferredMotion` | Scale Feedback 적용(`"default"`와 같음) |
+| `safeAreaInset*` | `safeAreaInsets` | `useSafeArea`가 네 방향 모두 `"0px"` 반환 |

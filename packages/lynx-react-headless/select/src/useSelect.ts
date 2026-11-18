@@ -9,12 +9,7 @@ import {
   type RefObject,
 } from "@lynx-js/react";
 import type { BaseEvent, IntrinsicElements, NodesRef } from "@lynx-js/types";
-import type {
-  Placement,
-  Position,
-  Rect,
-  SafeAreaProbeNodes,
-} from "@seed-design/lynx-react-floating";
+import type { Placement, Position, Rect } from "@seed-design/lynx-react-floating";
 import { useControllableState } from "@seed-design/lynx-react-use-controllable-state";
 
 type ViewProps = IntrinsicElements["view"];
@@ -151,8 +146,6 @@ export interface UseSelectReturn {
   setTriggerHandlers: (handlers: SelectTriggerHandlers) => void;
   triggerRef: MutableRefObject<NodesRef | null>;
   layerRef: MutableRefObject<NodesRef | null>;
-  /** 위치 계산 경계를 정하는 `SafeAreaProbe` node입니다. */
-  safeAreaRef: MutableRefObject<SafeAreaProbeNodes>;
   isOpenRef: MutableRefObject<boolean>;
   openEpochRef: MutableRefObject<number>;
 }
@@ -207,7 +200,6 @@ export function useSelect(props: UseSelectProps = {}): UseSelectReturn {
   const openEpochRef = useRef(0);
   const triggerRef = useRef<NodesRef | null>(null);
   const layerRef = useRef<NodesRef | null>(null);
-  const safeAreaRef = useRef<SafeAreaProbeNodes>({ start: null, end: null });
 
   if (open && !isOpenRef.current) openEpochRef.current += 1;
   isOpenRef.current = open;
@@ -367,7 +359,6 @@ export function useSelect(props: UseSelectProps = {}): UseSelectReturn {
       setTriggerHandlers,
       triggerRef,
       layerRef,
-      safeAreaRef,
       isOpenRef,
       openEpochRef,
     }),

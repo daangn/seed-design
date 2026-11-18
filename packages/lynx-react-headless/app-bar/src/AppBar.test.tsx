@@ -1,24 +1,8 @@
 import "@testing-library/jest-dom";
 import { act, fireEvent, render } from "@lynx-js/react/testing-library";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { SafeAreaProvider } from "@seed-design/lynx-react-use-safe-area";
+import { describe, expect, it, vi } from "vitest";
 import { AppBar, useAppBarContext } from "./index.js";
-
-interface TestLynxGlobal {
-  lynx?: { __globalProps?: { safeAreaInsetTop?: number } };
-  lynxTestingEnv?: {
-    backgroundThread: { globalThis: TestLynxGlobal };
-    mainThread: { globalThis: TestLynxGlobal };
-  };
-}
-
-function setSafeAreaInsetTop(safeAreaInsetTop: number | undefined) {
-  const self = globalThis as TestLynxGlobal;
-  const env = self.lynxTestingEnv;
-  for (const global of [self, env?.backgroundThread.globalThis, env?.mainThread.globalThis]) {
-    if (!global) continue;
-    global.lynx = { ...global.lynx, __globalProps: { safeAreaInsetTop } };
-  }
-}
 
 function node(selector: string): HTMLElement {
   const result = elementTree.root?.querySelector<HTMLElement>(selector);
@@ -32,17 +16,13 @@ function Probe() {
 }
 
 describe("AppBar headless", () => {
-  afterEach(() => {
-    setSafeAreaInsetTop(undefined);
-  });
-
   it("provides the host safe area without applying layout styles", () => {
-    setSafeAreaInsetTop(47);
-
     render(
-      <AppBar.Root className="root">
-        <Probe />
-      </AppBar.Root>,
+      <SafeAreaProvider insets={{ top: 47, right: 0, bottom: 0, left: 0 }}>
+        <AppBar.Root className="root">
+          <Probe />
+        </AppBar.Root>
+      </SafeAreaProvider>,
     );
 
     expect(node(".probe")).toHaveTextContent("top=47px x=0px");
