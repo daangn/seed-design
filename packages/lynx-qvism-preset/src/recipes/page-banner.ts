@@ -1,10 +1,11 @@
 import { pageBannerCloseButton as closeButtonVars, pageBanner as vars } from "../vars/component";
+import { t5 } from "../vars/font-size";
 import { r1 } from "../vars/radius";
 import { defineSlotRecipe } from "../utils/define";
 
 const closeButtonNegativeMargin = `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5)`;
-// Rootage carries the size as rem, which Lynx converts to sp only for tokens, not component vars.
-const prefixIconSize = `${Number.parseFloat(vars.base.enabled.prefixIcon.size) * 16}sp`;
+// The 1rem spec size borrows the 16sp font-size token: Lynx converts rem to sp only in tokens, and a literal sp breaks the docs web preview, which swaps in web tokens.
+const prefixIconSize = t5;
 const buttonBleedAmount = `(${vars.base.enabled.button.targetHeight} - ${vars.base.enabled.button.lineHeight}) * 0.5`;
 
 const pageBanner = defineSlotRecipe({

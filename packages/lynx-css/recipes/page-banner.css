@@ -91,9 +91,9 @@
 }
 .seed-page-banner__prefixIcon {
     flex-shrink: 0;
-    width: 16sp;
-    height: 16sp;
-    margin-top: calc((var(--seed-line-height-t4) - 16sp) * 0.5);
+    width: var(--seed-font-size-t5);
+    height: var(--seed-font-size-t5);
+    margin-top: calc((var(--seed-line-height-t4) - var(--seed-font-size-t5)) * 0.5);
     margin-right: var(--seed-dimension-x2);
 }
 .seed-page-banner__suffixIcon {
