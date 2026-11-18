@@ -7,7 +7,7 @@ import {
 } from "../utils/focus-ring";
 import { defineRecipe } from "../utils/define";
 import { onlyIcon } from "../utils/icon";
-import { active, disabled, engaged, focusVisible, not, pseudo } from "../utils/pseudo";
+import { disabled, engaged, focusVisible, not, pseudo } from "../utils/pseudo";
 
 const paginationButton = defineRecipe({
   name: "pagination-button",
@@ -53,13 +53,8 @@ const paginationButton = defineRecipe({
     ...createFocusRingRestStyles(),
     [pseudo(focusVisible)]: createFocusRingStyles(),
 
-    scale: "1",
-
     [pseudo(engaged, not(disabled), "::before")]: {
       backgroundColor: vars.base.pressed.root.color,
-    },
-    [pseudo(not(disabled), active)]: {
-      scale: vars.base.pressed.root.scale,
     },
     [pseudo(disabled)]: {
       cursor: "not-allowed",
@@ -71,7 +66,7 @@ const paginationButton = defineRecipe({
       backgroundColor: vars.base.disabled.root.color,
     },
 
-    transition: `scale ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    transition: FOCUS_RING_TRANSITION,
   },
   variants: {},
   defaultVariants: {},

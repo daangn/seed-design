@@ -1041,20 +1041,6 @@
     --seed-shadow-s3: 0px 4px 16px 0px #000c;
   }
 
-  :root {
-    --seed-scale-s95: .95;
-    --seed-scale-s97: .97;
-    --seed-scale-s98: .98;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    :root {
-      --seed-scale-s95: 1;
-      --seed-scale-s97: 1;
-      --seed-scale-s98: 1;
-    }
-  }
-
   @keyframes seed-enter {
     from {
       opacity: var(--seed-enter-opacity, 1);
@@ -8413,10 +8399,6 @@
     outline-offset: var(--seed-dimension-x0_5);
   }
 
-  .seed-pagination-button {
-    scale: 1;
-  }
-
   @media (hover: hover) and (pointer: fine) {
     .seed-pagination-button:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])):before {
       background-color: var(--seed-color-bg-transparent-pressed);
@@ -8429,10 +8411,6 @@
     }
   }
 
-  .seed-pagination-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-scale-s97);
-  }
-
   .seed-pagination-button:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
     --seed-icon-color: var(--seed-color-fg-disabled);
@@ -8443,7 +8421,7 @@
   }
 
   .seed-pagination-button {
-    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   }
 
   .seed-pagination-page-item {
@@ -8502,10 +8480,6 @@
     outline-offset: var(--seed-dimension-x0_5);
   }
 
-  .seed-pagination-page-item {
-    scale: 1;
-  }
-
   @media (hover: hover) and (pointer: fine) {
     .seed-pagination-page-item:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])):before {
       background-color: var(--seed-color-bg-transparent-pressed);
@@ -8516,10 +8490,6 @@
     .seed-pagination-page-item:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])):before {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
-  }
-
-  .seed-pagination-page-item:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-scale-s97);
   }
 
   .seed-pagination-page-item:is([aria-selected="true"], [data-selected]) {
@@ -8560,7 +8530,7 @@
   }
 
   .seed-pagination-page-item {
-    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   }
 
   .seed-popover__positioner {

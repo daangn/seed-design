@@ -14,12 +14,6 @@ data:
             type: duration
           colorTimingFunction:
             type: cubicBezier
-          scale:
-            type: number
-          scaleDuration:
-            type: duration
-          scaleTimingFunction:
-            type: cubicBezier
           size:
             type: dimension
           cornerRadius:
@@ -37,8 +31,6 @@ data:
           color: $color.bg.transparent
           colorDuration: $duration.color-transition
           colorTimingFunction: $timing-function.easing
-          scaleDuration: $duration.pressed-scale
-          scaleTimingFunction: $timing-function.pressed-scale
           size: $dimension.x10
           cornerRadius: $radius.r2
         icon:
@@ -47,7 +39,6 @@ data:
       pressed:
         root:
           color: $color.bg.transparent-pressed
-          scale: $scale.s97
       disabled:
         root:
           color: $color.bg.transparent
