@@ -64,6 +64,7 @@ export default defineConfig({
         /^@seed-design\/lynx-react-switch$/,
         /^@seed-design\/lynx-react-tabs$/,
         /^@seed-design\/lynx-react-text-field$/,
+        /^@seed-design\/lynx-react-time-picker$/,
         /^@seed-design\/lynx-react-toggle$/,
         /^@seed-design\/lynx-react-use-safe-area$/,
         "clsx",

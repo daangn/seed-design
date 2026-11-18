@@ -52,6 +52,7 @@ export * from "./Tabs";
 export * from "./TagGroup";
 export * from "./Text";
 export * from "./TextField";
+export * from "./TimePicker";
 export * from "./AttachmentInput";
 export * from "./AttachmentDisplay";
 export * from "./WheelPicker";

@@ -10,6 +10,12 @@ const lynxSeedIconPackageRanges = {
   "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
 };
 
+// `useTimePicker` and `TimePicker.ItemLabel` ship in @seed-design/lynx-react 1.4.0 and the time-picker recipe in @seed-design/lynx-css 1.4.0.
+const timePickerPackageRanges = {
+  "@seed-design/lynx-react": "^1.4.0",
+  "@seed-design/lynx-css": "^1.4.0",
+};
+
 // `AppBarTextButton` ships in @seed-design/lynx-react 1.1.0 and its recipe in @seed-design/lynx-css 1.1.0.
 const appBarPackageRanges = {
   "@seed-design/lynx-react": "^1.1.0",
@@ -417,6 +423,15 @@ export const registryUI: Registry = {
             "@seed-design/lynx-react": "^1.1.0",
             "@seed-design/lynx-css": "^1.1.0",
           },
+        },
+      ],
+    },
+    {
+      id: "time-picker",
+      snippets: [
+        {
+          path: "time-picker.tsx",
+          dependencies: timePickerPackageRanges,
         },
       ],
     },
