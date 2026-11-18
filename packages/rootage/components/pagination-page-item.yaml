@@ -10,12 +10,9 @@ data:
         properties:
           color:
             type: color
-          scale:
-            type: number
-          scaleDuration:
-            type: duration
-          scaleTimingFunction:
-            type: cubicBezier
+          scaleScope:
+            type: enum
+            values: [self, content]
           size:
             type: dimension
           cornerRadius:
@@ -35,8 +32,6 @@ data:
       enabled:
         root:
           color: $color.bg.transparent
-          scaleDuration: $duration.pressed-scale
-          scaleTimingFunction: $timing-function.pressed-scale
           size: $dimension.x10
           cornerRadius: $radius.r2
         label:
@@ -47,7 +42,7 @@ data:
       pressed:
         root:
           color: $color.bg.transparent-pressed
-          scale: $scale.s97
+          scaleScope: self
       selected:
         root:
           color: $color.bg.neutral-solid

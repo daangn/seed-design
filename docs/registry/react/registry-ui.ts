@@ -351,7 +351,8 @@ export const registryUI: Registry = {
         {
           path: "pagination.tsx",
           dependencies: {
-            "@seed-design/react": "^3.0.0",
+            "@seed-design/react": "^3.4.0",
+            "@seed-design/css": "^3.4.0",
           },
         },
       ],
@@ -447,7 +448,8 @@ export const registryUI: Registry = {
         {
           path: "table-pagination.tsx",
           dependencies: {
-            "@seed-design/react": "^3.0.0",
+            "@seed-design/react": "^3.4.0",
+            "@seed-design/css": "^3.4.0",
           },
         },
       ],

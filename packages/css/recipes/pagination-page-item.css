@@ -49,9 +49,6 @@
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: var(--seed-dimension-x0_5);
 }
-.seed-pagination-page-item {
-    scale: 1;
-}
 @media (hover: hover) and (pointer: fine) {
     .seed-pagination-page-item:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled]))::before {
         background-color: var(--seed-color-bg-transparent-pressed);
@@ -63,7 +60,7 @@
     }
 }
 .seed-pagination-page-item:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-scale-s97);
+    scale: var(--seed-feedback-scale);
 }
 .seed-pagination-page-item:is([aria-selected=true], [data-selected]) {
     color: var(--seed-color-fg-on-neutral-solid);

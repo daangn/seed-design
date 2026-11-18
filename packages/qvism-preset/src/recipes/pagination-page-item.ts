@@ -6,6 +6,7 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { defineRecipe } from "../utils/define";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { active, disabled, engaged, focusVisible, not, pseudo, selected } from "../utils/pseudo";
 
 const paginationPageItem = defineRecipe({
@@ -59,14 +60,10 @@ const paginationPageItem = defineRecipe({
     ...createFocusRingRestStyles(),
     [pseudo(focusVisible)]: createFocusRingStyles(),
 
-    scale: "1",
-
     [pseudo(engaged, not(disabled), "::before")]: {
       backgroundColor: vars.base.pressed.root.color,
     },
-    [pseudo(not(disabled), active)]: {
-      scale: vars.base.pressed.root.scale,
-    },
+    [pseudo(not(disabled), active)]: createScaleFeedbackStyles(),
     [pseudo(selected)]: {
       color: vars.base.selected.label.color,
     },
@@ -90,7 +87,7 @@ const paginationPageItem = defineRecipe({
       backgroundColor: vars.base.selectedDisabled.root.color,
     },
 
-    transition: `scale ${vars.base.enabled.root.scaleDuration} ${vars.base.enabled.root.scaleTimingFunction}, ${FOCUS_RING_TRANSITION}`,
+    transition: `${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
   },
   variants: {},
   defaultVariants: {},
