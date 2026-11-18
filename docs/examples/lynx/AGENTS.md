@@ -23,6 +23,7 @@ Lynx 컴포넌트 문서가 실행하는 ReactLynx 예제다. `docs/scripts/lynx
 - `flex-direction`·`align-items`·`justify-content`·`gap`·`flex-wrap`을 쓰는 view에는 `display: flex`를 함께 둔다. native 기본 display는 linear여서 없으면 정렬 속성이 무시된다. `VStack`·`HStack`을 써도 된다. SEED 컴포넌트(예: `TabsContent`)에 준 class에는 `display`를 두지 않는다 → Recipe가 상태별 `display: none`을 정하므로 덮으면 숨김이 깨진다.
 - `Box`·`VStack`·`HStack`의 `style`에 `flex: 1` 축약형을 쓰지 않는다 → native에서 적용되지 않았다. Box는 `flexGrow`·`flexShrink`, Stack은 `grow`·`shrink` prop을 쓰고 필요하면 `style={{ flexBasis: 0 }}`을 더한다.
 - 높이가 정해진 영역을 채워야 하는 예제(자체 스크롤 컨테이너, 하단에 고정한 Footer·CTA 등)는 `layout.ts`에 `fill`로 등록하고 루트를 `flex: 1; min-height: 0`(Box는 `flexGrow`, Stack은 `grow`와 `minHeight="0"`)으로 둔다. 문서 MDX에는 `height`를 준다. 빠지면 `LynxComponentExample`이 오류를 낸다.
+- 자체 세로 scroll host나 당김·스크롤 제스처를 소유하는 컴포넌트(PullToRefresh, KeyboardAvoidingScrollView, LoopScroll 등)도 `fill`로 등록한다. `fill`이 아니면 `DocsExamplePage`가 예제를 바깥 세로 scroll-view로 감싸고, 그 scroll-view도 같은 drag를 받아 제목·설명까지 함께 움직인다. 예제에서 bounce를 끄거나 입력을 막아 숨기지 않는다 → 셸 분류를 고치고, 실제 앱에서도 같은 경합이 생기므로 컴포넌트 문서에 "다른 세로 스크롤 컨테이너 안에 두지 않는다"는 제약을 적는다.
 - 문서 MDX `height`는 `fill` 예제와 overlay·popover가 펼쳐질 공간이 필요한 예제에만 준다. 나머지는 미리보기가 내용 높이(최소 320px)를 따른다.
 - 좁은 화면을 넘는 고정 너비 대신 `width: 100%`와 `max-width`를 쓴다. 고정 높이는 그 값이 시나리오의 대상일 때만 쓴다(예: 스크롤 영역 높이).
 
