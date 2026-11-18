@@ -13,11 +13,15 @@ const VERTICAL_SLIDE_EVENT_ANGLES: [number, number][] = [
 const DRAG_SLOP = 8;
 const VELOCITY_WINDOW_MS = 100;
 const VELOCITY_MAX_AGE_MS = 80;
-const PROJECTION_MS = 325;
-const SNAP_TIME_CONSTANT_MS = 100;
-const MIN_FLING_TIME_CONSTANT_MS = 100;
-const MAX_FLING_TIME_CONSTANT_MS = 650;
+const PROJECTION_MS = 280;
+/** 관성이 목표에 닿는 속도이자 스프링이 정착하는 속도(px/ms)입니다. */
+const END_VELOCITY = 0.035;
+const MIN_FLING_TIME_CONSTANT_MS = 55;
+const MAX_FLING_TIME_CONSTANT_MS = 380;
 const MIN_FLING_VELOCITY = 0.05;
+const SPRING_TIME_CONSTANT_MS = 55;
+/** 스프링 시작 속도 상한(px/ms)입니다. 목표를 지나치는 거리를 제한합니다. */
+const MAX_SPRING_VELOCITY = 2;
 const SETTLE_DISTANCE = 0.5;
 const RUBBER_BAND_COEFFICIENT = 0.55;
 const WINDOW_OVERSCAN = 8;
@@ -112,7 +116,8 @@ interface EngineState {
   pressedVirtualIndex: number | null;
   tapVirtualIndex: number | null;
   windowCenter: number;
-  pendingMotion: { target: number; timeConstant: number; instant: boolean } | null;
+  /** `velocity`는 시작할 때 offset 속도(px/ms)입니다. */
+  pendingMotion: { target: number; velocity: number; instant: boolean } | null;
 }
 
 interface EngineConfig {
@@ -207,6 +212,34 @@ function rubberBand(offset: number, maxOffset: number, dimension: number) {
   if (overflow === 0) return offset;
   const resisted = (1 - 1 / ((overflow * RUBBER_BAND_COEFFICIENT) / dimension + 1)) * dimension;
   return offset < 0 ? -resisted : maxOffset + resisted;
+}
+
+/**
+ * `distance`만큼 떨어진 목표를 향해 `velocity`(px/ms)로 출발한 뒤 `elapsed`가 지났을 때 목표까지 남은 거리입니다.
+ * 정착했으면 `null`입니다. 관성이 목표에서 `END_VELOCITY`로 끝날 수 있으면 지수 감속하고,
+ * 아니면 임계 감쇠 스프링으로 이동합니다. 스프링은 빠르게 출발하면 목표를 지나쳤다 돌아옵니다.
+ */
+function remainingDistance(distance: number, velocity: number, elapsed: number) {
+  "main thread";
+  const endVelocity = Math.sign(distance) * END_VELOCITY;
+  const timeConstant = distance / (velocity - endVelocity);
+  if (
+    distance * velocity > 0 &&
+    Math.abs(velocity) > MIN_FLING_VELOCITY &&
+    timeConstant >= MIN_FLING_TIME_CONSTANT_MS &&
+    timeConstant <= MAX_FLING_TIME_CONSTANT_MS
+  ) {
+    if (elapsed >= timeConstant * Math.log(velocity / endVelocity)) return null;
+    return (velocity * Math.exp(-elapsed / timeConstant) - endVelocity) * timeConstant;
+  }
+  const omega = 1 / SPRING_TIME_CONSTANT_MS;
+  const start = clampNumber(velocity, -MAX_SPRING_VELOCITY, MAX_SPRING_VELOCITY);
+  const decay = Math.exp(-omega * elapsed);
+  const slope = omega * distance - start;
+  const remaining = (distance + slope * elapsed) * decay;
+  const speed = (-start - omega * slope * elapsed) * decay;
+  if (Math.abs(remaining) < SETTLE_DISTANCE && Math.abs(speed) < END_VELOCITY) return null;
+  return remaining;
 }
 
 function pushSample(samples: number[], time: number, y: number) {
@@ -465,7 +498,7 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
       const motion = state.pendingMotion;
       if (state.token !== token || motion === null) return;
       state.pendingMotion = null;
-      const { target, timeConstant, instant } = motion;
+      const { target, velocity, instant } = motion;
       const distance = target - state.offset;
       if (instant || Math.abs(distance) < SETTLE_DISTANCE) {
         applyOffset(target);
@@ -477,8 +510,8 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
       const step = () => {
         const current = stateRef.current;
         if (current.token !== token) return;
-        const remaining = distance * Math.exp(-(Date.now() - startedAt) / timeConstant);
-        if (Math.abs(remaining) < SETTLE_DISTANCE) {
+        const remaining = remainingDistance(distance, velocity, Date.now() - startedAt);
+        if (remaining === null) {
           current.frame = 0;
           applyOffset(target);
           finishMotion();
@@ -499,13 +532,13 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
   }, [beginPreparedMotion, renderWindow]);
 
   const prepareMotion = React.useCallback(
-    (target: number, timeConstant: number, userDriven: boolean, instant = false) => {
+    (target: number, velocity: number, userDriven: boolean, instant = false) => {
       "main thread";
       stopMotion();
       const state = stateRef.current;
       state.userDriven = userDriven;
       state.target = target;
-      state.pendingMotion = { target, timeConstant, instant };
+      state.pendingMotion = { target, velocity, instant };
       const center = nearestVirtualIndex(state.offset, config);
       const destination = nearestVirtualIndex(target, config);
       // 가까운 목표는 기존 여유 창 안에 있어 정착 전에 항목을 추가할 필요가 없습니다.
@@ -532,19 +565,14 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
     [beginPreparedMotion, config, reportWindowJS, stateRef, stopMotion],
   );
 
-  /** 놓을 때 속도로 멈출 위치를 예측하고 가장 가까운 항목에 맞춰 한 번에 감속합니다. */
+  /** 놓을 때 속도로 멈출 위치를 예측하고 가장 가까운 항목까지 놓은 속도에서 이어 감속합니다. */
   const release = React.useCallback(
     (velocity: number) => {
       "main thread";
       const offset = stateRef.current.offset;
       const target =
         nearestVirtualIndex(offset + velocity * PROJECTION_MS, config) * config.itemSize;
-      const distance = target - offset;
-      const timeConstant =
-        distance * velocity > 0 && Math.abs(velocity) > MIN_FLING_VELOCITY
-          ? clampNumber(distance / velocity, MIN_FLING_TIME_CONSTANT_MS, MAX_FLING_TIME_CONSTANT_MS)
-          : SNAP_TIME_CONSTANT_MS;
-      prepareMotion(target, timeConstant, true);
+      prepareMotion(target, velocity, true);
     },
     [prepareMotion, config, stateRef],
   );
@@ -554,7 +582,7 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
     (virtualIndex: number) => {
       "main thread";
       const target = config.loop ? virtualIndex : clampNumber(virtualIndex, 0, config.maxIndex);
-      prepareMotion(target * config.itemSize, SNAP_TIME_CONSTANT_MS, true);
+      prepareMotion(target * config.itemSize, 0, true);
     },
     [prepareMotion, config],
   );
@@ -648,7 +676,7 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
       const target =
         virtualTargetFor(nextIndex, state.target ?? state.offset, config) * config.itemSize;
       if (state.target === target) return;
-      prepareMotion(target, SNAP_TIME_CONSTANT_MS, false, !smooth);
+      prepareMotion(target, 0, false, !smooth);
     },
     [prepareMotion, config, stateRef],
   );
@@ -660,7 +688,7 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
       state.phase = "idle";
       state.settledVirtual = nextIndex;
       state.activeVirtual = nextIndex;
-      prepareMotion(nextIndex * config.itemSize, SNAP_TIME_CONSTANT_MS, false, true);
+      prepareMotion(nextIndex * config.itemSize, 0, false, true);
     },
     [prepareMotion, config, stateRef],
   );
@@ -670,7 +698,7 @@ export const LoopScrollRoot = React.forwardRef<unknown, LoopScrollRootProps>((pr
     const state = stateRef.current;
     if (state.phase === "idle" && !(state.userDriven && state.target !== null)) return;
     state.phase = "idle";
-    prepareMotion(state.settledVirtual * config.itemSize, SNAP_TIME_CONSTANT_MS, false);
+    prepareMotion(state.settledVirtual * config.itemSize, 0, false);
   }, [prepareMotion, config, stateRef]);
 
   // Runs before the index sync below so a layout change and an `index` change in the same commit reset

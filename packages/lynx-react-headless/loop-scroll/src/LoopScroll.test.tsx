@@ -55,6 +55,16 @@ async function runFrames(limit = Number.POSITIVE_INFINITY) {
   await waitSchedule();
 }
 
+/** 정착할 때까지 frame을 하나씩 돌리며 frame마다 가운데 위치를 기록합니다. */
+async function recordFrames() {
+  const positions: number[] = [];
+  for (let count = 0; count < 200 && frames.size > 0; count += 1) {
+    await runFrames(1);
+    positions.push(centeredPosition());
+  }
+  return positions;
+}
+
 function get(selector: string) {
   const node = elementTree.root?.querySelector<HTMLElement>(selector);
   if (!node) throw new Error(`Missing ${selector}`);
@@ -580,6 +590,62 @@ describe("LoopScroll", () => {
     expect(centeredPosition()).toBeGreaterThan(releasedAt);
     await runFrames();
     expect(selectedLabels()).toEqual([String(Math.round(centeredPosition()) % 1000)]);
+  });
+
+  it("튕기면 놓은 속도로 이어 움직이고, 느리게 기어가는 꼬리 없이 항목에 정착한다", async () => {
+    const onIndexChange = vi.fn();
+    // 한 바퀴 단위로 돌아 같은 index에 서지 않도록 항목을 넉넉히 둡니다.
+    await renderWheel({ itemCount: 1000, defaultIndex: 500, onIndexChange });
+
+    // 2.5px/ms로 놓습니다.
+    flick(100, 40);
+    const releasedAt = now;
+    const positions = await recordFrames();
+
+    // 첫 frame의 속도(px/ms)
+    expect(((positions[0] ?? 0) - 500) * ITEM_SIZE - 100).toBeCloseTo(2.5 * 16, -1);
+    expect(now - releasedAt).toBeLessThan(1400);
+    const settled = centeredPosition();
+    expect(Number.isInteger(settled)).toBe(true);
+    expect(onIndexChange.mock.calls).toEqual([[settled, { stepDelta: settled - 500 }]]);
+  });
+
+  it("느리게 놓아 먼 항목으로 반올림돼도 오래 걸리지 않는다", async () => {
+    const onIndexChange = vi.fn();
+    await renderWheel({ onIndexChange });
+
+    // 35px 끌고 마지막 100ms 동안 0.1px/ms로 움직이다 놓습니다.
+    touch("touchstart", 100, 300);
+    for (const [ms, y] of [
+      [10, 275],
+      [100, 265],
+    ] as const) {
+      advance(ms);
+      touch("touchmove", 100, y);
+    }
+    advance(5);
+    touch("touchend", 100, 265);
+    const releasedAt = now;
+    await runFrames();
+
+    expect(now - releasedAt).toBeLessThan(500);
+    expect(centeredPosition()).toBe(2);
+    expect(onIndexChange.mock.calls).toEqual([[2, { stepDelta: 2 }]]);
+  });
+
+  it("loop가 꺼진 끝으로 빠르게 던지면 끝을 살짝 넘었다가 끝 항목에 정착한다", async () => {
+    const onIndexChange = vi.fn();
+    await renderWheel({ loop: false, defaultIndex: 8, onIndexChange });
+
+    // 끝까지 10px 남기고 1px/ms로 놓습니다.
+    flick(30, 30);
+    const positions = await recordFrames();
+
+    expect(((positions[0] ?? 0) * ITEM_SIZE - 350) / 16).toBeGreaterThan(0.5);
+    expect(Math.max(...positions)).toBeGreaterThan(9.1);
+    expect(Math.max(...positions)).toBeLessThan(10);
+    expect(centeredPosition()).toBe(9);
+    expect(onIndexChange.mock.calls).toEqual([[9, { stepDelta: 1 }]]);
   });
 
   it("Highlight는 가운데 한 칸을 잘라 보여주고, 안쪽 Track은 바깥 Track과 같은 위치로 움직인다", async () => {
