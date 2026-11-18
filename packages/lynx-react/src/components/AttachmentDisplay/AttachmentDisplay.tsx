@@ -315,6 +315,9 @@ export const AttachmentDisplayTrigger = React.forwardRef<NodesRef, AttachmentDis
       pressed: trigger.pressed,
       disabled: trigger.disabled,
     });
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+      disabled: trigger.disabled,
+    });
     return (
       <TriggerClassNamesProvider value={classes}>
         <view
@@ -322,6 +325,8 @@ export const AttachmentDisplayTrigger = React.forwardRef<NodesRef, AttachmentDis
             { flatten: false },
             context.stateProps,
             trigger.triggerProps,
+            scaleFeedbackTargetProps,
+            scaleFeedbackTriggerProps,
             nativeProps,
             {
               "accessibility-label": accessibilityLabel,

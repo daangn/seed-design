@@ -4,11 +4,14 @@ import { attachmentInputItemActionButton as itemActionButtonVars } from "../vars
 import { attachmentInputItemRemoveButton as itemRemoveButtonVars } from "../vars/component";
 import { attachmentInputTrigger as triggerVars } from "../vars/component";
 import * as duration from "../vars/duration";
-import * as scale from "../vars/scale";
 import * as timingFunction from "../vars/timing-function";
 import { defineSlotRecipe } from "../utils/define";
 
 const PRESS_TRANSITION = `transform ${duration.pressedScale} ${timingFunction.pressedScale}`;
+
+// 끌리는 item은 touch 밖에서 상태로 줄어 Scale Feedback 훅이 그릴 수 없다. item은 높이 80px로 고정이라
+// calculateScaleFeedback(packages/utils/lynx-react-scale-feedback)의 결과가 항상 (80 - 2) / 80이다.
+const DRAGGING_SCALE = 0.975;
 
 /**
  * The host owns file selection and drag state on Lynx. The browser-only
@@ -98,7 +101,7 @@ const attachmentInputTrigger = defineSlotRecipe({
       borderColor: triggerVars.base.enabled.root.strokeColor,
       padding: 0,
       backgroundColor: "transparent",
-      transition: `background-color ${duration.colorTransition}, ${PRESS_TRANSITION}`,
+      transition: `background-color ${duration.colorTransition}`,
     },
     icon: {
       width: triggerVars.base.enabled.icon.size,
@@ -131,7 +134,6 @@ const attachmentInputTrigger = defineSlotRecipe({
       true: {
         root: {
           backgroundColor: triggerVars.base.pressed.root.color,
-          transform: `scale(${scale.s98})`,
         },
       },
       false: {},
@@ -391,9 +393,7 @@ const attachmentInputItem = defineSlotRecipe({
       },
     },
     pressed: {
-      true: {
-        root: { transform: `scale(${scale.s98})` },
-      },
+      true: {},
       false: {},
     },
     readOnly: {
@@ -409,7 +409,7 @@ const attachmentInputItem = defineSlotRecipe({
     },
     dragging: {
       true: {
-        root: { transform: `scale(${scale.s98})` },
+        root: { transform: `scale(${DRAGGING_SCALE})` },
         thumbnail: { color: itemVars.typeFile.dragging.thumbnailIcon.color },
         thumbnailIcon: { color: itemVars.typeFile.dragging.thumbnailIcon.color },
         name: { color: itemVars.typeFile.dragging.name.color },
