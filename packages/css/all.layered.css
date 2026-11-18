@@ -8413,10 +8413,6 @@
     outline-offset: var(--seed-dimension-x0_5);
   }
 
-  .seed-pagination-button {
-    scale: 1;
-  }
-
   @media (hover: hover) and (pointer: fine) {
     .seed-pagination-button:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])):before {
       background-color: var(--seed-color-bg-transparent-pressed);
@@ -8429,10 +8425,6 @@
     }
   }
 
-  .seed-pagination-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-scale-s97);
-  }
-
   .seed-pagination-button:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
     --seed-icon-color: var(--seed-color-fg-disabled);
@@ -8443,7 +8435,7 @@
   }
 
   .seed-pagination-button {
-    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   }
 
   .seed-pagination-page-item {
@@ -8502,10 +8494,6 @@
     outline-offset: var(--seed-dimension-x0_5);
   }
 
-  .seed-pagination-page-item {
-    scale: 1;
-  }
-
   @media (hover: hover) and (pointer: fine) {
     .seed-pagination-page-item:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled])):before {
       background-color: var(--seed-color-bg-transparent-pressed);
@@ -8516,10 +8504,6 @@
     .seed-pagination-page-item:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])):before {
       background-color: var(--seed-color-bg-transparent-pressed);
     }
-  }
-
-  .seed-pagination-page-item:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-scale-s97);
   }
 
   .seed-pagination-page-item:is([aria-selected="true"], [data-selected]) {
@@ -8560,7 +8544,7 @@
   }
 
   .seed-pagination-page-item {
-    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
   }
 
   .seed-popover__positioner {

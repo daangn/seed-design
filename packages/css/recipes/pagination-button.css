@@ -40,9 +40,6 @@
     outline: var(--seed-dimension-x0_5) solid var(--seed-color-stroke-focus-ring);
     outline-offset: var(--seed-dimension-x0_5);
 }
-.seed-pagination-button {
-    scale: 1;
-}
 @media (hover: hover) and (pointer: fine) {
     .seed-pagination-button:is(:hover, [data-hover]):not(:is(:disabled, [disabled], [data-disabled]))::before {
         background-color: var(--seed-color-bg-transparent-pressed);
@@ -53,9 +50,6 @@
         background-color: var(--seed-color-bg-transparent-pressed);
     }
 }
-.seed-pagination-button:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
-    scale: var(--seed-scale-s97);
-}
 .seed-pagination-button:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
     --seed-icon-color: var(--seed-color-fg-disabled);
@@ -64,5 +58,5 @@
     background-color: var(--seed-color-bg-transparent);
 }
 .seed-pagination-button {
-    transition: scale var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale), outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: outline-color var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
