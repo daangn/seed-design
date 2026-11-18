@@ -6,6 +6,7 @@
  */
 import { LandingPage } from "../../components/landing/landing-page";
 import { pageHead } from "../content/source";
+import { earlySearchHotkeyScript } from "../shell/early-search-hotkey";
 import PageShell from "../layouts/PageShell.astro";
 
 const head = pageHead({
@@ -15,6 +16,7 @@ const head = pageHead({
 ---
 
 <PageShell head={head} themeLocked="light">
+  <script slot="head" is:inline set:html={earlySearchHotkeyScript()} />
   <LandingPage client:load />
 </PageShell>
 
