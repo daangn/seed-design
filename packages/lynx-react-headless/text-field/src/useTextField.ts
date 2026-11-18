@@ -162,9 +162,9 @@ export function useTextField(props: UseTextFieldProps = {}): UseTextFieldReturn 
   const handleRootTap = useCallback(() => {
     "background only";
 
-    if (disabled || readOnly || focused) return;
+    if (disabled || readOnly || localFocused) return;
     inputFocusRef.current?.();
-  }, [disabled, readOnly, focused]);
+  }, [disabled, readOnly, localFocused]);
 
   const rootProps = useMemo<TextFieldRootNativeProps>(
     () => ({ "ignore-focus": true, bindtap: handleRootTap }),
