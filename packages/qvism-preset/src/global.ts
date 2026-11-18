@@ -69,6 +69,12 @@ export const globalCss = defineGlobalCss({
     ...scaleFeedbackRootVars,
   },
 
+  // Stops iPhone WebKit from inflating text in landscape or on an unfolded iPhone Duo; unlike `none`, `100%` keeps Dynamic Type and Android textZoom working.
+  html: {
+    WebkitTextSizeAdjust: "100%",
+    textSizeAdjust: "100%",
+  },
+
   // iOS platform-specific overrides
   "[data-seed-platform='ios']": {
     "--seed-font-size-limit-max": "1.35", // iOS 135% limit
