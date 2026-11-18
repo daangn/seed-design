@@ -128,11 +128,12 @@ package public export → SPA example import → lynx/<component>/<scenario> →
 - 눌림 상태는 `exec -- long-press <ref> --duration 3000`을 background로 실행하고 약 1.3초 뒤 screenshot으로 캡처한다. 놓은 뒤의 짧은 fade(예: 0.15s) 중간 프레임은 screenshot 명령 지연보다 짧아 잡히지 않는다 → `미확인`으로 보고한다.
 - 다음 장면으로 넘어가기 전에 그 검사에서 연 menu·overlay를 닫고 기대 초기 상태를 확인한다. 상태 복원이 필요하면 소유한 같은 Card에서 탐색하거나 reload한다. 이 정리는 마지막 Card 제거 확인을 대신하지 않는다.
 
-### 시뮬레이터 녹화 판정
+### 화면 녹화 판정
 
-첫 진입 전환처럼 screenshot으로 잡을 수 없는 프레임은 iOS 시뮬레이터 녹화로 판정한다. jsdom 테스트는 `render`가 effect까지 flush하므로 첫 프레임을 보여 주지 않는다.
+첫 진입 전환처럼 screenshot으로 잡을 수 없는 프레임은 iOS 시뮬레이터나 macOS PlayLynx 창 녹화로 판정한다. jsdom 테스트는 `render`가 effect까지 flush하므로 첫 프레임을 보여 주지 않는다.
 
-- `xcrun simctl io booted recordVideo --codec h264 <file>.mov`로 녹화한다. 이 영상은 화면이 바뀔 때만 frame을 내는 가변 frame rate다. `ffmpeg -vf fps=…`로 뽑으면 첫 화면·전환 시점이 실제보다 앞당겨진다 → `ffmpeg -i <영상> -fps_mode passthrough -enc_time_base 1/600 <dir>/frame-%06d.jpg`로 원래 frame만 뽑고 각 frame의 PTS를 쓴다. 성능 측정의 시점 판정도 같다.
+- macOS PlayLynx 창은 창 ID를 찾아 `screencapture -x -V <초> -l<windowID> <file>.mov`로 녹화하고, 녹화 중 소유 session에 `Page.reload`를 보낸다. `-R` 좌표 녹화는 다중 모니터에서 다른 화면을 찍을 수 있다.
+- iOS 시뮬레이터는 `xcrun simctl io booted recordVideo --codec h264 <file>.mov`로 녹화한다. 이 영상은 화면이 바뀔 때만 frame을 내는 가변 frame rate다. `ffmpeg -vf fps=…`로 뽑으면 첫 화면·전환 시점이 실제보다 앞당겨진다 → `ffmpeg -i <영상> -fps_mode passthrough -enc_time_base 1/600 <dir>/frame-%06d.jpg`로 원래 frame만 뽑고 각 frame의 PTS를 쓴다. 성능 측정의 시점 판정도 같다.
 - 대상이 처음 보이는 frame부터 대상 ROI(예: Indicator 내부 20×12px)의 픽셀값을 읽고, 값이 바뀌지 않아야 하는 대조 ROI(예: 비선택 Item 내부)를 같은 frame에서 함께 읽는다. 대조 ROI 변동 폭을 넘는 중간값이 여러 frame에 걸쳐 한 방향으로 이어지면 전환, 그 폭 안의 차이는 압축 잡음으로 판정한다.
 - `Page.reload` 진입처럼 host가 화면 전체를 어둡게 했다 밝히는 구간은 대조 ROI도 같은 폭으로 움직이므로 전환으로 보지 않는다.
 

@@ -13,6 +13,7 @@ Rspeedy 기반 Lynx SPA 예제 앱이다. Lynx native 기본 장면 검증에 �
 - Lynx intrinsic element(`<view>`, `<text>` 등)는 런타임 변수로 치환하지 않고 리터럴 JSX로 쓴다.
 - `VariantTable`(`src/components/variant-table.tsx`)의 아이콘 색상·타이밍을 고칠 때만 `docs/content/lynx/hooks/use-icon-color.mdx`의 근거를 확인한다. 근거 없이 timer 재시도나 색상 token 예외를 넣지 않는다 → 근거가 없으면 원인을 보고한다.
 - Lynx·Rspeedy 동작이 불확실하면 그 부분의 공식 문서만 확인한다.
+- `lynx.config.ts`의 `enableCSSInlineVariables: true`를 끄지 않는다. SEED 컴포넌트가 inline으로 넘기는 변수(예: `--slider-thumb-left`)와, lynx-css Recipe가 class 안에서 다른 변수를 담는 사용자 정의 속성(예: `--seed-checkmark-pressed-color: var(...)`)이 이 플래그가 켜져 있을 때만 해석된다.
 - `lynx.config.ts`의 asset prefix는 `ASSET_PREFIX`이고, 없으면 dev는 `PORTLESS_URL`(portless 도메인), build는 `/`다. host가 이 주소에 접근하지 못하면 main bundle만 열리고 lazy 예제가 로드되지 않는다 → 기기에서 접근 가능한 절대 origin을 준다(예: `portless run --name ette sh -c 'ASSET_PREFIX="http://<LAN 주소>:$PORT/" exec bun run dev'`, iOS 시뮬레이터는 `http://127.0.0.1:$PORT/`). prefix는 `main.lynx.bundle`에 문자열로 들어가므로 전후 bundle을 byte로 비교할 때는 두 build에 같은 `ASSET_PREFIX`를 쓰거나 비교 전에 prefix를 같은 값으로 치환한다.
 
 ## 작업 절차

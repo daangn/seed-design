@@ -79,6 +79,8 @@ Lynx compound 컴포넌트라고 `createSlotRecipeContext`를 무조건 피하�
 - 임의 timeout으로 초기화 완료 추정 → 컴포넌트가 이미 소유한 등록·측정 상태로 계산한다.
 - React 레이어에서 `transitionDuration`을 inline `style`로 지정 → recipe variant를 쓴다.
 
+보정값이 `크기 × 위치 비율`처럼 선형이고 크기가 token이면 측정과 이 gate 대신 CSS에서 계산한다. Headless는 단위 없는 비율 변수(예: `--slider-thumb-offset-ratio`)만 inline으로 넘기고, Recipe가 사용처 선언에서 token과 곱한다(`packages/lynx-qvism-preset/src/recipes/slider.ts`의 `left: calc(var(--slider-thumb-left, 0%) + <thumb size token> * var(--slider-thumb-offset-ratio, 0))`). 측정을 기다리지 않아 첫 프레임부터 위치가 확정된다. `calc()`를 사용자 정의 속성에 담아 다른 선언에서 `var()`로 읽으면 그 선언이 무효가 된다 → 곱셈은 사용처 선언에 둔다.
+
 회귀 테스트:
 
 - 첫 번째가 아닌 항목을 초기 선택값으로 렌더링하고, 최초 렌더링에서 Label과 Indicator에 transition 비활성 className이 붙는지 확인한다.

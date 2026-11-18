@@ -32,6 +32,8 @@ Lynx 전용 qvism preset(private)이다. Rootage가 생성한 `src/vars/`와 Lyn
 - Main Thread에서 즉시 보여야 하는 pressed 시각 피드백 → `:active`를 쓸 수 있다. 이때 enabled·interactive variant class로 disabled·loading 상태를 반드시 제외한다.
 - trigger와 target이 다름 → trigger의 `:active` selector가 해당 content slot class만 대상으로 하게 쓴다.
 - root와 text를 나눠야 함 → qvism core에서 slot을 파생하지 않고 `defineSlotRecipe`로 slot을 명시한다.
+- 소비자가 render prop·children으로 넣은 `<text>`가 상태 색을 따라야 함 → 그 내용을 감싸는 slot에 `"& text": { color }`를 상태 variant마다 둔다(예: `wheel-picker.ts`의 `item`). 컴포넌트가 그 `<text>`에 class를 붙일 수 없어 앱 전역 `text { color }`(예: `examples/lynx-spa/src/styles/global.css`)가 상속을 덮는다.
+- 자식이 slot 밖으로 걸침(삭제 버튼·badge 등) → 걸친 요소의 부모뿐 아니라 그 부모를 감싼 slot까지 `overflow: "visible"`을 명시한다(예: `attachment-input.ts`의 `item`·`itemGroup`). 툴체인 기본(`defaultOverflowVisible: true`)에서는 view가 자식을 자르지 않지만, 이 값을 끈 소비자 번들에서는 자른다.
 
 ### 웹과의 차이
 
