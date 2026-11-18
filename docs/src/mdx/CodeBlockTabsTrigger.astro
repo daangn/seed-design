@@ -1,0 +1,15 @@
+---
+import ChipTabsTrigger from "./ChipTabsTrigger.astro";
+
+interface Props {
+  value: string;
+  /** 첫 탭(`rehypeWidgetMarkers`). */
+  defaultSelected?: boolean;
+  /** 탭 묶음 id(`rehypeWidgetMarkers`). */
+  tabsId: string;
+}
+
+const { value, defaultSelected = false, tabsId } = Astro.props;
+---
+
+<ChipTabsTrigger tabsId={tabsId} value={value} selected={defaultSelected}><slot /></ChipTabsTrigger>

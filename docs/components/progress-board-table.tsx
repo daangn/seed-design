@@ -1,90 +1,76 @@
-import { client } from "@/sanity-studio/lib/client";
-import { ALL_COMPONENTS_QUERY } from "@/sanity-studio/lib/queries";
-import { ComponentData, PlatformStatus } from "@/sanity-studio/lib/types";
-import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
-import { IconSeedArrow } from "@/components/icon-seed-arrow";
+/**
+ * `<ProgressBoardTable />`. 비고 tooltip(`HelpBubbleTooltipTrigger`)이 동작해야 해서 React island다
+ * (`src/mdx/islands/ProgressBoardTable.astro`). 스냅숏(`lib/component-status.ts`)은 그 `.astro`가 읽어 props로 넘긴다.
+ * 이 파일은 스냅숏 module을 import하지 않는다(브라우저 번들에 싣지 않게).
+ */
 import IconILowercaseSerifCircleLine from "@karrotmarket/react-monochrome-icon/IconILowercaseSerifCircleLine";
 import { BadgeLabel, BadgeRoot } from "@seed-design/react";
-import Link from "next/link";
-import type { CSSProperties } from "react";
+import { HelpBubbleTooltipTrigger } from "seed-design/ui/help-bubble-tooltip";
+import { IconSeedArrow } from "@/components/icon-seed-arrow";
+import { TableRoot } from "@/components/table";
+import type { ComponentStatus } from "@/lib/component-status";
 import { PLATFORM_CONFIG, PLATFORM_STATUS_LABELS } from "@/lib/platform-status";
 import { isExternalUrl } from "@/lib/url";
-import { TableRoot } from "./table";
+import type { PlatformStatus } from "@/sanity-studio/lib/types";
 
-const statusConfig: Record<
-  PlatformStatus,
-  { label: string; tone: "positive" | "warning" | "neutral"; variant: "weak" | "solid" | "outline" }
-> = {
-  ready: { label: PLATFORM_STATUS_LABELS.ready, tone: "positive", variant: "weak" },
-  "in-progress": { label: PLATFORM_STATUS_LABELS["in-progress"], tone: "warning", variant: "weak" },
-  "not-ready": { label: PLATFORM_STATUS_LABELS["not-ready"], tone: "neutral", variant: "weak" },
-  deprecated: { label: PLATFORM_STATUS_LABELS.deprecated, tone: "neutral", variant: "weak" },
-  "not-planned": { label: PLATFORM_STATUS_LABELS["not-planned"], tone: "neutral", variant: "weak" },
+const statusConfig: Record<PlatformStatus, { tone: "positive" | "warning" | "neutral" }> = {
+  ready: { tone: "positive" },
+  "in-progress": { tone: "warning" },
+  "not-ready": { tone: "neutral" },
+  deprecated: { tone: "neutral" },
+  "not-planned": { tone: "neutral" },
 };
 
-function StatusBadge({
-  status,
-  note,
-  variant,
-  style,
-  showNote = true,
-}: {
-  status: PlatformStatus;
-  note?: string;
-  variant?: "weak" | "solid" | "outline";
-  style?: CSSProperties;
-  showNote?: boolean;
-}) {
-  const {
-    label,
-    tone,
-    variant: variantConfig,
-  } = statusConfig?.[status] ?? {
-    label: "Not Ready",
-    tone: "neutral",
-    variant: variant ?? "weak",
-  };
-
-  if (!note || !showNote) {
-    return (
-      <BadgeRoot size="large" variant={variantConfig} tone={tone} style={style}>
-        <BadgeLabel>{label}</BadgeLabel>
-      </BadgeRoot>
-    );
-  }
-
+function NoteButton({ note }: { note: string }) {
   return (
-    <div className="inline-flex items-center gap-1.5">
-      <BadgeRoot size="large" variant={variantConfig} tone={tone} style={style}>
-        <BadgeLabel>{label}</BadgeLabel>
-      </BadgeRoot>
-      <HelpBubbleTooltipTrigger title={note} placement="top">
-        <button
-          type="button"
-          className="inline-flex items-center text-fd-muted-foreground hover:text-fd-foreground transition-colors"
-          aria-label="비고 보기"
-        >
-          <IconILowercaseSerifCircleLine size={16} />
-        </button>
-      </HelpBubbleTooltipTrigger>
-    </div>
+    <HelpBubbleTooltipTrigger title={note} placement="top">
+      <button
+        type="button"
+        className="inline-flex items-center text-fd-muted-foreground hover:text-fd-foreground transition-colors"
+        aria-label="비고 보기"
+      >
+        <IconILowercaseSerifCircleLine size={16} />
+      </button>
+    </HelpBubbleTooltipTrigger>
   );
 }
 
-export async function ProgressBoardTable() {
-  const components = await client.fetch<ComponentData[]>(
-    ALL_COMPONENTS_QUERY,
-    {},
-    { cache: "no-store" },
+function StatusBadge({ status }: { status: PlatformStatus }) {
+  const tone = statusConfig[status]?.tone ?? "neutral";
+  return (
+    <BadgeRoot size="large" variant="weak" tone={tone}>
+      <BadgeLabel>{PLATFORM_STATUS_LABELS[status] ?? "Not Ready"}</BadgeLabel>
+    </BadgeRoot>
   );
+}
 
-  if (!components || components.length === 0) {
-    return <div>컴포넌트 데이터가 없습니다.</div>;
-  }
+function LinkTo({
+  href,
+  className,
+  title,
+  children,
+}: {
+  href: string;
+  className: string;
+  title?: string;
+  children: React.ReactNode;
+}) {
+  return isExternalUrl(href) ? (
+    <a href={href} target="_blank" rel="noopener noreferrer" title={title} className={className}>
+      {children}
+    </a>
+  ) : (
+    <a href={href} title={title} className={className}>
+      {children}
+    </a>
+  );
+}
+
+export function ProgressBoardTable({ components }: { components: ComponentStatus[] }) {
+  if (components.length === 0) return <div>컴포넌트 데이터가 없습니다.</div>;
 
   return (
     <div className="not-prose my-6">
-      {/* Components Table — SEED design via shared TableRoot (single source in ./table) */}
       <TableRoot className="[&_thead_th:not(:first-child)]:text-center [&_tbody_tr:hover_td:first-child]:bg-bg-neutral-weak">
         <thead>
           <tr>
@@ -100,70 +86,36 @@ export async function ProgressBoardTable() {
             <tr key={component.id} className="group">
               <td className="sticky left-0 bg-bg-layer-default font-medium transition-colors">
                 {component.url ? (
-                  isExternalUrl(component.url) ? (
-                    <a
-                      href={component.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-fd-primary hover:underline"
-                    >
-                      {component.name}
-                    </a>
-                  ) : (
-                    <Link href={component.url} className="text-fd-primary hover:underline">
-                      {component.name}
-                    </Link>
-                  )
+                  <LinkTo href={component.url} className="text-fd-primary hover:underline">
+                    {component.name}
+                  </LinkTo>
                 ) : (
                   component.name
                 )}
               </td>
-              {PLATFORM_CONFIG.map(({ key: platform }) => {
-                const statusKey = `${platform}Status` as keyof ComponentData;
-                const urlKey = `${platform}Url` as keyof ComponentData;
-                const noteKey = `${platform}Note` as keyof ComponentData;
-                const status = component[statusKey] as PlatformStatus;
-                const url = component[urlKey] as string | undefined;
-                const note = component[noteKey] as string | undefined;
-
+              {PLATFORM_CONFIG.map(({ key }) => {
+                const { status, url, note } = component.platforms[key];
                 return (
-                  <td key={platform} className="text-center">
+                  <td key={key} className="text-center">
                     {url ? (
                       <div className="inline-flex items-center gap-1.5">
-                        {isExternalUrl(url) ? (
-                          <a
-                            href={url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title={status}
-                            className="no-underline hover:[&>*]:underline"
-                          >
-                            <StatusBadge status={status} showNote={false} />
-                          </a>
-                        ) : (
-                          <Link
-                            href={url}
-                            title={status}
-                            className="no-underline hover:[&>*]:underline"
-                          >
-                            <StatusBadge status={status} showNote={false} />
-                          </Link>
-                        )}
-                        {note && (
-                          <HelpBubbleTooltipTrigger title={note} placement="top">
-                            <button
-                              type="button"
-                              className="inline-flex items-center text-fd-muted-foreground hover:text-fd-foreground transition-colors"
-                              aria-label="비고 보기"
-                            >
-                              <IconILowercaseSerifCircleLine size={16} />
-                            </button>
-                          </HelpBubbleTooltipTrigger>
-                        )}
+                        <LinkTo
+                          href={url}
+                          title={status}
+                          className="no-underline hover:[&>*]:underline"
+                        >
+                          <StatusBadge status={status} />
+                        </LinkTo>
+                        {note && <NoteButton note={note} />}
                         <IconSeedArrow className="size-x3 text-fg-neutral opacity-0 transition-opacity group-hover:opacity-100" />
                       </div>
+                    ) : note ? (
+                      <div className="inline-flex items-center gap-1.5">
+                        <StatusBadge status={status} />
+                        <NoteButton note={note} />
+                      </div>
                     ) : (
-                      <StatusBadge status={status} note={note} />
+                      <StatusBadge status={status} />
                     )}
                   </td>
                 );

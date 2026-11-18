@@ -1,0 +1,36 @@
+---
+/**
+ * 블록 레지스트리의 코드(본 파일 + 내부 의존 파일). 하나면 코드 카드, 여럿이면 파일 이름 탭 카드다.
+ * 마크업은 기존 `components/block-code-tabs.tsx`와 같다. frontmatter에서 하이라이트를 await하므로 아래에 React가 없다.
+ */
+import { registryItem } from "../../lib/registry-item";
+import HighlightedCodeCard from "./HighlightedCodeCard.astro";
+import { highlightCode } from "./highlight";
+
+interface Props {
+  name: string;
+  /** 파일이 여럿일 때의 탭 묶음 id(`rehypeWidgetMarkers`). */
+  tabsId?: string;
+}
+
+const { name, tabsId } = Astro.props;
+const block = registryItem(`react/block/${name}`);
+if (!block)
+  throw new Error(`BlockCodeTabs: public/__registry__/react/block/${name}.json이 없습니다.`);
+const dependencyFiles = (block.innerDependencies ?? []).flatMap((dependency) =>
+  dependency.itemIds.flatMap(
+    (itemId) => registryItem(`react/${dependency.registryId}/${itemId}`)?.snippets ?? [],
+  ),
+);
+const [main] = block.snippets;
+const files = [...(main ? [main] : []), ...dependencyFiles];
+const items = await Promise.all(
+  files.map(async (file) => ({
+    value: file.path,
+    label: file.path,
+    html: await highlightCode(file.content, "tsx"),
+  })),
+);
+---
+
+<HighlightedCodeCard items={items} tabsId={tabsId} />

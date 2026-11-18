@@ -1,33 +1,37 @@
-import "server-only";
-
-import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
-import { type LynxExampleName, parseLynxExampleManifest } from "./manifest-schema";
+import {
+  type LynxExampleManifest,
+  type LynxExampleName,
+  parseLynxExampleManifest,
+} from "./manifest-schema";
 
 export type { LynxExampleManifest, LynxExampleName } from "./manifest-schema";
 
-const MANIFEST_PATH = resolve(process.cwd(), "public/__lynx__/manifest.json");
+// `build:lynx-examples`가 게시용 `public/__lynx__/manifest.json`과 같은 내용을 이 경로에도 쓴다.
+// render 중 fs로 읽지 않고 module로 import해야 Astro incremental build가 manifest 변경을 module graph hash로
+// 감지한다. 정적 JSON import 대신 glob을 쓰는 이유: 파일이 없는 checkout에서도 typecheck·테스트가 import 단계에서
+// 실패하지 않고, 실제로 예제를 그릴 때만 아래 안내 오류를 낸다.
+const files = import.meta.glob<unknown>("/.cache/build-data/lynx-manifest.json", {
+  eager: true,
+  import: "default",
+});
 
-export async function loadLynxExample(name: LynxExampleName) {
-  let manifestText: string;
-  try {
-    manifestText = await readFile(MANIFEST_PATH, "utf8");
-  } catch (error) {
+let manifest: LynxExampleManifest | undefined;
+
+function readManifest(name: LynxExampleName): LynxExampleManifest {
+  if (manifest) return manifest;
+  const value = Object.values(files)[0];
+  if (value === undefined) {
     throw new Error(
       `${name}을 렌더링할 Lynx manifest가 없습니다. \`bun run build:lynx-examples\`를 실행하세요.`,
-      { cause: error },
     );
   }
+  manifest = parseLynxExampleManifest(value);
+  return manifest;
+}
 
-  let manifestValue: unknown;
-  try {
-    manifestValue = JSON.parse(manifestText);
-  } catch (error) {
-    throw new Error(`${name}을 찾는 중 Lynx manifest JSON 파싱에 실패했습니다.`, { cause: error });
-  }
-
-  const manifest = parseLynxExampleManifest(manifestValue);
-  const entry = manifest.examples[name];
+/** 예제 이름의 web·lynx bundle 경로. 없는 이름이면 throw한다(빌드 실패). */
+export function lynxExample(name: LynxExampleName) {
+  const entry = readManifest(name).examples[name];
   if (!entry) {
     throw new Error(
       `${name}이 Lynx manifest에 없습니다. \`bun run build:lynx-examples\`를 실행하세요.`,

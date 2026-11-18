@@ -10,8 +10,8 @@ export interface ColorGridProps {
   }[];
 }
 
-export async function ColorGrid(props: ColorGridProps) {
-  const rootage = await getRootage();
+export function ColorGrid(props: ColorGridProps) {
+  const rootage = getRootage();
   const defaultModes = getDefaultModes(rootage);
   const scales = props.scales;
   const rows = scales.map((scale) => {

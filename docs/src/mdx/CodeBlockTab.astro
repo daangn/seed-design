@@ -1,0 +1,23 @@
+---
+import ChipTabsContent from "./ChipTabsContent.astro";
+
+interface Props {
+  value: string;
+  /** 첫 탭(`rehypeWidgetMarkers`). */
+  defaultSelected?: boolean;
+  /** 탭 묶음 id(`rehypeWidgetMarkers`). */
+  tabsId: string;
+}
+
+const { value, defaultSelected = false, tabsId } = Astro.props;
+---
+
+<ChipTabsContent
+  tabsId={tabsId}
+  value={value}
+  selected={defaultSelected}
+  focusable
+  class="seed-codeblock__viewport fd-scroll-container overflow-auto py-x3 text-[0.875rem] leading-[1.375rem] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-stroke-focus-ring !flex-none !overflow-auto"
+>
+  <slot />
+</ChipTabsContent>

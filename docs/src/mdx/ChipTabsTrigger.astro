@@ -1,0 +1,37 @@
+---
+/**
+ * SEED `ChipTabs.Trigger`의 서버 마크업 + 문서 탭 스타일. 기존 `components/tabs/chip-tab-trigger.tsx`는 선택·hover에 따라
+ * inline style로 배경·글자색을 바꿨다. 정적 마크업에서는 같은 토큰을 `aria-selected`·hover 유틸리티로 고른다.
+ * `aria-selected`는 SEED처럼 선택된 탭에만 둔다.
+ */
+import { chipTabs } from "@seed-design/css/recipes/chip-tabs";
+
+interface Props {
+  tabsId: string;
+  value: string;
+  selected?: boolean;
+}
+
+const { tabsId, value, selected = false } = Astro.props;
+const classes = chipTabs({ variant: "neutralOutline", size: "medium" });
+---
+
+<button
+  id={`tabs:${value}:${tabsId}:trigger-root`}
+  role="tab"
+  type="button"
+  tabindex={selected ? 0 : -1}
+  data-selected={selected ? "" : undefined}
+  data-ssr=""
+  aria-selected={selected ? "true" : undefined}
+  data-value={value}
+  data-orientation="horizontal"
+  data-ownedby={`tabs:${tabsId}:list`}
+  aria-controls={`tabs:${value}:${tabsId}:content`}
+  class:list={[
+    classes.trigger,
+    "seed-scale-feedback border-none bg-bg-transparent text-fg-neutral-muted hover:bg-bg-transparent-pressed aria-selected:bg-bg-transparent-selected aria-selected:text-fg-neutral aria-selected:hover:bg-bg-transparent-selected-pressed",
+  ]}
+>
+  <slot />
+</button>

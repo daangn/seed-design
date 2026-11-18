@@ -1,0 +1,40 @@
+---
+/**
+ * `<ComponentExample name="react/action-button/preview">```코드```</ComponentExample>`
+ *
+ * island 경계는 미리보기 하나다(S3 변형 A). 카드·"미리보기/코드" 탭(widget)·코드 panel(정적 Shiki HTML)은 island 밖이다.
+ * - island props는 문자열·숫자·plain object뿐이고 children을 island에 넘기지 않는다.
+ * - frontmatter에서 await하지 않는다(React를 렌더링하는 `.astro`, DESIGN 핵심 결정 9 ③).
+ * - 없는 예제 이름은 빌드 오류다(기존에는 런타임에 "컴포넌트가 존재하지 않습니다"를 그렸다).
+ * - 미리보기는 React가 서버 DOM을 claim할 때까지 `inert`다. 그 전의 클릭은 native 동작(체크 등)만 일으키고 React 상태와
+ *   DOM을 어긋나게 한다(S3). `ExamplePreview`가 hydrate commit 뒤 `data-example-gate`의 `inert`를 지운다. `astro:hydrate`는
+ *   `hydrateRoot` 호출 직후라 commit보다 30–460ms 이르다(Phase 3 측정).
+ */
+import { SafeAreaPreviewLegend } from "../../../components/safe-area-preview";
+import DemoCard from "../DemoCard.astro";
+import { ExamplePreview, type SafeAreaInsets } from "./ExamplePreview";
+import { hasExample } from "./example-modules";
+
+interface Props {
+  /** `react/<dir>/<file>` 또는 `breeze/<dir>/<file>` (확장자 없이). */
+  name: string;
+  isolate?: boolean;
+  safeAreaInsets?: SafeAreaInsets;
+  /** 예제 카드 탭의 id(`rehypeWidgetMarkers`). */
+  tabsId: string;
+}
+
+const { name, isolate, safeAreaInsets, tabsId } = Astro.props;
+
+if (!hasExample(name)) {
+  throw new Error(`ComponentExample: examples/${name}.tsx가 없습니다.`);
+}
+---
+
+<DemoCard tabsId={tabsId} hasCode={Astro.slots.has("default")}>
+  {safeAreaInsets && <SafeAreaPreviewLegend slot="legend" {...safeAreaInsets} />}
+  <div slot="preview" class="contents" inert data-example-gate>
+    <ExamplePreview client:visible={{ rootMargin: "300px" }} name={name} isolate={isolate} safeAreaInsets={safeAreaInsets} />
+  </div>
+  <slot />
+</DemoCard>

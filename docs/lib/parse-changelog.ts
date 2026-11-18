@@ -1,6 +1,6 @@
 import { getChangelogPlatform, type ChangelogPlatform } from "./changelog-platform";
 import { archivePaths } from "./docs-archive";
-import { remarkArchiveLinks } from "@/app/_llms/archive-markdown";
+import { remarkArchiveLinks } from "@/lib/llms/archive-markdown";
 import { existsSync } from "node:fs";
 import { readFile, readdir } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
@@ -29,6 +29,8 @@ export type ChangelogContentBlock =
       type: "code";
       code: string;
       lang: string;
+      /** 빌드 때 하이라이트한 `<pre>` HTML(`src/mdx/changelog-data.ts`). 없으면 평문으로 그린다. */
+      html?: string;
     };
 
 export interface ChangelogEntry {

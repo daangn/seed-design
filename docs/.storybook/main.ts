@@ -1,4 +1,4 @@
-import { defineMain } from "@storybook/nextjs-vite/node";
+import { defineMain } from "@storybook/react-vite/node";
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
 
@@ -22,13 +22,18 @@ export default defineMain({
     },
   ],
   framework: {
-    name: getAbsolutePath("@storybook/nextjs-vite"),
+    name: getAbsolutePath("@storybook/react-vite"),
     options: {},
   },
   staticDirs: ["../public"],
   core: {
     allowedHosts: [".test"],
   },
+  // story가 쓰는 `@/*`·`seed-design/*`는 `docs/tsconfig.json`의 `paths`로 해석한다.
+  viteFinal: (config) => ({
+    ...config,
+    resolve: { ...config.resolve, tsconfigPaths: true },
+  }),
 });
 
 function getAbsolutePath(value: string): string {

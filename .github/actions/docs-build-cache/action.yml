@@ -1,0 +1,369 @@
+name: Docs build caches
+description: >-
+  Restore and save the docs build caches (Figma images, Lynx outputs, Lynx Rspack cache,
+  Fumadocs type tables, Astro pages) and report the build timings. Call it in one job as
+  `prepare` right after checkout, `restore` after setup, `report` after the build steps
+  (always) and `save` after a successful build.
+
+inputs:
+  phase:
+    description: "`prepare` (before setup), `restore` (after setup), `report` (after the build, always) or `save` (after a successful build)"
+    required: true
+  cache-generation:
+    description: "restore: suffix that controls when the current branch publishes a new immutable cache"
+    required: false
+    default: ""
+  cache-scope:
+    description: "restore: branch name recorded in the cache key"
+    required: false
+    default: ""
+  default-branch:
+    description: "restore: repository default branch, the fallback scope"
+    required: false
+    default: ""
+  benchmark-cache-key:
+    description: "restore: optional isolated namespace for reproducible cold/warm benchmarks"
+    required: false
+    default: ""
+  skip-figma-cache:
+    description: "restore: do not restore Figma images (fetch fresh ones)"
+    required: false
+    default: "false"
+  skip-page-cache:
+    description: "restore: do not restore Astro pages (the build renders every page)"
+    required: false
+    default: "false"
+
+outputs:
+  lynx-out-hit:
+    description: "restore: whether the Lynx outputs were restored for exactly these inputs"
+    value: ${{ steps.restore-lynx-out.outputs.cache-hit }}
+
+runs:
+  using: composite
+  steps:
+    # 빌드 산출물(`packages/*/lib`, setup이 복원하는 `.ultra.cache.json`, `node_modules`)이 생기기 전에
+    # 추적 파일만 hash한다. 그래서 exclude 패턴이 필요 없다. 아래 Lynx 입력 목록은 실제 import와 손으로
+    # 맞춰야 하는 유일한 CI 목록이다(README「Lynx 산출물 key」).
+    - name: Hash docs cache inputs
+      if: ${{ inputs.phase == 'prepare' }}
+      shell: bash
+      env:
+        LOCK_HASH: ${{ hashFiles('bun.lock') }}
+        LYNX_OUT_HASH: ${{ hashFiles('docs/examples/lynx/**', 'docs/registry/lynx/**', 'docs/playground/lynx/**', 'docs/lynx.config.ts', 'docs/postcss.config.js', 'docs/tsconfig*.json', 'docs/package.json', 'docs/scripts/lynx-examples/**', 'packages/lynx-react/**', 'packages/lynx-react-headless/**', 'packages/lynx-css/**', 'packages/utils/lynx-react-scale-feedback/**', 'packages/rsbuild-plugin-lynx-icon/**', 'packages/css/base.css', 'tsconfig.lynx.json', 'patches/**', 'package.json', 'bunfig.toml', 'bun.lock', '.bun-version') }}
+        ASTRO_CONFIG_HASH: ${{ hashFiles('docs/astro.config.ts', 'docs/src/content/sections.ts', 'docs/lib/content/satteri-options.ts') }}
+      run: |
+        if [ -e packages/lynx-react/node_modules ] || [ -e packages/lynx-react/lib ]; then
+          echo "::error::docs-build-cache prepare must run before setup (build outputs would enter the Lynx key)."
+          exit 1
+        fi
+        if [ -z "$LOCK_HASH" ] || [ -z "$LYNX_OUT_HASH" ] || [ -z "$ASTRO_CONFIG_HASH" ]; then
+          echo "::error::A docs cache input hash is empty. Check the hashFiles patterns."
+          exit 1
+        fi
+        {
+          echo "DOCS_BUILD_SETUP_STARTED_AT=$(date +%s)" # report가 "setup 시작 ~ Build: post 끝"을 잰다.
+          echo "DOCS_CACHE_LOCK_HASH=$LOCK_HASH"
+          echo "DOCS_CACHE_LYNX_OUT_HASH=$LYNX_OUT_HASH"
+          echo "DOCS_CACHE_ASTRO_CONFIG_HASH=$ASTRO_CONFIG_HASH"
+        } >> "$GITHUB_ENV"
+
+    - name: Generate docs cache keys
+      id: keys
+      if: ${{ inputs.phase == 'restore' }}
+      shell: bash
+      env:
+        BENCHMARK_CACHE_KEY: ${{ inputs.benchmark-cache-key }}
+        CACHE_GENERATION: ${{ inputs.cache-generation }}
+        CACHE_SCOPE: ${{ inputs.cache-scope }}
+        DEFAULT_BRANCH: ${{ inputs.default-branch }}
+      run: |
+        if [ -z "${DOCS_CACHE_LYNX_OUT_HASH:-}" ]; then
+          echo "::error::Run docs-build-cache with phase: prepare right after checkout."
+          exit 1
+        fi
+        if [ -z "$CACHE_GENERATION" ] || [ -z "$CACHE_SCOPE" ] || [ -z "$DEFAULT_BRANCH" ]; then
+          echo "::error::cache-generation, cache-scope and default-branch are required for phase: restore."
+          exit 1
+        fi
+        # type table 캐시 항목과 같은 호환성 기준이다. setup 뒤에 계산한다(bun이 필요하다).
+        # 이 hash는 `bun.lock`과 패키지 원천 디렉터리 전체를 품는다.
+        compat="$(bun -e 'import { typeTableCacheCompatibilityHash } from "./docs/components/type-table/cache-compatibility.ts"; process.stdout.write(typeTableCacheCompatibilityHash)')"
+        bench=""
+        if [ -n "$BENCHMARK_CACHE_KEY" ]; then bench="benchmark-${BENCHMARK_CACHE_KEY}-"; fi
+
+        lynx_out="${RUNNER_OS}-docs-lynx-out-v1-${bench}${DOCS_CACHE_LYNX_OUT_HASH}"
+        rspack="${RUNNER_OS}-docs-lynx-rspack-v3-${bench}${DOCS_CACHE_LOCK_HASH}-scope-"
+        typetable="${RUNNER_OS}-docs-typetable-v3-${bench}${compat}-scope-"
+        astro="${RUNNER_OS}-docs-astro-v3-${bench}${DOCS_CACHE_LOCK_HASH}-${DOCS_CACHE_ASTRO_CONFIG_HASH}-scope-"
+
+        {
+          echo "lynx-out-key=$lynx_out"
+          for unit in rspack typetable astro; do
+            prefix="${!unit}"
+            echo "$unit-key=${prefix}${CACHE_SCOPE}-${CACHE_GENERATION}"
+            echo "$unit-restore-current=${prefix}${CACHE_SCOPE}-"
+            echo "$unit-restore-default=${prefix}${DEFAULT_BRANCH}-"
+          done
+        } >> "$GITHUB_OUTPUT"
+        {
+          echo "DOCS_CACHE_LYNX_OUT_KEY=$lynx_out"
+          echo "DOCS_CACHE_LYNX_RSPACK_KEY=${rspack}${CACHE_SCOPE}-${CACHE_GENERATION}"
+          echo "DOCS_CACHE_TYPETABLE_KEY=${typetable}${CACHE_SCOPE}-${CACHE_GENERATION}"
+          echo "DOCS_CACHE_ASTRO_KEY=${astro}${CACHE_SCOPE}-${CACHE_GENERATION}"
+        } >> "$GITHUB_ENV"
+
+    # 이미지는 node ID 집합과 Figma 원본이 정하고 `build-manifest.json`이 그 결과다. 그래서 save key는 빌드 뒤
+    # manifest로 만든다. restore는 항상 miss인 key로 가장 최근 것을 restore-key로 받는다.
+    - name: Restore Figma image cache
+      id: restore-figma
+      if: ${{ inputs.phase == 'restore' && inputs.skip-figma-cache != 'true' }}
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      with:
+        path: docs/.cache/figma-image
+        key: ${{ runner.os }}-docs-figma-v2-restore-${{ github.run_id }}
+        restore-keys: |
+          ${{ runner.os }}-docs-figma-v2-
+
+    # 부분 산출물은 쓸모없으므로 restore-key가 없다. exact hit면 빌드가 Rspeedy를 돌리지 않는다.
+    - name: Restore Lynx outputs
+      id: restore-lynx-out
+      if: ${{ inputs.phase == 'restore' }}
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      with:
+        path: |
+          docs/public/__lynx__
+          docs/.cache/build-data/lynx-manifest.json
+        key: ${{ steps.keys.outputs.lynx-out-key }}
+
+    # 약 600MB다. Lynx 산출물이 맞으면 Rspeedy가 돌지 않으므로 받지 않는다.
+    - name: Restore Lynx Rspack cache
+      id: restore-lynx-rspack
+      if: ${{ inputs.phase == 'restore' && steps.restore-lynx-out.outputs.cache-hit != 'true' }}
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      with:
+        path: docs/.cache/lynx-rspeedy
+        key: ${{ steps.keys.outputs.rspack-key }}
+        restore-keys: |
+          ${{ steps.keys.outputs.rspack-restore-current }}
+          ${{ steps.keys.outputs.rspack-restore-default }}
+
+    - name: Restore Fumadocs TypeScript cache
+      id: restore-typetable
+      if: ${{ inputs.phase == 'restore' }}
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      with:
+        path: docs/.cache/fumadocs-typescript
+        key: ${{ steps.keys.outputs.typetable-key }}
+        restore-keys: |
+          ${{ steps.keys.outputs.typetable-restore-current }}
+          ${{ steps.keys.outputs.typetable-restore-default }}
+
+    # Astro가 lockfile·설정·route module graph·content entry·페이지 cacheKey로 페이지마다 재사용을 판정한다.
+    # key의 lockfile·설정 hash는 Astro가 어차피 버릴 캐시를 받지 않으려는 것이다.
+    - name: Restore Astro page cache
+      id: restore-astro
+      if: ${{ inputs.phase == 'restore' && inputs.skip-page-cache != 'true' }}
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      with:
+        path: docs/.cache/astro
+        key: ${{ steps.keys.outputs.astro-key }}
+        restore-keys: |
+          ${{ steps.keys.outputs.astro-restore-current }}
+          ${{ steps.keys.outputs.astro-restore-default }}
+
+    - name: Report docs cache restore
+      if: ${{ inputs.phase == 'restore' }}
+      shell: bash
+      env:
+        FIGMA_MATCHED: ${{ steps.restore-figma.outputs.cache-matched-key }}
+        LYNX_OUT_HIT: ${{ steps.restore-lynx-out.outputs.cache-hit }}
+        LYNX_RSPACK_HIT: ${{ steps.restore-lynx-rspack.outputs.cache-hit }}
+        LYNX_RSPACK_MATCHED: ${{ steps.restore-lynx-rspack.outputs.cache-matched-key }}
+        TYPETABLE_HIT: ${{ steps.restore-typetable.outputs.cache-hit }}
+        TYPETABLE_MATCHED: ${{ steps.restore-typetable.outputs.cache-matched-key }}
+        ASTRO_HIT: ${{ steps.restore-astro.outputs.cache-hit }}
+        ASTRO_MATCHED: ${{ steps.restore-astro.outputs.cache-matched-key }}
+        SKIP_FIGMA: ${{ inputs.skip-figma-cache }}
+        SKIP_PAGES: ${{ inputs.skip-page-cache }}
+        CACHE_SCOPE: ${{ inputs.cache-scope }}
+        DEFAULT_BRANCH: ${{ inputs.default-branch }}
+      run: |
+        # save 단계와 timings 보고가 읽는다.
+        {
+          echo "DOCS_CACHE_FIGMA_MATCHED_KEY=$FIGMA_MATCHED"
+          echo "DOCS_CACHE_LYNX_OUT_HIT=${LYNX_OUT_HIT:-false}"
+          echo "DOCS_CACHE_LYNX_RSPACK_HIT=${LYNX_RSPACK_HIT:-false}"
+          echo "DOCS_CACHE_TYPETABLE_HIT=${TYPETABLE_HIT:-false}"
+          echo "DOCS_CACHE_ASTRO_HIT=${ASTRO_HIT:-false}"
+          echo "DOCS_CACHE_LYNX_RSPACK_MATCHED_KEY=$LYNX_RSPACK_MATCHED"
+          echo "DOCS_CACHE_TYPETABLE_MATCHED_KEY=$TYPETABLE_MATCHED"
+          echo "DOCS_CACHE_ASTRO_MATCHED_KEY=$ASTRO_MATCHED"
+        } >> "$GITHUB_ENV"
+
+        result() {
+          local skipped="$1" hit="$2" matched="$3"
+          if [ "$skipped" = "true" ]; then echo "skipped"
+          elif [ "$hit" = "true" ]; then echo "exact"
+          elif [ -n "$matched" ]; then
+            case "$matched" in
+              *-scope-"$CACHE_SCOPE"-*) echo "restore-key ($CACHE_SCOPE)" ;;
+              *-scope-"$DEFAULT_BRANCH"-*) echo "restore-key ($DEFAULT_BRANCH)" ;;
+              *) echo "restore-key" ;;
+            esac
+          else echo "miss"
+          fi
+        }
+        lynx_out="$( [ "$LYNX_OUT_HIT" = "true" ] && echo exact || echo miss )"
+        rspack_skipped="$( [ "$LYNX_OUT_HIT" = "true" ] && echo true || echo false )"
+        figma="$( [ "$SKIP_FIGMA" = "true" ] && echo skipped || { [ -n "$FIGMA_MATCHED" ] && echo restore-key || echo miss; } )"
+        {
+          echo "## Docs build cache restore"
+          echo
+          echo "| Cache | Result | Matched key |"
+          echo "| --- | --- | --- |"
+          echo "| figma | $figma | ${FIGMA_MATCHED:-none} |"
+          echo "| lynx-out | $lynx_out | ${DOCS_CACHE_LYNX_OUT_KEY} |"
+          echo "| lynx-rspack | $(result "$rspack_skipped" "$LYNX_RSPACK_HIT" "$LYNX_RSPACK_MATCHED") | ${LYNX_RSPACK_MATCHED:-none} |"
+          echo "| typetable | $(result false "$TYPETABLE_HIT" "$TYPETABLE_MATCHED") | ${TYPETABLE_MATCHED:-none} |"
+          echo "| astro | $(result "$SKIP_PAGES" "$ASTRO_HIT" "$ASTRO_MATCHED") | ${ASTRO_MATCHED:-none} |"
+          echo
+          echo "Lookup order: current branch ($CACHE_SCOPE), then default branch ($DEFAULT_BRANCH)."
+        } >> "$GITHUB_STEP_SUMMARY"
+
+    # 단계 시간(`DOCS_BUILD_*_SECONDS`)과 로그(`$RUNNER_TEMP/docs-build-*.log`)는 workflow의 빌드 step이 남긴다.
+    - name: Report docs build timings
+      if: ${{ inputs.phase == 'report' }}
+      shell: bash
+      env:
+        BENCHMARK_CACHE_KEY: ${{ inputs.benchmark-cache-key }}
+        EVENT_BEFORE: ${{ github.event.before }}
+      run: |
+        set -uo pipefail
+        logs="$RUNNER_TEMP"
+        base="HEAD^"
+        if [ -n "$EVENT_BEFORE" ] && git cat-file -e "${EVENT_BEFORE}^{commit}" 2>/dev/null; then base="$EVENT_BEFORE"; fi
+        changed="$(git diff --name-only "$base" HEAD 2>/dev/null || true)"
+        lockfile_changed=false
+        printf '%s\n' "$changed" | grep -qx 'bun.lock' && lockfile_changed=true
+        content_only=false
+        if [ -n "$changed" ] && ! printf '%s\n' "$changed" | grep -qv '^docs/content/'; then content_only=true; fi
+        pages_log="$logs/docs-build-astro.log"
+        [ -f "$pages_log" ] || pages_log="$logs/docs-build-archive.log"
+        restored="$(grep -cE '\((restored|cached)\)' "$pages_log" 2>/dev/null || true)"
+        rendered="$(grep -cE '\(\+[0-9.]+m?s\)' "$pages_log" 2>/dev/null || true)"
+        now="$(date +%s)"
+        setup_to_post=$(( now - ${DOCS_BUILD_SETUP_STARTED_AT:-$now} ))
+
+        jq -n \
+          --arg run_id "$GITHUB_RUN_ID" --arg sha "$GITHUB_SHA" --arg ref "$GITHUB_REF_NAME" \
+          --arg base "$base" --arg benchmark "$BENCHMARK_CACHE_KEY" \
+          --argjson lockfile_changed "$lockfile_changed" --argjson content_only "$content_only" \
+          --arg lynx_out "$( [ "${DOCS_CACHE_LYNX_OUT_HIT:-}" = true ] && echo hit || echo miss )" \
+          --arg lynx_rspack_exact "${DOCS_CACHE_LYNX_RSPACK_HIT:-false}" \
+          --arg typetable_exact "${DOCS_CACHE_TYPETABLE_HIT:-false}" \
+          --arg astro_exact "${DOCS_CACHE_ASTRO_HIT:-false}" \
+          --arg rspack_matched "${DOCS_CACHE_LYNX_RSPACK_MATCHED_KEY:-}" \
+          --arg typetable_matched "${DOCS_CACHE_TYPETABLE_MATCHED_KEY:-}" \
+          --arg astro_matched "${DOCS_CACHE_ASTRO_MATCHED_KEY:-}" \
+          --arg restored "${restored:-0}" --arg rendered "${rendered:-0}" \
+          --arg pre "${DOCS_BUILD_PRE_SECONDS:-}" --arg astro "${DOCS_BUILD_ASTRO_SECONDS:-}" \
+          --arg post "${DOCS_BUILD_POST_SECONDS:-}" --arg archive "${DOCS_BUILD_ARCHIVE_SECONDS:-}" \
+          --arg setup_to_post "$setup_to_post" \
+          '{run_id: $run_id, sha: $sha, ref: $ref, diff_base: $base, benchmark_cache_key: $benchmark,
+            lockfile_changed: $lockfile_changed, content_only: $content_only,
+            lib_cache: "not-exposed-by-setup", lynx_out: $lynx_out,
+            exact: {lynx_rspack: ($lynx_rspack_exact == "true"), typetable: ($typetable_exact == "true"), astro: ($astro_exact == "true")},
+            matched_key: {lynx_rspack: $rspack_matched, typetable: $typetable_matched, astro: $astro_matched},
+            astro_pages_restored: ($restored | tonumber), astro_pages_rendered: ($rendered | tonumber),
+            seconds: {pre: ($pre | tonumber? // null), astro: ($astro | tonumber? // null), post: ($post | tonumber? // null),
+                      archive: ($archive | tonumber? // null), setup_to_post: ($setup_to_post | tonumber)}}' \
+          > "$logs/docs-build-timings.json"
+
+        {
+          echo "## Docs build timings"
+          echo
+          echo "| Metric | Value |"
+          echo "| --- | --- |"
+          jq -r '[
+            ["setup start → build end (s)", .seconds.setup_to_post],
+            ["Build: pre (s)", .seconds.pre], ["Build: astro (s)", .seconds.astro],
+            ["Build: post (s)", .seconds.post], ["Build: archive (s)", .seconds.archive],
+            ["Astro paths restored / rendered", "\(.astro_pages_restored) / \(.astro_pages_rendered)"],
+            ["lynx-out", .lynx_out], ["lockfile changed", .lockfile_changed],
+            ["content only", .content_only], ["diff base", .diff_base],
+            ["benchmark cache key", (if .benchmark_cache_key == "" then "none" else .benchmark_cache_key end)]
+          ] | .[] | select(.[1] != null) | "| \(.[0]) | \(.[1]) |"' "$logs/docs-build-timings.json"
+          for name in pre post; do
+            [ -f "$logs/docs-build-$name.log" ] || continue
+            echo
+            echo "<details><summary>Build: $name concurrently timings</summary>"
+            echo
+            echo '```'
+            sed -n '/Timings:/,$p' "$logs/docs-build-$name.log" | sed 's/\x1b\[[0-9;]*m//g'
+            echo '```'
+            echo "</details>"
+          done
+        } >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Upload docs build timings
+      if: ${{ inputs.phase == 'report' }}
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      with:
+        name: docs-build-timings
+        retention-days: 30
+        if-no-files-found: warn
+        path: |
+          ${{ runner.temp }}/docs-build-timings.json
+          ${{ runner.temp }}/docs-build-*.log
+
+    # 큰 디렉터리를 hashFiles로 훑지 않고 있는지만 본다.
+    - name: Check docs cache outputs
+      id: present
+      if: ${{ inputs.phase == 'save' }}
+      shell: bash
+      run: |
+        has() { [ -n "$(find "$1" -type f -print -quit 2>/dev/null)" ] && echo true || echo false; }
+        {
+          echo "lynx-out=$( [ -f docs/public/__lynx__/manifest.json ] && [ -f docs/.cache/build-data/lynx-manifest.json ] && echo true || echo false )"
+          echo "lynx-rspack=$(has docs/.cache/lynx-rspeedy)"
+          echo "typetable=$(has docs/.cache/fumadocs-typescript)"
+          echo "astro=$( [ -f docs/.cache/astro/incremental-build.json ] && echo true || echo false )"
+        } >> "$GITHUB_OUTPUT"
+
+    - name: Save Figma image cache
+      if: ${{ inputs.phase == 'save' && hashFiles('docs/.cache/figma-image/build-manifest.json') != '' && format('{0}-docs-figma-v2-{1}', runner.os, hashFiles('docs/.cache/figma-image/build-manifest.json')) != env.DOCS_CACHE_FIGMA_MATCHED_KEY }}
+      uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      with:
+        path: docs/.cache/figma-image
+        key: ${{ runner.os }}-docs-figma-v2-${{ hashFiles('docs/.cache/figma-image/build-manifest.json') }}
+
+    - name: Save Lynx outputs
+      if: ${{ inputs.phase == 'save' && env.DOCS_CACHE_LYNX_OUT_HIT != 'true' && steps.present.outputs.lynx-out == 'true' }}
+      uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      with:
+        path: |
+          docs/public/__lynx__
+          docs/.cache/build-data/lynx-manifest.json
+        key: ${{ env.DOCS_CACHE_LYNX_OUT_KEY }}
+
+    - name: Save Lynx Rspack cache
+      if: ${{ inputs.phase == 'save' && env.DOCS_CACHE_LYNX_OUT_HIT != 'true' && env.DOCS_CACHE_LYNX_RSPACK_HIT != 'true' && steps.present.outputs.lynx-rspack == 'true' }}
+      uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      with:
+        path: docs/.cache/lynx-rspeedy
+        key: ${{ env.DOCS_CACHE_LYNX_RSPACK_KEY }}
+
+    - name: Save Fumadocs TypeScript cache
+      if: ${{ inputs.phase == 'save' && env.DOCS_CACHE_TYPETABLE_HIT != 'true' && steps.present.outputs.typetable == 'true' }}
+      uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      with:
+        path: docs/.cache/fumadocs-typescript
+        key: ${{ env.DOCS_CACHE_TYPETABLE_KEY }}
+
+    - name: Save Astro page cache
+      if: ${{ inputs.phase == 'save' && env.DOCS_CACHE_ASTRO_HIT != 'true' && steps.present.outputs.astro == 'true' }}
+      uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      with:
+        path: docs/.cache/astro
+        key: ${{ env.DOCS_CACHE_ASTRO_KEY }}

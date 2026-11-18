@@ -14,8 +14,11 @@ export interface TokenValue {
   description?: string;
 }
 
+/**
+ * 값이 둘 이상이면 접힌(최종 값)·펼친(해결 경로 전체) 마크업을 둘 다 그린다. 어느 쪽을 보일지는 가장 가까운
+ * `group/expand` 조상의 `data-expanded`(`expand` widget, `src/mdx/widgets.ts`)가 CSS로 정한다.
+ */
 export interface TokenCellProps {
-  isExpanded: boolean;
   values: TokenValue[];
   resolvedValue: AST.ValueLit;
 }
@@ -60,7 +63,8 @@ function renderShadowWithTokens(shadow: AST.ShadowLit) {
 }
 
 export function TokenCell(props: TokenCellProps) {
-  const { isExpanded, values, resolvedValue } = props;
+  const { values, resolvedValue } = props;
+  const canExpand = values.length > 1;
 
   const isGradientWithTokens =
     resolvedValue.kind === "GradientLit" &&
@@ -70,53 +74,54 @@ export function TokenCell(props: TokenCellProps) {
     resolvedValue.kind === "ShadowLit" &&
     resolvedValue.layers.some((layer) => layer.color.kind === "TokenLit");
 
+  // 토큰이 든 gradient·shadow는 접힌 상태에서 첫 단계 대신 최종 값을 펼쳐 보인다. 그 밖에는 접힌 상태가 해결 경로의
+  // 첫 단계와 같으므로 경로를 한 번만 그리고 둘째 단계부터 접힌 상태에서 숨긴다(정적 HTML 중복을 줄인다).
+  const hasCollapsedValue = isGradientWithTokens || isShadowWithTokens;
+  const expandedOnly = "hidden group-data-expanded/expand:flex";
+
   return (
-    <div className="flex justify-between" aria-expanded={isExpanded}>
+    <div className="flex justify-between" data-token-cell="" aria-expanded={false}>
       <div className="flex flex-col gap-1">
-        {isExpanded ? (
-          values.map((item, index) => (
-            <Fragment key={item.ref}>
-              <div className="flex items-center gap-2">
-                <TypeIndicator value={resolvedValue} />{" "}
-                {index === values.length - 1 && isShadowWithTokens ? (
-                  renderShadowWithTokens(resolvedValue as AST.ShadowLit)
-                ) : index === values.length - 1 && isGradientWithTokens ? (
-                  renderGradientWithTokens(resolvedValue as AST.GradientLit)
-                ) : item.ref.startsWith("$") ? (
-                  <TokenLink id={item.ref} description={item.description} />
-                ) : (
-                  <CopyValue value={item.ref} />
-                )}
-              </div>
-              {index < values.length - 1 ? (
-                <div className="flex w-4 h-4 items-center justify-center">
-                  <IconArrowDownLine className="w-3 h-3" />
-                </div>
-              ) : null}
-            </Fragment>
-          ))
-        ) : (
-          <div className="flex items-center gap-2">
+        {hasCollapsedValue ? (
+          <div
+            className={`flex items-center gap-2 ${canExpand ? "group-data-expanded/expand:hidden" : ""}`}
+          >
             <TypeIndicator value={resolvedValue} />{" "}
-            {isShadowWithTokens ? (
-              renderShadowWithTokens(resolvedValue as AST.ShadowLit)
-            ) : isGradientWithTokens ? (
-              renderGradientWithTokens(resolvedValue as AST.GradientLit)
-            ) : values[0].ref.startsWith("$") ? (
-              <TokenLink id={values[0].ref} description={values[0].description} />
-            ) : (
-              <CopyValue value={values[0].ref} />
-            )}
+            {isShadowWithTokens
+              ? renderShadowWithTokens(resolvedValue as AST.ShadowLit)
+              : renderGradientWithTokens(resolvedValue as AST.GradientLit)}
           </div>
-        )}
+        ) : null}
+        {canExpand || !hasCollapsedValue
+          ? values.map((item, index) => (
+              <Fragment key={item.ref}>
+                <div
+                  className={`items-center gap-2 ${index === 0 && !hasCollapsedValue ? "flex" : expandedOnly}`}
+                >
+                  <TypeIndicator value={resolvedValue} />{" "}
+                  {index === values.length - 1 && isShadowWithTokens ? (
+                    renderShadowWithTokens(resolvedValue as AST.ShadowLit)
+                  ) : index === values.length - 1 && isGradientWithTokens ? (
+                    renderGradientWithTokens(resolvedValue as AST.GradientLit)
+                  ) : item.ref.startsWith("$") ? (
+                    <TokenLink id={item.ref} description={item.description} />
+                  ) : (
+                    <CopyValue value={item.ref} />
+                  )}
+                </div>
+                {index < values.length - 1 ? (
+                  <div className={`w-4 h-4 items-center justify-center ${expandedOnly}`}>
+                    <IconArrowDownLine className="w-3 h-3" />
+                  </div>
+                ) : null}
+              </Fragment>
+            ))
+          : null}
       </div>
-      {values.length > 1 ? (
+      {canExpand ? (
         <div className="flex h-6 items-center gap-0.5">
-          {isExpanded ? (
-            <IconChevronUpLine className="w-4 h-4" />
-          ) : (
-            <IconChevronDownLine className="w-4 h-4" />
-          )}
+          <IconChevronUpLine className="w-4 h-4 hidden group-data-expanded/expand:block" />
+          <IconChevronDownLine className="w-4 h-4 group-data-expanded/expand:hidden" />
         </div>
       ) : null}
     </div>

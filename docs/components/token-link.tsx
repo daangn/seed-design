@@ -1,10 +1,7 @@
-"use client";
-
 import { archivePaths } from "@/lib/docs-archive";
 
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
 import { tokenReferenceHref } from "@/lib/token-search";
-import Link from "next/link";
 import type { ReactNode } from "react";
 
 export const TokenLink = ({
@@ -19,9 +16,8 @@ export const TokenLink = ({
   return (
     <div>
       <div className="flex items-center gap-1">
-        <Link
+        <a
           target="_blank"
-          onClick={(e) => e.stopPropagation()}
           className="inline no-underline hover:underline"
           href={archivePaths.link(tokenReferenceHref(id))}
         >
@@ -30,7 +26,7 @@ export const TokenLink = ({
             external
             className="size-2.5 flex-none text-current/60 ml-1 mb-0.5 inline"
           />
-        </Link>
+        </a>
         {trailing}
       </div>
       {description && (

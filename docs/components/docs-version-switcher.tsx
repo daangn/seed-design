@@ -1,20 +1,16 @@
-"use client";
-
 import { archivePaths } from "@/lib/docs-archive";
 
-import {
-  DocsMenuContent,
-  DocsMenuGroup,
-  DocsMenuItem,
-  DocsMenuRoot,
-  DocsMenuTrigger,
-  DocsMenuTriggerButton,
-} from "@/components/docs-menu";
-import { IconCheckmarkLine, IconChevronDownLine } from "@karrotmarket/react-monochrome-icon";
-import { type ComponentProps, useState } from "react";
-import clsx from "clsx";
+import { IconChevronDownLine } from "@karrotmarket/react-monochrome-icon";
+import { type ComponentProps, lazy, Suspense } from "react";
+import type DocsVersionMenuImpl from "./docs-version-menu";
+import { DocsMenuTriggerButton } from "./docs-menu-trigger-button";
+import { useMenuIntent } from "./use-menu-intent";
 
-interface DocsVersion {
+// 메뉴 module(SEED Menu·floating-ui)은 사용자가 버튼에 다가갈 때 받는다(`use-menu-intent.ts`).
+const loadMenu = () => import("./docs-version-menu");
+const DocsVersionMenu = lazy(loadMenu);
+
+export interface DocsVersion {
   label: string;
   url: string;
 }
@@ -59,41 +55,34 @@ export function DocsVersionSwitcher({
   platform,
   positionerContainer,
 }: { platform: DocsVersionPlatform } & Pick<
-  ComponentProps<typeof DocsMenuContent>,
+  ComponentProps<typeof DocsVersionMenuImpl>,
   "positionerContainer"
 >) {
-  const [open, setOpen] = useState(false);
+  const intent = useMenuIntent("click", loadMenu);
 
   // The release branch embeds its archive channel; regular Pages previews remain latest.
   const { versions, current } = getDocsVersions(platform, archivePaths);
 
+  const trigger = (
+    <DocsMenuTriggerButton
+      className="w-full justify-between!"
+      aria-haspopup="menu"
+      aria-expanded="false"
+      {...intent.triggerProps}
+    >
+      <span className="min-w-0 text-left">{current.label}</span>
+      <IconChevronDownLine className="shrink-0 transition-transform" />
+    </DocsMenuTriggerButton>
+  );
+  if (!intent.requested) return trigger;
   return (
-    <DocsMenuRoot open={open} onOpenChange={setOpen} placement="bottom-start" matchReferenceWidth>
-      <DocsMenuTrigger asChild>
-        <DocsMenuTriggerButton className="w-full justify-between!">
-          <span className="min-w-0 text-left">{current.label}</span>
-          <IconChevronDownLine
-            className={clsx("shrink-0 transition-transform", open && "rotate-180")}
-          />
-        </DocsMenuTriggerButton>
-      </DocsMenuTrigger>
-      <DocsMenuContent positionerContainer={positionerContainer}>
-        <DocsMenuGroup>
-          {versions.map((version) => (
-            <DocsMenuItem
-              key={version.label}
-              aria-current={version === current ? "true" : undefined}
-              label={version.label}
-              suffixIcon={version === current ? <IconCheckmarkLine /> : undefined}
-              onClick={() => {
-                if (version === current) return;
-
-                window.open(version.url, "_blank", "noopener,noreferrer");
-              }}
-            />
-          ))}
-        </DocsMenuGroup>
-      </DocsMenuContent>
-    </DocsMenuRoot>
+    <Suspense fallback={trigger}>
+      <DocsVersionMenu
+        versions={versions}
+        current={current}
+        defaultOpen={intent.clicked}
+        positionerContainer={positionerContainer}
+      />
+    </Suspense>
   );
 }

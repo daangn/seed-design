@@ -1,0 +1,10 @@
+---
+/**
+ * `<ProgressBoardTable />`: 컴포넌트별 플랫폼 지원 표. 비고 tooltip이 동작해야 해서 React island다(visible 지시어).
+ * Sanity 스냅숏(`prepare:sanity-snapshot` → `.cache/build-data/sanity.json`)은 여기서 module로 읽어 props로 넘긴다.
+ */
+import { ProgressBoardTable } from "../../../components/progress-board-table";
+import { allComponentStatuses } from "../../../lib/component-status";
+---
+
+<ProgressBoardTable client:visible components={allComponentStatuses()} />

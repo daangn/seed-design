@@ -4,8 +4,8 @@ import { typographyMappings } from "@seed-design/migration-index/typography";
 import { Text, TextProps } from "@seed-design/react";
 import { Fragment } from "react";
 
-export async function TypographyMigrationIndex() {
-  const rootage = await getRootage();
+export function TypographyMigrationIndex() {
+  const rootage = getRootage();
 
   if (!("typography" in rootage.componentSpecEntities)) {
     throw new Error("Typography component spec not found");

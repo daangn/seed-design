@@ -2,9 +2,7 @@
 
 import { IconChevronDownSmallLine } from "@karrotmarket/react-monochrome-icon";
 import clsx from "clsx";
-import type { CSSProperties, ReactNode } from "react";
-import { usePersistentOpenState } from "../layout/docs-side-navigation-items";
-import type { SidebarLeafItem } from "../layout/lib/sidebar-items";
+import { type CSSProperties, type ReactNode, useState } from "react";
 import { SidebarFeaturedDot } from "../layout/sidebar-featured-dot";
 import {
   Accordion,
@@ -144,9 +142,14 @@ interface DocsMobileNavAccordionProps {
   value: string;
   title: ReactNode;
   current?: boolean;
+  /** 제어하지 않을 때의 처음 열림 상태. */
   defaultOpen?: boolean;
+  /** 제어 모드. 문서 nav 폴더는 `DocsNav`의 폴더 맵이 정한다. */
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
   collapsible?: boolean;
-  index?: SidebarLeafItem;
+  /** 폴더 자신의 페이지. trigger가 현재 항목 표시와 추천 점을 그린다. */
+  index?: { current: boolean; featured?: boolean };
   children: ReactNode;
 }
 
@@ -154,18 +157,25 @@ export function DocsMobileNavAccordion({
   value,
   title,
   current = false,
-  defaultOpen,
+  defaultOpen = false,
+  open: openProp,
+  onOpenChange,
   collapsible = true,
   index,
   children,
 }: DocsMobileNavAccordionProps) {
-  const [open, setOpen] = usePersistentOpenState(defaultOpen ?? false, current, index, collapsible);
+  const [openState, setOpenState] = useState(defaultOpen || current);
+  const open = collapsible ? (openProp ?? openState) : true;
   const triggerCurrent = index ? index.current : current;
 
   return (
     <Accordion
       values={open ? [value] : []}
-      onValuesChange={(values) => setOpen(values.includes(value))}
+      onValuesChange={(values) => {
+        const next = values.includes(value);
+        if (onOpenChange) onOpenChange(next);
+        else if (collapsible) setOpenState(next);
+      }}
     >
       <AccordionItem value={value} disabled={!collapsible && !index}>
         <AccordionTrigger

@@ -1,0 +1,34 @@
+---
+/**
+ * 정적 탭의 root. SEED `ChipTabs.Root`(variant neutralOutline, size medium)가 서버에서 그리는 요소·class·data 속성과 같다.
+ * 동작은 `tabs` widget(`widgets.ts`)이 붙인다. 문서의 모든 탭(`Tabs`, 생성된 `CodeBlockTabs`, 예제 카드, 코드 카드)이 이
+ * 한 벌(`ChipTabsRoot`·`ChipTabsList`·`ChipTabsTrigger`·`ChipTabsContent`)을 쓴다.
+ *
+ * id: SEED React는 `useId`로 `tabs:<id>:list`, `tabs:<value>:<id>:trigger-root`, `tabs:<value>:<id>:content`를 만든다.
+ * 여기서는 `<id>` 자리에 문서 안에서 고유한 `tabsId`를 쓴다(MDX는 `rehypeWidgetMarkers`가 붙인다).
+ * `data-widget`·`data-tab-group`은 widget만 읽는 속성이다(SEED 마크업에는 없다).
+ */
+import { chipTabs } from "@seed-design/css/recipes/chip-tabs";
+
+interface Props {
+  class?: string;
+  /** 같은 group의 탭끼리 선택을 맞추고 localStorage `seed-tabs-sync:<group>`에 저장한다. */
+  groupId?: string;
+  /** 코드 카드면 복사 버튼이 보이는 `<pre>`를 찾는 기준(`[data-code-card]`). */
+  codeCard?: boolean;
+}
+
+const { class: className, groupId, codeCard } = Astro.props;
+const classes = chipTabs({ variant: "neutralOutline", size: "medium" });
+---
+
+<div
+  data-orientation="horizontal"
+  data-ssr=""
+  data-widget="tabs"
+  data-tab-group={groupId}
+  data-code-card={codeCard ? "true" : undefined}
+  class:list={[classes.root, className]}
+>
+  <slot />
+</div>

@@ -1,11 +1,12 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import { useSearchContext } from "fumadocs-ui/contexts/search";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { searchOpen as searchOpenAtom } from "../../src/shell/store";
+import { useAtom } from "../../src/shell/use-store";
 import type { LottieController } from "./components/scrub-lottie";
 import { CustomCursor } from "./custom-cursor";
 import { LANDING_LIGHT_ONLY_COLOR_BRIDGE } from "./landing-theme";
@@ -53,8 +54,8 @@ export function LandingExperience() {
   const [tone, setTone] = useState<"black" | "white">("black");
   // Footer is sized to its content; the spacer that uncovers it tracks this height.
   const [footerH, setFooterH] = useState<number | null>(null);
-  // Search dialog open-state (fumadocs SearchContext) — drives the Lenis prevent() below.
-  const { open: searchOpen } = useSearchContext();
+  // Search dialog open-state (shell store, `src/shell/store.ts`) — drives the Lenis prevent() below.
+  const searchOpen = useAtom(searchOpenAtom, false);
 
   useGSAP(
     () => {

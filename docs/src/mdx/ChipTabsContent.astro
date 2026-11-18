@@ -1,0 +1,35 @@
+---
+/** SEED `ChipTabs.Content`의 서버 마크업. 선택되지 않은 panel은 recipe가 숨긴다. */
+import { chipTabs } from "@seed-design/css/recipes/chip-tabs";
+
+interface Props {
+  tabsId: string;
+  value: string;
+  selected?: boolean;
+  class?: string;
+  /**
+   * 코드 panel은 키보드로 스크롤할 수 있게 선택된 panel을 focus 순서에 넣는다(기존 `CodeTabsShell`). 탭을 바꾸면
+   * widget이 `data-code-card` root의 panel에 같은 규칙을 적용한다.
+   */
+  focusable?: boolean;
+}
+
+const { tabsId, value, selected = false, class: className, focusable = false } = Astro.props;
+const classes = chipTabs({ variant: "neutralOutline", size: "medium" });
+---
+
+<div
+  id={`tabs:${value}:${tabsId}:content`}
+  tabindex={focusable && selected ? 0 : -1}
+  role="tabpanel"
+  aria-labelledby={`tabs:${value}:${tabsId}:trigger-root`}
+  aria-selected={selected ? "true" : undefined}
+  aria-hidden={selected ? "false" : "true"}
+  data-selected={selected ? "" : undefined}
+  data-orientation="horizontal"
+  data-ownedby={`tabs:${tabsId}:list`}
+  data-ssr=""
+  class:list={[classes.content, className]}
+>
+  <slot />
+</div>

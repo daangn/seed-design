@@ -1,0 +1,24 @@
+---
+/** SEED `ChipTabs.List`의 서버 마크업. */
+import { chipTabs } from "@seed-design/css/recipes/chip-tabs";
+
+interface Props {
+  /** 문서 안에서 고유한 탭 묶음 id(`ChipTabsRoot` 주석). */
+  tabsId: string;
+  class?: string;
+}
+
+const { tabsId, class: className } = Astro.props;
+const classes = chipTabs({ variant: "neutralOutline", size: "medium" });
+---
+
+<div
+  id={`tabs:${tabsId}:list`}
+  role="tablist"
+  aria-orientation="horizontal"
+  data-orientation="horizontal"
+  data-ssr=""
+  class:list={[classes.list, className]}
+>
+  <slot />
+</div>

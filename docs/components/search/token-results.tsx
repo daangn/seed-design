@@ -2,9 +2,6 @@
 
 import { Autocomplete } from "@base-ui/react/autocomplete";
 import clsx from "clsx";
-import { useSearch } from "fumadocs-ui/components/dialog/search";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { type CSSProperties, type ReactNode, useMemo } from "react";
 import { TOKEN_KIND_ICON } from "@/components/token-kind-icon";
 import { splitQueryTerms } from "@/lib/search-text";
@@ -15,6 +12,7 @@ import {
   tokenReferenceHref,
 } from "@/lib/token-search";
 import { Highlighted, PromotedSection, ShowMore, toRows, useExpandable } from "./promoted-section";
+import { useSelectResult } from "./select-result";
 
 /**
  * Four across the dialog's desktop width, two once it narrows to the viewport. A counted
@@ -136,8 +134,7 @@ function TokenPreview({ entry }: { entry: TokenSearchEntry }) {
 }
 
 function TokenTile({ entry, terms }: { entry: TokenSearchEntry; terms: string[] }) {
-  const { onOpenChange } = useSearch();
-  const router = useRouter();
+  const selectResult = useSelectResult();
   const href = tokenReferenceHref(entry.id);
 
   return (
@@ -153,8 +150,7 @@ function TokenTile({ entry, terms }: { entry: TokenSearchEntry; terms: string[] 
         if (event.metaKey || event.ctrlKey) return;
 
         event.preventDefault();
-        onOpenChange(false);
-        router.push(href);
+        selectResult(href);
       }}
       // A tile only fills the row its grid cell was stretched to if it takes the height:
       // otherwise a one-line description leaves the highlighted ground short of a two-line
@@ -168,7 +164,7 @@ function TokenTile({ entry, terms }: { entry: TokenSearchEntry; terms: string[] 
     >
       <TokenPreview entry={entry} />
       <span className="min-w-0 px-0.5">
-        <Link
+        <a
           href={href}
           // The name wraps across lines and splits into two colours, so spell the id out
           // again for screen readers.
@@ -181,7 +177,7 @@ function TokenTile({ entry, terms }: { entry: TokenSearchEntry; terms: string[] 
           <span className="font-medium text-fg-neutral">
             <Highlighted text={entry.key} terms={terms} />
           </span>
-        </Link>
+        </a>
         {/* No `block` here — line-clamp needs to set `display: -webkit-box` itself, and a
             display utility alongside it silently wins. Two thirds of the tokens have no
             description; the reserved line keeps a row of those from collapsing to a

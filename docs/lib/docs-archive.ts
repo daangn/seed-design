@@ -1,4 +1,4 @@
-// This value is embedded by Next.js. An unset value keeps the existing Pages build unchanged.
+// This value is embedded at build time (`astro.config.ts` define). An unset value keeps the existing Pages build unchanged.
 const DOCS_ARCHIVE_CHANNEL = process.env.NEXT_PUBLIC_DOCS_ARCHIVE_CHANNEL ?? "";
 
 export type ArchivePlatform = "react" | "lynx";
@@ -12,6 +12,23 @@ export function parseArchiveChannel(channel: string) {
     );
   }
   return { platform: match[1] as ArchivePlatform, version: match[2] };
+}
+
+/** 경로가 archive 채널(`/react/v2/…`, `/lynx/v0`) 아래인가. 다른 빌드로 가는 이동을 가려내는 데 쓴다. */
+export function isArchivePath(pathname: string): boolean {
+  const [, platform, version] = pathname.split("/");
+  if (!platform || !version) return false;
+  try {
+    parseArchiveChannel(`${platform}/${version}`);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** 경로가 `prefix`(archive 채널 접두사, 예: `/react/v2`) 아래인가. */
+export function isUnderPrefix(prefix: string, pathname: string): boolean {
+  return pathname === prefix || pathname.startsWith(`${prefix}/`);
 }
 
 export function createArchivePaths(channel: string) {
@@ -43,7 +60,7 @@ export function createArchivePaths(channel: string) {
         },
       };
     },
-    // Public assets and Next chunks are copied here by the archive exporter.
+    // Public assets and Astro chunks are copied here by the archive exporter.
     asset(path: string) {
       return prefix && isLocal(path) && !isScoped(path) ? `${prefix}/_assets${path}` : path;
     },

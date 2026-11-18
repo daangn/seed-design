@@ -1,0 +1,52 @@
+---
+/**
+ * `<Card title href icon={<IconComponent />}>설명</Card>`. 마크업은 기존 `components/mdx-card.tsx`의 `DocsCard`와 같다.
+ * `icon`·`title`·`description`은 MDX가 컴파일한 값(문자열 또는 Astro JSX vnode)이다. vnode는 `.astro` 표현식으로
+ * 그릴 수 없어 `RenderNode.mdx`가 그린다.
+ */
+import { archivePaths } from "../../lib/docs-archive";
+import { IconSeedArrow } from "../../components/icon-seed-arrow";
+import RenderNode from "./RenderNode.mdx";
+
+interface Props {
+  title: unknown;
+  href?: string;
+  icon?: unknown;
+  description?: unknown;
+  external?: boolean;
+  /** MDX 작성자가 붙인 class(예: updates 글의 `mt-[4.21875rem]`). */
+  className?: string;
+}
+
+const { title, href, icon, description, external, className } = Astro.props;
+const isExternal = external ?? (href ? /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(href) : false);
+const card =
+  "not-prose group flex min-h-[52px] flex-col justify-center rounded-r3 bg-bg-transparent-selected px-x5 py-x3_5 text-fg-neutral transition-colors duration-color-transition hover:bg-bg-transparent-selected-pressed @max-lg:col-span-full";
+const Tag = href ? "a" : "div";
+---
+
+<Tag
+  data-card="true"
+  class:list={[card, className]}
+  href={href ? archivePaths.link(href) : undefined}
+  target={href && isExternal ? "_blank" : undefined}
+  rel={href && isExternal ? "noreferrer noopener" : undefined}
+>
+  <div class="flex min-w-0 items-start gap-x3">
+    {
+      icon && (
+        <span class="mt-[1px] flex size-x5 shrink-0 items-center justify-center rounded-r2 bg-bg-transparent-selected-pressed text-fg-neutral [&_svg]:size-x3_5">
+          <RenderNode node={icon} />
+        </span>
+      )
+    }
+    <div class="min-w-0 flex-1">
+      <div class="flex min-w-0 items-center justify-between gap-x3">
+        <h3 class="t5-medium my-0 min-w-0 truncate text-fg-neutral"><RenderNode node={title} /></h3>
+        {href && <IconSeedArrow external={isExternal} className={isExternal ? "size-x4 text-fg-neutral -translate-y-[0.5px]" : "size-x4 text-fg-neutral"} />}
+      </div>
+      {description && <p class="t4-regular mb-0 mt-x1 break-words text-fg-neutral-muted"><RenderNode node={description} /></p>}
+      {Astro.slots.has("default") && <div class="prose-no-margin t4-regular mt-x1 break-words text-fg-neutral-muted empty:hidden"><slot /></div>}
+    </div>
+  </div>
+</Tag>

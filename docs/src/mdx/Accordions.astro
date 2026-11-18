@@ -1,0 +1,36 @@
+---
+/**
+ * `<Accordions type="single"><Accordion title="…">…</Accordion></Accordions>`
+ *
+ * 정적 마크업 + `accordion` widget(오너 결정 1). 마크업은 기존 `components/accordion.tsx`(SEED `AccordionRoot`, variant
+ * separated, size medium)가 서버에서 그리던 요소·class·`data-*`·ARIA와 같다. 열고 닫기는 `src/mdx/widgets.ts`가 한다.
+ *
+ * `rootId`는 문서 안에서 고유한 값으로 `rehypeWidgetMarkers`가 붙인다(SEED React의 `useId` 자리). 항목 `Accordion`도
+ * 같은 값을 받아 trigger·content id를 만든다. `type`이 `multiple`이 아니면 한 번에 하나만 열린다(SEED 기본값과 같다).
+ */
+import { accordion } from "@seed-design/css/recipes/accordion";
+
+interface Props {
+  type?: "single" | "multiple";
+  rootId?: string;
+  class?: string;
+}
+
+const { type = "single", rootId, class: className } = Astro.props;
+if (!rootId)
+  throw new Error(
+    "Accordions: rootId가 없습니다. rehypeWidgetMarkers가 MDX에 붙이거나 직접 넘깁니다.",
+  );
+const id = `accordion:${rootId}:root`;
+const classes = accordion({ variant: "separated", size: "medium" });
+---
+
+<div
+  id={id}
+  data-accordion-root={id}
+  class:list={[classes.root, "my-4", className]}
+  data-widget="accordion"
+  data-accordion-multiple={type === "multiple" ? "" : undefined}
+>
+  <slot />
+</div>

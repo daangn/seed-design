@@ -1,0 +1,42 @@
+---
+/**
+ * 상세 문서 하단 이전/다음 링크(정적). 기존 `components/layout/docs-prev-next.tsx`와 같은 마크업이다.
+ * 순서는 fumadocs `useFooterItems`와 같다(`src/content/source.ts#prevNextOf`). 한쪽만 있어도 자리를 고정한다.
+ */
+import { IconSeedArrow } from "../../components/icon-seed-arrow";
+import type { PrevNextLink } from "../content/source";
+
+interface Props {
+  prev?: PrevNextLink;
+  next?: PrevNextLink;
+}
+
+const { prev, next } = Astro.props;
+const card =
+  "flex min-h-[52px] flex-col justify-center gap-x2 rounded-r3 bg-bg-transparent-selected px-x5 py-x3_5 text-fg-neutral transition-colors duration-color-transition hover:bg-bg-transparent-selected-pressed";
+---
+
+{
+  (prev || next) && (
+    <div class="mt-x16 grid grid-cols-2 gap-x6">
+      {prev && (
+        <a class={`${card} col-start-1`} href={prev.href}>
+          <span class="t4-regular inline-flex items-center gap-x2">
+            <IconSeedArrow className="size-x3_5 rotate-180" />
+            이전 문서
+          </span>
+          <span class="t5-medium truncate">{prev.label}</span>
+        </a>
+      )}
+      {next && (
+        <a class={`${card} col-start-2 items-end text-end`} href={next.href}>
+          <span class="t4-regular inline-flex items-center gap-x2">
+            다음 문서
+            <IconSeedArrow className="size-x3_5" />
+          </span>
+          <span class="t5-medium w-full truncate text-end">{next.label}</span>
+        </a>
+      )}
+    </div>
+  )
+}

@@ -1,5 +1,4 @@
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
-import Link from "next/link";
 import { SeedSymbol } from "@/components/layout/seed-symbol";
 import { BrandLogo } from "../brand-logo";
 import { type FooterLink, FOOTER_CONTACT, FOOTER_MENU, FOOTER_MORE } from "../lib/landing-content";
@@ -12,7 +11,7 @@ function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) 
         {links.map((item) => {
           const external = item.href.startsWith("http");
           return (
-            <Link
+            <a
               key={item.label}
               href={item.href}
               target={external ? "_blank" : undefined}
@@ -21,7 +20,7 @@ function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) 
             >
               {item.label}
               {external && <IconSeedArrow external />}
-            </Link>
+            </a>
           );
         })}
       </div>

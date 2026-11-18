@@ -1,0 +1,70 @@
+---
+/**
+ * 예제 카드(ComponentExample·LynxComponentExample·StackflowExample 공용). 정적이다.
+ * "미리보기/코드" 전환은 `tabs` widget이 처리한다. 결과 DOM은 기존 `SeedTabs card`(`components/component-example.tsx`)와 같다.
+ * panel id(`tabs:미리보기:<tabsId>:content`)는 SEED React와 같은 모양이고, baseline 하네스가 미리보기를 찾는
+ * `[role=tabpanel][id*="미리보기"]`도 그대로 맞는다. `tabsId`는 `rehypeWidgetMarkers`가 예제 요소에 붙인 문서 안 순번이다.
+ *
+ * slot
+ * - `preview`: 미리보기(island 또는 iframe). 미리보기 틀(`min-h-80` 가운데 정렬)은 여기서 정적으로 그린다.
+ * - default: 코드 panel. MDX의 코드 블록(빌드 때 Shiki로 하이라이트된 HTML)이 그대로 들어온다.
+ * - `legend`: 미리보기 위의 SafeArea 범례(정적).
+ */
+import ChipTabsContent from "./ChipTabsContent.astro";
+import ChipTabsList from "./ChipTabsList.astro";
+import ChipTabsRoot from "./ChipTabsRoot.astro";
+import ChipTabsTrigger from "./ChipTabsTrigger.astro";
+
+interface Props {
+  /** 문서 안에서 고유한 탭 묶음 id. */
+  tabsId: string;
+  /** false면 탭 없이 미리보기만. */
+  hasCode: boolean;
+  /** 미리보기 틀의 class. 기본은 가운데 정렬 `min-h-80` 상자. 빈 문자열이면 틀 없이 미리보기를 그대로 둔다. */
+  frameClass?: string;
+}
+
+const {
+  tabsId,
+  hasCode,
+  frameClass = "flex min-h-80 items-center justify-center p-x5",
+} = Astro.props;
+const panel =
+  "!flex-none !overflow-visible ![transform:none] [&>figure]:my-0 [&>figure]:rounded-none [&>figure]:border-0";
+---
+
+{
+  hasCode ? (
+    <ChipTabsRoot class="my-4 flex flex-col overflow-visible rounded-r3 border border-solid border-stroke-neutral-muted">
+      <div class="px-x4 pt-x3 pb-x3">
+        <ChipTabsList tabsId={tabsId} class="!px-0">
+          <ChipTabsTrigger tabsId={tabsId} value="미리보기" selected>미리보기</ChipTabsTrigger>
+          <ChipTabsTrigger tabsId={tabsId} value="코드">코드</ChipTabsTrigger>
+        </ChipTabsList>
+      </div>
+      <div class="h-px shrink-0 bg-stroke-neutral-muted" />
+      <ChipTabsContent tabsId={tabsId} value="미리보기" selected class={panel}>
+        <slot name="legend" />
+        {frameClass ? (
+          <div class={frameClass}>
+            <slot name="preview" />
+          </div>
+        ) : (
+          <slot name="preview" />
+        )}
+      </ChipTabsContent>
+      <ChipTabsContent tabsId={tabsId} value="코드" class={panel}>
+        <slot />
+      </ChipTabsContent>
+    </ChipTabsRoot>
+  ) : (
+    <div class="my-4 overflow-hidden rounded-r3 border border-solid border-stroke-neutral-muted">
+      <slot name="legend" />
+      <div class="overflow-x-auto">
+        <div class="flex min-h-80 w-max min-w-full items-center justify-center p-x5">
+          <slot name="preview" />
+        </div>
+      </div>
+    </div>
+  )
+}

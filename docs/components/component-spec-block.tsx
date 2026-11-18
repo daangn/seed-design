@@ -36,12 +36,12 @@ function getVariantDescriptions(
     .filter((item): item is VariantDescriptionItem => item !== null);
 }
 
-export async function ComponentSpecBlock({
+export function ComponentSpecBlock({
   id,
   headingComponent: HeadingComponent = "h3",
   variants,
 }: ComponentSpecBlockProps) {
-  const rootage = await getRootage();
+  const rootage = getRootage();
   const componentSpec = rootage.componentSpecEntities[id];
 
   if (!componentSpec) {

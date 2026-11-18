@@ -1,0 +1,22 @@
+---
+/**
+ * `<StackflowExample path="/…">```코드```</StackflowExample>`. 미리보기는 stackflow-spa를 띄운 iframe이고, iframe이 보내는
+ * URL·스택 메시지를 표시하므로 React island다(visible 지시어). 카드와 코드 panel은 정적이다.
+ * 결과 DOM은 기존 `components/stackflow-example.tsx`(SeedTabs card + `Box p="x5"`)와 같다.
+ */
+import { StackflowIframePreview } from "../../../components/stackflow-iframe-preview";
+import DemoCard from "../DemoCard.astro";
+
+interface Props {
+  path: string;
+  /** 예제 카드 탭의 id(`rehypeWidgetMarkers`). */
+  tabsId: string;
+}
+
+const { path, tabsId } = Astro.props;
+---
+
+<DemoCard tabsId={tabsId} hasCode frameClass="p-x5">
+  <StackflowIframePreview slot="preview" client:visible path={path} />
+  <slot />
+</DemoCard>

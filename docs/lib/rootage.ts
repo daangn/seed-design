@@ -1,31 +1,28 @@
-import "server-only";
-
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
-import { cache } from "react";
-import { buildContext, Exchange } from "@seed-design/rootage-core";
+import { buildContext, Exchange, type RootageCtx } from "@seed-design/rootage-core";
 import index from "@seed-design/rootage-artifacts/index.json";
 
-// `process.cwd()` is `docs/` during Next.js build/runtime.
-// `@seed-design/rootage-artifacts` is the workspace package at `packages/rootage`.
-const ROOTAGE_DATA = join(process.cwd(), "..", "packages", "rootage", "__generated__");
-
-export const getRootage = cache(async () => {
-  const sourceFiles = await Promise.all(
-    index.resources.map(async (resource) => {
-      const content = await readFile(join(ROOTAGE_DATA, resource.path), "utf-8");
-      return {
-        fileName: resource.path,
-        ast: Exchange.fromObject(JSON.parse(content) as Exchange.Model),
-      };
-    }),
-  );
-  return buildContext(sourceFiles);
+// rootage 산출물(`packages/rootage/__generated__`)을 render 중 fs로 읽지 않고 JSON module로 import한다.
+// module graph에 들어가야 Astro incremental build가 rootage 변경을 감지한다. 빌드 동안 한 번만 만든다.
+const files = import.meta.glob<Exchange.Model>("../../packages/rootage/__generated__/**/*.json", {
+  eager: true,
+  import: "default",
 });
 
-export async function getRootageMetadata(componentId: string) {
-  const rootage = await getRootage();
-  const sourceFile = rootage.sourceFiles.find(
+let rootage: RootageCtx | undefined;
+
+export function getRootage(): RootageCtx {
+  if (rootage) return rootage;
+  const sourceFiles = index.resources.map((resource) => {
+    const model = files[`../../packages/rootage/__generated__${resource.path}`];
+    if (!model) throw new Error(`rootage 산출물이 없습니다: ${resource.path}`);
+    return { fileName: resource.path, ast: Exchange.fromObject(model) };
+  });
+  rootage = buildContext(sourceFiles);
+  return rootage;
+}
+
+export function getRootageMetadata(componentId: string) {
+  const sourceFile = getRootage().sourceFiles.find(
     (f) => f.ast.kind === "ComponentSpecDocument" && f.ast.data.id === componentId,
   );
 
@@ -40,7 +37,7 @@ export async function getRootageMetadata(componentId: string) {
   };
 }
 
-export async function getComponentStatus(
+export function getComponentStatus(
   params: { slug?: string[] },
   pageData?: { deprecated?: boolean },
 ) {
@@ -49,7 +46,7 @@ export async function getComponentStatus(
   const componentId = params.slug?.[0] === "components" ? params.slug[1] : undefined;
   if (!componentId) return { deprecated: false };
 
-  const metadata = await getRootageMetadata(componentId);
+  const metadata = getRootageMetadata(componentId);
   if (!metadata?.deprecated) return { deprecated: false };
 
   return { deprecated: true };

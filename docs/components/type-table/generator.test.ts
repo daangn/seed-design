@@ -107,7 +107,6 @@ describe("filtered type table generator cache", () => {
       "coverage",
       ".cache",
       ".turbo",
-      ".next",
     ]) {
       await mkdir(join(directory, skippedDirectory));
       await writeFile(join(directory, skippedDirectory, "generated.ts"), "export {};\n");
@@ -119,7 +118,7 @@ describe("filtered type table generator cache", () => {
 
   it("CI와 generator가 같은 호환성 해시 구현을 사용한다", async () => {
     const action = await readFile(
-      join(import.meta.dir, "../../../.github/actions/nextjs-cache/action.yml"),
+      join(import.meta.dir, "../../../.github/actions/docs-build-cache/action.yml"),
       "utf8",
     );
 

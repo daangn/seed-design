@@ -2,9 +2,18 @@
 
 import { defaultShikiFactory } from "fumadocs-core/highlight/shiki/full";
 import { useShikiDynamic } from "fumadocs-core/highlight/shiki/react";
-import { Pre } from "fumadocs-ui/components/codeblock";
-import { type ReactNode, useId } from "react";
+import { type ComponentProps, type ReactNode, useId } from "react";
 import { SeedCodeBlock } from "./code-block";
+
+/** fumadocs-ui `Pre`와 같은 class(MDX 코드 블록 `CodeBlock.astro`와 같다). */
+function Pre(props: ComponentProps<"pre">) {
+  return (
+    <pre
+      {...props}
+      className={["min-w-full w-max *:flex *:flex-col", props.className].filter(Boolean).join(" ")}
+    />
+  );
+}
 
 const shikiThemes = { light: "github-light", dark: "github-dark" } as const;
 

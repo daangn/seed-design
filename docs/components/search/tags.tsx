@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import type { TagItem } from "fumadocs-ui/contexts/search";
+import type { TagItem } from "@/lib/search-tags";
 import type { ReactNode } from "react";
 
 /** Pill-shaped filter chip. `undefined` value == the "All" (no filter) chip. */
