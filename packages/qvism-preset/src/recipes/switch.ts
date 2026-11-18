@@ -41,6 +41,7 @@ const switchRecipe = defineSlotRecipe({
           minHeight: vars.size32.enabled.root.height,
           gap: vars.size32.enabled.root.gap,
 
+          // TODO: use `1lh` here once browser support allows.
           "--switchmark-margin-top": `calc((${vars.size32.enabled.root.height} - ${markVars.size32.enabled.root.height}) / 2)`, // 수직 위치 보정
         },
         label: {

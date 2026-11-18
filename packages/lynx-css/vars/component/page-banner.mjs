@@ -3,11 +3,10 @@ export const vars = {
     "enabled": {
       "root": {
         "paddingX": "var(--seed-dimension-x4)",
-        "paddingY": "var(--seed-dimension-x2_5)",
-        "minHeight": "var(--seed-dimension-x10)"
+        "paddingY": "var(--seed-dimension-x2_5)"
       },
       "prefixIcon": {
-        "size": "var(--seed-dimension-x4)",
+        "size": "1rem",
         "marginRight": "var(--seed-dimension-x2)"
       },
       "content": {

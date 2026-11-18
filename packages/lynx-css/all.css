@@ -5329,7 +5329,6 @@ text {
 
 .seed-page-banner__root {
   width: 100%;
-  min-height: var(--seed-dimension-x10);
   padding-left: var(--seed-dimension-x4);
   padding-right: var(--seed-dimension-x4);
   padding-top: var(--seed-dimension-x2_5);
@@ -5419,9 +5418,9 @@ text {
 }
 
 .seed-page-banner__prefixIcon {
-  width: var(--seed-dimension-x4);
-  height: var(--seed-dimension-x4);
-  margin-top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * .5 - var(--seed-dimension-x2_5));
+  width: var(--seed-font-size-t5);
+  height: var(--seed-font-size-t5);
+  margin-top: calc((var(--seed-line-height-t4) - var(--seed-font-size-t5)) * .5);
   margin-right: var(--seed-dimension-x2);
   flex-shrink: 0;
 }
