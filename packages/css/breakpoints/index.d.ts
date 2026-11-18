@@ -1,3 +1,5 @@
+// Generated from the "viewport-width" collection of @seed-design/rootage-artifacts. Do not edit.
+
 export declare const breakpointNames: readonly ["base", "sm", "md", "lg", "xl"];
 
 export type Breakpoint = (typeof breakpointNames)[number];

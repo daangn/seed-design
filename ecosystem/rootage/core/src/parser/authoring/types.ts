@@ -58,7 +58,7 @@ export interface TokenCollectionsModel {
   };
   data: Array<{
     name: string;
-    modes: Array<{ id: string; description?: string }>;
+    modes: Array<{ id: string; description?: string; minWidth?: number }>;
   }>;
 }
 

@@ -1,5 +1,6 @@
 import {
   Authoring,
+  breakpoints,
   buildContext,
   createTokenValuesResolver,
   css,
@@ -339,6 +340,23 @@ async function writeTailwind4(dir: string, prefix?: string): Promise<string> {
   return writePath;
 }
 
+async function writeBreakpoints(dir: string) {
+  const { ctx } = await prepare();
+  const values = breakpoints.getBreakpoints(getTokenCollectionDeclarations(ctx));
+
+  writeFileSync({
+    filename: "index.mjs",
+    code: breakpoints.getBreakpointsMjs(values),
+    writePath: path.join(process.cwd(), dir, "index.mjs"),
+  });
+
+  writeFileSync({
+    filename: "index.d.ts",
+    code: breakpoints.getBreakpointsDts(values),
+    writePath: path.join(process.cwd(), dir, "index.d.ts"),
+  });
+}
+
 async function validateArtifacts() {
   const filePaths = readYAMLFilesSync(artifactsDir);
   const fileContents = await Promise.all(filePaths.map((name) => fs.readFile(name, "utf-8")));
@@ -493,6 +511,16 @@ export const commands = {
     handler: async ({ dir }) => {
       console.log("Start");
       await writeJsonTs(dir);
+      console.log("Done");
+    },
+  }),
+  breakpoints: defineCommand({
+    args: "<dir>",
+    describe: "Generate breakpoint values and media queries from the viewport-width collection",
+    builder: (yargs) => yargs.positional("dir", dirPositional),
+    handler: async ({ dir }) => {
+      console.log("Start");
+      await writeBreakpoints(dir);
       console.log("Done");
     },
   }),
