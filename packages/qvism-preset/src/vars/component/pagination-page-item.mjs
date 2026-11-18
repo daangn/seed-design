@@ -3,8 +3,6 @@ export const vars = {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-transparent)",
-        "scaleDuration": "var(--seed-duration-pressed-scale)",
-        "scaleTimingFunction": "var(--seed-timing-function-pressed-scale)",
         "size": "var(--seed-dimension-x10)",
         "cornerRadius": "var(--seed-radius-r2)"
       },
@@ -17,8 +15,7 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-transparent-pressed)",
-        "scale": "var(--seed-scale-s97)"
+        "color": "var(--seed-color-bg-transparent-pressed)"
       }
     },
     "selected": {

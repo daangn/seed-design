@@ -657,7 +657,7 @@
         {
           "path": "pagination.tsx",
           "dependencies": {
-            "@seed-design/react": "^3.0.0"
+            "@seed-design/react": "^3.4.0"
           }
         }
       ],
@@ -665,15 +665,6 @@
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
-      ],
-      "innerDependencies": [
-        {
-          "registryId": "lib",
-          "itemIds": [
-            "pagination-button",
-            "pagination-page-item"
-          ]
-        }
       ]
     },
     {
@@ -1087,7 +1078,7 @@
         {
           "path": "table-pagination.tsx",
           "dependencies": {
-            "@seed-design/react": "^3.0.0"
+            "@seed-design/react": "^3.4.0"
           }
         }
       ],
@@ -1097,12 +1088,6 @@
         "@seed-design/react"
       ],
       "innerDependencies": [
-        {
-          "registryId": "lib",
-          "itemIds": [
-            "pagination-button"
-          ]
-        },
         {
           "registryId": "ui",
           "itemIds": [

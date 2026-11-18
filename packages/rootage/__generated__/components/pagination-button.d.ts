@@ -20,14 +20,12 @@ declare const artifact: {
             "colorTimingFunction": {
               "type": "cubicBezier";
             };
-            "scale": {
-              "type": "number";
-            };
-            "scaleDuration": {
-              "type": "duration";
-            };
-            "scaleTimingFunction": {
-              "type": "cubicBezier";
+            "scaleScope": {
+              "type": "enum";
+              "values": readonly [
+                "self",
+                "content",
+              ];
             };
             "size": {
               "type": "dimension";
@@ -72,14 +70,6 @@ declare const artifact: {
                   "type": "cubicBezier";
                   "value": "$timing-function.easing";
                 };
-                "scaleDuration": {
-                  "type": "duration";
-                  "value": "$duration.pressed-scale";
-                };
-                "scaleTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.pressed-scale";
-                };
                 "size": {
                   "type": "dimension";
                   "value": "$dimension.x10";
@@ -111,9 +101,9 @@ declare const artifact: {
                   "type": "color";
                   "value": "$color.bg.transparent-pressed";
                 };
-                "scale": {
-                  "type": "number";
-                  "value": "$scale.s97";
+                "scaleScope": {
+                  "type": "enum";
+                  "value": "self";
                 };
               };
             };
