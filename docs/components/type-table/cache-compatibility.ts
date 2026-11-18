@@ -29,7 +29,6 @@ const TYPE_TABLE_CACHE_DEPENDENCY_DIRECTORIES = [
 const TYPE_DEPENDENCY_FILE = /\.(?:[cm]?[jt]sx?|json)$/;
 const TYPE_DEPENDENCY_SKIP_DIRECTORIES = new Set([
   ".cache",
-  ".next",
   ".turbo",
   "build",
   "coverage",

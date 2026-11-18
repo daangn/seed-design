@@ -107,7 +107,6 @@ describe("filtered type table generator cache", () => {
       "coverage",
       ".cache",
       ".turbo",
-      ".next",
     ]) {
       await mkdir(join(directory, skippedDirectory));
       await writeFile(join(directory, skippedDirectory, "generated.ts"), "export {};\n");

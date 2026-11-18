@@ -8,7 +8,6 @@
 
 # test & build
 /coverage
-/.next/
 /.cache/
 /out/
 /build
@@ -26,7 +25,6 @@ yarn-error.log*
 # others
 .env*.local
 .vercel
-next-env.d.ts
 *storybook.log
 
 storybook-static

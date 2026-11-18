@@ -46,7 +46,7 @@ export function toComponentStatus(component: ComponentData): ComponentStatus {
 
 async function fetchComponents(): Promise<ComponentData[]> {
   const client = createClient({ projectId, dataset, apiVersion, useCdn: false });
-  return client.fetch<ComponentData[]>(ALL_COMPONENTS_QUERY, {}, { cache: "no-store" });
+  return client.fetch<ComponentData[]>(ALL_COMPONENTS_QUERY);
 }
 
 export async function prepareSanitySnapshot(): Promise<ComponentStatusSnapshot> {

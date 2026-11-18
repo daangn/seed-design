@@ -1,12 +1,5 @@
-import { archivePaths } from "@/lib/docs-archive";
-import type { Metadata } from "next";
 import { baseUrl } from "@/lib/metadata";
-import {
-  COVER_IMAGE_HEIGHT,
-  COVER_IMAGE_WIDTH,
-  coverImageFileExists,
-  resolveCoverImagePaths,
-} from "@/lib/cover-image";
+import { COVER_IMAGE_HEIGHT, COVER_IMAGE_WIDTH, resolveCoverImagePaths } from "@/lib/cover-image";
 
 export const SITE_NAME = "SEED Design System";
 export const SITE_LOCALE = "ko_KR";
@@ -54,8 +47,8 @@ export const DEFAULT_OG_IMAGE: OgImage = {
 };
 
 /**
- * `public/` 경로의 파일이 있는가. Astro render 경로는 빌드 데이터(`src/content/public-files.ts`)를, Next·스크립트는
- * `coverImageFileExists`(fs)를 넘긴다. render 중 fs를 읽으면 incremental build가 낡은 HTML을 복원한다.
+ * `public/` 경로의 파일이 있는가. render 경로는 빌드 데이터(`src/content/public-files.ts`)를 넘긴다. render 중 fs를 읽으면
+ * incremental build가 낡은 HTML을 복원한다.
  */
 export type PublicFileExists = (publicPath: string) => boolean;
 
@@ -124,124 +117,13 @@ function resolveSectionOgImage(
   };
 }
 
-export interface SeoInput {
-  /** Page title. Omit to inherit (e.g. the root layout default). */
-  title?: string;
-  /** Page description. */
-  description?: string;
-  /** Override the OG/Twitter image. Defaults to the SEED brand card. */
-  image?: OgImage;
-  /**
-   * Canonical path for this page (`page.url`). Emits `<link rel="canonical">`, which matters
-   * because `public/_redirects` carries permanent redirects into these URLs.
-   */
-  url?: string;
-  /** Set for blog-style pages so the OG type becomes `article` instead of `website`. */
-  publishedTime?: string;
-}
-
-/**
- * Build consistent page metadata: title/description + Open Graph + Twitter
- * summary-large-image card, with `metadataBase` so relative image paths resolve
- * to absolute URLs (required by crawlers, and by `output: "export"`).
- *
- * Use in a route's `generateMetadata`, or call with no args in the root layout
- * for the site-wide default OG. Pages that set only `title`/`description`
- * inherit the default image.
- *
- * @example
- * export function generateMetadata(): Metadata {
- *   return buildSeoMetadata({ title: "Foundations", description: "..." });
- * }
- */
-export function buildSeoMetadata({
-  title,
-  description,
-  image = DEFAULT_OG_IMAGE,
-  url,
-  publishedTime,
-}: SeoInput = {}): Metadata {
-  const shared = {
-    ...(title !== undefined ? { title } : {}),
-    ...(description !== undefined ? { description } : {}),
-  };
-
-  return {
-    metadataBase: baseUrl,
-    ...shared,
-    ...(url !== undefined ? { alternates: { canonical: url } } : {}),
-    openGraph: {
-      ...(publishedTime !== undefined
-        ? ({ type: "article", publishedTime } as const)
-        : ({ type: "website" } as const)),
-      siteName: SITE_NAME,
-      locale: SITE_LOCALE,
-      ...(url !== undefined ? { url } : {}),
-      ...shared,
-      images: [{ ...image, url: archivePaths.asset(image.url) }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      ...shared,
-      images: [archivePaths.asset(image.url)],
-    },
-  };
-}
-
-export interface DocsPageMetadataInput {
-  /** Frontmatter title (also the sidebar label). */
-  title: string;
-  /** Optional content heading that overrides `title` for display (designSchema pages). */
-  heading?: string;
-  description?: string;
-  /** Static cover base path (frontmatter `coverImage`); resolved to the OG image. */
-  coverImage?: string;
-  /**
-   * Resolved deprecated state — frontmatter `deprecated`, or a section's rootage
-   * component status (via getComponentStatus). When true, the display title gets
-   * a "(Deprecated)" suffix unless it already carries one.
-   */
-  deprecated?: boolean;
-  /** Canonical path for this page — pass `page.url`. Also keys the section OG fallback. */
-  url?: string;
-  /** Blog-style pages only (frontmatter `publishedAt`). Switches the OG type to `article`. */
-  publishedTime?: string;
-}
-
-/**
- * Section detail-page metadata for every `[[...slug]]` route's `generateMetadata`.
- * Centralizes the shared wiring — the "(Deprecated)" title suffix rule and cover →
- * OG image resolution — so each route only resolves `deprecated` (some sections
- * consult rootage) and passes its frontmatter primitives.
- */
 /**
  * Append a "(Deprecated)" suffix to a display title when the page is deprecated —
- * idempotent, so a title that already carries the suffix is left as-is. Shared by the
- * section detail Page bodies (DocsPageRenderer title / cover alt) and buildDocsPageMetadata
- * so the on-page heading and the metadata title never diverge.
+ * idempotent, so a title that already carries the suffix is left as-is. `src/content/source.ts` uses it
+ * for both the on-page heading and the metadata title so the two never diverge.
  */
 export function deprecatedTitle(title: string, deprecated?: boolean): string {
   return deprecated && !title.includes("(Deprecated)") ? `${title} (Deprecated)` : title;
-}
-
-export function buildDocsPageMetadata({
-  title,
-  heading,
-  description,
-  coverImage,
-  deprecated,
-  url,
-  publishedTime,
-}: DocsPageMetadataInput): Metadata {
-  const displayTitle = deprecatedTitle(heading ?? title, deprecated);
-
-  return buildSeoMetadata({
-    title: displayTitle,
-    description,
-    image: docsPageOgImage({ coverImage, url }, coverImageFileExists),
-    url,
-    publishedTime,
-  });
 }
 
 /**
