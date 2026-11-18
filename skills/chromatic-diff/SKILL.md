@@ -58,7 +58,7 @@ Only one of the two is detectable, and the asymmetry is the point. The CLI is in
 It prints one line naming the runtime, the token's remaining life, and which drivers are available:
 
 ```
-env: bun 1.4.0 · token ok (29d left) · driver: chrome-devtools MCP tools
+env: bun 1.4.0 · token ok (52m left) · driver: chrome-devtools MCP tools
 ```
 
 Keep that line. When the script exits non-zero it prints a `STOP` line naming where the workflow ends for this run, and that line governs the rest of the session.
