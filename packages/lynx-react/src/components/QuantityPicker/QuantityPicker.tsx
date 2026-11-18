@@ -19,6 +19,7 @@ import * as React from "@lynx-js/react";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxIconElementProps, LynxHostProps, LynxViewRef } from "../../types";
 import { useInsideAccessibilityElement } from "../../utils/accessibility";
+import { useShallowMemo } from "../../utils/use-shallow-memo";
 import { mergeProps } from "../../utils/merge-props";
 import { InternalIcon } from "../Icon/Icon";
 
@@ -198,10 +199,12 @@ export const QuantityPickerRoot = React.forwardRef<unknown, QuantityPickerRootPr
       ...nativeProps
     } = otherProps;
 
-    const classes = quantityPicker(
-      recipeProps(
-        { layout, size, invalid: api.invalid, disabled: api.disabled },
-        api.decrementLoading || api.incrementLoading,
+    const classes = useShallowMemo(
+      quantityPicker(
+        recipeProps(
+          { layout, size, invalid: api.invalid, disabled: api.disabled },
+          api.decrementLoading || api.incrementLoading,
+        ),
       ),
     );
     const contextValue = React.useMemo<StyledQuantityPickerContextValue>(

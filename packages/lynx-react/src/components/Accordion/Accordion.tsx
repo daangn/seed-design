@@ -26,6 +26,7 @@ import type { LynxHostProps, LynxIconElementProps, LynxTextRef, LynxViewRef } fr
 import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { InternalIcon } from "../Icon/Icon";
+import { useShallowMemo } from "../../utils/use-shallow-memo";
 import { mergeProps } from "../../utils/merge-props";
 import {
   AccessibilityElementScope,
@@ -84,7 +85,8 @@ export const AccordionRoot = React.forwardRef<unknown, AccordionRootProps>((prop
     multiple = false,
     ...restProps
   } = props;
-  const [variantProps, nativeProps] = accordion.splitVariantProps(restProps);
+  const [variantPropsInput, nativeProps] = accordion.splitVariantProps(restProps);
+  const variantProps = useShallowMemo(variantPropsInput);
   const api = useAccordion({ values, defaultValues, onValuesChange, disabled, multiple });
   const contextValue = React.useMemo<StyledAccordionContextValue>(
     () => ({ ...api, variantProps }),

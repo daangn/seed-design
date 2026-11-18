@@ -8,6 +8,7 @@ import type {
   RefAttributes,
 } from "@lynx-js/react";
 import clsx from "clsx";
+import { useShallowMemo } from "./use-shallow-memo";
 import { mergeProps } from "./merge-props";
 
 type SlotRecipe<
@@ -74,11 +75,13 @@ export function createSlotRecipeContext<
   const PropsContext = createContext<Props | null>(null);
 
   const ClassNamesProvider = ({ children, value }: { children: ReactNode; value: Classnames }) => {
-    return <ClassNamesContext.Provider value={value}>{children}</ClassNamesContext.Provider>;
+    const stableValue = useShallowMemo(value);
+    return <ClassNamesContext.Provider value={stableValue}>{children}</ClassNamesContext.Provider>;
   };
 
   const PropsProvider = ({ children, value }: { children: ReactNode; value: Props }) => {
-    return <PropsContext.Provider value={value}>{children}</PropsContext.Provider>;
+    const stableValue = useShallowMemo(value);
+    return <PropsContext.Provider value={stableValue}>{children}</PropsContext.Provider>;
   };
 
   function useClassNames() {

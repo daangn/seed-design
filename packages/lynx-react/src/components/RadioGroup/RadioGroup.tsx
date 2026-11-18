@@ -21,6 +21,7 @@ import { useScaleFeedback, type ScaleFeedbackTargetProps } from "../../hooks/use
 import type { LynxHostProps, LynxIconElementProps, LynxTextRef, LynxViewRef } from "../../types";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { InternalIcon } from "../Icon/Icon";
+import { useShallowMemo } from "../../utils/use-shallow-memo";
 import { mergeProps } from "../../utils/merge-props";
 import {
   AccessibilityElementScope,
@@ -128,8 +129,10 @@ export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>((pr
     "main-thread:bindtap": mainThreadBindtap,
     ...restProps
   } = props;
-  const [{ radio: radioVariantProps, radiomark: radiomarkVariantProps }, nativeProps] =
+  const [{ radio: radioVariantPropsInput, radiomark: radiomarkVariantPropsInput }, nativeProps] =
     splitMultipleVariantsProps(restProps, { radio, radiomark });
+  const radioVariantProps = useShallowMemo(radioVariantPropsInput);
+  const radiomarkVariantProps = useShallowMemo(radiomarkVariantPropsInput);
   const api = useRadioGroupItem({
     value,
     disabled,

@@ -67,6 +67,43 @@ describe("useScaleFeedback Main Thread integration", () => {
     await waitSchedule();
     expect(report.mock.calls).toEqual([["user-attached"], ["feedback"]]);
   });
+  it("does not retransmit spread props on an unchanged rerender and updates callbacks", async () => {
+    const first = vi.fn();
+    const next = vi.fn();
+    const view = render(<ScaleFeedbackTarget onTouchStart={first} />, {
+      enableMainThread: true,
+      enableBackgroundThread: true,
+    });
+    await waitSchedule();
+    const runtime = lynx as typeof lynx & {
+      getNativeApp(): {
+        callLepusMethod(name: string, payload: unknown, callback?: () => void): void;
+      };
+    };
+    const send = vi.spyOn(runtime.getNativeApp(), "callLepusMethod");
+    try {
+      view.rerender(<ScaleFeedbackTarget onTouchStart={first} />);
+      await waitSchedule();
+      const changes = send.mock.calls.filter(([name]) => name === "rLynxChange");
+      expect(changes.length).toBeGreaterThan(0);
+      for (const [, payload] of changes) {
+        expect(JSON.stringify(payload)).not.toContain("snapshotPatch");
+      }
+      const target = view.container.querySelector("#spread-target");
+      if (!target) throw new Error("Missing scale feedback target");
+      fireEvent.touchstart(target, {});
+      await waitSchedule();
+      expect(first).toHaveBeenCalledTimes(1);
+      view.rerender(<ScaleFeedbackTarget onTouchStart={next} />);
+      await waitSchedule();
+      fireEvent.touchstart(target, {});
+      await waitSchedule();
+      expect(first).toHaveBeenCalledTimes(1);
+      expect(next).toHaveBeenCalledTimes(1);
+    } finally {
+      send.mockRestore();
+    }
+  });
   it("runs the exact Background Thread callback from its Main Thread handler", async () => {
     const onTouchStart = vi.fn();
     const { container } = render(<ScaleFeedbackTarget onTouchStart={onTouchStart} />, {

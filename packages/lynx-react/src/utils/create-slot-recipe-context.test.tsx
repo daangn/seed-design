@@ -1,6 +1,6 @@
-import { forwardRef } from "@lynx-js/react";
+import { forwardRef, memo } from "@lynx-js/react";
 import { render } from "@lynx-js/react/testing-library";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { createSlotRecipeContext } from "./create-slot-recipe-context";
 
@@ -144,4 +144,47 @@ describe("createSlotRecipeContext", () => {
 
     expect(received.props?.active).toBe(false);
   });
+});
+
+it("only invalidates recipe consumers when classes or variants change", () => {
+  const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
+    createSlotRecipeContext(mockSlotRecipe);
+  const readClasses = vi.fn();
+  const readProps = vi.fn();
+  const ClassConsumer = memo(() => {
+    readClasses(useClassNames());
+    return null;
+  });
+  const PropsConsumer = memo(() => {
+    readProps(useProps());
+    return null;
+  });
+  function Example({
+    variant,
+    includeVariant = true,
+  }: {
+    variant: "a" | "b";
+    includeVariant?: boolean;
+  }) {
+    return (
+      <ClassNamesProvider value={mockSlotRecipe({ variant })}>
+        <PropsProvider value={includeVariant ? { variant } : {}}>
+          <ClassConsumer />
+          <PropsConsumer />
+        </PropsProvider>
+      </ClassNamesProvider>
+    );
+  }
+  const view = render(<Example variant="a" />);
+  const classRenders = readClasses.mock.calls.length;
+  const propsRenders = readProps.mock.calls.length;
+  view.rerender(<Example variant="a" />);
+  expect(readClasses).toHaveBeenCalledTimes(classRenders);
+  expect(readProps).toHaveBeenCalledTimes(propsRenders);
+  view.rerender(<Example variant="b" />);
+  expect(readClasses).toHaveBeenLastCalledWith({ root: "root-b", label: "label-b" });
+  expect(readProps).toHaveBeenLastCalledWith({ variant: "b" });
+  expect(readClasses.mock.calls.length).toBeGreaterThan(classRenders);
+  view.rerender(<Example variant="b" includeVariant={false} />);
+  expect(readProps).toHaveBeenLastCalledWith({});
 });

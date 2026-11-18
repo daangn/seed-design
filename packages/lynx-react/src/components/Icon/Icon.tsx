@@ -12,6 +12,7 @@ import {
 import { useIconColor } from "../../hooks/useIconColor";
 import type { LynxHostProps, LynxIconElementProps, LynxViewRef } from "../../types";
 import { handleColor, handleDimension, type StyleProps } from "../../utils/styled";
+import { useShallowMemo } from "../../utils/use-shallow-memo";
 import { mergeProps } from "../../utils/merge-props";
 
 export type IconSlotName = "icon" | "prefixIcon" | "suffixIcon";
@@ -88,7 +89,10 @@ export function IconSlotProvider({
   value: IconSlotContextValue;
   children: React.ReactNode;
 }) {
-  return <IconSlotContext.Provider value={value}>{children}</IconSlotContext.Provider>;
+  const classNames = useShallowMemo(value.classNames);
+  const deps = useShallowMemo(value.deps);
+  const context = React.useMemo(() => ({ classNames, deps }), [classNames, deps]);
+  return <IconSlotContext.Provider value={context}>{children}</IconSlotContext.Provider>;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

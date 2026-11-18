@@ -94,36 +94,62 @@ export function usePressTap(options: UsePressTapOptions = {}): UsePressTapReturn
     [disabled, mainThreadOnTap],
   );
 
-  const result: UsePressTapReturn = {
-    pressed: !disabled && pressed,
-    bindtap: handleTap,
-    bindtouchstart: press,
-    bindtouchend: reset,
-    bindtouchcancel: reset,
-    ...(mainThreadTap ? { "main-thread:bindtap": mainThreadTap } : {}),
-  };
+  const mainThreadTouchStart = useMemo<MainThreadTouchHandler | undefined>(
+    () =>
+      mainThreadOnTouchStart
+        ? (event) => {
+            "main thread";
+            mainThreadOnTouchStart(event);
+            runOnBackground(press)();
+          }
+        : undefined,
+    [mainThreadOnTouchStart, press],
+  );
+  const mainThreadTouchEnd = useMemo<MainThreadTouchHandler | undefined>(
+    () =>
+      mainThreadOnTouchEnd
+        ? (event) => {
+            "main thread";
+            mainThreadOnTouchEnd(event);
+            runOnBackground(reset)();
+          }
+        : undefined,
+    [mainThreadOnTouchEnd, reset],
+  );
+  const mainThreadTouchCancel = useMemo<MainThreadTouchHandler | undefined>(
+    () =>
+      mainThreadOnTouchCancel
+        ? (event) => {
+            "main thread";
+            mainThreadOnTouchCancel(event);
+            runOnBackground(reset)();
+          }
+        : undefined,
+    [mainThreadOnTouchCancel, reset],
+  );
 
-  if (mainThreadOnTouchStart) {
-    result["main-thread:bindtouchstart"] = (event) => {
-      "main thread";
-      mainThreadOnTouchStart(event);
-      runOnBackground(press)();
-    };
-  }
-  if (mainThreadOnTouchEnd) {
-    result["main-thread:bindtouchend"] = (event) => {
-      "main thread";
-      mainThreadOnTouchEnd(event);
-      runOnBackground(reset)();
-    };
-  }
-  if (mainThreadOnTouchCancel) {
-    result["main-thread:bindtouchcancel"] = (event) => {
-      "main thread";
-      mainThreadOnTouchCancel(event);
-      runOnBackground(reset)();
-    };
-  }
-
-  return result;
+  return useMemo<UsePressTapReturn>(
+    () => ({
+      pressed: !disabled && pressed,
+      bindtap: handleTap,
+      bindtouchstart: press,
+      bindtouchend: reset,
+      bindtouchcancel: reset,
+      ...(mainThreadTap ? { "main-thread:bindtap": mainThreadTap } : {}),
+      ...(mainThreadTouchStart ? { "main-thread:bindtouchstart": mainThreadTouchStart } : {}),
+      ...(mainThreadTouchEnd ? { "main-thread:bindtouchend": mainThreadTouchEnd } : {}),
+      ...(mainThreadTouchCancel ? { "main-thread:bindtouchcancel": mainThreadTouchCancel } : {}),
+    }),
+    [
+      disabled,
+      pressed,
+      handleTap,
+      press,
+      reset,
+      mainThreadTap,
+      mainThreadTouchStart,
+      mainThreadTouchEnd,
+      mainThreadTouchCancel,
+    ],
+  );
 }

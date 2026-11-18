@@ -27,6 +27,7 @@ import {
 } from "../../utils/accessibility";
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { InternalIcon } from "../Icon/Icon";
+import { useShallowMemo } from "../../utils/use-shallow-memo";
 import { mergeProps } from "../../utils/merge-props";
 
 /**
@@ -107,8 +108,12 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
     onCheckedChange,
     ...restProps
   } = props;
-  const [{ checkbox: checkboxVariantProps, checkmark: checkmarkVariantProps }, nativeProps] =
-    splitMultipleVariantsProps(restProps, { checkbox, checkmark });
+  const [
+    { checkbox: checkboxVariantPropsInput, checkmark: checkmarkVariantPropsInput },
+    nativeProps,
+  ] = splitMultipleVariantsProps(restProps, { checkbox, checkmark });
+  const checkboxVariantProps = useShallowMemo(checkboxVariantPropsInput);
+  const checkmarkVariantProps = useShallowMemo(checkmarkVariantPropsInput);
   const insideAccessibilityElement = useInsideAccessibilityElement();
   const resolvedAccessibilityLabel = accessibilityLabel ?? getAccessibleText(children);
 
