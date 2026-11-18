@@ -90,6 +90,7 @@
     "@seed-design/lynx-react-switch": "^1.0.2",
     "@seed-design/lynx-react-tabs": "^1.1.2",
     "@seed-design/lynx-react-text-field": "^1.2.2",
+    "@seed-design/lynx-react-time-picker": "^0.0.0",
     "@seed-design/lynx-react-toggle": "^1.0.2",
     "@seed-design/lynx-react-use-press-tap": "^1.0.2",
     "@seed-design/lynx-react-use-safe-area": "^1.1.0",

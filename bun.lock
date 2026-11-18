@@ -585,6 +585,7 @@
         "@seed-design/lynx-react-switch": "^1.0.2",
         "@seed-design/lynx-react-tabs": "^1.1.2",
         "@seed-design/lynx-react-text-field": "^1.2.2",
+        "@seed-design/lynx-react-time-picker": "^0.0.0",
         "@seed-design/lynx-react-toggle": "^1.0.2",
         "@seed-design/lynx-react-use-controllable-state": "^1.0.1",
         "@seed-design/lynx-react-use-press-tap": "^1.0.2",
@@ -1222,6 +1223,22 @@
       "peerDependencies": {
         "@lynx-js/react": ">=0.117.0",
         "@lynx-js/types": ">=3.7.0",
+      },
+    },
+    "packages/lynx-react-headless/time-picker": {
+      "name": "@seed-design/lynx-react-time-picker",
+      "version": "0.0.0",
+      "dependencies": {
+        "@seed-design/lynx-react-use-controllable-state": "^1.0.1",
+      },
+      "devDependencies": {
+        "@lynx-js/react": "^0.129.0",
+        "@lynx-js/types": "^3.7.0",
+        "@seed-design/lynx-vitest-config": "0.0.0",
+        "vitest": "^5.0.0",
+      },
+      "peerDependencies": {
+        "@lynx-js/react": ">=0.117.0",
       },
     },
     "packages/lynx-react-headless/toggle": {
@@ -4192,6 +4209,8 @@
     "@seed-design/lynx-react-tabs": ["@seed-design/lynx-react-tabs@workspace:packages/lynx-react-headless/tabs"],
 
     "@seed-design/lynx-react-text-field": ["@seed-design/lynx-react-text-field@workspace:packages/lynx-react-headless/text-field"],
+
+    "@seed-design/lynx-react-time-picker": ["@seed-design/lynx-react-time-picker@workspace:packages/lynx-react-headless/time-picker"],
 
     "@seed-design/lynx-react-toggle": ["@seed-design/lynx-react-toggle@workspace:packages/lynx-react-headless/toggle"],
 
@@ -7693,6 +7712,8 @@
 
     "@seed-design/lynx-react-text-field/@lynx-js/types": ["@lynx-js/types@3.9.0", "", { "dependencies": { "csstype": "3.1.3" } }, "sha512-mwODjqahwrGwNUsmpG/GZ5ztccB2aZ3Do8o9KwJpH5XsaXXynaRVEzmOeq2/BsLWzs4rWj6zEwsK+CaX3DCKyA=="],
 
+    "@seed-design/lynx-react-time-picker/@lynx-js/types": ["@lynx-js/types@3.9.0", "", { "dependencies": { "csstype": "3.1.3" } }, "sha512-mwODjqahwrGwNUsmpG/GZ5ztccB2aZ3Do8o9KwJpH5XsaXXynaRVEzmOeq2/BsLWzs4rWj6zEwsK+CaX3DCKyA=="],
+
     "@seed-design/lynx-react-toggle/@lynx-js/types": ["@lynx-js/types@3.9.0", "", { "dependencies": { "csstype": "3.1.3" } }, "sha512-mwODjqahwrGwNUsmpG/GZ5ztccB2aZ3Do8o9KwJpH5XsaXXynaRVEzmOeq2/BsLWzs4rWj6zEwsK+CaX3DCKyA=="],
 
     "@seed-design/lynx-react-use-press-tap/@lynx-js/types": ["@lynx-js/types@3.9.0", "", { "dependencies": { "csstype": "3.1.3" } }, "sha512-mwODjqahwrGwNUsmpG/GZ5ztccB2aZ3Do8o9KwJpH5XsaXXynaRVEzmOeq2/BsLWzs4rWj6zEwsK+CaX3DCKyA=="],
@@ -8590,6 +8611,8 @@
     "@seed-design/lynx-react-tabs/@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
     "@seed-design/lynx-react-text-field/@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
+
+    "@seed-design/lynx-react-time-picker/@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
     "@seed-design/lynx-react-toggle/@lynx-js/types/csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 

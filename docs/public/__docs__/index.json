@@ -2627,6 +2627,19 @@
               "docUrl": "/lynx/getting-started/styling/theming"
             },
             {
+              "id": "time-picker",
+              "title": "Time Picker",
+              "description": "휠을 스크롤하여 오전·오후, 시, 분을 선택하는 12시간제 시간 선택 컴포넌트입니다.",
+              "docUrl": "/lynx/components/time-picker",
+              "snippetKey": "lynx/ui:time-picker",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "time-picker.tsx"
+                }
+              ]
+            },
+            {
               "id": "upgrade",
               "title": "Overview",
               "description": "SEED Lynx 패키지 버전을 올릴 때 호환성을 확인하고 안전하게 업그레이드하는 방법을 안내합니다.",
