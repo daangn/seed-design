@@ -18,11 +18,15 @@ import { vars as tokens } from "../vars";
 
 const closeButtonNegativeMargin = `(${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5`;
 // Android WebView's textZoom scales only font properties, so outside them rem needs `--seed-static-font-scale` to follow the text.
-const fontScaled = (rem: number) =>
-  `clamp(calc(${rem * 16}px * var(--seed-font-size-limit-min)), calc(${rem}rem * var(--seed-font-size-multiplier, 1) * var(--seed-static-font-scale, 1)), calc(${rem * 16}px * var(--seed-font-size-limit-max)))`;
-const prefixIconSize = fontScaled(Number.parseFloat(vars.base.enabled.prefixIcon.size));
+// `limit` must match the clamp of the token being mirrored, or overriding one limit pair skews the result.
+const fontScaled = (rem: number, limit: "font-size" | "line-height") =>
+  `clamp(calc(${rem * 16}px * var(--seed-${limit}-limit-min)), calc(${rem}rem * var(--seed-font-size-multiplier, 1) * var(--seed-static-font-scale, 1)), calc(${rem * 16}px * var(--seed-${limit}-limit-max)))`;
+const prefixIconSize = fontScaled(
+  Number.parseFloat(vars.base.enabled.prefixIcon.size),
+  "font-size",
+);
 // TODO: use `1lh` here once browser support allows.
-const prefixIconMarginTop = `calc((${fontScaled(lineHeight.data.tokens["$line-height.t4"].values.default.value.value)} - ${prefixIconSize}) * 0.5)`;
+const prefixIconMarginTop = `calc((${fontScaled(lineHeight.data.tokens["$line-height.t4"].values.default.value.value, "line-height")} - ${prefixIconSize}) * 0.5)`;
 const buttonBleedAmount = `(${vars.base.enabled.button.targetHeight} - ${vars.base.enabled.button.lineHeight}) * 0.5`;
 
 const pageBanner = defineSlotRecipe({
