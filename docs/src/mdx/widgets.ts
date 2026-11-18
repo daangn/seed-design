@@ -402,6 +402,9 @@ const rowHighlight: Widget = {
  *   없으면 bottom으로 뒤집고 `data-side`를 바꾼다(arrow 회전은 CSS).
  * - 한 번에 하나만 연다. 열린 동안 Esc·바깥 pointerdown으로 닫고, scroll(capture)·resize에 위치를 다시 잡는다. 이
  *   listener는 열 때 `document`·`window`에 붙이고 닫을 때 뗀다.
+ * - focus는 SEED HelpBubble(`autoFocus` false, FloatingFocusManager `modal={false}`)과 같다. 열어도 trigger에 남고,
+ *   content(`tabindex="0"`)는 trigger 다음 Tab 정지점이다. focus가 trigger·content 밖 요소로 옮겨 가면 닫고, Esc나
+ *   trigger로 닫으면 trigger로 돌려준다(`closeBubble`). `aria-controls`는 열린 동안만 둔다.
  */
 const BUBBLE_PADDING = 16;
 const BUBBLE_OFFSET = 12;
@@ -419,7 +422,7 @@ let openBubble: OpenBubble | null = null;
 
 function bubbleParts(root: HTMLElement): OpenBubble | undefined {
   const trigger = root.querySelector<HTMLElement>('[aria-haspopup="dialog"]');
-  const content = document.getElementById(trigger?.getAttribute("aria-controls") ?? "");
+  const content = root.querySelector<HTMLElement>('[role="dialog"]');
   const positioner = content?.parentElement;
   return trigger && content && positioner ? { root, trigger, positioner, content } : undefined;
 }
@@ -474,7 +477,17 @@ function onBubbleReposition(): void {
 }
 
 function onBubbleKeydown(event: KeyboardEvent): void {
-  if (event.key === "Escape" && !event.isComposing) closeBubble();
+  if (event.key === "Escape" && !event.isComposing) closeBubble(true);
+}
+
+function onBubbleFocusout(event: FocusEvent): void {
+  if (!openBubble) return;
+  const { trigger, content } = openBubble;
+  const inside = (node: EventTarget | null) =>
+    node instanceof Node && (trigger.contains(node) || content.contains(node));
+  // 창 전환처럼 받을 요소가 없는 blur는 닫지 않는다.
+  if (inside(event.target) && event.relatedTarget instanceof Node && !inside(event.relatedTarget))
+    closeBubble();
 }
 
 function onBubblePointerdown(event: PointerEvent): void {
@@ -492,6 +505,7 @@ function openHelpBubble(bubble: OpenBubble): void {
   if (openBubble) closeBubble();
   openBubble = bubble;
   bubble.trigger.setAttribute("aria-expanded", "true");
+  bubble.trigger.setAttribute("aria-controls", bubble.content.id);
   bubble.content.hidden = false;
   for (const part of bubbleStateParts(bubble)) part.setAttribute("data-open", "");
   positionBubble(bubble);
@@ -499,17 +513,27 @@ function openHelpBubble(bubble: OpenBubble): void {
   window.addEventListener("resize", onBubbleReposition);
   document.addEventListener("keydown", onBubbleKeydown);
   document.addEventListener("pointerdown", onBubblePointerdown, true);
+  document.addEventListener("focusout", onBubbleFocusout);
 }
 
-function closeBubble(): void {
+/**
+ * `returnFocus`(Esc·trigger로 닫을 때)면 focus가 content 안이나 body(Safari는 버튼 클릭에 focus를 주지 않는다)에
+ * 있을 때 trigger로 돌려준다. 바깥 pointerdown·focus 이탈로 닫을 때는 그대로 둔다.
+ */
+function closeBubble(returnFocus = false): void {
   const bubble = openBubble;
   if (!bubble) return;
   openBubble = null;
+  const focused = document.activeElement;
+  if (returnFocus && (!focused || focused === document.body || bubble.content.contains(focused)))
+    bubble.trigger.focus();
   document.removeEventListener("scroll", onBubbleReposition, true);
   window.removeEventListener("resize", onBubbleReposition);
   document.removeEventListener("keydown", onBubbleKeydown);
   document.removeEventListener("pointerdown", onBubblePointerdown, true);
+  document.removeEventListener("focusout", onBubbleFocusout);
   bubble.trigger.setAttribute("aria-expanded", "false");
+  bubble.trigger.removeAttribute("aria-controls");
   for (const part of bubbleStateParts(bubble)) part.removeAttribute("data-open");
   // exit 애니메이션이 있으면 `animationend`(handle)가 `hidden`을 붙인다.
   const style = window.getComputedStyle(bubble.content);
@@ -531,7 +555,7 @@ const helpBubble: Widget = {
     }
     // content 안 클릭도 여기서 끝난다(행 펼침으로 버블링하지 않는다).
     if (!parts.trigger.contains(event.target as Node)) return;
-    if (openBubble?.root === root) closeBubble();
+    if (openBubble?.root === root) closeBubble(true);
     else openHelpBubble(parts);
   },
 };
@@ -543,6 +567,8 @@ const helpBubble: Widget = {
  * 칸(`[data-swatch]`)을 누르면 칸과 popup에 `data-open`을 붙이고 backdrop·popup의 `hidden`을 푼 뒤, popup 위치를
  * CSS 변수(`--swatch-top`·`--swatch-left`·`--swatch-right`)로 칸 아래 8px·왼쪽 정렬로 둔다(오른쪽이 화면을 넘으면
  * 오른쪽 정렬). backdrop(`[data-swatch-backdrop]`) 클릭과 Esc로 닫는다. 복사 행은 `copy` widget이 먼저 받는다.
+ * popup은 portal이 아니라 칸 바로 뒤에 있어 Tab으로 backdrop·복사 행에 들어갈 수 있다. 그 안에서 Esc나 키보드로
+ * backdrop을 눌러 닫으면 숨겨지는 요소에 남지 않도록 focus를 칸으로 돌려준다(마우스로 닫을 때는 그대로 둔다).
  */
 const SWATCH_GAP = 8;
 
@@ -557,15 +583,18 @@ function swatchParts(root: HTMLElement) {
 }
 
 function onSwatchKeydown(event: KeyboardEvent): void {
-  if (event.key === "Escape" && !event.isComposing) closeSwatch();
+  if (event.key === "Escape" && !event.isComposing) closeSwatch(true);
 }
 
-function closeSwatch(): void {
+/** `returnFocus`면 focus가 backdrop·popup 안에 있을 때 칸으로 돌려준다. */
+function closeSwatch(returnFocus = false): void {
   const root = openSwatch;
   if (!root) return;
   openSwatch = null;
   document.removeEventListener("keydown", onSwatchKeydown);
   const { swatch, backdrop, popup } = swatchParts(root);
+  const focused = document.activeElement;
+  if (returnFocus && (backdrop?.contains(focused) || popup?.contains(focused))) swatch?.focus();
   swatch?.removeAttribute("data-open");
   popup?.removeAttribute("data-open");
   if (backdrop) backdrop.hidden = true;
@@ -596,7 +625,8 @@ const colorSwatch: Widget = {
   events: ["click"],
   handle(event, root) {
     const target = event.target as Element;
-    if (target.closest("[data-swatch-backdrop]")) closeSwatch();
+    // 키보드로 누른 click은 `detail`이 0이다.
+    if (target.closest("[data-swatch-backdrop]")) closeSwatch((event as MouseEvent).detail === 0);
     else if (target.closest("[data-swatch]")) openColorSwatch(root);
   },
 };

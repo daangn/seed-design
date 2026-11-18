@@ -11,7 +11,8 @@ const ARROW_TIP_PATH = "M0,0 H12 L8,6 Q6,8 4,6 Z";
 
 /**
  * 슬롯·속성 설명 버튼. SEED `HelpBubbleTrigger`(placement top)의 서버 HTML과 같은 DOM·recipe class를 닫힌 상태로
- * 정적으로 그린다. 열고 닫기와 위치는 `help-bubble` widget(`src/mdx/widgets.ts`)이 맡는다.
+ * 정적으로 그린다(닫힌 trigger에는 `aria-controls`가 없다). 열고 닫기·focus·위치는 `help-bubble` widget
+ * (`src/mdx/widgets.ts`)이 맡는다.
  */
 export function DescriptionButton({ description }: { description: string }) {
   const id = useId();
@@ -27,7 +28,6 @@ export function DescriptionButton({ description }: { description: string }) {
         aria-label="설명 보기"
         aria-haspopup="dialog"
         aria-expanded={false}
-        aria-controls={contentId}
         data-side="top"
         bleedX="asPadding"
         bleedY="asPadding"
@@ -52,7 +52,8 @@ export function DescriptionButton({ description }: { description: string }) {
         <div
           id={contentId}
           role="dialog"
-          tabIndex={-1}
+          // biome-ignore lint/a11y/noNoninteractiveTabindex: SEED PopoverContent makes the content the Tab stop after the trigger.
+          tabIndex={0}
           aria-labelledby={titleId}
           data-side="top"
           hidden
