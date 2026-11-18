@@ -36,6 +36,7 @@ export {
   AttachmentDisplayItemImage as ItemImage,
   AttachmentDisplayItemMetadata as ItemMetadata,
   AttachmentDisplayItemRemoveButton as ItemRemoveButton,
+  AttachmentDisplayItemReorderHandle as ItemReorderHandle,
   AttachmentDisplayItemThumbnail as ItemThumbnail,
   type AttachmentDisplayItemActionButtonProps as ItemActionButtonProps,
   type AttachmentDisplayItemBackdropProps as ItemBackdropProps,
@@ -44,6 +45,7 @@ export {
   type AttachmentDisplayItemMetadataProps as ItemMetadataProps,
   type AttachmentDisplayItemProps as ItemProps,
   type AttachmentDisplayItemRemoveButtonProps as ItemRemoveButtonProps,
+  type AttachmentDisplayItemReorderHandleProps as ItemReorderHandleProps,
   type AttachmentDisplayItemThumbnailProps as ItemThumbnailProps,
 } from "./AttachmentDisplayItem";
 

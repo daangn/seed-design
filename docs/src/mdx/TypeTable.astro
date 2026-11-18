@@ -1,0 +1,102 @@
+---
+/**
+ * `<react-type-table path name/>` → remarkAutoTypeTable(fumadocs-typescript, 빌드 때) → `<TypeTable type={{...}}/>`
+ * `type`의 description·type·default·parameters·returns는 MDX가 컴파일한 Astro vnode다. 행 펼침은 `<details>`(JS 없음).
+ * 마크업은 `components/type-table.tsx`의 class를 따른다.
+ */
+import { archivePaths } from "../../lib/docs-archive";
+import { ICONS } from "./icons";
+// MDX가 만든 Astro JSX vnode는 .astro 표현식에서 렌더링되지 않는다("[object Object]"). MDX 모듈에 넘겨 Astro JSX renderer로 그린다.
+import RenderNode from "./RenderNode.mdx";
+
+interface TypeNode {
+  description?: unknown;
+  type: unknown;
+  typeDescription?: unknown;
+  typeDescriptionLink?: string;
+  default?: unknown;
+  required?: boolean;
+  deprecated?: boolean;
+  parameters?: Array<{ name: string; description: unknown }>;
+  returns?: unknown;
+}
+
+interface Props {
+  type: Record<string, TypeNode>;
+  id?: string;
+}
+
+const { type, id } = Astro.props;
+const field = "text-fd-muted-foreground not-prose pe-2";
+---
+
+<div
+  id={id}
+  class="rounded-r3 border border-solid border-stroke-neutral-muted @container flex flex-col p-1 bg-fd-card text-fd-card-foreground my-6 text-sm overflow-hidden"
+>
+  <div class="flex font-medium items-center px-3 py-1 not-prose text-fd-muted-foreground">
+    <p class="w-1/4">Prop</p>
+    <p class="@max-xl:hidden">Type</p>
+  </div>
+  {Object.entries(type).map(([name, node]) => {
+    const rowId = id ? `${id}-${name}` : undefined;
+    const parameters = node.parameters ?? [];
+    const hasContent = !!(node.description || node.default || parameters.length > 0 || node.returns);
+    const nameClass = [
+      "text-fd-primary w-1/4 @max-xl:w-[unset] font-mono font-medium pe-2 shrink-0 break-all",
+      node.deprecated && "line-through text-fd-primary/50",
+    ];
+    return hasContent ? (
+      <details id={rowId} class="group/row rounded-xl border overflow-hidden scroll-m-20 transition-all not-open:border-transparent open:shadow-sm open:bg-fd-background open:not-last:mb-2">
+        <summary class="relative flex flex-row items-center w-full text-start ps-3 pe-6 py-2 not-prose hover:bg-fd-accent cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+          <code class:list={nameClass}>{name}{node.required ? "" : "?"}</code>
+          {node.typeDescriptionLink ? (
+            <a href={archivePaths.link(node.typeDescriptionLink)} class="no-underline hover:underline @max-xl:hidden"><RenderNode node={node.type} /></a>
+          ) : (
+            <span class="@max-xl:hidden"><RenderNode node={node.type} /></span>
+          )}
+          <Fragment set:html={ICONS.chevronDownSmallLine("absolute end-2 size-4 text-fd-muted-foreground transition-transform group-open/row:rotate-180")} />
+        </summary>
+        <div class="grid grid-cols-[1fr_3fr] gap-y-4 text-sm p-3 overflow-auto fd-scroll-container border-t">
+          <div class="text-sm prose col-span-full prose-no-margin empty:hidden py-0!"><RenderNode node={node.description} /></div>
+          {node.type && (
+            <Fragment>
+              <p class:list={[field, "@max-xl:block hidden"]}>Type</p>
+              <p class="my-auto not-prose @max-xl:block hidden"><RenderNode node={node.type} /></p>
+            </Fragment>
+          )}
+          {node.default && (
+            <Fragment>
+              <p class={field}>Default</p>
+              <p class="my-auto not-prose"><RenderNode node={node.default} /></p>
+            </Fragment>
+          )}
+          {parameters.length > 0 && (
+            <Fragment>
+              <p class={field}>Parameters</p>
+              <div class="flex flex-col gap-2">
+                {parameters.map((param) => (
+                  <div class="inline-flex items-center flex-wrap gap-1">
+                    <p class="font-medium not-prose text-nowrap">{param.name} -</p>
+                    <div class="text-sm prose prose-no-margin"><RenderNode node={param.description} /></div>
+                  </div>
+                ))}
+              </div>
+            </Fragment>
+          )}
+          {node.returns && (
+            <Fragment>
+              <p class={field}>Returns</p>
+              <div class="my-auto text-sm prose prose-no-margin"><RenderNode node={node.returns} /></div>
+            </Fragment>
+          )}
+        </div>
+      </details>
+    ) : (
+      <div id={rowId} class="flex flex-row items-center w-full text-start ps-3 pe-3 py-2 not-prose rounded-xl border border-transparent hover:bg-fd-accent">
+        <code class:list={nameClass}>{name}{node.required ? "" : "?"}</code>
+        <span class="@max-xl:hidden"><RenderNode node={node.type} /></span>
+      </div>
+    );
+  })}
+</div>

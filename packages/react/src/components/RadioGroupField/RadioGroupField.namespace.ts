@@ -8,6 +8,7 @@ export {
   RadioGroupFieldDescription as Description,
   RadioGroupFieldErrorMessage as ErrorMessage,
   type RadioGroupFieldRootProps as RootProps,
+  type RadioGroupFieldRootPrimitiveProps as RootPrimitiveProps,
   type RadioGroupFieldHeaderProps as HeaderProps,
   type RadioGroupFieldLabelProps as LabelProps,
   type RadioGroupFieldIndicatorTextProps as IndicatorTextProps,

@@ -1,0 +1,22 @@
+---
+import ChipTabsContent from "./ChipTabsContent.astro";
+
+interface Props {
+  value: string;
+  /** 첫 `<Tab>`(`rehypeWidgetMarkers`). */
+  defaultSelected?: boolean;
+  /** 부모 `Tabs`의 탭 묶음 id(`rehypeWidgetMarkers`). */
+  tabsId: string;
+}
+
+const { value, defaultSelected = false, tabsId } = Astro.props;
+---
+
+<ChipTabsContent
+  tabsId={tabsId}
+  value={value}
+  selected={defaultSelected}
+  class="docs-tabs__panel !flex-none !overflow-visible ![transform:none] px-x4 py-x4 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+>
+  <slot />
+</ChipTabsContent>

@@ -21,14 +21,6 @@ const scrollFogSlotNames = [
   [
     "rightMask",
     "seed-scroll-fog__rightMask"
-  ],
-  [
-    "verticalScroll",
-    "seed-scroll-fog__verticalScroll"
-  ],
-  [
-    "horizontalScroll",
-    "seed-scroll-fog__horizontalScroll"
   ]
 ];
 

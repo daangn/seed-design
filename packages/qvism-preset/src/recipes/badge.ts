@@ -1,15 +1,24 @@
 import spec from "@seed-design/rootage-artifacts/components/badge";
+import {
+  createFocusRingRestStyles,
+  createFocusRingStyles,
+  FOCUS_RING_TRANSITION,
+} from "../utils/focus-ring";
+import { active, focusVisible, pseudo } from "../utils/pseudo";
+import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
 import { badge as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 
 const badge = defineSlotRecipe({
   name: "badge",
-  slots: ["root", "label"],
+  slots: ["root", "prefix", "label", "action"],
   base: {
     root: {
       display: "inline-flex",
       boxSizing: "border-box",
       alignItems: "center",
+      minWidth: 0,
+      overflow: "hidden",
 
       textTransform: "none",
       textAlign: "start",
@@ -17,40 +26,84 @@ const badge = defineSlotRecipe({
       MozOsxFontSmoothing: "grayscale",
       textDecoration: "none",
     },
+    prefix: {
+      display: "inline-flex",
+      flexShrink: 0,
+      alignItems: "center",
+      justifyContent: "center",
+      color: "inherit",
+      "--seed-icon-size": "100%",
+      "--seed-icon-color": "currentColor",
+    },
     label: {
+      minWidth: 0,
+      flexShrink: 1,
       overflow: "hidden",
       textOverflow: "ellipsis",
       whiteSpace: "nowrap",
+    },
+    action: {
+      display: "inline-flex",
+      flexShrink: 0,
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 0,
+      fontFamily: "inherit",
+      border: "none",
+      borderRadius: "inherit",
+      backgroundColor: "transparent",
+      color: "inherit",
+      cursor: "pointer",
+      "--seed-icon-size": "100%",
+      "--seed-icon-color": "currentColor",
+
+      [pseudo(active)]: createScaleFeedbackStyles(),
+
+      transition: `${FEEDBACK_SCALE_TRANSITION}, ${FOCUS_RING_TRANSITION}`,
+      ...createFocusRingRestStyles({ position: "inside" }),
+      [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
     },
   },
   variants: {
     size: {
       medium: {
         root: {
-          // TODO: have some better way to derive `--seed-font-size-limit-min/max` and `108px`
-          // NOTE: when updating vars.sizeMedium.enabled.root.maxWidth, update 108px accordingly
-          maxWidth: `clamp(calc(108px * var(--seed-font-size-limit-min)), ${vars.sizeMedium.enabled.root.maxWidth}, calc(108px * var(--seed-font-size-limit-max)))`,
           minHeight: vars.sizeMedium.enabled.root.minHeight,
           paddingInline: vars.sizeMedium.enabled.root.paddingX,
           paddingBlock: vars.sizeMedium.enabled.root.paddingY,
           borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
+          gap: vars.sizeMedium.enabled.root.gap,
 
           fontSize: vars.sizeMedium.enabled.label.fontSize,
           lineHeight: vars.sizeMedium.enabled.label.lineHeight,
         },
+        prefix: {
+          width: vars.sizeMedium.enabled.prefix.size,
+          height: vars.sizeMedium.enabled.prefix.size,
+        },
+        action: {
+          width: vars.sizeMedium.enabled.action.size,
+          height: vars.sizeMedium.enabled.action.size,
+        },
       },
       large: {
         root: {
-          // TODO: have some better way to derive `--seed-font-size-limit-min/max` and `120px`
-          // NOTE: when updating vars.sizeLarge.enabled.root.maxWidth, update 120px accordingly
-          maxWidth: `clamp(calc(120px * var(--seed-font-size-limit-min)), ${vars.sizeLarge.enabled.root.maxWidth}, calc(120px * var(--seed-font-size-limit-max)))`,
           minHeight: vars.sizeLarge.enabled.root.minHeight,
           paddingInline: vars.sizeLarge.enabled.root.paddingX,
           paddingBlock: vars.sizeLarge.enabled.root.paddingY,
           borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
+          gap: vars.sizeLarge.enabled.root.gap,
 
           fontSize: vars.sizeLarge.enabled.label.fontSize,
           lineHeight: vars.sizeLarge.enabled.label.lineHeight,
+        },
+        prefix: {
+          width: vars.sizeLarge.enabled.prefix.size,
+          height: vars.sizeLarge.enabled.prefix.size,
+        },
+        action: {
+          width: vars.sizeLarge.enabled.action.size,
+          height: vars.sizeLarge.enabled.action.size,
         },
       },
     },

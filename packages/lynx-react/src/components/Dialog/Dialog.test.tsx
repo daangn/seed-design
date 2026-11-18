@@ -1,16 +1,12 @@
 import type { ReactNode } from "@lynx-js/react";
 
 import { render } from "@lynx-js/react/testing-library";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
-const dialogMocks = vi.hoisted(() => ({
-  rootProps: [] as Array<Record<string, unknown>>,
-  viewProps: [] as Array<Record<string, unknown>>,
-  backdropProps: [] as Array<Record<string, unknown>>,
-  contentProps: [] as Array<Record<string, unknown>>,
-  closeProps: [] as Array<Record<string, unknown>>,
-}));
+const dialogViewStyles = vi.hoisted(() => [] as unknown[]);
 
+// Open/close behavior is covered against the real engine in `@seed-design/lynx-react-dialog`.
+// This mock renders every part immediately so the SEED slots can be inspected.
 vi.mock("@lynx-js/lynx-ui-dialog", () => {
   const renderChildren = (children: unknown, status: Record<string, boolean>): ReactNode => {
     if (typeof children === "function") {
@@ -19,70 +15,120 @@ vi.mock("@lynx-js/lynx-ui-dialog", () => {
     return children as ReactNode;
   };
 
-  const DialogRoot = (props: Record<string, unknown>) => {
-    dialogMocks.rootProps.push(props);
-    return <>{renderChildren(props["children"], { open: props["show"] === true })}</>;
-  };
-  DialogRoot.displayName = "MockDialogRoot";
-
-  const DialogTrigger = (props: Record<string, unknown>) => (
-    <view>{renderChildren(props["children"], { active: false, busy: false })}</view>
+  const DialogRoot = (props: Record<string, unknown>) => (
+    <>{renderChildren(props["children"], { open: props["show"] === true })}</>
   );
-  DialogTrigger.displayName = "MockDialogTrigger";
-
+  const DialogButton = (props: Record<string, unknown>) => (
+    <view className={props["className"] as string}>
+      {renderChildren(props["children"], { active: false, busy: false })}
+    </view>
+  );
   const DialogView = (props: Record<string, unknown>) => {
-    dialogMocks.viewProps.push(props);
+    dialogViewStyles.push(props["style"]);
+
     return (
       <view className={props["className"] as string}>
         {renderChildren(props["children"], { open: props["show"] === true })}
       </view>
     );
   };
-  DialogView.displayName = "MockDialogView";
-
-  const DialogBackdrop = (props: Record<string, unknown>) => {
-    dialogMocks.backdropProps.push(props);
-    return <view className={props["className"] as string}>{props["children"] as ReactNode}</view>;
-  };
-  DialogBackdrop.displayName = "MockDialogBackdrop";
-
-  const DialogContent = (props: Record<string, unknown>) => {
-    dialogMocks.contentProps.push(props);
-    return <view className={props["className"] as string}>{props["children"] as ReactNode}</view>;
-  };
-  DialogContent.displayName = "MockDialogContent";
-
-  const DialogClose = (props: Record<string, unknown>) => {
-    dialogMocks.closeProps.push(props);
-    return <view>{renderChildren(props["children"], { active: false, busy: false })}</view>;
-  };
-  DialogClose.displayName = "MockDialogClose";
+  const DialogPart = (props: Record<string, unknown>) => (
+    <view className={props["className"] as string}>{props["children"] as ReactNode}</view>
+  );
 
   return {
-    DialogBackdrop,
-    DialogClose,
-    DialogContent,
+    DialogBackdrop: DialogPart,
+    DialogClose: DialogButton,
+    DialogContent: DialogPart,
     DialogRoot,
-    DialogTrigger,
+    DialogTrigger: DialogButton,
     DialogView,
   };
 });
 
 import * as Dialog from "./Dialog.namespace";
+import { ActionButton } from "../ActionButton";
+
+interface TestLynxGlobal {
+  lynx?: {
+    __globalProps?: {
+      safeAreaInsetTop?: number;
+      safeAreaInsetRight?: number;
+      safeAreaInsetBottom?: number;
+      safeAreaInsetLeft?: number;
+    };
+  };
+  lynxTestingEnv?: {
+    backgroundThread: { globalThis: TestLynxGlobal };
+    mainThread: { globalThis: TestLynxGlobal };
+  };
+}
+
+function setGlobalProps(
+  globalProps: NonNullable<NonNullable<TestLynxGlobal["lynx"]>["__globalProps"]>,
+) {
+  const lynxTestingEnv = (globalThis as TestLynxGlobal).lynxTestingEnv;
+  const globals = [
+    globalThis as TestLynxGlobal,
+    lynxTestingEnv?.backgroundThread.globalThis,
+    lynxTestingEnv?.mainThread.globalThis,
+  ].filter((global): global is TestLynxGlobal => Boolean(global));
+
+  for (const global of globals) {
+    global.lynx = { ...global.lynx, __globalProps: globalProps };
+  }
+}
+
+function renderPositioner(style?: Dialog.PositionerProps["style"]) {
+  render(
+    <Dialog.Root open>
+      <Dialog.Positioner style={style}>
+        <Dialog.Backdrop />
+        <Dialog.Content />
+      </Dialog.Positioner>
+    </Dialog.Root>,
+  );
+
+  return dialogViewStyles.at(-1);
+}
 
 describe("Dialog", () => {
-  beforeEach(() => {
-    dialogMocks.rootProps = [];
-    dialogMocks.viewProps = [];
-    dialogMocks.backdropProps = [];
-    dialogMocks.contentProps = [];
-    dialogMocks.closeProps = [];
+  it("owns the trigger label and hides the nested ActionButton from accessibility", () => {
+    const { container, rerender } = render(
+      <Dialog.Root>
+        <Dialog.Trigger className="trigger">
+          <ActionButton>열기</ActionButton>
+        </Dialog.Trigger>
+      </Dialog.Root>,
+    );
+    const trigger = container.querySelector('.trigger > view[accessibility-element="true"]');
+
+    expect(trigger?.getAttribute("accessibility-label")).toBe("열기");
+    expect(trigger?.getAttribute("accessibility-role-description")).toBe("button");
+    expect(trigger?.getAttribute("flatten")).toBe("false");
+    expect(
+      trigger?.querySelector(".seed-action-button__root")?.getAttribute("accessibility-element"),
+    ).toBe("false");
+
+    rerender(
+      <Dialog.Root>
+        <Dialog.Trigger className="trigger" accessibility-label="다이얼로그 열기">
+          {({ busy }) => <ActionButton>{busy ? "Wait" : "Open"}</ActionButton>}
+        </Dialog.Trigger>
+      </Dialog.Root>,
+    );
+    const namedTrigger = container.querySelector('.trigger > view[accessibility-element="true"]');
+    expect(namedTrigger?.getAttribute("accessibility-label")).toBe("다이얼로그 열기");
+    expect(namedTrigger?.textContent).toBe("Open");
   });
 
-  it("maps the namespace API to the Lynx UI headless primitives", () => {
-    const onOpenChange = vi.fn();
+  afterEach(() => {
+    setGlobalProps({});
+  });
+
+  it("applies SEED slots and renders Body as a vertical scroll-view", () => {
     const { container } = render(
-      <Dialog.Root open onOpenChange={onOpenChange}>
+      <Dialog.Root open>
         <Dialog.Trigger>
           <text>Open</text>
         </Dialog.Trigger>
@@ -111,10 +157,6 @@ describe("Dialog", () => {
       </Dialog.Root>,
     );
 
-    expect(dialogMocks.rootProps.at(-1)).toMatchObject({
-      show: true,
-      onShowChange: onOpenChange,
-    });
     expect(container.querySelector(".seed-dialog__positioner")).not.toBeNull();
     expect(container.querySelector(".seed-dialog__backdrop")).not.toBeNull();
     expect(container.querySelector(".seed-dialog__content")).not.toBeNull();
@@ -122,6 +164,7 @@ describe("Dialog", () => {
     expect(container.querySelector(".seed-dialog__title")).not.toBeNull();
     expect(container.querySelector(".seed-dialog__description")).not.toBeNull();
     expect(container.querySelector(".seed-dialog__footer")).not.toBeNull();
+    expect(container.querySelector(".seed-dialog__action")).not.toBeNull();
 
     const body = container.querySelector<HTMLElement>("scroll-view");
 
@@ -132,41 +175,59 @@ describe("Dialog", () => {
     expect(body?.style.paddingLeft).toBe("16px");
   });
 
-  it("forwards headless mount options and removes only reserved lifecycle handlers", () => {
-    const userBindTap = vi.fn();
-    const dialogContentProps = {
-      style: { paddingTop: "12px" },
-      bindtap: userBindTap,
-    };
-
-    render(
-      <Dialog.Root defaultOpen forceMount skipAnimation>
-        <Dialog.Positioner
-          container="window"
-          overlayLevel={2}
-          dialogViewProps={{ style: { top: "8px" } }}
+  it("lets native Body props override scrolling defaults and computed style", () => {
+    const { container } = render(
+      <Dialog.Root>
+        <Dialog.Body
+          id="dialog-body"
+          scroll-y={false}
+          maxHeight="96px"
+          style={{ maxHeight: "120px" }}
         >
-          <Dialog.Backdrop />
-          <Dialog.Content dialogContentProps={dialogContentProps} />
-        </Dialog.Positioner>
+          <text>Body content</text>
+        </Dialog.Body>
       </Dialog.Root>,
     );
+    const body = container.querySelector<HTMLElement>("#dialog-body");
 
-    expect(dialogMocks.rootProps.at(-1)).toMatchObject({
-      defaultShow: true,
-      forceMount: true,
+    expect(body?.getAttribute("scroll-y")).toBe("false");
+    expect(body?.style.maxHeight).toBe("120px");
+    expect(body?.textContent).toBe("Body content");
+  });
+
+  it("pads the positioner by the side insets and the larger block inset on both sides", () => {
+    setGlobalProps({
+      safeAreaInsetTop: 47,
+      safeAreaInsetRight: 0,
+      safeAreaInsetBottom: 34,
+      safeAreaInsetLeft: 59,
     });
-    expect(dialogMocks.viewProps.at(-1)).toMatchObject({
-      container: "window",
-      overlayLevel: 2,
-      transition: false,
-      dialogViewProps: { style: { top: "8px" } },
+
+    expect(renderPositioner()).toEqual({
+      paddingTop: "47px",
+      paddingRight: "0px",
+      paddingBottom: "47px",
+      paddingLeft: "59px",
     });
-    expect(dialogMocks.contentProps.at(-1)).toMatchObject({
-      transition: false,
-      dialogContentProps: { style: { paddingTop: "12px" } },
+  });
+
+  it("adds the block insets when one of them falls back to env()", () => {
+    setGlobalProps({ safeAreaInsetBottom: 34 });
+
+    expect(renderPositioner()).toEqual({
+      paddingTop: "calc(env(safe-area-inset-top) + 34px)",
+      paddingRight: "env(safe-area-inset-right)",
+      paddingBottom: "calc(env(safe-area-inset-top) + 34px)",
+      paddingLeft: "env(safe-area-inset-left)",
     });
-    expect(dialogMocks.contentProps.at(-1)?.["dialogContentProps"]).not.toHaveProperty("bindtap");
-    expect(userBindTap).not.toHaveBeenCalled();
+  });
+
+  it("lets the positioner style override the safe area padding", () => {
+    setGlobalProps({ safeAreaInsetLeft: 59 });
+
+    expect(renderPositioner({ paddingLeft: "0px", opacity: 0.5 })).toMatchObject({
+      paddingLeft: "0px",
+      opacity: 0.5,
+    });
   });
 });

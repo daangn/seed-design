@@ -2,8 +2,7 @@ import { List, ListCheckItem, ListRadioItem } from "seed-design/ui/list";
 import { ListHeader } from "seed-design/ui/list-header";
 import { Checkmark } from "seed-design/ui/checkbox";
 import { Radiomark } from "seed-design/ui/radio-group";
-import { HStack, VStack } from "@seed-design/react";
-import { RadioGroup } from "@seed-design/react/primitive";
+import { HStack, VStack, List as SeedList } from "@seed-design/react";
 
 export default function ListBorderRadius() {
   return (
@@ -49,7 +48,7 @@ export default function ListBorderRadius() {
       >
         <ListHeader as="h2">카드 borderRadius: 22px</ListHeader>
         <List asChild itemBorderRadius="r3">
-          <RadioGroup.Root defaultValue="0" aria-label="Border radius options">
+          <SeedList.RadioRoot defaultValue="0" aria-label="Border radius options">
             <ListRadioItem
               value="0"
               title="borderRadius: r3"
@@ -60,7 +59,7 @@ export default function ListBorderRadius() {
               title="borderRadius: r3"
               suffix={<Radiomark size="large" tone="neutral" />}
             />
-          </RadioGroup.Root>
+          </SeedList.RadioRoot>
         </List>
       </VStack>
     </HStack>

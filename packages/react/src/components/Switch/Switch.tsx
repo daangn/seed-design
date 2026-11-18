@@ -24,8 +24,10 @@ export interface SwitchRootProps
     Omit<SwitchmarkVariantProps, "size">,
     SwitchPrimitive.RootProps {}
 
-export const SwitchRoot = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
-  ({ className, ...props }, ref) => {
+export interface SwitchRootPrimitiveProps extends SwitchPrimitive.RootProps {}
+
+export const SwitchRoot = Object.assign(
+  React.forwardRef<HTMLLabelElement, SwitchRootProps>(({ className, ...props }, ref) => {
     const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, otherProps] =
       splitMultipleVariantsProps(props, { switchmark, switch: switchStyle });
 
@@ -42,7 +44,8 @@ export const SwitchRoot = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
         </ClassNamesProvider>
       </ControlPropsProvider>
     );
-  },
+  }),
+  { Primitive: SwitchPrimitive.Root },
 );
 SwitchRoot.displayName = "SwitchRoot";
 

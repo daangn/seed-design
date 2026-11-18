@@ -261,7 +261,7 @@ export class RegistryGenerator {
           continue;
         }
 
-        // e.g. "@seed-design/react/primitive" -> adds "@seed-design/react"
+        // e.g. "@seed-design/css/recipes/action-button" -> adds "@seed-design/css"
         for (const dep of this.#installedDeps) {
           if (moduleSpecifier.startsWith(`${dep}/`)) {
             dependencies.add(dep);

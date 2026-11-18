@@ -35,25 +35,6 @@
               ]
             },
             {
-              "id": "action-chip",
-              "title": "Action Chip",
-              "docUrl": "/components/action-chip",
-              "deprecated": true
-            },
-            {
-              "id": "action-sheet",
-              "title": "Action Sheet",
-              "docUrl": "/components/action-sheet",
-              "deprecated": true,
-              "snippetKey": "react/ui:action-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "action-sheet.tsx"
-                }
-              ]
-            },
-            {
               "id": "alert-dialog",
               "title": "Alert Dialog",
               "description": "사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.",
@@ -89,7 +70,14 @@
               "id": "badge",
               "title": "Badge",
               "description": "객체의 속성이나 상태를 시각적으로 표현하는 작은 텍스트 라벨입니다. 사용자의 주의를 끌고 콘텐츠의 빠른 인지와 탐색을 돕기 위해 사용됩니다.",
-              "docUrl": "/components/badge"
+              "docUrl": "/components/badge",
+              "snippetKey": "react/ui:badge",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "badge.tsx"
+                }
+              ]
             },
             {
               "id": "bottom-navigation",
@@ -176,23 +164,23 @@
               ]
             },
             {
-              "id": "control-chip",
-              "title": "Control Chip",
-              "docUrl": "/components/control-chip",
-              "deprecated": true,
-              "snippetKey": "react/ui:control-chip",
+              "id": "date-picker",
+              "title": "Date Picker",
+              "description": "캘린더에서 날짜·기간·여러 날짜를 선택할 때 사용하는 컴포넌트입니다.",
+              "docUrl": "/components/date-picker",
+              "snippetKey": "react/ui:date-picker",
               "snippets": [
                 {
                   "label": "react",
-                  "path": "control-chip.tsx"
+                  "path": "date-picker.tsx"
                 }
               ]
             },
             {
-              "id": "date-picker",
-              "title": "Date Picker",
-              "description": "캘린더에서 날짜·기간·여러 날짜를 선택할 때 사용하는 컴포넌트입니다.",
-              "docUrl": "/components/date-picker"
+              "id": "deprecated",
+              "title": "Deprecated Components",
+              "description": "더 이상 사용되지 않는 컴포넌트와 대체 컴포넌트를 안내합니다.",
+              "docUrl": "/components/deprecated"
             },
             {
               "id": "dialog",
@@ -212,45 +200,6 @@
               "title": "Divider",
               "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
               "docUrl": "/components/divider"
-            },
-            {
-              "id": "error-state",
-              "title": "Error State",
-              "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
-              "docUrl": "/components/error-state",
-              "deprecated": true,
-              "snippetKey": "react/ui:error-state",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "error-state.tsx"
-                }
-              ]
-            },
-            {
-              "id": "extended-action-sheet",
-              "title": "Extended Action Sheet",
-              "docUrl": "/components/extended-action-sheet",
-              "deprecated": true,
-              "snippetKey": "react/ui:extended-action-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "extended-action-sheet.tsx"
-                }
-              ]
-            },
-            {
-              "id": "extended-fab",
-              "title": "Extended FAB",
-              "docUrl": "/components/extended-fab",
-              "deprecated": true
-            },
-            {
-              "id": "fab",
-              "title": "FAB",
-              "docUrl": "/components/fab",
-              "deprecated": true
             },
             {
               "id": "field",
@@ -310,29 +259,10 @@
               "docUrl": "/components/image-frame"
             },
             {
-              "id": "inline-banner",
-              "title": "Inline Banner",
-              "docUrl": "/components/inline-banner",
-              "deprecated": true,
-              "snippetKey": "react/ui:inline-banner",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "inline-banner.tsx"
-                }
-              ]
-            },
-            {
               "id": "input-button",
               "title": "Input Button",
               "description": "입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.",
               "docUrl": "/components/input-button"
-            },
-            {
-              "id": "link-content",
-              "title": "Link Content",
-              "docUrl": "/components/link-content",
-              "deprecated": true
             },
             {
               "id": "list",
@@ -493,6 +423,19 @@
               "docUrl": "/components/scroll-fog"
             },
             {
+              "id": "search-bar",
+              "title": "Search Bar",
+              "description": "제품 안에서 검색어를 입력할 수 있는 Input을 제공하는 컴포넌트입니다.",
+              "docUrl": "/components/search-bar",
+              "snippetKey": "react/ui:search-bar",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "search-bar.tsx"
+                }
+              ]
+            },
+            {
               "id": "segmented-control",
               "title": "Segmented Control",
               "description": "여러 옵션 중 하나를 선택하여 관련 콘텐츠를 즉시 필터링하거나 전환할 때 사용하는 컴포넌트입니다.",
@@ -504,6 +447,12 @@
                   "path": "segmented-control.tsx"
                 }
               ]
+            },
+            {
+              "id": "segmented-text-input",
+              "title": "Segmented Text Input",
+              "description": "주민등록번호·카드번호처럼 일부 구간을 가려야 하는 값을 구간마다 별도 입력으로 나눠 받는 컴포넌트입니다.",
+              "docUrl": "/components/segmented-text-input"
             },
             {
               "id": "select",
@@ -651,7 +600,14 @@
               "id": "time-picker",
               "title": "Time Picker",
               "description": "휠을 굴려 시간(오전·오후·시·분)을 선택할 때 사용하는 컴포넌트입니다.",
-              "docUrl": "/components/time-picker"
+              "docUrl": "/components/time-picker",
+              "snippetKey": "react/ui:time-picker",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "time-picker.tsx"
+                }
+              ]
             },
             {
               "id": "top-navigation",
@@ -925,25 +881,6 @@
               ]
             },
             {
-              "id": "action-chip",
-              "title": "Action Chip",
-              "docUrl": "/react/components/action-chip",
-              "deprecated": true
-            },
-            {
-              "id": "action-sheet",
-              "title": "Action Sheet",
-              "docUrl": "/react/components/action-sheet",
-              "deprecated": true,
-              "snippetKey": "react/ui:action-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "action-sheet.tsx"
-                }
-              ]
-            },
-            {
               "id": "alert-dialog",
               "title": "Alert Dialog",
               "description": "사용자의 확인이 반드시 필요한 경우 강력한 표현 및 경고 수단으로 활용하는 컴포넌트입니다.",
@@ -1011,7 +948,14 @@
               "id": "badge",
               "title": "Badge",
               "description": "객체의 속성이나 상태를 시각적으로 표현하는 작은 텍스트 라벨입니다. 사용자의 주의를 끌고 콘텐츠의 빠른 인지와 탐색을 돕기 위해 사용됩니다.",
-              "docUrl": "/react/components/badge"
+              "docUrl": "/react/components/badge",
+              "snippetKey": "react/ui:badge",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "badge.tsx"
+                }
+              ]
             },
             {
               "id": "bottom-sheet",
@@ -1085,13 +1029,6 @@
               ]
             },
             {
-              "id": "columns",
-              "title": "Columns",
-              "description": "여러 열로 구성된 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/columns",
-              "deprecated": true
-            },
-            {
               "id": "composition",
               "title": "Composition",
               "description": "컴포넌트를 조합하여 복잡한 UI를 구성하는 방법과 원칙을 설명합니다.",
@@ -1130,23 +1067,17 @@
               ]
             },
             {
-              "id": "control-chip",
-              "title": "Control Chip",
-              "docUrl": "/react/components/control-chip",
-              "deprecated": true,
-              "snippetKey": "react/ui:control-chip",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "control-chip.tsx"
-                }
-              ]
-            },
-            {
               "id": "date-picker",
               "title": "Date Picker",
               "description": "달력에서 하나의 날짜, 날짜 범위 또는 여러 날짜를 선택하는 컴포넌트입니다.",
-              "docUrl": "/react/components/date-picker"
+              "docUrl": "/react/components/date-picker",
+              "snippetKey": "react/ui:date-picker",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "date-picker.tsx"
+                }
+              ]
             },
             {
               "id": "dialog",
@@ -1166,45 +1097,6 @@
               "title": "Divider",
               "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
               "docUrl": "/react/components/divider"
-            },
-            {
-              "id": "error-state",
-              "title": "Error State",
-              "description": "사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트입니다.",
-              "docUrl": "/react/components/error-state",
-              "deprecated": true,
-              "snippetKey": "react/ui:error-state",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "error-state.tsx"
-                }
-              ]
-            },
-            {
-              "id": "extended-action-sheet",
-              "title": "Extended Action Sheet",
-              "docUrl": "/react/components/extended-action-sheet",
-              "deprecated": true,
-              "snippetKey": "react/ui:extended-action-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "extended-action-sheet.tsx"
-                }
-              ]
-            },
-            {
-              "id": "extended-fab",
-              "title": "Extended FAB",
-              "docUrl": "/react/components/extended-fab",
-              "deprecated": true
-            },
-            {
-              "id": "fab",
-              "title": "FAB",
-              "docUrl": "/react/components/fab",
-              "deprecated": true
             },
             {
               "id": "field-button",
@@ -1302,26 +1194,6 @@
               "docUrl": "/react/components/image-frame"
             },
             {
-              "id": "inline",
-              "title": "Inline",
-              "description": "인라인 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/inline",
-              "deprecated": true
-            },
-            {
-              "id": "inline-banner",
-              "title": "Inline Banner",
-              "docUrl": "/react/components/inline-banner",
-              "deprecated": true,
-              "snippetKey": "react/ui:inline-banner",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "inline-banner.tsx"
-                }
-              ]
-            },
-            {
               "id": "interaction-states",
               "title": "Interaction States",
               "description": "SEED React 컴포넌트가 디바이스 환경에 따라 상호작용 스타일을 적용하는 방식을 설명합니다.",
@@ -1332,12 +1204,6 @@
               "title": "Library",
               "description": "리액트 아이콘 패키지는 아이콘을 사용할 때 필요한 컴포넌트를 제공합니다.",
               "docUrl": "/react/components/iconography/library"
-            },
-            {
-              "id": "link-content",
-              "title": "Link Content",
-              "docUrl": "/react/components/link-content",
-              "deprecated": true
             },
             {
               "id": "list",
@@ -1436,6 +1302,19 @@
               ]
             },
             {
+              "id": "popover",
+              "title": "Popover",
+              "description": "트리거 요소에 앵커링되어 화면 위에 떠 있는 컨테이너입니다. Header/Body/Footer 구조로 부가 정보나 액션을 제공할 때 사용됩니다.",
+              "docUrl": "/react/components/popover",
+              "snippetKey": "react/ui:popover",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "popover.tsx"
+                }
+              ]
+            },
+            {
               "id": "progress-circle",
               "title": "Progress Circle",
               "description": "작업이 진행 중임을 알리거나 작업 시간을 시각적으로 나타내는 데 사용됩니다.",
@@ -1520,6 +1399,12 @@
               ]
             },
             {
+              "id": "safe-area",
+              "title": "Safe Area",
+              "description": "기기의 safe area inset을 화면에 반영하고, 배경과 스크롤 영역을 화면 끝까지 채우는 방법을 알아봅니다.",
+              "docUrl": "/react/components/concepts/safe-area"
+            },
+            {
               "id": "scale-feedback",
               "title": "Scale Feedback",
               "description": "커스텀 컴포넌트에 SEED의 Scale Feedback을 적용하는 방법을 알아봅니다.",
@@ -1530,6 +1415,19 @@
               "title": "Scroll Fog",
               "description": "스크롤 가능한 영역에서 사용자에게 추가 콘텐츠가 있음을 시각적으로 알려주는 힌트 역할을 합니다.",
               "docUrl": "/react/components/scroll-fog"
+            },
+            {
+              "id": "search-input",
+              "title": "Search Input",
+              "description": "검색어를 입력하고 제출하는 입력 필드입니다. Stackflow 화면에서는 Search Bar와 함께 사용합니다.",
+              "docUrl": "/react/components/search-input",
+              "snippetKey": "react/ui:search-input",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "search-input.tsx"
+                }
+              ]
             },
             {
               "id": "segmented-control",
@@ -1543,6 +1441,12 @@
                   "path": "segmented-control.tsx"
                 }
               ]
+            },
+            {
+              "id": "segmented-text-input",
+              "title": "Segmented Text Input",
+              "description": "주민등록번호·카드번호처럼 일부 구간을 가려야 하는 값을 구간마다 별도 입력으로 나눠 받는 컴포넌트입니다.",
+              "docUrl": "/react/components/segmented-text-input"
             },
             {
               "id": "select",
@@ -1620,13 +1524,6 @@
               "title": "Snippet",
               "description": "자주 사용되는 UI 패턴을 스니펫으로 제공하여 개발 효율성을 높이는 방법을 안내합니다.",
               "docUrl": "/react/components/concepts/snippet"
-            },
-            {
-              "id": "stack",
-              "title": "Stack",
-              "description": "세로로 쌓이는 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.",
-              "docUrl": "/react/components/stack",
-              "deprecated": true
             },
             {
               "id": "swipeable-menu-sheet",
@@ -1715,7 +1612,14 @@
               "id": "time-picker",
               "title": "Time Picker",
               "description": "휠을 스크롤하여 오전·오후, 시, 분을 선택하는 12시간제 시간 선택 컴포넌트입니다.",
-              "docUrl": "/react/components/time-picker"
+              "docUrl": "/react/components/time-picker",
+              "snippetKey": "react/ui:time-picker",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "time-picker.tsx"
+                }
+              ]
             },
             {
               "id": "toggle-button",
@@ -1906,6 +1810,19 @@
                   "path": "menu-sheet.tsx"
                 }
               ]
+            },
+            {
+              "id": "search-bar",
+              "title": "Search Bar",
+              "description": "Stackflow 화면 상단에서 검색어를 입력하는 App Bar입니다. Search Input을 Back·닫기 버튼과 함께 배치합니다.",
+              "docUrl": "/react/stackflow/search-bar",
+              "snippetKey": "react/ui:search-bar",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "search-bar.tsx"
+                }
+              ]
             }
           ]
         },
@@ -1960,6 +1877,12 @@
               "title": "SEED React 2",
               "description": "SEED React 2로 업그레이드할 때 필요한 작업을 안내합니다.",
               "docUrl": "/react/updates/upgrade/v2"
+            },
+            {
+              "id": "v3",
+              "title": "SEED React 3",
+              "description": "SEED React 3으로 업그레이드할 때 필요한 작업을 안내합니다.",
+              "docUrl": "/react/updates/upgrade/v3"
             }
           ]
         },
@@ -2084,7 +2007,7 @@
             },
             {
               "id": "app-bar",
-              "title": "AppBar",
+              "title": "App Bar",
               "description": "화면 상단에서 현재 화면의 제목과 탐색 액션을 보여주는 내비게이션 바 컴포넌트입니다.",
               "docUrl": "/lynx/components/app-bar",
               "snippetKey": "lynx/ui:app-bar",
@@ -2122,10 +2045,30 @@
               ]
             },
             {
+              "id": "avatar",
+              "title": "Avatar",
+              "description": "사용자의 프로필 이미지를 표시하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/avatar",
+              "snippetKey": "lynx/ui:avatar",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "avatar.tsx"
+                }
+              ]
+            },
+            {
               "id": "badge",
               "title": "Badge",
               "description": "상태나 속성을 짧은 텍스트로 표시하는 정보성 컴포넌트입니다.",
-              "docUrl": "/lynx/components/badge"
+              "docUrl": "/lynx/components/badge",
+              "snippetKey": "lynx/ui:badge",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "badge.tsx"
+                }
+              ]
             },
             {
               "id": "bottom-sheet",
@@ -2158,6 +2101,12 @@
                   "path": "callout.tsx"
                 }
               ]
+            },
+            {
+              "id": "changelog",
+              "title": "Changelog",
+              "description": "최신 업데이트와 변경사항을 기록합니다.",
+              "docUrl": "/lynx/updates/changelog"
             },
             {
               "id": "checkbox",
@@ -2198,6 +2147,19 @@
               "docUrl": "/lynx/getting-started/cli"
             },
             {
+              "id": "content-placeholder",
+              "title": "Content Placeholder",
+              "description": "이미지나 콘텐츠가 없거나 로딩되기 전인 영역을 채우는 플레이스홀더 컴포넌트입니다.",
+              "docUrl": "/lynx/components/content-placeholder",
+              "snippetKey": "lynx/ui:content-placeholder",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "content-placeholder.tsx"
+                }
+              ]
+            },
+            {
               "id": "contextual-floating-button",
               "title": "Contextual Floating Button",
               "description": "화면 위에 떠 있으며 특정 상황에서만 나타나는 보조적인 동작을 위한 버튼입니다.",
@@ -2219,14 +2181,33 @@
             {
               "id": "divider",
               "title": "Divider",
-              "description": "시각적 구분자로써 역할을 하며, 콘텐츠 간의 구획을 명확히 나누는 데 사용하는 컴포넌트입니다.",
+              "description": "콘텐츠 영역을 시각적으로 구분하는 컴포넌트입니다.",
               "docUrl": "/lynx/components/divider"
             },
             {
               "id": "feature-flags",
               "title": "Feature Flags",
-              "description": "SEED를 Lynx에서 사용할 때 권장하는 피쳐 플래그 설정을 안내합니다.",
+              "description": "SEED에 중요한 Lynx 플래그와 엔진·빌드 도구 버전별 유지 및 생략 조건을 안내합니다.",
               "docUrl": "/lynx/getting-started/feature-flags"
+            },
+            {
+              "id": "field-button",
+              "title": "Field Button",
+              "description": "입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.",
+              "docUrl": "/lynx/components/field-button",
+              "snippetKey": "lynx/ui:field-button",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "field-button.tsx"
+                }
+              ]
+            },
+            {
+              "id": "float",
+              "title": "Float",
+              "description": "Float 컴포넌트는 부모 안의 특정 위치에 요소를 배치할 때 사용합니다.",
+              "docUrl": "/lynx/foundation/layout/float"
             },
             {
               "id": "floating-action-button",
@@ -2261,6 +2242,12 @@
               ]
             },
             {
+              "id": "host-integration",
+              "title": "Host Integration",
+              "description": "호스트 앱이 주는 색상 스킴·모션 설정·Safe Area를 SeedProvider로 SEED에 전달하는 방법을 알아봅니다.",
+              "docUrl": "/lynx/getting-started/host-integration"
+            },
+            {
               "id": "iconography",
               "title": "Iconography",
               "description": "Lynx 아이콘 패키지를 사용하는 방법을 설명합니다.",
@@ -2269,7 +2256,7 @@
             {
               "id": "identity-placeholder",
               "title": "Identity Placeholder",
-              "description": "인물을 표현하는 이미지가 로드되지 않았을 때 보여지는 대체 시각 요소입니다.",
+              "description": "인물 이미지가 로드되지 않았을 때 표시하는 대체 요소입니다.",
               "docUrl": "/lynx/components/identity-placeholder",
               "snippetKey": "lynx/ui:identity-placeholder",
               "snippets": [
@@ -2280,10 +2267,10 @@
               ]
             },
             {
-              "id": "input-button",
-              "title": "Field Button",
-              "description": "입력 필드 형태의 버튼으로, 선택창이나 피커를 열 때 사용합니다. 선택이 완료되면 버튼 라벨에 선택된 값이 표시됩니다.",
-              "docUrl": "/lynx/components/input-button"
+              "id": "image-frame",
+              "title": "Image Frame",
+              "description": "사용자가 업로드한 이미지를 표시하기 위한 컴포넌트입니다.",
+              "docUrl": "/lynx/components/image-frame"
             },
             {
               "id": "installation",
@@ -2293,7 +2280,7 @@
             },
             {
               "id": "keyboard-avoiding-scroll-view",
-              "title": "KeyboardAvoidingScrollView",
+              "title": "Keyboard Avoiding Scroll View",
               "description": "소프트 키보드가 활성 입력을 가리지 않도록 세로 스크롤 위치와 하단 여백을 조정하는 컴포넌트입니다.",
               "docUrl": "/lynx/components/keyboard-avoiding-scroll-view"
             },
@@ -2318,13 +2305,27 @@
               "id": "manner-temp",
               "title": "Manner Temp",
               "description": "사용자의 매너온도를 온도와 표정 이미지로 표현하는 컴포넌트입니다.",
-              "docUrl": "/lynx/components/manner-temp"
+              "docUrl": "/lynx/components/manner-temp",
+              "snippetKey": "lynx/ui:manner-temp",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "manner-temp.tsx"
+                }
+              ]
             },
             {
               "id": "manner-temp-badge",
               "title": "Manner Temp Badge",
               "description": "매너온도를 작은 배지 형태로 표현하는 컴포넌트입니다.",
-              "docUrl": "/lynx/components/manner-temp-badge"
+              "docUrl": "/lynx/components/manner-temp-badge",
+              "snippetKey": "lynx/ui:manner-temp-badge",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "manner-temp-badge.tsx"
+                }
+              ]
             },
             {
               "id": "menu",
@@ -2336,6 +2337,19 @@
                 {
                   "label": "react",
                   "path": "menu.tsx"
+                }
+              ]
+            },
+            {
+              "id": "menu-sheet",
+              "title": "Menu Sheet",
+              "description": "사용자 작업에 관련된 선택지를 화면 하단의 드래그 가능한 시트로 제공합니다.",
+              "docUrl": "/lynx/components/menu-sheet",
+              "snippetKey": "lynx/ui:menu-sheet",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "menu-sheet.tsx"
                 }
               ]
             },
@@ -2362,6 +2376,19 @@
                 {
                   "label": "react",
                   "path": "progress-circle.tsx"
+                }
+              ]
+            },
+            {
+              "id": "pull-to-refresh",
+              "title": "Pull To Refresh",
+              "description": "사용자가 화면을 아래로 당겨 콘텐츠를 새로고침하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/pull-to-refresh",
+              "snippetKey": "lynx/ui:pull-to-refresh",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "pull-to-refresh.tsx"
                 }
               ]
             },
@@ -2394,13 +2421,13 @@
             {
               "id": "reaction-button",
               "title": "Reaction Button",
-              "description": "사용자가 콘텐츠에 대한 반응을 표현할 수 있게 해주는 컴포넌트입니다. 좋아요, 관심있어요 등의 감정적 피드백을 간편하게 제공할 때 사용됩니다.",
+              "description": "콘텐츠에 좋아요나 관심 등의 반응을 남기는 컴포넌트입니다.",
               "docUrl": "/lynx/components/reaction-button"
             },
             {
               "id": "result-section",
               "title": "Result Section",
-              "description": "데이터 로딩 결과, 사용자의 액션 완료 여부 등 사용자 액션의 결과를 제공하는 템플릿입니다. 주로 전체 화면이나 특정 영역을 차지하여 다음 액션을 유도하거나 현재 상황을 안내합니다.",
+              "description": "작업 결과를 안내하고 다음 액션을 제공하는 템플릿입니다.",
               "docUrl": "/lynx/components/result-section",
               "snippetKey": "lynx/ui:result-section",
               "snippets": [
@@ -2409,6 +2436,12 @@
                   "path": "result-section.tsx"
                 }
               ]
+            },
+            {
+              "id": "safe-area",
+              "title": "Safe Area",
+              "description": "콘텐츠를 안전 영역 안에 유지하면서 배경과 가로 스크롤 영역을 화면 끝까지 확장합니다.",
+              "docUrl": "/lynx/getting-started/safe-area"
             },
             {
               "id": "scale-feedback",
@@ -2421,6 +2454,32 @@
               "title": "Scroll Fog",
               "description": "스크롤 가능한 영역에서 사용자에게 추가 콘텐츠가 있음을 시각적으로 알려주는 힌트 역할을 합니다.",
               "docUrl": "/lynx/components/scroll-fog"
+            },
+            {
+              "id": "search-bar",
+              "title": "Search Bar",
+              "description": "화면 상단에서 검색어를 입력하는 App Bar입니다. Search Input을 Back·닫기 버튼과 함께 배치합니다.",
+              "docUrl": "/lynx/components/search-bar",
+              "snippetKey": "lynx/ui:search-bar",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "search-bar.tsx"
+                }
+              ]
+            },
+            {
+              "id": "search-input",
+              "title": "Search Input",
+              "description": "검색어를 입력하고 제출하는 입력 필드입니다. 화면 상단에서는 Search Bar와 함께 사용합니다.",
+              "docUrl": "/lynx/components/search-input",
+              "snippetKey": "lynx/ui:search-input",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "search-input.tsx"
+                }
+              ]
             },
             {
               "id": "segmented-control",
@@ -2436,9 +2495,15 @@
               ]
             },
             {
+              "id": "segmented-text-input",
+              "title": "Segmented Text Input",
+              "description": "주민등록번호·카드번호처럼 형식이 정해진 값을 여러 구간으로 나눠 입력받는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/segmented-text-input"
+            },
+            {
               "id": "select",
               "title": "Select",
-              "description": "트리거를 눌러 native overlay의 목록에서 값을 선택하는 컴포넌트입니다.",
+              "description": "트리거를 눌러 목록에서 값을 선택하는 컴포넌트입니다.",
               "docUrl": "/lynx/components/select",
               "snippetKey": "lynx/ui:select",
               "snippets": [
@@ -2451,7 +2516,7 @@
             {
               "id": "select-box",
               "title": "Select Box",
-              "description": "명확한 테두리를 가진 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
+              "description": "명확한 테두리가 있는 컨테이너를 활용하여, 정의된 목록 중 하나 이상의 옵션을 선택하는 UI 요소입니다.",
               "docUrl": "/lynx/components/select-box",
               "snippetKey": "lynx/ui:select-box",
               "snippets": [
@@ -2464,7 +2529,7 @@
             {
               "id": "skeleton",
               "title": "Skeleton",
-              "description": "콘텐츠가 로딩되는 동안 이후 나타날 요소의 윤곽을 미리 보여주어 로딩 시간을 짧게 느끼게 하는 UI 요소입니다.",
+              "description": "콘텐츠를 불러오는 동안 윤곽을 표시하는 컴포넌트입니다.",
               "docUrl": "/lynx/components/skeleton"
             },
             {
@@ -2481,17 +2546,10 @@
               ]
             },
             {
-              "id": "swipeable-menu-sheet",
-              "title": "Swipeable Menu Sheet",
-              "description": "사용자 작업에 관련된 선택지를 화면 하단의 드래그 가능한 시트로 제공합니다.",
-              "docUrl": "/lynx/components/swipeable-menu-sheet",
-              "snippetKey": "lynx/ui:swipeable-menu-sheet",
-              "snippets": [
-                {
-                  "label": "react",
-                  "path": "swipeable-menu-sheet.tsx"
-                }
-              ]
+              "id": "styling",
+              "title": "Styling",
+              "description": "Lynx에서 스타일링 라이브러리를 선택하고 정적 CSS로 레이아웃을 구성하는 방법을 안내합니다.",
+              "docUrl": "/lynx/getting-started/styling"
             },
             {
               "id": "switch",
@@ -2569,10 +2627,22 @@
               "docUrl": "/lynx/getting-started/styling/theming"
             },
             {
+              "id": "upgrade",
+              "title": "Overview",
+              "description": "SEED Lynx 패키지 버전을 올릴 때 호환성을 확인하고 안전하게 업그레이드하는 방법을 안내합니다.",
+              "docUrl": "/lynx/updates/upgrade"
+            },
+            {
               "id": "use-controllable-state",
               "title": "useControllableState",
               "description": "Controlled/uncontrolled 상태 패턴을 지원하는 훅입니다.",
               "docUrl": "/lynx/hooks/use-controllable-state"
+            },
+            {
+              "id": "use-dismissible",
+              "title": "useDismissible",
+              "description": "닫을 수 있는 요소의 표시 상태와 dismiss를 관리하는 훅입니다.",
+              "docUrl": "/lynx/hooks/use-dismissible"
             },
             {
               "id": "use-icon-color",
@@ -2589,7 +2659,7 @@
             {
               "id": "use-safe-area",
               "title": "useSafeArea",
-              "description": "Lynx 앱에서 top/bottom safe area inset 값을 가져오는 훅입니다.",
+              "description": "Lynx 앱에서 top/right/bottom/left Safe Area inset 값을 가져오는 훅입니다.",
               "docUrl": "/lynx/hooks/use-safe-area"
             },
             {
@@ -2599,10 +2669,41 @@
               "docUrl": "/lynx/hooks/use-seed-class-name"
             },
             {
+              "id": "use-viewport",
+              "title": "useViewport",
+              "description": "현재 LynxView의 너비와 높이를 가져오는 훅입니다.",
+              "docUrl": "/lynx/hooks/use-viewport"
+            },
+            {
               "id": "v-stack",
               "title": "VStack",
               "description": "VStack 컴포넌트는 Lynx에서 자식 요소를 세로 방향으로 쌓는 레이아웃 컴포넌트입니다.",
               "docUrl": "/lynx/foundation/layout/v-stack"
+            },
+            {
+              "id": "v1",
+              "title": "SEED Lynx 1",
+              "description": "SEED Lynx 1로 업그레이드할 때 필요한 작업을 안내합니다.",
+              "docUrl": "/lynx/updates/upgrade/v1"
+            },
+            {
+              "id": "vanilla-extract",
+              "title": "Vanilla Extract",
+              "description": "Lynx에서 Vanilla Extract로 정적 CSS를 생성하고 SEED 토큰을 사용하는 방법을 안내합니다.",
+              "docUrl": "/lynx/getting-started/styling/vanilla-extract"
+            },
+            {
+              "id": "wheel-picker",
+              "title": "Wheel Picker",
+              "description": "항목을 세로로 스크롤하여 하나 이상의 값을 선택하는 컴포넌트입니다.",
+              "docUrl": "/lynx/components/wheel-picker",
+              "snippetKey": "lynx/ui:wheel-picker",
+              "snippets": [
+                {
+                  "label": "react",
+                  "path": "wheel-picker.tsx"
+                }
+              ]
             }
           ]
         }

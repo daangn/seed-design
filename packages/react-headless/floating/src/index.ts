@@ -11,13 +11,15 @@ import {
   type ExtendedRefs,
   type FloatingContext,
   type Middleware,
+  type OpenChangeReason,
+  type Padding,
   type Placement,
   type Rect,
   type ReferenceType,
   type Side,
 } from "@floating-ui/react";
-import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useControllableState } from "@seed-design/react-use-controllable-state";
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 
 export interface PositioningOptions {
   /**
@@ -45,7 +47,8 @@ export interface PositioningOptions {
    */
   slide?: boolean;
   /**
-   * The virtual padding around the viewport edges to check for overflow
+   * The virtual padding around the viewport edges to check for overflow. On an edge with a
+   * safe-area inset, it is added to the inset.
    * @default 8
    */
   overflowPadding?: number;
@@ -65,6 +68,21 @@ const defaultPositioningOptions: PositioningOptions = {
   arrowPadding: 4,
 };
 
+// flip/shift/size derive collisions from numeric padding, so the safe-area insets have to
+// reach floating-ui as numbers — a CSS env() value alone can't. Like Menu and Select, the
+// positioner re-declares the insets from env() and the hook reads them back as px, which
+// keeps this layer self-contained from the global SEED safe-area tokens.
+const SAFE_AREA_STYLE = {
+  "--seed-safe-area-top": "env(safe-area-inset-top)",
+  "--seed-safe-area-right": "env(safe-area-inset-right)",
+  "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
+  "--seed-safe-area-left": "env(safe-area-inset-left)",
+} as CSSProperties;
+
+const SIDES = ["top", "right", "bottom", "left"] as const satisfies readonly Side[];
+
+const ZERO_INSETS: Record<Side, number> = { top: 0, right: 0, bottom: 0, left: 0 };
+
 function getArrowMiddleware(arrowElement: HTMLElement | null, opts: PositioningOptions) {
   if (!arrowElement) return;
   return arrow({ element: arrowElement, padding: opts.arrowPadding });
@@ -75,30 +93,34 @@ function getOffsetMiddleware(arrowOffset: number, opts: PositioningOptions) {
   return offset(offsetMainAxis);
 }
 
-function getFlipMiddleware(opts: PositioningOptions) {
+function getFlipMiddleware(opts: PositioningOptions, padding: Padding) {
   if (!opts.flip) return;
   return flip({
-    padding: opts.overflowPadding,
+    padding,
     fallbackPlacements: opts.flip === true ? undefined : opts.flip,
   });
 }
 
-function getShiftMiddleware(opts: PositioningOptions) {
+function getShiftMiddleware(opts: PositioningOptions, padding: Padding) {
   if (!opts.slide) return;
   return shift({
     mainAxis: opts.slide,
-    padding: opts.overflowPadding,
+    padding,
     limiter: limitShift(),
   });
 }
 
-function getSizeMiddleware(opts: PositioningOptions) {
+function getSizeMiddleware(padding: Padding) {
   return size({
-    padding: opts.overflowPadding,
-    apply({ availableWidth, elements }) {
+    padding,
+    apply({ availableWidth, availableHeight, elements }) {
       elements.floating.style.setProperty(
         "--seed-popover-available-width",
         `${Math.max(0, availableWidth)}px`,
+      );
+      elements.floating.style.setProperty(
+        "--seed-popover-available-height",
+        `${Math.max(0, availableHeight)}px`,
       );
     },
   });
@@ -113,7 +135,7 @@ const rectMiddleware: Middleware = {
   },
 };
 
-export interface UsePositionedFloatingProps extends PositioningOptions {
+export interface UsePositionedFloatingProps<Details = undefined> extends PositioningOptions {
   /**
    * Whether the floating element is initially open
    */
@@ -123,9 +145,11 @@ export interface UsePositionedFloatingProps extends PositioningOptions {
    */
   open?: boolean;
   /**
-   * Callback when the floating element is opened or closed
+   * Callback when the floating element is opened or closed. `details` is whatever the
+   * caller's `getChangeDetails` produced, or whatever it passed to the returned
+   * `onOpenChange`; a floating element that reports no reason leaves it undefined.
    */
-  onOpenChange?: (open: boolean) => void;
+  onOpenChange?: (open: boolean, details?: Details) => void;
 }
 
 const ARROW_FLOATING_STYLE = {
@@ -136,9 +160,12 @@ const ARROW_FLOATING_STYLE = {
 } as const;
 
 // Explicit return type interface - leveraging @floating-ui/react types
-export interface UsePositionedFloatingReturn<RT extends ReferenceType = ReferenceType> {
+export interface UsePositionedFloatingReturn<
+  RT extends ReferenceType = ReferenceType,
+  Details = undefined,
+> {
   open: boolean;
-  onOpenChange: ((open: boolean) => void) | undefined;
+  onOpenChange: (open: boolean, details?: Details) => void;
   refs: ExtendedRefs<RT> & {
     arrow: HTMLElement | null;
     setArrow: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
@@ -158,16 +185,40 @@ export interface UsePositionedFloatingReturn<RT extends ReferenceType = Referenc
   arrowStyles: CSSProperties;
 }
 
-export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
-  props: UsePositionedFloatingProps,
-): UsePositionedFloatingReturn<RT> {
+export function usePositionedFloating<
+  RT extends ReferenceType = ReferenceType,
+  Details = undefined,
+>(
+  props: UsePositionedFloatingProps<Details>,
+  /**
+   * Translates the open-state changes floating-ui drives on its own — `useClick`,
+   * `useHover`, `useFocus`, `useDismiss` — into the caller's details shape. floating-ui
+   * reports them as `(open, event, reason)`, so a caller that wants the originating event
+   * has to name it here; without a mapper those two arguments have nowhere to go.
+   */
+  getChangeDetails?: (
+    event: Event | undefined,
+    reason: OpenChangeReason | undefined,
+  ) => Details | undefined,
+): UsePositionedFloatingReturn<RT, Details> {
   const options = { ...defaultPositioningOptions, ...props };
 
-  const [open, onOpenChange] = useControllableState({
+  const [open, onOpenChange] = useControllableState<boolean, Details>({
     prop: props.open,
     defaultProp: props.defaultOpen ?? false,
     onChange: props.onOpenChange,
   });
+
+  // Never hand `onOpenChange` to `useFloating` directly: floating-ui calls it as
+  // `(open, event, reason)`, so the event would land in the setter's `details` slot and
+  // reach the consumer's callback disguised as a reason payload.
+  const handleFloatingOpenChange = useCallback(
+    (nextOpen: boolean, event?: Event, reason?: OpenChangeReason) => {
+      onOpenChange(nextOpen, getChangeDetails?.(event, reason));
+    },
+    [onOpenChange, getChangeDetails],
+  );
+
   const [arrowEl, setArrowEl] = useState<HTMLElement | null>(null);
   const [arrowTipEl, setArrowTipEl] = useState<HTMLElement | null>(null);
 
@@ -175,16 +226,34 @@ export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
   const arrowTipHeight = arrowTipEl?.clientHeight ?? 0;
   const arrowTipOffset = arrowTipHeight;
 
-  const { refs, context, floatingStyles, middlewareData, isPositioned } = useFloating<RT>({
+  const [safeArea, setSafeArea] = useState(ZERO_INSETS);
+
+  // overflowPadding is measured from the safe area's boundary, so it keeps the same gap from
+  // what's visible whether or not an edge has an inset.
+  const overflowPadding = options.overflowPadding ?? 0;
+  const collisionPadding = {
+    top: safeArea.top + overflowPadding,
+    right: safeArea.right + overflowPadding,
+    bottom: safeArea.bottom + overflowPadding,
+    left: safeArea.left + overflowPadding,
+  };
+
+  const {
+    refs,
+    context,
+    floatingStyles: positionStyles,
+    middlewareData,
+    isPositioned,
+  } = useFloating<RT>({
     strategy: options.strategy,
     open,
     placement: options.placement,
-    onOpenChange: onOpenChange,
+    onOpenChange: handleFloatingOpenChange,
     middleware: [
       getOffsetMiddleware(arrowTipOffset, options),
-      getFlipMiddleware(options),
-      getShiftMiddleware(options),
-      getSizeMiddleware(options),
+      getFlipMiddleware(options, collisionPadding),
+      getShiftMiddleware(options, collisionPadding),
+      getSizeMiddleware(collisionPadding),
       getArrowMiddleware(arrowEl, options),
       rectMiddleware,
     ],
@@ -198,6 +267,40 @@ export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
 
     return autoUpdate(refs.reference.current, refs.floating.current, context.update);
   }, [open, refs.reference, refs.floating, context]);
+
+  // Read the env()-resolved insets back off the positioner. Keyed on the reactive
+  // `elements.floating`: `refs.floating` never changes identity, so an effect on it would
+  // run once before the positioner commits and never again. Re-read on resize for
+  // orientation changes.
+  const floatingElement = context.elements.floating;
+
+  useEffect(() => {
+    if (!floatingElement) return;
+
+    const read = () => {
+      const styles = getComputedStyle(floatingElement);
+      const inset = (side: Side) =>
+        Number.parseInt(styles.getPropertyValue(`--seed-safe-area-${side}`), 10) || 0;
+      const next = {
+        top: inset("top"),
+        right: inset("right"),
+        bottom: inset("bottom"),
+        left: inset("left"),
+      };
+
+      setSafeArea((prev) => (SIDES.every((side) => prev[side] === next[side]) ? prev : next));
+    };
+
+    read();
+    window.addEventListener("resize", read);
+
+    return () => window.removeEventListener("resize", read);
+  }, [floatingElement]);
+
+  const floatingStyles = useMemo(
+    () => ({ ...SAFE_AREA_STYLE, ...positionStyles }),
+    [positionStyles],
+  );
 
   const [side, alignment] = context.placement.split("-") as [Side, Alignment | undefined];
 

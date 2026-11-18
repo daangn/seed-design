@@ -29,7 +29,15 @@ dev, statuses:[ACCEPTED] → build 2824
 dev, statuses:[BROKEN]   → build 1319
 ```
 
-**Field aliases are rejected.** Two aliases of the same field in one selection set fail validation with `GRAPHQL_VALIDATION_FAILED`, whatever the field is. So nothing can be batched, and a branch-by-status sweep costs one request per combination. Around 40 branches over the statuses worth checking runs in about ten seconds at a concurrency of eight.
+`resolve.ts` widens the search in three stages and stops at the cheapest one that answers:
+
+1. `lastBuild` with no filter
+2. `lastBuild(branches: [...])` for each branch from `branchNames(limit: 50)`
+3. `lastBuild` for each branch × status (`ACCEPTED`, `BROKEN`, `CANCELLED`, `DENIED`, `FAILED`, `PASSED`, `PENDING`)
+
+When all three miss, the script reports the build as superseded and stops. Ask which branch or PR it came from, or pass a reachable build with `--against`.
+
+**Field aliases are rejected.** Two aliases of the same field in one selection set fail validation with `GRAPHQL_VALIDATION_FAILED`, whatever the field is. So nothing can be batched, and a branch-by-status sweep costs one request per combination. `pool` in `scripts/api.ts` runs them eight at a time, which finishes the sweep in about ten seconds without tripping rate limits.
 
 ## Comparing builds
 

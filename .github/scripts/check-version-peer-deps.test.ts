@@ -58,7 +58,7 @@ function createFixture(overrides?: {
     baseLynxCssManifest: createManifest("@seed-design/lynx-css", "0.8.0"),
     baseLynxReactManifest: createManifest("@seed-design/lynx-react", "0.4.0", {
       name: "@seed-design/lynx-css",
-      range: "0.0.0 || >=0.8.0 <1.0.0",
+      range: "^0.8.0",
     }),
     sourceCssManifest: createManifest("@seed-design/css", values.cssVersion),
     sourceReactManifest: createManifest("@seed-design/react", values.reactVersion, {
@@ -68,7 +68,7 @@ function createFixture(overrides?: {
     sourceLynxCssManifest: createManifest("@seed-design/lynx-css", "0.8.0"),
     sourceLynxReactManifest: createManifest("@seed-design/lynx-react", "0.4.0", {
       name: "@seed-design/lynx-css",
-      range: "0.0.0 || >=0.8.0 <1.0.0",
+      range: "^0.8.0",
     }),
   };
 }
@@ -82,12 +82,12 @@ function createLynxFixture(overrides?: {
   peerRange?: string;
 }) {
   const values = {
-    baseLynxCssVersion: "0.8.1",
-    baseLynxReactVersion: "0.4.1",
-    basePeerRange: "0.0.0 || >=0.8.0 <1.0.0",
-    lynxCssVersion: "0.9.0",
-    lynxReactVersion: "0.5.0",
-    peerRange: "0.0.0 || >=0.9.0 <1.0.0",
+    baseLynxCssVersion: "0.14.1",
+    baseLynxReactVersion: "0.10.0",
+    basePeerRange: "^0.14.1",
+    lynxCssVersion: "1.0.0",
+    lynxReactVersion: "1.0.0",
+    peerRange: "^1.0.0",
     ...overrides,
   };
 
@@ -158,48 +158,26 @@ describe("Version Packages peer dependency 검사", () => {
     });
   });
 
-  test("Lynx CSS와 Lynx React 버전 및 peer 범위가 함께 오르면 통과한다", () => {
+  test("Lynx CSS와 Lynx React가 1.0.0으로 함께 오르고 peer 범위가 ^1.0.0이면 통과한다", () => {
     expect(validateVersionPeerDependencies(createLynxFixture())).toMatchObject({
       lynxReact: {
         checked: true,
-        dependencyVersion: "0.9.0",
-        dependentVersion: "0.5.0",
+        dependencyVersion: "1.0.0",
+        dependentVersion: "1.0.0",
       },
     });
   });
 
   test("Lynx 버전이 함께 올랐지만 peer 범위가 그대로면 실패한다", () => {
     expect(() =>
-      validateVersionPeerDependencies(createLynxFixture({ peerRange: "0.0.0 || >=0.8.0 <1.0.0" })),
+      validateVersionPeerDependencies(createLynxFixture({ peerRange: "^0.14.1" })),
     ).toThrow("peerDependency가 변경되지 않았습니다");
   });
 
-  test("Lynx CSS patch만 올랐다면 같은 마이너 peer 범위를 허용한다", () => {
-    expect(
-      validateVersionPeerDependencies(
-        createLynxFixture({
-          baseLynxCssVersion: "0.9.0",
-          basePeerRange: "0.0.0 || >=0.9.0 <1.0.0",
-          lynxCssVersion: "0.9.1",
-          peerRange: "0.0.0 || >=0.9.0 <1.0.0",
-        }),
-      ),
-    ).toMatchObject({ lynxReact: { checked: true } });
-  });
-
-  test("Lynx CSS patch 하한을 같은 마이너의 후속 릴리스에서 보존한다", () => {
-    expect(
-      validateVersionPeerDependencies(
-        createLynxFixture({
-          baseLynxCssVersion: "0.11.1",
-          baseLynxReactVersion: "0.7.1",
-          basePeerRange: "0.0.0 || >=0.11.1 <1.0.0",
-          lynxCssVersion: "0.11.2",
-          lynxReactVersion: "0.7.2",
-          peerRange: "0.0.0 || >=0.11.1 <1.0.0",
-        }),
-      ),
-    ).toMatchObject({ lynxReact: { checked: true } });
+  test("Lynx peer 범위가 새 Lynx CSS 버전과 다르면 실패한다", () => {
+    expect(() =>
+      validateVersionPeerDependencies(createLynxFixture({ peerRange: "1.0.0" })),
+    ).toThrow("peerDependency가 새 버전과 다릅니다");
   });
 
   test("Version Packages PR에서 신뢰된 검사 코드로 정확한 head를 검사한다", async () => {
@@ -241,8 +219,15 @@ describe("Version Packages peer dependency 검사", () => {
     expect(workflow).toContain("permission-contents: write");
     expect(workflow).toContain("permission-pull-requests: write");
     expect(workflow).toContain(
-      `GITHUB_TOKEN: ${githubExpression("steps.app-token.outputs.token")}`,
+      `github-token: ${githubExpression("steps.app-token.outputs.token")}`,
     );
     expect(workflow).not.toContain(`GITHUB_TOKEN: ${githubExpression("secrets.GITHUB_TOKEN")}`);
+    expect(workflow).not.toContain(`github-token: ${githubExpression("secrets.GITHUB_TOKEN")}`);
+    expect(workflow).toContain("publish-script: bun release");
+    expect(workflow).toContain("version-script: bun version");
+    expect(workflow).toContain("push-with-git-cli: true");
+    expect(workflow).toContain(
+      `published-packages: ${githubExpression("steps.changesets.outputs.published-packages")}`,
+    );
   });
 });

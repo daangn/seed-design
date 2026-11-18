@@ -141,20 +141,20 @@ data:
     tone=neutral, variant=solid:
       enabled:
         root:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
         prefixIcon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         title:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         description:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         button:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
         suffixIcon:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
       pressed:
         root:
-          color: $color.bg.neutral-inverted-pressed
+          color: $color.bg.neutral-solid-pressed
     tone=positive, variant=weak:
       enabled:
         root:
@@ -177,15 +177,15 @@ data:
         root:
           color: $color.bg.positive-solid
         prefixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-positive-solid
         title:
-          color: $color.palette.static-white
+          color: $color.fg.on-positive-solid
         description:
-          color: $color.palette.static-white
+          color: $color.fg.on-positive-solid
         button:
-          color: $color.palette.static-white
+          color: $color.fg.on-positive-solid
         suffixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-positive-solid
       pressed:
         root:
           color: $color.bg.positive-solid-pressed
@@ -211,15 +211,15 @@ data:
         root:
           color: $color.bg.informative-solid
         prefixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-informative-solid
         title:
-          color: $color.palette.static-white
+          color: $color.fg.on-informative-solid
         description:
-          color: $color.palette.static-white
+          color: $color.fg.on-informative-solid
         button:
-          color: $color.palette.static-white
+          color: $color.fg.on-informative-solid
         suffixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-informative-solid
       pressed:
         root:
           color: $color.bg.informative-solid-pressed
@@ -245,15 +245,15 @@ data:
         root:
           color: $color.bg.warning-solid
         prefixIcon:
-          color: $color.palette.static-black-alpha-900
+          color: $color.fg.on-warning-solid
         title:
-          color: $color.palette.static-black-alpha-900
+          color: $color.fg.on-warning-solid
         description:
-          color: $color.palette.static-black-alpha-900
+          color: $color.fg.on-warning-solid
         button:
-          color: $color.palette.static-black-alpha-900
+          color: $color.fg.on-warning-solid
         suffixIcon:
-          color: $color.palette.static-black-alpha-900
+          color: $color.fg.on-warning-solid
       pressed:
         root:
           color: $color.bg.warning-solid-pressed
@@ -279,15 +279,15 @@ data:
         root:
           color: $color.bg.critical-solid
         prefixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
         title:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
         description:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
         button:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
         suffixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.on-critical-solid
       pressed:
         root:
           color: $color.bg.critical-solid-pressed

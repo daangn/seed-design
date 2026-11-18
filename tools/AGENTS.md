@@ -1,18 +1,15 @@
 # tools
 
-## 디렉토리 개요
+독립 실행 도구 workspace다. `figma-*`는 Figma 플러그인·위젯이고, `rootage-cdn/`은 Rootage CDN 운영 도구다. 재사용 라이브러리는 `packages/`에 둔다.
 
-Figma 플러그인·위젯, CDN 운영처럼 실행 엔트리와 명시적인 부수효과 경계를 가진 내부 도구를 모아둔 워크스페이스다. 재사용 라이브러리를 두는 `packages`와 달리 독립적으로 실행·검증하는 도구 프로젝트를 관리한다.
+## 검증
 
-## 파일 작성 컨벤션
+- 변경한 도구의 `package.json`에 `test` script가 있으면 `bun --filter <패키지 이름> test`, 없으면 `bun --filter <패키지 이름> build`를 실행한다. `figma-*` 도구의 `test`는 `tsc`와 build를 함께 돌린다. `rootage-cdn/`은 자체 `AGENTS.md`를 따른다.
+- `packages/figma`를 쓰는 도구(`figma-codegen`, `figma-mcp`) → `bun --filter @seed-design/figma build`를 먼저 실행한다. 도구는 `lib/` 빌드를 번들한다.
+- Figma 안에서의 동작 → Figma 데스크톱 앱에서 플러그인을 다시 불러와야 하므로 사람에게 확인을 요청한다. 빌드 성공만으로 동작을 보장했다고 보고하지 않는다.
 
-- 도구는 독립 워크스페이스로 유지하고, 실행 엔트리와 구현 코드를 분리한다.
-- Figma 플러그인 계열은 `manifest.json`과 `src/`를 기본 구조로 유지한다.
-- 운영 자동화는 `private: true` workspace로 두고 권한별 엔트리와 순수 정책 모듈을 분리한다.
-- 공통 변환 로직이 필요하면 도구 내부 중복보다 재사용 가능한 라이브러리 분리를 우선 검토한다.
+## 규칙
 
-## 코드 작성 컨벤션
-
-- 실행형 도구의 입출력/부수효과 코드는 엔트리 레이어에 두고, 변환 로직은 테스트 가능한 순수 함수로 분리한다.
-- Figma 데이터 해석/정규화가 필요하면 가능하면 `packages/figma`의 공통 로직을 재사용한다.
-- 토큰/스키마 포맷 변경이 발생하면 관련 생성 파이프라인(`rootage`, `qvism`, docs 동기화)에 미치는 영향을 함께 점검한다.
+- 플러그인 manifest 위치는 도구마다 다르다. 대부분 추적되는 `manifest.json`(루트나 `src/`)이고, `figma-codegen`은 `package.json`의 `figma-plugin` 필드가 원천이다. widget(`figma-checklist-widget`, `figma-contrast-checker`, `figma-spec-widget`)의 소스는 `widget-src/`에 있다.
+- Figma 노드 해석·정규화가 필요함 → 도구 안에 새로 쓰지 않고 `packages/figma`의 normalizer·codegen을 쓴다. 여러 도구에 같은 변환이 필요하면 `packages/figma` 같은 라이브러리로 옮기는 것을 검토한다.
+- 입출력·부수효과(파일·네트워크·Figma API)는 진입점 파일에 두고, 변환은 export한 순수 함수로 분리해 테스트한다.

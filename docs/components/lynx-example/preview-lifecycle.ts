@@ -1,3 +1,7 @@
+import { getSafeAreaPreviewRules, type PreviewSafeAreaInsets } from "../safe-area-preview";
+export type { PreviewSafeAreaInsets } from "../safe-area-preview";
+import { archivePaths } from "../../lib/docs-archive";
+
 export interface QueryableShadowRoot {
   querySelector(selectors: string): unknown;
 }
@@ -33,11 +37,22 @@ export function getLynxPreviewSizing(height?: number) {
   } as const;
 }
 
-export function configureLynxView(element: ThemeConfigurableLynxView, theme: string) {
-  element.globalProps = { theme };
+/** 같은 컴포넌트의 예제는 bundle 하나를 공유하므로 `example`로 렌더할 예제 ID를 함께 넘긴다. */
+export function configureLynxView(
+  element: ThemeConfigurableLynxView,
+  options: { theme: string; example: string; safeAreaInsets?: PreviewSafeAreaInsets },
+) {
+  element.globalProps = {
+    theme: options.theme,
+    example: options.example,
+    ...(options.safeAreaInsets && {
+      safeAreaInsetLeft: options.safeAreaInsets.left,
+      safeAreaInsetRight: options.safeAreaInsets.right,
+    }),
+  };
 }
 
-export const LYNX_WEB_CORE_STYLES_URL = "/__lynx__/web-core.css";
+export const LYNX_WEB_CORE_STYLES_URL = archivePaths.asset("/__lynx__/web-core.css");
 
 export async function loadLynxWebCoreStyleRules(
   href = LYNX_WEB_CORE_STYLES_URL,
@@ -57,13 +72,22 @@ export async function loadLynxWebCoreStyleRules(
 
 export function initializeLynxView(
   element: ConfigurableLynxView,
-  options: { theme: string; styleRules: string[]; transformVH: boolean; url: string },
+  options: {
+    theme: string;
+    example: string;
+    safeAreaInsets?: PreviewSafeAreaInsets;
+    styleRules: string[];
+    transformVH: boolean;
+    url: string;
+  },
 ) {
   element.browserConfig = { lynxSdkVersion: LYNX_WEB_RUNTIME_SDK_VERSION };
   element.transformVW = true;
   element.transformVH = options.transformVH;
-  configureLynxView(element, options.theme);
-  element.injectStyleRules = options.styleRules;
+  configureLynxView(element, options);
+  element.injectStyleRules = options.safeAreaInsets
+    ? [...options.styleRules, ...getSafeAreaPreviewRules(options.safeAreaInsets)]
+    : options.styleRules;
   element.url = options.url;
 }
 

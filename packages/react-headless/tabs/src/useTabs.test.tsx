@@ -1,9 +1,10 @@
-import { render } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterAll, describe, expect, it } from "bun:test";
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from "bun:test";
 
 import type { ReactElement } from "react";
 import * as React from "react";
+import { createPortal } from "react-dom";
 
 import { useTabs, type UseTabsProps } from "./useTabs";
 import type { ContentProps, TriggerProps } from "./Tabs.namespace";
@@ -77,6 +78,29 @@ function TabsContent(props: React.PropsWithChildren<ContentProps>) {
   const tabContentProps = getTabContentProps(props);
 
   return <div {...tabContentProps}>{props.children}</div>;
+}
+
+function TabsIndicatorList(props: React.PropsWithChildren) {
+  const { api } = useTabsContext();
+
+  return (
+    <div ref={api.refs.list} {...api.listProps}>
+      {props.children}
+      <div data-testid="indicator" {...api.indicatorProps} />
+    </div>
+  );
+}
+
+function PortaledTabsList(props: React.PropsWithChildren<{ target: HTMLElement }>) {
+  const { api } = useTabsContext();
+
+  return createPortal(
+    <div ref={api.refs.list} style={{ paddingLeft: "0px" }} {...api.listProps}>
+      {props.children}
+      <div data-testid="indicator" {...api.indicatorProps} />
+    </div>,
+    props.target,
+  );
 }
 
 interface TabItem extends TriggerProps {
@@ -288,6 +312,155 @@ describe("useTabs", () => {
 
       expect(disabledTrigger).toHaveAttribute("aria-disabled");
       expect(disabledTrigger).not.toHaveAttribute("aria-selected");
+    });
+  });
+
+  describe("portaled list", () => {
+    const offsetWidth = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "offsetWidth");
+    const offsetLeft = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "offsetLeft");
+    const target = document.createElement("div");
+
+    beforeEach(() => {
+      document.body.append(target);
+    });
+
+    beforeAll(() => {
+      Object.defineProperty(HTMLElement.prototype, "offsetWidth", {
+        configurable: true,
+        get: () => 64,
+      });
+      Object.defineProperty(HTMLElement.prototype, "offsetLeft", {
+        configurable: true,
+        get(this: HTMLElement) {
+          return this.textContent === tabItems.tab2.label ? 64 : 0;
+        },
+      });
+    });
+
+    afterAll(() => {
+      if (offsetWidth) Object.defineProperty(HTMLElement.prototype, "offsetWidth", offsetWidth);
+      if (offsetLeft) Object.defineProperty(HTMLElement.prototype, "offsetLeft", offsetLeft);
+    });
+
+    function renderPortaledTabs() {
+      return setUp(
+        <Tabs defaultValue={tabItems.tab1.value}>
+          <PortaledTabsList target={target}>
+            {Object.values(tabItems).map(({ value, label }) => (
+              <TabsTrigger key={value} value={value}>
+                {label}
+              </TabsTrigger>
+            ))}
+          </PortaledTabsList>
+          {Object.values(tabItems).map(({ value, content }) => (
+            <TabsContent key={content} value={value}>
+              {content}
+            </TabsContent>
+          ))}
+        </Tabs>,
+      );
+    }
+
+    it("should set the indicator position on the indicator itself", async () => {
+      const { getByTestId, getByRole, user } = renderPortaledTabs();
+      const indicator = getByTestId("indicator");
+
+      expect(indicator.style.getPropertyValue("--indicator-left")).toBe("0px");
+      expect(indicator.style.getPropertyValue("--indicator-width")).toBe("64px");
+
+      await user.click(getByRole("tab", { name: tabItems.tab2.label }));
+
+      expect(indicator.style.getPropertyValue("--indicator-left")).toBe("64px");
+    });
+
+    it("should keep tab and panel relationships and keyboard navigation", async () => {
+      const { getAllByRole, getByRole, user } = renderPortaledTabs();
+      const firstTab = getByRole("tab", { name: tabItems.tab1.label });
+      const secondTab = getByRole("tab", { name: tabItems.tab2.label });
+
+      for (const tab of getAllByRole("tab")) {
+        const panel = document.getElementById(tab.getAttribute("aria-controls") ?? "");
+
+        expect(panel).toHaveAttribute("aria-labelledby", tab.id);
+      }
+
+      await user.click(firstTab);
+      await user.keyboard("{ArrowRight}");
+
+      expect(secondTab).toHaveFocus();
+      expect(secondTab).toHaveAttribute("aria-selected", "true");
+    });
+  });
+
+  describe("indicator while the list is hidden", () => {
+    const offsetWidth = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "offsetWidth");
+    const observers = new Set<ResizeObserverCallback>();
+    let triggerWidth = 64;
+
+    class RecordingResizeObserver {
+      constructor(private callback: ResizeObserverCallback) {}
+      observe() {
+        observers.add(this.callback);
+      }
+      unobserve() {
+        observers.delete(this.callback);
+      }
+      disconnect() {
+        observers.delete(this.callback);
+      }
+    }
+
+    function resizeTriggers(width: number) {
+      triggerWidth = width;
+      act(() => {
+        for (const callback of observers) {
+          callback([{} as ResizeObserverEntry], {} as globalThis.ResizeObserver);
+        }
+      });
+    }
+
+    beforeAll(() => {
+      window.ResizeObserver = RecordingResizeObserver;
+      Object.defineProperty(HTMLElement.prototype, "offsetWidth", {
+        configurable: true,
+        get: () => triggerWidth,
+      });
+    });
+
+    afterAll(() => {
+      window.ResizeObserver = ResizeObserver;
+      if (offsetWidth) Object.defineProperty(HTMLElement.prototype, "offsetWidth", offsetWidth);
+    });
+
+    function renderTabsWithIndicator() {
+      return setUp(
+        <Tabs defaultValue={tabItems.tab1.value}>
+          <TabsIndicatorList>
+            {Object.values(tabItems).map(({ value, label }) => (
+              <TabsTrigger key={value} value={value}>
+                {label}
+              </TabsTrigger>
+            ))}
+          </TabsIndicatorList>
+        </Tabs>,
+      );
+    }
+
+    it("should hide the indicator while the selected tab measures 0 and show it once measured", () => {
+      triggerWidth = 64;
+      const { getByTestId } = renderTabsWithIndicator();
+      const indicator = getByTestId("indicator");
+
+      expect(indicator).not.toHaveAttribute("hidden");
+
+      resizeTriggers(0);
+
+      expect(indicator).toHaveAttribute("hidden");
+
+      resizeTriggers(64);
+
+      expect(indicator).not.toHaveAttribute("hidden");
+      expect(indicator.style.getPropertyValue("--indicator-width")).toBe("64px");
     });
   });
 });

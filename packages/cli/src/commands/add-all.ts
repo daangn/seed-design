@@ -53,7 +53,7 @@ export const addAllCommand = (cli: CAC) => {
       "the base url of the registry. defaults to the current directory.",
       { default: BASE_URL },
     )
-    .option("--seed-react-version <version>", "지정한 SEED React 버전의 레지스트리 사용 (예: 1.2)")
+    .option("--seed-react-version <version>", "지정한 SEED React 버전의 레지스트리 사용 (예: 2)")
     .option("-f, --framework <framework>", "프레임워크 (react 또는 lynx)")
     .option("--on-diff <mode>", "Action when file differs: overwrite or backup")
     .example("seed-design add-all ui --include-deprecated")

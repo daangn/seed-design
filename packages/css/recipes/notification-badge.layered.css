@@ -6,7 +6,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: var(--seed-color-bg-brand-solid);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
     justify-content: center;
     align-items: center;
     text-decoration: none;

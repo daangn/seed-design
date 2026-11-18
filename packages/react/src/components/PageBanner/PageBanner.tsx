@@ -4,6 +4,7 @@ import { forwardRef } from "react";
 import { pageBanner, type PageBannerVariantProps } from "@seed-design/css/recipes/page-banner";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { withContentScale } from "../../utils/withContentScale";
 import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import {
   DismissibleCloseButton,
@@ -16,8 +17,10 @@ const { withContext, ClassNamesProvider } = createSlotRecipeContext(pageBanner);
 
 export interface PageBannerRootProps extends PageBannerVariantProps, DismissibleRootProps {}
 
-export const PageBannerRoot = forwardRef<HTMLDivElement, PageBannerRootProps>(
-  ({ className, ...props }, ref) => {
+// Every banner renders the content scale box, but only a `button` root publishes the
+// ratio (see the page-banner recipe), so a static or dismissible banner never shrinks.
+export const PageBannerRoot = withContentScale(
+  forwardRef<HTMLDivElement, PageBannerRootProps>(({ className, ...props }, ref) => {
     if (props.variant === "solid" && props.tone === "magic") {
       console.error(
         `\`${props.tone}\` tone is not available for \`${props.variant}\` variant in PageBanner components. Please use variant="weak" or a different tone instead.`,
@@ -32,7 +35,7 @@ export const PageBannerRoot = forwardRef<HTMLDivElement, PageBannerRootProps>(
         <DismissibleRoot className={clsx(classNames.root, className)} ref={ref} {...otherProps} />
       </ClassNamesProvider>
     );
-  },
+  }),
 );
 
 // Use these instead when ts implements this:

@@ -1,0 +1,8 @@
+---
+/** MDX `a`. archive 채널이면 `archivePaths.link`가 접두사를 붙인다. */
+import { archivePaths } from "../../lib/docs-archive";
+const { href, ...rest } = Astro.props as { href?: string; [key: string]: unknown };
+const external = href ? /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(href) : false;
+---
+
+<a href={href ? archivePaths.link(href) : href} {...rest} target={external ? "_blank" : undefined} rel={external ? "noreferrer noopener" : undefined}><slot /></a>

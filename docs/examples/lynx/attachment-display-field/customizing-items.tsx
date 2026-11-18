@@ -1,18 +1,12 @@
-import "@seed-design/lynx-css/base.css";
-
 import IconArrowClockwiseCircularFill from "@karrotmarket/lynx-monochrome-icon/IconArrowClockwiseCircularFill";
 import IconXmarkFill from "@karrotmarket/lynx-monochrome-icon/IconXmarkFill";
 import { useRef, useState } from "@lynx-js/react";
-import {
-  AttachmentDisplay as SeedAttachmentDisplay,
-  Icon,
-  VStack,
-  useSeedClassName,
-} from "@seed-design/lynx-react";
+import { AttachmentDisplay as SeedAttachmentDisplay, Icon, VStack } from "@seed-design/lynx-react";
 import type { AttachmentDisplayEntry } from "@seed-design/lynx-react";
 import {
   AttachmentDisplay,
   AttachmentDisplayField,
+  AttachmentDisplayItem,
 } from "@/components/ui/attachment-display-field";
 import { ProgressCircle } from "@/components/ui/progress-circle";
 
@@ -35,37 +29,34 @@ const INITIAL_ENTRIES: AttachmentDisplayEntry[] = [
 ];
 
 export default function AttachmentDisplayCustomizingItems() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const [entries, setEntries] = useState(INITIAL_ENTRIES);
   const nextId = useRef(0);
   return (
-    <view className={seedClassName}>
-      <VStack gap="x4" p="x6" width="100%">
-        <AttachmentDisplayField entries={entries} onEntriesChange={setEntries} maxEntries={10}>
-          <AttachmentDisplay
-            onTriggerTap={({ addEntries }) => {
-              // 문서 고정 fixture입니다. 실제 앱에서는 호스트 picker 결과를 전달하세요.
-              const id = `customizing-added-${nextId.current++}`;
-              addEntries([
-                { id, thumbnailUrl: `https://picsum.photos/seed/${id}/200/200`, status: "success" },
-              ]);
-            }}
-          >
-            {({ entries: currentEntries }) =>
-              currentEntries.map((entry, index) => (
-                <CustomImageItem key={entry.id} entry={entry} isCover={index === 0} />
-              ))
-            }
-          </AttachmentDisplay>
-        </AttachmentDisplayField>
-      </VStack>
-    </view>
+    <VStack gap="x4" width="100%">
+      <AttachmentDisplayField entries={entries} onEntriesChange={setEntries} maxEntries={10}>
+        <AttachmentDisplay
+          onTriggerTap={({ addEntries }) => {
+            // 문서 고정 fixture입니다. 실제 앱에서는 호스트 picker 결과를 전달하세요.
+            const id = `customizing-added-${nextId.current++}`;
+            addEntries([
+              { id, thumbnailUrl: `https://picsum.photos/seed/${id}/200/200`, status: "success" },
+            ]);
+          }}
+        >
+          {({ entries: currentEntries }) =>
+            currentEntries.map((entry, index) => (
+              <CustomImageItem key={entry.id} entry={entry} isCover={index === 0} />
+            ))
+          }
+        </AttachmentDisplay>
+      </AttachmentDisplayField>
+    </VStack>
   );
 }
 
 function CustomImageItem({ entry, isCover }: { entry: AttachmentDisplayEntry; isCover: boolean }) {
   return (
-    <SeedAttachmentDisplay.Item entry={entry}>
+    <AttachmentDisplayItem entry={entry}>
       <SeedAttachmentDisplay.ItemSurface>
         <SeedAttachmentDisplay.ItemImage />
         {isCover ? (
@@ -90,6 +81,6 @@ function CustomImageItem({ entry, isCover }: { entry: AttachmentDisplayEntry; is
       <SeedAttachmentDisplay.ItemRemoveButton accessibility-label="파일 제거">
         <Icon icon={<IconXmarkFill />} />
       </SeedAttachmentDisplay.ItemRemoveButton>
-    </SeedAttachmentDisplay.Item>
+    </AttachmentDisplayItem>
   );
 }

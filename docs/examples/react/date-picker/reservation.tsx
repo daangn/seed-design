@@ -3,7 +3,6 @@
 import {
   Box,
   Text,
-  TwoMonthDatePicker,
   VStack,
   excludeDates,
   rangeDayCountAtLeast,
@@ -11,6 +10,7 @@ import {
   type DatePickerDate,
   type DatePickerRangeValue,
 } from "@seed-design/react";
+import { TwoMonthDatePicker } from "seed-design/ui/date-picker";
 import * as React from "react";
 
 const bookedDateKeys = new Set(["2026-07-18", "2026-07-19", "2026-07-25"]);

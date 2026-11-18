@@ -19,7 +19,7 @@ export interface AccordionItemProps extends SeedAccordion.ItemProps {}
 export const AccordionItem = SeedAccordion.Item;
 
 export interface AccordionTriggerProps
-  extends Omit<SeedAccordion.TriggerProps, "children" | "title" | "prefix"> {
+  extends Omit<SeedAccordion.TriggerProps, "children" | "asChild" | "title" | "prefix"> {
   title: React.ReactNode;
   description?: React.ReactNode;
   prefix?: React.ReactNode;

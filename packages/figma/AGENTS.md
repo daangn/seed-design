@@ -1,44 +1,29 @@
 # packages/figma
 
-## 디렉토리 개요
+Figma 노드를 내부 타입으로 정규화하고 React·Figma pseudo JSX 코드를 만드는 라이브러리(`@seed-design/figma`)다. `packages/mcp`, `tools/figma-codegen`, `tools/figma-mcp`가 `lib/` 빌드를 import한다. 도메인 배경은 `CONTEXT.md`에 있다.
 
-**Figma 연동 라이브러리**. Figma에서 디자인 토큰과 컴포넌트 정보를 추출하고 코드를 생성한다. `bun figma:sync`로 Figma 변수를 `rootage` YAML로 동기화한다. `tools/figma-*` 플러그인과 달리 라이브러리로 import해서 사용한다.
+## 검증
 
-## 파일 작성 컨벤션
+- 타입 → `packages/figma`에서 `bunx tsc --noEmit`(CI `sync-figma-entities.yml`과 같은 명령)
+- 소비자(`packages/mcp`, `tools/figma-codegen`)로 확인하기 전 → `bun --filter @seed-design/figma build`
 
-- `src/normalizer/`: Figma 데이터 정규화 (아래 참고)
-- `src/codegen/`: normalized 값 기반 코드 생성 로직 (아래 참고)
-- `src/entities/`: 도메인 엔티티 (interface, repository, service 패턴)
+## 규칙
 
-### Normalizer (`src/normalizer/`)
+### 실행 환경 경계
 
-Figma 노드 데이터를 통일된 내부 타입(`NormalizedNode`)으로 변환한다. 입력 소스에 따라 두 가지 normalizer가 있다.
+코드가 Figma Plugin 안에서 실행되는지에 따라 쓸 수 있는 API가 다르다.
 
-| 파일             | 팩토리                   | 입력 소스                                   | Plugin API 사용                                |
-| ---------------- | ------------------------ | ------------------------------------------- | ---------------------------------------------- |
-| `from-rest.ts`   | `createRestNormalizer`   | REST API 응답 (`@figma/rest-api-spec` 타입) | **불가** — Plugin 환경 밖에서도 실행될 수 있음 |
-| `from-plugin.ts` | `createPluginNormalizer` | Plugin API 노드 (`SceneNode` 등)            | **가능** — Plugin 환경 실행이 보장됨           |
+- `src/normalizer/from-rest.ts`(`createRestNormalizer`) → REST 응답(`@figma/rest-api-spec` 타입)만 다룬다. Plugin 밖에서도 실행되므로 Plugin API를 호출하지 않는다. 소비자: `packages/mcp`.
+- `src/normalizer/from-plugin.ts`(`createPluginNormalizer`) → Plugin API 노드(`SceneNode` 등)를 다룬다. Plugin 환경이 보장되므로 `figma.*`를 쓸 수 있다. 소비자: `tools/figma-codegen`.
+- `src/codegen/` → `packages/mcp`의 `get_node_react_code`처럼 Plugin 밖에서도 실행된다. `figma.*`, `node.getMainComponentAsync()` 같은 Plugin API를 호출하지 않고 `src/normalizer/types.ts`의 normalized 타입에만 의존한다 → 필요한 값은 normalizer가 담아 넘긴다.
 
-사용처:
+### codegen target
 
-- `packages/mcp` → `createRestNormalizer` (REST API → normalized)
-- `tools/figma-codegen` → `createPluginNormalizer` (Plugin API → normalized)
+- `src/codegen/targets/react/` → 실제로 쓸 수 있는 컴포넌트 코드(`<HStack>`, `<TextField>` 등). `tools/figma-codegen`과 `packages/mcp`가 쓴다.
+- `src/codegen/targets/figma/` → LLM 입력용 결정적 pseudo JSX(`<Frame>`, `<Text>` 등). 결정적인 수도코드로 LLM의 비결정적 결과를 유도하는 용도라 실행 가능한 코드로 바꾸지 않는다. `packages/mcp`가 쓴다.
 
-### Codegen (`src/codegen/`)
+### Entity와 인증
 
-**normalized 값을 바탕으로 결정적인 코드를 생성**한다. Plugin 환경에서 돌지 않을 수 있으므로(`packages/mcp`의 `get_node_react_code` 등) Plugin API 사용 **불가**.
-
-| 타겟             | 설명                                                               | 사용처                                |
-| ---------------- | ------------------------------------------------------------------ | ------------------------------------- |
-| `targets/react/` | React 코드 생성 (`<HStack>`, `<Box>`, `<TextField>` 등)            | `tools/figma-codegen`, `packages/mcp` |
-| `targets/figma/` | Figma pseudo JSX 코드 생성 (`<Frame>`, `<Text>`, `<Rectangle>` 등) | `packages/mcp`                        |
-
-- **react 코드**: 실제 컴포넌트 코드로 사용 가능
-- **figma 코드**: JSX pseudo code에 가까우며 LLM 입력용 (결정적인 수도코드로 비결정적인 결과를 유도)
-
-## 코드 작성 컨벤션
-
-- 이 패키지는 Figma 데이터 처리 라이브러리이므로 자체적으로 `FIGMA_ACCESS_TOKEN`을 읽지 않는다. Figma REST API를 호출하는 동기화 도구나 실행 환경에서 필요한 인증 설정만 해당 경로에 둔다.
-- Entity 파일: `{entity}.interface.ts`, `{entity}.repository.ts`, `{entity}.service.ts`
-- normalizer 출력 타입은 `src/normalizer/types.ts`에 정의 — codegen은 이 타입만 의존
-- codegen에서 Plugin API(`figma.*`, `node.getMainComponentAsync()` 등)를 직접 호출하지 않는다
+- `src/entities/`는 `{entity}.interface.ts`, `{entity}.repository.ts`, `{entity}.service.ts`로 나눈다.
+- `src/entities/data/__generated__/`는 `.github/workflows/sync-figma-entities.yml`이 매일 `bun --filter @seed-design/figma sync-entities`로 갱신한다. 이 명령은 `archive/`만 남기고 나머지를 지운 뒤 추출한다. 손으로 고치지 않는다 → 로컬 재생성에는 Figma secret(`FIGMA_PERSONAL_ACCESS_TOKEN`, `FIGMA_FOUNDATIONS_FILE_KEY`, `FIGMA_COMPONENTS_FILE_KEY`, `FIGMA_TEMPLATES_FILE_KEY`)이 필요하므로 사용자에게 먼저 확인한다.
+- 라이브러리 코드(`src/`)는 환경변수를 읽지 않는다. Figma 인증(`FIGMA_PERSONAL_ACCESS_TOKEN`)은 REST를 호출하는 쪽(`packages/mcp`, `ecosystem/figma-extractor`)이 읽는다.

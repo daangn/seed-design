@@ -1,8 +1,1 @@
-export {
-  Stack,
-  VStack,
-  HStack,
-  type StackProps,
-  type VStackProps,
-  type HStackProps,
-} from "./Stack";
+export { VStack, HStack, type VStackProps, type HStackProps } from "./Stack";

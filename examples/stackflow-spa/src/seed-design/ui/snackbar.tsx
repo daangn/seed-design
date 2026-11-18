@@ -22,7 +22,7 @@ export const SnackbarProvider = (props: SnackbarProviderProps) => {
   );
 };
 
-export interface SnackbarProps extends SeedSnackbar.RootProps {
+export interface SnackbarProps extends Omit<SeedSnackbar.RootProps, "children" | "asChild"> {
   /**
    * 스낵바에 표시할 메시지
    */
@@ -43,7 +43,7 @@ export interface SnackbarProps extends SeedSnackbar.RootProps {
  * @see https://seed-design.io/react/components/snackbar
  */
 export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
-  ({ variant = "default", children, message, actionLabel, onAction, ...otherProps }, ref) => {
+  ({ variant = "default", message, actionLabel, onAction, ...otherProps }, ref) => {
     return (
       <SeedSnackbar.Root ref={ref} variant={variant} {...otherProps}>
         {variant !== "default" && (

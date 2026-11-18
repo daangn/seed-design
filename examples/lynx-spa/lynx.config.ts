@@ -65,8 +65,7 @@ export default defineConfig(async () => ({
     pluginReactLynx({
       targetSdkVersion: "3.9",
       globalPropsMode: "reactive",
-      enableCSSSelector: true,
-      enableCSSInvalidation: true,
+      enableNewGesture: true,
     }),
     pluginLynxConfig({
       enableCSSInheritance: true,

@@ -28,7 +28,7 @@ jobs:
       id-token: write
     outputs:
       published: ${{ steps.changesets.outputs.published }}
-      published-packages: ${{ steps.changesets.outputs.publishedPackages }}
+      published-packages: ${{ steps.changesets.outputs.published-packages }}
 
     steps:
       - name: Checkout repository
@@ -44,7 +44,7 @@ jobs:
           test "$GITHUB_REF" = "refs/heads/dev"
           test "$(git rev-parse HEAD)" = "$RELEASE_SOURCE_SHA"
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
@@ -54,7 +54,7 @@ jobs:
 
       - name: Create Daangn Bud token
         id: app-token
-        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
         with:
           client-id: ${{ vars.DAANGN_BUD_CLIENT_ID }}
           private-key: ${{ secrets.DAANGN_BUD_PRIVATE_KEY }}
@@ -63,13 +63,14 @@ jobs:
 
       - name: Create or update the Version Packages PR, or publish packages
         id: changesets
-        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
+        uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
-          publish: bun release
-          version: bun version
-          title: "release: version packages"
+          github-token: ${{ steps.app-token.outputs.token }}
+          push-with-git-cli: true
+          publish-script: bun release
+          version-script: bun version
+          pr-title: "release: version packages"
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
           POSTHOG_HOST: ${{ secrets.POSTHOG_HOST }}
 
@@ -111,7 +112,7 @@ jobs:
           echo "sourceSha=$RELEASE_SOURCE_SHA" >> "$GITHUB_OUTPUT"
           echo "controlSha=$RELEASE_SOURCE_SHA" >> "$GITHUB_OUTPUT"
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
           bun-version-file: .bun-version
 
@@ -212,7 +213,7 @@ jobs:
 
       # `errors` 기본값이 false라, 켜지 않으면 Slack이 거절해도 스텝이 성공으로 넘어간다.
       - name: Notify Slack
-        uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
+        uses: slackapi/slack-github-action@0d95c9a7becc1e6e297d76df9bc735c44f4cbcbc # v3.0.5
         with:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}

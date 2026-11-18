@@ -1,0 +1,48 @@
+---
+/**
+ * `<Tabs items={[...]} groupId="bundler" persist><Tab value="Vite">...</Tab></Tabs>`
+ *
+ * 정적 마크업 + `tabs` widget(오너 결정 1). 결과 DOM은 기존 `components/tabs/seed-tabs.tsx`(SEED `ChipTabs`, neutralOutline)가
+ * 서버에서 그리던 것과 같다: 테두리 카드, 머리 줄의 chip 탭, 구분선, panel. MDX `<Tab>` children은 Astro가 렌더링한
+ * HTML이라 검사할 수 없으므로 탭 목록은 `items`로 그린다. 첫 `<Tab>`과 탭 묶음 id(`tabsId`)는 `rehypeWidgetMarkers`가 붙인다.
+ * 저장된 그룹 선택(localStorage `seed-tabs-sync:<groupId>`)은 widget이 첫 실행 때 적용한다.
+ * 중첩된 탭(탭 panel 안의 탭)의 여백은 아래 CSS가 바꾼다(React 구현은 context로 깊이를 셌다).
+ */
+import ChipTabsList from "./ChipTabsList.astro";
+import ChipTabsRoot from "./ChipTabsRoot.astro";
+import ChipTabsTrigger from "./ChipTabsTrigger.astro";
+
+interface Props {
+  items: string[];
+  groupId?: string;
+  persist?: boolean;
+  defaultIndex?: number;
+  /** 문서 안에서 고유한 탭 묶음 id(`rehypeWidgetMarkers`). */
+  tabsId: string;
+}
+
+const { items, groupId, tabsId } = Astro.props;
+---
+
+<ChipTabsRoot groupId={groupId} class="docs-tabs my-4 flex flex-col overflow-visible rounded-r3 border border-solid border-stroke-neutral-muted">
+  <div class="docs-tabs__header px-x4 pt-x3 pb-x3">
+    <ChipTabsList tabsId={tabsId} class="!px-0">
+      {items.map((item, index) => <ChipTabsTrigger tabsId={tabsId} value={item} selected={index === 0}>{item}</ChipTabsTrigger>)}
+    </ChipTabsList>
+  </div>
+  <div class="h-px shrink-0 bg-stroke-neutral-muted"></div>
+  <slot />
+</ChipTabsRoot>
+
+<style is:global>
+  /* 탭 panel 안의 탭: 기존 SeedTabs의 nested 여백(my-3, 머리 px-x3 py-x2_5, panel px-x3 py-x3). */
+  .docs-tabs .docs-tabs {
+    margin-block: var(--seed-dimension-x3);
+  }
+  .docs-tabs .docs-tabs > .docs-tabs__header {
+    padding: var(--seed-dimension-x2_5) var(--seed-dimension-x3);
+  }
+  .docs-tabs .docs-tabs > .docs-tabs__panel {
+    padding: var(--seed-dimension-x3);
+  }
+</style>

@@ -1,0 +1,125 @@
+---
+title: Segmented Text Input
+description: 주민등록번호·카드번호처럼 일부 구간을 가려야 하는 값을 구간마다 별도 입력으로 나눠 받는 컴포넌트입니다.
+featured: true
+coverImage: /og/components/segmented-text-input
+---
+
+## Anatomy
+
+Segmented Text Input은 Container, Segment, Separator, Static Text, Suffix로 구성됩니다.
+
+- **Container:** Segment와 Separator를 감싸는 입력 영역입니다. Focused·Error 상태를 Stroke로 표시합니다.
+- **Segment:** 자리 수가 정해진 입력 구간입니다. 자리를 다 채우면 다음 Segment로 이동합니다.
+- **Separator:** Segment 사이의 구분자입니다. 입력값과 다른 색상으로 표시하며 값에 포함하지 않습니다.
+- **Static Text:** 입력 없이 고정으로 표시하는 내용입니다. 주민등록번호 뒷자리에서 받지 않는 자리를 점으로 표시합니다.
+- **Suffix:** 입력 끝에 두는 요소입니다. 카드번호에서 카드사 로고를 넣습니다.
+
+<FigmaImage
+  id="4692:101"
+  alt="Segmented Text Input의 Anatomy 이미지. Container, Segment, Separator, Static Text, Suffix로 구성됩니다."
+/>
+
+## Properties
+
+### Size
+
+- **Large**: 뷰포트 너비와 관계없이 사용합니다.
+- **Medium**: Breakpoint lg 이상(데스크톱)에서만 사용합니다. 마우스로 정밀하게 입력하는 환경에서 크기를 줄일 때 사용하고, 모바일에서는 사용하지 않습니다.
+
+<FigmaImage id="4692:252" alt="Segmented Text Input의 Size Property - Large, Medium" />
+
+### State
+
+- **Enabled:** 기본 상태입니다.
+- **Focused:** Segment 하나에 포커스가 있는 상태입니다. Container의 Stroke가 굵어집니다.
+- **Error:** 입력값이 올바르지 않은 상태입니다. Field의 Error Message와 함께 표시합니다.
+- **Error Focused:** Error 상태에서 포커스가 있는 상태입니다.
+- **Disabled:** 비활성 상태입니다. 사용자가 상호작용할 수 없습니다.
+- **Read Only:** 값을 볼 수만 있고 수정할 수 없는 상태입니다.
+
+<FigmaImage
+  id="4692:325"
+  alt="Segmented Text Input의 State - Enabled, Focused, Error, Error Focused, Disabled, Read Only"
+/>
+
+### Format
+
+Segmented Text Input은 주민등록번호와 카드번호 두 형식을 제공합니다.
+
+- **Resident Number**: 주민등록번호를 입력받습니다. 생년월일 6자리만 받거나, 뒷자리 첫 번째 자리까지 7자리를 받거나(기본), 가린 뒷자리까지 13자리를 받습니다.
+- **Card Number**: 4자리씩 네 Segment로 카드번호를 입력받습니다. 뒷 8자리(기본) 또는 뒷 4자리를 가리고, 끝에 카드사 로고를 표시합니다.
+
+<FigmaImage id="4692:684" alt="Segmented Text Input의 Format - Resident Number, Card Number" />
+
+### Masked
+
+가린 Segment는 입력한 글자 대신 자리 수만큼 점을 표시합니다. 가린 Segment는 붙여넣기나 자동완성으로 채우지 않고, 끝에서만 입력하고 삭제합니다.
+
+<FigmaImage id="4692:610" alt="입력한 글자 대신 자리 수만큼 점을 표시한 Segmented Text Input의 가린 Segment" />
+
+## Guidelines
+
+### Segmented Text Input 사용하기
+
+주민등록번호·국내 카드번호처럼 값의 일부를 가려야 하거나, 구분자와 입력값을 다른 색상으로 보여야 할 때 사용합니다. Segment마다 입력이 따로 있어 값 전체를 한 번에 선택하거나 수정할 수 없습니다.
+
+아래와 같은 경우에는 Segmented Text Input 대신 다른 방법을 고려합니다.
+
+- **전화번호·이메일·카드 유효기간처럼 가릴 필요가 없는 값**: [Text Input](/components/text-input)에 포맷을 적용해 하나의 입력으로 받습니다.
+- **제공하지 않는 형식**: Segment를 직접 조합하지 않고 [Text Input](/components/text-input)으로 충분한지 먼저 확인합니다.
+
+<FigmaImage
+  id="4693:1773"
+  alt="주민등록번호는 Segmented Text Field로, 휴대폰 번호는 Text Field로 입력받는 예시"
+/>
+
+### 입력 나누기
+
+형식이 정해져 있다는 이유만으로 입력을 여러 구간으로 나누지 않습니다. 구간을 나누면 값 전체를 한 번에 선택·복사·수정할 수 없으며, OS에서 제공하는 자동완성 기능을 적용받기 어렵기 때문입니다.
+
+<Grid>
+  <DoImage
+    figmaId="4693:1967"
+    body="전화번호는 하나의 Text Input에 포맷을 적용해 받습니다."
+    alt="전화번호를 포맷을 적용한 하나의 Text Input으로 입력받는 예시"
+  />
+  <DontImage
+    figmaId="4693:2035"
+    body="가릴 필요가 없는 값을 여러 Segment로 나누지 않습니다. 값 전체를 한 번에 수정할 수 없습니다."
+    alt="전화번호를 여러 Segment로 나눠 입력받는 예시"
+  />
+</Grid>
+
+### Label 작성하기
+
+Segmented Text Input은 항상 [Field](/components/field)의 Label과 함께 사용합니다. Label이 없으면 어떤 값을 입력하는지 알 수 없고, 화면 읽기 프로그램도 입력의 목적을 읽지 못합니다.
+
+<Grid>
+  <DoImage
+    figmaId="4693:2079"
+    body="Field의 Label로 입력할 값을 알려 줍니다."
+    alt="Field의 Label과 함께 사용한 Segmented Text Input 예시"
+  />
+  <DontImage
+    figmaId="4693:2117"
+    body="Label 없이 placeholder만으로 입력할 값을 알리지 않습니다. 입력을 시작하면 placeholder가 사라집니다."
+    alt="Label 없이 placeholder만 표시한 Segmented Text Input 예시"
+  />
+</Grid>
+
+## Segmented Text Input vs. Text Input
+
+[Text Input](/components/text-input)은 값 전체를 입력 하나로 받고, Segmented Text Input은 Segment마다 입력을 따로 둡니다.
+
+|                    | Segmented Text Input                 | Text Input                                                       |
+| ------------------ | ------------------------------------ | ---------------------------------------------------------------- |
+| **입력 단위**      | Segment마다 입력 하나                | 값 전체를 입력 하나로                                            |
+| **가리기**         | Segment마다 지정                     | 지원하지 않음                                                    |
+| **구분자**         | 입력값과 다른 색상의 정적 텍스트     | 포맷으로 값에 넣어 표시                                          |
+| **전체 선택·수정** | 불가                                 | 가능                                                             |
+| **사용 예**        | 주민등록번호, 한국에서의 신용카드번호 | 전화번호, 이메일, 한국 이외에서의 신용카드번호, 신용카드 유효기간 |
+
+## Specification
+
+<ComponentSpecBlock id="segmented-text-input" />

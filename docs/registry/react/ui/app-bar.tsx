@@ -63,6 +63,10 @@ export interface AppBarIconButtonProps extends SeedAppBar.IconButtonProps {}
 
 export const AppBarIconButton = SeedAppBar.IconButton;
 
+export interface AppBarTextButtonProps extends SeedAppBar.TextButtonProps {}
+
+export const AppBarTextButton = SeedAppBar.TextButton;
+
 export const AppBarBackButton = forwardRef<HTMLButtonElement, AppBarIconButtonProps>(
   ({ children = <IconChevronLeftLine />, onClick, ...otherProps }, ref) => {
     const activity = useActivity();

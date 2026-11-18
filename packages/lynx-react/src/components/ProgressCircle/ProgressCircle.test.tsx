@@ -80,16 +80,20 @@ describe("ProgressCircle", () => {
     );
 
     const root = getRenderedRoot();
-    const range = root.querySelector<HTMLElement>(".seed-progress-circle__range");
+    const range = root.querySelector<HTMLElement>(".seed-progress-circle__indeterminate-range");
+    const firstHalf = root.querySelector<HTMLElement>(".seed-progress-circle__semicircle--first");
+    const secondHalf = root.querySelector<HTMLElement>(".seed-progress-circle__semicircle--second");
     const caps = root.querySelectorAll<HTMLElement>(".seed-progress-circle__cap");
     const animationContainer = range?.parentElement;
 
     expect(range).toBeInTheDocument();
     expect(animationContainer?.style.transform).not.toBe("rotate(0deg)");
-    expect(range?.style.clipPath).toMatch(/^path\("M 20 20 L 20 -1 A 21 21/);
+    expect(firstHalf?.style.transform).not.toBe("rotate(0deg)");
+    expect(secondHalf?.style.transform).toBe("rotate(0deg)");
     expect(caps).toHaveLength(2);
-    expect(caps[1]?.style.left).not.toBe(caps[0]?.style.left);
-    expect(caps[1]?.style.top).not.toBe(caps[0]?.style.top);
+    expect(caps[1]?.style.left).toBe(caps[0]?.style.left);
+    expect(caps[1]?.style.top).toBe(caps[0]?.style.top);
+    expect(caps[1]?.parentElement?.style.transform).toBe(firstHalf?.style.transform);
   });
 
   it("keeps the determinate range at the requested initial value", () => {

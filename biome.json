@@ -139,7 +139,7 @@
       }
     },
     {
-      "includes": ["docs/app/global.css"],
+      "includes": ["docs/src/styles/global.css"],
       "css": {
         "parser": {
           "tailwindDirectives": true

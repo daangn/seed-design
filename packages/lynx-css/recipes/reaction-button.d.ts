@@ -10,10 +10,6 @@ declare interface ReactionButtonVariant {
 /**
   * @default false
   */
-  pressed: boolean;
-/**
-  * @default false
-  */
   disabled: boolean;
 /**
   * @default false

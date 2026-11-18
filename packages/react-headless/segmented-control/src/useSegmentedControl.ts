@@ -4,6 +4,7 @@ import { useId, useMemo, useState } from "react";
 import { dataAttr, elementProps, inputProps, visuallyHidden } from "@seed-design/dom-utils";
 import { useSupports } from "@seed-design/react-supports";
 import * as dom from "./dom";
+import { useIsSSR } from "./useIsSSR";
 
 interface UseSegmentedControlStateProps {
   value?: string;
@@ -14,10 +15,12 @@ interface UseSegmentedControlStateProps {
 }
 
 function useSegmentedControlState(props: UseSegmentedControlStateProps) {
-  const [value, setValue] = useControllableState({
+  const [value, setValue] = useControllableState<string | undefined>({
     prop: props.value,
     defaultProp: props.defaultValue,
-    onChange: props.onValueChange,
+    onChange(nextValue) {
+      if (nextValue !== undefined) props.onValueChange?.(nextValue);
+    },
   });
 
   const [hoveredValue, setHoveredValue] = useState<string | null>(null);
@@ -96,9 +99,11 @@ export function useSegmentedControl(props: UseSegmentedControlProps) {
 
   const isControlled = props.value !== undefined;
   const isFocusVisibleSupported = useSupports("selector(:focus-visible)");
+  const isSSR = useIsSSR();
 
   const stateProps = elementProps({
     "data-disabled": dataAttr(disabled),
+    "data-ssr": dataAttr(isSSR),
   });
 
   return {

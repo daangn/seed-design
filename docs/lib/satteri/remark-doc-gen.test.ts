@@ -1,5 +1,7 @@
 import { describe, expect, it } from "bun:test";
 import type { DocGenerator } from "fumadocs-docgen";
+import { compileMdx } from "@fumadocs/satteri/compile";
+import { remarkLlms } from "@fumadocs/satteri/remark-llms";
 import { mdxToJs } from "satteri";
 import { remarkDocGen } from "./remark-doc-gen";
 
@@ -25,6 +27,25 @@ describe("remarkDocGen", () => {
     expect(result.code).toContain("첫 번째");
     expect(result.code).toContain("두 번째");
     expect(result.code).not.toContain("doc-gen:test");
+  });
+
+  it("llms 출력에도 원래 코드 블록 대신 생성 노드를 남긴다", async () => {
+    const result = await compileMdx({
+      source,
+      filePath: "/tmp/doc.mdx",
+      options: {
+        mdastPlugins: [
+          remarkDocGen({
+            generators: [
+              { name: "test", run: () => ({ type: "code", lang: "tsx", value: "생성된 코드" }) },
+            ],
+          }),
+          remarkLlms({ as: "processed" }),
+        ],
+      },
+    });
+
+    expect(result.data.markdown).toBe("```tsx\n생성된 코드\n```\n");
   });
 
   it("빈 배열을 반환하면 코드 블록을 제거한다", async () => {

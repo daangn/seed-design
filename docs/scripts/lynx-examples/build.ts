@@ -10,6 +10,7 @@ import {
   createDevelopmentManifest,
   createManifestFromBundles,
   publishManifestAndBundles,
+  verifyPublishedManifest,
 } from "./manifest.js";
 import { verifyLynxWorkspace } from "./workspace.js";
 import { writeLynxWebCoreStyles } from "./web-core-styles.js";
@@ -48,7 +49,11 @@ export async function buildLynxExamples({ mode, cold = false }: BuildLynxExample
   console.log(`Lynx 예제 ${entries.length}개를 public/__lynx__에 반영했습니다.`);
 }
 
-if (import.meta.main) {
+if (import.meta.main && process.env.SEED_DOCS_LYNX_PREBUILT === "1") {
+  // CI가 입력 hash가 같은 게시 결과를 캐시에서 복원했다(`.github/actions/docs-build-cache`).
+  const count = await verifyPublishedManifest();
+  console.log(`캐시에서 복원한 Lynx 예제 ${count}개를 확인했습니다(Rspeedy 빌드 생략).`);
+} else if (import.meta.main) {
   await buildLynxExamples({
     mode: process.argv.includes("--development") ? "development" : "production",
     cold: process.argv.includes("--cold"),

@@ -1,8 +1,8 @@
 import preview from "../.storybook/preview";
 import { attachmentInputVariantMap } from "@seed-design/css/recipes/attachment-input";
-import type { DisplayItemEntry } from "@seed-design/react/primitive";
+import type { AttachmentDisplayItemEntry } from "@seed-design/react";
 import { AttachmentDisplay, AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
-import { withChromaticParameters } from "@/stories/utils/parameters";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
@@ -40,7 +40,7 @@ const conditionMap = {
     "1 pending": {
       defaultEntries: [
         { id: "mock-1", thumbnailUrl: sampleThumbnailUrl("pending"), status: "pending" },
-      ] satisfies DisplayItemEntry[],
+      ] satisfies AttachmentDisplayItemEntry[],
     },
     "1 uploading": {
       defaultEntries: [
@@ -50,24 +50,24 @@ const conditionMap = {
           status: "uploading",
           progress: 60,
         },
-      ] satisfies DisplayItemEntry[],
+      ] satisfies AttachmentDisplayItemEntry[],
     },
     "1 success": {
       defaultEntries: [
         { id: "mock-1", thumbnailUrl: sampleThumbnailUrl("success"), status: "success" },
-      ] satisfies DisplayItemEntry[],
+      ] satisfies AttachmentDisplayItemEntry[],
     },
     "1 error": {
       defaultEntries: [
         { id: "mock-1", thumbnailUrl: sampleThumbnailUrl("error"), status: "error" },
-      ] satisfies DisplayItemEntry[],
+      ] satisfies AttachmentDisplayItemEntry[],
     },
     "3": {
       defaultEntries: [
         { id: "mock-1", thumbnailUrl: sampleThumbnailUrl("a"), status: "success" },
         { id: "mock-2", thumbnailUrl: sampleThumbnailUrl("b"), status: "success" },
         { id: "mock-3", thumbnailUrl: sampleThumbnailUrl("c"), status: "success" },
-      ] satisfies DisplayItemEntry[],
+      ] satisfies AttachmentDisplayItemEntry[],
     },
   },
   disabled: {
@@ -105,13 +105,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

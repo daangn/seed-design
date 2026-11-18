@@ -1,31 +1,23 @@
-"use client";
+import { IconCheckmarkClipboardLine, IconCheckmarkFill } from "@karrotmarket/react-monochrome-icon";
 
-import { IconCheckmarkFill, IconCheckmarkClipboardLine } from "@karrotmarket/react-monochrome-icon";
-import { useCopyButton } from "fumadocs-ui/utils/use-copy-button";
-
+/**
+ * 값을 누르면 복사하는 버튼. 정적 마크업이고 동작은 `copy` widget(`src/mdx/widgets.ts`)이 `data-copy-text`로 붙인다.
+ * 복사 뒤 widget이 붙이는 `data-copied`로 아이콘을 바꾼다.
+ */
 export function CopyValue({ value }: { value: string }) {
-  const [copied, onClick] = useCopyButton(() => {
-    navigator.clipboard.writeText(value);
-  });
-
   return (
     <button
       type="button"
-      onClick={(e) => {
-        e.stopPropagation();
-        onClick(e);
-      }}
+      data-widget="copy"
+      data-copy-text={value}
       className="flex items-center gap-1 group/copy"
     >
       <span>{value}</span>
-      {copied ? (
-        <IconCheckmarkFill size={12} className="flex-none" />
-      ) : (
-        <IconCheckmarkClipboardLine
-          size={12}
-          className="flex-none opacity-0 group-hover/copy:opacity-100 transition-opacity text-fd-muted-foreground"
-        />
-      )}
+      <IconCheckmarkFill size={12} className="hidden flex-none group-data-copied/copy:block" />
+      <IconCheckmarkClipboardLine
+        size={12}
+        className="flex-none opacity-0 group-hover/copy:opacity-100 group-data-copied/copy:hidden transition-opacity text-fd-muted-foreground"
+      />
     </button>
   );
 }

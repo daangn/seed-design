@@ -2,9 +2,11 @@
   "title": "Hooks",
   "pages": [
     "use-controllable-state",
+    "use-dismissible",
     "use-icon-color",
     "use-press-tap",
     "use-safe-area",
-    "use-seed-class-name"
+    "use-seed-class-name",
+    "use-viewport"
   ]
 }

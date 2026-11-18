@@ -49,12 +49,12 @@ const ActivityResultSectionCtaProgressCircle: StaticActivityComponentType<
   }, []);
 
   return (
-    <AppScreen>
+    <AppScreen layerOffsetBottom="safeArea">
       <AppBar>
         <AppBarMain title="환불 요청" />
       </AppBar>
       <AppScreenContent>
-        <VStack grow gap="x4" height="full" pb="safeArea">
+        <VStack grow gap="x4" height="full">
           <ResultSection {...resultSectionProperties[refundStatus]} />
           <Flex p="x4" px="spacingX.globalGutter" pt="x3" pb="x2">
             <ActionButton

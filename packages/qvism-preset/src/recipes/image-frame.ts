@@ -12,6 +12,9 @@ const imageFrame = defineSlotRecipe({
       overflow: "hidden",
       borderRadius: "inherit",
       isolation: "isolate",
+      // Safe-area insets the frame bleeds into; ImageFrameFloater offsets itself by these.
+      "--seed-image-frame-safe-area-left--responsive": "0px",
+      "--seed-image-frame-safe-area-right--responsive": "0px",
     },
     content: {
       display: "block",

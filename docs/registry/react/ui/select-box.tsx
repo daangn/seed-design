@@ -18,16 +18,15 @@ import {
 } from "@seed-design/css/recipes/select-box-group";
 import { Radiomark, type RadiomarkProps } from "./radio-group";
 import * as React from "react";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 
 export interface RadioSelectBoxRootProps
-  extends SeedRadioGroupField.RootProps,
+  extends Omit<SeedRadioGroupField.RootProps, "asChild">,
     SelectBoxGroupVariantProps {
   label?: React.ReactNode;
   /**
    * @default "medium"
    */
-  labelWeight?: FieldLabelVariantProps["weight"];
+  labelWeight?: SeedRadioGroupField.LabelProps["weight"];
   indicator?: React.ReactNode;
   showRequiredIndicator?: boolean;
 
@@ -119,7 +118,8 @@ export const RadioSelectBoxRoot = React.forwardRef<HTMLDivElement, RadioSelectBo
 );
 RadioSelectBoxRoot.displayName = "RadioSelectBoxRoot";
 
-export interface RadioSelectBoxItemProps extends Omit<SeedRadioSelectBox.ItemProps, "children"> {
+export interface RadioSelectBoxItemProps
+  extends Omit<SeedRadioSelectBox.ItemProps, "children" | "asChild"> {
   label: React.ReactNode;
   description?: React.ReactNode;
 
@@ -166,13 +166,13 @@ export const RadioSelectBoxRadiomark = React.forwardRef<
 RadioSelectBoxRadiomark.displayName = "RadioSelectBoxRadiomark";
 
 export interface CheckSelectBoxGroupProps
-  extends SeedFieldset.RootProps,
+  extends Omit<SeedFieldset.RootProps, "asChild">,
     SelectBoxGroupVariantProps {
   label?: React.ReactNode;
   /**
    * @default "medium"
    */
-  labelWeight?: FieldLabelVariantProps["weight"];
+  labelWeight?: SeedFieldset.LabelProps["weight"];
   indicator?: React.ReactNode;
   showRequiredIndicator?: boolean;
 
@@ -255,7 +255,8 @@ export const CheckSelectBoxGroup = React.forwardRef<HTMLDivElement, CheckSelectB
   },
 );
 
-export interface CheckSelectBoxProps extends Omit<SeedCheckSelectBox.RootProps, "children"> {
+export interface CheckSelectBoxProps
+  extends Omit<SeedCheckSelectBox.RootProps, "children" | "asChild"> {
   label: React.ReactNode;
   description?: React.ReactNode;
 
@@ -294,7 +295,8 @@ export const CheckSelectBox = React.forwardRef<HTMLInputElement, CheckSelectBoxP
 );
 CheckSelectBox.displayName = "CheckSelectBox";
 
-export interface CheckSelectBoxCheckmarkProps extends SeedCheckSelectBox.CheckmarkControlProps {}
+export interface CheckSelectBoxCheckmarkProps
+  extends Omit<SeedCheckSelectBox.CheckmarkControlProps, "children" | "asChild"> {}
 
 export const CheckSelectBoxCheckmark = React.forwardRef<
   HTMLDivElement,

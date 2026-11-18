@@ -18,6 +18,7 @@ const menuSheet = defineSlotRecipe({
     "title",
     "description",
     "list",
+    "listContent",
     "group",
     "footer",
     "closeButton",
@@ -77,6 +78,9 @@ const menuSheet = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "center",
       textAlign: "center",
+      // Lynx gives flex items no `min-height: auto`, so without this the header and footer shrink
+      // along with the list once the content reaches its max height.
+      flexShrink: 0,
       gap: vars.base.enabled.header.gap,
       paddingBottom: vars.base.enabled.header.paddingBottom,
     },
@@ -94,7 +98,12 @@ const menuSheet = defineSlotRecipe({
       fontWeight: vars.base.enabled.description.fontWeight,
       margin: 0,
     },
+    // A `scroll-view`, and the only slot that gives way once the content reaches its max height.
+    // Lynx drops `gap` on a `scroll-view`, so `listContent` lays the groups out inside it.
     list: {
+      flexShrink: 1,
+    },
+    listContent: {
       display: "flex",
       flexDirection: "column",
       alignItems: "stretch",
@@ -111,6 +120,7 @@ const menuSheet = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
       alignItems: "stretch",
+      flexShrink: 0,
       paddingTop: vars.base.enabled.footer.paddingTop,
     },
     closeButton: {

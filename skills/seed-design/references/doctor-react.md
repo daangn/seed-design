@@ -6,7 +6,7 @@
 
 - React 문서 인덱스: `https://seed-design.io/react/llms.txt`
 - registry namespace: `react`
-- 플랫폼 판별 후보: `@seed-design/react`, `@seed-design/css`와 React 앱 의존성
+- 플랫폼 판별 후보: `@seed-design/react`, `@seed-design/css`
 
 전체 문서 인덱스는 공통 Doctor 절차가 제공합니다. 이 프로필은 React 진입점을 문서 풀에 등록하며 이미 로드된 URL을 다시 읽지 않습니다. 패키지 이름은 플랫폼 후보를 찾기 위한 앵커입니다. 구현·스타일·선택 패키지의 실제 역할과 호환 범위는 현재 인덱스가 연결한 설치·업그레이드 문서와 설치본 `package.json`에서 확정합니다.
 
@@ -23,7 +23,7 @@ React 인덱스를 정상적으로 읽었는데 필요한 공식 계약이 없�
 
 공통 컴포넌트 문서의 Platform 표 → React 인덱스 → React registry 전체 인덱스 → 재export를 따라간 설치본 package exports 순으로 실제 구현·registry id를 찾습니다. id 매핑 목록을 이 프로필에 유지하지 않습니다.
 
-registry URL 구조는 공통 Doctor 절차의 형식을 사용하되, 아이템·세대의 존재 여부는 현재 registry와 인덱스 응답으로 확인합니다. 연결 실패를 아이템 부재로 바꾸지 않습니다.
+registry URL 구조는 `SKILL.md`「컴포넌트 답변 순서」의 형식을 사용하되, 아이템·세대의 존재 여부는 현재 registry와 인덱스 응답으로 확인합니다. 연결 실패를 아이템 부재로 바꾸지 않습니다.
 
 ## 적용 원칙
 

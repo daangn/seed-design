@@ -1,3 +1,6 @@
+import { getChangelogPlatform, type ChangelogPlatform } from "./changelog-platform";
+import { archivePaths } from "./docs-archive";
+import { remarkArchiveLinks } from "@/lib/llms/archive-markdown";
 import { existsSync } from "node:fs";
 import { readFile, readdir } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
@@ -26,6 +29,8 @@ export type ChangelogContentBlock =
       type: "code";
       code: string;
       lang: string;
+      /** 빌드 때 하이라이트한 `<pre>` HTML(`src/mdx/changelog-data.ts`). 없으면 평문으로 그린다. */
+      html?: string;
     };
 
 export interface ChangelogEntry {
@@ -56,6 +61,8 @@ const removeBackground: ShikiTransformer = {
 
 const processor = remark()
   .use(remarkGfm)
+  // Package changelogs are React docs; other archives never export them.
+  .use(remarkArchiveLinks, archivePaths.platform === "react" ? archivePaths.channel : "")
   .use(remarkRehype)
   .use(rehypeCode, {
     lazy: true,
@@ -107,7 +114,10 @@ async function collectPackageChangelogPaths(dir: string): Promise<string[]> {
 }
 
 /** @description 각 패키지의 CHANGELOG.md와 package.json을 읽어 `{ packageName, raw }[]` 형태로 반환합니다. */
-export async function loadChangelogSources(rootDir: string): Promise<ChangelogSource[]> {
+export async function loadChangelogSources(
+  rootDir: string,
+  platform?: ChangelogPlatform,
+): Promise<ChangelogSource[]> {
   const workspaceRoot = resolveWorkspaceRoot(rootDir);
   const changelogPaths = (
     await collectPackageChangelogPaths(join(workspaceRoot, "packages"))
@@ -127,7 +137,10 @@ export async function loadChangelogSources(rootDir: string): Promise<ChangelogSo
       ]);
 
       const packageJson = JSON.parse(packageJsonRaw) as { name?: string };
-      if (!packageJson.name?.startsWith("@seed-design/")) {
+      if (
+        !packageJson.name?.startsWith("@seed-design/") ||
+        (platform !== undefined && getChangelogPlatform(packageJson.name) !== platform)
+      ) {
         return null;
       }
 
@@ -419,7 +432,10 @@ export async function parseChangelogSources(sources: ChangelogSource[]): Promise
 }
 
 /** @description 모든 packages 디렉토리의 CHANGELOG.md 파일을 읽어 changelog entry 목록을 반환합니다. */
-export async function parseChangelog(rootDir: string): Promise<ChangelogEntry[]> {
-  const sources = await loadChangelogSources(rootDir);
+export async function parseChangelog(
+  rootDir: string,
+  platform: ChangelogPlatform,
+): Promise<ChangelogEntry[]> {
+  const sources = await loadChangelogSources(rootDir, platform);
   return parseChangelogSources(sources);
 }

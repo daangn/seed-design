@@ -4,7 +4,10 @@
 
 ## 적용 조건
 
-워크스페이스가 `@seed-design/*` 패키지를 직접 선언하고, 선택된 플랫폼 인덱스가 현재 업그레이드·changelog 경로를 제공할 때 적용합니다. 인덱스에 공식 업그레이드 경로가 없으면 `not-applicable`, 인덱스나 registry를 읽지 못하면 `not-verified`입니다.
+워크스페이스가 `@seed-design/*` 패키지를 직접 선언하고, 선택된 플랫폼 인덱스가 현재 업그레이드·changelog 경로를 제공할 때 적용합니다.
+
+- 인덱스에 공식 업그레이드 경로가 없음 → `not-applicable`
+- 인덱스나 registry를 읽지 못함 → `not-verified`
 
 ## 판정 방법
 

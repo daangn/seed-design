@@ -5,7 +5,7 @@ import {
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
 
-import type { LynxStyledElementProps, LynxViewRef } from "../../types";
+import type { LynxHostProps, LynxViewRef } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
 
 /**
@@ -14,7 +14,7 @@ import { mergeProps } from "../../utils/merge-props";
  * React와 같은 `level` variant를 제공하지만, HTML `<span>` 대신 native
  * `<view>` / `<text>`를 렌더링합니다.
  */
-export interface MannerTempBadgeProps extends MannerTempBadgeVariantProps, LynxStyledElementProps {}
+export interface MannerTempBadgeProps extends MannerTempBadgeVariantProps, LynxHostProps<"view"> {}
 
 export const MannerTempBadge = React.forwardRef<unknown, MannerTempBadgeProps>((props, ref) => {
   const [variantProps, otherProps] = mannerTempBadge.splitVariantProps(props);

@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/lynx-css",
-  "version": "0.12.0",
+  "version": "1.3.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -12,9 +12,10 @@
   ],
   "type": "module",
   "exports": {
-    "./*.css": "./*.css",
     "./base.css": "./base.css",
+    "./base.min.css": "./base.min.css",
     "./all.css": "./all.css",
+    "./all.min.css": "./all.min.css",
     "./recipes/*.css": "./recipes/*.css",
     "./recipes/*": {
       "types": "./recipes/*.d.ts",
@@ -55,13 +56,13 @@
   ],
   "scripts": {
     "rootage:generate": "bun rootage token-ts ./vars --prefix seed && rootage component-spec ./vars/component --prefix seed",
-    "qvism:generate": "bun qvism ./ ./recipes && bun run ./scripts/generate-scale-feedback.mjs",
+    "qvism:generate": "bun qvism ./ ./recipes && bun run ./scripts/generate-scale-feedback.mjs && bun run ./scripts/generate-glass-tint.mjs",
     "lint:publish": "bun publint"
   },
   "devDependencies": {
     "@seed-design/qvism-cli": "0.0.0",
     "@seed-design/lynx-qvism-preset": "0.0.0",
-    "@seed-design/rootage-artifacts": "2.9.0"
+    "@seed-design/rootage-artifacts": "3.3.0"
   },
   "publishConfig": {
     "access": "public"

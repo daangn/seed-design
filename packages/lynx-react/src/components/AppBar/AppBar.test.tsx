@@ -22,7 +22,9 @@ interface TestLynxGlobal {
   lynx?: {
     __globalProps?: {
       safeAreaInsetTop?: number;
+      safeAreaInsetRight?: number;
       safeAreaInsetBottom?: number;
+      safeAreaInsetLeft?: number;
     };
   };
   lynxTestingEnv?: {
@@ -153,8 +155,19 @@ describe("AppBar", () => {
     render(<AppBar.Root theme="cupertino" />);
 
     expectStyle(getAppBarRoot().style, {
-      height: "calc(91px)",
+      height: "calc(103px)",
       "padding-top": "47px",
+    });
+  });
+
+  it("adds left and right safe area insets to the root padding", () => {
+    setGlobalProps({ safeAreaInsetRight: 0, safeAreaInsetLeft: 59 });
+
+    render(<AppBar.Root theme="cupertino" />);
+
+    expectStyle(getAppBarRoot().style, {
+      "padding-left": "calc(75px)",
+      "padding-right": "calc(16px)",
     });
   });
 
@@ -169,7 +182,7 @@ describe("AppBar", () => {
     );
 
     expectStyle(getAppBarRoot().style, {
-      height: "calc(91px)",
+      height: "calc(103px)",
       "padding-top": "47px",
     });
   });
@@ -239,7 +252,56 @@ describe("AppBar", () => {
     expect(iconButton).toHaveAttribute("accessibility-traits", "button");
   });
 
+  it("labels a text button with its text and bleeds it at the trailing edge", () => {
+    render(
+      <AppBar.Root>
+        <AppBar.Right>
+          <AppBar.IconButton accessibility-label="Share" />
+          <AppBar.TextButton>닫기</AppBar.TextButton>
+        </AppBar.Right>
+      </AppBar.Root>,
+    );
+
+    const { getByText } = getRenderedQueries();
+    const textButton = getAppBarRoot().querySelector(".seed-app-bar__textButton");
+
+    expect(getByText("닫기")).toHaveClass("seed-app-bar__textButtonLabel");
+    expect(textButton).toHaveAttribute("accessibility-label", "닫기");
+    expect(textButton).toHaveAttribute("accessibility-element", "true");
+    expect(textButton).toHaveAttribute("accessibility-traits", "button");
+    expect(textButton).toHaveClass("seed-app-bar__text-button-edge-trailing");
+    expect(textButton).not.toHaveClass("seed-app-bar__text-button-edge-leading");
+  });
+
+  it("blocks taps and announces a disabled text button", () => {
+    const handleTap = vi.fn();
+    const handleCatchTap = vi.fn();
+    render(
+      <AppBar.Root>
+        <AppBar.Right>
+          <AppBar.TextButton disabled bindtap={handleTap} catchtap={handleCatchTap}>
+            완료
+          </AppBar.TextButton>
+        </AppBar.Right>
+      </AppBar.Root>,
+    );
+
+    const { getByText } = getRenderedQueries();
+    const textButton = getAppBarRoot().querySelector(".seed-app-bar__textButton");
+    if (!textButton) throw new Error("Expected AppBar text button to exist.");
+    fireEvent.tap(textButton);
+    fireEvent.tap(textButton, { eventType: "catchEvent" });
+
+    expect(handleTap).not.toHaveBeenCalled();
+    expect(handleCatchTap).not.toHaveBeenCalled();
+    expect(textButton).toHaveClass("seed-app-bar__text-button-disabled");
+    expect(textButton).toHaveAttribute("accessibility-traits", "disabled");
+    expect(getByText("완료")).toHaveClass("seed-app-bar__text-button-label-disabled");
+  });
+
   it("updates centered title padding from left and right layout widths", async () => {
+    setGlobalProps({ safeAreaInsetRight: 0, safeAreaInsetLeft: 59 });
+
     render(
       <AppBar.Root>
         <AppBar.Left>
@@ -269,7 +331,10 @@ describe("AppBar", () => {
     });
 
     await waitFor(() => {
-      expect(main).toHaveStyle({ paddingLeft: "72px", paddingRight: "72px" });
+      expect(main).toHaveStyle({
+        paddingLeft: "calc(59px + 88px)",
+        paddingRight: "calc(0px + 88px)",
+      });
     });
   });
 

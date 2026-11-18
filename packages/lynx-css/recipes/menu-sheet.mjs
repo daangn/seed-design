@@ -35,6 +35,10 @@ const menuSheetSlotNames = [
     "seed-menu-sheet__list"
   ],
   [
+    "listContent",
+    "seed-menu-sheet__listContent"
+  ],
+  [
     "group",
     "seed-menu-sheet__group"
   ],

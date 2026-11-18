@@ -1,12 +1,11 @@
-import { HStack, VStack } from "@seed-design/react";
+import { HStack, VStack, type AttachmentInputFileEntry } from "@seed-design/react";
 import { useCallback, type FormEvent } from "react";
 import { useController, useForm } from "react-hook-form";
 import { ActionButton } from "seed-design/ui/action-button";
-import type { FileEntry } from "@seed-design/react/primitive";
 import { AttachmentField, AttachmentInput } from "seed-design/ui/attachment-field";
 
 interface FormValues {
-  files: FileEntry[];
+  files: AttachmentInputFileEntry[];
 }
 
 export default function AttachmentFieldReactHookForm() {

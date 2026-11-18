@@ -1,31 +1,31 @@
-import type { LLMsOptions } from "@fumadocs/satteri/remark-llms";
 import {
   defineMdastPlugin,
   type MdastVisitorContext,
   type MdxJsxFlowElement,
   type MdxJsxTextElement,
 } from "satteri";
+import { replaceWithChildren } from "./replace-source";
 
-export type FilterElement = NonNullable<LLMsOptions["filterElement"]>;
+/** `true`면 JSX 태그를 그대로 남기고, `false`면 태그를 접어 자식만 남깁니다. */
+export type FilterElement = (node: { name?: string | null }) => boolean;
 
 /**
- * Fumadocs `remarkLlms`가 덮어쓰는 MDX 필터를 `_stringify` 힌트로 미리 적용합니다.
+ * `remarkLlms`는 작성한 원문을 그대로 잘라 내보내므로, 남기지 않을 MDX 컴포넌트를 자식 Markdown으로
+ * 미리 바꿔 둡니다. 이 플러그인은 `remarkLlms`보다 앞에 둡니다.
  */
 export function remarkApplyLlmsFilter(filterElement: FilterElement) {
   function apply(
     node: Readonly<MdxJsxFlowElement | MdxJsxTextElement>,
     context: MdastVisitorContext,
   ): void {
-    const visibility = filterElement(node);
-    if (visibility === true) return;
+    if (filterElement(node)) return;
 
-    const data = { ...(node.data as Record<string, unknown> | undefined) };
-    data._stringify = visibility === "children-only" ? "children-only" : { text: "" };
-    context.setProperty(node, "data", data);
+    replaceWithChildren(context, node);
   }
 
   return defineMdastPlugin({
     name: "remark-apply-llms-filter",
+    options: { position: true },
     mdxJsxFlowElement: apply,
     mdxJsxTextElement: apply,
   });

@@ -1,5 +1,5 @@
 import preview from "../.storybook/preview";
-import { withChromaticParameters } from "@/stories/utils/parameters";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
 import { IconEyeSlashLine } from "@karrotmarket/react-monochrome-icon";
 import { menuSheetVariantMap } from "@seed-design/css/recipes/menu-sheet";
 import { Box } from "@seed-design/react";
@@ -34,6 +34,9 @@ const SwipeableMenuSheetPreview = ({
         }
         .seed-menu-sheet__content {
           animation: none !important;
+          /* 입력창이 없는 정적 표에서는 캡처 중 키보드 위치 보정값을 적용하지 않는다. */
+          height: auto !important;
+          bottom: 0 !important;
         }
       `}</style>
       <SwipeableMenuSheetRoot open>
@@ -101,13 +104,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

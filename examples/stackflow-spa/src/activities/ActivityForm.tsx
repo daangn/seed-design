@@ -73,7 +73,7 @@ const ActivityForm: StaticActivityComponentType<"ActivityForm"> = () => {
   };
 
   return (
-    <AppScreen>
+    <AppScreen layerOffsetBottom="safeArea">
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />
@@ -350,7 +350,6 @@ const ActivityForm: StaticActivityComponentType<"ActivityForm"> = () => {
               <SnackbarAvoidOverlap>
                 <VStack
                   px="spacingX.globalGutter"
-                  pb="safeArea"
                   gap="x2"
                   width="full"
                   style={{ boxSizing: "border-box" }}

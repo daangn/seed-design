@@ -20,7 +20,7 @@ jobs:
         with:
           ref: dev
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
           bun-version-file: .bun-version
 
@@ -68,7 +68,7 @@ jobs:
         id: claude-fix
         if: steps.existing-pr-check.outputs.skip != 'true' && steps.build.outcome != 'success' && steps.build.outputs.tsc_failed == 'true'
         continue-on-error: true
-        uses: anthropics/claude-code-action@v1
+        uses: anthropics/claude-code-action@4fa93a88de49bbef68b10eb15aabedf28ca0e1ed # v1
         with:
           anthropic_api_key: ${{ secrets.ORG_ANTHROPIC_API_KEY }}
           prompt: |
@@ -270,7 +270,7 @@ jobs:
       # `errors` 기본값이 false라, 켜지 않으면 Slack이 거절해도 스텝이 성공으로 넘어간다.
       - name: Slack에 알려요
         if: steps.check-diff.outputs.has_changes == 'true'
-        uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
+        uses: slackapi/slack-github-action@0d95c9a7becc1e6e297d76df9bc735c44f4cbcbc # v3.0.5
         with:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}
@@ -298,7 +298,7 @@ jobs:
 
       - name: 실패를 Slack에 알려요
         if: failure()
-        uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
+        uses: slackapi/slack-github-action@0d95c9a7becc1e6e297d76df9bc735c44f4cbcbc # v3.0.5
         with:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}

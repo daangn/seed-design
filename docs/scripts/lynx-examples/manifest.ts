@@ -1,12 +1,16 @@
 import { copyFile, mkdir, readdir, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { basename, dirname, resolve } from "node:path";
 import {
+  BUILD_DATA_MANIFEST_PATH,
+  LYNX_E2E_MANIFEST_FILENAME,
   LYNX_MANIFEST_SCHEMA_VERSION,
   LYNX_WEB_CORE_STYLES_FILENAME,
   PUBLIC_DIRECTORY,
   STAGING_DIRECTORY,
 } from "./constants.js";
 import type { LynxExampleEntry } from "./discovery.js";
+import { createE2EManifest } from "./e2e-manifest.js";
+import { getLynxExampleBundleKey } from "./modules.js";
 
 export interface LynxExampleManifest {
   schemaVersion: 1;
@@ -38,9 +42,17 @@ export async function createManifestFromBundles(
 ): Promise<LynxExampleManifest> {
   const files = await readdir(directory, { recursive: true });
   const examples: LynxExampleManifest["examples"] = {};
+  const bundles = new Map<string, { web: string; lynx: string }>();
 
   for (const entry of entries) {
-    const escapedKey = escapeRegExp(entry.entryKey);
+    const bundleKey = getLynxExampleBundleKey(entry);
+    const verified = bundles.get(bundleKey);
+    if (verified) {
+      examples[entry.id] = verified;
+      continue;
+    }
+
+    const escapedKey = escapeRegExp(bundleKey);
     const matches = {
       web: files.filter((file) =>
         new RegExp(`^${escapedKey}(?:\\.[a-f0-9]{8})?\\.web\\.bundle$`).test(file),
@@ -61,10 +73,12 @@ export async function createManifestFromBundles(
       if (platform === "web") await assertWebBundleUsesWebUnits(bundlePath, entry.id);
     }
 
-    examples[entry.id] = {
+    const bundle = {
       web: `/__lynx__/${matches.web[0]}`,
       lynx: `/__lynx__/${matches.lynx[0]}`,
     };
+    bundles.set(bundleKey, bundle);
+    examples[entry.id] = bundle;
   }
 
   return { schemaVersion: LYNX_MANIFEST_SCHEMA_VERSION, examples };
@@ -77,8 +91,8 @@ export function createDevelopmentManifest(entries: LynxExampleEntry[]): LynxExam
       entries.map((entry) => [
         entry.id,
         {
-          web: `/__lynx__/${entry.entryKey}.web.bundle`,
-          lynx: `/__lynx__/${entry.entryKey}.lynx.bundle`,
+          web: `/__lynx__/${getLynxExampleBundleKey(entry)}.web.bundle`,
+          lynx: `/__lynx__/${getLynxExampleBundleKey(entry)}.lynx.bundle`,
         },
       ]),
     ),
@@ -89,6 +103,7 @@ export async function publishManifestAndBundles(
   manifest: LynxExampleManifest,
   sourceDirectory = STAGING_DIRECTORY,
   publicDirectory = PUBLIC_DIRECTORY,
+  buildDataManifestPath = BUILD_DATA_MANIFEST_PATH,
 ) {
   await mkdir(publicDirectory, { recursive: true });
   const referencedFiles = new Set(["manifest.json", LYNX_WEB_CORE_STYLES_FILENAME]);
@@ -100,6 +115,7 @@ export async function publishManifestAndBundles(
   for (const example of Object.values(manifest.examples)) {
     for (const url of [example.web, example.lynx]) {
       const filename = url.replace("/__lynx__/", "");
+      if (referencedFiles.has(filename)) continue;
       referencedFiles.add(filename);
       const target = resolve(publicDirectory, filename);
       await mkdir(resolve(target, ".."), { recursive: true });
@@ -107,9 +123,20 @@ export async function publishManifestAndBundles(
     }
   }
 
-  const temporaryManifest = resolve(publicDirectory, `.manifest-${process.pid}.json`);
-  await writeFile(temporaryManifest, `${JSON.stringify(manifest, null, 2)}\n`);
-  await rename(temporaryManifest, resolve(publicDirectory, "manifest.json"));
+  await writeJsonAtomically(
+    publicDirectory,
+    LYNX_E2E_MANIFEST_FILENAME,
+    createE2EManifest(manifest),
+  );
+  await writeJsonAtomically(publicDirectory, "manifest.json", manifest);
+  // 문서 render는 게시용 manifest를 fs로 읽지 않고 이 사본을 JSON module로 import한다.
+  // module graph에 들어가야 incremental build가 manifest 변경을 감지한다.
+  await mkdir(dirname(buildDataManifestPath), { recursive: true });
+  await writeJsonAtomically(
+    dirname(buildDataManifestPath),
+    basename(buildDataManifestPath),
+    manifest,
+  );
 
   for (const file of await readdir(publicDirectory, { recursive: true })) {
     if (!referencedFiles.has(file) && file.endsWith(".bundle")) {
@@ -118,6 +145,38 @@ export async function publishManifestAndBundles(
   }
 }
 
+/** 읽는 쪽이 쓰다 만 JSON을 받지 않도록 임시 파일을 rename해 교체한다. */
+async function writeJsonAtomically(directory: string, filename: string, value: unknown) {
+  const temporaryPath = resolve(directory, `.${filename}-${process.pid}.tmp`);
+  await writeFile(temporaryPath, `${JSON.stringify(value, null, 2)}\n`);
+  await rename(temporaryPath, resolve(directory, filename));
+}
+
 export async function readManifest(path: string): Promise<LynxExampleManifest> {
   return JSON.parse(await readFile(path, "utf8")) as LynxExampleManifest;
+}
+
+/**
+ * CI가 캐시에서 복원한 게시 결과(`SEED_DOCS_LYNX_PREBUILT=1`)를 Rspeedy 없이 쓸 수 있는지 확인한다.
+ * manifest가 가리키는 파일이 모두 있고 render용 사본이 게시 manifest와 같아야 한다.
+ */
+export async function verifyPublishedManifest(
+  publicDirectory = PUBLIC_DIRECTORY,
+  buildDataManifestPath = BUILD_DATA_MANIFEST_PATH,
+) {
+  const manifestPath = resolve(publicDirectory, "manifest.json");
+  const manifest = await readManifest(manifestPath);
+  if (manifest.schemaVersion !== LYNX_MANIFEST_SCHEMA_VERSION) {
+    throw new Error(`지원하지 않는 Lynx manifest schema입니다: ${manifestPath}`);
+  }
+  const files = new Set([LYNX_E2E_MANIFEST_FILENAME, LYNX_WEB_CORE_STYLES_FILENAME]);
+  for (const example of Object.values(manifest.examples)) {
+    files.add(example.web.replace("/__lynx__/", ""));
+    files.add(example.lynx.replace("/__lynx__/", ""));
+  }
+  for (const file of files) await assertNonEmpty(resolve(publicDirectory, file));
+  if ((await readFile(buildDataManifestPath, "utf8")) !== (await readFile(manifestPath, "utf8"))) {
+    throw new Error(`render용 Lynx manifest가 게시 manifest와 다릅니다: ${buildDataManifestPath}`);
+  }
+  return Object.keys(manifest.examples).length;
 }

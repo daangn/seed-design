@@ -7,18 +7,6 @@ const timePickerSlotNames = [
     "seed-time-picker__root"
   ],
   [
-    "scrollFog",
-    "seed-time-picker__scrollFog"
-  ],
-  [
-    "columns",
-    "seed-time-picker__columns"
-  ],
-  [
-    "selectionIndicator",
-    "seed-time-picker__selectionIndicator"
-  ],
-  [
     "periodColumn",
     "seed-time-picker__periodColumn"
   ],

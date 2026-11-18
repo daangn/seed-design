@@ -1,0 +1,63 @@
+---
+/**
+ * `Accordions`의 항목. 요소·class·`data-*`·ARIA는 기존 `components/accordion.tsx`(SEED `AccordionItem` >
+ * `AccordionHeader`(h3, not-prose) > `AccordionTrigger` > `AccordionTitle`·`AccordionSuffixIcon`, `AccordionContent` >
+ * `AccordionBody`)의 닫힌 상태 서버 HTML과 같다. id 모양도 SEED React(`accordion:<value>:<root>:trigger|content`)를 따른다.
+ * 열림 상태 속성(`aria-expanded`, `data-open`, `hidden`, `--collapsible-content-height`)은 `accordion` widget이 바꾼다.
+ */
+import { accordion } from "@seed-design/css/recipes/accordion";
+import { ICONS } from "./icons";
+
+interface Props {
+  title?: string;
+  /** 항목 값(없으면 제목). */
+  id?: string;
+  /** 부모 `Accordions`의 `rootId`(`rehypeWidgetMarkers`가 붙인다). */
+  rootId?: string;
+}
+
+const { title, id, rootId } = Astro.props;
+if (!rootId)
+  throw new Error(
+    `Accordion(${title ?? id ?? ""}): rootId가 없습니다. Accordions 바로 아래에 둡니다.`,
+  );
+const value = id ?? title ?? "";
+const root = `accordion:${rootId}:root`;
+const triggerId = `accordion:${value}:${rootId}:trigger`;
+const contentId = `accordion:${value}:${rootId}:content`;
+const classes = accordion({ variant: "separated", size: "medium" });
+---
+
+<div class={classes.item} data-collapsible="" data-value={value}>
+  <h3 class={`${classes.header} not-prose`}>
+    <button
+      class={`${classes.trigger} seed-scale-feedback`}
+      aria-expanded="false"
+      aria-controls={contentId}
+      aria-disabled="false"
+      id={triggerId}
+      data-value={value}
+      data-ownedby={root}
+    >
+      <span class="seed-content-scale">
+        <span class={classes.title}>{title}</span>
+        <div class={classes.suffixIcon} set:html={ICONS.chevronDownLine} />
+      </span>
+    </button>
+  </h3>
+  <div
+    data-collapsible=""
+    id={contentId}
+    hidden
+    role="region"
+    aria-labelledby={triggerId}
+    class={classes.content}
+  >
+    <div
+      style="padding-inline:var(--seed-dimension-spacing-x-global-gutter);padding-bottom:var(--seed-dimension-spacing-x-global-gutter)"
+      class={classes.body}
+    >
+      <slot />
+    </div>
+  </div>
+</div>

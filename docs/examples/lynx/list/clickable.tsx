@@ -7,18 +7,17 @@ import IconPenHorizlineFill from "@karrotmarket/lynx-monochrome-icon/IconPenHori
 import IconPlusFill from "@karrotmarket/lynx-monochrome-icon/IconPlusFill";
 import IconSquare2StackedFill from "@karrotmarket/lynx-monochrome-icon/IconSquare2StackedFill";
 import { useState } from "@lynx-js/react";
-import { ActionButton, PrefixIcon, SuffixIcon, useSeedClassName } from "@seed-design/lynx-react";
+import { ActionButton, PrefixIcon, SuffixIcon } from "@seed-design/lynx-react";
 
 import { List, ListButtonItem, ListDivider, ListItem } from "@/components/ui/list";
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const [status, setStatus] = useState("아직 탭하지 않았어요");
   const [subscribed, setSubscribed] = useState(false);
   const [copied, setCopied] = useState(false);
 
   return (
-    <view className={`${seedClassName} docs-lynx-list-root`}>
+    <view className="list-preview">
       <List>
         <ListItem
           title="ListItem은 클릭할 수 없어요. 눌러보세요."

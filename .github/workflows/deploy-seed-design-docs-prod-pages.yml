@@ -13,7 +13,7 @@ on:
       - ".github/workflows/deploy-seed-design-docs-prod-pages.yml"
       - ".github/actions/setup/action.yml"
       - ".bun-version"
-      - ".github/actions/nextjs-cache/**"
+      - ".github/actions/docs-build-cache/**"
       - ".github/actions/check-docs-links/**"
   workflow_dispatch:
     inputs:
@@ -27,6 +27,11 @@ on:
         required: false
         type: string
         default: ""
+      skip-page-cache:
+        description: "Render every page instead of restoring unchanged pages from the cache"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -47,72 +52,91 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
+    env:
+      FIGMA_CACHE_DISABLED: ${{ inputs.skip-figma-cache && '1' || '0' }}
+      FIGMA_BYPASS_CACHE_NODE_IDS: ${{ inputs.bypass-cache-node-ids }}
+      # 정적 빌드라 공개 값(`NEXT_PUBLIC_*`, 이름은 Next 시절 그대로)이 빌드 때 있어야 한다.
+      NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
+      NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
+      # Astro 빌드의 최대 RSS는 4 CPU 측정에서 3.5–4GiB였다. Node 기본 heap 상한보다 크다.
+      NODE_OPTIONS: --max-old-space-size=6144
+      # 안 바뀐 페이지는 렌더링하지 않고 캐시에서 복원한다.
+      SEED_DOCS_INCREMENTAL_BUILD: "1"
+
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
-      - name: Restore Figma image cache
-        if: ${{ !inputs.skip-figma-cache }}
-        uses: actions/cache/restore@v5
         with:
-          path: docs/.cache/figma-image
-          key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/.cache/figma-image/**') }}
-          restore-keys: |
-            ${{ runner.os }}-figma-images-
+          # 페이지의 수정일과 incremental cacheKey가 Git 이력을 읽는다. 얕은 clone에서는 모든 문서가 배포
+          # 커밋 시각을 받아 커밋마다 모든 페이지가 바뀐다. blob 없이 commit과 tree만 받는다.
+          fetch-depth: 0
+          filter: blob:none
+
+      - name: Hash docs cache inputs
+        uses: ./.github/actions/docs-build-cache
+        with:
+          phase: prepare
 
       - uses: ./.github/actions/setup
-        id: setup
         with:
           build-packages: true
           build-rootage: true
 
-      - name: Restore Next.js cache
-        id: restore-nextjs-cache
-        uses: ./.github/actions/nextjs-cache
+      - name: Restore docs build caches
+        id: cache
+        uses: ./.github/actions/docs-build-cache
         with:
+          phase: restore
           # Production keeps publishing refreshed state for the default-branch fallback.
           cache-generation: ${{ github.sha }}
           cache-scope: ${{ github.ref_name }}
           default-branch: ${{ github.event.repository.default_branch }}
-          legacy-build-cache-key-suffix: ${{ steps.setup.outputs.build-cache-key-suffix }}
+          skip-figma-cache: ${{ inputs.skip-figma-cache }}
+          skip-page-cache: ${{ inputs.skip-page-cache }}
 
-      - name: Build Docs
+      - name: "Build: pre"
         working-directory: ./docs
         env:
-          # docs uses Next static export, so NEXT_PUBLIC_* values must be present at build time.
-          FIGMA_CACHE_DISABLED: ${{ inputs.skip-figma-cache && '1' || '0' }}
-          FIGMA_BYPASS_CACHE_NODE_IDS: ${{ inputs.bypass-cache-node-ids }}
-          NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
-          NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
-          # Figma image processing + Next webpack export exceed Node's default ~2GB heap on CI.
-          NODE_OPTIONS: --max-old-space-size=6144
+          SEED_DOCS_LYNX_PREBUILT: ${{ steps.cache.outputs.lynx-out-hit == 'true' && '1' || '0' }}
+          # Sanity webhook 빌드의 목적이 새 데이터다. 스냅숏을 못 받으면 빈 표로 배포하지 않고 실패한다.
+          SEED_DOCS_REQUIRE_SANITY: "1"
         run: |
-          bun run build
+          trap 'echo "DOCS_BUILD_PRE_SECONDS=$SECONDS" >> "$GITHUB_ENV"' EXIT
+          set -o pipefail
+          bun run build:pre 2>&1 | tee "$RUNNER_TEMP/docs-build-pre.log"
+
+      - name: "Build: astro"
+        working-directory: ./docs
+        env:
+          ASTRO_FLAGS: ${{ inputs.skip-page-cache && '--force' || '' }}
+        run: |
+          trap 'echo "DOCS_BUILD_ASTRO_SECONDS=$SECONDS" >> "$GITHUB_ENV"' EXIT
+          set -o pipefail
+          bun run build:astro $ASTRO_FLAGS 2>&1 | tee "$RUNNER_TEMP/docs-build-astro.log"
+
+      - name: "Build: post"
+        working-directory: ./docs
+        run: |
+          trap 'echo "DOCS_BUILD_POST_SECONDS=$SECONDS" >> "$GITHUB_ENV"' EXIT
+          set -o pipefail
+          bun run build:post 2>&1 | tee "$RUNNER_TEMP/docs-build-post.log"
+
+      - name: Report docs build timings
+        if: ${{ always() && steps.cache.outcome == 'success' }}
+        uses: ./.github/actions/docs-build-cache
+        with:
+          phase: report
+
+      # 링크 검사 전에 둔다. 빌드 산출물은 링크가 깨져도 유효한 캐시다.
+      - name: Save docs build caches
+        uses: ./.github/actions/docs-build-cache
+        with:
+          phase: save
 
       # 배포 전에 둔다. 깨진 링크가 프로덕션에 나가는 것보다 배포가 멈추는 편이 낫다.
       - name: Validate docs links
         uses: ./.github/actions/check-docs-links
         with:
           out-dir: ${{ github.workspace }}/docs/out
-
-      - name: Save Next.js cache
-        if: ${{ steps.restore-nextjs-cache.outputs.cache-hit != 'true' }}
-        uses: actions/cache/save@v5
-        with:
-          path: docs/.next/cache
-          key: ${{ steps.restore-nextjs-cache.outputs.cache-primary-key }}
-
-      - name: Save Fumadocs TypeScript cache
-        if: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-hit != 'true' && hashFiles('docs/.next/cache/fumadocs-typescript/**') != '' }}
-        uses: actions/cache/save@v5
-        with:
-          path: docs/.next/cache/fumadocs-typescript
-          key: ${{ steps.restore-nextjs-cache.outputs.fumadocs-cache-primary-key }}
-
-      - name: Save Figma image cache
-        uses: actions/cache/save@v5
-        with:
-          path: docs/.cache/figma-image
-          key: ${{ runner.os }}-figma-images-${{ hashFiles('docs/.cache/figma-image/**') }}
 
       - name: Deploy docs at Cloudflare Pages in `seed-design-v3` project (Production)
         run: |
@@ -152,7 +176,7 @@ jobs:
       # `errors` 기본값이 false라, 켜지 않으면 Slack이 거절해도 스텝이 성공으로 넘어간다.
       - name: 실패를 Slack에 알려요
         if: failure()
-        uses: slackapi/slack-github-action@45a88b9581bfab2566dc881e2cd66d334e621e2c # v3.0.3
+        uses: slackapi/slack-github-action@0d95c9a7becc1e6e297d76df9bc735c44f4cbcbc # v3.0.5
         with:
           method: chat.postMessage
           token: ${{ secrets.SLACK_BOT_TOKEN }}

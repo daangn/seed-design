@@ -29,8 +29,7 @@ export default defineConfig(async () => {
       pluginReactLynx({
         targetSdkVersion: "3.9",
         globalPropsMode: "reactive",
-        enableCSSSelector: true,
-        enableCSSInvalidation: true,
+        enableNewGesture: true,
       }),
       pluginLynxConfig({
         enableCSSInheritance: true,
@@ -67,6 +66,8 @@ export default defineConfig(async () => {
       },
     },
     output: {
+      // 문서 배포는 bundle과 CSS만 게시하므로 작은 이미지도 URL 대신 bundle에 포함한다.
+      dataUriLimit: { image: 8 * 1024 },
       distPath: {
         root: process.env.LYNX_EXAMPLES_DEV_OUTPUT ? DEVELOPMENT_DIRECTORY : STAGING_DIRECTORY,
       },

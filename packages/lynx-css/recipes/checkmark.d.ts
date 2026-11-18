@@ -23,10 +23,6 @@ declare interface CheckmarkVariant {
   * @default false
   */
   indeterminate: boolean;
-/**
-  * @default false
-  */
-  pressed: boolean;
 }
 
 declare type CheckmarkVariantMap = {
@@ -35,7 +31,7 @@ declare type CheckmarkVariantMap = {
 
 export declare type CheckmarkVariantProps = Partial<CheckmarkVariant>;
 
-export declare type CheckmarkSlotName = "root" | "background" | "icon";
+export declare type CheckmarkSlotName = "root" | "background" | "selectedBackground" | "icon";
 
 export declare const checkmarkVariantMap: CheckmarkVariantMap;
 

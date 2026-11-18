@@ -1,13 +1,6 @@
-.docs-lynx-text-field-input-root {
-  height: 100%;
-  padding: 24px;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
 .text-field-input-preview {
-  height: 100%;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  max-width: 420px;
 }
 
 .text-field-input-preview__content {

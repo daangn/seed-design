@@ -1,5 +1,5 @@
 import preview from "../.storybook/preview";
-import { withChromaticParameters } from "@/stories/utils/parameters";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
 import {
   bottomSheetVariantMap,
   type BottomSheetVariantProps,
@@ -51,7 +51,14 @@ const BottomSheetPreview = ({
           height: unset !important;
         }
       `}</style>
-      <BottomSheetRoot open modal={false} autoFocus={false} headerAlign={headerAlign}>
+      {/* Full-page capture resizes the viewport; this static preview has no keyboard inputs. */}
+      <BottomSheetRoot
+        open
+        modal={false}
+        autoFocus={false}
+        repositionInputs={false}
+        headerAlign={headerAlign}
+      >
         <BottomSheetContent
           title={title}
           description={description}
@@ -120,13 +127,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

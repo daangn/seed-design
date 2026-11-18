@@ -37,7 +37,7 @@ const compoundVariants = [
   {
     "tone": "transparent",
     "gradient": true,
-    "layerOffsetBottom": "none"
+    "layerOffsetTop": "none"
   },
   {
     "tone": "transparent",

@@ -5,6 +5,6 @@
     "declarationMap": false,
     "noEmit": true
   },
-  "include": ["src/**/*.test.ts", "src/**/*.test.tsx"],
+  "include": ["src/**/*.test.ts", "src/**/*.test.tsx", "vitest-jest-dom.d.ts"],
   "exclude": []
 }

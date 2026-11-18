@@ -88,16 +88,14 @@ data:
     base:
       enabled:
         root:
+          height: 56px
           paddingX: $dimension.x1_5
     theme=ios:
       enabled:
         root:
-          height: 44px
           titleMinGap: $dimension.x2
     theme=android:
       enabled:
-        root:
-          height: 56px
         main:
           paddingLeft: $dimension.x1_5
     tone=layer:

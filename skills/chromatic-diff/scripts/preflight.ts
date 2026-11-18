@@ -40,11 +40,22 @@ function describeToken() {
   const expiry = tokenExpiry();
   if (!expiry) return { ok: true, text: "token present (expiry unreadable)" };
 
-  const days = Math.floor((expiry.getTime() - Date.now()) / 86_400_000);
+  const remaining = expiry.getTime() - Date.now();
 
-  return days < 0
-    ? { ok: false, text: `token EXPIRED ${-days}d ago` }
-    : { ok: true, text: `token ok (${days}d left)` };
+  return remaining < 0
+    ? { ok: false, text: `token EXPIRED ${formatDuration(-remaining)} ago` }
+    : { ok: true, text: `token ok (${formatDuration(remaining)} left)` };
+}
+
+// Tokens live for an hour, so whole days would print `0d` for every valid token.
+function formatDuration(ms: number) {
+  const minutes = Math.floor(ms / 60_000);
+  if (minutes < 60) return `${minutes}m`;
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h`;
+
+  return `${Math.floor(hours / 24)}d`;
 }
 
 /**

@@ -1,5 +1,35 @@
 # @seed-design/cli
 
+## 1.7.4
+
+### Patch Changes
+
+- a1ea560: `diff` 의존성을 v9로 업데이트합니다. `add` 명령이 기존 스니펫과 받으려는 스니펫의 차이를 보여줄 때, 경로에 한글 등 비ASCII 문자나 역슬래시(Windows 경로 구분자)가 있으면 `---`/`+++` 헤더의 파일명이 따옴표로 감싸지고 이스케이프되어 표시됩니다.
+- 014e8aa: `recast` 의존성을 v0.24로 업데이트합니다. `seed-design.json`의 `tsx`가 `false`일 때 `add`·`add-all` 명령이 JavaScript로 변환한 스니펫에서, 주석 바로 뒤의 JSX를 불필요한 괄호로 감싸던 문제와 원본 스니펫의 빈 줄이 사라지던 문제가 함께 수정됩니다.
+  
+  - `recast`가 Node.js 22 이상을 요구하므로 `@seed-design/cli`의 Node.js 요구사항을 `>=22.0.0`으로 올립니다. Node.js 20에서 실행 중이라면 Node.js 22 이상으로 업그레이드해야 합니다.
+
+## 1.7.3
+
+### Patch Changes
+
+- d4ec62d: `add`·`add-all`·`compat`이 스니펫의 버전 요구를 더 정확히 검사합니다.
+  
+  - 스니펫이 요구하는 `@seed-design/stackflow` 버전도 검사합니다. 설치된 Stackflow가 `ui:app-screen` 스니펫의 요구 범위보다 낮으면 경고를 보여줍니다.
+  - `package.json`의 선언 범위(예: `^2.0.6`)보다 실제 설치된 버전을 먼저 사용합니다. 선언 범위가 요구 범위와 겹쳐도 설치된 버전이 낮으면 경고합니다. 설치본이 없으면 기존처럼 선언을 사용합니다.
+
+## 1.7.2
+
+### Patch Changes
+
+- 8a97cb8: React 1.x 레지스트리를 버전 경로에서 가져오도록 수정하고, 버전 경로를 `baseUrl`로 지정했을 때 문서와 LLM 링크가 올바른 주소를 사용하도록 수정합니다.
+
+## 1.7.1
+
+### Patch Changes
+
+- 25b251f: `add`, `add-all`의 `--seed-react-version 2`가 React 2.x 아카이브 레지스트리(`https://seed-design.io/react/v2`)를 사용하도록 지원합니다. 기존 `1.0`, `1.1`, `1.2` 옵션은 그대로 유지합니다.
+
 ## 1.7.0
 
 ### Minor Changes

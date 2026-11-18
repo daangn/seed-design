@@ -1,0 +1,66 @@
+---
+/**
+ * 레지스트리 스니펫의 수동 설치 안내(Manual Installation 아코디언). `ManualInstallation`·`LynxManualInstallation`·
+ * `BreezeManualInstallation`이 쓴다. 마크업은 기존 `components/{,lynx-,breeze-}manual-installation.tsx`와 같다.
+ *
+ * 빌드 때 코드를 하이라이트하므로 frontmatter에서 await한다. 그래서 아래에는 React 컴포넌트를 두지 않는다
+ * (렌더 결정성, DESIGN 핵심 결정 9 ③).
+ */
+import { packageManagerTabItems } from "../../components/codeblock/package-manager";
+import type { GeneratedRegistryItem } from "../../registry/schema";
+import Accordion from "./Accordion.astro";
+import Accordions from "./Accordions.astro";
+import HighlightedCodeCard from "./HighlightedCodeCard.astro";
+import { highlightCode } from "./highlight";
+
+interface Props {
+  item: GeneratedRegistryItem;
+  steps: Array<{ title: string; snippets: Array<{ content: string; lang: string }> }>;
+  /** 아코디언 root id. MDX의 `*ManualInstallation`에 `rehypeWidgetMarkers`가 문서 안에서 고유하게 붙인다. */
+  accordionId?: string;
+}
+
+const { item, steps, accordionId = "manual-install" } = Astro.props;
+const dependencies = item.dependencies
+  ? await Promise.all(
+      packageManagerTabItems(item.dependencies).map(async (tab) => ({
+        value: tab.value,
+        label: tab.label,
+        html: await highlightCode(tab.code, tab.lang),
+      })),
+    )
+  : undefined;
+const stepCodes = await Promise.all(
+  steps.map(async (step) => ({
+    title: step.title,
+    codes: await Promise.all(
+      step.snippets.map((snippet) => highlightCode(snippet.content, snippet.lang)),
+    ),
+  })),
+);
+---
+
+<Accordions type="single" rootId={accordionId}>
+  <Accordion title="Manual Installation" id="manual-install" rootId={accordionId}>
+    <div class="fd-steps">
+      {
+        dependencies && (
+          <div class="fd-step">
+            <h3>의존성 설치</h3>
+            <HighlightedCodeCard groupId="package-manager" tabsId={`${accordionId}-deps`} items={dependencies} />
+          </div>
+        )
+      }
+      {
+        stepCodes.map((step) => (
+          <div class="fd-step">
+            <h3>{step.title}</h3>
+            {step.codes.map((html) => (
+              <HighlightedCodeCard items={[{ value: "code", label: "code", html }]} />
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </Accordion>
+</Accordions>

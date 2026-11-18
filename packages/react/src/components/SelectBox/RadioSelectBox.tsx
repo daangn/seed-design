@@ -1,4 +1,5 @@
-import { composeRefs } from "@radix-ui/react-compose-refs";
+import { composeRefs, useComposedRefs } from "@radix-ui/react-compose-refs";
+import { Slottable } from "@radix-ui/react-slot";
 import { selectBox, type SelectBoxVariantProps } from "@seed-design/css/recipes/select-box";
 import {
   selectBoxGroup,
@@ -15,6 +16,7 @@ import {
   RadioGroup as RadioGroupPrimitive,
   useRadioGroupItemContext,
 } from "@seed-design/react-radio-group";
+import { ContentScale, useScaleFeedback } from "@seed-design/react-scale-feedback";
 import {
   createContext,
   forwardRef,
@@ -113,6 +115,13 @@ export interface RadioSelectBoxItemProps
   footerVisibility?: "when-selected" | "when-not-selected" | "always";
 }
 
+/**
+ * Assembled by hand instead of through `withContentScale`, because the footer provider has to
+ * sit inside the element to read the radio item context, and `Slot` only recognises a `Slottable`
+ * among its direct children. Wrapping the HOC's `Slottable` in the provider would hide it, and
+ * `Slot` would then fall back to slotting onto the provider, which drops the class and the ref.
+ * Owning both here keeps the provider inside the content scale box, below the `Slottable`.
+ */
 export const RadioSelectBoxItem = forwardRef<HTMLLabelElement, RadioSelectBoxItemProps>(
   ({ footerVisibility = "when-selected", className, children, ...props }, ref) => {
     const [variantProps, otherProps] = selectBox.splitVariantProps(props);
@@ -121,20 +130,29 @@ export const RadioSelectBoxItem = forwardRef<HTMLLabelElement, RadioSelectBoxIte
       ...variantProps,
     });
 
+    const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
+    const composedRef = useComposedRefs(scaleFeedbackRef, ref);
+
     return (
       <ClassNamesProvider value={classNames}>
         <RadioGroupPrimitive.Item
-          ref={ref}
-          className={clsx(classNames.root, className)}
+          ref={composedRef}
+          className={clsx(scaleFeedbackClassName, classNames.root, className)}
           {...otherProps}
         >
-          {footerVisibility === "always" ? (
-            children
-          ) : (
-            <FooterVisibilityProvider footerVisibility={footerVisibility}>
-              {children}
-            </FooterVisibilityProvider>
-          )}
+          <Slottable child={children}>
+            {(content) => (
+              <ContentScale>
+                {footerVisibility === "always" ? (
+                  content
+                ) : (
+                  <FooterVisibilityProvider footerVisibility={footerVisibility}>
+                    {content}
+                  </FooterVisibilityProvider>
+                )}
+              </ContentScale>
+            )}
+          </Slottable>
         </RadioGroupPrimitive.Item>
       </ClassNamesProvider>
     );

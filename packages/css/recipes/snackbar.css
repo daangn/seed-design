@@ -4,7 +4,7 @@
     align-items: center;
     width: 100%;
     max-width: 464px;
-    background: var(--seed-color-bg-neutral-inverted);
+    background: var(--seed-color-bg-neutral-solid);
     border-radius: var(--seed-radius-r2);
     padding-inline: var(--seed-dimension-x2_5);
     padding-block: var(--seed-dimension-x2_5);
@@ -46,7 +46,7 @@
 }
 .seed-snackbar__message {
     margin: 0;
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-regular);

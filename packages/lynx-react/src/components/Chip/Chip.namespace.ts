@@ -5,7 +5,6 @@ export {
   ChipPrefixIcon as PrefixIcon,
   ChipRadioItem as RadioItem,
   ChipRadioRoot as RadioRoot,
-  ChipRoot as Root,
   ChipSuffixIcon as SuffixIcon,
   ChipToggle as Toggle,
   type ChipButtonProps as ButtonProps,
@@ -14,7 +13,6 @@ export {
   type ChipPrefixIconProps as PrefixIconProps,
   type ChipRadioItemProps as RadioItemProps,
   type ChipRadioRootProps as RadioRootProps,
-  type ChipRootProps as RootProps,
   type ChipSuffixIconProps as SuffixIconProps,
   type ChipToggleProps as ToggleProps,
 } from "./Chip";

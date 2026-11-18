@@ -1,11 +1,10 @@
 import "./styles";
 
 import { useState } from "@lynx-js/react";
-import { ActionButton, useSeedClassName, VStack } from "@seed-design/lynx-react";
+import { ActionButton, VStack } from "@seed-design/lynx-react";
 import { QuantityPicker } from "@/components/ui/quantity-picker";
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const [removed, setRemoved] = useState(false);
 
   function handleRemove() {
@@ -19,10 +18,10 @@ export default function Example() {
   }
 
   return (
-    <view className={`${seedClassName} quantity-picker-example`}>
+    <view className="quantity-picker-example">
       <text className="quantity-picker-example-title">Removable</text>
       {removed ? (
-        <VStack gap="x4">
+        <VStack gap="x4" align="center">
           <text className="quantity-picker-example-status">상품을 삭제했습니다.</text>
           <view className="quantity-picker-example-controls">
             <ActionButton

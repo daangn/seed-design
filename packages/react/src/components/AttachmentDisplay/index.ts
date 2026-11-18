@@ -36,6 +36,7 @@ export {
   AttachmentDisplayItemImage,
   AttachmentDisplayItemMetadata,
   AttachmentDisplayItemRemoveButton,
+  AttachmentDisplayItemReorderHandle,
   AttachmentDisplayItemThumbnail,
   type AttachmentDisplayItemActionButtonProps,
   type AttachmentDisplayItemBackdropProps,
@@ -44,6 +45,7 @@ export {
   type AttachmentDisplayItemMetadataProps,
   type AttachmentDisplayItemProps,
   type AttachmentDisplayItemRemoveButtonProps,
+  type AttachmentDisplayItemReorderHandleProps,
   type AttachmentDisplayItemThumbnailProps,
 } from "./AttachmentDisplayItem";
 
@@ -57,3 +59,13 @@ export {
 } from "./AttachmentDisplayTrigger";
 
 export * as AttachmentDisplay from "./AttachmentDisplay.namespace";
+
+export {
+  useAttachmentDisplayContext,
+  type UseAttachmentDisplayContext as AttachmentDisplayContextValue,
+} from "@seed-design/react-attachment-display";
+
+export type {
+  DisplayItemEntry as AttachmentDisplayItemEntry,
+  DisplayItemStatusDetails as AttachmentDisplayItemStatusDetails,
+} from "@seed-design/react-attachment-display";

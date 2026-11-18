@@ -1,0 +1,6 @@
+export * from "./useAccordion.js";
+export * from "./useAccordionItem.js";
+export * from "./useAccordionContext.js";
+export * from "./useAccordionItemContext.js";
+export * from "./Accordion.jsx";
+export * as Accordion from "./Accordion.namespace.js";

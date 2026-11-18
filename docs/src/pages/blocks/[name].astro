@@ -1,0 +1,21 @@
+---
+/**
+ * `/blocks/<name>`: MDX `BlockPreview`가 iframe으로 띄우는 block 미리보기. ClientRouter·문서 내비게이션 없이 block 하나를
+ * 그린다(기존 `app/blocks/*`와 같다). 테마는 부모 문서를 따른다(`BlockRenderer` 안 `BlockThemeListener`).
+ */
+import { BlockRenderer, hasBlock } from "../../../components/block-renderer";
+import { registryBlock } from "../../../registry/react/registry-block";
+import { pageHead } from "../../content/source";
+import PageShell from "../../layouts/PageShell.astro";
+
+export function getStaticPaths() {
+  return registryBlock.items.map((item) => ({ params: { name: item.id } }));
+}
+
+const { name } = Astro.params;
+if (!hasBlock(name)) throw new Error(`registry/react/block/${name}.tsx가 없습니다.`);
+---
+
+<PageShell head={pageHead()}>
+  <BlockRenderer client:load name={name} />
+</PageShell>

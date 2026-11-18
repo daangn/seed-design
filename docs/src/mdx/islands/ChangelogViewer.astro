@@ -1,0 +1,20 @@
+---
+/**
+ * `<ChangelogPage platform="react" />`: 패키지 CHANGELOG 목록과 버전·패키지 필터. React island다(idle 지시어).
+ * CHANGELOG는 `changelog-data.ts`가 module로 한 번 파싱·하이라이트하고(frontmatter await 없음), 이 파일이 그 플랫폼 몫을
+ * props로 넘긴다. 데이터 module은 브라우저 번들에 들어가지 않는다.
+ */
+import type { ChangelogPlatform } from "../../../lib/changelog-platform";
+import { changelogEntries } from "../changelog-data";
+import { ChangelogViewerWithUrlState } from "../changelog-viewer";
+
+interface Props {
+  platform: ChangelogPlatform;
+}
+
+const { platform } = Astro.props;
+const entries = changelogEntries[platform];
+const packages = [...new Set(entries.map((entry) => entry.package.name))];
+---
+
+<ChangelogViewerWithUrlState client:idle platform={platform} entries={entries} packages={packages} />

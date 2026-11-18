@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import type { TagItem } from "fumadocs-ui/contexts/search";
+import type { TagItem } from "@/lib/search-tags";
 import type { ReactNode } from "react";
 
 /** Pill-shaped filter chip. `undefined` value == the "All" (no filter) chip. */
@@ -22,7 +22,7 @@ function Chip({
       className={clsx(
         "shrink-0 cursor-pointer rounded-full px-3 py-1.5 text-sm font-medium transition-colors",
         active
-          ? "bg-bg-neutral-inverted text-fg-neutral-inverted"
+          ? "bg-bg-neutral-solid text-fg-on-neutral-solid"
           : "bg-bg-transparent-selected text-fg-neutral hover:bg-bg-transparent-selected-pressed",
       )}
     >

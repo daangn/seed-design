@@ -2,6 +2,7 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
+        "height": "56px",
         "paddingX": "var(--seed-dimension-x1_5)"
       }
     }
@@ -9,7 +10,6 @@ export declare const vars: {
   "themeIos": {
     "enabled": {
       "root": {
-        "height": "44px",
         /** main과 left/right 영역 간 최소 간격입니다. */
         "titleMinGap": "var(--seed-dimension-x2)"
       }
@@ -17,9 +17,6 @@ export declare const vars: {
   },
   "themeAndroid": {
     "enabled": {
-      "root": {
-        "height": "56px"
-      },
       /** title과 subtitle을 포함하는 영역입니다. */
       "main": {
         "paddingLeft": "var(--seed-dimension-x1_5)"

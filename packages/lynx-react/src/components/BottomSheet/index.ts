@@ -3,6 +3,8 @@ export {
   type BottomSheetBackdropProps,
   BottomSheetBody,
   type BottomSheetBodyProps,
+  BottomSheetCloseButton,
+  type BottomSheetCloseButtonProps,
   BottomSheetContent,
   type BottomSheetContentProps,
   BottomSheetDescription,

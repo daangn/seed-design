@@ -4,7 +4,6 @@ import { defineSlotRecipe } from "../utils/define";
 const listItem = defineSlotRecipe({
   name: "list-item",
   slots: [
-    "interactionRoot",
     "root",
     "highlightedOverlay",
     "pressedOverlay",
@@ -18,10 +17,6 @@ const listItem = defineSlotRecipe({
     "suffixIcon",
   ],
   base: {
-    interactionRoot: {
-      display: "flex",
-      width: "100%",
-    },
     root: {
       position: "relative",
       display: "flex",

@@ -1,5 +1,7 @@
 "use client";
 
+import { archivePaths } from "@/lib/docs-archive";
+
 import {
   IconArrowUpRightArrowDownLeftLine,
   IconLaptopLine,
@@ -47,7 +49,9 @@ export function BlockPreview({ name, iframeHeight = 400, children }: BlockPrevie
     });
   };
 
-  const iframeSrc = `/blocks/${name}`;
+  const iframeSrc = archivePaths.prefix
+    ? `${archivePaths.prefix}/_examples/blocks/${name}`
+    : `/blocks/${name}`;
 
   return (
     <ErrorBoundary>

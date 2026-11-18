@@ -68,23 +68,23 @@
   }
 
   .seed-radiomark__root--tone_neutral:is(:checked, [data-checked]) {
-    background-color: var(--seed-color-bg-neutral-inverted);
+    background-color: var(--seed-color-bg-neutral-solid);
   }
 
   @media (hover: hover) and (pointer: fine) {
     .seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:hover, [data-hover]) {
-      background-color: var(--seed-color-bg-neutral-inverted-pressed);
+      background-color: var(--seed-color-bg-neutral-solid-pressed);
     }
   }
 
   @media not all and (hover: hover) and (pointer: fine) {
     .seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
-      background-color: var(--seed-color-bg-neutral-inverted-pressed);
+      background-color: var(--seed-color-bg-neutral-solid-pressed);
     }
   }
 
   .seed-radiomark__icon--tone_neutral:is(:checked, [data-checked]) {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-color-fg-on-neutral-solid);
   }
 
   .seed-radiomark__root--tone_brand:is(:checked, [data-checked]) {
@@ -104,7 +104,7 @@
   }
 
   .seed-radiomark__icon--tone_brand:is(:checked, [data-checked]) {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
   }
 
   .seed-radiomark__root--size_large {

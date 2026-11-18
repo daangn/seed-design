@@ -1,9 +1,7 @@
-import "@seed-design/lynx-css/base.css";
-
 import { useRef } from "@lynx-js/react";
 import type { AttachmentFileStatusDetails, NativeFile } from "@seed-design/lynx-react";
 import { AttachmentField, AttachmentInput } from "@/components/ui/attachment-field";
-import { VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { VStack } from "@seed-design/lynx-react";
 
 const PICKED_FILE: NativeFile = {
   uri: "fixture://attachment-field/status.png",
@@ -14,7 +12,6 @@ const PICKED_FILE: NativeFile = {
 };
 
 export default function AttachmentFieldStatus() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const attempts = useRef<Record<string, number>>({});
   const startUpload = (
     id: string,
@@ -26,25 +23,23 @@ export default function AttachmentFieldStatus() {
     setTimeout(() => update(id, { status: attempts.current[id] === 1 ? "error" : "success" }), 500);
   };
   return (
-    <view className={seedClassName}>
-      <VStack gap="x4" p="x6" width="100%">
-        <AttachmentField
-          accept="image/*"
-          maxFiles={5}
-          label="파일 업로드"
-          description="업로드 상태 시뮬레이션"
-          onSelectFiles={() => [PICKED_FILE]}
-          onFileAccept={(entries, { updateFileEntryStatus }) => {
-            for (const entry of entries) startUpload(entry.id, updateFileEntryStatus);
-          }}
-        >
-          <AttachmentInput
-            onRetry={(entry, { updateFileEntryStatus }) =>
-              startUpload(entry.id, updateFileEntryStatus)
-            }
-          />
-        </AttachmentField>
-      </VStack>
-    </view>
+    <VStack gap="x4" width="100%">
+      <AttachmentField
+        accept="image/*"
+        maxFiles={5}
+        label="파일 업로드"
+        description="업로드 상태 시뮬레이션"
+        onSelectFiles={() => [PICKED_FILE]}
+        onFileAccept={(entries, { updateFileEntryStatus }) => {
+          for (const entry of entries) startUpload(entry.id, updateFileEntryStatus);
+        }}
+      >
+        <AttachmentInput
+          onRetry={(entry, { updateFileEntryStatus }) =>
+            startUpload(entry.id, updateFileEntryStatus)
+          }
+        />
+      </AttachmentField>
+    </VStack>
   );
 }

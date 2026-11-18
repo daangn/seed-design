@@ -23,7 +23,7 @@ interface UseCheckboxStateProps {
 function useCheckboxState(props: UseCheckboxStateProps) {
   const [isChecked = false, setIsChecked] = useControllableState({
     prop: props.checked,
-    defaultProp: props.defaultChecked,
+    defaultProp: props.defaultChecked ?? false,
     onChange: props.onCheckedChange,
   });
   const [isHovered, setIsHovered] = useState(false);

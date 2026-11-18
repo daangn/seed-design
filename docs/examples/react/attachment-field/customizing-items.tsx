@@ -1,7 +1,11 @@
 "use client";
 
-import { AttachmentInput as SeedAttachmentInput, Icon, VStack } from "@seed-design/react";
-import type { FileEntry } from "@seed-design/react/primitive";
+import {
+  AttachmentInput as SeedAttachmentInput,
+  Icon,
+  VStack,
+  type AttachmentInputFileEntry,
+} from "@seed-design/react";
 import { IconArrowClockwiseCircularFill, IconXmarkFill } from "@karrotmarket/react-monochrome-icon";
 
 import { AttachmentField, AttachmentInput } from "seed-design/ui/attachment-field";
@@ -15,7 +19,7 @@ function CustomImageItem({
   isCover,
   onRetry,
 }: {
-  fileEntry: FileEntry;
+  fileEntry: AttachmentInputFileEntry;
   isCover?: boolean;
   onRetry?: () => void;
 }) {

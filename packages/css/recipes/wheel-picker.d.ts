@@ -1,5 +1,8 @@
 declare interface WheelPickerVariant {
-  
+  /**
+  * @default "medium"
+  */
+  size: "small" | "medium";
 }
 
 declare type WheelPickerVariantMap = {
@@ -8,7 +11,7 @@ declare type WheelPickerVariantMap = {
 
 export declare type WheelPickerVariantProps = Partial<WheelPickerVariant>;
 
-export declare type WheelPickerSlotName = "root" | "scrollFog" | "columns" | "column" | "item" | "selectionIndicator";
+export declare type WheelPickerSlotName = "root" | "scrollFog" | "columns" | "column" | "item" | "itemLabel" | "selectionIndicator";
 
 export declare const wheelPickerVariantMap: WheelPickerVariantMap;
 

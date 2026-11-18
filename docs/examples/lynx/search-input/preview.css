@@ -1,0 +1,13 @@
+.search-input-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.search-input-preview__status {
+  color: var(--seed-color-fg-neutral-muted);
+  font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
+}

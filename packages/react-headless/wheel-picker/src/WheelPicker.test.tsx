@@ -153,7 +153,7 @@ describe("WheelPicker", () => {
 
   it("사용자 스크롤 중 통과한 각 논리 인덱스를 정착 전에 순서대로 알린다", () => {
     jest.useFakeTimers();
-    const onIndexChange = mock(() => {});
+    const onIndexChange = mock((_index: number, _value: string) => {});
     const onValueChange = mock(() => {});
     const { getByRole } = render(
       <TestWheelPicker onIndexChange={onIndexChange} onValueChange={onValueChange} />,

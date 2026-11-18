@@ -2,7 +2,11 @@ import spec from "@seed-design/rootage-artifacts/components/page-banner";
 import { pageBannerCloseButton as closeButtonVars, pageBanner as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
-import { createScaleFeedbackStyles, FEEDBACK_SCALE_TRANSITION } from "../utils/scale-feedback";
+import {
+  createContentScaleStyles,
+  createScaleFeedbackStyles,
+  FEEDBACK_SCALE_TRANSITION,
+} from "../utils/scale-feedback";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 import {
   createFocusRingRestStyles,
@@ -54,6 +58,8 @@ const pageBanner = defineSlotRecipe({
 
         ...createFocusRingRestStyles({ position: "inside" }),
         [pseudo(focusVisible)]: createFocusRingStyles({ position: "inside" }),
+
+        [pseudo(active)]: createContentScaleStyles(),
       },
     },
     content: {
@@ -66,6 +72,8 @@ const pageBanner = defineSlotRecipe({
       gap: vars.base.enabled.content.gap,
     },
     body: {
+      // Title and description share these metrics; the body takes them so its strut matches the spans and the line box stays at the line height on every DPR.
+      fontSize: vars.base.enabled.description.fontSize,
       lineHeight: vars.base.enabled.description.lineHeight,
 
       flexGrow: 1,
@@ -156,6 +164,7 @@ const pageBanner = defineSlotRecipe({
   defaultVariants: {
     tone: "neutral",
     variant: "weak",
+    extendSafeAreaX: false,
   },
   variants: {
     variant: {
@@ -169,6 +178,29 @@ const pageBanner = defineSlotRecipe({
       warning: {},
       critical: {},
       magic: {},
+    },
+    extendSafeAreaX: {
+      true: {
+        root: {
+          // Only the background bleeds into the inset, unlike the padding + negative margin
+          // other recipes extend with: scale feedback measures the root, so a root widened by
+          // the inset would shrink its safe-area content less than a banner that doesn't extend.
+          position: "relative",
+          isolation: "isolate",
+
+          [pseudo("::before")]: {
+            content: '""',
+            position: "absolute",
+            insetBlock: 0,
+            left: "calc(var(--seed-safe-area-left) * -1)",
+            right: "calc(var(--seed-safe-area-right) * -1)",
+            zIndex: -1,
+            // Follows the root's tone and pressed state, and redraws a gradient across the full width
+            background: "inherit",
+          },
+        },
+      },
+      false: {},
     },
   },
   compoundVariants: [

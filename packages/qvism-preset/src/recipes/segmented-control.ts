@@ -4,7 +4,8 @@ import {
   segmentedControlIndicator as indicatorVars,
 } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import { active, engaged, checked, disabled, focusVisible, not, pseudo } from "../utils/pseudo";
+import { createContentScaleStyles } from "../utils/scale-feedback";
 import {
   createFocusRingRestStyles,
   createFocusRingStyles,
@@ -52,6 +53,10 @@ const segmentedControl = defineSlotRecipe({
       boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
 
       transition: `transform ${indicatorVars.base.enabled.root.transformDuration} ${indicatorVars.base.enabled.root.transformTimingFunction}`,
+
+      "[data-ssr] > &": {
+        display: "none",
+      },
     },
     item: {
       display: "flex",
@@ -94,6 +99,12 @@ const segmentedControl = defineSlotRecipe({
         color: itemVars.base.disabled.label.color,
       },
 
+      // stands in for the indicator, which stays hidden until the selected segment is located after mount
+      [`[data-ssr] > ${pseudo(checked)}`]: {
+        backgroundColor: indicatorVars.base.enabled.root.color,
+        boxShadow: `inset 0 0 0 ${indicatorVars.base.enabled.root.strokeWidth} ${indicatorVars.base.enabled.root.strokeColor}`,
+      },
+
       [pseudo(disabled, checked)]: {
         // this covers the indicator
         backgroundColor: indicatorVars.base.disabled.root.color,
@@ -111,6 +122,8 @@ const segmentedControl = defineSlotRecipe({
         backgroundColor: itemVars.base.pressed.root.color,
         boxShadow: `inset 0 0 0 ${itemVars.base.pressed.root.strokeWidth} ${itemVars.base.pressed.root.strokeColor}`,
       },
+
+      [pseudo(not(disabled), active)]: createContentScaleStyles(),
     },
   },
   variants: {},

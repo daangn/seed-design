@@ -44,6 +44,7 @@ declare const artifact: {
             };
             "marginX": {
               "type": "dimension";
+              "description": "content와 좌우 안전 영역 경계 사이의 최소 간격입니다. 화면 끝이 아니라 안전 영역 경계부터 잽니다.";
             };
             "marginY": {
               "type": "dimension";
@@ -73,6 +74,7 @@ declare const artifact: {
               "type": "number";
             };
           };
+          "description": "content는 가로 기준으로 안전 영역의 가운데에 놓입니다. 세로 기준으로는 상단과 하단 inset 중 큰 값을 위아래에 똑같이 두어 화면 가운데에 놓이고, 높이는 그 사이 높이를 넘지 않습니다.";
         };
         "header": {
           "properties": {

@@ -14,7 +14,7 @@ export interface UseToggleStateProps {
 export function useToggleState(props: UseToggleStateProps) {
   const [isPressed, setIsPressed] = useControllableState({
     prop: props.pressed,
-    defaultProp: props.defaultPressed,
+    defaultProp: props.defaultPressed ?? false,
     onChange: props.onPressedChange,
   });
 

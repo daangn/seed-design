@@ -24,12 +24,12 @@ describe("Lynx 미리보기 lifecycle", () => {
     });
   });
 
-  it("theme을 globalProps 전체 값으로 설정한다", () => {
+  it("theme을 바꿔도 렌더할 예제 ID를 globalProps에 유지한다", () => {
     const element: { globalProps: unknown } = { globalProps: {} };
 
-    configureLynxView(element, "dark");
+    configureLynxView(element, { theme: "dark", example: "lynx/badge/preview" });
 
-    expect(element.globalProps).toEqual({ theme: "dark" });
+    expect(element.globalProps).toEqual({ theme: "dark", example: "lynx/badge/preview" });
   });
 
   it("web-core의 page part가 생긴 뒤에만 준비 상태로 본다", () => {
@@ -39,6 +39,41 @@ describe("Lynx 미리보기 lifecycle", () => {
         querySelector: (selector) => (selector === '[part="page"]' ? {} : null),
       }),
     ).toBe(true);
+  });
+
+  it("비교용 inset을 첫 로드와 theme 변경에 유지하고 설정을 제거하면 초기화한다", () => {
+    const element: { globalProps: unknown; transformVH: boolean; transformVW: boolean } = {
+      globalProps: {},
+      transformVH: false,
+      transformVW: false,
+    };
+    initializeLynxView(element, {
+      theme: "light",
+      example: "lynx/tabs/extend-safe-area",
+      safeAreaInsets: { left: 24, right: 48 },
+      styleRules: [],
+      transformVH: false,
+      url: "/tabs.web.bundle",
+    });
+    expect(element.globalProps).toEqual({
+      theme: "light",
+      example: "lynx/tabs/extend-safe-area",
+      safeAreaInsetLeft: 24,
+      safeAreaInsetRight: 48,
+    });
+    configureLynxView(element, {
+      theme: "dark",
+      example: "lynx/tabs/extend-safe-area",
+      safeAreaInsets: { left: 24, right: 48 },
+    });
+    expect(element.globalProps).toEqual({
+      theme: "dark",
+      example: "lynx/tabs/extend-safe-area",
+      safeAreaInsetLeft: 24,
+      safeAreaInsetRight: 48,
+    });
+    configureLynxView(element, { theme: "dark", example: "lynx/badge/preview" });
+    expect(element.globalProps).toEqual({ theme: "dark", example: "lynx/badge/preview" });
   });
 
   it("자동 높이에서는 transformVH를 비활성화한 다음 url을 설정한다", () => {
@@ -66,6 +101,7 @@ describe("Lynx 미리보기 lifecycle", () => {
 
     initializeLynxView(element, {
       theme: "light",
+      example: "lynx/badge/preview",
       styleRules: ["* { box-sizing: border-box; }"],
       transformVH: false,
       url: "/preview.web.bundle",
@@ -106,6 +142,7 @@ describe("Lynx 미리보기 lifecycle", () => {
 
     initializeLynxView(element, {
       theme: "light",
+      example: "lynx/badge/preview",
       styleRules: ["* { box-sizing: border-box; }"],
       transformVH: true,
       url: "/preview.web.bundle",

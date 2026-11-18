@@ -1,6 +1,6 @@
 import { IconChevronDownLine, IconChevronUpLine } from "@karrotmarket/react-monochrome-icon";
 import { vars } from "@seed-design/css/vars";
-import { Box, Flex, Stack, Text } from "@seed-design/react";
+import { Box, Flex, Text, VStack } from "@seed-design/react";
 import { Collapsible, CollapsibleGroup } from "common/components/collapsible";
 import { ProgressBar } from "common/components/progress-bar";
 import { useMigration } from "common/context/migration";
@@ -63,10 +63,10 @@ export function LayersWithColorList() {
         </Flex>
 
         {/* 그룹 목록 */}
-        <Stack flexGrow={1} overflowY="auto">
+        <VStack flexGrow={1} overflowY="auto">
           {results?.map(({ oldValue, consumers }) => (
             <Collapsible key={getOldValueId(oldValue)} id={getOldValueId(oldValue)}>
-              <Stack borderBottomWidth={1} borderColor="palette.gray200">
+              <VStack borderBottomWidth={1} borderColor="palette.gray200">
                 <LayerGroup groupId={getOldValueId(oldValue)} itemCount={consumers.length} />
                 <Collapsible.Content>
                   {consumers.map((consumer) => (
@@ -77,10 +77,10 @@ export function LayersWithColorList() {
                     />
                   ))}
                 </Collapsible.Content>
-              </Stack>
+              </VStack>
             </Collapsible>
           ))}
-        </Stack>
+        </VStack>
       </CollapsibleGroup>
       {progress.total > 0 && (
         <ProgressBar progress={progress} showTitle completeMessage="모두 변경 완료" />

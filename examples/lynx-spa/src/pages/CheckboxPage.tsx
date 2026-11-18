@@ -10,6 +10,7 @@ import {
   VariantCatalog,
   type VariantCatalogValues,
 } from "../components/variant-catalog.jsx";
+import { Checkbox as SeedCheckbox } from "@seed-design/lynx-react";
 import { Checkbox, CheckboxGroup, Checkmark } from "../seed-design/ui/checkbox";
 
 const variants = defineVariantAxes([
@@ -83,9 +84,15 @@ function CheckboxExamples() {
     <CatalogExamples title="Checkbox" gap="12px">
       <CatalogSectionTitle>Default (uncontrolled)</CatalogSectionTitle>
       <view className="flex flex-row gap-x4 items-center">
-        <Checkmark />
-        <Checkmark defaultChecked />
-        <Checkmark variant="ghost" defaultChecked />
+        <SeedCheckbox.Root accessibility-label="기본">
+          <Checkmark />
+        </SeedCheckbox.Root>
+        <SeedCheckbox.Root accessibility-label="선택됨" defaultChecked>
+          <Checkmark />
+        </SeedCheckbox.Root>
+        <SeedCheckbox.Root accessibility-label="Ghost 선택됨" defaultChecked>
+          <Checkmark variant="ghost" />
+        </SeedCheckbox.Root>
       </view>
 
       <CatalogSectionTitle>With Label</CatalogSectionTitle>

@@ -10,13 +10,14 @@ export interface ColorGridProps {
   }[];
 }
 
-export async function ColorGrid(props: ColorGridProps) {
-  const rootage = await getRootage();
+export function ColorGrid(props: ColorGridProps) {
+  const rootage = getRootage();
   const defaultModes = getDefaultModes(rootage);
   const scales = props.scales;
   const rows = scales.map((scale) => {
     const tokens = rootage.tokenIds
-      .filter((id) => id.startsWith(`$color.palette.${scale.prefix}`))
+      // `gray`가 `gray-alpha-*`까지 잡지 않도록 prefix 뒤에는 숫자 스텝만 허용한다.
+      .filter((id) => new RegExp(`^\\$color\\.palette\\.${scale.prefix}-\\d+$`).test(id))
       .map((id) => {
         const { value: lightValue } = resolveToken(rootage, id, {
           ...defaultModes,

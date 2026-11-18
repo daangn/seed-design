@@ -6,7 +6,11 @@ import path from "path";
 import { intersects, satisfies, valid, validRange } from "semver";
 import { highlight } from "./color";
 
-const REACT_COMPAT_PACKAGES = ["@seed-design/react", "@seed-design/css"] as const;
+const REACT_COMPAT_PACKAGES = [
+  "@seed-design/react",
+  "@seed-design/css",
+  "@seed-design/stackflow",
+] as const;
 const LYNX_COMPAT_PACKAGES = ["@seed-design/lynx-react", "@seed-design/lynx-css"] as const;
 
 export type CompatPackageName =
@@ -50,16 +54,17 @@ export function getProjectSeedPackageVersionSpecs(
     const compatPackages = getCompatPackageNames(framework);
 
     for (const packageName of compatPackages) {
-      const value = packageDeps[packageName];
-      if (typeof value === "string") {
-        result[packageName] = value;
-        continue;
-      }
-      // 모노레포처럼 선언이 상위 package.json에 있으면 여기선 안 잡혀요.
-      // 실제로 해소된 설치본이 있으면 그걸 쓰지 않으면 "미설치"로 오판해요.
+      // 해소된 설치본 버전을 먼저 써요. `^2.0.6` 같은 선언 범위는 `^2.1.0`과 겹쳐서
+      // 2.0.6이 설치돼 있어도 호환으로 보이고, 모노레포처럼 선언이 상위 package.json에
+      // 있으면 여기선 선언이 안 잡혀요.
       const installed = getInstalledPackageJson(packageName, cwd)?.version;
       if (typeof installed === "string") {
         result[packageName] = installed;
+        continue;
+      }
+      const value = packageDeps[packageName];
+      if (typeof value === "string") {
+        result[packageName] = value;
       }
     }
 

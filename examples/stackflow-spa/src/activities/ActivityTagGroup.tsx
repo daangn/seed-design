@@ -29,7 +29,7 @@ const ActivityTagGroup: StaticActivityComponentType<"ActivityTagGroup"> = () => 
   const { push } = useFlow();
 
   return (
-    <AppScreen>
+    <AppScreen layerOffsetBottom="safeArea">
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />
@@ -42,7 +42,7 @@ const ActivityTagGroup: StaticActivityComponentType<"ActivityTagGroup"> = () => 
         </AppBarRight>
       </AppBar>
       <AppScreenContent>
-        <VStack gap="x6" px="spacingX.globalGutter" py="x4" pb="safeArea">
+        <VStack gap="x6" px="spacingX.globalGutter" py="x4">
           {SIZES.map((size) => (
             <VStack key={size} gap="x3">
               <Text textStyle="t4Bold">{size}</Text>

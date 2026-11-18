@@ -1,12 +1,19 @@
 import * as React from "@lynx-js/react";
 import type { NodesRef } from "@lynx-js/types";
-import { field, type FieldVariantProps } from "@seed-design/lynx-css/recipes/field";
+import { field } from "@seed-design/lynx-css/recipes/field";
 import { fieldLabel, type FieldLabelVariantProps } from "@seed-design/lynx-css/recipes/field-label";
+import {
+  FieldDescription as HeadlessFieldDescription,
+  FieldErrorMessage as HeadlessFieldErrorMessage,
+  FieldLabel as HeadlessFieldLabel,
+  FieldRoot as HeadlessFieldRoot,
+  useFieldContext,
+  type UseFieldProps,
+} from "@seed-design/lynx-react-field";
 import clsx from "clsx";
 
-import type { LynxStyledElementProps, LynxTextRef, LynxViewRef } from "../../types";
+import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
-import { FieldContext, useFieldContext } from "./context";
 import { mergeProps } from "../../utils/merge-props";
 
 const { ClassNamesProvider: FieldClassNamesProvider, useClassNames: useFieldClassNames } =
@@ -19,67 +26,36 @@ const { ClassNamesProvider: FieldLabelClassNamesProvider, useClassNames: useFiel
 /**
  * @platform Lynx
  *
+ * `@seed-design/lynx-react-field`의 상태·native root 위에 SEED recipe와 안내 slot 표현을 조립한다.
+ *
  * 웹 대비 미지원 기능:
  * - HTML label의 `for` 연결과 native form의 `name` 제출 모델
  * - DOM ARIA id 연결. 입력 컴포넌트에서 `accessibility-label`을 사용해야 함
  */
-export interface FieldRootProps extends Omit<FieldVariantProps, "empty">, LynxStyledElementProps {
-  required?: boolean;
-  disabled?: boolean;
-  readOnly?: boolean;
-}
+export interface FieldRootProps
+  extends UseFieldProps,
+    Omit<LynxHostProps<"view">, keyof UseFieldProps> {}
 
-export const FieldRoot = React.forwardRef<NodesRef, FieldRootProps>((props, forwardedRef) => {
-  const [variantProps, otherProps] = field.splitVariantProps(props);
-  const {
-    children,
-    className,
-    required = false,
-    disabled = false,
-    readOnly = false,
-    ...nativeProps
-  } = otherProps;
-  const invalid = variantProps.invalid ?? false;
-  const [focused, setFocused] = React.useState(false);
-  const rootRef = React.useRef<NodesRef | null>(null);
+export const FieldRoot = React.forwardRef<NodesRef, FieldRootProps>((props, ref) => {
+  const { children, className, invalid = false, ...otherProps } = props;
   const classes = field({ invalid });
 
-  const mergedRef = React.useMemo(
-    () => mergeProps({ ref: rootRef }, { ref: forwardedRef }).ref,
-    [forwardedRef],
-  );
-
-  const contextValue = React.useMemo(
-    () => ({
-      rootRef,
-      disabled,
-      invalid,
-      readOnly,
-      required,
-      focused,
-      setFocused,
-    }),
-    [disabled, focused, invalid, readOnly, required],
-  );
-
   return (
-    <FieldContext.Provider value={contextValue}>
-      <FieldClassNamesProvider value={classes}>
-        <view
-          {...mergeProps({ ref: mergedRef }, nativeProps)}
-          className={clsx(classes.root, className)}
-        >
-          {children}
-        </view>
-      </FieldClassNamesProvider>
-    </FieldContext.Provider>
+    <HeadlessFieldRoot
+      ref={ref}
+      invalid={invalid}
+      {...otherProps}
+      className={clsx(classes.root, className)}
+    >
+      <FieldClassNamesProvider value={classes}>{children}</FieldClassNamesProvider>
+    </HeadlessFieldRoot>
   );
 });
 FieldRoot.displayName = "FieldRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FieldHeaderProps extends LynxStyledElementProps {}
+export interface FieldHeaderProps extends LynxHostProps<"view"> {}
 
 export const FieldHeader = React.forwardRef<unknown, FieldHeaderProps>((props, ref) => {
   const classes = useFieldClassNames();
@@ -96,7 +72,9 @@ export const FieldHeader = React.forwardRef<unknown, FieldHeaderProps>((props, r
 });
 FieldHeader.displayName = "FieldHeader";
 
-export interface FieldLabelProps extends FieldLabelVariantProps, LynxStyledElementProps {}
+export interface FieldLabelProps
+  extends FieldLabelVariantProps,
+    Omit<LynxHostProps<"text">, keyof FieldLabelVariantProps> {}
 
 export const FieldLabel = React.forwardRef<unknown, FieldLabelProps>((props, ref) => {
   const [variantProps, otherProps] = fieldLabel.splitVariantProps(props);
@@ -105,18 +83,15 @@ export const FieldLabel = React.forwardRef<unknown, FieldLabelProps>((props, ref
 
   return (
     <FieldLabelClassNamesProvider value={classes}>
-      <text
-        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
-        className={clsx(classes.root, className)}
-      >
+      <HeadlessFieldLabel ref={ref} {...nativeProps} className={clsx(classes.root, className)}>
         {children}
-      </text>
+      </HeadlessFieldLabel>
     </FieldLabelClassNamesProvider>
   );
 });
 FieldLabel.displayName = "FieldLabel";
 
-export interface FieldIndicatorTextProps extends LynxStyledElementProps {}
+export interface FieldIndicatorTextProps extends LynxHostProps<"text"> {}
 
 export const FieldIndicatorText = React.forwardRef<unknown, FieldIndicatorTextProps>(
   (props, ref) => {
@@ -136,7 +111,7 @@ export const FieldIndicatorText = React.forwardRef<unknown, FieldIndicatorTextPr
 );
 FieldIndicatorText.displayName = "FieldIndicatorText";
 
-export interface FieldRequiredIndicatorProps extends LynxStyledElementProps {}
+export interface FieldRequiredIndicatorProps extends LynxHostProps<"text"> {}
 
 export const FieldRequiredIndicator = React.forwardRef<unknown, FieldRequiredIndicatorProps>(
   (props, ref) => {
@@ -145,8 +120,11 @@ export const FieldRequiredIndicator = React.forwardRef<unknown, FieldRequiredInd
 
     return (
       <text
-        {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
-        accessibility-elements-hidden={true}
+        {...mergeProps(
+          { "accessibility-elements-hidden": true },
+          nativeProps,
+          ref ? { ref: ref as LynxTextRef } : {},
+        )}
         className={clsx(classes.indicatorIcon, className)}
       >
         {"\u200a"}
@@ -159,7 +137,7 @@ FieldRequiredIndicator.displayName = "FieldRequiredIndicator";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FieldFooterProps extends LynxStyledElementProps {}
+export interface FieldFooterProps extends LynxHostProps<"view"> {}
 
 export const FieldFooter = React.forwardRef<unknown, FieldFooterProps>((props, ref) => {
   const classes = useFieldClassNames();
@@ -176,43 +154,45 @@ export const FieldFooter = React.forwardRef<unknown, FieldFooterProps>((props, r
 });
 FieldFooter.displayName = "FieldFooter";
 
-export interface FieldDescriptionProps extends LynxStyledElementProps {}
+export interface FieldDescriptionProps extends LynxHostProps<"text"> {}
 
 export const FieldDescription = React.forwardRef<unknown, FieldDescriptionProps>((props, ref) => {
   const classes = useFieldClassNames();
   const { children, className, ...nativeProps } = props;
 
   return (
-    <text
-      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+    <HeadlessFieldDescription
+      ref={ref}
+      {...nativeProps}
       className={clsx(classes.description, className)}
     >
       {children}
-    </text>
+    </HeadlessFieldDescription>
   );
 });
 FieldDescription.displayName = "FieldDescription";
 
-export interface FieldErrorMessageProps extends LynxStyledElementProps {}
+export interface FieldErrorMessageProps extends LynxHostProps<"text"> {}
 
 export const FieldErrorMessage = React.forwardRef<unknown, FieldErrorMessageProps>((props, ref) => {
   const classes = useFieldClassNames();
   const { children, className, ...nativeProps } = props;
 
   return (
-    <text
-      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+    <HeadlessFieldErrorMessage
+      ref={ref}
+      {...nativeProps}
       className={clsx(classes.errorMessage, className)}
     >
       {children}
-    </text>
+    </HeadlessFieldErrorMessage>
   );
 });
 FieldErrorMessage.displayName = "FieldErrorMessage";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FieldCharacterCountProps extends LynxStyledElementProps {
+export interface FieldCharacterCountProps extends Omit<LynxHostProps<"view">, "children"> {
   /** 현재 문자 또는 grapheme 수 */
   current: number;
   /** 허용하는 최대 문자 또는 grapheme 수 */
@@ -221,8 +201,8 @@ export interface FieldCharacterCountProps extends LynxStyledElementProps {
 
 export const FieldCharacterCount = React.forwardRef<unknown, FieldCharacterCountProps>(
   (props, ref) => {
-    const { current, max, children: _children, className, ...nativeProps } = props;
-    const context = useFieldContext({ strict: true });
+    const { current, max, className, ...nativeProps } = props;
+    const context = useFieldContext();
     const classes = field({ invalid: context.invalid, empty: current === 0 });
 
     return (

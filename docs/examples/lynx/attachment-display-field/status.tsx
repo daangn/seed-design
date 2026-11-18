@@ -1,11 +1,9 @@
-import "@seed-design/lynx-css/base.css";
-
 import { useRef } from "@lynx-js/react";
 import type {
   AttachmentDisplayEntry,
   AttachmentDisplayStatusDetails,
 } from "@seed-design/lynx-react";
-import { VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { VStack } from "@seed-design/lynx-react";
 import {
   AttachmentDisplay,
   AttachmentDisplayField,
@@ -35,32 +33,27 @@ function runFixtureUpload(
 }
 
 export default function AttachmentDisplayStatus() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   const nextId = useRef(0);
 
   return (
-    <view className={seedClassName}>
-      <VStack gap="x4" p="x6" width="100%">
-        <AttachmentDisplayField defaultEntries={INITIAL_ENTRIES} maxEntries={5}>
-          <AttachmentDisplay
-            onTriggerTap={({ addEntries, updateEntryStatus }) => {
-              // 문서 고정 fixture입니다. 실제 앱에서는 host upload operation을 시작하세요.
-              const id = `upload-added-${nextId.current++}`;
-              addEntries([
-                {
-                  id,
-                  thumbnailUrl: `https://picsum.photos/seed/${id}/200/200`,
-                  status: "uploading",
-                },
-              ]);
-              runFixtureUpload(id, updateEntryStatus);
-            }}
-            onRetry={(entry, { updateEntryStatus }) =>
-              runFixtureUpload(entry.id, updateEntryStatus)
-            }
-          />
-        </AttachmentDisplayField>
-      </VStack>
-    </view>
+    <VStack gap="x4" width="100%">
+      <AttachmentDisplayField defaultEntries={INITIAL_ENTRIES} maxEntries={5}>
+        <AttachmentDisplay
+          onTriggerTap={({ addEntries, updateEntryStatus }) => {
+            // 문서 고정 fixture입니다. 실제 앱에서는 host upload operation을 시작하세요.
+            const id = `upload-added-${nextId.current++}`;
+            addEntries([
+              {
+                id,
+                thumbnailUrl: `https://picsum.photos/seed/${id}/200/200`,
+                status: "uploading",
+              },
+            ]);
+            runFixtureUpload(id, updateEntryStatus);
+          }}
+          onRetry={(entry, { updateEntryStatus }) => runFixtureUpload(entry.id, updateEntryStatus)}
+        />
+      </AttachmentDisplayField>
+    </VStack>
   );
 }

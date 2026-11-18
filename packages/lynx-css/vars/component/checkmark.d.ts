@@ -31,7 +31,7 @@ export declare const vars: {
     "disabled": {
       "root": {
         "color": "var(--seed-color-bg-disabled)",
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)"
       },
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
@@ -52,7 +52,7 @@ export declare const vars: {
         "color": "var(--seed-color-bg-brand-solid)"
       },
       "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-brand-solid)"
       }
     },
     "pressedSelected": {
@@ -67,15 +67,15 @@ export declare const vars: {
   "variantSquareToneNeutral": {
     "enabledSelected": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       }
     },
     "pressedSelected": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+        "color": "var(--seed-color-bg-neutral-solid-pressed)"
       }
     }
   },

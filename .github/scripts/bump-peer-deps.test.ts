@@ -25,11 +25,11 @@ function createFixture(peerRange = "^2.4.0") {
       null,
       2,
     )}\n`,
-    lockfile: `{\n  "lockfileVersion": 1,\n  "workspaces": {\n    "packages/lynx-react": {\n      "peerDependencies": {\n        "@seed-design/lynx-css": "0.0.0 || >=0.1.0 <1.0.0",\n      },\n    },\n    "packages/react": {\n      "dependencies": {},\n      "peerDependencies": {\n        "@seed-design/css": "${peerRange}",\n        "react": ">=18.0.0",\n      },\n    },\n    "packages/react-headless/accordion": {\n      "peerDependencies": {\n        "react": ">=18.0.0",\n      },\n    },\n  },\n}\n`,
+    lockfile: `{\n  "lockfileVersion": 1,\n  "workspaces": {\n    "packages/lynx-react": {\n      "peerDependencies": {\n        "@seed-design/lynx-css": "^0.1.0",\n      },\n    },\n    "packages/react": {\n      "dependencies": {},\n      "peerDependencies": {\n        "@seed-design/css": "${peerRange}",\n        "react": ">=18.0.0",\n      },\n    },\n    "packages/react-headless/accordion": {\n      "peerDependencies": {\n        "react": ">=18.0.0",\n      },\n    },\n  },\n}\n`,
   };
 }
 
-function createLynxFixture(peerRange = "0.0.0 || >=0.1.0 <1.0.0", version = "0.8.0") {
+function createLynxFixture(peerRange = "^0.14.1", version = "1.0.0") {
   return {
     lynxCssManifest: `${JSON.stringify({ name: "@seed-design/lynx-css", version }, null, 2)}\n`,
     lynxReactManifest: `${JSON.stringify(
@@ -63,7 +63,7 @@ describe("peer dependency 동기화", () => {
     expect(result.lockfile).toContain('"@seed-design/css": "^2.5.0"');
     expect(result.reactManifest.replace('"^2.5.0"', '"^2.4.0"')).toBe(fixture.reactManifest);
     expect(result.lockfile.replace('"^2.5.0"', '"^2.4.0"')).toBe(fixture.lockfile);
-    expect(result.lockfile).toContain('"@seed-design/lynx-css": "0.0.0 || >=0.1.0 <1.0.0"');
+    expect(result.lockfile).toContain('"@seed-design/lynx-css": "^0.1.0"');
   });
 
   test("이미 같은 범위이면 변경하지 않는다", () => {
@@ -109,47 +109,23 @@ describe("peer dependency 동기화", () => {
 });
 
 describe("Lynx peer dependency 동기화", () => {
-  test("Lynx CSS 버전에 맞춰 범위의 마이너 하한만 갱신한다", () => {
+  test("Lynx CSS 1.0.0 출시에 맞춰 0.x 범위를 caret 1.0.0 범위로 바꾼다", () => {
     const fixture = createLynxFixture();
     const result = synchronizeLynxPeerDependencyText(fixture);
-    const desiredRange = "0.0.0 || >=0.8.0 <1.0.0";
+    const desiredRange = "^1.0.0";
 
     expect(result).toMatchObject({
       changed: true,
-      cssVersion: "0.8.0",
-      previousRange: "0.0.0 || >=0.1.0 <1.0.0",
+      cssVersion: "1.0.0",
+      previousRange: "^0.14.1",
       desiredRange,
     });
-    expect(result.reactManifest).toBe(
-      fixture.lynxReactManifest.replace("0.0.0 || >=0.1.0 <1.0.0", desiredRange),
-    );
-    expect(result.lockfile).toBe(fixture.lockfile.replace("0.0.0 || >=0.1.0 <1.0.0", desiredRange));
+    expect(result.reactManifest).toBe(fixture.lynxReactManifest.replace("^0.14.1", desiredRange));
+    expect(result.lockfile).toBe(fixture.lockfile.replace("^0.14.1", desiredRange));
   });
 
-  test("patch 버전은 peer 범위에 반영하지 않는다", () => {
-    const fixture = createLynxFixture("0.0.0 || >=0.7.0 <1.0.0", "0.8.3");
-    const result = synchronizeLynxPeerDependencyText(fixture);
-
-    expect(result.desiredRange).toBe("0.0.0 || >=0.8.0 <1.0.0");
-  });
-
-  test("patch 하한을 허용하고 새 마이너 범위로 갱신한다", () => {
-    const fixture = createLynxFixture("0.0.0 || >=0.11.1 <1.0.0", "0.12.0");
-    const result = synchronizeLynxPeerDependencyText(fixture);
-
-    expect(result.desiredRange).toBe("0.0.0 || >=0.12.0 <1.0.0");
-  });
-
-  test("같은 마이너의 patch 릴리스에서는 기존 patch 하한을 보존한다", () => {
-    const fixture = createLynxFixture("0.0.0 || >=0.11.1 <1.0.0", "0.11.2");
-    const result = synchronizeLynxPeerDependencyText(fixture);
-
-    expect(result.changed).toBe(false);
-    expect(result.desiredRange).toBe("0.0.0 || >=0.11.1 <1.0.0");
-  });
-
-  test("이미 같은 마이너 범위이면 변경하지 않는다", () => {
-    const fixture = createLynxFixture("0.0.0 || >=0.8.0 <1.0.0", "0.8.3");
+  test("이미 같은 범위이면 변경하지 않는다", () => {
+    const fixture = createLynxFixture("^1.0.0");
     const result = synchronizeLynxPeerDependencyText(fixture);
 
     expect(result.changed).toBe(false);
@@ -157,16 +133,10 @@ describe("Lynx peer dependency 동기화", () => {
     expect(result.lockfile).toBe(fixture.lockfile);
   });
 
-  test("지원하는 Lynx 범위 형식이 아니면 실패한다", () => {
-    expect(() => synchronizeLynxPeerDependencyText(createLynxFixture("^0.8.0"))).toThrow(
-      "peerDependency 범위가 올바르지 않습니다",
-    );
-  });
-
-  test("Lynx CSS 1.0.0 이상은 실패한다", () => {
-    expect(() => synchronizeLynxPeerDependencyText(createLynxFixture(undefined, "1.0.0"))).toThrow(
-      "major가 0이 아닙니다",
-    );
+  test("caret 안정 버전이 아닌 기존 peer 범위는 거부한다", () => {
+    expect(() =>
+      synchronizeLynxPeerDependencyText(createLynxFixture("0.0.0 || >=0.12.0 <1.0.0")),
+    ).toThrow("caret 안정 버전 범위가 아닙니다");
   });
 
   test("CSS와 Lynx CSS 범위를 같은 lockfile에 함께 반영한다", () => {
@@ -181,10 +151,7 @@ describe("Lynx peer dependency 동기화", () => {
     expect(lynxResult.lockfile).toBe(
       reactFixture.lockfile
         .replace('"@seed-design/css": "^2.4.0"', '"@seed-design/css": "^2.5.0"')
-        .replace(
-          '"@seed-design/lynx-css": "0.0.0 || >=0.1.0 <1.0.0"',
-          '"@seed-design/lynx-css": "0.0.0 || >=0.8.0 <1.0.0"',
-        ),
+        .replace('"@seed-design/lynx-css": "^0.1.0"', '"@seed-design/lynx-css": "^1.0.0"'),
     );
   });
 });

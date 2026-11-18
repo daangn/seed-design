@@ -1,0 +1,4 @@
+interface:
+  display_name: "SEED 컴포넌트 문서"
+  short_description: "공통 가이드 MDX·Figma SEED-Docs 페이지·React·Lynx 문서를 쓰거나 Figma에서 이관합니다"
+  default_prompt: "$seed-component-docs를 사용해 요청한 문서 매체의 reference를 읽고 기준 문서의 구조·문체로 작성하세요."

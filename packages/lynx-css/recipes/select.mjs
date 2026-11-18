@@ -7,10 +7,6 @@ const selectSlotNames = [
     "seed-select__positioner"
   ],
   [
-    "backdrop",
-    "seed-select__backdrop"
-  ],
-  [
     "content",
     "seed-select__content"
   ],

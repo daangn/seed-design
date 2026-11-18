@@ -770,20 +770,19 @@ export function useWheelPickerColumn({
   );
 
   const getOptionProps = React.useCallback(
-    (option: RenderedWheelPickerOption): WheelPickerOptionProps =>
-      elementProps({
-        "aria-hidden": true,
-        "data-wheel-picker-index": option.physicalIndex,
-        "data-wheel-picker-value": option.value,
-        onClick: () => {
-          if (disabled || readOnly) return;
+    (option: RenderedWheelPickerOption): WheelPickerOptionProps => ({
+      "aria-hidden": true,
+      "data-wheel-picker-index": option.physicalIndex,
+      "data-wheel-picker-value": option.value,
+      onClick: () => {
+        if (disabled || readOnly) return;
 
-          shouldNotifyIndexChangeRef.current = true;
-          keyboardTargetPhysicalIndexRef.current = null;
-          scrollToPhysicalIndex(option.physicalIndex, prefersReducedMotion() ? "auto" : "smooth");
-          scheduleSettle();
-        },
-      }),
+        shouldNotifyIndexChangeRef.current = true;
+        keyboardTargetPhysicalIndexRef.current = null;
+        scrollToPhysicalIndex(option.physicalIndex, prefersReducedMotion() ? "auto" : "smooth");
+        scheduleSettle();
+      },
+    }),
     [disabled, readOnly, scheduleSettle, scrollToPhysicalIndex],
   );
 

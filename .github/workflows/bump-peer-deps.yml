@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Acknowledge command and resolve version PR
         id: pull
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
             try {
@@ -94,7 +94,7 @@ jobs:
 
       - name: Create Daangn Bud token
         id: app-token
-        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
         with:
           client-id: ${{ vars.DAANGN_BUD_CLIENT_ID }}
           private-key: ${{ secrets.DAANGN_BUD_PRIVATE_KEY }}
@@ -109,7 +109,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
           persist-credentials: true
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
           bun-version-file: control/.bun-version
 
@@ -175,7 +175,7 @@ jobs:
 
       - name: Mark command success
         if: success()
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
             try {
@@ -191,7 +191,7 @@ jobs:
 
       - name: Mark command failure
         if: failure()
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
             try {

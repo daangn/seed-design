@@ -1,0 +1,140 @@
+/* SEED recipe·token 없이 control Headless Root를 List 행으로 소비하는 화면의 스타일 */
+
+.list-headless-list {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.list-headless-row-root {
+  display: flex;
+  flex-direction: column;
+}
+
+.list-headless-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+}
+
+.list-headless-row-pressed {
+  background-color: #f3f4f5;
+}
+
+.list-headless-row-disabled {
+  opacity: 0.4;
+}
+
+.list-headless-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0px;
+  gap: 2px;
+}
+
+.list-headless-title {
+  font-size: 16px;
+  color: #1a1c20;
+}
+
+.list-headless-detail {
+  font-size: 13px;
+  color: #868b94;
+}
+
+.list-headless-chevron {
+  font-size: 20px;
+  color: #b0b3ba;
+}
+
+.list-headless-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #b0b3ba;
+}
+
+.list-headless-check-on {
+  border-color: #ff6f0f;
+  background-color: #ff6f0f;
+}
+
+.list-headless-check-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.list-headless-switch {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 44px;
+  height: 26px;
+  padding: 3px;
+  border-radius: 13px;
+  background-color: #dcdee3;
+}
+
+.list-headless-switch-on {
+  justify-content: flex-end;
+  background-color: #ff6f0f;
+}
+
+.list-headless-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+.list-headless-radio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #b0b3ba;
+}
+
+.list-headless-radio-on {
+  border-color: #ff6f0f;
+}
+
+.list-headless-radio-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: #ff6f0f;
+}
+
+.list-headless-log {
+  font-size: 13px;
+  color: #868b94;
+}
+
+.list-headless-button {
+  align-self: flex-start;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: #f3f4f5;
+}
+
+.list-headless-button-text {
+  font-size: 13px;
+  color: #1a1c20;
+}

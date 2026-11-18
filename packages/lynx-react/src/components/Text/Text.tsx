@@ -11,7 +11,7 @@ import {
   type TextStyle,
   type TextStyleProps,
 } from "../../utils/styled";
-import type { LynxStyledElementProps, LynxTextRef } from "../../types";
+import type { LynxHostProps, LynxTextRef } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
 
 function capitalize<T extends string>(value: T): Capitalize<T> {
@@ -24,7 +24,19 @@ function getTypographyStyle(textStyle: TextStyle | undefined) {
   return value.enabled.root;
 }
 
-export interface TextProps extends TextStyleProps, LynxStyledElementProps {}
+export interface TextProps
+  extends TextStyleProps,
+    Omit<LynxHostProps<"text">, keyof TextStyleProps> {
+  /**
+   * The maximum number of lines to display. If the text overflows, it will be truncated with an ellipsis.
+   */
+  maxLines?: number;
+
+  /**
+   * The decoration line of the text.
+   */
+  textDecorationLine?: "none" | "underline" | "line-through";
+}
 
 export const Text = React.forwardRef<unknown, TextProps>((props, ref) => {
   const {
@@ -34,6 +46,8 @@ export const Text = React.forwardRef<unknown, TextProps>((props, ref) => {
     lineHeight,
     fontWeight,
     align,
+    maxLines,
+    textDecorationLine,
     children,
     className,
     style,
@@ -41,9 +55,15 @@ export const Text = React.forwardRef<unknown, TextProps>((props, ref) => {
   } = props;
   const typographyStyle = getTypographyStyle(textStyle);
 
+  const truncated = maxLines !== undefined;
+
   return (
     <text
-      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
+      {...mergeProps(
+        { "text-maxline": truncated ? String(maxLines) : undefined },
+        ref ? { ref: ref as LynxTextRef } : {},
+        nativeProps,
+      )}
       className={clsx(className)}
       style={
         {
@@ -52,6 +72,8 @@ export const Text = React.forwardRef<unknown, TextProps>((props, ref) => {
           lineHeight: handleLineHeight(lineHeight ?? fontSize) ?? typographyStyle.lineHeight,
           fontWeight: handleFontWeight(fontWeight) ?? typographyStyle.fontWeight,
           textAlign: align,
+          textDecoration: textDecorationLine,
+          ...(truncated ? { overflow: "hidden", textOverflow: "ellipsis" } : {}),
           ...style,
         } as CSSProperties
       }

@@ -79,11 +79,9 @@ const defaultVariant = {
 
 const compoundVariants = [
   {
-    "disabled": false,
     "readOnly": false
   },
   {
-    "disabled": false,
     "readOnly": false,
     "removePressed": true
   },

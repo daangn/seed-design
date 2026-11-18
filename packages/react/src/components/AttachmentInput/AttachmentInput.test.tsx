@@ -4,12 +4,72 @@ import type { ReactElement } from "react";
 
 import { Field } from "@seed-design/react-field";
 import { AttachmentInputRoot, AttachmentInputHiddenInput } from "./AttachmentInput";
+import {
+  AttachmentInputItem,
+  AttachmentInputItemRemoveButton,
+  AttachmentInputItemReorderHandle,
+} from "./AttachmentInputItem";
+
+const fileEntry = {
+  id: "file-1",
+  file: new File(["hello"], "example.txt", { type: "text/plain" }),
+  status: "success" as const,
+};
 
 function setUp(jsx: ReactElement) {
   return render(jsx);
 }
 
 describe("AttachmentInput", () => {
+  describe("reorder", () => {
+    it("keeps the item a list item with the reorder handle and remove button as separate buttons", () => {
+      const { getByRole } = setUp(
+        <AttachmentInputRoot>
+          <AttachmentInputItem fileEntry={fileEntry}>
+            <AttachmentInputItemReorderHandle aria-label="example.txt 순서 변경" />
+            <AttachmentInputItemRemoveButton aria-label="파일 제거" />
+          </AttachmentInputItem>
+        </AttachmentInputRoot>,
+      );
+
+      const item = getByRole("listitem");
+      const handle = getByRole("button", { name: "example.txt 순서 변경" });
+      const removeButton = getByRole("button", { name: "파일 제거" });
+
+      expect(item).toHaveAttribute("data-reorderable");
+      expect(item).toContainElement(handle);
+      expect(handle).not.toContainElement(removeButton);
+    });
+
+    it("marks the item as reorderable only while a reorder handle is rendered", () => {
+      const { getByRole } = setUp(
+        <AttachmentInputRoot>
+          <AttachmentInputItem fileEntry={fileEntry} />
+        </AttachmentInputRoot>,
+      );
+
+      expect(getByRole("listitem")).not.toHaveAttribute("data-reorderable");
+    });
+
+    it("exposes the dragging state on the item", () => {
+      const { getByRole, rerender } = setUp(
+        <AttachmentInputRoot>
+          <AttachmentInputItem fileEntry={fileEntry} dragging />
+        </AttachmentInputRoot>,
+      );
+
+      expect(getByRole("listitem")).toHaveAttribute("data-dragging");
+
+      rerender(
+        <AttachmentInputRoot>
+          <AttachmentInputItem fileEntry={fileEntry} dragging={false} />
+        </AttachmentInputRoot>,
+      );
+
+      expect(getByRole("listitem")).not.toHaveAttribute("data-dragging");
+    });
+  });
+
   describe("props merging", () => {
     describe("AttachmentInputHiddenInput", () => {
       it("should merge props from AttachmentInputRoot", () => {

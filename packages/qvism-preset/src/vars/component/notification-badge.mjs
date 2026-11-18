@@ -5,7 +5,7 @@ export const vars = {
         "color": "var(--seed-color-bg-brand-solid)"
       },
       "label": {
-        "color": "var(--seed-color-palette-static-white)"
+        "color": "var(--seed-color-fg-on-brand-solid)"
       }
     }
   },

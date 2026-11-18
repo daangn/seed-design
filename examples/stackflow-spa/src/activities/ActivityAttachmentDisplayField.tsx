@@ -17,13 +17,14 @@ import {
   Divider,
   Icon,
   VStack,
+  type AttachmentDisplayItemEntry,
+  type AttachmentDisplayItemStatusDetails,
 } from "@seed-design/react";
 import {
   IconArrowClockwiseCircularFill,
   IconHouseLine,
   IconXmarkFill,
 } from "@karrotmarket/react-monochrome-icon";
-import type { DisplayItemEntry, DisplayItemStatusDetails } from "@seed-design/react/primitive";
 import { vars } from "@seed-design/css/vars";
 
 declare module "@stackflow/config" {
@@ -43,10 +44,10 @@ const insetStyle = {
   "--seed-attachment-input-extend-x": vars.$dimension.spacingX.globalGutter,
 } as React.CSSProperties;
 
-function presetEntries(prefix: string, count: number): DisplayItemEntry[] {
+function presetEntries(prefix: string, count: number): AttachmentDisplayItemEntry[] {
   return Array.from(
     { length: count },
-    (_, i): DisplayItemEntry => ({
+    (_, i): AttachmentDisplayItemEntry => ({
       id: `${prefix}-${i}`,
       thumbnailUrl: sampleThumbnailUrl(`${prefix}-${i}`),
       status: "success",
@@ -60,7 +61,7 @@ const disabledEntries = presetEntries("disabled", 2);
 const readOnlyEntries = presetEntries("readonly", 3);
 
 // 외부 미디어 피커가 이미지 하나를 반환했다고 가정한다.
-async function openMediaPicker(): Promise<DisplayItemEntry[]> {
+async function openMediaPicker(): Promise<AttachmentDisplayItemEntry[]> {
   const id = crypto.randomUUID();
   return [{ id, thumbnailUrl: sampleThumbnailUrl(`display-${id}`), status: "uploading" }];
 }
@@ -69,7 +70,7 @@ async function openMediaPicker(): Promise<DisplayItemEntry[]> {
 // status는 컴포넌트가 콜백으로 전달하는 updateEntryStatus 헬퍼로만 갱신한다.
 function simulateUpload(
   id: string,
-  updateEntryStatus: (id: string, details: DisplayItemStatusDetails) => void,
+  updateEntryStatus: (id: string, details: AttachmentDisplayItemStatusDetails) => void,
 ) {
   const totalChunks = 5;
   let chunk = 0;
@@ -95,8 +96,8 @@ function simulateUpload(
 
 // 피커 결과를 addEntries로 추가하고(maxEntries 상한은 내부 처리), 곧바로 업로드 상태를 구동한다.
 async function pickAndUpload(
-  addEntries: (entries: DisplayItemEntry[]) => void,
-  updateEntryStatus: (id: string, details: DisplayItemStatusDetails) => void,
+  addEntries: (entries: AttachmentDisplayItemEntry[]) => void,
+  updateEntryStatus: (id: string, details: AttachmentDisplayItemStatusDetails) => void,
 ) {
   const pickedEntries = await openMediaPicker();
   addEntries(pickedEntries);
@@ -106,7 +107,7 @@ async function pickAndUpload(
 }
 
 interface FeaturedDisplayItemProps {
-  entry: DisplayItemEntry;
+  entry: AttachmentDisplayItemEntry;
   featured: boolean;
   onRetry: () => void;
 }

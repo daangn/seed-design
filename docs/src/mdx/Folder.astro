@@ -1,0 +1,18 @@
+---
+/** fumadocs `Folder`와 같은 마크업. 접힘은 `<details>`가 한다(JS 없음). */
+import { ICONS } from "./icons";
+
+interface Props {
+  name: string;
+  defaultOpen?: boolean;
+}
+
+const { name, defaultOpen = false } = Astro.props;
+---
+
+<details class="group/folder" open={defaultOpen}>
+  <summary class="flex flex-row items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-fd-accent hover:text-fd-accent-foreground [&_svg]:size-4 w-full cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+    <Fragment set:html={ICONS.folder} />{name}
+  </summary>
+  <div class="ms-2 flex flex-col border-l ps-2"><slot /></div>
+</details>

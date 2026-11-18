@@ -2,6 +2,7 @@
 
 import { FloatingFocusManager, FloatingPortal, NextFloatingDelayGroup } from "@floating-ui/react";
 import { composeRefs } from "@radix-ui/react-compose-refs";
+import { FocusScope } from "@radix-ui/react-focus-scope";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type React from "react";
@@ -151,9 +152,26 @@ export const NavigationMenuContent = forwardRef<HTMLDivElement, NavigationMenuCo
     // trigger on Esc/close. For mouse hover/click it stays disabled so opening
     // never steals focus off the page — the reported focus-on-hover bug.
     return (
-      <FloatingFocusManager context={floatingContext} disabled={!focusManaged} modal={false}>
-        <Primitive.div ref={ref} {...mergeProps(contentProps, props)} />
-      </FloatingFocusManager>
+      <>
+        <FloatingFocusManager context={floatingContext} disabled={!focusManaged} modal={false}>
+          <Primitive.div ref={ref} {...mergeProps(contentProps, props)} />
+        </FloatingFocusManager>
+        {/*
+          While focus is managed, a FocusScope registration pauses trapped ancestors
+          (Dialog, Drawer, AppScreen) so focus can reach this portalled content. It stays
+          empty and hidden because Radix's focusScopesStack is keyed on mount, not on the
+          element the scope wraps.
+        */}
+        {focusManaged && (
+          <FocusScope
+            hidden
+            trapped={false}
+            loop={false}
+            onMountAutoFocus={(event) => event.preventDefault()}
+            onUnmountAutoFocus={(event) => event.preventDefault()}
+          />
+        )}
+      </>
     );
   },
 );

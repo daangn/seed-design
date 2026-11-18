@@ -1,23 +1,6 @@
-.docs-lynx-bottom-sheet-root {
-  height: 100%;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
-.bottom-sheet-preview {
-  height: 100%;
-  padding: 24px;
-  align-items: center;
-  justify-content: center;
-}
-
 .bottom-sheet-preview__status {
   color: var(--seed-color-fg-neutral-muted);
   font-size: 14px;
-}
-
-.bottom-sheet-preview__body {
-  min-height: 160px;
-  justify-content: center;
 }
 
 .bottom-sheet-preview__body-text {
@@ -26,11 +9,13 @@
 }
 
 .bottom-sheet-preview__snap-body {
-  min-height: 280px;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
 }
 
 .bottom-sheet-preview__blocks {
+  display: flex;
   width: 100%;
   align-items: center;
 }
@@ -39,12 +24,6 @@
   width: 100%;
   height: 100px;
   background-color: var(--seed-color-bg-layer-basement);
-}
-
-.bottom-sheet-preview__scroll-fog-body {
-  height: 300px;
-  max-height: 300px;
-  flex: none;
 }
 
 .bottom-sheet-preview__scroll-fog-content {

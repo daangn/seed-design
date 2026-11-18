@@ -4,7 +4,11 @@ import {
   IconChevronUpSmallFill,
   IconSquareSplitedVerticalLeftLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { Icon, SideNavigation as SeedSideNavigation } from "@seed-design/react";
+import {
+  Icon,
+  SideNavigation as SeedSideNavigation,
+  useSideNavigationContext,
+} from "@seed-design/react";
 import {
   NavigationMenuContent,
   NavigationMenuGroup,
@@ -15,13 +19,12 @@ import {
   NavigationMenuTrigger,
 } from "./navigation-menu";
 import { HelpBubbleTooltipTriggerPortal } from "./help-bubble-tooltip";
-import { useSideNavigationContext } from "@seed-design/react/primitive";
 import * as React from "react";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SideNavigationTriggerProps
-  extends Omit<SeedSideNavigation.TriggerProps, "children"> {}
+  extends Omit<SeedSideNavigation.TriggerProps, "children" | "asChild"> {}
 
 export const SideNavigationTrigger = React.forwardRef<
   HTMLButtonElement,
@@ -44,7 +47,7 @@ SideNavigationTrigger.displayName = "SideNavigationTrigger";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SideNavigationItemButtonProps
-  extends Omit<SeedSideNavigation.ItemProps, "children"> {
+  extends Omit<SeedSideNavigation.ItemProps, "children" | "asChild"> {
   prefixIcon?: React.ReactNode;
   label: React.ReactNode;
   suffixIcon?: React.ReactNode;
@@ -203,7 +206,7 @@ SideNavigationGroup.displayName = "SideNavigationGroup";
 export interface SideNavigationProviderProps extends SeedSideNavigation.ProviderProps {}
 export const SideNavigationProvider = SeedSideNavigation.Provider;
 
-export interface SideNavigationRootProps extends SeedSideNavigation.RootProps {}
+export interface SideNavigationRootProps extends Omit<SeedSideNavigation.RootProps, "asChild"> {}
 export const SideNavigationRoot = React.forwardRef<HTMLElement, SideNavigationRootProps>(
   ({ children, ...props }, ref) => (
     <SeedSideNavigation.Root ref={ref} {...props}>

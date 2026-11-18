@@ -44,7 +44,7 @@ function useTabsState(props: UseTabsStateProps) {
   //       to allow users to customize the scroll behavior.
   useEffect(() => {
     if (selectedTriggerEl && listEl) {
-      scrollTabIntoView(selectedTriggerEl, listEl, { scrollPadding: 16 });
+      scrollTabIntoView(selectedTriggerEl, listEl);
     }
   }, [selectedTriggerEl, listEl]);
 
@@ -303,12 +303,17 @@ function useTabsState(props: UseTabsStateProps) {
     [],
   );
 
+  // `left` is measured from the list's content box: a change in the list's padding alone, such as
+  // a safe area inset moving, can't be observed, so styles add the padding back instead.
   const triggerRect = useMemo(
     () => ({
       width: selectedTriggerSize?.width ?? selectedTriggerEl?.offsetWidth ?? 0,
-      left: selectedTriggerEl?.offsetLeft ?? 0,
+      left:
+        selectedTriggerEl && listEl
+          ? selectedTriggerEl.offsetLeft - Number.parseFloat(getComputedStyle(listEl).paddingLeft)
+          : 0,
     }),
-    [selectedTriggerSize, selectedTriggerEl],
+    [selectedTriggerSize, selectedTriggerEl, listEl],
   );
 
   const isSSR = useIsSSR();
@@ -387,10 +392,6 @@ export function useTabs(props: UseTabsProps) {
 
     rootProps: elementProps({
       ...stateProps,
-      style: {
-        "--indicator-left": `${triggerRect.left}px`,
-        "--indicator-width": `${triggerRect.width}px`,
-      } as React.CSSProperties,
     }),
 
     listProps: elementProps({
@@ -530,7 +531,15 @@ export function useTabs(props: UseTabsProps) {
     },
 
     indicatorProps: elementProps({
+      // TODO: `hidden`이 SSR 구간도 덮으므로 indicator의 `data-ssr`은 redundant하다. 이전 headless와
+      // `[data-ssr]` 규칙이 빠진 새 CSS가 함께 쓰이면 첫 로드에 indicator가 0에서 미끄러지므로 아직 남겨 둔다.
       ...stateProps,
+      // 조상이 `display: none`이면 측정값이 0이 된다. 숨겨 두지 않으면 다시 보일 때 0에서 transition된다.
+      ...(triggerRect.width === 0 && { hidden: true }),
+      style: {
+        "--indicator-left": `${triggerRect.left}px`,
+        "--indicator-width": `${triggerRect.width}px`,
+      } as React.CSSProperties,
     }),
   };
 }

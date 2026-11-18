@@ -1,7 +1,7 @@
+import { archivePaths } from "@/lib/docs-archive";
 import * as V3Icons from "@karrotmarket/react-monochrome-icon";
 import * as V3ColorIcons from "@karrotmarket/react-multicolor-icon";
 import * as V2Icons from "@seed-design/react-icon";
-import Link from "fumadocs-core/link";
 import * as changecase from "change-case";
 
 export const V3Icon = ({
@@ -22,11 +22,13 @@ export const V3Icon = ({
   return (
     <div className="flex items-center gap-2">
       <NewIcon size={20} />
-      <Link
-        href={`/foundations/iconography/library?icon=${snakeCase}${type !== "monochrome" ? `&style=${type}` : ""}`}
+      <a
+        href={archivePaths.link(
+          `/foundations/iconography/library?icon=${snakeCase}${type !== "monochrome" ? `&style=${type}` : ""}`,
+        )}
       >
         <code>{name}</code>
-      </Link>
+      </a>
     </div>
   );
 };

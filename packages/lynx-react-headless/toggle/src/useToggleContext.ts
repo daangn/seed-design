@@ -1,19 +1,24 @@
-import { createContext, useContext, type Context } from "@lynx-js/react";
+import { createContext, useContext, type Provider } from "@lynx-js/react";
 import type { UseToggleReturn } from "./useToggle.js";
 
 export interface UseToggleContext extends UseToggleReturn {}
 
-export const ToggleContext: Context<UseToggleContext | null> =
-  createContext<UseToggleContext | null>(null);
+const ToggleContext = createContext<UseToggleContext | null>(null);
+
+export const ToggleProvider: Provider<UseToggleContext | null> = ToggleContext.Provider;
 
 /**
- * Toggle Root가 내려준 `useToggle` 결과를 하위 슬롯에서 읽는다.
- * Context 누락 시 throw (fallback 금지 — 정상 렌더처럼 보여 버그를 감춤).
+ * ToggleRoot가 내려준 `useToggle` 결과를 하위 요소에서 읽습니다.
+ * `strict: false`이면 Provider 밖에서 `null`을 반환합니다.
  */
-export function useToggleContext(consumer = "useToggleContext"): UseToggleContext {
+export function useToggleContext<T extends boolean | undefined = true>({
+  strict = true,
+}: {
+  strict?: T;
+} = {}): T extends false ? UseToggleContext | null : UseToggleContext {
   const context = useContext(ToggleContext);
-  if (!context) {
-    throw new Error(`${consumer} must be rendered inside a Toggle Root.`);
+  if (!context && strict) {
+    throw new Error("useToggleContext must be used within a ToggleRoot");
   }
-  return context;
+  return context as UseToggleContext;
 }

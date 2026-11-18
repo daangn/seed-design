@@ -1,10 +1,9 @@
 import { vars } from "@seed-design/css/vars";
-import { VStack } from "@seed-design/react";
-import type { DisplayItemEntry } from "@seed-design/react/primitive";
+import { VStack, type AttachmentDisplayItemEntry } from "@seed-design/react";
 import { AttachmentDisplay, AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 
-const defaultEntries: DisplayItemEntry[] = Array.from({ length: 8 }, (_, i) => ({
+const defaultEntries: AttachmentDisplayItemEntry[] = Array.from({ length: 8 }, (_, i) => ({
   id: String(i + 1),
   thumbnailUrl: `https://picsum.photos/seed/inset${i + 1}/200/200`,
   status: "success",

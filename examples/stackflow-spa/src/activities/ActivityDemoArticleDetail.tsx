@@ -11,7 +11,7 @@ import type { AppBarProps } from "seed-design/ui/app-bar";
 import { VStack, HStack, Box, Article as SeedArticle } from "@seed-design/react";
 import { TagGroupRoot, TagGroupItem } from "seed-design/ui/tag-group";
 import { Text } from "@seed-design/react";
-import { Badge } from "@seed-design/react";
+import { Badge } from "seed-design/ui/badge";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { Callout } from "seed-design/ui/callout";
 import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";

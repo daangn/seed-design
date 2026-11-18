@@ -29,7 +29,7 @@
     background: var(--seed-color-bg-transparent);
     font-weight: var(--seed-font-weight-medium);
     color: var(--seed-color-fg-neutral);
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
     --track-color: var(--seed-color-palette-gray-500);
     --range-color: var(--seed-color-fg-neutral);
     --seed-count-font-weight: var(--seed-font-weight-bold);

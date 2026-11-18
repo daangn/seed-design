@@ -1,5 +1,5 @@
 import type { ChangelogEntry } from "@/lib/parse-changelog";
-import { SeedClientCodeBlock } from "@/components/codeblock/client-code-block";
+import { SeedCodeBlock } from "@/components/codeblock/code-block";
 import { INLINE_CODE_DESCENDANT_CLASS_NAME } from "./inline-code";
 
 const PROSE_CLASS = `prose prose-sm dark:prose-invert max-w-none min-w-0 break-words prose-p:my-0 prose-li:my-0.5 prose-a:text-fd-primary [&>*:last-child]:mb-0 [&_a]:break-words ${INLINE_CODE_DESCENDANT_CLASS_NAME}`;
@@ -20,13 +20,20 @@ export function ChangelogEntryItem({
       {entry.contentBlocks.map((block, i) => {
         if (block.type === "code") {
           return (
-            <SeedClientCodeBlock
+            <SeedCodeBlock
               // biome-ignore lint/suspicious/noArrayIndexKey: parsed content blocks are stable within a changelog entry
               key={i}
-              lang={block.lang}
-              code={block.code}
               className="!my-0 min-w-0 max-w-full"
-            />
+            >
+              {block.html ? (
+                // biome-ignore lint/security/noDangerouslySetInnerHtml: Shiki HTML highlighted at build time from repository CHANGELOG files
+                <div className="contents" dangerouslySetInnerHTML={{ __html: block.html }} />
+              ) : (
+                <pre className="min-w-full w-max">
+                  <code>{block.code}</code>
+                </pre>
+              )}
+            </SeedCodeBlock>
           );
         }
         return (

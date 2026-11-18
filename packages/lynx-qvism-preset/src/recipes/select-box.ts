@@ -48,7 +48,6 @@ export const selectBox = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "stretch",
       width: "100%",
-      height: "100%",
       minHeight: 0,
       gap: 0,
     },
@@ -58,28 +57,33 @@ export const selectBox = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "stretch",
       width: "100%",
-      height: "100%",
+      flexGrow: 1,
       borderRadius: vars.base.enabled.root.cornerRadius,
       backgroundColor: vars.base.enabled.root.color,
-      boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+      // iOS Lynx는 inset box-shadow를 흐리게 그리고 continuous 코너를 적용하지 않는다.
+      // border로 그리고 trigger padding에서 두께만큼 빼 기존 크기와 콘텐츠 배치를 유지한다.
+      borderStyle: "solid",
+      borderWidth: vars.base.enabled.root.strokeWidth,
+      borderColor: vars.base.enabled.root.strokeColor,
       overflow: "hidden",
-      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}, border-color ${vars.base.enabled.root.strokeDuration} ${vars.base.enabled.root.strokeTimingFunction}`,
     },
     scaleContent: {
       display: "flex",
       flexDirection: "column",
       alignItems: "stretch",
       width: "100%",
-      height: "100%",
       minHeight: 0,
       flexGrow: 1,
     },
     selectedStroke: {
       position: "absolute",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      // root border까지 덮어 선택 두께 전체를 한 레이어로 그린다. root border 안쪽에 나머지만
+      // 그리면 두 레이어의 곡선 안티앨리어싱이 겹쳐 코너에 밝은 선이 보인다.
+      top: `calc(${vars.base.enabled.root.strokeWidth} * -1)`,
+      right: `calc(${vars.base.enabled.root.strokeWidth} * -1)`,
+      bottom: `calc(${vars.base.enabled.root.strokeWidth} * -1)`,
+      left: `calc(${vars.base.enabled.root.strokeWidth} * -1)`,
       borderStyle: "solid",
       borderWidth: vars.base.selected.root.strokeWidth,
       borderColor: "transparent",
@@ -98,6 +102,8 @@ export const selectBox = defineSlotRecipe({
       display: "flex",
       flexDirection: "row",
       minWidth: 0,
+      flexGrow: 1,
+      flexShrink: 1,
     },
     prefixIcon: {
       display: "flex",
@@ -117,6 +123,7 @@ export const selectBox = defineSlotRecipe({
     },
     label: {
       display: "flex",
+      flexShrink: 0,
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "flex-start",
@@ -127,6 +134,7 @@ export const selectBox = defineSlotRecipe({
       fontWeight: vars.base.enabled.label.fontWeight,
     },
     description: {
+      flexShrink: 0,
       color: vars.base.enabled.description.color,
       fontSize: vars.base.enabled.description.fontSize,
       lineHeight: vars.base.enabled.description.lineHeight,
@@ -154,22 +162,26 @@ export const selectBox = defineSlotRecipe({
       horizontal: {
         trigger: {
           alignItems: "center",
-          paddingLeft: vars.layoutHorizontal.enabled.trigger.paddingLeft,
-          paddingRight: vars.layoutHorizontal.enabled.trigger.paddingRight,
-          paddingTop: vars.layoutHorizontal.enabled.trigger.paddingY,
-          paddingBottom: vars.layoutHorizontal.enabled.trigger.paddingY,
+          paddingLeft: `calc(${vars.layoutHorizontal.enabled.trigger.paddingLeft} - ${vars.base.enabled.root.strokeWidth})`,
+          paddingRight: `calc(${vars.layoutHorizontal.enabled.trigger.paddingRight} - ${vars.base.enabled.root.strokeWidth})`,
+          paddingTop: `calc(${vars.layoutHorizontal.enabled.trigger.paddingY} - ${vars.base.enabled.root.strokeWidth})`,
+          paddingBottom: `calc(${vars.layoutHorizontal.enabled.trigger.paddingY} - ${vars.base.enabled.root.strokeWidth})`,
         },
         content: {
           alignItems: "center",
           gap: vars.layoutHorizontal.enabled.content.gap,
         },
+        body: {
+          flexGrow: 1,
+          flexShrink: 1,
+        },
       },
       vertical: {
         trigger: {
-          paddingLeft: vars.layoutVertical.enabled.trigger.paddingX,
-          paddingRight: vars.layoutVertical.enabled.trigger.paddingX,
-          paddingTop: vars.layoutVertical.enabled.trigger.paddingY,
-          paddingBottom: vars.layoutVertical.enabled.trigger.paddingY,
+          paddingLeft: `calc(${vars.layoutVertical.enabled.trigger.paddingX} - ${vars.base.enabled.root.strokeWidth})`,
+          paddingRight: `calc(${vars.layoutVertical.enabled.trigger.paddingX} - ${vars.base.enabled.root.strokeWidth})`,
+          paddingTop: `calc(${vars.layoutVertical.enabled.trigger.paddingY} - ${vars.base.enabled.root.strokeWidth})`,
+          paddingBottom: `calc(${vars.layoutVertical.enabled.trigger.paddingY} - ${vars.base.enabled.root.strokeWidth})`,
         },
         content: {
           flexDirection: "column",
@@ -179,6 +191,9 @@ export const selectBox = defineSlotRecipe({
     },
     selected: {
       true: {
+        root: {
+          borderColor: vars.base.enabledSelected.root.strokeColor,
+        },
         selectedStroke: {
           borderColor: vars.base.enabledSelected.root.strokeColor,
         },
@@ -196,7 +211,7 @@ export const selectBox = defineSlotRecipe({
     disabled: {
       true: {
         root: {
-          boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.disabled.root.strokeColor}`,
+          borderColor: vars.base.disabled.root.strokeColor,
         },
         prefixIcon: {
           color: vars.base.disabled.prefixIcon.color,
@@ -231,6 +246,9 @@ export const selectBox = defineSlotRecipe({
       selected: true,
       disabled: true,
       css: {
+        root: {
+          borderColor: vars.base.disabled.root.strokeColor,
+        },
         selectedStroke: {
           borderColor: vars.base.disabled.root.strokeColor,
         },
@@ -259,22 +277,20 @@ export const selectBoxCheckmark = defineSlotRecipe({
   name: "select-box-checkmark",
   slots: ["root", "icon"],
   base: {
+    // Lynx native는 absolute + inset 0 + margin auto로 가운데 정렬하지 않으므로 flex로 가운데에 둔다.
     root: {
-      position: "relative",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
       flexShrink: 0,
       width: checkmarkVars.base.enabled.root.size,
       height: checkmarkVars.base.enabled.root.size,
     },
     icon: {
       display: "flex",
-      position: "absolute",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
+      flexShrink: 0,
       width: checkmarkVars.base.enabled.icon.size,
       height: checkmarkVars.base.enabled.icon.size,
-      margin: "auto",
       color: checkmarkVars.base.enabled.icon.color,
     },
   },

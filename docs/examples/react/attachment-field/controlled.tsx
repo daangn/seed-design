@@ -1,11 +1,10 @@
-import { VStack, HStack, Text } from "@seed-design/react";
+import { VStack, HStack, Text, type AttachmentInputFileEntry } from "@seed-design/react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
-import type { FileEntry } from "@seed-design/react/primitive";
 import { AttachmentField, AttachmentInput } from "seed-design/ui/attachment-field";
 
 export default function AttachmentFieldControlled() {
-  const [acceptedFileEntries, setAcceptedFileEntries] = useState<FileEntry[]>([]);
+  const [acceptedFileEntries, setAcceptedFileEntries] = useState<AttachmentInputFileEntry[]>([]);
 
   return (
     <VStack gap="x4" width="100%">

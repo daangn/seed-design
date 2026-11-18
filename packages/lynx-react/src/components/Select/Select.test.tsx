@@ -2,6 +2,7 @@ import "@testing-library/jest-dom";
 import { act, fireEvent, render, waitFor } from "@lynx-js/react/testing-library";
 import * as React from "@lynx-js/react";
 import type * as LynxUiCommon from "@lynx-js/lynx-ui-common";
+import type * as Floating from "@seed-design/lynx-react-floating";
 
 import { afterEach, describe, expect, it, vi } from "vitest";
 
@@ -14,12 +15,18 @@ const geometry = vi.hoisted(() => ({
 
 vi.mock("@lynx-js/lynx-ui-common", async (importOriginal) => {
   const actual = await importOriginal<typeof LynxUiCommon>();
-  return { ...actual, getRectByRef: geometry.getRectByRef };
+  return {
+    ...actual,
+    getRectByRef: geometry.getRectByRef,
+    // 기준 요소는 `measureReferenceRect`가 `boundingClientRect`를 직접 호출합니다.
+    invokeByRef: (ref: { current: unknown }) => geometry.getRectByRef(ref, true),
+  };
 });
 
-vi.mock("../private/Positioning", () => ({
-  computePosition: geometry.computePosition,
-}));
+vi.mock("@seed-design/lynx-react-floating", async (importOriginal) => {
+  const actual = await importOriginal<typeof Floating>();
+  return { ...actual, computePosition: geometry.computePosition };
+});
 
 interface GeometryRect {
   left: number;
@@ -42,8 +49,9 @@ function deferred<T>() {
   return { promise, resolve };
 }
 function installRootSelectorQuery() {
+  // `useViewport`의 root 측정은 결과 없이 끝낸다. floating 측정은 `getRectByRef` mock이 맡는다.
   const createSelectorQuery = () => ({
-    selectRoot: () => ({}),
+    selectRoot: () => ({ invoke: () => ({ exec: () => {} }) }),
   });
   vi.stubGlobal("lynx", {
     ...globalThis.lynx,
@@ -74,13 +82,17 @@ function FloatingSelect({
   return (
     <Select.Root defaultOpen>
       <Select.Trigger accessibility-label="열기" />
-      <Select.Content ref={contentRef} style={style} accessibility-label="floating-content">
-        <Select.Group>
-          <Select.Item value="apple" label="사과">
-            <Select.ItemLabel />
-          </Select.Item>
-        </Select.Group>
-      </Select.Content>
+      <Select.Positioner>
+        <Select.Content ref={contentRef} style={style} accessibility-label="floating-content">
+          <Select.ScrollArea>
+            <Select.Group>
+              <Select.Item value="apple" label="사과">
+                <Select.ItemLabel />
+              </Select.Item>
+            </Select.Group>
+          </Select.ScrollArea>
+        </Select.Content>
+      </Select.Positioner>
     </Select.Root>
   );
 }
@@ -107,16 +119,20 @@ function TestSelect() {
   return (
     <Select.Root defaultValue={["apple"]}>
       <Select.Trigger className="select-trigger" accessibility-label="과일" />
-      <Select.Content>
-        <Select.Group>
-          <Select.Item value="apple" label="사과">
-            <Select.ItemLabel />
-          </Select.Item>
-          <Select.Item value="banana" label="바나나">
-            <Select.ItemLabel />
-          </Select.Item>
-        </Select.Group>
-      </Select.Content>
+      <Select.Positioner>
+        <Select.Content>
+          <Select.ScrollArea>
+            <Select.Group>
+              <Select.Item value="apple" label="사과">
+                <Select.ItemLabel />
+              </Select.Item>
+              <Select.Item value="banana" label="바나나">
+                <Select.ItemLabel />
+              </Select.Item>
+            </Select.Group>
+          </Select.ScrollArea>
+        </Select.Content>
+      </Select.Positioner>
     </Select.Root>
   );
 }
@@ -173,6 +189,25 @@ describe("Select", () => {
       </Select.Root>,
     );
     expect(trigger).toHaveAttribute("accessibility-value", "collapsed");
+  });
+
+  it("scales trigger and item content without their pressed backgrounds", () => {
+    render(<TestSelect />);
+    const root = getRenderedRoot();
+
+    for (const [rootClass, slot] of [
+      [".select-trigger", "seed-select-trigger"],
+      [".seed-select-item__root", "seed-select-item"],
+    ] as const) {
+      const surface = root.querySelector<HTMLElement>(rootClass)!;
+      // Android drops flattened accessibility elements from the native tree.
+      expect(surface).toHaveAttribute("flatten", "false");
+      const target = surface.querySelector(`.${slot}__scaleContent`);
+      expect(target).toHaveAttribute("flatten", "false");
+      expect(target?.parentElement).toBe(surface);
+      expect(target).toHaveTextContent(/\S/);
+      expect(target).not.toContainElement(surface.querySelector(`.${slot}__pressedOverlay`));
+    }
   });
 
   it("positions content after a public ref patch resolves deferred geometry", async () => {

@@ -60,11 +60,13 @@ export const vars = {
       "wheelContainer": {
         "height": "336px"
       },
+      "wheelPopover": {
+        "width": "240px",
+        "cornerRadius": "var(--seed-radius-r3)",
+        "color": "var(--seed-color-bg-layer-floating)",
+        "shadow": "var(--seed-shadow-s3)"
+      },
       "wheelItem": {
-        "paddingX": "var(--seed-dimension-x4)",
-        "fontSize": "var(--seed-font-size-t10-static)",
-        "lineHeight": "var(--seed-line-height-t10-static)",
-        "fontWeight": "var(--seed-font-weight-medium)",
         "color": "var(--seed-color-fg-disabled)"
       }
     },
@@ -80,10 +82,10 @@ export const vars = {
     },
     "selected": {
       "dateVisual": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "dateContent": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
+        "color": "var(--seed-color-fg-on-neutral-solid)"
       },
       "wheelItem": {
         "color": "var(--seed-color-fg-neutral)"

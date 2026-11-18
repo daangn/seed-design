@@ -72,6 +72,9 @@ const chipTabs = defineSlotRecipe({
       // chips shrink past their text + padding, so the label bleeds into the padding.
       flexShrink: 0,
 
+      // A chip scrolled into view stops as far from the edge as the list's padding
+      scrollMarginInline: vars.base.enabled.root.paddingX,
+
       borderRadius: chipVars.base.enabled.root.cornerRadius,
       fontWeight: chipVars.base.enabled.label.fontWeight,
 
@@ -202,12 +205,34 @@ const chipTabs = defineSlotRecipe({
       },
       false: {},
     },
+    extendSafeAreaX: {
+      true: {
+        root: {
+          marginLeft: "calc(var(--seed-safe-area-left) * -1)",
+          marginRight: "calc(var(--seed-safe-area-right) * -1)",
+        },
+        list: {
+          paddingLeft: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-left))`,
+          paddingRight: `calc(${vars.base.enabled.root.paddingX} + var(--seed-safe-area-right))`,
+          // Keeps a selected or focused chip from stopping under the inset the list extends into
+          scrollPaddingLeft: "var(--seed-safe-area-left)",
+          scrollPaddingRight: "var(--seed-safe-area-right)",
+        },
+        content: {
+          boxSizing: "border-box",
+          paddingLeft: "var(--seed-safe-area-left)",
+          paddingRight: "var(--seed-safe-area-right)",
+        },
+      },
+      false: {},
+    },
   },
   defaultVariants: {
     size: "medium",
     variant: "neutralSolid",
     contentLayout: "hug",
     stickyList: false,
+    extendSafeAreaX: false,
   },
 });
 

@@ -1,7 +1,5 @@
-import "@seed-design/lynx-css/base.css";
-
 import type { AttachmentDisplayEntry } from "@seed-design/lynx-react";
-import { VStack, useSeedClassName } from "@seed-design/lynx-react";
+import { VStack } from "@seed-design/lynx-react";
 import {
   AttachmentDisplay,
   AttachmentDisplayField,
@@ -16,14 +14,11 @@ const INITIAL_ENTRIES: AttachmentDisplayEntry[] = [
 ];
 
 export default function AttachmentDisplayDisabled() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
   return (
-    <view className={seedClassName}>
-      <VStack gap="x4" p="x6" width="100%">
-        <AttachmentDisplayField defaultEntries={INITIAL_ENTRIES} maxEntries={5} disabled>
-          <AttachmentDisplay onTriggerTap={() => {}} />
-        </AttachmentDisplayField>
-      </VStack>
-    </view>
+    <VStack gap="x4" width="100%">
+      <AttachmentDisplayField defaultEntries={INITIAL_ENTRIES} maxEntries={5} disabled>
+        <AttachmentDisplay onTriggerTap={() => {}} />
+      </AttachmentDisplayField>
+    </VStack>
   );
 }

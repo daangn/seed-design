@@ -74,7 +74,6 @@ export interface UseDrawerProps {
    * @default true
    */
   modal?: boolean;
-  nested?: boolean;
   onClose?: () => void;
   /**
    * Direction of the drawer. Can be `top` or `bottom`, `left`, `right`.

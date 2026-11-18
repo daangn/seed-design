@@ -59,7 +59,7 @@ export function usePointerDownOutside(
   // Touch drag state (only used in "drag" mode)
   const touchStateRef = useRef<TouchState | null>(null);
   const suppressPointerRef = useRef(false);
-  const suppressTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const suppressTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     if (!node || !options.enabled) return;
@@ -118,7 +118,7 @@ export function usePointerDownOutside(
           }
           handleAndDispatch();
         } else {
-          // "eager" (default): mouse immediate, touch defers to click
+          // "eager": mouse immediate, touch defers to click
           if (event.pointerType === "touch") {
             deferToClick(handleAndDispatch);
           } else {

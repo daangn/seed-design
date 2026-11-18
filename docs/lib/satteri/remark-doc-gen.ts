@@ -1,7 +1,9 @@
 import { fileURLToPath } from "node:url";
 import type { DocGenerator, RemarkDocGenOptions } from "fumadocs-docgen";
-import type { Code } from "mdast";
+import type { Code, RootContent } from "mdast";
+import { toMarkdown } from "mdast-util-to-markdown";
 import { defineMdastPlugin, type MdastNode, type MdastVisitorContext } from "satteri";
+import { replaceSource } from "./replace-source";
 
 const DOC_GEN_META_PATTERN = /doc-gen:(.+)/;
 
@@ -21,6 +23,7 @@ export function remarkDocGen({ generators = [] }: RemarkDocGenOptions = {}) {
 
   return defineMdastPlugin({
     name: "remark-doc-gen",
+    options: { position: true },
     async code(node, context) {
       if (node.lang !== "json" || !node.meta) return;
 
@@ -51,6 +54,12 @@ function replaceWithGeneratedNodes(
   if (!result) return;
 
   const generated = (Array.isArray(result) ? result : [result]) as MdastNode[];
+  // llms·검색 출력은 작성한 원문을 잘라 쓰므로, 원문에 없는 생성 노드는 Markdown으로 대신 남긴다.
+  replaceSource(
+    context,
+    node,
+    toMarkdown({ type: "root", children: generated as RootContent[] }, { fences: true }),
+  );
   const parent = context.parent(node);
   const index = context.indexOf(node);
   const [first, ...rest] = generated;

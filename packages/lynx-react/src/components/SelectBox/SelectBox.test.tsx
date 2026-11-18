@@ -1,6 +1,9 @@
 import "@testing-library/jest-dom";
 import { act, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
+import { Fragment, useState } from "@lynx-js/react";
 import { describe, expect, it, vi } from "vitest";
+
+import { RadioGroup as HeadlessRadioGroup } from "@seed-design/lynx-react-radio-group";
 
 import { RadioGroup } from "../RadioGroup";
 import { CheckSelectBox, RadioSelectBox } from "./index";
@@ -29,6 +32,129 @@ function CheckItem() {
 }
 
 describe("SelectBox", () => {
+  it("exposes each check item separately without repeating its label", () => {
+    const { container } = render(
+      <CheckSelectBox.Group accessibility-label="과일" className="fruit-group">
+        <CheckSelectBox.Root>
+          <CheckSelectBox.Trigger>
+            <CheckSelectBox.Label>
+              <Fragment>사과</Fragment>
+            </CheckSelectBox.Label>
+          </CheckSelectBox.Trigger>
+        </CheckSelectBox.Root>
+        <CheckSelectBox.Root accessibility-label="바나나 선택" defaultChecked flatten>
+          <CheckSelectBox.Trigger>
+            <CheckSelectBox.Label accessibility-elements-hidden={false}>
+              바나나
+            </CheckSelectBox.Label>
+          </CheckSelectBox.Trigger>
+        </CheckSelectBox.Root>
+      </CheckSelectBox.Group>,
+    );
+    const group = container.querySelector(".fruit-group");
+    const [apple, banana] = container.querySelectorAll(".seed-select-box__root");
+
+    expect(group).toHaveAttribute("accessibility-element", "false");
+    expect(group).toHaveAttribute("accessibility-label", "과일");
+    expect(apple).toHaveAttribute("accessibility-element", "true");
+    expect(apple).toHaveAttribute("accessibility-label", "사과");
+    expect(apple).toHaveAttribute("accessibility-value", "not checked");
+    expect(apple).toHaveAttribute("flatten", "false");
+    expect(apple.querySelector(".seed-select-box__label")).toHaveAttribute(
+      "accessibility-elements-hidden",
+      "true",
+    );
+    expect(banana).toHaveAttribute("accessibility-label", "바나나 선택");
+    expect(banana).toHaveAttribute("accessibility-value", "checked");
+    expect(banana).toHaveAttribute("flatten", "true");
+    expect(banana.querySelector(".seed-select-box__label")).toHaveAttribute(
+      "accessibility-elements-hidden",
+      "false",
+    );
+  });
+
+  it("exposes all radio items outside a non-element group", () => {
+    const { container } = render(
+      <HeadlessRadioGroup.Root accessibility-label="과일" defaultValue="apple" className="fruit">
+        <RadioSelectBox.Group className="fruit-group">
+          <RadioSelectBox.Item value="apple">
+            <RadioSelectBox.Trigger>
+              <RadioSelectBox.Label>사과</RadioSelectBox.Label>
+            </RadioSelectBox.Trigger>
+          </RadioSelectBox.Item>
+          <RadioSelectBox.Item value="banana">
+            <RadioSelectBox.Trigger>
+              <RadioSelectBox.Label>바나나</RadioSelectBox.Label>
+            </RadioSelectBox.Trigger>
+          </RadioSelectBox.Item>
+        </RadioSelectBox.Group>
+      </HeadlessRadioGroup.Root>,
+    );
+    const [apple, banana] = container.querySelectorAll(".seed-select-box__root");
+
+    expect(container.querySelector(".fruit")).toHaveAttribute("accessibility-element", "false");
+    expect(container.querySelector(".fruit-group")).toHaveAttribute(
+      "accessibility-element",
+      "false",
+    );
+    for (const [item, label, value] of [
+      [apple, "사과", "selected"],
+      [banana, "바나나", "not selected"],
+    ] as const) {
+      expect(item).toHaveAttribute("accessibility-element", "true");
+      expect(item).toHaveAttribute("accessibility-label", label);
+      expect(item).toHaveAttribute("accessibility-value", value);
+      expect(item).toHaveAttribute("flatten", "false");
+      expect(item.querySelector(".seed-select-box__label")).toHaveAttribute(
+        "accessibility-element",
+        "false",
+      );
+      expect(item.querySelector(".seed-select-box__label")).toHaveAttribute(
+        "accessibility-elements-hidden",
+        "true",
+      );
+    }
+  });
+
+  it("warns for unnamed items only while exposed as accessibility elements", () => {
+    const accessibilityWarnings = vi.fn();
+    const warn = vi.spyOn(console, "warn").mockImplementation((message) => {
+      if (
+        String(message).startsWith("CheckSelectBoxRoot:") ||
+        String(message).startsWith("RadioSelectBoxItem:")
+      ) {
+        accessibilityWarnings();
+      }
+    });
+    try {
+      const { container, rerender } = render(
+        <HeadlessRadioGroup.Root>
+          <CheckSelectBox.Root>
+            <text>사과</text>
+          </CheckSelectBox.Root>
+          <RadioSelectBox.Item value="apple">
+            <text>사과</text>
+          </RadioSelectBox.Item>
+        </HeadlessRadioGroup.Root>,
+      );
+      for (const item of container.querySelectorAll(".seed-select-box__root")) {
+        expect(item).not.toHaveAttribute("accessibility-label");
+      }
+      expect(accessibilityWarnings).toHaveBeenCalled();
+      accessibilityWarnings.mockClear();
+
+      rerender(
+        <HeadlessRadioGroup.Root>
+          <CheckSelectBox.Root accessibility-element={false} />
+          <RadioSelectBox.Item value="apple" accessibility-element={false} />
+        </HeadlessRadioGroup.Root>,
+      );
+      expect(accessibilityWarnings).not.toHaveBeenCalled();
+    } finally {
+      warn.mockRestore();
+    }
+  });
+
   it("shares checkbox touch state with content feedback and cancels without selecting", async () => {
     const onCheckedChange = vi.fn();
     const { container } = render(
@@ -123,7 +249,7 @@ describe("SelectBox", () => {
     const footer = root.querySelector<HTMLElement>(".check-footer");
     const footerInner = footer?.querySelector<HTMLElement>(".seed-select-box__footerInner");
 
-    expect(surface).toHaveAttribute("accessibility-value", "not selected");
+    expect(surface).toHaveAttribute("accessibility-value", "not checked");
     expect(footer).toHaveStyle({ height: "0px" });
     expect(footer).toHaveAttribute("accessibility-elements-hidden", "true");
 
@@ -133,8 +259,48 @@ describe("SelectBox", () => {
     fireEvent.tap(interactionRoot as HTMLElement);
 
     expect(onCheckedChange).toHaveBeenCalledWith(true);
-    expect(surface).toHaveAttribute("accessibility-value", "selected");
+    expect(surface).toHaveAttribute("accessibility-value", "checked");
     expect(footer).toHaveStyle({ height: "48px" });
+    expect(footer).toHaveAttribute("accessibility-elements-hidden", "false");
+  });
+
+  it("keeps an indeterminate check item mixed until the parent resolves it", () => {
+    const onCheckedChange = vi.fn();
+    function Parent() {
+      const [state, setState] = useState({ checked: false, indeterminate: true });
+      return (
+        <CheckSelectBox.Root
+          accessibility-label="전체"
+          checked={state.checked}
+          indeterminate={state.indeterminate}
+          onCheckedChange={(checked) => {
+            onCheckedChange(checked);
+            setState({ checked, indeterminate: false });
+          }}
+        >
+          <CheckSelectBox.Trigger>
+            <CheckSelectBox.Label>전체</CheckSelectBox.Label>
+          </CheckSelectBox.Trigger>
+          <CheckSelectBox.Footer className="check-footer">
+            <text>하위 항목</text>
+          </CheckSelectBox.Footer>
+        </CheckSelectBox.Root>
+      );
+    }
+    render(<Parent />);
+
+    const root = getRenderedRoot();
+    const interactionRoot = root.querySelector<HTMLElement>(".seed-select-box__interactionRoot");
+    const surface = root.querySelector<HTMLElement>(".seed-select-box__root");
+    const footer = root.querySelector<HTMLElement>(".check-footer");
+
+    expect(surface).toHaveAttribute("accessibility-value", "mixed");
+    expect(footer).toHaveAttribute("accessibility-elements-hidden", "true");
+
+    fireEvent.tap(interactionRoot as HTMLElement);
+
+    expect(onCheckedChange).toHaveBeenCalledExactlyOnceWith(true);
+    expect(surface).toHaveAttribute("accessibility-value", "checked");
     expect(footer).toHaveAttribute("accessibility-elements-hidden", "false");
   });
 
@@ -157,7 +323,7 @@ describe("SelectBox", () => {
   it("selects one radio item and ignores a disabled item", () => {
     const onValueChange = vi.fn();
     render(
-      <RadioGroup.Root defaultValue="first" onValueChange={onValueChange}>
+      <HeadlessRadioGroup.Root defaultValue="first" onValueChange={onValueChange}>
         <RadioSelectBox.Group>
           <RadioSelectBox.Item value="first" accessibility-label="첫 번째">
             <RadioSelectBox.Trigger>
@@ -178,7 +344,7 @@ describe("SelectBox", () => {
             </RadioSelectBox.Trigger>
           </RadioSelectBox.Item>
         </RadioSelectBox.Group>
-      </RadioGroup.Root>,
+      </HeadlessRadioGroup.Root>,
     );
 
     const root = getRenderedRoot();
@@ -191,6 +357,7 @@ describe("SelectBox", () => {
 
     expect(radioContent).toHaveAttribute("flatten", "false");
     expect(radioMark).not.toHaveAttribute("flatten", "false");
+    expect(radioMark).not.toHaveClass("seed-radio__control");
 
     expect(surfaces[0]).toHaveAttribute("accessibility-value", "selected");
     expect(surfaces[1]).toHaveAttribute("accessibility-value", "not selected");

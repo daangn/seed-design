@@ -15,6 +15,14 @@ const alertDialogSlotNames = [
     "seed-alert-dialog__content"
   ],
   [
+    "scrollArea",
+    "seed-alert-dialog__scrollArea"
+  ],
+  [
+    "scrollContent",
+    "seed-alert-dialog__scrollContent"
+  ],
+  [
     "header",
     "seed-alert-dialog__header"
   ],

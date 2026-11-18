@@ -1,5 +1,22 @@
 # @seed-design/react-drawer
 
+## 3.0.0
+
+### Major Changes
+
+- 4af22a0: (BREAKING CHANGE: `Drawer.Root`의 `nested` prop과 `useDrawer`의 `nested` 옵션을 삭제해야 합니다.) 동작에 영향을 주지 않던 `nested`를 제거합니다. 대체 prop이나 옵션은 필요하지 않습니다.
+
+### Patch Changes
+
+- Updated dependencies [474fa4a]
+  - @seed-design/react-primitive@2.0.2
+
+## 2.0.7
+
+### Patch Changes
+
+- 6eacd9b: `Drawer.Root`의 `nested` prop과 `useDrawer`의 `nested` 옵션을 deprecated로 표시합니다. 동작에 영향을 주지 않으므로 대체 prop이나 옵션 없이 삭제할 수 있으며, 다음 메이저 버전에서 제거할 예정입니다.
+
 ## 2.0.6
 
 ### Patch Changes

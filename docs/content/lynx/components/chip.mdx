@@ -47,7 +47,7 @@ Lynx `Chip`은 별도 `ui:chip` snippet 없이 `@seed-design/lynx-react` 패키�
 
 ### Slots
 
-<react-type-table path="../packages/lynx-react/src/components/Chip/Chip.tsx" name="ChipLabelProps" />
+슬롯은 고유 prop이 없습니다. `className`, `style`, `children`을 받습니다.
 
 ## Examples
 
@@ -158,7 +158,7 @@ Lynx `Chip`은 별도 `ui:chip` snippet 없이 `@seed-design/lynx-react` 패키�
 
 ### Prefix Avatar
 
-Lynx 패키지는 Avatar 컴포넌트를 제공하지 않습니다. `Chip.PrefixAvatar` 안에 앱이 소유한 아바타 컴포넌트나 view를 넣어 사용하세요. 아래 예제의 이니셜 원은 이미지 로딩과 fallback을 포함한 Avatar 구현이 아니라 슬롯 조합 방법만 보여줍니다.
+[Avatar](/lynx/components/avatar)와 함께 사용할 수 있습니다.
 
 <LynxComponentExample name="lynx/chip/prefix-avatar">
   ```json doc-gen:file
@@ -171,10 +171,7 @@ Lynx 패키지는 Avatar 컴포넌트를 제공하지 않습니다. `Chip.Prefix
 
 ### Listening to Value Changes
 
-- `Chip.Toggle`
-  - `onCheckedChange`를 사용하여 토글 상태 변경을 감지할 수 있습니다.
-- `Chip.RadioRoot` / `Chip.RadioItem`
-  - `Chip.RadioRoot`의 `onValueChange`를 사용하여 라디오 버튼의 선택 값 변경을 감지할 수 있습니다.
+`Chip.Toggle`은 `onCheckedChange`, `Chip.RadioRoot`는 `onValueChange`로 선택 값 변경을 알립니다.
 
 <LynxComponentExample name="lynx/chip/value-changes">
   ```json doc-gen:file
@@ -185,29 +182,41 @@ Lynx 패키지는 Avatar 컴포넌트를 제공하지 않습니다. `Chip.Prefix
   ```
 </LynxComponentExample>
 
+### Glass Effect
+
+`glassEffect`로 iOS Liquid Glass를 적용합니다. `style`은 glass 재질(`"regular"`·`"clear"`)을, `interactive`는 glass가 터치에 직접 반응할지를 정합니다. glass일 때는 현재 상태의 배경색이 glass tint가 되고, 테두리를 그리지 않습니다.
+
+<LynxComponentExample name="lynx/chip/glass-effect">
+  ```json doc-gen:file
+  {
+    "file": "examples/lynx/chip/glass-effect.tsx",
+    "codeblock": true
+  }
+  ```
+</LynxComponentExample>
+
+<Callout type="warning">
+Liquid Glass는 실험적인 구현입니다. 앱 root `SeedProvider`에 `supportsLiquidGlass`를 넘겨야 활성화되며, 지금은 iOS 26 이상에서만 그립니다. 활성화 방법과 제약은 [Host Integration](/lynx/getting-started/host-integration#liquid-glass-ios)을 참고하세요. 이 예제는 미리보기를 위해 예제 안에서만 `supportsLiquidGlass`를 켭니다.
+</Callout>
+
+## 이전 버전에서 옮기기
+
+- `Chip.Root`·`ChipRoot`(Props 타입 포함)를 제거했습니다. React와 같이 `Chip.Button`·`ChipButton`을 사용하세요. 동작과 스타일은 같습니다.
+- `Chip.Toggle`의 기본 `accessibility-role-description`이 `"toggle"`에서 `"checkbox"`로 바뀌었습니다. 이전 값이 필요하면 `accessibility-role-description`을 직접 전달하세요.
+- `Chip.RadioRoot`는 `radiogroup` 역할을 전달하지만 기본적으로 접근성 요소가 아닌 컨테이너입니다. 각 `Chip.RadioItem`이 독립된 접근성 요소로 노출됩니다. `disabled`이면 `accessibility-traits` 기본값은 `"disabled"`입니다.
+- `Chip.Toggle`과 `Chip.RadioItem`의 `bindtap`이 선택 상태를 바꾸기 전에 호출됩니다. tap handler에서 바뀐 선택 값을 읽던 코드는 `onCheckedChange`나 `Chip.RadioRoot`의 `onValueChange`로 옮기세요.
 
 ## 웹 버전과의 차이
 
-<Callout type="warning">
-Lynx `Chip`은 React `Chip`과 같은 Button, Toggle, Radio 구성과 size/variant 이름을 사용하지만 다음 차이가 있습니다.
-
-- **렌더링 요소**: HTML `<button>` / `<label>` / `<input>` 대신 네이티브 `<view>` / `<text>`를 렌더링합니다.
-- **이벤트 핸들링**: `onClick` 대신 `bindtap`, `onChange` 대신 `onCheckedChange` 또는 `onValueChange`를 사용합니다.
-- **상태 스타일**: 웹 pseudo selector 대신 touch 상태와 선택 상태를 Lynx recipe의 `pressed`, `selected` variant로 연결합니다.
-- **아이콘 렌더링**: SVG `currentColor` 대신 Lynx monochrome icon과 `<image tint-color>` 기반 Icon wrapper를 사용합니다.
-- **접근성 역할과 상태**: `Chip.Button`, `Chip.Toggle`, `Chip.RadioItem`은 각각 `button`, `toggle`, `radio` 역할을 `accessibility-role-description`으로 전달합니다. Toggle의 checked 상태와 RadioItem의 selected 상태는 `accessibility-value`로 전달하고, disabled 상태는 `accessibility-traits`로 전달합니다. 필요하면 각 속성을 직접 덮어쓸 수 있습니다.
-- **공개 표면**: React의 registry wrapper 역할을 Lynx package API가 직접 제공하므로 별도 snippet을 설치하지 않습니다.
-</Callout>
+- 탭 이벤트는 `onClick` 대신 `bindtap`으로 받습니다. 선택 변경은 `onCheckedChange` 또는 `onValueChange`로 확인합니다.
+- 접근성 역할과 상태는 Lynx의 `accessibility-role-description`, `accessibility-value`, `accessibility-traits`로 전달합니다.
+- 문자열 label을 파악할 수 없는 구성에는 `accessibility-label`을 지정하세요.
+- Lynx `Chip`은 별도 Registry snippet 없이 `@seed-design/lynx-react`에서 제공합니다.
 
 ## Lynx 미지원 기능
 
-현재 Lynx 구현과 런타임 모델 차이로 다음 기능은 지원하지 않습니다.
-
-| 기능 | 설명 |
-|------|------|
-| HiddenInput / `inputProps` | Lynx에 HTML input과 form 제출 모델이 없습니다. |
-| `name` / `required` / native form value | HTML form 속성을 연결할 대상이 없습니다. |
-| raw DOM `onChange` | `onCheckedChange` 또는 `onValueChange`로 대체합니다. |
-| 키보드 focus / `focusVisible` | Lynx에는 웹과 같은 키보드 focus 모델이 없습니다. |
-| `asChild` | Lynx는 웹 Slot 기반 다형 렌더링을 지원하지 않습니다. |
-| Avatar 패키지 | `Chip.PrefixAvatar` 슬롯에 앱이 소유한 avatar view나 컴포넌트를 넣어 사용합니다. |
+- `HiddenInput`과 HTML form 속성
+- `Chip.Toggle`의 `indeterminate`
+- `Chip.RadioRoot`의 `invalid`
+- 키보드 focus와 `focusVisible`
+- `asChild`

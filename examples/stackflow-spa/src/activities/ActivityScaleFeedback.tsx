@@ -4,8 +4,13 @@ import {
   IconPlusFill,
 } from "@karrotmarket/react-monochrome-icon";
 import { actionButtonVariantMap } from "@seed-design/css/recipes/action-button";
-import { HStack, Icon, Callout as SeedCallout, SuffixIcon } from "@seed-design/react";
-import { RadioGroup } from "@seed-design/react/primitive";
+import {
+  HStack,
+  Icon,
+  Callout as SeedCallout,
+  SuffixIcon,
+  List as SeedList,
+} from "@seed-design/react";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -170,7 +175,7 @@ const ActivityScaleFeedback: StaticActivityComponentType<"ActivityScaleFeedback"
               </Stage>
               <Stage concentric>
                 <List asChild itemBorderRadius="r1_5">
-                  <RadioGroup.Root defaultValue="first" aria-label="ListItem 안의 RadioGroup">
+                  <SeedList.RadioRoot defaultValue="first" aria-label="ListItem 안의 RadioGroup">
                     <ListRadioItem
                       title="Radiomark 1"
                       value="first"
@@ -181,7 +186,7 @@ const ActivityScaleFeedback: StaticActivityComponentType<"ActivityScaleFeedback"
                       value="second"
                       prefix={<Radiomark size="large" />}
                     />
-                  </RadioGroup.Root>
+                  </SeedList.RadioRoot>
                 </List>
               </Stage>
             </Section>

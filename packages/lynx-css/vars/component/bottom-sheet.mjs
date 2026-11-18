@@ -13,6 +13,7 @@ export const vars = {
       "content": {
         "color": "var(--seed-color-bg-layer-floating)",
         "maxWidth": "480px",
+        "maxHeightFraction": "0.9",
         "topCornerRadius": "var(--seed-radius-r6)",
         "enterDuration": "var(--seed-duration-d6)",
         "enterTimingFunction": "var(--seed-timing-function-enter-expressive)",

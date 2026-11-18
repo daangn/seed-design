@@ -55,10 +55,13 @@ const MockIcon = React.forwardRef<MainThread.Element, LynxIconElementProps>((pro
 MockIcon.displayName = "MockIcon";
 
 describe("ReactionButton", () => {
-  it("composes slots and toggles uncontrolled selected state", () => {
-    const onPressedChange = vi.fn();
+  it("composes slots and toggles uncontrolled selected state after the user bindtap", () => {
+    const calls: string[] = [];
     render(
-      <ReactionButton onPressedChange={onPressedChange}>
+      <ReactionButton
+        bindtap={() => calls.push("bindtap")}
+        onPressedChange={(pressed) => calls.push(`pressed:${pressed}`)}
+      >
         <PrefixIcon icon={<MockIcon />} />
         좋아요
         <Count>12</Count>
@@ -69,15 +72,49 @@ describe("ReactionButton", () => {
     const queries = getQueriesForElement(getRenderedRoot());
 
     expect(root).toHaveClass("seed-reaction-button__root--size_small");
-    expect(root.querySelector(".seed-prefix-icon-slot")).toHaveClass("seed-reaction-button__prefixIcon");
+    expect(root.querySelector(".seed-prefix-icon-slot")).toHaveClass(
+      "seed-reaction-button__prefixIcon",
+    );
     expect(queries.getByText("좋아요")).toHaveClass("seed-reaction-button__label");
     expect(queries.getByText("12")).toHaveClass("seed-count", "seed-reaction-button__count");
+    expect(root).toHaveAttribute("accessibility-role-description", "toggle button");
+    expect(root).toHaveAttribute("accessibility-value", "not pressed");
 
     fireEvent.tap(root);
 
-    expect(onPressedChange).toHaveBeenCalledWith(true);
+    expect(calls).toEqual(["bindtap", "pressed:true"]);
     expect(getReactionButtonRoot()).toHaveClass("seed-reaction-button__root--selected_true");
-    expect(getReactionButtonRoot()).toHaveAttribute("accessibility-traits", "selected");
+    expect(getReactionButtonRoot()).toHaveAttribute("accessibility-traits", "button");
+    expect(getReactionButtonRoot()).toHaveAttribute("accessibility-value", "pressed");
+
+    fireEvent.tap(getReactionButtonRoot());
+
+    expect(calls).toEqual(["bindtap", "pressed:true", "bindtap", "pressed:false"]);
+    expect(getReactionButtonRoot()).toHaveClass("seed-reaction-button__root--selected_false");
+  });
+
+  it("waits for the parent to update controlled pressed", () => {
+    const calls: string[] = [];
+    const bindtap = () => calls.push("bindtap");
+    const onPressedChange = (pressed: boolean) => calls.push(`pressed:${pressed}`);
+    const { rerender } = render(
+      <ReactionButton pressed={false} bindtap={bindtap} onPressedChange={onPressedChange}>
+        좋아요
+      </ReactionButton>,
+    );
+
+    fireEvent.tap(getReactionButtonRoot());
+
+    expect(calls).toEqual(["bindtap", "pressed:true"]);
+    expect(getReactionButtonRoot()).toHaveClass("seed-reaction-button__root--selected_false");
+
+    rerender(
+      <ReactionButton pressed bindtap={bindtap} onPressedChange={onPressedChange}>
+        좋아요
+      </ReactionButton>,
+    );
+
+    expect(getReactionButtonRoot()).toHaveClass("seed-reaction-button__root--selected_true");
   });
 
   it("does not toggle when disabled", () => {
@@ -120,5 +157,77 @@ describe("ReactionButton", () => {
 
     expect(onPressedChange).not.toHaveBeenCalled();
     expect(onTap).not.toHaveBeenCalled();
+    expect(root).toHaveClass("seed-reaction-button__root--selected_false");
+    expect(root).toHaveAttribute("accessibility-traits", "disabled");
+  });
+
+  it("renders the label alone when no Count is given", () => {
+    render(<ReactionButton>좋아요</ReactionButton>);
+
+    const content = getReactionButtonRoot().querySelector(".seed-reaction-button__content");
+
+    expect(content?.children).toHaveLength(1);
+    expect(content?.children[0]).toHaveClass("seed-reaction-button__label");
+    expect(content?.children[0].textContent).toBe("좋아요");
+    expect(content?.querySelector(".seed-count")).toBeNull();
+  });
+
+  it("moves every Count child after the label into the count slot", () => {
+    render(
+      <ReactionButton>
+        <Count>1</Count>
+        좋아요
+        <Count className="custom-count">2</Count>
+      </ReactionButton>,
+    );
+
+    const content = getReactionButtonRoot().querySelector(".seed-reaction-button__content");
+    const [label, first, second] = Array.from(content?.children ?? []);
+
+    expect(content?.children).toHaveLength(3);
+    expect(label).toHaveClass("seed-reaction-button__label");
+    expect(label.textContent).toBe("좋아요");
+    expect(first).toHaveClass("seed-count", "seed-reaction-button__count");
+    expect(first.textContent).toBe("1");
+    expect(second).toHaveClass("seed-count", "seed-reaction-button__count", "custom-count");
+    expect(second.textContent).toBe("2");
+  });
+
+  it("shows a conditional Count only while it is rendered", () => {
+    function Example({ count }: { count?: number }) {
+      return (
+        <ReactionButton>
+          좋아요
+          {count !== undefined && <Count>{count}</Count>}
+        </ReactionButton>
+      );
+    }
+
+    const { rerender } = render(<Example />);
+
+    expect(getReactionButtonRoot().querySelector(".seed-count")).toBeNull();
+
+    rerender(<Example count={3} />);
+
+    const count = getReactionButtonRoot().querySelector(".seed-count");
+    expect(count).toHaveClass("seed-reaction-button__count");
+    expect(count?.textContent).toBe("3");
+  });
+
+  it("keeps a Count wrapped in a Fragment inside the label", () => {
+    render(
+      <ReactionButton>
+        좋아요
+        <>
+          <Count>4</Count>
+        </>
+      </ReactionButton>,
+    );
+
+    const label = getReactionButtonRoot().querySelector(".seed-reaction-button__label");
+    const count = label?.querySelector(".seed-count");
+
+    expect(count?.textContent).toBe("4");
+    expect(count).not.toHaveClass("seed-reaction-button__count");
   });
 });

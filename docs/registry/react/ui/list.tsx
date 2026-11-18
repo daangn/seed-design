@@ -2,14 +2,12 @@
 
 import {
   List as SeedList,
+  Checkbox,
+  RadioGroup,
+  Switch,
   Divider as SeedDivider,
   type DividerProps as SeedDividerProps,
 } from "@seed-design/react";
-import {
-  Checkbox as CheckboxPrimitive,
-  RadioGroup as RadioGroupPrimitive,
-  Switch as SwitchPrimitive,
-} from "@seed-design/react/primitive";
 import { listItem } from "@seed-design/css/recipes/list-item";
 import * as React from "react";
 
@@ -129,10 +127,7 @@ export const ListLinkItem = React.forwardRef<HTMLAnchorElement, ListLinkItemProp
 ListLinkItem.displayName = "ListLinkItem";
 
 export interface ListSwitchItemProps
-  extends Omit<
-    ListItemBaseProps & SwitchPrimitive.RootProps,
-    "title" | "prefix" | "asChild" | "children"
-  > {
+  extends Omit<SeedList.SwitchItemProps, "title" | "prefix" | "asChild" | "children"> {
   title: React.ReactNode;
   detail?: React.ReactNode;
   prefix?: React.ReactNode;
@@ -147,31 +142,22 @@ export interface ListSwitchItemProps
  * @see https://seed-design.io/react/components/list
  */
 export const ListSwitchItem = React.forwardRef<HTMLInputElement, ListSwitchItemProps>(
-  ({ title, detail, prefix, suffix, inputProps, alignItems, rootRef, ...props }, ref) => {
-    const [variantProps, otherProps] = listItem.splitVariantProps(props);
-
-    return (
-      <SeedList.Item {...variantProps} alignItems={alignItems} asChild>
-        <SwitchPrimitive.Root ref={rootRef} {...otherProps}>
-          {prefix && <SeedList.Prefix>{prefix}</SeedList.Prefix>}
-          <SeedList.Content>
-            <SeedList.Title>{title}</SeedList.Title>
-            {detail && <SeedList.Detail>{detail}</SeedList.Detail>}
-          </SeedList.Content>
-          {suffix && <SeedList.Suffix>{suffix}</SeedList.Suffix>}
-          <SwitchPrimitive.HiddenInput ref={ref} {...inputProps} />
-        </SwitchPrimitive.Root>
-      </SeedList.Item>
-    );
-  },
+  ({ title, detail, prefix, suffix, inputProps, rootRef, ...props }, ref) => (
+    <SeedList.SwitchItem ref={rootRef} {...props}>
+      {prefix && <SeedList.Prefix>{prefix}</SeedList.Prefix>}
+      <SeedList.Content>
+        <SeedList.Title>{title}</SeedList.Title>
+        {detail && <SeedList.Detail>{detail}</SeedList.Detail>}
+      </SeedList.Content>
+      {suffix && <SeedList.Suffix>{suffix}</SeedList.Suffix>}
+      <Switch.HiddenInput ref={ref} {...inputProps} />
+    </SeedList.SwitchItem>
+  ),
 );
 ListSwitchItem.displayName = "ListSwitchItem";
 
 export interface ListCheckItemProps
-  extends Omit<
-    ListItemBaseProps & CheckboxPrimitive.RootProps,
-    "title" | "prefix" | "asChild" | "children"
-  > {
+  extends Omit<SeedList.CheckItemProps, "title" | "prefix" | "asChild" | "children"> {
   title: React.ReactNode;
   detail?: React.ReactNode;
   prefix?: React.ReactNode;
@@ -186,31 +172,22 @@ export interface ListCheckItemProps
  * @see https://seed-design.io/react/components/list
  */
 export const ListCheckItem = React.forwardRef<HTMLInputElement, ListCheckItemProps>(
-  ({ title, detail, prefix, suffix, inputProps, alignItems, rootRef, ...props }, ref) => {
-    const [variantProps, otherProps] = listItem.splitVariantProps(props);
-
-    return (
-      <SeedList.Item {...variantProps} alignItems={alignItems} asChild>
-        <CheckboxPrimitive.Root ref={rootRef} {...otherProps}>
-          {prefix && <SeedList.Prefix>{prefix}</SeedList.Prefix>}
-          <SeedList.Content>
-            <SeedList.Title>{title}</SeedList.Title>
-            {detail && <SeedList.Detail>{detail}</SeedList.Detail>}
-          </SeedList.Content>
-          {suffix && <SeedList.Suffix>{suffix}</SeedList.Suffix>}
-          <CheckboxPrimitive.HiddenInput ref={ref} {...inputProps} />
-        </CheckboxPrimitive.Root>
-      </SeedList.Item>
-    );
-  },
+  ({ title, detail, prefix, suffix, inputProps, rootRef, ...props }, ref) => (
+    <SeedList.CheckItem ref={rootRef} {...props}>
+      {prefix && <SeedList.Prefix>{prefix}</SeedList.Prefix>}
+      <SeedList.Content>
+        <SeedList.Title>{title}</SeedList.Title>
+        {detail && <SeedList.Detail>{detail}</SeedList.Detail>}
+      </SeedList.Content>
+      {suffix && <SeedList.Suffix>{suffix}</SeedList.Suffix>}
+      <Checkbox.HiddenInput ref={ref} {...inputProps} />
+    </SeedList.CheckItem>
+  ),
 );
 ListCheckItem.displayName = "ListCheckItem";
 
 export interface ListRadioItemProps
-  extends Omit<
-    ListItemBaseProps & RadioGroupPrimitive.ItemProps,
-    "title" | "prefix" | "asChild" | "children"
-  > {
+  extends Omit<SeedList.RadioItemProps, "title" | "prefix" | "asChild" | "children"> {
   title: React.ReactNode;
   detail?: React.ReactNode;
   prefix?: React.ReactNode;
@@ -225,23 +202,17 @@ export interface ListRadioItemProps
  * @see https://seed-design.io/react/components/list
  */
 export const ListRadioItem = React.forwardRef<HTMLInputElement, ListRadioItemProps>(
-  ({ title, detail, prefix, suffix, inputProps, alignItems, rootRef, ...props }, ref) => {
-    const [variantProps, otherProps] = listItem.splitVariantProps(props);
-
-    return (
-      <SeedList.Item {...variantProps} alignItems={alignItems} asChild>
-        <RadioGroupPrimitive.Item ref={rootRef} {...otherProps}>
-          {prefix && <SeedList.Prefix>{prefix}</SeedList.Prefix>}
-          <SeedList.Content>
-            <SeedList.Title>{title}</SeedList.Title>
-            {detail && <SeedList.Detail>{detail}</SeedList.Detail>}
-          </SeedList.Content>
-          {suffix && <SeedList.Suffix>{suffix}</SeedList.Suffix>}
-          <RadioGroupPrimitive.ItemHiddenInput ref={ref} {...inputProps} />
-        </RadioGroupPrimitive.Item>
-      </SeedList.Item>
-    );
-  },
+  ({ title, detail, prefix, suffix, inputProps, rootRef, ...props }, ref) => (
+    <SeedList.RadioItem ref={rootRef} {...props}>
+      {prefix && <SeedList.Prefix>{prefix}</SeedList.Prefix>}
+      <SeedList.Content>
+        <SeedList.Title>{title}</SeedList.Title>
+        {detail && <SeedList.Detail>{detail}</SeedList.Detail>}
+      </SeedList.Content>
+      {suffix && <SeedList.Suffix>{suffix}</SeedList.Suffix>}
+      <RadioGroup.ItemHiddenInput ref={ref} {...inputProps} />
+    </SeedList.RadioItem>
+  ),
 );
 ListRadioItem.displayName = "ListRadioItem";
 

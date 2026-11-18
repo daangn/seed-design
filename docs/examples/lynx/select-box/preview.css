@@ -1,15 +1,10 @@
-.docs-lynx-select-box-root {
-  min-height: 100%;
-  padding: 24px;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
 .select-box-preview {
   width: 100%;
+  max-width: 400px;
 }
 
 .select-box-preview__column {
-  flex: 1;
+  display: flex;
   min-width: 0;
 }
 

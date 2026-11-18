@@ -1,93 +1,139 @@
-import type { ReactNode } from "@lynx-js/react";
+import { act, fireEvent, render } from "@lynx-js/react/testing-library";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { render } from "@lynx-js/react/testing-library";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+const dialogViewStyles = vi.hoisted(() => [] as Array<Record<string, unknown> | undefined>);
 
-const alertDialogMocks = vi.hoisted(() => ({
-  rootProps: [] as Array<Record<string, unknown>>,
-  viewProps: [] as Array<Record<string, unknown>>,
-  backdropProps: [] as Array<Record<string, unknown>>,
-  contentProps: [] as Array<Record<string, unknown>>,
-  closeProps: [] as Array<Record<string, unknown>>,
-}));
+vi.mock("@lynx-js/lynx-ui-dialog", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@lynx-js/lynx-ui-dialog")>();
+  const DialogView = (props: Parameters<typeof actual.DialogView>[0]) => {
+    dialogViewStyles.push(props.style as Record<string, unknown> | undefined);
 
-vi.mock("@lynx-js/lynx-ui-dialog", () => {
-  const renderChildren = (children: unknown, status: Record<string, boolean>): ReactNode => {
-    if (typeof children === "function") {
-      return (children as (status: Record<string, boolean>) => ReactNode)(status);
-    }
-    return children as ReactNode;
+    return <actual.DialogView {...props} />;
   };
 
-  const DialogRoot = (props: Record<string, unknown>) => {
-    alertDialogMocks.rootProps.push(props);
-    return <>{renderChildren(props["children"], { open: props["show"] === true })}</>;
-  };
-  DialogRoot.displayName = "MockDialogRoot";
-
-  const DialogTrigger = (props: Record<string, unknown>) => (
-    <view>{renderChildren(props["children"], { active: false, busy: false })}</view>
-  );
-  DialogTrigger.displayName = "MockDialogTrigger";
-
-  const DialogView = (props: Record<string, unknown>) => {
-    alertDialogMocks.viewProps.push(props);
-    return (
-      <view className={props["className"] as string}>
-        {renderChildren(props["children"], { open: props["show"] === true })}
-      </view>
-    );
-  };
-  DialogView.displayName = "MockDialogView";
-
-  const DialogBackdrop = (props: Record<string, unknown>) => {
-    alertDialogMocks.backdropProps.push(props);
-    return <view className={props["className"] as string}>{props["children"] as ReactNode}</view>;
-  };
-  DialogBackdrop.displayName = "MockDialogBackdrop";
-
-  const DialogContent = (props: Record<string, unknown>) => {
-    alertDialogMocks.contentProps.push(props);
-    return <view className={props["className"] as string}>{props["children"] as ReactNode}</view>;
-  };
-  DialogContent.displayName = "MockDialogContent";
-
-  const DialogClose = (props: Record<string, unknown>) => {
-    alertDialogMocks.closeProps.push(props);
-    return (
-      <view className={props["className"] as string}>
-        {renderChildren(props["children"], { active: false, busy: false })}
-      </view>
-    );
-  };
-  DialogClose.displayName = "MockDialogClose";
-
-  return {
-    DialogBackdrop,
-    DialogClose,
-    DialogContent,
-    DialogRoot,
-    DialogTrigger,
-    DialogView,
-  };
+  return { ...actual, DialogView };
 });
 
 import * as AlertDialog from "./AlertDialog.namespace";
+import { ActionButton } from "../ActionButton";
+
+// Open/close transitions are covered in `@seed-design/lynx-react-dialog`. These tests cover the
+// alert defaults layered on top of it against the real `@lynx-js/lynx-ui-dialog` engine.
+// lynx-ui-presence advances with `lynx.requestAnimationFrame`, which the testing environment
+// does not provide, so frames run on fake timers.
+function installAnimationFrames() {
+  const frames = {
+    requestAnimationFrame: (callback: () => void) => setTimeout(callback, 16),
+    cancelAnimationFrame: (id: number) => clearTimeout(id),
+  };
+  Object.assign(lynx, frames);
+  Object.assign(lynxTestingEnv.backgroundThread["lynx"], frames);
+  Object.assign(lynxTestingEnv.mainThread["lynx"], frames);
+}
+
+// Each state change schedules the next frames from an effect, so frames run across several act() rounds.
+function flushPresence() {
+  for (let round = 0; round < 8; round += 1) {
+    installAnimationFrames();
+    act(() => {
+      vi.advanceTimersByTime(500);
+    });
+  }
+}
+
+function tap(container: Element, selector: string) {
+  const element = container.querySelector(selector);
+  if (!element) throw new Error(`Expected ${selector} to be rendered.`);
+  fireEvent.tap(element);
+}
+
+interface TestLynxGlobal {
+  lynx?: {
+    __globalProps?: {
+      safeAreaInsetTop?: number;
+      safeAreaInsetRight?: number;
+      safeAreaInsetBottom?: number;
+      safeAreaInsetLeft?: number;
+    };
+  };
+  lynxTestingEnv?: {
+    backgroundThread: { globalThis: TestLynxGlobal };
+    mainThread: { globalThis: TestLynxGlobal };
+  };
+}
+
+function setGlobalProps(
+  globalProps: NonNullable<NonNullable<TestLynxGlobal["lynx"]>["__globalProps"]>,
+) {
+  const lynxTestingEnv = (globalThis as TestLynxGlobal).lynxTestingEnv;
+  const globals = [
+    globalThis as TestLynxGlobal,
+    lynxTestingEnv?.backgroundThread.globalThis,
+    lynxTestingEnv?.mainThread.globalThis,
+  ].filter((global): global is TestLynxGlobal => Boolean(global));
+
+  for (const global of globals) {
+    global.lynx = { ...global.lynx, __globalProps: globalProps };
+  }
+}
+
+function renderPositioner(props?: Omit<AlertDialog.PositionerProps, "children">) {
+  render(
+    <AlertDialog.Root open>
+      <AlertDialog.Positioner {...props}>
+        <AlertDialog.Backdrop />
+        <AlertDialog.Content />
+      </AlertDialog.Positioner>
+    </AlertDialog.Root>,
+  );
+
+  return dialogViewStyles.at(-1);
+}
 
 describe("AlertDialog", () => {
   beforeEach(() => {
-    alertDialogMocks.rootProps = [];
-    alertDialogMocks.viewProps = [];
-    alertDialogMocks.backdropProps = [];
-    alertDialogMocks.contentProps = [];
-    alertDialogMocks.closeProps = [];
+    vi.useFakeTimers();
+    installAnimationFrames();
   });
 
-  it("maps the namespace API and applies dialog recipe classes", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+    setGlobalProps({});
+  });
+
+  it("owns the trigger label while preserving its nested button's visual content", () => {
+    const { container, rerender } = render(
+      <AlertDialog.Root>
+        <AlertDialog.Trigger className="trigger">
+          <ActionButton>열기</ActionButton>
+        </AlertDialog.Trigger>
+      </AlertDialog.Root>,
+    );
+    const trigger = container.querySelector('.trigger > view[accessibility-element="true"]');
+    expect(trigger?.getAttribute("accessibility-label")).toBe("열기");
+    expect(trigger?.getAttribute("accessibility-role-description")).toBe("button");
+    expect(trigger?.getAttribute("flatten")).toBe("false");
+    expect(
+      trigger?.querySelector(".seed-action-button__root")?.getAttribute("accessibility-element"),
+    ).toBe("false");
+
+    rerender(
+      <AlertDialog.Root>
+        <AlertDialog.Trigger className="trigger" accessibility-label="확인 창 열기">
+          {({ busy }) => <ActionButton>{busy ? "Wait" : "Open"}</ActionButton>}
+        </AlertDialog.Trigger>
+      </AlertDialog.Root>,
+    );
+    const namedTrigger = container.querySelector('.trigger > view[accessibility-element="true"]');
+    expect(namedTrigger?.getAttribute("accessibility-label")).toBe("확인 창 열기");
+    expect(namedTrigger?.textContent).toBe("Open");
+  });
+
+  it("opens from Trigger, ignores Backdrop taps by default, and closes from Action", () => {
     const onOpenChange = vi.fn();
     const { container } = render(
-      <AlertDialog.Root open onOpenChange={onOpenChange}>
-        <AlertDialog.Trigger>
+      <AlertDialog.Root onOpenChange={onOpenChange}>
+        <AlertDialog.Trigger className="trigger">
           <text>Open</text>
         </AlertDialog.Trigger>
         <AlertDialog.Positioner>
@@ -99,7 +145,7 @@ describe("AlertDialog", () => {
             </AlertDialog.Header>
             <AlertDialog.Footer>
               <AlertDialog.Action>
-                <text>Cancel</text>
+                <text>Confirm</text>
               </AlertDialog.Action>
             </AlertDialog.Footer>
           </AlertDialog.Content>
@@ -107,120 +153,183 @@ describe("AlertDialog", () => {
       </AlertDialog.Root>,
     );
 
-    expect(alertDialogMocks.rootProps.at(-1)).toMatchObject({
-      show: true,
-      onShowChange: onOpenChange,
-    });
-    expect(container.querySelector(".seed-alert-dialog__positioner")).not.toBeNull();
-    expect(container.querySelector(".seed-alert-dialog__backdrop")).not.toBeNull();
+    tap(container, ".trigger");
+    flushPresence();
+
+    expect(onOpenChange.mock.calls).toEqual([[true]]);
+    for (const slot of [
+      "positioner",
+      "backdrop",
+      "content",
+      "header",
+      "title",
+      "description",
+      "footer",
+      "action",
+    ]) {
+      expect(container.querySelector(`.seed-alert-dialog__${slot}`)).not.toBeNull();
+    }
+
+    tap(container, ".seed-alert-dialog__backdrop");
+    flushPresence();
+
+    expect(onOpenChange.mock.calls).toEqual([[true]]);
     expect(container.querySelector(".seed-alert-dialog__content")).not.toBeNull();
-    expect(container.querySelector(".seed-alert-dialog__header")).not.toBeNull();
-    expect(container.querySelector(".seed-alert-dialog__title")).not.toBeNull();
-    expect(container.querySelector(".seed-alert-dialog__description")).not.toBeNull();
-    expect(container.querySelector(".seed-alert-dialog__footer")).not.toBeNull();
-    expect(container.querySelector(".seed-alert-dialog__action")).not.toBeNull();
+
+    tap(container, ".seed-alert-dialog__action");
+    flushPresence();
+
+    expect(onOpenChange.mock.calls).toEqual([[true], [false]]);
+    expect(container.querySelector(".seed-alert-dialog__content")).toBeNull();
   });
 
-  it("does not dismiss from the backdrop by default and preserves explicit overrides", () => {
-    render(
-      <AlertDialog.Root defaultOpen>
-        <AlertDialog.Positioner>
-          <AlertDialog.Backdrop />
-          <AlertDialog.Content />
-        </AlertDialog.Positioner>
-      </AlertDialog.Root>,
-    );
-
-    expect(alertDialogMocks.backdropProps.at(-1)).toHaveProperty("clickToClose", false);
-
-    render(
-      <AlertDialog.Root defaultOpen>
+  it("closes from the Backdrop only when clickToClose is set", () => {
+    const onOpenChange = vi.fn();
+    const { container } = render(
+      <AlertDialog.Root defaultOpen onOpenChange={onOpenChange}>
         <AlertDialog.Positioner>
           <AlertDialog.Backdrop clickToClose />
           <AlertDialog.Content />
         </AlertDialog.Positioner>
       </AlertDialog.Root>,
     );
+    flushPresence();
 
-    expect(alertDialogMocks.backdropProps.at(-1)).toHaveProperty("clickToClose", true);
+    tap(container, ".seed-alert-dialog__backdrop");
+    flushPresence();
+
+    expect(onOpenChange.mock.calls).toEqual([[false]]);
+    expect(container.querySelector(".seed-alert-dialog__content")).toBeNull();
   });
 
-  it("provides alert dialog accessibility defaults and preserves consumer overrides", () => {
+  it("keeps the content view out of the accessibility tree so its parts stay exposed", () => {
     const { container } = render(
       <AlertDialog.Root defaultOpen>
         <AlertDialog.Positioner>
-          <AlertDialog.Backdrop />
           <AlertDialog.Content>
             <AlertDialog.Title>Title</AlertDialog.Title>
           </AlertDialog.Content>
         </AlertDialog.Positioner>
       </AlertDialog.Root>,
     );
+    flushPresence();
 
-    expect(alertDialogMocks.contentProps.at(-1)?.["dialogContentProps"]).toMatchObject({
-      "accessibility-element": true,
-      "accessibility-role-description": "alertdialog",
-    });
-    expect(container.querySelector("text")?.getAttribute("accessibility-heading")).toBe("true");
+    const content = container.querySelector(".seed-alert-dialog__content");
+    expect(content?.hasAttribute("accessibility-element")).toBe(false);
+    expect(content?.hasAttribute("accessibility-role-description")).toBe(false);
+    expect(
+      container.querySelector(".seed-alert-dialog__title")?.getAttribute("accessibility-heading"),
+    ).toBe("true");
 
-    const { container: overriddenContainer } = render(
+    const { container: overridden } = render(
       <AlertDialog.Root defaultOpen>
         <AlertDialog.Positioner>
           <AlertDialog.Content
-            accessibility-element={false}
+            accessibility-element={true}
             accessibility-role-description="custom dialog"
-          />
-          <AlertDialog.Title accessibility-heading={false}>Title</AlertDialog.Title>
+            dialogContentProps={{ "accessibility-label": "From native props" }}
+            accessibility-label="From top-level props"
+          >
+            <AlertDialog.Title accessibility-heading={false}>Title</AlertDialog.Title>
+          </AlertDialog.Content>
         </AlertDialog.Positioner>
       </AlertDialog.Root>,
     );
+    flushPresence();
 
-    expect(alertDialogMocks.contentProps.at(-1)?.["dialogContentProps"]).toMatchObject({
-      "accessibility-element": false,
-      "accessibility-role-description": "custom dialog",
-    });
-    const overriddenTexts = overriddenContainer.querySelectorAll("text");
+    const overriddenContent = overridden.querySelector(".seed-alert-dialog__content");
+    expect(overriddenContent?.getAttribute("accessibility-element")).toBe("true");
+    expect(overriddenContent?.getAttribute("accessibility-role-description")).toBe("custom dialog");
+    expect(overriddenContent?.getAttribute("accessibility-label")).toBe("From native props");
     expect(
-      overriddenTexts.item(overriddenTexts.length - 1)?.getAttribute("accessibility-heading"),
+      overridden.querySelector(".seed-alert-dialog__title")?.getAttribute("accessibility-heading"),
     ).toBe("false");
   });
 
-  it("disables transitions with skipAnimation and removes reserved lifecycle handlers", () => {
-    const userBindTap = vi.fn();
-    const dialogContentProps = {
-      style: { paddingTop: "12px" },
-      bindtap: userBindTap,
-    };
+  it("forwards native content callbacks", () => {
+    const contentTap = vi.fn();
+    const { container } = render(
+      <AlertDialog.Root defaultOpen>
+        <AlertDialog.Positioner>
+          <AlertDialog.Content dialogContentProps={{ bindtap: contentTap }} />
+        </AlertDialog.Positioner>
+      </AlertDialog.Root>,
+    );
+    flushPresence();
 
-    render(
-      <AlertDialog.Root defaultOpen forceMount skipAnimation>
-        <AlertDialog.Positioner container="window" overlayLevel={2} style={{ width: "80%" }}>
-          <AlertDialog.Backdrop />
-          <AlertDialog.Content dialogContentProps={dialogContentProps} />
+    tap(container, ".seed-alert-dialog__content");
+
+    expect(contentTap).toHaveBeenCalledTimes(1);
+  });
+
+  it("pads the positioner by the side insets and the larger block inset on both sides", () => {
+    setGlobalProps({
+      safeAreaInsetTop: 0,
+      safeAreaInsetRight: 84,
+      safeAreaInsetBottom: 34,
+      safeAreaInsetLeft: 0,
+    });
+
+    expect(renderPositioner()).toEqual({
+      paddingTop: "34px",
+      paddingRight: "84px",
+      paddingBottom: "34px",
+      paddingLeft: "0px",
+    });
+
+    setGlobalProps({
+      safeAreaInsetTop: 47,
+      safeAreaInsetRight: 0,
+      safeAreaInsetBottom: 34,
+      safeAreaInsetLeft: 59,
+    });
+
+    expect(renderPositioner()).toEqual({
+      paddingTop: "47px",
+      paddingRight: "0px",
+      paddingBottom: "47px",
+      paddingLeft: "59px",
+    });
+  });
+
+  it("keeps the safe area padding in a container and lets the positioner style override it", () => {
+    setGlobalProps({ safeAreaInsetTop: 47, safeAreaInsetBottom: 34, safeAreaInsetLeft: 59 });
+
+    expect(renderPositioner({ container: "window" })).toEqual({
+      paddingTop: "47px",
+      paddingRight: "env(safe-area-inset-right)",
+      paddingBottom: "47px",
+      paddingLeft: "59px",
+      width: "100%",
+      height: "100%",
+    });
+    expect(renderPositioner({ style: { paddingLeft: "0px", opacity: 0.5 } })).toMatchObject({
+      paddingLeft: "0px",
+      opacity: 0.5,
+    });
+  });
+
+  it("wraps the content children in a vertical scroll area", () => {
+    const { container } = render(
+      <AlertDialog.Root open>
+        <AlertDialog.Positioner>
+          <AlertDialog.Content>
+            <AlertDialog.Header>
+              <AlertDialog.Title>Title</AlertDialog.Title>
+            </AlertDialog.Header>
+          </AlertDialog.Content>
         </AlertDialog.Positioner>
       </AlertDialog.Root>,
     );
 
-    expect(alertDialogMocks.rootProps.at(-1)).toMatchObject({
-      defaultShow: true,
-      forceMount: true,
-    });
-    expect(alertDialogMocks.viewProps.at(-1)).toMatchObject({
-      container: "window",
-      overlayLevel: 2,
-      style: { width: "80%", height: "100%" },
-      transition: false,
-    });
-    expect(alertDialogMocks.backdropProps.at(-1)).toMatchObject({ transition: false });
-    expect(alertDialogMocks.contentProps.at(-1)).toMatchObject({ transition: false });
-    expect(alertDialogMocks.contentProps.at(-1)?.["dialogContentProps"]).toMatchObject({
-      style: { paddingTop: "12px" },
-      "accessibility-element": true,
-      "accessibility-role-description": "alertdialog",
-    });
-    expect(alertDialogMocks.contentProps.at(-1)?.["dialogContentProps"]).not.toHaveProperty(
-      "bindtap",
+    const scrollArea = container.querySelector(
+      ".seed-alert-dialog__content > scroll-view.seed-alert-dialog__scrollArea",
     );
-    expect(userBindTap).not.toHaveBeenCalled();
+    expect(scrollArea?.getAttribute("scroll-orientation")).toBe("vertical");
+    expect(
+      scrollArea?.querySelector(
+        ":scope > .seed-alert-dialog__scrollContent > .seed-alert-dialog__header",
+      ),
+    ).not.toBeNull();
   });
 });

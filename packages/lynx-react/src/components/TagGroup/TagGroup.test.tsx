@@ -70,4 +70,42 @@ describe("TagGroup", () => {
     expect(wrappers[0]?.textContent).toBe("·두 번째");
     expect(wrappers[1]?.textContent).toBe("·세 번째");
   });
+
+  it("hides separators from the accessibility tree", () => {
+    renderTagGroup();
+
+    const separators = getRenderedRoot().querySelectorAll(".seed-tag-group__separator");
+    expect(separators).toHaveLength(2);
+
+    for (const separator of separators) {
+      expect(separator).toHaveAttribute("accessibility-elements-hidden", "true");
+    }
+  });
+
+  it("does not insert separators for falsy conditional children", () => {
+    const count = 0;
+    const emptyLabel = "";
+
+    render(
+      <TagGroup.Root>
+        <TagGroup.Item>
+          <TagGroup.ItemLabel>첫 번째</TagGroup.ItemLabel>
+        </TagGroup.Item>
+        {count && (
+          <TagGroup.Item>
+            <TagGroup.ItemLabel>{count}</TagGroup.ItemLabel>
+          </TagGroup.Item>
+        )}
+        {emptyLabel}
+        <TagGroup.Item>
+          <TagGroup.ItemLabel>두 번째</TagGroup.ItemLabel>
+        </TagGroup.Item>
+      </TagGroup.Root>,
+    );
+
+    const wrappers = getRenderedRoot().querySelectorAll(".seed-tag-group__separatorWrapper");
+
+    expect(wrappers).toHaveLength(1);
+    expect(wrappers[0]?.textContent).toBe("·두 번째");
+  });
 });

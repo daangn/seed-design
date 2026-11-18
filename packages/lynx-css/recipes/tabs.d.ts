@@ -1,5 +1,9 @@
 declare interface TabsVariant {
   /**
+  * @default false
+  */
+  extendSafeAreaX: boolean;
+/**
   * @default "fill"
   */
   triggerLayout: "fill" | "hug";
@@ -22,6 +26,10 @@ declare interface TabsVariant {
 selected: boolean;
 disabled: boolean;
 inCarousel: boolean;
+/**
+  * @default true
+  */
+  indicatorMeasured: boolean;
 }
 
 declare type TabsVariantMap = {

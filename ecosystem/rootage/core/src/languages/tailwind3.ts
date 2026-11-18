@@ -90,10 +90,16 @@ function processFoundationTokens(
       if (token.kind === "GradientTokenDeclaration") {
         const themeLight = token.values.find((v) => v.mode === "theme-light");
         if (themeLight?.value && themeLight.value.kind === "GradientLit") {
-          const colorStops = gradientToColorStops(
+          const fallbackStops = gradientToColorStops(
             themeLight.value,
             options?.sourcePrefix || options?.prefix,
           );
+          const sourceVar = createCssVarName(
+            tokenGroup,
+            token.token.key || "",
+            options?.sourcePrefix || options?.prefix,
+          );
+          const colorStops = `var(${sourceVar}, ${fallbackStops})`;
           collections.gradients[gradientKey] = colorStops;
 
           // 방향성 유틸리티들 추가
@@ -306,7 +312,16 @@ export default plugin(
         },
         {
           type: 'any',
-          values: {}
+          values: {
+            'to-t': 'to top',
+            'to-tr': 'to top right',
+            'to-r': 'to right',
+            'to-br': 'to bottom right',
+            'to-b': 'to bottom',
+            'to-bl': 'to bottom left',
+            'to-l': 'to left',
+            'to-tl': 'to top left',
+          }
         }
       );
     });

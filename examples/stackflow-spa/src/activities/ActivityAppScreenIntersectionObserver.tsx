@@ -82,7 +82,7 @@ const ActivityAppScreenIntersectionObserver: StaticActivityComponentType<
           justify="center"
           align="center"
           bg="palette.gray800"
-          color="fg.neutralInverted"
+          color="fg.onNeutralSolid"
         >
           컨텐츠 영역
         </Flex>

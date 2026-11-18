@@ -1,3 +1,4 @@
+import { archivePaths } from "../../lib/docs-archive";
 import {
   type LynxExampleName,
   parseLynxExampleManifest,
@@ -16,9 +17,13 @@ export async function resolveLynxExampleBundle(
   if (original.status !== 404) throw new Error("Lynx bundle에 접근할 수 없습니다.");
 
   // An open docs tab can outlive a deployment that removes its hashed bundle.
-  const response = await request(new URL("/__lynx__/manifest.json", origin), options);
+  const response = await request(
+    new URL(archivePaths.asset("/__lynx__/manifest.json"), origin),
+    options,
+  );
   if (!response.ok) throw new Error("현재 Lynx manifest를 불러올 수 없습니다.");
-  const current = parseLynxExampleManifest(await response.json()).examples[name]?.lynx;
+  const manifestPath = parseLynxExampleManifest(await response.json()).examples[name]?.lynx;
+  const current = manifestPath && archivePaths.asset(manifestPath);
   if (!current || current === bundlePath) throw new Error("배포된 Lynx 예제를 찾을 수 없습니다.");
   const replacement = await request(new URL(current, origin), { ...options, method: "HEAD" });
   if (!replacement.ok) throw new Error("현재 Lynx bundle에 접근할 수 없습니다.");

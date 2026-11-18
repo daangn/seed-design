@@ -1,42 +1,21 @@
 import { callout, type CalloutVariantProps } from "@seed-design/lynx-css/recipes/callout";
+import {
+  CalloutProvider,
+  useCallout,
+  useCalloutCloseButton,
+  type UseCalloutProps,
+  type UseCalloutCloseButtonProps,
+} from "@seed-design/lynx-react-callout";
 import * as React from "@lynx-js/react";
-import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
 import clsx from "clsx";
 
-import { useControllableState } from "../../hooks/useControllableState";
-import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
-import type {
-  LynxAccessibilityProps,
-  LynxPressableProps,
-  LynxStyledElementProps,
-  LynxTextRef,
-  LynxViewProps,
-  LynxViewRef,
-} from "../../types";
+import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { IconSlotProvider } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(callout);
-
-type TapHandler = NonNullable<LynxViewProps["bindtap"]>;
-
-interface CalloutContextValue {
-  dismiss: () => void;
-}
-
-const CalloutContext = React.createContext<CalloutContextValue | null>(null);
-
-function useCalloutContext(consumer: string) {
-  const context = React.useContext(CalloutContext);
-
-  if (!context) {
-    throw new Error(`<${consumer}/> must be rendered inside <CalloutRoot/>.`);
-  }
-
-  return context;
-}
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -49,54 +28,49 @@ function useCalloutContext(consumer: string) {
  */
 export interface CalloutRootProps
   extends Omit<CalloutVariantProps, "pressed" | "interactive">,
-    LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {
-  defaultOpen?: boolean;
-  open?: boolean;
-  onDismiss?: () => void;
-}
+    Pick<UseCalloutProps, "defaultOpen" | "open" | "onDismiss">,
+    Omit<
+      LynxHostProps<"view">,
+      | keyof CalloutVariantProps
+      | "defaultOpen"
+      | "open"
+      | "onDismiss"
+      | "bindtap"
+      | "main-thread:bindtap"
+    >,
+    Pick<UseCalloutProps, "bindtap" | "main-thread:bindtap"> {}
 
 export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, ref) => {
   const [variantProps, otherProps] = callout.splitVariantProps(props);
   const {
     children,
     className,
-    style,
-    defaultOpen = true,
-    open: openProp,
+    defaultOpen,
+    open,
     onDismiss,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
-    "accessibility-element": accessibilityElement,
-    "accessibility-traits": accessibilityTraits,
     ...nativeProps
   } = otherProps;
-  const [open, setOpen] = useControllableState({
-    value: openProp,
-    defaultValue: defaultOpen,
+  const api = useCallout({
+    defaultOpen,
+    open,
+    onDismiss,
+    bindtap,
+    "main-thread:bindtap": mainThreadBindtap,
+    "accessibility-element": nativeProps["accessibility-element"],
+    "accessibility-traits": nativeProps["accessibility-traits"],
   });
-  const isInteractive = bindtap != null || mainThreadBindtap != null;
-  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressTapHandlers } =
-    usePressTap({
-      disabled: !isInteractive,
-      onTap: bindtap,
-      mainThreadOnTap: mainThreadBindtap,
-    });
+  const { interactive, pressed } = api;
+  // Press state follows the Scale Feedback Main Thread touch handlers, as before the split.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-    disabled: !isInteractive,
+    disabled: !interactive,
     onTouchStart: bindtouchstart,
     onTouchEnd: bindtouchend,
     onTouchCancel: bindtouchcancel,
   });
-  const classNames = callout({ ...variantProps, pressed, interactive: isInteractive });
-  const dismiss = useMemoizedFn(() => {
-    if (!open) return;
-
-    setOpen(false);
-    onDismiss?.();
-  });
-  const contextValue = React.useMemo(() => ({ dismiss }), [dismiss]);
+  const classNames = callout({ ...variantProps, pressed, interactive });
   const iconSlotContextValue = React.useMemo(
     () => ({
       classNames: {
@@ -108,48 +82,44 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
     [classNames.prefixIcon, classNames.suffixIcon, pressed, variantProps.tone],
   );
 
-  if (!open) return null;
+  if (!api.open) return null;
 
   return (
-    <CalloutContext.Provider value={contextValue}>
+    <CalloutProvider value={api}>
       <ClassNamesProvider value={classNames}>
         <IconSlotProvider value={iconSlotContextValue}>
           <view
             {...mergeProps(
-              ref ? { ref: ref as LynxViewRef } : {},
-              isInteractive ? pressTapHandlers : {},
-              isInteractive ? scaleFeedbackTargetProps : {},
-              isInteractive ? scaleFeedbackTriggerProps : {},
+              interactive ? { flatten: false } : {},
+              rootProps,
+              interactive ? scaleFeedbackTargetProps : {},
+              interactive ? scaleFeedbackTriggerProps : {},
               nativeProps,
+              ref ? { ref: ref as LynxViewRef } : {},
             )}
-            accessibility-element={accessibilityElement ?? (isInteractive ? true : undefined)}
-            accessibility-traits={accessibilityTraits ?? (isInteractive ? "button" : undefined)}
             className={clsx(classNames.root, className)}
-            style={style}
-            {...(isInteractive ? { flatten: false } : {})}
           >
             {children}
           </view>
         </IconSlotProvider>
       </ClassNamesProvider>
-    </CalloutContext.Provider>
+    </CalloutProvider>
   );
 });
 CalloutRoot.displayName = "CalloutRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface CalloutContentProps extends LynxStyledElementProps, LynxAccessibilityProps {}
+export interface CalloutContentProps extends LynxHostProps<"text"> {}
 
 export const CalloutContent = React.forwardRef<unknown, CalloutContentProps>((props, ref) => {
-  const { children, className, style, ...nativeProps } = props;
+  const { children, className, ...nativeProps } = props;
   const classNames = useClassNames();
 
   return (
     <text
       {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(classNames.content, className)}
-      style={style}
     >
       {children}
     </text>
@@ -159,17 +129,16 @@ CalloutContent.displayName = "CalloutContent";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface CalloutTitleProps extends LynxStyledElementProps, LynxAccessibilityProps {}
+export interface CalloutTitleProps extends LynxHostProps<"text"> {}
 
 export const CalloutTitle = React.forwardRef<unknown, CalloutTitleProps>((props, ref) => {
-  const { children, className, style, ...nativeProps } = props;
+  const { children, className, ...nativeProps } = props;
   const classNames = useClassNames();
 
   return (
     <text
       {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
       className={clsx(classNames.title, className)}
-      style={style}
     >
       {children}
       {"  "}
@@ -180,18 +149,17 @@ CalloutTitle.displayName = "CalloutTitle";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface CalloutDescriptionProps extends LynxStyledElementProps, LynxAccessibilityProps {}
+export interface CalloutDescriptionProps extends LynxHostProps<"text"> {}
 
 export const CalloutDescription = React.forwardRef<unknown, CalloutDescriptionProps>(
   (props, ref) => {
-    const { children, className, style, ...nativeProps } = props;
+    const { children, className, ...nativeProps } = props;
     const classNames = useClassNames();
 
     return (
       <text
         {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
         className={clsx(classNames.description, className)}
-        style={style}
       >
         {children}
         {"  "}
@@ -203,29 +171,20 @@ CalloutDescription.displayName = "CalloutDescription";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface CalloutLinkProps
-  extends LynxStyledElementProps,
-    LynxPressableProps,
-    LynxAccessibilityProps {}
+export interface CalloutLinkProps extends LynxHostProps<"text"> {}
 
 export const CalloutLink = React.forwardRef<unknown, CalloutLinkProps>((props, ref) => {
-  const {
-    children,
-    className,
-    style,
-    "accessibility-element": accessibilityElement = true,
-    "accessibility-traits": accessibilityTraits = "link",
-    ...nativeProps
-  } = props;
+  const { children, className, ...nativeProps } = props;
   const classNames = useClassNames();
 
   return (
     <text
-      {...mergeProps(ref ? { ref: ref as LynxTextRef } : {}, nativeProps)}
-      accessibility-element={accessibilityElement}
-      accessibility-traits={accessibilityTraits}
+      {...mergeProps(
+        { "accessibility-element": true, "accessibility-traits": "link" } as const,
+        nativeProps,
+        ref ? { ref: ref as LynxTextRef } : {},
+      )}
       className={clsx(classNames.link, className)}
-      style={style}
     >
       {children}
     </text>
@@ -236,50 +195,32 @@ CalloutLink.displayName = "CalloutLink";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface CalloutCloseButtonProps
-  // Keep the scale target's Android View even if shared props later expose flatten.
-  extends Omit<LynxStyledElementProps, "flatten">,
-    LynxPressableProps,
-    LynxAccessibilityProps {}
+  extends Omit<LynxHostProps<"view">, "bindtap">,
+    Pick<UseCalloutCloseButtonProps, "bindtap"> {}
 
 export const CalloutCloseButton = React.forwardRef<unknown, CalloutCloseButtonProps>(
   (props, ref) => {
-    const {
-      children,
-      className,
-      style,
-      bindtap,
-      "accessibility-element": accessibilityElement = true,
-      "accessibility-label": accessibilityLabel,
-      "accessibility-traits": accessibilityTraits = "button",
-      ...nativeProps
-    } = props;
+    const { children, className, bindtap, ...nativeProps } = props;
     const classNames = useClassNames();
-    const { dismiss } = useCalloutContext("CalloutCloseButton");
-    const handleTap = useMemoizedFn<TapHandler>((event) => {
-      bindtap?.(event);
-      dismiss();
+    const { closeButtonProps } = useCalloutCloseButton({
+      bindtap,
+      "accessibility-element": nativeProps["accessibility-element"],
+      "accessibility-label": nativeProps["accessibility-label"],
+      "accessibility-traits": nativeProps["accessibility-traits"],
     });
     const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
-
-    if (process.env.NODE_ENV !== "production" && accessibilityElement && !accessibilityLabel) {
-      console.warn("CalloutCloseButton requires `accessibility-label` for accessibility.");
-    }
 
     return (
       <view
         {...mergeProps(
-          { bindtap: handleTap },
-          ref ? { ref: ref as LynxViewRef } : {},
+          { flatten: false },
+          closeButtonProps,
           scaleFeedbackTargetProps,
           scaleFeedbackTriggerProps,
           nativeProps,
+          ref ? { ref: ref as LynxViewRef } : {},
         )}
-        accessibility-element={accessibilityElement}
-        accessibility-label={accessibilityLabel}
-        accessibility-traits={accessibilityTraits}
         className={clsx(classNames.closeButton, className)}
-        style={style}
-        flatten={false}
       >
         {children}
       </view>

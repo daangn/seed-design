@@ -59,7 +59,7 @@ describe("Skeleton", () => {
     );
     const element = getByTestId("skeleton");
 
-    expect(ref.current).toBe(element);
+    expect<HTMLElement | null>(ref.current).toBe(element);
     expect(element).toHaveClass("custom");
     expect(element.style.height).toBe("32px");
     expect(element.style.getPropertyValue("--seed-box-width-base")).toBe(vars.$dimension.x8);

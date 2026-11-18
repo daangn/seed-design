@@ -32,7 +32,8 @@
         "vars/index.d.ts",
         "vars/component/*.mjs",
         "vars/component/*.d.ts",
-        "qvism.config.{js,ts,cjs,mjs}"
+        "qvism.config.{js,ts,cjs,mjs}",
+        "rootage.config.{js,ts,cjs,mjs}"
       ]
     },
     "packages/qvism-preset": {

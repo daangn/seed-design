@@ -47,14 +47,15 @@ declare const artifact: {
             };
             "widthFraction": {
               "type": "number";
-              "description": "viewport width 또는 parent width에 대한 비율입니다. viewport `md` 미만에서 적용합니다.";
+              "description": "좌우 inset을 뺀 viewport width 또는 parent width에 대한 비율입니다. viewport `md` 미만에서 적용합니다.";
             };
             "maxHeightFraction": {
               "type": "number";
-              "description": "viewport height 또는 parent height에 대한 최대 비율입니다.";
+              "description": "viewport height 또는 parent height에 대한 최대 비율입니다. 최대 높이는 min(maxHeightFraction × 높이, 상단과 하단 inset 중 큰 값을 위아래에서 각각 뺀 높이)입니다.";
             };
             "marginX": {
               "type": "dimension";
+              "description": "viewport `md` 이상에서 content와 좌우 안전 영역 경계 사이에 두는 최소 간격입니다.";
             };
             "enterDuration": {
               "type": "duration";
@@ -78,6 +79,7 @@ declare const artifact: {
               "type": "number";
             };
           };
+          "description": "content는 가로 기준으로 안전 영역의 가운데에 놓이고, 소비자가 지정한 너비는 안전 영역의 너비를 기준으로 합니다. 세로 기준으로는 상단과 하단 inset 중 큰 값을 위아래에 똑같이 두어 화면 가운데에 놓입니다.";
         };
         "header": {
           "properties": {

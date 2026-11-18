@@ -30,9 +30,9 @@ type BadgeValues = VariantCatalogValues<typeof variants>;
 
 function renderBadge(values: BadgeValues) {
   return (
-    <Badge tone={values.tone} variant={values.variant} size={values.size}>
-      Badge
-    </Badge>
+    <Badge.Root tone={values.tone} variant={values.variant} size={values.size}>
+      <Badge.Label>Badge</Badge.Label>
+    </Badge.Root>
   );
 }
 
@@ -41,45 +41,57 @@ function BadgeExamples() {
     <CatalogExamples title="Badge" gap="12px">
       <CatalogSectionTitle>Tones</CatalogSectionTitle>
       <view className="flex flex-row flex-wrap gap-x2 items-center">
-        <Badge tone="neutral">Neutral</Badge>
-        <Badge tone="brand">Brand</Badge>
-        <Badge tone="informative">Info</Badge>
-        <Badge tone="positive">Positive</Badge>
-        <Badge tone="warning">Warning</Badge>
-        <Badge tone="critical">Critical</Badge>
+        <Badge.Root tone="neutral">
+          <Badge.Label>Neutral</Badge.Label>
+        </Badge.Root>
+        <Badge.Root tone="brand">
+          <Badge.Label>Brand</Badge.Label>
+        </Badge.Root>
+        <Badge.Root tone="informative">
+          <Badge.Label>Info</Badge.Label>
+        </Badge.Root>
+        <Badge.Root tone="positive">
+          <Badge.Label>Positive</Badge.Label>
+        </Badge.Root>
+        <Badge.Root tone="warning">
+          <Badge.Label>Warning</Badge.Label>
+        </Badge.Root>
+        <Badge.Root tone="critical">
+          <Badge.Label>Critical</Badge.Label>
+        </Badge.Root>
       </view>
 
       <CatalogSectionTitle>Variants</CatalogSectionTitle>
       <view className="flex flex-row flex-wrap gap-x2 items-center">
-        <Badge variant="weak" tone="brand">
-          Weak
-        </Badge>
-        <Badge variant="solid" tone="brand">
-          Solid
-        </Badge>
-        <Badge variant="outline" tone="brand">
-          Outline
-        </Badge>
+        <Badge.Root variant="weak" tone="brand">
+          <Badge.Label>Weak</Badge.Label>
+        </Badge.Root>
+        <Badge.Root variant="solid" tone="brand">
+          <Badge.Label>Solid</Badge.Label>
+        </Badge.Root>
+        <Badge.Root variant="outline" tone="brand">
+          <Badge.Label>Outline</Badge.Label>
+        </Badge.Root>
       </view>
 
       <CatalogSectionTitle>Sizes</CatalogSectionTitle>
       <view className="flex flex-row flex-wrap gap-x2 items-center">
-        <Badge size="medium" tone="positive">
-          Medium
-        </Badge>
-        <Badge size="large" tone="positive">
-          Large
-        </Badge>
+        <Badge.Root size="medium" tone="positive">
+          <Badge.Label>Medium</Badge.Label>
+        </Badge.Root>
+        <Badge.Root size="large" tone="positive">
+          <Badge.Label>Large</Badge.Label>
+        </Badge.Root>
       </view>
 
       <CatalogSectionTitle>Long Label</CatalogSectionTitle>
       <view className="flex flex-row flex-wrap gap-x2 items-center">
-        <Badge tone="neutral" variant="weak">
-          거래 가능 지역이 긴 배지
-        </Badge>
-        <Badge tone="informative" variant="outline" size="large">
-          Informative outline badge with long label
-        </Badge>
+        <Badge.Root tone="neutral" variant="weak">
+          <Badge.Label>거래 가능 지역이 긴 배지</Badge.Label>
+        </Badge.Root>
+        <Badge.Root tone="informative" variant="outline" size="large">
+          <Badge.Label>Informative outline badge with long label</Badge.Label>
+        </Badge.Root>
       </view>
     </CatalogExamples>
   );

@@ -1,0 +1,27 @@
+---
+/**
+ * 404. 사이드바 없는 문서 셸(`nav: null`)에 가운데 정렬 안내만 둔다(기존 `app/not-found.tsx`와 같은 마크업).
+ * 상자는 그리드 모든 열을 덮고 높이는 뷰포트 − 헤더라 세로 스크롤이 없다.
+ */
+import { actionButton } from "@seed-design/css/recipes/action-button";
+import { archivePaths } from "../../lib/docs-archive";
+import { pageHead } from "../content/source";
+import DocsShell from "../layouts/DocsShell.astro";
+
+const head = pageHead({ robots: "noindex" });
+// SEED `ActionButton asChild`가 링크에 붙이는 class와 같다(Astro slot은 React `asChild`로 합칠 수 없어 직접 단다).
+const homeClass = `${actionButton({ variant: "neutralSolid", size: "large", layout: "withText" })} seed-scale-feedback`;
+---
+
+<DocsShell head={head} section={null} currentPath="/404" nav={null} tocRail={false}>
+  <div
+    id="nd-page"
+    class="flex h-[calc(100dvh-var(--fd-header-height,56px))] w-full flex-col items-center justify-center gap-10 overflow-hidden px-4 [grid-column:1/-1]"
+  >
+    <div class="flex -translate-y-[20px] flex-col items-center gap-10">
+      <img alt="404" width="300" height="106" class="h-auto w-[216px] md:w-[300px]" src={archivePaths.asset("/404.png")} />
+      <h1 class="text-2xl font-medium tracking-tight text-center">페이지를 찾을 수 없습니다.</h1>
+      <a class={homeClass} href={archivePaths.prefix ? `${archivePaths.prefix}/` : "/"}>홈으로</a>
+    </div>
+  </div>
+</DocsShell>

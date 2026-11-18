@@ -21,8 +21,6 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 ## Usage
 
-설치한 스니펫은 `HelpBubbleTrigger`와 `HelpBubbleAnchor`로 위치 기준점, 말풍선 콘텐츠, 화살표, 선택적인 닫기 버튼을 함께 조립합니다.
-
 ```tsx
 import IconILowercaseSerifCircleFill from "@karrotmarket/lynx-monochrome-icon/IconILowercaseSerifCircleFill";
 import { ActionButton, Icon } from "@seed-design/lynx-react";
@@ -41,11 +39,11 @@ export function App() {
 ```
 
 - `HelpBubbleTrigger`는 자식을 탭하면 말풍선을 열고 닫습니다.
-- `HelpBubbleAnchor`는 위치 기준점만 만듭니다. `defaultOpen`으로 초기 열림 상태를 정하거나, `open`과 `onOpenChange`로 열림 상태를 직접 제어할 수 있습니다.
+- `HelpBubbleAnchor`는 위치만 정합니다. `defaultOpen` 또는 `open`과 `onOpenChange`로 상태를 관리하세요.
 - 기본 배치는 `"top"`입니다. `placement`, `flip`, `gutter`, `overflowPadding`, `arrowPadding`으로 위치를 조정할 수 있습니다.
-- `showCloseButton`을 지정하면 기본 닫기 아이콘을 포함한 닫기 버튼을 추가합니다.
-- `contentProps.maxWidth`의 기본값은 `280px`이고, `"none"`으로 최대 너비 제한을 없앨 수 있습니다. `contentProps.style.width`를 함께 지정했을 때는 `maxWidth`가 더 좁으면 `maxWidth`가 적용됩니다.
-- `zIndexOffset`은 Positioner의 기본 z-index `99`에 더합니다.
+- `showCloseButton`으로 닫기 버튼을 추가할 수 있습니다.
+- `contentProps.maxWidth`의 기본값은 `280px`입니다. `"none"`으로 제한을 없앨 수 있습니다.
+- `zIndexOffset`은 같은 화면 안의 표시 순서를 조정합니다. native overlay 사이의 순서는 `overlayLevel`로 정합니다.
 
 ## Props
 
@@ -71,9 +69,9 @@ export function App() {
 
 ### Anchor
 
-`HelpBubbleAnchor`는 아바타처럼 말풍선의 위치만 정하는 요소이며, 탭으로 열고 닫히지 않습니다. `defaultOpen`을 쓰는 uncontrolled Anchor와 `open`, `onOpenChange`를 쓰는 controlled Anchor의 열림 상태는 각각 닫기 버튼과 `열림` Switch로 바꿉니다.
+`HelpBubbleAnchor`는 아바타처럼 말풍선의 위치만 정하는 요소이며, 탭으로 말풍선을 열거나 닫지 않습니다. `defaultOpen`을 쓰는 uncontrolled Anchor의 열림 상태는 닫기 버튼으로 바꿉니다. `open`, `onOpenChange`를 쓰는 controlled Anchor의 열림 상태는 `열림` Switch로 바꿉니다.
 
-<LynxComponentExample name="lynx/help-bubble/anchor" height={320}>
+<LynxComponentExample name="lynx/help-bubble/anchor" height={480}>
   ```json doc-gen:file
   {"file":"examples/lynx/help-bubble/anchor.tsx","codeblock":true}
   ```
@@ -81,7 +79,7 @@ export function App() {
 
 ### Close On Interact Outside
 
-`closeOnInteractOutside`의 기본값은 `true`입니다. native에서 `true`인 말풍선의 첫 바깥 탭은 말풍선만 닫고 아래 요소에는 전달되지 않습니다. `false`이면 말풍선은 열린 채로 유지되고, 바깥 탭은 아래 요소에 그대로 전달됩니다.
+`closeOnInteractOutside`의 기본값은 `true`입니다. `true`이면 Trigger·Anchor와 말풍선 밖을 탭했을 때 말풍선이 닫히고, 그 탭은 아래 요소에도 그대로 전달됩니다. `false`이면 바깥을 탭해도 말풍선이 열린 채로 유지됩니다.
 
 <LynxComponentExample name="lynx/help-bubble/close-on-interact-outside" height={320}>
   ```json doc-gen:file
@@ -91,7 +89,7 @@ export function App() {
 
 ### Placement
 
-`placement`로 기준 요소의 12개 방향에 말풍선을 배치합니다. 이 예제는 각 배치를 열린 상태로 표시하며, `flip={false}`로 지정한 방향을 유지합니다.
+`placement`로 기준 요소의 12개 방향에 말풍선을 배치합니다. 이 예제는 각 배치를 열린 상태로 표시합니다. 화면 경계에서 지정한 방향의 공간이 부족하면 `flip` 기본값에 따라 말풍선이 반대 방향으로 뒤집힙니다.
 
 <LynxComponentExample name="lynx/help-bubble/placement" height={600}>
   ```json doc-gen:file
@@ -111,7 +109,7 @@ export function App() {
 
 ### Close Button
 
-`showCloseButton`으로 말풍선에 닫기 버튼을 추가할 수 있습니다. 닫기 버튼을 탭하면 말풍선이 닫히고, Trigger를 다시 탭하면 다시 엽니다.
+`showCloseButton`으로 말풍선에 닫기 버튼을 추가할 수 있습니다. 닫기 버튼을 탭하면 말풍선이 닫히고, Trigger를 다시 탭하면 다시 열립니다.
 
 <LynxComponentExample name="lynx/help-bubble/close-button" height={320}>
   ```json doc-gen:file
@@ -151,7 +149,7 @@ Content에는 기본 최대 너비가 있습니다. `contentProps.maxWidth`로 �
 
 ### Line Breaks
 
-React의 `<br />`는 Lynx title에서 native `<text>` 자식과 `"\n"`으로 변환합니다. 문자열의 줄바꿈 문자도 title에 전달할 수 있습니다.
+Lynx title에서는 React의 `<br />` 대신 native `<text>` 자식과 `"\n"`을 사용합니다. 문자열의 줄바꿈 문자도 title에 전달할 수 있습니다.
 
 <LynxComponentExample name="lynx/help-bubble/line-breaks" height={320}>
   ```json doc-gen:file
@@ -161,7 +159,7 @@ React의 `<br />`는 Lynx title에서 native `<text>` 자식과 `"\n"`으로 변
 
 ### `z-index` Offset
 
-`zIndexOffset`으로 Positioner의 기본 z-index `99`에 값을 더합니다. 이 예제는 SegmentedControl로 offset을 바꾸며 말풍선의 현재 z-index를 확인합니다.
+`zIndexOffset`은 같은 Lynx 화면 안의 표시 순서를 조정합니다. `container`를 지정한 native overlay 사이의 순서는 `overlayLevel`로 정합니다.
 
 <LynxComponentExample name="lynx/help-bubble/z-index-offset" height={480}>
   ```json doc-gen:file
@@ -169,8 +167,21 @@ React의 `<br />`는 Lynx title에서 native `<text>` 자식과 `"\n"`으로 변
   ```
 </LynxComponentExample>
 
+### Portalled
+
+`container`를 지정하지 않으면 말풍선은 Lynx view 안의 `position: fixed` view로 렌더링됩니다. `container="window"`처럼 native container 이름을 지정하면 native overlay 레이어에 렌더링되어 Lynx view 밖의 host 화면까지 덮습니다. `overlayLevel`은 `container`를 지정했을 때 overlay 레이어의 표시 순서를 정합니다.
+
+overlay 레이어는 말풍선이 아닌 곳의 탭을 아래 화면으로 넘깁니다. `closeOnInteractOutside`가 `true`이면 같은 탭으로 말풍선도 닫힙니다.
+
+<LynxComponentExample name="lynx/help-bubble/portalled" height={320}>
+  ```json doc-gen:file
+  {"file":"examples/lynx/help-bubble/portalled.tsx","codeblock":true}
+  ```
+</LynxComponentExample>
+
 ## 웹 버전과의 차이
 
-- Lynx의 Trigger와 Anchor는 자식을 native `view`로 감쌉니다. DOM `asChild`, HTML ARIA 속성, 키보드 포커스·ESC 닫힘, portal은 제공하지 않습니다. 필요한 접근성은 Lynx의 `accessibility-*` prop과 host의 native 접근성 흐름으로 확인하세요.
-- `closeOnInteractOutside`가 `true`이면 첫 번째 바깥 탭은 말풍선만 닫고 아래 요소로 전달되지 않습니다. `false`이면 말풍선은 열린 채로 바깥 탭이 아래 요소로 전달됩니다.
-- Positioner는 portal이나 fullscreen overlay가 아닌 고정 native `view`입니다. `zIndexOffset`으로 같은 화면의 형제 요소와의 z-index 순서를 조정합니다.
+- Trigger와 Anchor는 자식을 native `view`로 감싸며 `asChild`를 제공하지 않습니다. raw `<text>`처럼 이름을 만들 수 없는 Trigger에는 `accessibility-label`을 지정하세요.
+- `closeOnInteractOutside`는 바깥 탭을 아래 요소로 전달합니다. 스크롤처럼 탭이 아닌 상호작용으로는 닫히지 않습니다.
+- `container`를 지정하면 native overlay에 렌더링됩니다. 지정하지 않으면 `zIndexOffset`으로 같은 화면 안의 표시 순서를 조정합니다.
+- [Help Bubble Tooltip](/react/components/help-bubble-tooltip)은 hover와 키보드 focus를 사용하는 웹 전용 컴포넌트입니다.

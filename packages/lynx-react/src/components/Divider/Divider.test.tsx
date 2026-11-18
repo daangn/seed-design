@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render } from "@lynx-js/react/testing-library";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { Divider } from "./Divider";
 
@@ -69,5 +69,23 @@ describe("Divider", () => {
       "margin-left": "4px",
       "margin-right": "16px",
     });
+  });
+
+  it("drops the previous geometry when orientation and inset change", () => {
+    const ref = vi.fn();
+    const { rerender } = render(<Divider ref={ref} inset />);
+
+    rerender(<Divider ref={ref} inset orientation="vertical" />);
+    const vertical = getRenderedDivider().style;
+    expect(vertical.getPropertyValue("width")).toBe("");
+    expect(vertical.getPropertyValue("margin-left")).toBe("");
+    expectStyle(vertical, { height: "calc(100% - 32px)", "margin-top": "16px" });
+
+    rerender(<Divider ref={ref} />);
+    const horizontal = getRenderedDivider().style;
+    expect(horizontal.getPropertyValue("height")).toBe("");
+    expect(horizontal.getPropertyValue("margin-top")).toBe("");
+    expectStyle(horizontal, { width: "100%" });
+    expect(ref).toHaveBeenLastCalledWith(expect.anything());
   });
 });

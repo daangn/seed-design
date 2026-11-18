@@ -8,17 +8,17 @@ import {
 } from "@seed-design/css/recipes/switchmark";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { withChromaticParameters } from "@/stories/utils/parameters";
-import { Switch } from "@seed-design/react/primitive";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
+import { Switch } from "@seed-design/react";
 
-function CustomSwitch(props: SwitchmarkVariantProps & Switch.RootProps) {
+function CustomSwitch(props: SwitchmarkVariantProps & Switch.RootPrimitiveProps) {
   const [switchmarkVariantProps, otherProps] = switchmark.splitVariantProps(props);
 
   return (
-    <Switch.Root {...otherProps}>
+    <Switch.Root.Primitive {...otherProps}>
       <Switchmark {...switchmarkVariantProps} />
       <Switch.HiddenInput />
-    </Switch.Root>
+    </Switch.Root.Primitive>
   );
 }
 
@@ -51,13 +51,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

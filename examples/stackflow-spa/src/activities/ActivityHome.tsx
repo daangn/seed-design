@@ -108,6 +108,8 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
       items: [
         { title: "App Bar 슬롯과 긴 제목", ...to("ActivityLayerBar", {}) },
         { title: "투명 App Bar", ...to("ActivityTransparentBar", {}) },
+        { title: "Search Bar", ...to("ActivitySearchBar", {}) },
+        { title: "좌우 safe area와 bleed", ...to("ActivitySafeAreaBleed", {}) },
         { title: "@stackflow/plugin-basic-ui", ...to("ActivityPluginBasicUI", {}) },
         { title: "중복 pop 가드", ...to("ActivityPopTest", {}) },
         { title: "스와이프백 키보드", ...to("ActivitySwipeBackKeyboard", {}) },
@@ -248,6 +250,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           ),
         },
         { title: "Help Bubble", ...to("ActivityHelpBubble", {}) },
+        { title: "Popover", ...to("ActivityPopover", {}) },
       ],
     },
     {
@@ -328,7 +331,6 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "Tag Group", ...to("ActivityTagGroup", {}) },
         { title: "Manner Temp Badge", ...to("ActivityMannerTempLevel", {}) },
         { title: "Accordion", ...to("ActivityAccordion", {}) },
-        { title: "Error State", ...to("ActivityErrorState", {}) },
         { title: "Result Section", ...to("ActivityResultSection", {}) },
       ],
     },
@@ -504,7 +506,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
   }
 
   return (
-    <AppScreen transitionStyle={params.transitionStyle}>
+    <AppScreen transitionStyle={params.transitionStyle} layerOffsetBottom="safeArea">
       <AppBar bg="bg.layerBasement">
         {activityIndex > 0 && (
           <AppBarLeft>
@@ -528,7 +530,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }}
       >
-        <VStack pb="safeArea" minHeight="100%">
+        <VStack minHeight="100%">
           <Box ref={stripRef} position="sticky" top={0} zIndex={2} bg="bg.layerBasement">
             <ChipTabsRoot
               value={activeSection}

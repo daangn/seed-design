@@ -19,6 +19,17 @@ interface ThemeGenerationOptions {
   banner?: string;
 }
 
+const gradientDirections = {
+  t: "to top",
+  tr: "to top right",
+  r: "to right",
+  br: "to bottom right",
+  b: "to bottom",
+  bl: "to bottom left",
+  l: "to left",
+  tl: "to top left",
+};
+
 // Gradient를 색상 stops만으로 변환하는 함수 (방향 없이)
 function gradientToColorStops(gradient: GradientLit, prefix?: string): string {
   return gradient.stops
@@ -114,26 +125,19 @@ class TokenProcessor {
     if (token.kind === "GradientTokenDeclaration") {
       const themeLight = token.values.find((v) => v.mode === "theme-light");
       if (themeLight?.value && themeLight.value.kind === "GradientLit") {
-        const gradientCss = gradientToColorStops(themeLight.value, this.options.sourcePrefix);
+        const sourcePrefix = this.options.sourcePrefix || this.options.prefix;
+        const fallbackStops = gradientToColorStops(themeLight.value, sourcePrefix);
+        const sourceName = `--${sourcePrefix ? `${sourcePrefix}-` : ""}gradient-${gradientKey}`;
+        const gradientCss = `var(${sourceName}, ${fallbackStops})`;
 
         // gradient stops를 colors에 사용하기 위해 저장
         this.gradientStops[`gradient-stops-${gradientKey}`] = gradientCss;
 
-        // 방향성 유틸리티들 추가
-        this.gradientDirections[`${gradientKey}-to-t`] = `linear-gradient(to top, ${gradientCss})`;
-        this.gradientDirections[`${gradientKey}-to-tr`] =
-          `linear-gradient(to top right, ${gradientCss})`;
-        this.gradientDirections[`${gradientKey}-to-r`] =
-          `linear-gradient(to right, ${gradientCss})`;
-        this.gradientDirections[`${gradientKey}-to-br`] =
-          `linear-gradient(to bottom right, ${gradientCss})`;
-        this.gradientDirections[`${gradientKey}-to-b`] =
-          `linear-gradient(to bottom, ${gradientCss})`;
-        this.gradientDirections[`${gradientKey}-to-bl`] =
-          `linear-gradient(to bottom left, ${gradientCss})`;
-        this.gradientDirections[`${gradientKey}-to-l`] = `linear-gradient(to left, ${gradientCss})`;
-        this.gradientDirections[`${gradientKey}-to-tl`] =
-          `linear-gradient(to top left, ${gradientCss})`;
+        // Preserve the existing direction theme keys.
+        for (const [direction, value] of Object.entries(gradientDirections)) {
+          this.gradientDirections[`${gradientKey}-to-${direction}`] =
+            `linear-gradient(${value}, ${gradientCss})`;
+        }
       }
     }
   }
@@ -284,13 +288,16 @@ ${styleLines.join("\n")}
     });
   }
 
-  generateGradientArbitraryUtilities(gradientStops: Record<string, string>): void {
-    Object.keys(gradientStops).forEach((gradientStop) => {
-      const gradientName = gradientStop.replace("stops-", "");
-      this.utilityDeclarations.push(`@utility bg-${gradientName}-* {
-  background-image: linear-gradient(--value([angle]), var(--${gradientStop}));
+  generateGradientUtilities(gradientStops: Record<string, string>): void {
+    for (const [gradientStop, colorStops] of Object.entries(gradientStops)) {
+      const gradientName = gradientStop.replace("gradient-stops-", "");
+      this.utilityDeclarations.push(`@utility bg-${gradientName}-to-* {
+  background-image: linear-gradient(--value(--gradient-direction-to-*), ${colorStops});
 }`);
-    });
+      this.utilityDeclarations.push(`@utility bg-gradient-${gradientName}-* {
+  background-image: linear-gradient(--value(--gradient-direction-*, [angle]), ${colorStops});
+}`);
+    }
   }
 
   private createUtilityDeclaration(name: string, props: Record<string, string>): string {
@@ -419,12 +426,12 @@ export function getTailwind4CompleteThemeCode(
   utilityGenerator.generateComponentUtilities(typographyTokens, sourcePrefix);
   utilityGenerator.generateDimensionUtilities();
   utilityGenerator.generateOtherUtilities();
-  utilityGenerator.generateGradientArbitraryUtilities(tokenProcessor.getGradientStops());
+  utilityGenerator.generateGradientUtilities(tokenProcessor.getGradientStops());
 
   // 테마 코드 생성
   const themeDeclarations = tokenProcessor.getThemeDeclarations();
   const gradientStops = tokenProcessor.getGradientStops();
-  const gradientDirections = tokenProcessor.getGradientDirections();
+  const tokenGradientDirections = tokenProcessor.getGradientDirections();
   const utilityDeclarations = utilityGenerator.getUtilityDeclarations();
 
   // gradient stops를 colors로 추가
@@ -435,7 +442,7 @@ export function getTailwind4CompleteThemeCode(
 
   // gradient 방향성 유틸리티를 gradient로 추가
   const gradientDirectionDeclarations: string[] = [];
-  Object.entries(gradientDirections).forEach(([key, value]) => {
+  Object.entries(tokenGradientDirections).forEach(([key, value]) => {
     gradientDirectionDeclarations.push(`  --gradient-${key}: ${value};`);
   });
 
@@ -445,8 +452,18 @@ export function getTailwind4CompleteThemeCode(
     ...gradientDirectionDeclarations,
   ];
 
+  // Inline the shared direction values so generated utilities need no runtime
+  // direction variables. Gradient stops still resolve on the styled element.
+  const directionDeclarations = Object.entries(gradientDirections).map(
+    ([direction, value]) => `  --gradient-direction-to-${direction}: ${value};`,
+  );
+
   return `${options.banner ?? ""}@theme {
 ${allThemeDeclarations.join("\n")}
+}
+
+@theme inline {
+${directionDeclarations.join("\n")}
 }
 
 ${utilityDeclarations.join("\n\n")}`;

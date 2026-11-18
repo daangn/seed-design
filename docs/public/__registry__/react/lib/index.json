@@ -23,8 +23,8 @@
         {
           "path": "pagination-button.tsx",
           "dependencies": {
-            "@seed-design/react": "^2.3.0",
-            "@seed-design/css": "^2.6.0"
+            "@seed-design/react": "^2.3.0 || ^3.0.0",
+            "@seed-design/css": "^2.6.0 || ^3.0.0"
           }
         }
       ],
@@ -40,7 +40,7 @@
         {
           "path": "pagination-page-item.tsx",
           "dependencies": {
-            "@seed-design/css": "^2.6.0"
+            "@seed-design/css": "^2.6.0 || ^3.0.0"
           }
         }
       ],

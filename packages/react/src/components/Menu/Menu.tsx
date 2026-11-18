@@ -8,6 +8,7 @@ import clsx from "clsx";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import { withContentScale } from "../../utils/withContentScale";
 
 const { ClassNamesProvider, withContext, useClassNames } = createSlotRecipeContext(menu);
 const {
@@ -107,8 +108,8 @@ export const MenuGroupLabel = withContext<HTMLDivElement, MenuGroupLabelProps>(
 
 export interface MenuItemProps extends MenuItemVariantProps, MenuPrimitive.ItemProps {}
 
-export const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
-  ({ className: propClassName, ...props }, ref) => {
+export const MenuItem = withContentScale(
+  React.forwardRef<HTMLDivElement, MenuItemProps>(({ className: propClassName, ...props }, ref) => {
     const [variantProps, otherProps] = menuItem.splitVariantProps(props);
     const parentProps = useItemProps();
 
@@ -123,7 +124,7 @@ export const MenuItem = React.forwardRef<HTMLDivElement, MenuItemProps>(
         />
       </ItemClassNamesProvider>
     );
-  },
+  }),
 );
 MenuItem.displayName = "MenuItem";
 

@@ -1,0 +1,157 @@
+---
+/**
+ * 문서 본문 틀(정적). 기존 `components/layout/docs-page-renderer.tsx` + fumadocs `DocsPage`, `overview-layout.tsx`,
+ * `prose-page.tsx`의 역할이다. `DocsShell.astro`의 레이아웃 그리드에 직접 자식으로 `<main>`(또는 `#nd-page`)·TOC·footer
+ * 행을 놓는다. 마크업·class는 기존 컴포넌트가 내던 HTML과 같다(baseline 하네스의 `main`, `#nd-page`, `#nd-toc`, `footer`).
+ *
+ * 페이지별 island는 `Toc`(scroll-spy·활성 구간 트랙)와 `PageActions`(LLMS.txt 메뉴) 둘이고 둘 다 `client:idle`이다
+ * (서버 HTML이 먼저 보인다). 이동 뒤 유지할 상태가 없어 persist하지 않는다.
+ */
+import { LynxCompatibilityBadges } from "../../components/lynx-compatibility";
+import { DOC_TITLE_CLASS } from "../../components/layout/lib/doc-title";
+import { SiteFooter } from "../../components/layout/site-footer";
+import { formatPublishedDate } from "../../lib/format-date";
+import { ArticleShareButton } from "../../components/updates/share-button";
+import type { DocsPageView } from "../content/source";
+import { PlatformStatusTable } from "../../components/platform-status-table";
+import TabStrip from "../mdx/TabStrip.astro";
+import { PageActions } from "../shell/PageActions";
+import { Toc } from "../shell/Toc";
+import PrevNext from "./PrevNext.astro";
+
+interface Props {
+  view: DocsPageView;
+}
+
+const { view } = Astro.props;
+const { article, toc } = view;
+const bodyClass = "prose flex-1 prose-p:break-keep prose-p:text-pretty prose-headings:text-balance";
+const lastModified = view.lastModified
+  ? new Intl.DateTimeFormat("ko-KR", { timeZone: "Asia/Seoul" }).format(view.lastModified)
+  : undefined;
+const cover = article.coverImage;
+// Updates 글(기존 `app/updates/[slug]/page.tsx`): `post`는 가운데 정렬 제목·확대 본문·`.updates-article` 여백,
+// `release`는 기본 조판. 둘 다 제목 위 여백(topSpacing)과 게시일 메타를 둔다.
+const updates = article.updates;
+const post = updates && !updates.release;
+---
+
+{
+  article.layout === "docs" && (
+    <main class="grid [grid-area:main]" data-layout-main="">
+      <article
+        id="nd-page"
+        data-layout-content=""
+        data-full={String(article.full)}
+        class:list={[
+          "flex flex-col min-w-0 px-4 py-6 gap-4 md:px-6 md:pt-8 xl:px-8 xl:pt-14",
+          article.full ? "*:max-w-[1285px]" : "*:max-w-[900px] *:mx-auto *:w-full",
+          post && "updates-article",
+        ]}
+      >
+        <div class="flex flex-row items-center justify-between gap-2 mb-2">
+          {article.sectionLabel && <span class="t4-regular text-fg-neutral-muted">{article.sectionLabel}</span>}
+          {article.showPageActions && <PageActions client:idle markdownUrl={view.head.markdownUrl} />}
+        </div>
+        <h1 class:list={[DOC_TITLE_CLASS, updates && "mt-8 md:mt-14 text-balance break-keep", post && "text-center"]}>{article.title}</h1>
+        {article.description && <p class="mb-8 text-fd-muted-foreground text-base font-light">{article.description}</p>}
+        {
+          updates?.publishedAt && (
+            <div class:list={["not-prose mt-2 mb-3 flex items-center gap-1.5 text-base text-fd-muted-foreground", post ? "justify-center" : "justify-start"]}>
+              <time datetime={updates.publishedAt.toISOString()}>{formatPublishedDate(updates.publishedAt)}</time>
+              <ArticleShareButton title={article.title} />
+            </div>
+          )
+        }
+        {article.lynxCompatibility && <LynxCompatibilityBadges compatibility={article.lynxCompatibility} />}
+        {article.platformStatusIds.length > 0 && <PlatformStatusTable componentIds={article.platformStatusIds} inHeader />}
+        {
+          cover && (
+            <div class:list={["not-prose mb-8 md:mb-10", updates && "!max-w-[1024px]"]}>
+              <img src={cover.src} alt={cover.alt} width={cover.width} height={cover.height} class="block h-auto w-full rounded-r4" loading="eager" />
+            </div>
+          )
+        }
+        {article.tabs && <TabStrip label={article.tabs.label} items={article.tabs.items} />}
+        <div
+          class:list={[
+            bodyClass,
+            post &&
+              "prose-h2:text-[1.75rem] prose-h3:text-[1.5rem] prose-p:text-[1.125rem] prose-li:text-[1.125rem] prose-p:leading-[1.7] prose-li:leading-[1.7] prose-em:text-[color:var(--seed-color-palette-gray-700)]",
+          ]}
+        >
+          <slot />
+        </div>
+        {
+          lastModified && (
+            <div class="flex flex-row flex-wrap items-center justify-between gap-4 empty:hidden">
+              <p class="text-sm text-fd-muted-foreground">Last updated on {lastModified}</p>
+            </div>
+          )
+        }
+        <PrevNext prev={view.prevNext.prev} next={view.prevNext.next} />
+      </article>
+    </main>
+  )
+}
+{
+  article.layout === "overview" && (
+    <div id="nd-page" class="[grid-area:main] w-full px-4 py-10 md:px-6 md:py-16 xl:px-8">
+      <div class={article.full ? "max-w-none" : "max-w-[900px]"}>
+        <header class="not-prose mb-10 md:mb-14">
+          <h1 class={`text-fd-foreground ${DOC_TITLE_CLASS} text-balance`}>{article.title}</h1>
+          {article.description && <p class="text-fd-muted-foreground mt-4 text-base font-light text-pretty">{article.description}</p>}
+        </header>
+        {
+          cover && (
+            <div class="not-prose mb-8 md:mb-10">
+              <img src={cover.src} alt={cover.alt} width={cover.width} height={cover.height} class="block h-auto w-full rounded-r4" loading="eager" />
+            </div>
+          )
+        }
+        <div class="prose flex-1 max-w-none prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
+          <slot />
+        </div>
+      </div>
+    </div>
+  )
+}
+{
+  article.layout === "prose" && (
+    <div id="nd-page" class="[grid-area:main] w-full px-4 py-10 md:px-6 md:py-16 xl:px-8">
+      <div class="mx-auto w-full max-w-[1100px]">
+        <div>
+          <header class="not-prose mb-10 md:mb-14">
+            <h1 class="text-fd-foreground text-3xl font-medium tracking-tight text-balance md:text-[40px]">{article.title}</h1>
+            {article.description && <p class="text-fd-muted-foreground mt-4 text-base font-light text-pretty">{article.description}</p>}
+          </header>
+          <div class="prose flex-1 max-w-none prose-p:break-keep prose-p:text-pretty prose-headings:text-balance">
+            {
+              cover && (
+                <div class="not-prose mb-8 md:mb-10">
+                  <img src={cover.src} alt={cover.alt} width={cover.width} height={cover.height} class="block h-auto w-full rounded-r4" loading="eager" />
+                </div>
+              )
+            }
+            <slot />
+          </div>
+        </div>
+        <SiteFooter />
+      </div>
+    </div>
+  )
+}
+{toc && <Toc client:idle items={toc} />}
+{
+  article.layout !== "prose" && (
+    /* 사이트 footer를 콘텐츠 아래 새 행에 둔다. 폭은 그 페이지 콘텐츠와 같은 결로 맞춘다. */
+    <div
+      class="px-4 md:px-6 xl:px-8 pb-14"
+      style={`grid-column:${article.full ? "main-start / toc-end" : "main-start / main-end"};grid-row-start:main-end`}
+    >
+      <div class={article.full ? undefined : "mx-auto max-w-[900px]"}>
+        <SiteFooter />
+      </div>
+    </div>
+  )
+}

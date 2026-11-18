@@ -11,6 +11,7 @@ export {
   type CheckboxIndicatorProps,
   type CheckboxLabelProps,
   type CheckboxRootProps,
+  type CheckboxRootPrimitiveProps,
 } from "./Checkbox";
 
 export * as Checkbox from "./Checkbox.namespace";

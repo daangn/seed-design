@@ -1,0 +1,65 @@
+/* 코드 블록 Shiki 출력(`fumadocs-core` rehype-code, `components/codeblock/client-code-block.tsx`)의 색·줄·diff·강조.
+   fumadocs-ui 16.19.0 `css/lib/shiki.css`에서 이 사이트 출력에 나오는 class만 옮겼다(줄 번호·focus·word 강조·inline
+   code 강조는 쓰지 않는다). selector는 원본 그대로 둔다. */
+.shiki:not(.not-fumadocs-codeblock *) {
+  --padding-left: calc(var(--spacing) * 4);
+  --padding-right: calc(var(--spacing) * 4);
+
+  code span {
+    color: var(--shiki-light);
+    font-style: var(--shiki-light-font-style);
+  }
+
+  .line {
+    position: relative;
+    padding-left: var(--padding-left);
+    padding-right: var(--padding-right);
+  }
+
+  .line:empty {
+    height: 1lh;
+  }
+
+  .diff::before {
+    position: absolute;
+    left: calc(var(--spacing) * 1.5);
+  }
+
+  .diff.remove {
+    opacity: 0.7;
+    background-color: rgba(200, 10, 100, 0.12);
+  }
+
+  .diff.remove::before {
+    content: "-";
+    color: rgb(230, 10, 100);
+  }
+
+  .diff.add {
+    background-color: rgba(14, 180, 100, 0.1);
+  }
+
+  .diff.add::before {
+    content: "+";
+    color: rgb(10, 200, 100);
+  }
+
+  .highlighted {
+    background-color: color-mix(in oklab, var(--color-fd-primary) 10%, transparent);
+  }
+
+  .highlighted::after {
+    position: absolute;
+    content: "";
+    inset-block: 0;
+    left: 0;
+    border-left: 2px solid color-mix(in oklab, var(--color-fd-primary) 50%, transparent);
+  }
+}
+
+.dark .shiki:not(.not-fumadocs-codeblock *) {
+  code span {
+    color: var(--shiki-dark);
+    font-style: var(--shiki-dark-font-style);
+  }
+}

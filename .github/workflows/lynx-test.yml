@@ -1,0 +1,61 @@
+name: Test Lynx
+
+on:
+  push:
+    paths:
+      - "packages/lynx-react/**/*"
+      - "packages/lynx-react-headless/**/*"
+      - "packages/utils/lynx-react-*/**/*"
+      - "packages/lynx-vitest-config/**/*"
+      - "patches/@lynx-js%2Freact@*.patch"
+      - "package.json"
+      - "bun.lock"
+      - ".github/workflows/lynx-test.yml"
+      - ".github/actions/setup/action.yml"
+      - ".bun-version"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # lockfile: 개발 버전. 0.117.0: Lynx 패키지가 선언한 @lynx-js/react peer 하한.
+        lynx-react: [lockfile, 0.117.0]
+
+    name: test (@lynx-js/react ${{ matrix.lynx-react }})
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: ./.github/actions/setup
+
+      - name: Install @lynx-js/react ${{ matrix.lynx-react }}
+        if: ${{ matrix.lynx-react != 'lockfile' }}
+        env:
+          LYNX_REACT_VERSION: ${{ matrix.lynx-react }}
+        # 모든 workspace의 @lynx-js/react를 바꾸고 그 버전용 vitest 5 패치를 등록한다.
+        run: |
+          bun -e '
+            const version = process.env.LYNX_REACT_VERSION;
+            const patch = `patches/@lynx-js%2Freact@${version}.patch`;
+            if (!(await Bun.file(patch).exists())) throw new Error(`${patch} is missing.`);
+            const manifest = await Bun.file("package.json").json();
+            manifest.overrides = { ...manifest.overrides, "@lynx-js/react": version };
+            manifest.patchedDependencies = {
+              ...manifest.patchedDependencies,
+              [`@lynx-js/react@${version}`]: patch,
+            };
+            await Bun.write("package.json", `${JSON.stringify(manifest, null, 2)}\n`);
+          '
+          bun install
+
+      - name: Build Lynx dependencies
+        run: bun utils:build && bun lynx-headless:build
+
+      - name: Run tests
+        run: bun test:lynx-react

@@ -1,15 +1,7 @@
-.docs-lynx-chip-root {
-  height: 100%;
-  padding: 24px;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
 .chip-preview {
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 16px;
 }
 
@@ -31,19 +23,4 @@
 .chip-preview__status {
   color: var(--seed-color-fg-neutral-muted);
   font-size: 14px;
-}
-
-.chip-preview__avatar {
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  background-color: var(--seed-color-bg-brand-solid);
-}
-
-.chip-preview__avatar-label {
-  color: var(--seed-color-fg-brand-contrast);
-  font-size: 12px;
-  font-weight: 700;
 }

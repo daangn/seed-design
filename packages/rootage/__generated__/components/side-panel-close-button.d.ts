@@ -43,12 +43,6 @@ declare const artifact: {
             "size": {
               "type": "dimension";
             };
-            "colorDuration": {
-              "type": "duration";
-            };
-            "colorTimingFunction": {
-              "type": "cubicBezier";
-            };
           };
         };
       };
@@ -99,14 +93,6 @@ declare const artifact: {
                     "value": 22;
                     "unit": "px";
                   };
-                };
-                "colorDuration": {
-                  "type": "duration";
-                  "value": "$duration.color-transition";
-                };
-                "colorTimingFunction": {
-                  "type": "cubicBezier";
-                  "value": "$timing-function.easing";
                 };
               };
             };

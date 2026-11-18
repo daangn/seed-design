@@ -12,29 +12,18 @@ const columnBase = {
 
 const timePicker = defineSlotRecipe({
   name: "time-picker",
-  slots: [
-    "root",
-    "scrollFog",
-    "columns",
-    "selectionIndicator",
-    "periodColumn",
-    "hourColumn",
-    "minuteColumn",
-    "item",
-  ],
+  slots: ["root", "periodColumn", "hourColumn", "minuteColumn", "item"],
   base: {
     root: {
       width: "100%",
       height: vars.base.enabled.root.height,
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.itemColor]: vars.base.enabled.item.color,
       [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.selected.item.color,
       [WHEEL_PICKER_CUSTOM_PROPERTIES.selectionIndicatorCornerRadius]:
         vars.base.enabled.selectionIndicator.cornerRadius,
-    },
-    scrollFog: {},
-    columns: {},
-    selectionIndicator: {
-      borderRadius: vars.base.enabled.selectionIndicator.cornerRadius,
-      backgroundColor: vars.base.enabled.selectionIndicator.color,
+      "& [data-wheel-picker-indicator]": {
+        backgroundColor: vars.base.enabled.selectionIndicator.color,
+      },
     },
     periodColumn: {
       ...columnBase,
@@ -47,7 +36,6 @@ const timePicker = defineSlotRecipe({
       ...columnBase,
     },
     item: {
-      [WHEEL_PICKER_CUSTOM_PROPERTIES.itemColor]: vars.base.enabled.item.color,
       paddingInline: vars.base.enabled.item.paddingX,
       fontSize: vars.base.enabled.item.fontSize,
       lineHeight: vars.base.enabled.item.lineHeight,

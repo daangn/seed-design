@@ -8,6 +8,7 @@ import React, { useMemo } from "react";
 import {
   TextFieldRoot,
   TextFieldInput,
+  TextFieldClearButton,
   type TextFieldRootProps,
   type TextFieldInputProps,
 } from "./TextField";
@@ -447,6 +448,82 @@ describe("useTextField", () => {
       expect(root).not.toHaveAttribute("data-focus-visible");
       expect(input).not.toHaveAttribute("data-focus");
       expect(input).not.toHaveAttribute("data-focus-visible");
+    });
+  });
+
+  describe("clear button", () => {
+    const ClearableTextField = (props: TextFieldRootProps) => (
+      <TextFieldRoot {...props}>
+        <TextFieldInput aria-label="검색" />
+        <TextFieldClearButton aria-label="지우기" />
+      </TextFieldRoot>
+    );
+
+    it("should not render while the value is empty", async () => {
+      const { getByRole, queryByRole, user } = setUp(<ClearableTextField />);
+
+      expect(queryByRole("button", { name: "지우기" })).toBeNull();
+
+      await user.type(getByRole("textbox"), "a");
+      expect(getByRole("button", { name: "지우기" })).toBeInTheDocument();
+    });
+
+    it("should clear an uncontrolled value", async () => {
+      const handleValueChange = mock(() => {});
+      const { getByRole, queryByRole, user } = setUp(
+        <ClearableTextField defaultValue="abc" onValueChange={handleValueChange} />,
+      );
+
+      await user.click(getByRole("button", { name: "지우기" }));
+
+      expect(getByRole("textbox")).toHaveValue("");
+      expect(handleValueChange).toHaveBeenLastCalledWith("");
+      expect(queryByRole("button", { name: "지우기" })).toBeNull();
+    });
+
+    it("should clear a controlled value", async () => {
+      function ControlledTextField() {
+        const [value, setValue] = React.useState("abc");
+        return <ClearableTextField value={value} onValueChange={setValue} />;
+      }
+
+      const { getByRole, user } = setUp(<ControlledTextField />);
+
+      await user.click(getByRole("button", { name: "지우기" }));
+
+      expect(getByRole("textbox")).toHaveValue("");
+    });
+
+    it("should keep the focus on the input when it was focused", async () => {
+      const { getByRole, user } = setUp(<ClearableTextField defaultValue="abc" />);
+      const input = getByRole("textbox");
+
+      await user.click(input);
+      await user.click(getByRole("button", { name: "지우기" }));
+
+      expect(input).toHaveFocus();
+    });
+
+    it("should not focus the input when it was not focused", async () => {
+      const { getByRole, user } = setUp(<ClearableTextField defaultValue="abc" />);
+
+      await user.click(getByRole("button", { name: "지우기" }));
+
+      expect(getByRole("textbox")).not.toHaveFocus();
+      expect(document.body).toHaveFocus();
+    });
+
+    it("should move the focus to the input when activated with the keyboard", async () => {
+      const { getByRole, user } = setUp(<ClearableTextField defaultValue="abc" />);
+
+      await user.tab();
+      await user.tab();
+      expect(getByRole("button", { name: "지우기" })).toHaveFocus();
+
+      await user.keyboard("{Enter}");
+
+      expect(getByRole("textbox")).toHaveFocus();
+      expect(getByRole("textbox")).toHaveValue("");
     });
   });
 });

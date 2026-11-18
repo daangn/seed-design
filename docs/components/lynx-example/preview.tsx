@@ -3,18 +3,31 @@
 import { useTheme } from "@/hooks/useTheme";
 import type { LynxViewElement } from "@lynx-js/web-core/client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { observeLynxImageTint } from "./image-tint";
 import {
+  configureLynxView,
   getLynxErrorMessage,
   getLynxPreviewSizing,
   initializeLynxView,
   isLynxPageReady,
   loadLynxWebCoreStyleRules,
+  type PreviewSafeAreaInsets,
 } from "./preview-lifecycle";
 
 const INITIALIZE_MARGIN = "200px";
 const LOAD_TIMEOUT_MS = 15_000;
 
-export function LynxComponentPreview({ url, height }: { url: string; height?: number }) {
+export function LynxComponentPreview({
+  url,
+  example,
+  height,
+  safeAreaInsets,
+}: {
+  url: string;
+  example: string;
+  height?: number;
+  safeAreaInsets?: PreviewSafeAreaInsets;
+}) {
   const { userColorScheme } = useTheme();
   const sizing = getLynxPreviewSizing(height);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -53,14 +66,15 @@ export function LynxComponentPreview({ url, height }: { url: string; height?: nu
     void retryKey;
     themeRef.current = userColorScheme;
     const element = elementRef.current;
-    if (element) element.globalProps = { theme: userColorScheme };
-  }, [userColorScheme, retryKey]);
+    if (element) configureLynxView(element, { theme: userColorScheme, example, safeAreaInsets });
+  }, [userColorScheme, example, safeAreaInsets, retryKey]);
 
   useEffect(() => {
     void retryKey;
     if (!visible) return;
     let cancelled = false;
     let observer: MutationObserver | undefined;
+    let stopImageTint: (() => void) | undefined;
     let timer: ReturnType<typeof setTimeout> | undefined;
     let element: LynxViewElement | null = null;
     const styleAbortController = new AbortController();
@@ -94,12 +108,15 @@ export function LynxComponentPreview({ url, height }: { url: string; height?: nu
         if (cancelled) return;
         initializeLynxView(element, {
           theme: themeRef.current,
+          example,
+          safeAreaInsets,
           styleRules,
           transformVH: !sizing.autoHeight,
           url,
         });
         const shadowRoot = element.shadowRoot;
         if (!shadowRoot) throw new Error("lynx-view shadow root가 준비되지 않았습니다.");
+        stopImageTint = observeLynxImageTint(shadowRoot);
         observer = new MutationObserver(markReady);
         observer.observe(shadowRoot, { childList: true, subtree: true });
         await Promise.resolve();
@@ -124,10 +141,11 @@ export function LynxComponentPreview({ url, height }: { url: string; height?: nu
       cancelled = true;
       styleAbortController.abort();
       observer?.disconnect();
+      stopImageTint?.();
       if (timer) clearTimeout(timer);
       element?.removeEventListener("error", handleError);
     };
-  }, [retryKey, sizing.autoHeight, url, visible]);
+  }, [retryKey, sizing.autoHeight, url, example, safeAreaInsets, visible]);
 
   return (
     <div

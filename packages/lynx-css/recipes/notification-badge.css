@@ -7,7 +7,7 @@
 }
 .seed-notification-badge__label {
     text-align: center;
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-on-brand-solid);
     white-space: nowrap;
     flex-shrink: 0
 }

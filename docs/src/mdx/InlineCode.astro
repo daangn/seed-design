@@ -1,0 +1,22 @@
+---
+/**
+ * MDX `code`. React `components/inline-code.tsx`와 같은 class.
+ * React 컴포넌트로 두면 같은 vnode(TypeTable의 `type`)를 두 번 렌더링할 때 두 번째가 "undefined"가 된다(S2 관찰).
+ */
+import { INLINE_CODE_CLASS_NAME } from "../../components/inline-code";
+const {
+  class: klass,
+  className,
+  ...rest
+} = Astro.props as { class?: string; className?: string; [key: string]: unknown };
+---
+
+<code
+  {...rest}
+  class:list={[
+    INLINE_CODE_CLASS_NAME,
+    "[pre_&]:rounded-none [pre_&]:bg-transparent [pre_&]:p-0 [pre_&]:shadow-none [pre_&]:text-[inherit] [pre_&]:font-normal [pre_&]:[overflow-wrap:normal]",
+    klass,
+    className,
+  ]}
+><slot /></code>

@@ -48,13 +48,19 @@ export interface ActionablePageBannerProps
   description: React.ReactNode;
 }
 
+// Lynx `PageBanner.Root`는 tap handler가 있어야 눌림 상태·Content Scale·button 접근성을 연결합니다.
+// React의 `<button>`처럼 handler 없이도 탭할 수 있는 PageBanner로 표시합니다.
+const handleEmptyTap: NonNullable<SeedPageBanner.RootProps["bindtap"]> = () => {};
+
 /**
+ * 전체 영역을 탭할 수 있는 PageBanner입니다. `bindtap`이 없어도 눌림 상태와 Content Scale을 표시합니다.
+ *
  * @see https://seed-design.io/lynx/components/page-banner
  */
 export const ActionablePageBanner = React.forwardRef<unknown, ActionablePageBannerProps>(
-  ({ prefixIcon, title, description, ...otherProps }, ref) => {
+  ({ prefixIcon, title, description, bindtap = handleEmptyTap, ...otherProps }, ref) => {
     return (
-      <SeedPageBanner.Root ref={ref} {...otherProps}>
+      <SeedPageBanner.Root ref={ref} bindtap={bindtap} {...otherProps}>
         {prefixIcon ? <PrefixIcon icon={prefixIcon} /> : null}
         <SeedPageBanner.Content>
           <SeedPageBanner.Body>

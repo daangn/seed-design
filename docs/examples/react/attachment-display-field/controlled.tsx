@@ -1,13 +1,12 @@
 "use client";
 
-import { HStack, Text, VStack } from "@seed-design/react";
-import type { DisplayItemEntry } from "@seed-design/react/primitive";
+import { HStack, Text, VStack, type AttachmentDisplayItemEntry } from "@seed-design/react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { AttachmentDisplay, AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
 
 // 외부 미디어 피커 모킹. 실제 환경에서는 네이티브 브릿지/모달/서버 호출 등으로 교체하세요.
-async function openMediaPicker(): Promise<DisplayItemEntry[]> {
+async function openMediaPicker(): Promise<AttachmentDisplayItemEntry[]> {
   const id = crypto.randomUUID();
   return [
     {
@@ -19,7 +18,7 @@ async function openMediaPicker(): Promise<DisplayItemEntry[]> {
 }
 
 export default function AttachmentDisplayControlled() {
-  const [entries, setEntries] = useState<DisplayItemEntry[]>([]);
+  const [entries, setEntries] = useState<AttachmentDisplayItemEntry[]>([]);
 
   return (
     <VStack gap="x4" p="x6" width="100%">

@@ -34,7 +34,7 @@ export interface ResponsiveDialogTriggerProps extends SeedResponsiveDialog.Trigg
 export const ResponsiveDialogTrigger = SeedResponsiveDialog.Trigger;
 
 export interface ResponsiveDialogContentProps
-  extends Omit<SeedResponsiveDialog.ContentProps, "title"> {
+  extends Omit<SeedResponsiveDialog.ContentProps, "title" | "asChild"> {
   title?: React.ReactNode;
 
   description?: React.ReactNode;

@@ -1,0 +1,16 @@
+---
+/**
+ * `<BlockPreview name iframeHeight>코드</BlockPreview>`: 크기를 바꿀 수 있는 패널 안의 블록 iframe. React island다.
+ * 기존 `components/block-preview.tsx`를 그대로 hydrate한다(visible 지시어). 코드 children은 정적 HTML slot이다.
+ */
+import { BlockPreview } from "../../../components/block-preview";
+
+interface Props {
+  name: string;
+  iframeHeight?: number;
+}
+
+const { name, iframeHeight } = Astro.props;
+---
+
+<BlockPreview client:visible name={name} iframeHeight={iframeHeight}><slot /></BlockPreview>

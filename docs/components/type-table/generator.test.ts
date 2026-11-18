@@ -1,6 +1,7 @@
-import { afterEach, describe, expect, it } from "bun:test";
+import { afterAll, afterEach, beforeAll, describe, expect, it } from "bun:test";
 import { chmod, mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import type { DocEntry } from "fumadocs-typescript";
 import {
   collectTypeDependencyFiles,
   createCompatibleTypeTableCache,
@@ -10,6 +11,51 @@ import {
 const temporaryDirectories: string[] = [];
 // GitHub runner에서는 여러 TypeScript project를 동시에 초기화하는 데 5초 이상 걸릴 수 있다.
 const CONCURRENT_GENERATOR_TEST_TIMEOUT = 30_000;
+
+type GeneratedDocs = { entries: DocEntry[] }[];
+
+/**
+ * fumadocs-typescript는 TypeScript 7 sync API로 tsgo 자식 프로세스와 통신하는데, Bun의
+ * child_process는 그 파이프 fd를 주지 않아 Bun에서는 생성이 실패한다. 문서 빌드(Next.js)처럼
+ * Node에서 돌리려고 generator를 번들로 만들어 둔다.
+ */
+let generatorBundle: string;
+
+beforeAll(async () => {
+  const outdir = await mkdtemp(join(import.meta.dir, ".generator-bundle-"));
+  const result = await Bun.build({
+    entrypoints: [join(import.meta.dir, "generator.ts")],
+    outdir,
+    target: "node",
+    packages: "external",
+  });
+  if (!result.success) throw new AggregateError(result.logs, "generator bundle failed");
+  generatorBundle = join(outdir, "generator.js");
+});
+
+afterAll(async () => {
+  await rm(join(generatorBundle, ".."), { recursive: true, force: true });
+});
+
+/** `body`를 Node에서 실행하고 반환값을 받습니다. `body`에서는 `generator`로 generator 모듈을 씁니다. */
+async function runInNode<T>(body: string): Promise<T> {
+  const script = `import * as generator from ${JSON.stringify(generatorBundle)};
+const result = await (async () => {${body}})();
+process.stdout.write(JSON.stringify(result));`;
+  const child = Bun.spawn(["node", "--input-type=module", "--eval", script], {
+    stdout: "pipe",
+    stderr: "pipe",
+  });
+  const [stdout, stderr, exitCode] = await Promise.all([
+    new Response(child.stdout).text(),
+    new Response(child.stderr).text(),
+    child.exited,
+  ]);
+  if (exitCode !== 0) throw new Error(stderr);
+  return JSON.parse(stdout) as T;
+}
+
+const js = (value: unknown) => JSON.stringify(value);
 
 async function createTemporaryDirectory() {
   const directory = await mkdtemp(join(import.meta.dir, ".generator-test-"));
@@ -61,7 +107,6 @@ describe("filtered type table generator cache", () => {
       "coverage",
       ".cache",
       ".turbo",
-      ".next",
     ]) {
       await mkdir(join(directory, skippedDirectory));
       await writeFile(join(directory, skippedDirectory, "generated.ts"), "export {};\n");
@@ -73,7 +118,7 @@ describe("filtered type table generator cache", () => {
 
   it("CI와 generator가 같은 호환성 해시 구현을 사용한다", async () => {
     const action = await readFile(
-      join(import.meta.dir, "../../../.github/actions/nextjs-cache/action.yml"),
+      join(import.meta.dir, "../../../.github/actions/docs-build-cache/action.yml"),
       "utf8",
     );
 
@@ -94,10 +139,12 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 `,
     );
-    const generator = createFilteredTypeTableGenerator(cacheDirectory);
-
-    const cold = await generator.generateTypeTable({ path: sourcePath, name: "Props" });
-    const warm = await generator.generateTypeTable({ path: sourcePath, name: "Props" });
+    const { cold, warm } = await runInNode<{ cold: GeneratedDocs; warm: GeneratedDocs }>(`
+      const g = generator.createFilteredTypeTableGenerator(${js(cacheDirectory)});
+      const cold = await g.generateTypeTable({ path: ${js(sourcePath)}, name: "Props" });
+      const warm = await g.generateTypeTable({ path: ${js(sourcePath)}, name: "Props" });
+      return { cold, warm };
+    `);
 
     expect(warm).toEqual(cold);
     expect(warm[0]?.entries.map((entry) => entry.name)).toEqual(["value"]);
@@ -136,15 +183,14 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
       const cacheDirectory = join(directory, "cache");
       await writeFile(sourcePath, "export interface Props { value: string }\n");
       // 로컬 빌드에서 확인한 3-worker 조건보다 하나 더 많은 writer로 공유 cache를 검증한다.
-      const generators = Array.from({ length: 4 }, () =>
-        createFilteredTypeTableGenerator(cacheDirectory),
-      );
-
-      const outputs = await Promise.all(
-        generators.map((generator) =>
-          generator.generateDocumentation({ path: sourcePath }, "Props"),
-        ),
-      );
+      const outputs = await runInNode<GeneratedDocs[]>(`
+        const generators = Array.from({ length: 4 }, () =>
+          generator.createFilteredTypeTableGenerator(${js(cacheDirectory)}),
+        );
+        return Promise.all(
+          generators.map((g) => g.generateDocumentation({ path: ${js(sourcePath)} }, "Props")),
+        );
+      `);
 
       expect(outputs.every((output) => JSON.stringify(output) === JSON.stringify(outputs[0]))).toBe(
         true,
@@ -162,15 +208,16 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
     const sourcePath = join(directory, "props.ts");
     const cacheDirectory = join(directory, "cache");
     await writeFile(sourcePath, "export interface Props { value: string }\n");
-    const firstGenerator = createFilteredTypeTableGenerator(cacheDirectory);
-    const expected = await firstGenerator.generateDocumentation({ path: sourcePath }, "Props");
+    const generate = `
+      return generator
+        .createFilteredTypeTableGenerator(${js(cacheDirectory)})
+        .generateDocumentation({ path: ${js(sourcePath)} }, "Props");
+    `;
+    const expected = await runInNode<GeneratedDocs>(generate);
     const [cacheFile] = await readdir(cacheDirectory);
     await writeFile(join(cacheDirectory, cacheFile), "{broken");
 
-    const recovered = await createFilteredTypeTableGenerator(cacheDirectory).generateDocumentation(
-      { path: sourcePath },
-      "Props",
-    );
+    const recovered = await runInNode<GeneratedDocs>(generate);
 
     expect(recovered).toEqual(expected);
     const cacheContents = await readFile(join(cacheDirectory, cacheFile), "utf8");
@@ -184,10 +231,88 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
     await writeFile(sourcePath, "export interface Props { value: string }\n");
     await writeFile(unavailableCachePath, "file blocks directory creation");
 
-    const output = await createFilteredTypeTableGenerator(
-      unavailableCachePath,
-    ).generateDocumentation({ path: sourcePath }, "Props");
+    const output = await runInNode<GeneratedDocs>(`
+      return generator
+        .createFilteredTypeTableGenerator(${js(unavailableCachePath)})
+        .generateDocumentation({ path: ${js(sourcePath)} }, "Props");
+    `);
 
     expect(output[0]?.entries.map((entry) => entry.name)).toEqual(["value"]);
+  });
+});
+
+describe("filtered type table generator props", () => {
+  it("선언 없이 외부 mapped type에서 온 Lynx native 이벤트를 제외한다", async () => {
+    const directory = await createTemporaryDirectory();
+    const sourcePath = join(directory, "props.ts");
+    await writeFile(
+      sourcePath,
+      `import type { IntrinsicElements } from "@lynx-js/types";
+
+export interface Props extends Omit<IntrinsicElements["view"], "className"> {
+  value: string;
+}
+`,
+    );
+
+    const output = await runInNode<GeneratedDocs>(`
+      return generator
+        .createFilteredTypeTableGenerator(${js(join(directory, "cache"))})
+        .generateDocumentation({ path: ${js(sourcePath)} }, "Props");
+    `);
+
+    expect(output[0]?.entries.map((entry) => entry.name)).toEqual(["value"]);
+  });
+
+  it("Lynx 공통 요소 속성과 통째로 상속한 레이아웃 prop은 빼고 Pick한 prop과 Box 문서의 prop은 남긴다", async () => {
+    const directory = await createTemporaryDirectory();
+    const lynxSourceDirectory = join(directory, "packages/lynx-react/src");
+    const styleKeys = Array.from({ length: 12 }, (_, index) => `style${index}`);
+    await mkdir(join(lynxSourceDirectory, "utils"), { recursive: true });
+    await mkdir(join(lynxSourceDirectory, "components/Box"), { recursive: true });
+    await writeFile(
+      join(lynxSourceDirectory, "types.ts"),
+      "export interface LynxStyledElementProps { className?: string; style?: object }\n",
+    );
+    await writeFile(
+      join(lynxSourceDirectory, "utils/styled.ts"),
+      `export interface StyleProps {\n${styleKeys.map((key) => `  ${key}?: string;\n`).join("")}}\n`,
+    );
+    const sourcePath = join(lynxSourceDirectory, "props.ts");
+    await writeFile(
+      sourcePath,
+      `import type { LynxStyledElementProps } from "./types";
+import type { StyleProps } from "./utils/styled";
+
+export interface WholesaleProps extends StyleProps, LynxStyledElementProps {
+  value: string;
+}
+
+export interface PickedProps extends Pick<StyleProps, "style0">, LynxStyledElementProps {
+  value: string;
+}
+`,
+    );
+    const boxPath = join(lynxSourceDirectory, "components/Box/Box.tsx");
+    await writeFile(
+      boxPath,
+      `import type { StyleProps } from "../../utils/styled";
+
+export interface BoxProps extends StyleProps {}
+`,
+    );
+    const [wholesale, picked, box] = await runInNode<GeneratedDocs[]>(`
+      const g = generator.createFilteredTypeTableGenerator(${js(join(directory, "cache"))});
+      return Promise.all([
+        g.generateDocumentation({ path: ${js(sourcePath)} }, "WholesaleProps"),
+        g.generateDocumentation({ path: ${js(sourcePath)} }, "PickedProps"),
+        g.generateDocumentation({ path: ${js(boxPath)} }, "BoxProps"),
+      ]);
+    `);
+
+    expect(wholesale[0]?.entries.map((entry) => entry.name)).toEqual(["value"]);
+    expect(picked[0]?.entries.map((entry) => entry.name).sort()).toEqual(["style0", "value"]);
+    // TypeScript 7은 선언 순서와 다르게 멤버를 돌려줄 수 있어, 남은 prop의 집합만 비교한다.
+    expect(box[0]?.entries.map((entry) => entry.name).sort()).toEqual([...styleKeys].sort());
   });
 });

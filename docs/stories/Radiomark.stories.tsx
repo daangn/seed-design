@@ -7,8 +7,8 @@ import {
 } from "@seed-design/css/recipes/radiomark";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
-import { withChromaticParameters } from "@/stories/utils/parameters";
-import { RadioGroup } from "@seed-design/react/primitive";
+import { withVisualTestParameters } from "@/stories/utils/parameters";
+import { RadioGroup, RadioGroupField } from "@seed-design/react";
 
 function CustomRadioGroup(
   props: RadiomarkVariantProps & {
@@ -20,12 +20,12 @@ function CustomRadioGroup(
     radiomark.splitVariantProps(props);
 
   return (
-    <RadioGroup.Root disabled={disabled} value="foo" aria-label="Radiomark">
-      <RadioGroup.Item value={selected ? "foo" : "bar"}>
+    <RadioGroupField.Root.Primitive disabled={disabled} value="foo" aria-label="Radiomark">
+      <RadioGroup.Item.Primitive value={selected ? "foo" : "bar"}>
         <Radiomark {...radiomarkVariantProps} />
         <RadioGroup.ItemHiddenInput />
-      </RadioGroup.Item>
-    </RadioGroup.Root>
+      </RadioGroup.Item.Primitive>
+    </RadioGroupField.Root.Primitive>
   );
 }
 
@@ -66,13 +66,13 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });

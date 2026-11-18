@@ -338,9 +338,7 @@ describe("useRadioGroup", () => {
 
       expect(description).toHaveAttribute("id");
       expect(root).toHaveAttribute("aria-describedby");
-      expect(root.getAttribute("aria-describedby")?.split(" ")).toContain(
-        description.getAttribute("id"),
-      );
+      expect(root.getAttribute("aria-describedby")?.split(" ")).toContain(description.id);
     });
 
     it("should connect error message to root with aria-describedby", () => {
@@ -357,9 +355,7 @@ describe("useRadioGroup", () => {
 
       expect(errorMessage).toHaveAttribute("id");
       expect(root).toHaveAttribute("aria-describedby");
-      expect(root.getAttribute("aria-describedby")?.split(" ")).toContain(
-        errorMessage.getAttribute("id"),
-      );
+      expect(root.getAttribute("aria-describedby")?.split(" ")).toContain(errorMessage.id);
     });
 
     it("should combine description and error in aria-describedby", () => {
@@ -376,8 +372,8 @@ describe("useRadioGroup", () => {
       const errorMessage = getByTestId("radio-group-error-message");
 
       const ariaDescribedBy = root.getAttribute("aria-describedby");
-      expect(ariaDescribedBy?.split(" ")).toContain(description.getAttribute("id"));
-      expect(ariaDescribedBy?.split(" ")).toContain(errorMessage.getAttribute("id"));
+      expect(ariaDescribedBy?.split(" ")).toContain(description.id);
+      expect(ariaDescribedBy?.split(" ")).toContain(errorMessage.id);
     });
 
     it("should not have aria-labelledby when label is not rendered", () => {

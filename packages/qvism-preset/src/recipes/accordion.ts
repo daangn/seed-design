@@ -6,8 +6,9 @@ import {
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
 import { onlyIcon, suffixIcon } from "../utils/icon";
-import { disabled, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
+import { active, disabled, engaged, focusVisible, not, open, pseudo } from "../utils/pseudo";
 import { breakpoints } from "../utils/breakpoint";
+import { createContentScaleStyles } from "../utils/scale-feedback";
 import spec from "@seed-design/rootage-artifacts/components/accordion";
 
 const accordion = defineSlotRecipe({
@@ -62,6 +63,8 @@ const accordion = defineSlotRecipe({
       [pseudo(disabled)]: {
         cursor: "not-allowed",
       },
+
+      [pseudo(not(disabled), active)]: createContentScaleStyles(),
     },
     prefix: {
       display: "inline-flex",

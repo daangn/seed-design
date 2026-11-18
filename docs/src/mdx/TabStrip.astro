@@ -1,0 +1,54 @@
+---
+/**
+ * 탭형 subject 폴더(meta.json `layout: "tabs"`)의 형제 페이지 탭 스트립. 각 탭은 별도 문서라 정적 링크다.
+ * 마크업은 기존 `components/layout/docs-tab-strip.tsx`(SEED `seed-design/ui/tabs`, triggerLayout hug)가 서버에서
+ * 내던 HTML과 같다. 선택 표시는 recipe의 SSR 규칙(`[data-ssr][data-selected]:after`)이 그린다.
+ */
+import { tabs } from "@seed-design/css/recipes/tabs";
+import type { TabStripItem } from "../content/source";
+
+interface Props {
+  label: string;
+  items: TabStripItem[];
+}
+
+const { label, items } = Astro.props;
+const classes = tabs({ triggerLayout: "hug", contentLayout: "hug", size: "small" });
+---
+
+{/* 스크롤 기준점. sticky로 붙은 스트립은 이미 제자리라 스스로는 스크롤되지 않는다. */}
+<div aria-hidden="true" class="scroll-mt-(--fd-docs-row-2)"></div>
+<nav
+  aria-label={`${label} tabs`}
+  data-scroll-anchor=""
+  class="not-prose mb-4 bg-fd-background sticky top-(--fd-docs-row-2) z-30"
+>
+  <div data-orientation="horizontal" data-ssr="" style="padding-inline:0" class={classes.root}>
+    <div
+      role="tablist"
+      aria-orientation="horizontal"
+      data-orientation="horizontal"
+      data-ssr=""
+      style="--tabs-list-padding-left:0px;--tabs-list-padding-right:0px;gap:1.5rem"
+      class={classes.list}
+    >
+      {
+        items.map((item) => (
+          <a
+            href={item.href}
+            role="tab"
+            aria-selected={item.current ? "true" : "false"}
+            aria-current={item.current ? "page" : undefined}
+            data-selected={item.current ? "" : undefined}
+            data-ssr=""
+            data-orientation="horizontal"
+            style="padding-inline:0;font-size:1rem;font-weight:400"
+            class={`${classes.trigger} seed-scale-feedback`}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</nav>

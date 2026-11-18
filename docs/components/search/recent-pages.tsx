@@ -2,10 +2,9 @@
 
 import { Autocomplete } from "@base-ui/react/autocomplete";
 import clsx from "clsx";
-import { useSearch } from "fumadocs-ui/components/dialog/search";
-import { useRouter } from "next/navigation";
 import type { RecentPage } from "@/hooks/useRecentPages";
 import { Breadcrumbs, ROW_ACTIVE_CLASS_NAME, ROW_CLASS_NAME } from "./row";
+import { useSelectResult } from "./select-result";
 
 /**
  * Empty-state (no query) content for the search dialog: recently visited pages, drawn as the
@@ -14,8 +13,7 @@ import { Breadcrumbs, ROW_ACTIVE_CLASS_NAME, ROW_CLASS_NAME } from "./row";
  * yet, shows a friendly prompt.
  */
 export function RecentPages({ pages }: { pages: RecentPage[] }) {
-  const { onOpenChange } = useSearch();
-  const router = useRouter();
+  const selectResult = useSelectResult();
 
   if (pages.length === 0) {
     return (
@@ -46,8 +44,7 @@ export function RecentPages({ pages }: { pages: RecentPage[] }) {
                 if (event.metaKey || event.ctrlKey) return;
 
                 event.preventDefault();
-                onOpenChange(false);
-                router.push(page.url);
+                selectResult(page.url);
               }}
               className={(state) =>
                 clsx(ROW_CLASS_NAME, state.highlighted && ROW_ACTIVE_CLASS_NAME)

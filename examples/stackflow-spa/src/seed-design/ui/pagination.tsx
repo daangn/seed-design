@@ -3,12 +3,15 @@ import {
   IconChevronRightLine,
   IconDot3HorizontalLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { HStack, type HStackProps, Icon, useBreakpointValue } from "@seed-design/react";
 import {
+  HStack,
+  type HStackProps,
+  Icon,
+  useBreakpointValue,
   usePagination,
   type PaginationVisibleItemCount,
   type UsePaginationProps,
-} from "@seed-design/react-pagination";
+} from "@seed-design/react";
 import * as React from "react";
 import { PaginationButton } from "../lib/pagination-button";
 import { PaginationPageItem } from "../lib/pagination-page-item";
@@ -26,13 +29,13 @@ export type {
   PaginationChangeDetails,
   PaginationChangeReason,
   UsePaginationProps,
-} from "@seed-design/react-pagination";
+} from "@seed-design/react";
 
 type PaginationBehaviorProps = Omit<UsePaginationProps, "visibleItemCount">;
 type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
 
 export type PaginationProps = PaginationBehaviorProps &
-  DistributiveOmit<HStackProps, keyof UsePaginationProps | "children" | "as" | "role">;
+  DistributiveOmit<HStackProps, keyof UsePaginationProps | "children" | "asChild" | "as" | "role">;
 
 function PaginationNavigationPlaceholder() {
   return <HStack width="40px" height="40px" aria-hidden="true" />;

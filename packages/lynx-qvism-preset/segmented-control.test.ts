@@ -15,13 +15,10 @@ describe("Lynx segmented control recipe", () => {
     expect(segmentedControl.base.label).not.toHaveProperty("whiteSpace");
   });
 
-  it("transitions press feedback with an opacity background", () => {
-    expect(segmentedControl.slots).toContain("itemBackground");
-    expect(segmentedControl.base.item).not.toHaveProperty("transitionProperty");
-    expect(segmentedControl.base.itemBackground).toMatchObject({
-      opacity: 0,
-      transitionProperty: "opacity",
+  it("keeps indicator width aligned with the minimum grid track width", () => {
+    expect(segmentedControl.base.indicator).toMatchObject({
+      minWidth: segmentedControl.base.item.minWidth,
+      transform: "translateX(calc(var(--segment-index, 0) * 100%))",
     });
-    expect(segmentedControl.variants.pressed.true.itemBackground).toEqual({ opacity: 1 });
   });
 });

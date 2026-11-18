@@ -4,7 +4,10 @@
 
 ## 적용 조건
 
-`meta.projectKinds`에 `app`이 있을 때 적용합니다. 플랫폼 인덱스를 정상적으로 읽었는데 앱 설치 계약 문서가 없으면 `not-applicable`, 인덱스나 연결 문서를 읽지 못하면 `not-verified`입니다.
+`meta.projectKinds`에 `app`이 있을 때 적용합니다.
+
+- 플랫폼 인덱스를 정상적으로 읽었는데 앱 설치 계약 문서가 없음 → `not-applicable`
+- 인덱스나 연결 문서를 읽지 못함 → `not-verified`
 
 ## 판정 방법
 
@@ -16,7 +19,7 @@
 
 ## 중복 경계
 
-설정 파일 자체의 schema와 경로 충돌은 `project-config`, 패키지 버전 조합은 `package-compatibility`가 판단합니다.
+설정 파일 자체의 schema와 경로 충돌은 [project-config](./project-config.md), 패키지 버전 조합은 [package-compatibility](./package-compatibility.md)가 판단합니다.
 
 ## 문서 풀에서 사용할 근거
 

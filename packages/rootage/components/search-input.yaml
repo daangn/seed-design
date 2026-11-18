@@ -1,0 +1,77 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: search-input
+  name: Search Input
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          height:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          paddingLeft:
+            type: dimension
+          paddingRight:
+            type: dimension
+          color:
+            type: color
+      value:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      placeholder:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      clearButton:
+        properties:
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+      clearButtonIcon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          height: 44px
+          cornerRadius: $radius.r2_5
+          paddingLeft: $dimension.x4
+          paddingRight: $dimension.x1
+          color: $color.bg.neutral-weak
+        value:
+          color: $color.fg.neutral
+          fontWeight: $font-weight.regular
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        placeholder:
+          color: $color.fg.placeholder
+          fontWeight: $font-weight.regular
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        clearButton:
+          paddingX: $dimension.x3
+          paddingY: $dimension.x3
+        clearButtonIcon:
+          color: $color.fg.neutral-subtle
+          size: $dimension.x5

@@ -1,7 +1,7 @@
 import { appendFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { parseArgs } from "node:util";
-import { compareStableVersions, createLynxCssPeerRange } from "./bump-peer-deps";
+import { compareStableVersions } from "./bump-peer-deps";
 
 const CSS_PACKAGE = "@seed-design/css";
 const CSS_MANIFEST_PATH = "packages/css/package.json";
@@ -121,7 +121,6 @@ function validatePair(input: {
   dependencyName: string;
   dependentManifestPath: string;
   dependentName: string;
-  desiredRange: (dependencyVersion: string, baseRange: string) => string;
   sourceDependencyManifest: string;
   sourceDependentManifest: string;
 }): PairValidationResult {
@@ -174,7 +173,7 @@ function validatePair(input: {
     input.dependentManifestPath,
     input.dependencyName,
   );
-  const desiredPeerRange = input.desiredRange(dependencyVersion, basePeerRange);
+  const desiredPeerRange = `^${dependencyVersion}`;
 
   assertPeerRange({
     baseRange: basePeerRange,
@@ -205,7 +204,6 @@ export function validateVersionPeerDependencies(input: {
       dependencyName: CSS_PACKAGE,
       dependentManifestPath: REACT_MANIFEST_PATH,
       dependentName: "@seed-design/react",
-      desiredRange: (version) => `^${version}`,
       sourceDependencyManifest: input.sourceCssManifest,
       sourceDependentManifest: input.sourceReactManifest,
     }),
@@ -216,7 +214,6 @@ export function validateVersionPeerDependencies(input: {
       dependencyName: LYNX_CSS_PACKAGE,
       dependentManifestPath: LYNX_REACT_MANIFEST_PATH,
       dependentName: LYNX_REACT_PACKAGE,
-      desiredRange: createLynxCssPeerRange,
       sourceDependencyManifest: input.sourceLynxCssManifest,
       sourceDependentManifest: input.sourceLynxReactManifest,
     }),

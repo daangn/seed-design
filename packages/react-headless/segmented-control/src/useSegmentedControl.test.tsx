@@ -4,6 +4,7 @@ import { describe, expect, it, mock } from "bun:test";
 
 import type { ReactElement } from "react";
 import * as React from "react";
+import { renderToString } from "react-dom/server";
 
 import {
   SegmentedControlRoot as Root,
@@ -40,6 +41,23 @@ function SegmentedControlItem({ children, ...otherProps }: SegmentedControlItemP
 
 describe("useSegmentedControl", () => {
   const values = ["first", "second", "third"];
+
+  it("marks the root with data-ssr until it mounts", () => {
+    const jsx = (
+      <SegmentedControl defaultValue={values[1]}>
+        {values.map((value) => (
+          <SegmentedControlItem key={value} value={value} />
+        ))}
+      </SegmentedControl>
+    );
+
+    const serverContainer = document.createElement("div");
+    serverContainer.innerHTML = renderToString(jsx);
+    expect(serverContainer.querySelector("[role=radiogroup]")).toHaveAttribute("data-ssr");
+
+    const { getByRole } = setUp(jsx);
+    expect(getByRole("radiogroup")).not.toHaveAttribute("data-ssr");
+  });
 
   describe("uncontrolled", () => {
     it("should render correctly", () => {

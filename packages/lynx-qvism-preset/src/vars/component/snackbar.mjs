@@ -8,7 +8,7 @@ export const vars = {
         "offsetTimingFunction": "var(--seed-timing-function-easing)"
       },
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)",
+        "color": "var(--seed-color-bg-neutral-solid)",
         "cornerRadius": "var(--seed-radius-r2)",
         "minHeight": "44px",
         "maxWidth": "464px",
@@ -28,7 +28,7 @@ export const vars = {
         "gap": "var(--seed-dimension-x2_5)"
       },
       "message": {
-        "color": "var(--seed-color-fg-neutral-inverted)",
+        "color": "var(--seed-color-fg-on-neutral-solid)",
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)",
         "fontWeight": "var(--seed-font-weight-regular)"

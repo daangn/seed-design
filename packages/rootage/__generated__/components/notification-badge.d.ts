@@ -92,7 +92,7 @@ declare const artifact: {
               "label": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-brand-solid";
                 };
               };
             };

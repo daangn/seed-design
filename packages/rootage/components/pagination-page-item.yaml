@@ -50,12 +50,12 @@ data:
           scale: $scale.s97
       selected:
         root:
-          color: $color.bg.neutral-inverted
+          color: $color.bg.neutral-solid
         label:
-          color: $color.fg.neutral-inverted
+          color: $color.fg.on-neutral-solid
       selected, pressed:
         root:
-          color: $color.bg.neutral-inverted-pressed
+          color: $color.bg.neutral-solid-pressed
       disabled:
         root:
           color: $color.bg.transparent

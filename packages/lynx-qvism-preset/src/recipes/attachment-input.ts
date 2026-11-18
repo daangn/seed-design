@@ -48,10 +48,34 @@ const attachmentInput = defineSlotRecipe({
       flexShrink: 0,
       padding: 0,
       margin: 0,
+      // Lynx views clip by default; let the last item's remove button extend past the group.
+      overflow: "visible",
     },
   },
-  variants: {},
-  defaultVariants: {},
+  variants: {
+    extendSafeAreaX: {
+      true: {
+        root: {
+          marginLeft:
+            "calc((var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-left)) * -1)",
+          marginRight:
+            "calc((var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-right)) * -1)",
+        },
+        container: {
+          paddingLeft: 0,
+          paddingRight: 0,
+        },
+        containerContent: {
+          paddingLeft:
+            "calc(var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-left))",
+          paddingRight:
+            "calc(var(--seed-attachment-input-extend-x, 0px) + var(--seed-safe-area-right))",
+        },
+      },
+      false: {},
+    },
+  },
+  defaultVariants: { extendSafeAreaX: false },
 });
 
 const attachmentInputTrigger = defineSlotRecipe({
@@ -68,10 +92,13 @@ const attachmentInputTrigger = defineSlotRecipe({
       gap: triggerVars.base.enabled.root.gap,
       flexShrink: 0,
       borderRadius: triggerVars.base.enabled.root.cornerRadius,
-      boxShadow: `inset 0 0 0 ${triggerVars.base.enabled.root.strokeWidth} ${triggerVars.base.enabled.root.strokeColor}`,
+      // iOS Lynx는 inset box-shadow를 흐리게 그린다. 고정 크기와 가운데 정렬이라 border를 직접 쓴다.
+      borderStyle: "solid",
+      borderWidth: triggerVars.base.enabled.root.strokeWidth,
+      borderColor: triggerVars.base.enabled.root.strokeColor,
       padding: 0,
       backgroundColor: "transparent",
-      transition: "background-color 0.2s",
+      transition: `background-color ${duration.colorTransition}`,
     },
     icon: {
       width: triggerVars.base.enabled.icon.size,
@@ -154,6 +181,7 @@ const attachmentInputItem = defineSlotRecipe({
       display: "flex",
       width: "100%",
       height: itemVars.base.enabled.root.height,
+      flexShrink: 0,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
       backgroundColor: "transparent",
       transform: "scale(1)",
@@ -171,6 +199,10 @@ const attachmentInputItem = defineSlotRecipe({
       justifyContent: "center",
       gap: itemVars.base.enabled.root.gap,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
+      // iOS Lynx는 inset box-shadow를 흐리게 그린다. border로 그리면 이미지도 border 안쪽에 놓여
+      // 웹처럼 stroke가 이미지 가장자리 위에 보인다.
+      borderStyle: "solid",
+      borderWidth: itemVars.base.enabled.root.strokeWidth,
       backgroundColor: itemVars.base.enabled.root.color,
       pointerEvents: "auto",
       overflow: "hidden",
@@ -269,13 +301,14 @@ const attachmentInputItem = defineSlotRecipe({
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      borderWidth: 0,
+      borderStyle: "solid",
+      borderWidth: itemRemoveButtonVars.base.enabled.root.strokeWidth,
+      borderColor: itemRemoveButtonVars.base.enabled.root.strokeColor,
       padding: 0,
       backgroundColor: itemRemoveButtonVars.base.enabled.root.color,
       borderRadius: itemRemoveButtonVars.base.enabled.root.cornerRadius,
-      boxShadow: `inset 0 0 0 ${itemRemoveButtonVars.base.enabled.root.strokeWidth} ${itemRemoveButtonVars.base.enabled.root.strokeColor}`,
       color: itemRemoveButtonVars.base.enabled.icon.color,
-      transition: "background-color 0.2s",
+      transition: `background-color ${duration.colorTransition}`,
     },
     removeIcon: {
       width: itemRemoveButtonVars.base.enabled.icon.size,
@@ -293,9 +326,9 @@ const attachmentInputItem = defineSlotRecipe({
           width: itemVars.typeFile.enabled.root.width,
         },
         surface: {
-          paddingLeft: itemVars.typeFile.enabled.root.paddingX,
-          paddingRight: itemVars.typeFile.enabled.root.paddingX,
-          boxShadow: `inset 0 0 0 ${itemVars.base.enabled.root.strokeWidth} ${itemVars.typeFile.enabled.root.strokeColor}`,
+          paddingLeft: `calc(${itemVars.typeFile.enabled.root.paddingX} - ${itemVars.base.enabled.root.strokeWidth})`,
+          paddingRight: `calc(${itemVars.typeFile.enabled.root.paddingX} - ${itemVars.base.enabled.root.strokeWidth})`,
+          borderColor: itemVars.typeFile.enabled.root.strokeColor,
           // The minor arc keeps the cutout centered on the remove button.
           clipPath: 'path("M0 0 H143.607695 A12 12 0 0 0 160 16.392305 V80 H0 Z")',
         },
@@ -319,7 +352,7 @@ const attachmentInputItem = defineSlotRecipe({
           transition: `opacity ${duration.colorTransition}, ${PRESS_TRANSITION}`,
         },
         surface: {
-          boxShadow: `inset 0 0 0 ${itemVars.base.enabled.root.strokeWidth} ${itemVars.typeImage.enabled.root.strokeColor}`,
+          borderColor: itemVars.typeImage.enabled.root.strokeColor,
           clipPath: 'path("M0 0 H63.607695 A12 12 0 0 0 80 16.392305 V80 H0 Z")',
         },
         thumbnail: { display: "none" },
@@ -377,6 +410,8 @@ const attachmentInputItem = defineSlotRecipe({
         thumbnailIcon: { color: itemVars.typeFile.readonly.thumbnailIcon.color },
         name: { color: itemVars.typeFile.readonly.name.color },
         size: { color: itemVars.typeFile.readonly.size.color },
+        removeButton: { color: itemRemoveButtonVars.base.disabled.icon.color },
+        removeIcon: { color: itemRemoveButtonVars.base.disabled.icon.color },
       },
       false: {},
     },
@@ -409,7 +444,6 @@ const attachmentInputItem = defineSlotRecipe({
   },
   compoundVariants: [
     {
-      disabled: false,
       readOnly: false,
       css: {
         removeButton: {
@@ -418,7 +452,6 @@ const attachmentInputItem = defineSlotRecipe({
       },
     },
     {
-      disabled: false,
       readOnly: false,
       removePressed: true,
       css: {

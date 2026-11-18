@@ -111,7 +111,7 @@ npx @seed-design/cli@latest add ui:switch
 
 #### Using `Switchmark`
 
-`Switchmark`는 레이블을 제외한 스위치 컴포넌트로, 커스텀 레이아웃을 위해 사용할 수 있습니다.
+`Switchmark`로 레이블 배치를 바꿀 수 있습니다. 예제처럼 스위치의 `accessibility-label`을 직접 지정하세요.
 
 <LynxComponentExample name="lynx/switch/switchmark">
   ```json doc-gen:file
@@ -125,18 +125,16 @@ npx @seed-design/cli@latest add ui:switch
 ## 웹 버전과의 차이
 
 <Callout type="warning">
-Lynx `Switch`는 React `Switch`와 다음과 같은 차이가 있습니다.
 
-- **이벤트 핸들링**: `onChange` 대신 `onCheckedChange`만 노출합니다. tap 핸들러는 Switch 내부에서 소유합니다.
-- **렌더링 요소**: HTML `<label>` / `<input>` 대신 네이티브 `<view>` / `<text>` 요소를 렌더링합니다.
-- **Compound 구조**: `Switch.Root` → `Switch.Control` → `Switch.Thumb` / `Switch.Label` 구성과 Context로 상태/variant를 공유하는 흐름은 동일합니다. Control에 `tone`/`size`를 직접 전달해 Root를 override 하는 것도 지원합니다.
-- **접근성**: `Switch.Root`는 기본적으로 접근성 요소로 노출합니다. 역할 설명은 `switch`, 값은 선택 상태에 따라 `checked` 또는 `not checked`입니다. 비활성 상태에는 `disabled` trait을 전달합니다. Registry `Switch`는 문자열 `label`을 접근성 이름으로 사용합니다. `Switchmark`나 복합 레이블에는 `accessibility-label`을 직접 지정하세요.
-- **ref forwarding**: 모든 서브 컴포넌트는 `React.forwardRef`를 지원합니다.
+- 값 변경은 `onChange`가 아닌 `onCheckedChange`로 받습니다.
+- HTML `<label>`과 `<input>` 대신 네이티브 `<view>`와 `<text>`를 렌더링합니다.
+- 직접 작성한 `<text>`, 텍스트 없는 `Switchmark`, prop으로만 렌더링한 문구는 접근성 이름을 만들 수 없습니다. `accessibility-label`을 직접 지정하세요.
+
 </Callout>
 
 ## Scale Feedback
 
-Lynx `Switch`는 현재 눌렀을 때 `Switchmark`가 줄어드는 피드백을 제공하지 않습니다. CSS 지원 문제가 아니라 현재 Rootage 명세와 Lynx Recipe에 pressed scale 상태가 없기 때문입니다. 이 피드백이 필요하면 앱에서 `Switchmark`를 감싸는 요소의 눌림 상태와 scale transform을 직접 연결하세요.
+Lynx `Switch`는 누르는 동안 스위치 모양을 줄입니다. 콘텐츠를 축소하는 SEED 컴포넌트 안에서는 이 효과를 생략합니다. React의 `--seed-switchmark-feedback-scale` CSS 변수는 제공하지 않습니다.
 
 ## Lynx 미지원 기능
 

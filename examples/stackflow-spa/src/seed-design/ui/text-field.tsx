@@ -7,7 +7,6 @@ import {
   VisuallyHidden,
   PrefixIcon,
 } from "@seed-design/react";
-import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 
 export interface TextFieldProps
@@ -16,7 +15,7 @@ export interface TextFieldProps
   /**
    * @default "medium"
    */
-  labelWeight?: FieldLabelVariantProps["weight"];
+  labelWeight?: SeedField.LabelProps["weight"];
 
   indicator?: React.ReactNode;
 

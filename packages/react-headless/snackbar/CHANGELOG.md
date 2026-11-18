@@ -1,5 +1,11 @@
 # @seed-design/react-snackbar
 
+## 2.0.2
+
+### Patch Changes
+
+- f2b7ec5: TypeScript 5.0 이하나 `@types/react` 18.2.7 이하에서 `Snackbar.Renderer`, `AttachmentDisplay.Context`, `AttachmentInput.Context`를 JSX 컴포넌트로 쓸 수 없다는 TS2786 오류가 나던 문제를 수정합니다.
+
 ## 2.0.1
 
 ### Patch Changes

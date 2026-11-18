@@ -10,7 +10,7 @@ import {
 } from "seed-design/ui/responsive-dialog";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { VIEWPORT_MODES } from "./utils/parameters";
+import { VISUAL_VIEWPORT_PARAMETERS } from "./utils/parameters";
 
 const ResponsiveDialogPreview = ({
   showCloseButton,
@@ -23,22 +23,22 @@ const ResponsiveDialogPreview = ({
 }) => (
   <Box width="400px" p="x4">
     <style>{`
-      .seed-content-dialog__positioner,
+      .seed-dialog__positioner,
       .seed-bottom-sheet__positioner {
         position: relative !important;
         inset: unset !important;
       }
-      .seed-content-dialog__backdrop,
+      .seed-dialog__backdrop,
       .seed-bottom-sheet__backdrop {
         display: none !important;
       }
-      .seed-content-dialog__content,
+      .seed-dialog__content,
       .seed-bottom-sheet__content {
         animation: none !important;
       }
       /* size별 너비는 Dialog story가 덮는다. 여기서는 뷰포트마다 폭이 흔들리지 않게
          고정해, 스냅샷 간 차이가 Dialog/BottomSheet 전환에서만 나오도록 한다. */
-      .seed-content-dialog__content {
+      .seed-dialog__content {
         width: 100% !important;
         max-width: 100% !important;
       }
@@ -46,7 +46,8 @@ const ResponsiveDialogPreview = ({
         height: unset !important;
       }
     `}</style>
-    <ResponsiveDialogRoot open>
+    {/* Full-page capture resizes the viewport; this static preview has no keyboard inputs. */}
+    <ResponsiveDialogRoot open bottomSheetRootProps={{ repositionInputs: false }}>
       <ResponsiveDialogContent
         title="Responsive Dialog"
         description="md 이상에서는 Dialog, sm 이하에서는 Bottom Sheet로 렌더링됩니다."
@@ -99,6 +100,6 @@ export const LightTheme = meta.story({
     <VariantTable Component={component!} variantMap={{}} conditionMap={conditionMap} {...args} />
   ),
   parameters: {
-    chromatic: { modes: VIEWPORT_MODES },
+    ...VISUAL_VIEWPORT_PARAMETERS,
   },
 });

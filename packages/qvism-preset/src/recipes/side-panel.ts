@@ -55,7 +55,8 @@ const sidePanel = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
       boxSizing: "border-box",
-      wordBreak: "break-all",
+      wordBreak: "normal",
+      overflowWrap: ["break-word", "anywhere"],
       zIndex: "calc(var(--side-panel-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,
@@ -68,14 +69,12 @@ const sidePanel = defineSlotRecipe({
       // inherited ancestor value instead of staying guaranteed-invalid — see
       // https://webkit.org/b/241433. Mobile-first: viewport fraction on sm-, size token on
       // md+ (overridden below). A consumer `width` StyleProp still wins via the chain.
-      "--side-panel-default-width": `calc(${vars.base.enabled.content.widthFraction} * 100vw)`,
+      "--side-panel-default-width": `calc(${vars.base.enabled.content.widthFraction} * (100vw - var(--seed-safe-area-left) - var(--seed-safe-area-right)))`,
       "--seed-box-width--responsive": "var(--side-panel-default-width)",
-      "--seed-box-max-width--responsive": `calc(${vars.base.enabled.content.widthFraction} * 100%)`,
+      "--seed-box-max-width--responsive": `calc(${vars.base.enabled.content.widthFraction} * (100% - var(--seed-safe-area-left) - var(--seed-safe-area-right)))`,
 
       // Full height, anchored top/bottom; the left/right edge is set per direction.
       insetBlock: 0,
-      width: "var(--seed-box-width)",
-      maxWidth: "var(--seed-box-max-width)",
 
       // Respect device safe-area on bottom edge (e.g. iOS home indicator);
       // applied on content so it holds even when the footer is not rendered.
@@ -99,15 +98,25 @@ const sidePanel = defineSlotRecipe({
         outline: "none",
       },
 
-      // Per-direction: anchored edge, landscape-notch safe-area, and background-bleed side.
+      // Per-direction: anchored edge, its safe-area inset, and background-bleed side.
+      // The box widths, a consumer's included, size the content; the panel grows by the
+      // anchored edge's inset and covers it with padding. The far edge reaches the opposite inset only by the part the gap beside the panel
+      // doesn't cover (e.g. a consumer `maxWidth` lifting the 80% cap). Padding `%` and the
+      // width chain both resolve against the positioner.
       [pseudo("[data-drawer-direction='left']")]: {
         left: 0,
-        paddingLeft: "env(safe-area-inset-left, 0)",
+        width: "calc(var(--seed-box-width) + var(--seed-safe-area-left))",
+        maxWidth: "calc(var(--seed-box-max-width) + var(--seed-safe-area-left))",
+        paddingLeft: "var(--seed-safe-area-left)",
+        paddingRight: `max(0px, var(--seed-safe-area-right) - (100% - var(--seed-safe-area-left) - min(var(--seed-box-width), var(--seed-box-max-width))))`,
         "&::after": { right: "100%" },
       },
       [pseudo("[data-drawer-direction='right']")]: {
         right: 0,
-        paddingRight: "env(safe-area-inset-right, 0)",
+        width: "calc(var(--seed-box-width) + var(--seed-safe-area-right))",
+        maxWidth: "calc(var(--seed-box-max-width) + var(--seed-safe-area-right))",
+        paddingRight: "var(--seed-safe-area-right)",
+        paddingLeft: `max(0px, var(--seed-safe-area-left) - (100% - var(--seed-safe-area-right) - min(var(--seed-box-width), var(--seed-box-max-width))))`,
         "&::after": { left: "100%" },
       },
 
@@ -176,17 +185,10 @@ const sidePanel = defineSlotRecipe({
       overflowY: "auto",
 
       "--seed-box-padding-x--responsive": vars.base.enabled.body.paddingX,
-      // real values, not `initial` — see https://webkit.org/b/241433
-      "--seed-box-height--responsive": "auto",
-      "--seed-box-min-height--responsive": "auto",
-      "--seed-box-max-height--responsive": "none",
       "--seed-box-justify-content": "initial",
       "--seed-box-align-items": "initial",
       paddingInline: "var(--seed-box-padding-x)",
       paddingBottom: vars.base.enabled.body.paddingBottom, // reserve room for the bottom scroll fog
-      height: "var(--seed-box-height)",
-      minHeight: "var(--seed-box-min-height)",
-      maxHeight: "var(--seed-box-max-height)",
       justifyContent: "var(--seed-box-justify-content)",
       alignItems: "var(--seed-box-align-items)",
 

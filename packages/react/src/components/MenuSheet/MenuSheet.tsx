@@ -7,6 +7,7 @@ import {
 } from "@seed-design/css/recipes/menu-sheet-item";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { withContentScale } from "../../utils/withContentScale";
 import { withScaleFeedback } from "../../utils/withScaleFeedback";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import clsx from "clsx";
@@ -227,25 +228,27 @@ export interface MenuSheetItemProps
 /**
  * @deprecated Use `SwipeableMenuSheet` instead.
  */
-export const MenuSheetItem = React.forwardRef<HTMLButtonElement, MenuSheetItemProps>(
-  ({ className: propClassName, ...props }, ref) => {
-    const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
-    const parentProps = useItemProps();
+export const MenuSheetItem = withContentScale(
+  React.forwardRef<HTMLButtonElement, MenuSheetItemProps>(
+    ({ className: propClassName, ...props }, ref) => {
+      const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
+      const parentProps = useItemProps();
 
-    const classNames = menuSheetItem({ ...parentProps, ...variantProps });
-    const { stateProps } = useDialogContext();
+      const classNames = menuSheetItem({ ...parentProps, ...variantProps });
+      const { stateProps } = useDialogContext();
 
-    return (
-      <ItemClassNamesProvider value={classNames}>
-        <Primitive.button
-          ref={ref}
-          className={clsx(classNames.root, propClassName)}
-          {...stateProps}
-          {...otherProps}
-        />
-      </ItemClassNamesProvider>
-    );
-  },
+      return (
+        <ItemClassNamesProvider value={classNames}>
+          <Primitive.button
+            ref={ref}
+            className={clsx(classNames.root, propClassName)}
+            {...stateProps}
+            {...otherProps}
+          />
+        </ItemClassNamesProvider>
+      );
+    },
+  ),
 );
 
 /**

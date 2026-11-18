@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { act, fireEvent, render } from "@lynx-js/react/testing-library";
 import type * as React from "@lynx-js/react";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { Accordion } from "./index";
 
@@ -20,7 +20,7 @@ function TestAccordion(props: React.ComponentProps<typeof Accordion.Root> = {}) 
     <Accordion.Root {...props}>
       <Accordion.Item value="first">
         <Accordion.Header>
-          <Accordion.Trigger className="first-trigger" accessibility-label="첫 번째">
+          <Accordion.Trigger className="first-trigger">
             <Accordion.Body>
               <Accordion.Title>첫 번째</Accordion.Title>
             </Accordion.Body>
@@ -32,7 +32,7 @@ function TestAccordion(props: React.ComponentProps<typeof Accordion.Root> = {}) 
       </Accordion.Item>
       <Accordion.Item value="second">
         <Accordion.Header>
-          <Accordion.Trigger className="second-trigger" accessibility-label="두 번째">
+          <Accordion.Trigger className="second-trigger">
             <Accordion.Body>
               <Accordion.Title>두 번째</Accordion.Title>
             </Accordion.Body>
@@ -47,83 +47,190 @@ function TestAccordion(props: React.ComponentProps<typeof Accordion.Root> = {}) 
 }
 
 describe("Accordion", () => {
-  it("opens and closes an item in uncontrolled mode", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it("derives the trigger name and hides only trigger text slots", () => {
+    render(
+      <Accordion.Root defaultValues={["first"]}>
+        <Accordion.Item value="first">
+          <Accordion.Trigger className="first-trigger">
+            <Accordion.Title>알림</Accordion.Title>
+            <Accordion.Description>설정</Accordion.Description>
+          </Accordion.Trigger>
+          <Accordion.Content>
+            <Accordion.Title className="content-title">내용 제목</Accordion.Title>
+            <Accordion.Description className="content-description">내용 설명</Accordion.Description>
+          </Accordion.Content>
+        </Accordion.Item>
+      </Accordion.Root>,
+    );
+    const root = getRenderedRoot();
+    const trigger = root.querySelector(".first-trigger");
+    expect(trigger).toHaveAttribute("accessibility-element", "true");
+    expect(trigger).toHaveAttribute("accessibility-label", "알림 설정");
+    expect(trigger).toHaveAttribute("flatten", "false");
+    for (const slot of [".seed-accordion__title", ".seed-accordion__description"]) {
+      expect(trigger?.querySelector(slot)).toHaveAttribute("accessibility-element", "false");
+      expect(trigger?.querySelector(slot)).toHaveAttribute("accessibility-elements-hidden", "true");
+    }
+    expect(root.querySelector(".content-title")).not.toHaveAttribute(
+      "accessibility-elements-hidden",
+    );
+    expect(root.querySelector(".content-description")).not.toHaveAttribute(
+      "accessibility-elements-hidden",
+    );
+  });
+
+  it("preserves explicit trigger names, flattening, and text slot visibility", () => {
+    const { rerender } = render(
+      <Accordion.Root>
+        <Accordion.Item value="first">
+          <Accordion.Trigger className="first-trigger" accessibility-label="사용자 이름" flatten>
+            <Accordion.Title accessibility-element accessibility-elements-hidden={false}>
+              알림
+            </Accordion.Title>
+            <Accordion.Description accessibility-element accessibility-elements-hidden={false}>
+              설정
+            </Accordion.Description>
+          </Accordion.Trigger>
+        </Accordion.Item>
+      </Accordion.Root>,
+    );
+    const trigger = getRenderedRoot().querySelector(".first-trigger");
+    expect(trigger).toHaveAttribute("accessibility-label", "사용자 이름");
+    expect(trigger).toHaveAttribute("flatten", "true");
+    for (const slot of [".seed-accordion__title", ".seed-accordion__description"]) {
+      expect(trigger?.querySelector(slot)).toHaveAttribute("accessibility-element", "true");
+      expect(trigger?.querySelector(slot)).toHaveAttribute(
+        "accessibility-elements-hidden",
+        "false",
+      );
+    }
+
+    rerender(
+      <Accordion.Root>
+        <Accordion.Item value="first">
+          <Accordion.Trigger className="first-trigger" accessibility-element={false}>
+            <Accordion.Title>알림</Accordion.Title>
+          </Accordion.Trigger>
+        </Accordion.Item>
+      </Accordion.Root>,
+    );
+    const nonElementTrigger = getRenderedRoot().querySelector(".first-trigger");
+    expect(nonElementTrigger).toHaveAttribute("accessibility-label", "알림");
+    expect(nonElementTrigger?.querySelector(".seed-accordion__title")).not.toHaveAttribute(
+      "accessibility-elements-hidden",
+    );
+  });
+
+  it("warns only for an unnamed standalone trigger accessibility element", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const { rerender } = render(
+      <Accordion.Root>
+        <Accordion.Item value="first">
+          <Accordion.Trigger />
+        </Accordion.Item>
+      </Accordion.Root>,
+    );
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("accessibility-label"));
+    warn.mockClear();
+
+    rerender(
+      <Accordion.Root>
+        <Accordion.Item value="first">
+          <Accordion.Trigger className="first-trigger">
+            <text>알림</text>
+          </Accordion.Trigger>
+        </Accordion.Item>
+      </Accordion.Root>,
+    );
+    expect(getRenderedRoot().querySelector(".first-trigger")).not.toHaveAttribute(
+      "accessibility-label",
+    );
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("accessibility-label"));
+    warn.mockClear();
+
+    rerender(
+      <Accordion.Root>
+        <Accordion.Item value="first">
+          <Accordion.Trigger accessibility-element={false} />
+        </Accordion.Item>
+      </Accordion.Root>,
+    );
+    expect(warn).not.toHaveBeenCalledWith(expect.stringContaining("accessibility-label"));
+    rerender(
+      <Accordion.Root>
+        <Accordion.Item value="first">
+          <Accordion.Trigger accessibility-label="외부 이름">
+            <Accordion.Trigger />
+          </Accordion.Trigger>
+        </Accordion.Item>
+      </Accordion.Root>,
+    );
+    expect(warn).not.toHaveBeenCalledWith(expect.stringContaining("accessibility-label"));
+  });
+
+  it("renders the SEED pressed overlay hidden from accessibility", () => {
     render(<TestAccordion />);
 
     const trigger = getRenderedRoot().querySelector<HTMLElement>(".first-trigger");
     const pressedOverlay = trigger?.querySelector<HTMLElement>(".seed-accordion__pressedOverlay");
-    expect(trigger).not.toBeNull();
     expect(pressedOverlay).not.toBeNull();
     expect(pressedOverlay).toHaveAttribute("accessibility-elements-hidden", "true");
-    expect(trigger).toHaveAttribute("accessibility-value", "접힘");
-
-    fireEvent.tap(trigger as HTMLElement);
-    expect(trigger).toHaveAttribute("accessibility-value", "펼쳐짐");
-
-    fireEvent.tap(trigger as HTMLElement);
-    expect(trigger).toHaveAttribute("accessibility-value", "접힘");
   });
 
-  it("transitions content between zero and its measured height", () => {
-    render(<TestAccordion defaultValues={["first"]} />);
+  it("wires a styled trigger tap to accessibility and measured content height", () => {
+    render(<TestAccordion />);
 
     const root = getRenderedRoot();
     const trigger = root.querySelector<HTMLElement>(".first-trigger");
     const content = root.querySelector<HTMLElement>(".first-content");
     const contentInner = content?.querySelector<HTMLElement>(".seed-accordion__contentInner");
 
-    expect(content).not.toBeNull();
-    expect(contentInner).not.toBeNull();
+    expect(trigger).toHaveAttribute("accessibility-value", "접힘");
     expect(content).toHaveStyle({ height: "0px" });
-
     act(() => {
       fireEvent.layoutchange(contentInner as HTMLElement, { height: 84 });
     });
-
-    expect(content).toHaveStyle({ height: "84px" });
-
     fireEvent.tap(trigger as HTMLElement);
+    expect(trigger).toHaveAttribute("accessibility-value", "펼쳐짐");
+    expect(content).toHaveStyle({ height: "84px" });
+    fireEvent.tap(trigger as HTMLElement);
+    expect(trigger).toHaveAttribute("accessibility-value", "접힘");
     expect(content).toHaveStyle({ height: "0px" });
   });
 
-  it("keeps one item open by default and supports multiple mode", () => {
-    render(<TestAccordion multiple defaultValues={["first"]} />);
-
-    const root = getRenderedRoot();
-    const first = root.querySelector<HTMLElement>(".first-trigger");
-    const second = root.querySelector<HTMLElement>(".second-trigger");
-
-    expect(first).toHaveAttribute("accessibility-value", "펼쳐짐");
-    expect(second).toHaveAttribute("accessibility-value", "접힘");
-
-    fireEvent.tap(second as HTMLElement);
-    expect(first).toHaveAttribute("accessibility-value", "펼쳐짐");
-    expect(second).toHaveAttribute("accessibility-value", "펼쳐짐");
-  });
-
-  it("reports controlled value changes without mutating the rendered state", () => {
-    const onValuesChange = vi.fn();
-    render(<TestAccordion values={[]} onValuesChange={onValuesChange} />);
+  it("keeps open and disabled accessibility state over user native values", () => {
+    render(
+      <Accordion.Root defaultValues={["first"]}>
+        <Accordion.Item value="first" disabled>
+          <Accordion.Trigger
+            className="first-trigger"
+            accessibility-label="첫 번째"
+            accessibility-role-description="섹션"
+            {...{ "accessibility-value": "사용자 값", "accessibility-traits": "button" }}
+          >
+            <Accordion.Title>첫 번째</Accordion.Title>
+          </Accordion.Trigger>
+        </Accordion.Item>
+      </Accordion.Root>,
+    );
 
     const trigger = getRenderedRoot().querySelector<HTMLElement>(".first-trigger");
-    fireEvent.tap(trigger as HTMLElement);
-
-    expect(onValuesChange).toHaveBeenCalledWith(["first"]);
-    expect(trigger).toHaveAttribute("accessibility-value", "접힘");
-  });
-
-  it("ignores tap when the root is disabled", () => {
-    const onValuesChange = vi.fn();
-    render(<TestAccordion disabled onValuesChange={onValuesChange} />);
-
-    const trigger = getRenderedRoot().querySelector<HTMLElement>(".first-trigger");
-    fireEvent.tap(trigger as HTMLElement);
-
-    expect(onValuesChange).not.toHaveBeenCalled();
+    expect(trigger).toHaveAttribute("accessibility-value", "펼쳐짐");
     expect(trigger).toHaveAttribute("accessibility-traits", "disabled");
-    expect(getRenderedRoot().querySelector(".first-content")).toHaveAttribute(
+    expect(trigger).toHaveAttribute("accessibility-role-description", "섹션");
+  });
+
+  it("renders a divider only between items", () => {
+    render(<TestAccordion />);
+
+    const items = getRenderedRoot().querySelectorAll(".seed-accordion__item");
+    expect(items).toHaveLength(2);
+    expect(items[0].querySelector(".seed-accordion__divider")).toHaveAttribute(
       "accessibility-elements-hidden",
       "true",
     );
+    expect(items[1].querySelector(".seed-accordion__divider")).toBeNull();
   });
 });

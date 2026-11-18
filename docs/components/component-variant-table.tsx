@@ -1,7 +1,5 @@
-"use client";
-
 import { AST, resolveToken, RootageCtx } from "@seed-design/rootage-core";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { DescriptionButton } from "./description-button";
 import { getDefaultModes, stringifyStates, stringifyTokenLit, stringifyValueLit } from "./rootage";
 import { TableRoot } from "./table";
@@ -25,11 +23,6 @@ interface TableItem {
 }
 
 export function ComponentVariantTable(props: ComponentVariantTableProps) {
-  const [hoveredRow, setHoveredRow] = useState<{
-    slotKey: string;
-    propertyKey: string;
-  } | null>(null);
-
   const { rootage, variant, schema } = props;
   const tableItems: TableItem[] = useMemo(() => {
     const modes = getDefaultModes(rootage);
@@ -105,7 +98,8 @@ export function ComponentVariantTable(props: ComponentVariantTableProps) {
           <th>값</th>
         </tr>
       </thead>
-      <tbody>
+      {/* 같은 슬롯·속성 행 강조는 `row-highlight` widget(`src/mdx/widgets.ts`)이 `data-hover-key`로 처리한다. */}
+      <tbody data-widget="row-highlight">
         {tableItems.map((item, index) => {
           const prevItem = tableItems[index - 1];
           const shouldRenderState = item.stateKey !== prevItem?.stateKey;
@@ -119,11 +113,6 @@ export function ComponentVariantTable(props: ComponentVariantTableProps) {
               shouldRenderState={shouldRenderState}
               shouldRenderSlot={shouldRenderSlot}
               shouldRenderProperty={shouldRenderProperty}
-              isHighlighted={
-                hoveredRow?.slotKey === item.slotKey && hoveredRow?.propertyKey === item.propertyKey
-              }
-              onHoverStart={setHoveredRow}
-              onHoverEnd={() => setHoveredRow(null)}
             />
           );
         })}
@@ -137,19 +126,8 @@ function ComponentVariantRow(props: {
   shouldRenderState: boolean;
   shouldRenderSlot: boolean;
   shouldRenderProperty: boolean;
-  isHighlighted: boolean;
-  onHoverStart: (details: { slotKey: string; propertyKey: string }) => void;
-  onHoverEnd: () => void;
 }) {
-  const {
-    item,
-    shouldRenderState,
-    shouldRenderSlot,
-    shouldRenderProperty,
-    isHighlighted,
-    onHoverStart,
-    onHoverEnd,
-  } = props;
+  const { item, shouldRenderState, shouldRenderSlot, shouldRenderProperty } = props;
   const {
     id,
     stateKey,
@@ -161,16 +139,15 @@ function ComponentVariantRow(props: {
     resolvedValue,
   } = item;
 
-  const [isExpanded, setIsExpanded] = useState(false);
   const canExpand = values.length > 1;
 
   return (
+    // 펼침은 `expand` widget이 이 행의 `data-expanded`로 처리한다.
     <tr
-      className={`${isHighlighted ? "bg-bg-neutral-weak" : ""} ${canExpand ? (isExpanded ? "cursor-zoom-out" : "cursor-zoom-in") : ""}`}
       key={id}
-      onMouseEnter={() => onHoverStart({ slotKey, propertyKey })}
-      onMouseLeave={() => onHoverEnd()}
-      onClick={canExpand ? () => setIsExpanded((prev) => !prev) : undefined}
+      data-hover-key={`${slotKey}/${propertyKey}`}
+      data-widget={canExpand ? "expand" : undefined}
+      className={`group/expand data-highlighted:bg-bg-neutral-weak ${canExpand ? "cursor-zoom-in data-expanded:cursor-zoom-out" : ""}`}
     >
       <td>{shouldRenderState ? stateKey : null}</td>
       <td>
@@ -190,7 +167,7 @@ function ComponentVariantRow(props: {
         )}
       </td>
       <td className="align-middle">
-        <TokenCell isExpanded={isExpanded} values={values} resolvedValue={resolvedValue} />
+        <TokenCell values={values} resolvedValue={resolvedValue} />
       </td>
     </tr>
   );

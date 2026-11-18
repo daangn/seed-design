@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    flex-grow: 1;
+    width: 100%;
     min-width: 0
 }
 .seed-select-item__pressedOverlay {
@@ -19,8 +19,9 @@
     bottom: 0;
     left: 0;
     border-radius: var(--seed-radius-r3);
-    background-color: transparent;
-    transition-property: background-color, left, right;
+    opacity: 0;
+    background-color: var(--seed-color-bg-transparent-pressed);
+    transition-property: opacity, left, right;
     transition-duration: var(--seed-duration-color-transition), var(--seed-duration-d3), var(--seed-duration-d3);
     transition-timing-function: var(--seed-timing-function-easing), var(--seed-timing-function-easing), var(--seed-timing-function-easing);
     pointer-events: none
@@ -48,14 +49,14 @@
     flex-shrink: 0;
     color: var(--seed-color-fg-neutral)
 }
-.seed-select-item__scaleContent--size_large {
-    gap: var(--seed-dimension-x3)
-}
 .seed-select-item__root--size_large {
     padding-top: var(--seed-dimension-x3);
     padding-bottom: var(--seed-dimension-x3);
     padding-left: var(--seed-dimension-x4);
     padding-right: var(--seed-dimension-x4)
+}
+.seed-select-item__scaleContent--size_large {
+    gap: var(--seed-dimension-x3)
 }
 .seed-select-item__prefixIcon--size_large {
     width: 22px;
@@ -73,14 +74,14 @@
     width: var(--seed-dimension-x3_5);
     height: var(--seed-dimension-x3_5)
 }
-.seed-select-item__scaleContent--size_medium {
-    gap: var(--seed-dimension-x2)
-}
 .seed-select-item__root--size_medium {
     padding-top: var(--seed-dimension-x2_5);
     padding-bottom: var(--seed-dimension-x2_5);
     padding-left: var(--seed-dimension-x4);
     padding-right: var(--seed-dimension-x4)
+}
+.seed-select-item__scaleContent--size_medium {
+    gap: var(--seed-dimension-x2)
 }
 .seed-select-item__prefixIcon--size_medium {
     width: var(--seed-dimension-x4_5);
@@ -111,12 +112,12 @@
     color: var(--seed-color-fg-disabled)
 }
 .seed-select-item__root--disabled_false:active .seed-select-item__pressedOverlay {
-    background-color: var(--seed-color-bg-transparent-pressed);
+    opacity: 1;
     left: var(--seed-dimension-x2);
     right: var(--seed-dimension-x2)
 }
 .seed-select-item__pressedOverlay--pressed_true-disabled_false {
-    background-color: var(--seed-color-bg-transparent-pressed);
+    opacity: 1;
     left: var(--seed-dimension-x2);
     right: var(--seed-dimension-x2)
 }

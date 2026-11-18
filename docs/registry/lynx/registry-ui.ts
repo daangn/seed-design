@@ -1,93 +1,26 @@
 import type { Registry } from "../schema";
 
 const lynxSeedPackageRanges = {
-  "@seed-design/lynx-react": ">=0.1.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.1.0 <1.0.0",
+  "@seed-design/lynx-react": "^1.0.0",
+  "@seed-design/lynx-css": "^1.0.0",
 };
 
-const identityPlaceholderPackageRanges = {
-  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
-};
-
-const fieldPackageRanges = {
-  "@seed-design/lynx-react": ">=0.4.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.8.0 <1.0.0",
-};
-
-const accordionPackageRanges = {
-  "@seed-design/lynx-react": ">=0.5.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.9.0 <1.0.0",
-  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
-};
-const fieldButtonPackageRanges = {
-  "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
-  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
-};
-const attachmentPackageRanges = {
-  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
-  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
-};
-const quantityPickerPackageRanges = {
-  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+const lynxSeedIconPackageRanges = {
+  ...lynxSeedPackageRanges,
   "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
 };
 
-const floatingActionButtonPackageRanges = {
-  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
-};
-const chipTabsPackageRanges = {
-  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
+// `AppBarTextButton` ships in @seed-design/lynx-react 1.1.0 and its recipe in @seed-design/lynx-css 1.1.0.
+const appBarPackageRanges = {
+  "@seed-design/lynx-react": "^1.1.0",
+  "@seed-design/lynx-css": "^1.1.0",
 };
 
-const selectBoxPackageRanges = {
-  "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.10.0 <1.0.0",
-  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
-};
-const sliderPackageRanges = {
-  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
-};
-const menuPackageRanges = {
-  "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
-};
-const dialogPackageRanges = {
-  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
-  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
-};
-const alertDialogPackageRanges = {
-  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
-};
-
-const helpBubblePackageRanges = {
-  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
-  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
-};
-
-const selectPackageRanges = {
-  "@seed-design/lynx-react": ">=0.8.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.12.0 <1.0.0",
-  "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
-};
-
-const listPackageRanges = {
-  "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
-};
-
-const swipeableMenuSheetPackageRanges = {
-  "@seed-design/lynx-react": ">=0.7.0 <1.0.0",
-  "@seed-design/lynx-css": ">=0.11.0 <1.0.0",
+// reorderable snippet은 @seed-design/lynx-react 1.2.0의 `useSeedContext().preferredMotion`을 읽는다.
+const attachmentReorderablePackageRanges = {
+  ...lynxSeedIconPackageRanges,
+  "@seed-design/lynx-react": "^1.2.0",
+  "@seed-design/lynx-react-sortable": "^1.0.0",
 };
 
 // Lynx UI registry. Each item must have a matching snippet file under
@@ -102,7 +35,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "accordion.tsx",
-          dependencies: accordionPackageRanges,
+          dependencies: lynxSeedIconPackageRanges,
         },
       ],
     },
@@ -111,7 +44,16 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "app-bar.tsx",
-          dependencies: lynxSeedPackageRanges,
+          dependencies: appBarPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "badge",
+      snippets: [
+        {
+          path: "badge.tsx",
+          dependencies: lynxSeedIconPackageRanges,
         },
       ],
     },
@@ -120,7 +62,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "bottom-sheet.tsx",
-          dependencies: lynxSeedPackageRanges,
+          dependencies: lynxSeedIconPackageRanges,
         },
       ],
     },
@@ -129,7 +71,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "alert-dialog.tsx",
-          dependencies: alertDialogPackageRanges,
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -138,7 +80,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "dialog.tsx",
-          dependencies: dialogPackageRanges,
+          dependencies: lynxSeedIconPackageRanges,
         },
       ],
     },
@@ -147,10 +89,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "callout.tsx",
-          dependencies: {
-            "@seed-design/lynx-react": ">=0.5.0 <1.0.0",
-            "@seed-design/lynx-css": ">=0.9.0 <1.0.0",
-          },
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -159,7 +98,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "checkbox.tsx",
-          dependencies: fieldPackageRanges,
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -168,7 +107,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "chip-tabs.tsx",
-          dependencies: chipTabsPackageRanges,
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -177,7 +116,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "field-button.tsx",
-          dependencies: fieldButtonPackageRanges,
+          dependencies: lynxSeedIconPackageRanges,
         },
       ],
     },
@@ -186,7 +125,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "floating-action-button.tsx",
-          dependencies: floatingActionButtonPackageRanges,
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -195,16 +134,20 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "attachment-display-field.tsx",
-          dependencies: attachmentPackageRanges,
+          dependencies: lynxSeedIconPackageRanges,
         },
       ],
+    },
+    {
+      id: "avatar",
+      snippets: [{ path: "avatar.tsx", dependencies: lynxSeedPackageRanges }],
     },
     {
       id: "identity-placeholder",
       snippets: [
         {
           path: "identity-placeholder.tsx",
-          dependencies: identityPlaceholderPackageRanges,
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -213,7 +156,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "attachment-field.tsx",
-          dependencies: attachmentPackageRanges,
+          dependencies: lynxSeedIconPackageRanges,
         },
       ],
     },
@@ -222,7 +165,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "attachment-display-field-reorderable.tsx",
-          dependencies: attachmentPackageRanges,
+          dependencies: attachmentReorderablePackageRanges,
         },
       ],
     },
@@ -231,7 +174,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "attachment-field-reorderable.tsx",
-          dependencies: attachmentPackageRanges,
+          dependencies: attachmentReorderablePackageRanges,
         },
       ],
     },
@@ -240,14 +183,29 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "list.tsx",
-          dependencies: {
-            ...listPackageRanges,
-            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
-          },
+          dependencies: lynxSeedIconPackageRanges,
         },
         {
           path: "list-header.tsx",
-          dependencies: listPackageRanges,
+          dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "manner-temp",
+      snippets: [
+        {
+          path: "manner-temp.tsx",
+          dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "manner-temp-badge",
+      snippets: [
+        {
+          path: "manner-temp-badge.tsx",
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -256,7 +214,16 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "menu.tsx",
-          dependencies: menuPackageRanges,
+          dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "menu-sheet",
+      snippets: [
+        {
+          path: "menu-sheet.tsx",
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -265,7 +232,16 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "help-bubble.tsx",
-          dependencies: helpBubblePackageRanges,
+          dependencies: lynxSeedIconPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "content-placeholder",
+      snippets: [
+        {
+          path: "content-placeholder.tsx",
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -283,10 +259,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "page-banner.tsx",
-          dependencies: {
-            "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
-            "@seed-design/lynx-css": ">=0.10.0 <1.0.0",
-          },
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -295,7 +268,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "quantity-picker.tsx",
-          dependencies: quantityPickerPackageRanges,
+          dependencies: lynxSeedIconPackageRanges,
         },
       ],
     },
@@ -304,7 +277,16 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "radio-group.tsx",
-          dependencies: fieldPackageRanges,
+          dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "pull-to-refresh",
+      snippets: [
+        {
+          path: "pull-to-refresh.tsx",
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -318,14 +300,36 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "search-bar",
+      snippets: [
+        {
+          path: "search-bar.tsx",
+          dependencies: {
+            "@seed-design/lynx-react": "^1.1.0",
+            "@seed-design/lynx-css": "^1.1.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "search-input",
+      snippets: [
+        {
+          path: "search-input.tsx",
+          dependencies: {
+            "@seed-design/lynx-react": "^1.1.0",
+            "@seed-design/lynx-css": "^1.1.0",
+            "@karrotmarket/lynx-monochrome-icon": ">=1.20.0 <2.0.0",
+          },
+        },
+      ],
+    },
+    {
       id: "segmented-control",
       snippets: [
         {
           path: "segmented-control.tsx",
-          dependencies: {
-            "@seed-design/lynx-react": ">=0.6.0 <1.0.0",
-            "@seed-design/lynx-css": ">=0.10.0 <1.0.0",
-          },
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -334,7 +338,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "select.tsx",
-          dependencies: selectPackageRanges,
+          dependencies: lynxSeedIconPackageRanges,
         },
       ],
     },
@@ -343,7 +347,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "select-box.tsx",
-          dependencies: selectBoxPackageRanges,
+          dependencies: lynxSeedIconPackageRanges,
         },
       ],
     },
@@ -352,7 +356,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "slider.tsx",
-          dependencies: sliderPackageRanges,
+          dependencies: lynxSeedPackageRanges,
         },
       ],
     },
@@ -362,15 +366,6 @@ export const registryUI: Registry = {
         {
           path: "switch.tsx",
           dependencies: lynxSeedPackageRanges,
-        },
-      ],
-    },
-    {
-      id: "swipeable-menu-sheet",
-      snippets: [
-        {
-          path: "swipeable-menu-sheet.tsx",
-          dependencies: swipeableMenuSheetPackageRanges,
         },
       ],
     },
@@ -397,6 +392,39 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "text-field.tsx",
+          dependencies: lynxSeedPackageRanges,
+        },
+      ],
+    },
+    {
+      id: "resident-number-field",
+      snippets: [
+        {
+          path: "resident-number-field.tsx",
+          dependencies: {
+            "@seed-design/lynx-react": "^1.1.0",
+            "@seed-design/lynx-css": "^1.1.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "card-number-field",
+      snippets: [
+        {
+          path: "card-number-field.tsx",
+          dependencies: {
+            "@seed-design/lynx-react": "^1.1.0",
+            "@seed-design/lynx-css": "^1.1.0",
+          },
+        },
+      ],
+    },
+    {
+      id: "wheel-picker",
+      snippets: [
+        {
+          path: "wheel-picker.tsx",
           dependencies: lynxSeedPackageRanges,
         },
       ],

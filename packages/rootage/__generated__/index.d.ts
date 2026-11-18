@@ -1,6 +1,6 @@
 declare const artifact: {
   "name": "Rootage";
-  "version": "2.9.0";
+  "version": "3.3.0";
   "resources": readonly [
     {
       "path": "/collections.json";
@@ -96,9 +96,6 @@ declare const artifact: {
       "path": "/components/contextual-floating-button.json";
     },
     {
-      "path": "/components/control-chip.json";
-    },
-    {
       "path": "/components/date-picker.json";
     },
     {
@@ -153,9 +150,6 @@ declare const artifact: {
       "path": "/components/image-frame.json";
     },
     {
-      "path": "/components/inline-banner.json";
-    },
-    {
       "path": "/components/input-button.json";
     },
     {
@@ -204,6 +198,12 @@ declare const artifact: {
       "path": "/components/pagination-page-item.json";
     },
     {
+      "path": "/components/popover-close-button.json";
+    },
+    {
+      "path": "/components/popover.json";
+    },
+    {
       "path": "/components/progress-circle.json";
     },
     {
@@ -228,6 +228,9 @@ declare const artifact: {
       "path": "/components/scroll-fog.json";
     },
     {
+      "path": "/components/search-input.json";
+    },
+    {
       "path": "/components/segmented-control-indicator.json";
     },
     {
@@ -235,6 +238,9 @@ declare const artifact: {
     },
     {
       "path": "/components/segmented-control.json";
+    },
+    {
+      "path": "/components/segmented-text-input.json";
     },
     {
       "path": "/components/select-box-checkmark.json";

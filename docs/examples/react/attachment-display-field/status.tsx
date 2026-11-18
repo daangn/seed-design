@@ -1,10 +1,13 @@
 "use client";
 
-import { VStack } from "@seed-design/react";
-import type { DisplayItemEntry, DisplayItemStatusDetails } from "@seed-design/react/primitive";
+import {
+  VStack,
+  type AttachmentDisplayItemEntry,
+  type AttachmentDisplayItemStatusDetails,
+} from "@seed-design/react";
 import { AttachmentDisplay, AttachmentDisplayField } from "seed-design/ui/attachment-display-field";
 
-const defaultEntries: DisplayItemEntry[] = [
+const defaultEntries: AttachmentDisplayItemEntry[] = [
   {
     id: "1",
     thumbnailUrl: "https://picsum.photos/seed/upload1/200/200",
@@ -24,7 +27,7 @@ const defaultEntries: DisplayItemEntry[] = [
 ];
 
 // 외부 미디어 피커 모킹. 실제 환경에서는 네이티브 브릿지/모달/서버 호출 등으로 교체하세요.
-async function openMediaPicker(): Promise<DisplayItemEntry[]> {
+async function openMediaPicker(): Promise<AttachmentDisplayItemEntry[]> {
   const id = crypto.randomUUID();
   return [
     {
@@ -39,7 +42,7 @@ async function openMediaPicker(): Promise<DisplayItemEntry[]> {
 // status는 컴포넌트가 콜백으로 전달하는 updateEntryStatus 헬퍼로만 갱신합니다.
 function simulateUpload(
   id: string,
-  updateEntryStatus: (id: string, details: DisplayItemStatusDetails) => void,
+  updateEntryStatus: (id: string, details: AttachmentDisplayItemStatusDetails) => void,
 ) {
   updateEntryStatus(id, { status: "uploading", progress: 0 });
 

@@ -1,21 +1,32 @@
 import { RestrictToHorizontalAxis } from "@dnd-kit/abstract/modifiers";
-import { Accessibility, AutoScroller } from "@dnd-kit/dom";
+import { Accessibility, AutoScroller, KeyboardSensor, PointerSensor } from "@dnd-kit/dom";
 import { DragDropProvider } from "@dnd-kit/react";
 import { isSortable, useSortable } from "@dnd-kit/react/sortable";
 import { IconCameraFill } from "@karrotmarket/react-monochrome-icon";
-import { AttachmentDisplay as SeedAttachmentDisplay } from "@seed-design/react";
 import {
-  type DisplayItemEntry,
-  type UseAttachmentDisplayReturn,
+  AttachmentDisplay as SeedAttachmentDisplay,
+  type AttachmentDisplayItemEntry,
   useAttachmentDisplayContext,
-} from "@seed-design/react/primitive";
+  type AttachmentDisplayContextValue,
+} from "@seed-design/react";
 import * as React from "react";
 
 import { AttachmentDisplayItem, type AttachmentDisplayItemProps } from "./attachment-display-field";
 
 const LABEL_SELECT_FILE = "파일 선택";
+const LABEL_REORDER = "순서 변경";
 
 const autoScrollerPlugin = AutoScroller.configure({ threshold: { x: 0.2, y: 0 } });
+
+const sensors = [
+  PointerSensor.configure({
+    // The item remains the pointer/touch target while the handle owns keyboard and ARIA behavior.
+    activatorElements(source) {
+      return [source.element, source.handle];
+    },
+  }),
+  KeyboardSensor,
+];
 
 const accessibilityPlugin = Accessibility.configure({
   screenReaderInstructions: {
@@ -40,15 +51,15 @@ const accessibilityPlugin = Accessibility.configure({
 
 export type AttachmentDisplayReorderableProps = {
   onTriggerClick: (
-    helpers: Pick<UseAttachmentDisplayReturn, "addEntries" | "updateEntryStatus">,
+    helpers: Pick<AttachmentDisplayContextValue, "addEntries" | "updateEntryStatus">,
   ) => void;
 } & (
   | { children: SeedAttachmentDisplay.ContextProps["children"]; onRetry?: never }
   | {
       children?: undefined;
       onRetry?: (
-        entry: DisplayItemEntry,
-        helpers: Pick<UseAttachmentDisplayReturn, "updateEntryStatus">,
+        entry: AttachmentDisplayItemEntry,
+        helpers: Pick<AttachmentDisplayContextValue, "updateEntryStatus">,
       ) => void;
     }
 );
@@ -65,6 +76,7 @@ export const AttachmentDisplayReorderable = React.forwardRef<
   return (
     <DragDropProvider
       plugins={(defaults) => [...defaults, autoScrollerPlugin, accessibilityPlugin]}
+      sensors={sensors}
       onDragEnd={({ canceled, operation: { source } }) => {
         if (canceled) return;
         if (!isSortable(source)) return;
@@ -111,15 +123,33 @@ export const SortableAttachmentDisplayItem = React.forwardRef<
   SortableAttachmentDisplayItemProps
 >(({ entry, index, fileName, ...props }, _ref) => {
   const { readOnly } = useAttachmentDisplayContext();
+  const name = fileName ?? `${index + 1}번째 이미지`;
 
-  const { ref: sortableRef } = useSortable({
+  const {
+    ref: sortableRef,
+    handleRef,
+    isDragging,
+  } = useSortable({
     id: entry.id,
     index,
     disabled: readOnly,
     modifiers: [RestrictToHorizontalAxis],
-    data: { name: fileName ?? `${index + 1}번째 이미지` },
+    data: { name },
   });
 
-  return <AttachmentDisplayItem ref={sortableRef} entry={entry} {...props} />;
+  return (
+    <AttachmentDisplayItem
+      ref={sortableRef}
+      entry={entry}
+      dragging={isDragging}
+      reorderHandle={
+        <SeedAttachmentDisplay.ItemReorderHandle
+          ref={handleRef}
+          aria-label={`${name} ${LABEL_REORDER}`}
+        />
+      }
+      {...props}
+    />
+  );
 });
 SortableAttachmentDisplayItem.displayName = "SortableAttachmentDisplayItem";

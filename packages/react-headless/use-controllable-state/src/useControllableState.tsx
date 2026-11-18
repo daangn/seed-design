@@ -35,7 +35,6 @@ export function useControllableState<T, M = undefined>({
   const isControlled = prop !== undefined;
   const value = isControlled ? prop : uncontrolledProp;
 
-  // @ts-expect-error
   if (process.env.NODE_ENV !== "production") {
     // biome-ignore lint/correctness/useHookAtTopLevel: OK to disable conditionally calling hooks here because they will always run consistently in the same environment. Bundlers should be able to remove the code block entirely in production.
     const isControlledRef = React.useRef(prop !== undefined);

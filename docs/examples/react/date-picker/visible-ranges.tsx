@@ -1,13 +1,13 @@
 "use client";
 
+import { Box, VStack } from "@seed-design/react";
 import {
-  Box,
   ContinuousDatePicker,
   DatePicker,
   TwoMonthDatePicker,
-  VStack,
+  TwoWeekDatePicker,
   WeekDatePicker,
-} from "@seed-design/react";
+} from "seed-design/ui/date-picker";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import * as React from "react";
 
@@ -17,6 +17,7 @@ const layoutOptions = [
   { value: "month", label: "한 달" },
   { value: "twoMonths", label: "두 달" },
   { value: "week", label: "한 주" },
+  { value: "twoWeeks", label: "두 주" },
   { value: "continuous", label: "연속" },
 ] as const;
 
@@ -31,6 +32,8 @@ export default function DatePickerVisibleRanges() {
         return <TwoMonthDatePicker today={today} />;
       case "week":
         return <WeekDatePicker today={today} />;
+      case "twoWeeks":
+        return <TwoWeekDatePicker today={today} />;
       case "continuous":
         return (
           <ContinuousDatePicker

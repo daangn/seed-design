@@ -237,25 +237,25 @@ declare const artifact: {
               "label": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-brand-solid";
                 };
               };
               "icon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-brand-solid";
                 };
               };
               "prefixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-brand-solid";
                 };
               };
               "suffixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-brand-solid";
                 };
               };
               "progressCircle": {
@@ -265,7 +265,7 @@ declare const artifact: {
                 };
                 "rangeColor": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-brand-solid";
                 };
               };
             };
@@ -348,31 +348,31 @@ declare const artifact: {
               "root": {
                 "color": {
                   "type": "color";
-                  "value": "$color.bg.neutral-inverted";
+                  "value": "$color.bg.neutral-solid";
                 };
               };
               "label": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
               };
               "icon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
               };
               "prefixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
               };
               "suffixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.fg.neutral-inverted";
+                  "value": "$color.fg.on-neutral-solid";
                 };
               };
               "progressCircle": {
@@ -382,7 +382,7 @@ declare const artifact: {
                 };
                 "rangeColor": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-neutral-solid";
                 };
               };
             };
@@ -395,7 +395,7 @@ declare const artifact: {
               "root": {
                 "color": {
                   "type": "color";
-                  "value": "$color.bg.neutral-inverted-pressed";
+                  "value": "$color.bg.neutral-solid-pressed";
                 };
               };
             };
@@ -445,7 +445,7 @@ declare const artifact: {
               "root": {
                 "color": {
                   "type": "color";
-                  "value": "$color.bg.neutral-inverted-pressed";
+                  "value": "$color.bg.neutral-solid-pressed";
                 };
               };
             };
@@ -588,25 +588,25 @@ declare const artifact: {
               "label": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-critical-solid";
                 };
               };
               "icon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-critical-solid";
                 };
               };
               "prefixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-critical-solid";
                 };
               };
               "suffixIcon": {
                 "color": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-critical-solid";
                 };
               };
               "progressCircle": {
@@ -616,7 +616,7 @@ declare const artifact: {
                 };
                 "rangeColor": {
                   "type": "color";
-                  "value": "$color.palette.static-white";
+                  "value": "$color.fg.on-critical-solid";
                 };
               };
             };
@@ -703,7 +703,7 @@ declare const artifact: {
                 };
                 "strokeColor": {
                   "type": "color";
-                  "value": "$color.stroke.neutral-muted";
+                  "value": "$color.stroke.neutral-weak";
                 };
                 "strokeWidth": {
                   "type": "dimension";
@@ -774,7 +774,7 @@ declare const artifact: {
                 };
                 "strokeColor": {
                   "type": "color";
-                  "value": "$color.stroke.neutral-muted";
+                  "value": "$color.stroke.neutral-weak";
                 };
               };
               "label": {
@@ -835,7 +835,7 @@ declare const artifact: {
                 };
                 "strokeColor": {
                   "type": "color";
-                  "value": "$color.stroke.neutral-muted";
+                  "value": "$color.stroke.neutral-weak";
                 };
                 "strokeWidth": {
                   "type": "dimension";
@@ -906,7 +906,7 @@ declare const artifact: {
                 };
                 "strokeColor": {
                   "type": "color";
-                  "value": "$color.stroke.neutral-muted";
+                  "value": "$color.stroke.neutral-weak";
                 };
               };
               "label": {

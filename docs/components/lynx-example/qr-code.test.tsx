@@ -37,6 +37,7 @@ describe("LynxComponentQRCode", () => {
     renderExample();
     const link = await screen.findByRole("link", { name: "Open In Lynx Explorer" });
     const native = new URL(newPath, window.location.origin);
+    native.searchParams.set("example", "lynx/app-bar/preview");
     native.searchParams.set("fullscreen", "true");
     expect(link.getAttribute("href")).toBe(`lynx://open?url=${encodeURIComponent(native.href)}`);
     expect(screen.getByRole("status").textContent).toContain("예제가 업데이트되어");

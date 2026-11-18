@@ -3,15 +3,18 @@ import {
   createFocusRingStyles,
   FOCUS_RING_TRANSITION,
 } from "../utils/focus-ring";
-import { vars as tokens } from "../vars";
-import { focusVisible, pseudo, selected } from "../utils/pseudo";
+import spec from "@seed-design/rootage-artifacts/components/wheel-picker";
 import { defineSlotRecipe } from "../utils/define";
+import { disabled, focusVisible, pseudo, selected } from "../utils/pseudo";
+import { wheelPicker as vars } from "../vars/component";
 
 export const WHEEL_PICKER_CUSTOM_PROPERTIES = {
   viewportSize: "--seed-wheel-picker-viewport-size",
   centerOffset: "--seed-wheel-picker-center-offset",
   itemSize: "--seed-wheel-picker-item-size",
   itemJustifyContent: "--seed-wheel-picker-item-justify-content",
+  scrollFogSize: "--seed-wheel-picker-scroll-fog-size",
+  scrollFogMaxHeight: "--seed-wheel-picker-scroll-fog-max-height",
   itemColor: "--seed-wheel-picker-item-color",
   selectedItemColor: "--seed-wheel-picker-selected-item-color",
   selectionIndicatorCornerRadius: "--seed-wheel-picker-selection-indicator-corner-radius",
@@ -21,12 +24,16 @@ export const WHEEL_PICKER_CUSTOM_PROPERTIES = {
 
 const wheelPicker = defineSlotRecipe({
   name: "wheel-picker",
-  slots: ["root", "scrollFog", "columns", "column", "item", "selectionIndicator"],
+  slots: ["root", "scrollFog", "columns", "column", "item", "itemLabel", "selectionIndicator"],
   base: {
     root: {
       position: "relative",
-      height: `var(${WHEEL_PICKER_CUSTOM_PROPERTIES.viewportSize})`,
+      width: "100%",
       overflow: "hidden",
+      backgroundColor: vars.base.enabled.root.color,
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.itemColor]: vars.base.enabled.itemLabel.color,
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.selected.itemLabel.color,
+      [WHEEL_PICKER_CUSTOM_PROPERTIES.scrollFogSize]: `min(calc(${vars.base.enabled.scrollFog.maxHeightFraction} * 100%), var(${WHEEL_PICKER_CUSTOM_PROPERTIES.scrollFogMaxHeight}))`,
     },
     scrollFog: {
       position: "relative",
@@ -36,11 +43,13 @@ const wheelPicker = defineSlotRecipe({
     },
     columns: {
       display: "flex",
+      width: "100%",
       height: "100%",
       justifyContent: "center",
     },
     column: {
       boxSizing: "border-box",
+      flex: "0 0 auto",
       width: "max-content",
       height: "100%",
       overflowX: "hidden",
@@ -54,9 +63,11 @@ const wheelPicker = defineSlotRecipe({
       touchAction: "pan-y",
       cursor: "grab",
       paddingBlock: `var(${WHEEL_PICKER_CUSTOM_PROPERTIES.centerOffset})`,
-      "&[data-disabled]": {
+      [pseudo(disabled)]: {
         overflowY: "hidden",
         cursor: "default",
+        [WHEEL_PICKER_CUSTOM_PROPERTIES.itemColor]: vars.base.disabled.itemLabel.color,
+        [WHEEL_PICKER_CUSTOM_PROPERTIES.selectedItemColor]: vars.base.disabled.itemLabel.color,
       },
       "&[data-readonly]": {
         cursor: "default",
@@ -73,7 +84,7 @@ const wheelPicker = defineSlotRecipe({
       },
       [`& ${selected}` as const]: {
         ...createFocusRingRestStyles({ position: "inside" }),
-        borderRadius: `var(${WHEEL_PICKER_CUSTOM_PROPERTIES.selectionIndicatorCornerRadius}, 0)`,
+        borderRadius: `var(${WHEEL_PICKER_CUSTOM_PROPERTIES.selectionIndicatorCornerRadius}, ${vars.base.enabled.selectionIndicator.cornerRadius})`,
       },
       [`&:not([data-wheel-picker-pointer-focus]) ${selected}` as const]: {
         transition: FOCUS_RING_TRANSITION,
@@ -99,18 +110,63 @@ const wheelPicker = defineSlotRecipe({
         WebkitTextFillColor: "transparent",
       },
     },
+    itemLabel: {
+      boxSizing: "border-box",
+      display: "flex",
+      flexShrink: 0,
+      height: "100%",
+      alignItems: "center",
+      justifyContent: "center",
+      paddingInline: vars.base.enabled.itemLabel.paddingX,
+      fontWeight: vars.base.enabled.itemLabel.fontWeight,
+      whiteSpace: "nowrap",
+    },
     selectionIndicator: {
       position: "absolute",
       zIndex: 0,
-      insetInline: tokens.$dimension.x4,
+      insetInline: vars.base.enabled.selectionIndicator.insetX,
       top: "50%",
       height: `var(${WHEEL_PICKER_CUSTOM_PROPERTIES.itemSize})`,
       transform: "translateY(-50%)",
+      borderRadius: `var(${WHEEL_PICKER_CUSTOM_PROPERTIES.selectionIndicatorCornerRadius}, ${vars.base.enabled.selectionIndicator.cornerRadius})`,
+      backgroundColor: vars.base.enabled.selectionIndicator.color,
       pointerEvents: "none",
     },
   },
-  variants: {},
-  defaultVariants: {},
+  variants: {
+    size: {
+      small: {
+        root: {
+          height: `var(${WHEEL_PICKER_CUSTOM_PROPERTIES.viewportSize}, ${vars.sizeSmall.enabled.root.height})`,
+          [WHEEL_PICKER_CUSTOM_PROPERTIES.itemSize]: vars.sizeSmall.enabled.item.height,
+          [WHEEL_PICKER_CUSTOM_PROPERTIES.scrollFogMaxHeight]:
+            vars.sizeSmall.enabled.scrollFog.maxHeight,
+        },
+        itemLabel: {
+          fontSize: vars.sizeSmall.enabled.itemLabel.fontSize,
+          lineHeight: vars.sizeSmall.enabled.itemLabel.lineHeight,
+        },
+      },
+      medium: {
+        root: {
+          height: `var(${WHEEL_PICKER_CUSTOM_PROPERTIES.viewportSize}, ${vars.sizeMedium.enabled.root.height})`,
+          [WHEEL_PICKER_CUSTOM_PROPERTIES.itemSize]: vars.sizeMedium.enabled.item.height,
+          [WHEEL_PICKER_CUSTOM_PROPERTIES.scrollFogMaxHeight]:
+            vars.sizeMedium.enabled.scrollFog.maxHeight,
+        },
+        itemLabel: {
+          fontSize: vars.sizeMedium.enabled.itemLabel.fontSize,
+          lineHeight: vars.sizeMedium.enabled.itemLabel.lineHeight,
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    size: "medium",
+  },
+  metadata: {
+    variants: spec.data.schema.variants,
+  },
 });
 
 export default wheelPicker;

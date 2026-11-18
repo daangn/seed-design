@@ -1,6 +1,5 @@
 import { IconSeedArrow } from "@/components/icon-seed-arrow";
-import Image from "next/image";
-import Link from "next/link";
+import { FillImage } from "../components/fill-image";
 import { InfiniteCarousel } from "../components/infinite-carousel";
 import { RevealText } from "../components/reveal-text";
 import {
@@ -15,7 +14,7 @@ import { SectionLayer } from "../section-layer";
 
 function ShowcaseCard({ item, isDuplicate }: { item: ShowcaseItem; isDuplicate: boolean }) {
   return (
-    <Link
+    <a
       href={item.href}
       tabIndex={isDuplicate ? -1 : undefined}
       data-cursor="text"
@@ -23,7 +22,7 @@ function ShowcaseCard({ item, isDuplicate }: { item: ShowcaseItem; isDuplicate: 
       className="flex w-[250px] shrink-0 flex-col gap-[4px] rounded-r2_5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stroke-focus-ring lg:w-[430px] lg:gap-2.5 lg:rounded-r3"
     >
       <div className="relative aspect-video w-full overflow-hidden rounded-r2_5 md:rounded-r3">
-        <Image src={item.image} alt="" fill sizes="430px" className="object-cover" />
+        <FillImage src={item.image} alt="" sizes="430px" className="object-cover" />
       </div>
       {/* Title + internal-link chevron (→). Shown only on coarse pointers (touch),
           where the "더보기" cursor isn't available; hidden on desktop via pointer:fine. */}
@@ -31,7 +30,7 @@ function ShowcaseCard({ item, isDuplicate }: { item: ShowcaseItem; isDuplicate: 
         {item.title}
         <IconSeedArrow className="size-4 [@media(pointer:fine)]:hidden" />
       </span>
-    </Link>
+    </a>
   );
 }
 

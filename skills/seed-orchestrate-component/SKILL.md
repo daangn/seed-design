@@ -13,7 +13,7 @@ argument-hint: "[컴포넌트 또는 협업 작업]"
 
 - 사용자가 역할 분담·병렬 작업·에이전트 협업을 요청했거나, 초기 조사에서 서로 독립적인 쓰기 범위와 충분한 분량의 작업이 확인됐을 때 사용한다.
 - 상태·Recipe·Registry처럼 공동 결정이 필요한 경계는 합의한 뒤 나눈다. 순차 의존성이나 같은 파일 수정만 있는 작업을 억지로 병렬화하지 않는다.
-- 단순 토큰·문구 수정과 알려진 단일 파일 변경은 [`seed-create-component`](../seed-create-component/SKILL.md)의 단독 흐름을 유지한다.
+- 단순 토큰·문구 수정과 알려진 단일 파일 변경은 [`seed-component`](../seed-component/SKILL.md)의 단독 흐름을 유지한다.
 - 평가·설계만 요청받았다면 역할과 의존 관계, 검증 계획까지 제시한다. 구현이나 하네스 설정 변경으로 범위를 넓히지 않는다.
 
 ## 필요한 입력
@@ -25,12 +25,12 @@ argument-hint: "[컴포넌트 또는 협업 작업]"
 - 실제 수정할 원천, 생성물, 직접 소비자와 기존 사용자 변경
 - 이번 변경에 필요한 실행 환경과 현재 사용 가능한 에이전트 도구
 
-경로가 불명확하면 [`seed-component-map`](../seed-component-map/SKILL.md)을 사용한다. 플랫폼·공개 방식은 [`seed-create-component`](../seed-create-component/SKILL.md), 양쪽 결과 비교는 [`seed-api-parity`](../seed-api-parity/SKILL.md), 영향·생성·검증 순서는 필요한 경우 [`seed-change-plan`](../seed-change-plan/SKILL.md)으로 확인한다. 결과가 이미 있으면 실제 대상 파일과 함께 재사용한다.
+경로가 불명확하면 [`seed-component`의 읽기 전용 조회](../seed-component/SKILL.md)를 사용한다. 플랫폼·공개 방식과 React·Lynx API 비교도 해당 스킬의 각 분기에서 확인하고, 영향·생성·검증 순서는 필요한 경우 [`seed-change`의 계획 분기](../seed-change/SKILL.md)에서 확인한다. 결과가 이미 있으면 실제 대상 파일과 함께 재사용한다.
 
 ## 진행 순서
 
 1. 조율자는 [역할 경계](references/roles.md)에서 필요한 역할만 선택하고 정확한 쓰기 범위를 배정한다. 역할은 합칠 수 있지만 여러 레이어의 동작 변경에서는 구현자와 검증 실행자를 분리한다. 조율자는 검증 명령을 모두 직접 실행하는 사람이 아니라, 독립 검증 결과를 승인 조건과 대조해 최종 승인하는 사람이다.
-2. [협업 절차](references/collaboration.md)에 따라 참조 동작의 원천, 생산자·소비자 계약, 기본 장면과 필수 환경을 정한다. 기술 기준은 [참조 동작 추적과 기본 장면](../seed-create-component/references/implementation-steps.md#참조-동작-추적과-기본-장면)을 사용한다. Lynx 기본 장면의 구체적인 실행은 [`검증 런북`](../seed-verify-lynx-component/references/verification.md)의 `examples/lynx-spa` 문서 예제 경로를 따른다. [검증 분담과 자원](references/collaboration.md#검증-분담과-자원)에 따라 검사별 선행 입력·공유 자원·실행자를 공통 작업 메모에 기록한다.
+2. [협업 절차](references/collaboration.md)에 따라 참조 동작의 원천, 생산자·소비자 계약, 기본 장면과 필수 환경을 정한다. 기술 기준은 [참조 동작 추적과 기본 장면](../seed-component/references/implementation-steps.md#참조-동작-추적과-기본-장면)을 사용한다. Lynx 기본 장면의 구체적인 실행은 [`검증 런북`](../seed-verify-lynx-component/references/verification.md)의 `examples/lynx-spa` 문서 예제 경로를 따른다. [검증 분담과 자원](references/collaboration.md#검증-분담과-자원)에 따라 검사별 선행 입력·공유 자원·실행자를 공통 작업 메모에 기록한다.
 3. [하네스별 실행](references/harnesses.md)에 따라 사용자가 명시한 실행 방식을 우선한다. 별도 선택이 없으면 현재 하네스의 내장 위임·메시징 도구를 사용한다. OMP에서는 OMP 도구를 기본으로 쓰며, Orca 런타임이 준비되어 있다는 이유로 전환하지 않는다. Orca는 사용자가 실행 방식으로 선택했거나 이미 승인한 Orca 작업을 이어갈 때만 사용한다.
 4. 각 담당에게 자기 역할, 필요한 기존 스킬, 파일 범위, 관련 담당과 완료 조건을 전달한다. 구현 중에는 계약 변경에 영향을 받는 담당끼리만 협의한다.
 5. 기본 장면의 안정된 변경본에서 준비된 입력과 자원이 독립적인 검사를 병렬 배정한다. Lynx native 기본 장면은 `examples/lynx-spa` 문서 예제로 확인하며, 전체 docs 빌드나 정적 bundle 서빙은 MDX 페이지·host·코드 탭·QR·Web preview·docs pipeline 자체를 바꾼 경우에만 해당 문서 변경 부분 확인으로 추가한다. 기본 장면 승인 후 의존하는 변형·예제를 확장하고, 요청 범위의 관련 최종 검증을 수행한다. 실패는 원천 소유자에게 돌려보낸다.
@@ -68,4 +68,4 @@ argument-hint: "[컴포넌트 또는 협업 작업]"
 - 직접 실행한 검증, 환경별 판정과 증거
 - 완료한 범위와 남은 차단 원인
 
-공개 패키지 변경과 제출 절차는 기존 `seed-changeset`·`seed-change-plan`·`seed-submit-change`의 조건을 유지한다. 협업 스킬 호출만으로 commit·push·PR·배포 권한이 생기지 않는다.
+공개 패키지 변경과 제출 절차는 `seed-change`의 계획·changeset·제출 분기 조건을 따른다. 협업 스킬 호출만으로 commit·push·PR·배포 권한이 생기지 않는다.

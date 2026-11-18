@@ -30,7 +30,7 @@ const ActivityAvatarStack: StaticActivityComponentType<"ActivityAvatarStack"> = 
   const { push } = useFlow();
 
   return (
-    <AppScreen>
+    <AppScreen layerOffsetBottom="safeArea">
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />

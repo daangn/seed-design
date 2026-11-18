@@ -14,6 +14,10 @@ interface HelpBubbleProps extends Omit<SeedHelpBubble.RootProps, "children"> {
   contentProps?: SeedHelpBubble.ContentProps;
 
   zIndexOffset?: number;
+
+  container?: SeedHelpBubble.PositionerProps["container"];
+
+  overlayLevel?: SeedHelpBubble.PositionerProps["overlayLevel"];
 }
 
 export interface HelpBubbleTriggerProps extends HelpBubbleProps {}
@@ -32,15 +36,18 @@ export const HelpBubbleTrigger = React.forwardRef<unknown, HelpBubbleTriggerProp
       description,
       contentProps,
       zIndexOffset,
+      container,
+      overlayLevel,
       children,
+      "accessibility-label": accessibilityLabel,
       ...rootProps
     },
     ref,
   ) => {
     return (
       <SeedHelpBubble.Root {...rootProps}>
-        <SeedHelpBubble.Trigger ref={ref}>
-          <view>{children}</view>
+        <SeedHelpBubble.Trigger ref={ref} accessibility-label={accessibilityLabel}>
+          {children}
         </SeedHelpBubble.Trigger>
         <HelpBubbleContent
           title={title}
@@ -48,6 +55,8 @@ export const HelpBubbleTrigger = React.forwardRef<unknown, HelpBubbleTriggerProp
           showCloseButton={showCloseButton}
           contentProps={contentProps}
           zIndexOffset={zIndexOffset}
+          container={container}
+          overlayLevel={overlayLevel}
         />
       </SeedHelpBubble.Root>
     );
@@ -70,6 +79,8 @@ export const HelpBubbleAnchor = React.forwardRef<unknown, HelpBubbleAnchorProps>
       description,
       contentProps,
       zIndexOffset,
+      container,
+      overlayLevel,
       children,
       ...rootProps
     },
@@ -86,6 +97,8 @@ export const HelpBubbleAnchor = React.forwardRef<unknown, HelpBubbleAnchorProps>
           showCloseButton={showCloseButton}
           contentProps={contentProps}
           zIndexOffset={zIndexOffset}
+          container={container}
+          overlayLevel={overlayLevel}
         />
       </SeedHelpBubble.Root>
     );
@@ -99,6 +112,8 @@ interface HelpBubbleContentProps {
   showCloseButton: boolean;
   contentProps?: SeedHelpBubble.ContentProps;
   zIndexOffset?: number;
+  container?: SeedHelpBubble.PositionerProps["container"];
+  overlayLevel?: SeedHelpBubble.PositionerProps["overlayLevel"];
 }
 
 function HelpBubbleContent({
@@ -107,9 +122,15 @@ function HelpBubbleContent({
   showCloseButton,
   contentProps,
   zIndexOffset,
+  container,
+  overlayLevel,
 }: HelpBubbleContentProps) {
   return (
-    <SeedHelpBubble.Positioner zIndexOffset={zIndexOffset}>
+    <SeedHelpBubble.Positioner
+      zIndexOffset={zIndexOffset}
+      container={container}
+      overlayLevel={overlayLevel}
+    >
       <SeedHelpBubble.Content {...contentProps}>
         <SeedHelpBubble.Arrow>
           <SeedHelpBubble.ArrowTip />
@@ -123,9 +144,9 @@ function HelpBubbleContent({
         {showCloseButton ? (
           <SeedHelpBubble.CloseButton accessibility-label="닫기">
             <Icon
-              icon={<IconXmarkLine color="var(--seed-color-fg-neutral-inverted)" />}
+              icon={<IconXmarkLine color="var(--seed-color-fg-on-neutral-solid)" />}
               size={14}
-              color="fg.neutralInverted"
+              color="fg.onNeutralSolid"
             />
           </SeedHelpBubble.CloseButton>
         ) : null}

@@ -8,7 +8,7 @@ declare type TimePickerVariantMap = {
 
 export declare type TimePickerVariantProps = Partial<TimePickerVariant>;
 
-export declare type TimePickerSlotName = "root" | "scrollFog" | "columns" | "selectionIndicator" | "periodColumn" | "hourColumn" | "minuteColumn" | "item";
+export declare type TimePickerSlotName = "root" | "periodColumn" | "hourColumn" | "minuteColumn" | "item";
 
 export declare const timePickerVariantMap: TimePickerVariantMap;
 

@@ -9,6 +9,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { withContentScale } from "../../utils/withContentScale";
 import { withScaleFeedback } from "../../utils/withScaleFeedback";
 
 const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(menuSheet);
@@ -198,24 +199,25 @@ export interface SwipeableMenuSheetItemProps
     MenuSheetItemVariantProps,
     React.HTMLAttributes<HTMLButtonElement> {}
 
-export const SwipeableMenuSheetItem = React.forwardRef<
-  HTMLButtonElement,
-  SwipeableMenuSheetItemProps
->(({ className: propClassName, ...props }, ref) => {
-  const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
-  const parentProps = useItemProps();
-  const classNames = menuSheetItem({ ...parentProps, ...variantProps });
+export const SwipeableMenuSheetItem = withContentScale(
+  React.forwardRef<HTMLButtonElement, SwipeableMenuSheetItemProps>(
+    ({ className: propClassName, ...props }, ref) => {
+      const [variantProps, otherProps] = menuSheetItem.splitVariantProps(props);
+      const parentProps = useItemProps();
+      const classNames = menuSheetItem({ ...parentProps, ...variantProps });
 
-  return (
-    <ItemClassNamesProvider value={classNames}>
-      <Primitive.button
-        ref={ref}
-        className={clsx(classNames.root, propClassName)}
-        {...otherProps}
-      />
-    </ItemClassNamesProvider>
-  );
-});
+      return (
+        <ItemClassNamesProvider value={classNames}>
+          <Primitive.button
+            ref={ref}
+            className={clsx(classNames.root, propClassName)}
+            {...otherProps}
+          />
+        </ItemClassNamesProvider>
+      );
+    },
+  ),
+);
 
 SwipeableMenuSheetItem.displayName = "SwipeableMenuSheetItem";
 

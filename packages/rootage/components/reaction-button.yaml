@@ -71,7 +71,7 @@ data:
     base:
       enabled:
         root:
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-weak
           strokeWidth: 1px
           color: $color.bg.transparent
           colorDuration: $duration.color-transition

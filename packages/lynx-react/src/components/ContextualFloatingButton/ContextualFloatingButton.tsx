@@ -2,39 +2,28 @@ import {
   contextualFloatingButton,
   type ContextualFloatingButtonVariantProps,
 } from "@seed-design/lynx-css/recipes/contextual-floating-button";
+import { useActionButton, type UseActionButtonProps } from "@seed-design/lynx-react-action-button";
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
 
-import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
-import type {
-  LynxAccessibilityProps,
-  LynxElementProps,
-  LynxPressableProps,
-  LynxStyledElementProps,
-  LynxTouchProps,
-  LynxViewRef,
-} from "../../types";
+import type { LynxElementProps, LynxHostProps, LynxPressableProps, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
 import { IconRequired, IconSlotProvider, getIconSlotName } from "../Icon/Icon";
-import { ProgressCircleRange, ProgressCircleRoot } from "../ProgressCircle";
+import { ProgressCircleRange, ProgressCircleRoot, ProgressCircleTrack } from "../ProgressCircle";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(contextualFloatingButton);
 
 type ContextualFloatingButtonPublicVariantProps = Omit<
   ContextualFloatingButtonVariantProps,
-  "pressed"
+  "pressed" | "disabled" | "loading"
 >;
 
 interface ContextualFloatingButtonRootProps
   extends ContextualFloatingButtonVariantProps,
-    Omit<LynxStyledElementProps, "flatten">,
-    LynxTouchProps,
-    LynxAccessibilityProps {
-  flatten?: false;
-}
+    LynxHostProps<"view"> {}
 
 const ContextualFloatingButtonRoot = React.forwardRef<unknown, ContextualFloatingButtonRootProps>(
   (innerProps, ref) => {
@@ -137,6 +126,7 @@ function ContextualFloatingButtonLoadingIndicator() {
   return (
     <view className={classNames.loadingIndicator}>
       <ProgressCircleRoot size="16" tone="inherit">
+        <ProgressCircleTrack />
         <ProgressCircleRange />
       </ProgressCircleRoot>
     </view>
@@ -151,12 +141,13 @@ function ContextualFloatingButtonLoadingIndicator() {
  *   form props, and `asChild`.
  * - `loading` blocks both native tap callbacks, unlike the React reference which only
  *   exposes pending state to its underlying button.
+ * - `accessibility-traits` defaults to `"button"`, or `"disabled"` while disabled or loading.
  */
 export interface ContextualFloatingButtonProps
   extends ContextualFloatingButtonPublicVariantProps,
-    Omit<LynxStyledElementProps, "flatten">,
-    LynxPressableProps,
-    LynxAccessibilityProps {}
+    Pick<UseActionButtonProps, "disabled" | "loading">,
+    Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
+    LynxPressableProps {}
 
 export const ContextualFloatingButton = React.forwardRef<unknown, ContextualFloatingButtonProps>(
   (props, ref) => {
@@ -165,21 +156,28 @@ export const ContextualFloatingButton = React.forwardRef<unknown, ContextualFloa
       children,
       bindtap,
       "main-thread:bindtap": mainThreadBindtap,
-      "accessibility-element": accessibilityElement = true,
+      "accessibility-element": accessibilityElement,
       "accessibility-label": accessibilityLabel,
       "accessibility-role-description": accessibilityRoleDescription = "button",
       "accessibility-traits": accessibilityTraits,
       ...nativeProps
     } = otherProps;
     const layout = variantProps.layout ?? "withText";
-    const disabled = variantProps.disabled ?? false;
-    const loading = variantProps.loading ?? false;
-    const isInteractive = !disabled && !loading;
+    const api = useActionButton({
+      disabled: variantProps.disabled,
+      loading: variantProps.loading,
+      bindtap,
+      "main-thread:bindtap": mainThreadBindtap,
+      "accessibility-element": accessibilityElement,
+      "accessibility-traits": accessibilityTraits,
+    });
+    // Press state follows the Scale Feedback Main Thread touch handlers.
+    const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
 
     if (
       process.env.NODE_ENV !== "production" &&
       layout === "iconOnly" &&
-      accessibilityElement &&
+      rootProps["accessibility-element"] &&
       !accessibilityLabel
     ) {
       console.warn(
@@ -187,14 +185,8 @@ export const ContextualFloatingButton = React.forwardRef<unknown, ContextualFloa
       );
     }
 
-    const { pressed, bindtouchstart, bindtouchend, bindtouchcancel, ...pressTapHandlers } =
-      usePressTap({
-        disabled: !isInteractive,
-        onTap: bindtap,
-        mainThreadOnTap: mainThreadBindtap,
-      });
     const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
-      disabled: !isInteractive,
+      disabled: !api.interactive,
       onTouchStart: bindtouchstart,
       onTouchEnd: bindtouchend,
       onTouchCancel: bindtouchcancel,
@@ -204,23 +196,21 @@ export const ContextualFloatingButton = React.forwardRef<unknown, ContextualFloa
       <IconRequired enabled={layout === "iconOnly"}>
         <ContextualFloatingButtonRoot
           {...mergeProps(
-            { ref },
+            {
+              flatten: false,
+              "accessibility-label": accessibilityLabel,
+              "accessibility-role-description": accessibilityRoleDescription,
+            },
+            ref ? { ref } : {},
             scaleFeedbackTargetProps,
             scaleFeedbackTriggerProps,
-            pressTapHandlers,
+            rootProps,
             nativeProps,
           )}
           {...variantProps}
-          pressed={pressed}
-          accessibility-element={accessibilityElement}
-          accessibility-label={accessibilityLabel}
-          accessibility-role-description={accessibilityRoleDescription}
-          accessibility-traits={
-            accessibilityTraits ?? (disabled || loading ? "disabled" : undefined)
-          }
-          flatten={false}
+          pressed={api.pressed}
         >
-          {loading ? <ContextualFloatingButtonLoadingIndicator /> : null}
+          {api.loading ? <ContextualFloatingButtonLoadingIndicator /> : null}
           <ContextualFloatingButtonContent isIconOnly={layout === "iconOnly"}>
             {children}
           </ContextualFloatingButtonContent>

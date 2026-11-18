@@ -5,7 +5,7 @@ import { AppScreen as SeedAppScreen } from "@seed-design/stackflow";
 import { useActions, useActivity } from "@stackflow/react";
 import { forwardRef } from "react";
 
-export interface AppScreenProps extends SeedAppScreen.RootProps {
+export interface AppScreenProps extends Omit<SeedAppScreen.RootProps, "asChild"> {
   preventSwipeBack?: boolean;
 }
 
@@ -35,7 +35,7 @@ export const AppScreen = forwardRef<HTMLDivElement, AppScreenProps>(
 );
 AppScreen.displayName = "AppScreen";
 
-export interface AppScreenContentProps extends SeedAppScreen.LayerProps {
+export interface AppScreenContentProps extends Omit<SeedAppScreen.LayerProps, "asChild"> {
   ptr?: boolean;
 
   onPtrReady?: () => void;

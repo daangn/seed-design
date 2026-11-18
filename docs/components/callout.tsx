@@ -1,8 +1,10 @@
 import { Callout as SeedSnippetCallout } from "seed-design/ui/callout";
 import clsx from "clsx";
-import type { CalloutType } from "fumadocs-ui/components/callout";
 import type { ComponentProps, ReactNode } from "react";
 import { match } from "ts-pattern";
+
+/** MDX `<Callout type>` 값(기존 Fumadocs callout과 같은 목록). */
+export type CalloutType = "info" | "warn" | "error" | "success" | "warning" | "idea";
 
 type SeedTone = NonNullable<ComponentProps<typeof SeedSnippetCallout>["tone"]>;
 

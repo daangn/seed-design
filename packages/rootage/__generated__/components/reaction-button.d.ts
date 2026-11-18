@@ -131,7 +131,7 @@ declare const artifact: {
               "root": {
                 "strokeColor": {
                   "type": "color";
-                  "value": "$color.stroke.neutral-muted";
+                  "value": "$color.stroke.neutral-weak";
                 };
                 "strokeWidth": {
                   "type": "dimension";

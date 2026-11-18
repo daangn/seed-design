@@ -17,7 +17,7 @@ declare type ProgressCircleVariantMap = {
 
 export declare type ProgressCircleVariantProps = Partial<ProgressCircleVariant>;
 
-export declare type ProgressCircleSlotName = "root" | "range" | "cap";
+export declare type ProgressCircleSlotName = "root" | "track" | "range" | "cap";
 
 export declare const progressCircleVariantMap: ProgressCircleVariantMap;
 

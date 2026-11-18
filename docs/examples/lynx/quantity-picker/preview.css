@@ -1,29 +1,8 @@
-.docs-lynx-quantity-picker-root {
-  height: 100%;
-  background-color: var(--seed-color-bg-layer-default);
-}
-
-.quantity-picker-preview {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  box-sizing: border-box;
-}
-
 .quantity-picker-example {
   display: flex;
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 24px;
-  box-sizing: border-box;
-  background-color: var(--seed-color-bg-layer-default);
+  gap: 12px;
 }
 
 .quantity-picker-example-title {
@@ -42,6 +21,9 @@
 
 .quantity-picker-example-controls {
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
   align-items: center;
   justify-content: center;
 }
@@ -52,8 +34,9 @@
 }
 
 .quantity-picker-layout-host {
-  width: 360px;
-  height: auto;
+  display: flex;
+  width: 100%;
+  max-width: 360px;
   align-items: stretch;
   justify-content: flex-start;
 }
@@ -67,6 +50,7 @@
 }
 
 .quantity-picker-layout-row .quantity-picker-example-controls {
+  display: flex;
   width: 100%;
   justify-content: flex-start;
 }

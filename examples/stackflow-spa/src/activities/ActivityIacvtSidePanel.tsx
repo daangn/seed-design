@@ -1,5 +1,5 @@
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
-import { Box, useBreakpoint } from "@seed-design/react";
+import { Box, HStack, useBreakpoint } from "@seed-design/react";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
 import {
@@ -220,22 +220,23 @@ const ActivityIacvtSidePanel: StaticActivityComponentType<"ActivityIacvtSidePane
               />
             </SidePanelBody>
             <SidePanelFooter>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                style={{
-                  width: "100%",
-                  appearance: "none",
-                  border: "1px solid #cdd2d9",
-                  background: "#fff",
-                  borderRadius: 8,
-                  padding: "12px",
-                  fontSize: 14,
-                  fontWeight: 600,
-                }}
-              >
-                닫기
-              </button>
+              <HStack gap="x2" justify="flex-end">
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  style={{
+                    appearance: "none",
+                    border: "1px solid #cdd2d9",
+                    background: "#fff",
+                    borderRadius: 8,
+                    padding: "12px",
+                    fontSize: 14,
+                    fontWeight: 600,
+                  }}
+                >
+                  닫기
+                </button>
+              </HStack>
             </SidePanelFooter>
           </SidePanelContent>
         </SidePanelRoot>

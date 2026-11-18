@@ -1,3 +1,4 @@
+import { archivePaths } from "@/lib/docs-archive";
 /**
  * 사이트 footer의 콘텐츠/링크 데이터.
  * 문구·링크 변경은 이 파일에서만 한다(프레젠테이션은 ../site-footer.tsx).
@@ -40,13 +41,13 @@ export const FOOTER_MENU: FooterLink[] = [
   { label: "Lynx", href: "/lynx" },
   { label: "AI & Tools", href: "/ai-integration" },
   { label: "Updates", href: "/updates" },
-];
+].map((link) => ({ ...link, href: archivePaths.link(link.href) }));
 
 export const FOOTER_MORE: FooterLink[] = [
   { label: "Breeze", href: "/breeze" },
   { label: "Migration", href: "/docs/migration/migration-reference" },
   { label: "GitHub", href: "https://github.com/daangn/seed-design", external: true },
-];
+].map((link) => ({ ...link, href: archivePaths.link(link.href) }));
 
 export const FOOTER_CONTACT: FooterLink[] = [
   { label: "회사 소개", href: "https://about.daangn.com/", external: true },

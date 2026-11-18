@@ -8,7 +8,7 @@ import {
   DialogRoot,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ActionButton, useSeedClassName } from "@seed-design/lynx-react";
+import { ActionButton, HStack } from "@seed-design/lynx-react";
 
 function DialogExample({ long }: { long: boolean }) {
   return (
@@ -53,16 +53,10 @@ function DialogExample({ long }: { long: boolean }) {
 }
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
-
   return (
-    <view className={`${seedClassName} docs-lynx-dialog-root`}>
-      <view className="dialog-example-stage">
-        <view className="dialog-example-column">
-          <DialogExample long={false} />
-          <DialogExample long />
-        </view>
-      </view>
-    </view>
+    <HStack gap="x2" wrap="wrap" justify="center">
+      <DialogExample long={false} />
+      <DialogExample long />
+    </HStack>
   );
 }

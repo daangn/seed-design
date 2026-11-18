@@ -46,6 +46,27 @@ describe("ContextualFloatingButton", () => {
     expect(onTap).not.toHaveBeenCalled();
   });
 
+  it("taps normally again after loading ends", () => {
+    const onTap = vi.fn();
+    const { rerender } = render(
+      <ContextualFloatingButton loading bindtap={onTap}>
+        저장하기
+      </ContextualFloatingButton>,
+    );
+
+    fireEvent.tap(getContextualFloatingButtonRoot());
+    expect(onTap).not.toHaveBeenCalled();
+
+    rerender(<ContextualFloatingButton bindtap={onTap}>저장하기</ContextualFloatingButton>);
+
+    const root = getContextualFloatingButtonRoot();
+    expect(root.querySelector(".seed-progress-circle__root")).not.toBeInTheDocument();
+    fireEvent.tap(root);
+
+    expect(onTap).toHaveBeenCalledTimes(1);
+    expect(root).toHaveAttribute("accessibility-traits", "button");
+  });
+
   it("blocks taps and exposes disabled accessibility state when disabled", () => {
     const onTap = vi.fn();
     render(

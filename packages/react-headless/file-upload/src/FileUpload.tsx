@@ -219,5 +219,5 @@ export interface FileUploadContextProps {
 }
 
 export const FileUploadContext = (props: FileUploadContextProps) => {
-  return props.children(useFileUploadContext());
+  return <>{props.children(useFileUploadContext())}</>;
 };

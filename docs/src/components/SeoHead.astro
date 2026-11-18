@@ -1,0 +1,51 @@
+---
+/**
+ * 페이지의 `<head>` 메타. 값은 `src/content/source.ts`의 `PageHead`(문서는 `SeoHead`)가 정한다(`lib/seo.ts` 규칙).
+ * 기존 Next metadata(`buildDocsPageMetadata`·`buildSeoMetadata`)·`LlmsLinkRels`·`JsonLd`가 내던 태그와 같은 순서·값이다.
+ * 없는 필드는 태그를 내지 않는다(문서 밖 페이지).
+ */
+import { SITE_LOCALE, SITE_NAME } from "../../lib/seo";
+import type { PageHead } from "../content/source";
+
+interface Props {
+  head: PageHead;
+}
+
+const { head } = Astro.props;
+const { ogImage } = head;
+
+// JSON.stringify는 `<`를 이스케이프하지 않는다. frontmatter description에 마크업이 들어가는 경우가 있어
+// `</script>`가 섞이면 브라우저가 script를 조기 종료한다. 유니코드 이스케이프는 JSON 문자열 안에서 동등하다.
+const jsonLd =
+  head.jsonLd &&
+  JSON.stringify(head.jsonLd)
+    .replace(/</g, "\\u003c")
+    .replace(/>/g, "\\u003e")
+    .replace(/&/g, "\\u0026");
+---
+
+{head.title !== undefined && <title>{head.title}</title>}
+{head.description && <meta name="description" content={head.description} />}
+{head.referrer && <meta name="referrer" content={head.referrer} />}
+{head.robots && <meta name="robots" content={head.robots} />}
+{head.canonical && <link rel="canonical" href={head.canonical} />}
+{head.title !== undefined && <meta property="og:title" content={head.title} />}
+{head.description && <meta property="og:description" content={head.description} />}
+{head.canonical && <meta property="og:url" content={head.canonical} />}
+<meta property="og:site_name" content={SITE_NAME} />
+<meta property="og:locale" content={SITE_LOCALE} />
+<meta property="og:image" content={ogImage.url} />
+{ogImage.type && <meta property="og:image:type" content={ogImage.type} />}
+{ogImage.width !== undefined && <meta property="og:image:width" content={String(ogImage.width)} />}
+{ogImage.height !== undefined && <meta property="og:image:height" content={String(ogImage.height)} />}
+{ogImage.alt && <meta property="og:image:alt" content={ogImage.alt} />}
+<meta property="og:type" content={head.publishedTime ? "article" : "website"} />
+{head.publishedTime && <meta property="article:published_time" content={head.publishedTime} />}
+<meta name="twitter:card" content="summary_large_image" />
+{head.title !== undefined && <meta name="twitter:title" content={head.title} />}
+{head.description && <meta name="twitter:description" content={head.description} />}
+<meta name="twitter:image" content={ogImage.url} />
+{/* llms.txt 링크 릴레이션. 섹션 루트는 자기 자신이 llms.txt라 alternate를 내지 않는다. */}
+{head.markdownUrl && head.markdownUrl !== head.llmsTxtUrl && <link rel="alternate" type="text/markdown" href={head.markdownUrl} />}
+{head.llmsTxtUrl && <link rel="describedby" href={head.llmsTxtUrl} />}
+{jsonLd && <script is:inline type="application/ld+json" set:html={jsonLd} />}

@@ -1,20 +1,20 @@
 import preview from "../.storybook/preview";
+import { Box, Text } from "@seed-design/react";
 import {
-  Box,
   ContinuousDatePicker,
   DatePicker,
-  Text,
   TwoMonthDatePicker,
+  TwoWeekDatePicker,
   WeekDatePicker,
   type DatePickerProps,
-} from "@seed-design/react";
+} from "seed-design/ui/date-picker";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { withChromaticParameters } from "./utils/parameters";
+import { withVisualTestParameters } from "./utils/parameters";
 
 type DatePickerPreviewProps = DatePickerProps & {
   previewWidth?: string;
-  layout?: "month" | "twoMonths" | "week";
+  layout?: "month" | "twoMonths" | "week" | "twoWeeks";
 };
 
 const customCellProps = {
@@ -34,7 +34,13 @@ const DatePickerPreview = ({
   ...props
 }: DatePickerPreviewProps) => {
   const Component =
-    layout === "twoMonths" ? TwoMonthDatePicker : layout === "week" ? WeekDatePicker : DatePicker;
+    layout === "twoMonths"
+      ? TwoMonthDatePicker
+      : layout === "week"
+        ? WeekDatePicker
+        : layout === "twoWeeks"
+          ? TwoWeekDatePicker
+          : DatePicker;
 
   return (
     <Box width={previewWidth} maxWidth="100%">
@@ -87,6 +93,9 @@ const conditionMap = {
     Week: {
       layout: "week",
     },
+    "Two Weeks": {
+      layout: "twoWeeks",
+    },
     "Custom Cell": {
       ...customCellProps,
     },
@@ -106,15 +115,15 @@ const CommonStoryTemplate = meta.story({
 export const LightTheme = CommonStoryTemplate.extend({});
 
 export const DarkTheme = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ theme: "dark" }),
+  parameters: withVisualTestParameters({ theme: "dark" }),
 });
 
 export const FontScalingExtraSmall = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Small" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Small" }),
 });
 
 export const FontScalingExtraExtraExtraLarge = CommonStoryTemplate.extend({
-  parameters: withChromaticParameters({ fontScale: "Extra Extra Extra Large" }),
+  parameters: withVisualTestParameters({ fontScale: "Extra Extra Extra Large" }),
 });
 
 export const Continuous = meta.story({

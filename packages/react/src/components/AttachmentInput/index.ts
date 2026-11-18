@@ -30,6 +30,7 @@ export {
   AttachmentInputItemMetadata,
   AttachmentInputItemName,
   AttachmentInputItemRemoveButton,
+  AttachmentInputItemReorderHandle,
   AttachmentInputItemSize,
   AttachmentInputItemThumbnail,
   type AttachmentInputItemActionButtonProps,
@@ -40,6 +41,7 @@ export {
   type AttachmentInputItemNameProps,
   type AttachmentInputItemProps,
   type AttachmentInputItemRemoveButtonProps,
+  type AttachmentInputItemReorderHandleProps,
   type AttachmentInputItemSizeProps,
   type AttachmentInputItemThumbnailProps,
 } from "./AttachmentInputItem";
@@ -54,3 +56,13 @@ export {
 } from "./AttachmentInputTrigger";
 
 export * as AttachmentInput from "./AttachmentInput.namespace";
+
+export {
+  useFileUploadContext as useAttachmentInputContext,
+  type UseFileUploadContext as AttachmentInputContextValue,
+} from "@seed-design/react-file-upload";
+
+export type {
+  FileEntry as AttachmentInputFileEntry,
+  FileStatusDetails as AttachmentInputFileStatusDetails,
+} from "@seed-design/react-file-upload";

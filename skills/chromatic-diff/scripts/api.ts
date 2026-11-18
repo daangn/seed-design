@@ -19,7 +19,7 @@ export function readToken() {
 /**
  * Expiry of the configured token, or null when it cannot be decoded.
  *
- * Chromatic issues these for 30 days, and an expired one fails with a generic
+ * Chromatic issues these for one hour, and an expired one fails with a generic
  * authorization error that reads like a permissions problem, so checking up
  * front turns a confusing failure into an actionable one.
  */

@@ -19,12 +19,12 @@ compatibility:
   ```
 </LynxComponentExample>
 
-Lynx의 `TextFieldInput`은 React의 `autoFocus` prop을 지원하지 않습니다. 처음부터 포커스해야 한다면 입력에 `id`를 지정하고, 화면이 준비된 뒤 Lynx native input의 `focus` UI method를 호출하세요.
+Lynx의 `TextFieldInput`은 React의 `autoFocus` prop을 지원하지 않습니다. 처음부터 focus해야 한다면 입력에 `id`를 지정하고, 화면이 준비된 뒤 Lynx native input의 `focus` UI method를 호출하세요.
 
 ## Installation
 
 ```package-install
-npx @seed-design/cli add ui:text-field
+npx @seed-design/cli@latest add ui:text-field
 ```
 
 <LynxManualInstallation name="text-field" />
@@ -45,7 +45,7 @@ npx @seed-design/cli add ui:text-field
 
 #### Enabled
 
-<LynxComponentExample name="lynx/text-field-input/enabled" height={680}>
+<LynxComponentExample name="lynx/text-field-input/enabled">
   ```json doc-gen:file
   {
     "file": "examples/lynx/text-field-input/enabled.tsx",
@@ -56,7 +56,7 @@ npx @seed-design/cli add ui:text-field
 
 #### Disabled
 
-<LynxComponentExample name="lynx/text-field-input/disabled" height={680}>
+<LynxComponentExample name="lynx/text-field-input/disabled">
   ```json doc-gen:file
   {
     "file": "examples/lynx/text-field-input/disabled.tsx",
@@ -67,7 +67,7 @@ npx @seed-design/cli add ui:text-field
 
 #### Read Only
 
-<LynxComponentExample name="lynx/text-field-input/read-only" height={680}>
+<LynxComponentExample name="lynx/text-field-input/read-only">
   ```json doc-gen:file
   {
     "file": "examples/lynx/text-field-input/read-only.tsx",
@@ -78,11 +78,11 @@ npx @seed-design/cli add ui:text-field
 
 ### Size
 
-`size`로 TextField의 크기를 정합니다. (default: `large`)
+`size`로 `TextField`의 크기를 정합니다. 기본값은 `large`입니다.
 
 Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가 없어 `responsive`는 지원하지 않습니다.
 
-<LynxComponentExample name="lynx/text-field-input/size" height={680}>
+<LynxComponentExample name="lynx/text-field-input/size">
   ```json doc-gen:file
   {
     "file": "examples/lynx/text-field-input/size.tsx",
@@ -97,7 +97,7 @@ Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가
 
 #### Prefix
 
-<LynxComponentExample name="lynx/text-field-input/prefix" height={680}>
+<LynxComponentExample name="lynx/text-field-input/prefix">
   ```json doc-gen:file
   {
     "file": "examples/lynx/text-field-input/prefix.tsx",
@@ -108,7 +108,7 @@ Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가
 
 #### Suffix
 
-<LynxComponentExample name="lynx/text-field-input/suffix" height={680}>
+<LynxComponentExample name="lynx/text-field-input/suffix">
   ```json doc-gen:file
   {
     "file": "examples/lynx/text-field-input/suffix.tsx",
@@ -119,7 +119,7 @@ Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가
 
 #### Both Affixes
 
-<LynxComponentExample name="lynx/text-field-input/both-affixes" height={680}>
+<LynxComponentExample name="lynx/text-field-input/both-affixes">
   ```json doc-gen:file
   {
     "file": "examples/lynx/text-field-input/both-affixes.tsx",
@@ -132,7 +132,7 @@ Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가
 
 `indicator` 또는 `showRequiredIndicator` prop을 사용할 수 있습니다.
 
-<LynxComponentExample name="lynx/text-field-input/indicator" height={560}>
+<LynxComponentExample name="lynx/text-field-input/indicator">
   ```json doc-gen:file
   {
     "file": "examples/lynx/text-field-input/indicator.tsx",
@@ -143,7 +143,7 @@ Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가
 
 #### Grapheme Count
 
-<LynxComponentExample name="lynx/text-field-input/grapheme-count" height={440}>
+<LynxComponentExample name="lynx/text-field-input/grapheme-count">
   ```json doc-gen:file
   {
     "file": "examples/lynx/text-field-input/grapheme-count.tsx",
@@ -154,9 +154,7 @@ Lynx에서는 `large`와 `medium`을 지원합니다. CSS viewport breakpoint가
 
 `value`를 사용자 인식 문자(grapheme cluster) 단위로 나눈 결과를 `onValueChange` 콜백의 `graphemes`와 `slicedGraphemes`로 제공합니다.
 
-문자 분리는 [unicode-segmenter](https://github.com/cometkim/unicode-segmenter)를 통해 이루어집니다.
-
-<LynxComponentExample name="lynx/text-field-input/grapheme-count-controlled" height={500}>
+<LynxComponentExample name="lynx/text-field-input/grapheme-count-controlled">
   ```json doc-gen:file
   {
     "file": "examples/lynx/text-field-input/grapheme-count-controlled.tsx",
@@ -206,7 +204,7 @@ Lynx는 HTML Form을 지원하지 않습니다. `value`와 `onValueChange`를 �
 
 #### Keyboard Avoidance
 
-`KeyboardAvoidingScrollView` 안에 배치하면 `TextFieldInput`이 focus될 때 자동으로 등록되어 키보드에 가려지지 않는 위치로 스크롤됩니다.
+`KeyboardAvoidingScrollView.Content` 안에 배치하면 `TextFieldInput`이 focus될 때 자동으로 등록되어 키보드에 가려지지 않는 위치로 스크롤됩니다. `KeyboardAvoidingScrollView.Footer` 안에 배치하면 Footer와 함께 키보드 위로 올라가므로 스크롤하지 않습니다.
 
 ```tsx
 import { KeyboardAvoidingScrollView } from "@seed-design/lynx-react";
@@ -214,26 +212,25 @@ import { TextField, TextFieldInput } from "@/components/ui/text-field";
 
 export function KeyboardAwareFields() {
   return (
-    <KeyboardAvoidingScrollView>
-      <TextField label="제목">
-        <TextFieldInput accessibility-label="제목" />
-      </TextField>
-    </KeyboardAvoidingScrollView>
+    <KeyboardAvoidingScrollView.Root className="screen-body">
+      <KeyboardAvoidingScrollView.Content>
+        <TextField label="제목">
+          <TextFieldInput accessibility-label="제목" />
+        </TextField>
+      </KeyboardAvoidingScrollView.Content>
+    </KeyboardAvoidingScrollView.Root>
   );
 }
 ```
 
 ## Web Version Differences
 
-- 편집 가능한 상태에서는 HTML `<input>` 대신 Lynx native `<input>` element를 렌더링합니다.
-- `readOnly` 상태에서는 native focus·selection·잘라내기 메뉴를 제거하기 위해 `<text>` element로 렌더링합니다. 이 상태의 ref는 `<text>`를 가리키며 input 전용 UI method와 이벤트는 사용할 수 없습니다.
-- `onChange` 대신 snippet `TextField`의 `onValueChange`를 사용합니다. 원문과 grapheme 단위로 자른 값을 함께 제공합니다.
-- native `bindinput`은 `TextFieldInput`에 추가로 전달할 수 있습니다.
-- `Field.Label`과 입력의 DOM id 연결이 없으므로 `accessibility-label`을 입력에 직접 제공합니다.
-- 포커스 시 키보드가 나타나도록 `show-soft-input-on-focus`의 기본값은 `true`입니다. `undefined`가 native attribute로 전달되지 않도록 컴포넌트가 이 기본값을 명시적으로 적용합니다. 커스텀 키보드를 사용하는 경우에는 `false`로 재정의할 수 있습니다.
-- `android-set-soft-input-mode`의 기본값은 `"unspecified"`입니다. Android에서 `undefined`가 native attribute로 전달되면 오류가 발생할 수 있어 컴포넌트가 이 기본값을 명시적으로 적용합니다.
-- `android-set-soft-input-mode`는 입력 요소가 포함된 host window 전역에 영향을 줍니다. 기본값인 `"unspecified"`도 기존 Activity 설정을 그대로 보존하는 값이 아니라 시스템 판단 모드로 다시 설정합니다. `KeyboardAvoidingScrollView`가 키보드 회피를 전담하는 화면에서는 별도 pan/resize를 막기 위해 `"nothing"`으로 재정의합니다. 같은 window에 있는 입력 요소에는 가능한 한 같은 값을 사용합니다.
-- `size="responsive"`는 CSS viewport breakpoint가 없는 Lynx에서 지원하지 않습니다. `large` 또는 `medium`을 명시합니다.
+- 편집 가능한 상태에서는 HTML `<input>` 대신 Lynx native `<input>`을 렌더링합니다.
+- `readOnly` 상태에서는 focus, selection, 잘라내기 메뉴가 없는 `<text>`를 렌더링합니다. 이때 ref는 `<text>`를 가리키므로 input 전용 UI method와 이벤트를 사용할 수 없습니다.
+- `onChange` 대신 `TextField`의 `onValueChange`를 사용합니다. native `bindinput`은 `TextFieldInput`에 직접 전달할 수 있습니다.
+- DOM id로 label을 연결하지 않으므로 입력에 `accessibility-label`을 직접 지정하세요.
+- `show-soft-input-on-focus`의 기본값은 `true`입니다. 커스텀 키보드를 사용한다면 `false`로 지정하세요.
+- `android-set-soft-input-mode`는 host window 전체에 영향을 줍니다. 생략하면 [Keyboard Avoiding Scroll View](/lynx/components/keyboard-avoiding-scroll-view) 안에서는 `"nothing"`, 그 밖에서는 `"unspecified"`를 적용합니다. 값은 입력이 화면에 붙을 때 window에 적용되고 마지막에 붙은 입력의 값이 남으므로, 같은 window의 입력에는 같은 값을 사용하세요.
 
 ## Unsupported Lynx Features
 

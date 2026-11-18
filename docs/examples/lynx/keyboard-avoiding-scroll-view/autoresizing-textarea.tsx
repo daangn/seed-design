@@ -1,18 +1,16 @@
 import "./styles";
 
-import { KeyboardAvoidingScrollView, useSeedClassName } from "@seed-design/lynx-react";
+import { KeyboardAvoidingScrollView } from "@seed-design/lynx-react";
 import { TextField, TextFieldTextarea } from "@/components/ui/text-field";
 
 export default function Example() {
-  const seedClassName = useSeedClassName({ colorMode: "system" });
-
   return (
-    <view className={`${seedClassName} docs-lynx-keyboard-avoiding-scroll-view-root`}>
-      <KeyboardAvoidingScrollView
-        className="keyboard-avoiding-scroll-view-preview"
-        keyboardGap={24}
-        scrollBehavior="smooth"
-      >
+    <KeyboardAvoidingScrollView.Root
+      className="keyboard-avoiding-scroll-view-preview"
+      keyboardGap={24}
+      scrollBehavior="smooth"
+    >
+      <KeyboardAvoidingScrollView.Content>
         <view className="keyboard-avoiding-scroll-view-preview__content">
           <text className="keyboard-avoiding-scroll-view-preview__title">여러 줄 입력</text>
           <text className="keyboard-avoiding-scroll-view-preview__description">
@@ -29,7 +27,6 @@ export default function Example() {
             <TextField label="자기소개">
               <TextFieldTextarea
                 accessibility-label="자기소개"
-                android-set-soft-input-mode="nothing"
                 maxlength={300}
                 placeholder="여러 줄을 입력해 보세요"
               />
@@ -38,7 +35,7 @@ export default function Example() {
 
           <view className="keyboard-avoiding-scroll-view-preview__footer-space" />
         </view>
-      </KeyboardAvoidingScrollView>
-    </view>
+      </KeyboardAvoidingScrollView.Content>
+    </KeyboardAvoidingScrollView.Root>
   );
 }

@@ -127,10 +127,18 @@ const accordion = defineSlotRecipe({
       },
       separated: {
         root: {},
+        // iOS Lynx는 inset box-shadow를 흐리게 그린다. border로 그리고 trigger padding에서
+        // 두께만큼 빼 기존 크기와 콘텐츠 배치를 유지한다.
         item: {
-          boxShadow: `inset 0 0 0 ${itemVars.variantSeparated.enabled.root.strokeWidth} ${itemVars.variantSeparated.enabled.root.strokeColor}`,
+          borderStyle: "solid",
+          borderWidth: itemVars.variantSeparated.enabled.root.strokeWidth,
+          borderColor: itemVars.variantSeparated.enabled.root.strokeColor,
           borderRadius: itemVars.variantSeparated.enabled.root.cornerRadius,
           overflow: "hidden",
+        },
+        trigger: {
+          paddingLeft: `calc(${itemVars.base.enabled.trigger.paddingX} - ${itemVars.variantSeparated.enabled.root.strokeWidth})`,
+          paddingRight: `calc(${itemVars.base.enabled.trigger.paddingX} - ${itemVars.variantSeparated.enabled.root.strokeWidth})`,
         },
         divider: {
           display: "none",
@@ -239,6 +247,10 @@ const accordion = defineSlotRecipe({
         root: {
           gap: vars.variantSeparatedSizeMedium.enabled.root.gap,
         },
+        trigger: {
+          paddingTop: `calc(${itemVars.sizeMedium.enabled.trigger.paddingY} - ${itemVars.variantSeparated.enabled.root.strokeWidth})`,
+          paddingBottom: `calc(${itemVars.sizeMedium.enabled.trigger.paddingY} - ${itemVars.variantSeparated.enabled.root.strokeWidth})`,
+        },
       },
     },
     {
@@ -247,6 +259,10 @@ const accordion = defineSlotRecipe({
       css: {
         root: {
           gap: vars.variantSeparatedSizeLarge.enabled.root.gap,
+        },
+        trigger: {
+          paddingTop: `calc(${itemVars.sizeLarge.enabled.trigger.paddingY} - ${itemVars.variantSeparated.enabled.root.strokeWidth})`,
+          paddingBottom: `calc(${itemVars.sizeLarge.enabled.trigger.paddingY} - ${itemVars.variantSeparated.enabled.root.strokeWidth})`,
         },
       },
     },

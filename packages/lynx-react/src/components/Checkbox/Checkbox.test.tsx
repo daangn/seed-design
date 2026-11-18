@@ -1,42 +1,8 @@
 import "@testing-library/jest-dom";
-import * as React from "@lynx-js/react";
-import { fireEvent, render } from "@lynx-js/react/testing-library";
-import type { MainThread } from "@lynx-js/types";
-import { describe, expect, it, vi } from "vitest";
+import { render } from "@lynx-js/react/testing-library";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
-import type { LynxIconElementProps } from "../../types";
 import * as Checkbox from "./Checkbox.namespace";
-
-const TestIcon = React.forwardRef<MainThread.Element, LynxIconElementProps>((props, ref) => {
-  return <image {...props} {...(ref ? { "main-thread:ref": ref } : {})} />;
-});
-TestIcon.displayName = "TestIcon";
-
-function ControlledGhostCheckbox({
-  onCheckedChange,
-}: {
-  onCheckedChange: (checked: boolean) => void;
-}) {
-  const [checked, setChecked] = React.useState(false);
-
-  return (
-    <Checkbox.Root
-      variant="ghost"
-      checked={checked}
-      onCheckedChange={(nextChecked) => {
-        setChecked(nextChecked);
-        onCheckedChange(nextChecked);
-      }}
-    >
-      <Checkbox.Control>
-        <Checkbox.Indicator
-          checked={<TestIcon className="checked-test-icon" />}
-          unchecked={<TestIcon className="unchecked-test-icon" />}
-        />
-      </Checkbox.Control>
-    </Checkbox.Root>
-  );
-}
 
 function getCheckboxRoot() {
   const root = elementTree.root;
@@ -68,26 +34,110 @@ function getCheckboxControl() {
   return control;
 }
 
-function getCheckboxBackground() {
-  const background = getCheckboxControl().querySelector<HTMLElement>(".seed-checkmark__background");
-
-  if (!background) {
-    throw new Error("Expected Checkbox background to exist.");
-  }
-
-  return background;
-}
-
 describe("Checkbox", () => {
-  it("exposes checkbox accessibility state", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it("derives a root name and hides its label text", () => {
+    render(
+      <Checkbox.Root>
+        <Checkbox.Label>알림</Checkbox.Label>
+        <Checkbox.Label>받기</Checkbox.Label>
+      </Checkbox.Root>,
+    );
+
+    const root = getCheckboxRoot();
+    const label = root.querySelector(".seed-checkbox__label");
+    expect(root).toHaveAttribute("accessibility-label", "알림 받기");
+    expect(root).toHaveAttribute("flatten", "false");
+    expect(label).toHaveAttribute("accessibility-element", "false");
+    expect(label).toHaveAttribute("accessibility-elements-hidden", "true");
+  });
+
+  it("preserves explicit names, flattening, and label text visibility", () => {
+    const { rerender } = render(
+      <Checkbox.Root accessibility-label="사용자 이름" flatten>
+        <Checkbox.Label accessibility-element accessibility-elements-hidden={false}>
+          알림
+        </Checkbox.Label>
+      </Checkbox.Root>,
+    );
+
+    expect(getCheckboxRoot()).toHaveAttribute("accessibility-label", "사용자 이름");
+    expect(getCheckboxRoot()).toHaveAttribute("flatten", "true");
+    expect(getCheckboxRoot().querySelector(".seed-checkbox__label")).toHaveAttribute(
+      "accessibility-element",
+      "true",
+    );
+    expect(getCheckboxRoot().querySelector(".seed-checkbox__label")).toHaveAttribute(
+      "accessibility-elements-hidden",
+      "false",
+    );
+
+    rerender(
+      <Checkbox.Root accessibility-element={false}>
+        <Checkbox.Label>알림</Checkbox.Label>
+      </Checkbox.Root>,
+    );
+    expect(getCheckboxRoot()).toHaveAttribute("accessibility-label", "알림");
+    expect(getCheckboxRoot().querySelector(".seed-checkbox__label")).not.toHaveAttribute(
+      "accessibility-elements-hidden",
+    );
+  });
+
+  it("keeps a named group as a container unless explicitly overridden", () => {
+    const { container, rerender } = render(
+      <Checkbox.Group accessibility-label="알림 설정">
+        <Checkbox.Root>
+          <Checkbox.Label>알림</Checkbox.Label>
+        </Checkbox.Root>
+      </Checkbox.Group>,
+    );
+    const group = container.querySelector(".seed-checkbox-group__root");
+    expect(group).toHaveAttribute("accessibility-element", "false");
+    expect(group).toHaveAttribute("accessibility-label", "알림 설정");
+    expect(getCheckboxRoot()).toHaveAttribute("accessibility-element", "true");
+
+    rerender(<Checkbox.Group accessibility-element accessibility-label="알림 설정" />);
+    expect(container.querySelector(".seed-checkbox-group__root")).toHaveAttribute(
+      "accessibility-element",
+      "true",
+    );
+  });
+
+  it("warns only for an unnamed standalone accessibility element", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
     const { rerender } = render(<Checkbox.Root />);
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("accessibility-label"));
+    warn.mockClear();
+
+    rerender(
+      <Checkbox.Root>
+        <text>알림</text>
+      </Checkbox.Root>,
+    );
+    expect(getCheckboxRoot()).not.toHaveAttribute("accessibility-label");
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("accessibility-label"));
+    warn.mockClear();
+
+    rerender(<Checkbox.Root accessibility-element={false} />);
+    expect(warn).not.toHaveBeenCalledWith(expect.stringContaining("accessibility-label"));
+    rerender(
+      <Checkbox.Root accessibility-label="외부 이름">
+        <Checkbox.Root />
+      </Checkbox.Root>,
+    );
+    expect(warn).not.toHaveBeenCalledWith(expect.stringContaining("accessibility-label"));
+  });
+
+  it("exposes checkbox accessibility state", () => {
+    const { rerender } = render(<Checkbox.Root accessibility-label="알림" />);
 
     expect(getCheckboxRoot()).toHaveAttribute("accessibility-element", "true");
     expect(getCheckboxRoot()).toHaveAttribute("accessibility-role-description", "checkbox");
     expect(getCheckboxRoot()).toHaveAttribute("accessibility-value", "not checked");
     expect(getCheckboxRoot()).not.toHaveAttribute("accessibility-traits");
 
-    rerender(<Checkbox.Root checked disabled />);
+    rerender(<Checkbox.Root accessibility-label="알림" checked disabled />);
 
     expect(getCheckboxRoot()).toHaveAttribute("accessibility-value", "checked");
     expect(getCheckboxRoot()).toHaveAttribute("accessibility-traits", "disabled");
@@ -115,106 +165,11 @@ describe("Checkbox", () => {
 
   it("applies the checkbox size class to the control", () => {
     render(
-      <Checkbox.Root size="large">
+      <Checkbox.Root size="large" accessibility-label="알림">
         <Checkbox.Control />
       </Checkbox.Root>,
     );
 
     expect(getCheckboxControl()).toHaveClass("seed-checkbox__control--size_large");
-  });
-
-  it("keeps each ghost press color stable through release in both toggle directions", () => {
-    const onCheckedChange = vi.fn();
-
-    render(<ControlledGhostCheckbox onCheckedChange={onCheckedChange} />);
-
-    const root = getCheckboxRoot();
-    const idleRootClassName = getCheckboxControl().className;
-
-    expect(getCheckboxRoot().querySelector(".unchecked-test-icon")).not.toBeNull();
-    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_false");
-
-    fireEvent.touchstart(root, {});
-    expect(getCheckboxControl().className).toBe(idleRootClassName);
-    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--pressed_true");
-    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_false");
-
-    fireEvent.touchend(root, {});
-    const uncheckedReleaseRootClassName = getCheckboxControl().className;
-    const uncheckedReleaseClassName = getCheckboxBackground().className;
-
-    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--pressed_false");
-    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_false");
-
-    fireEvent.tap(root);
-
-    expect(onCheckedChange).toHaveBeenCalledWith(true);
-    expect(getCheckboxRoot().querySelector(".checked-test-icon")).not.toBeNull();
-    expect(getCheckboxControl().className).toBe(uncheckedReleaseRootClassName);
-    expect(getCheckboxBackground().className).toBe(uncheckedReleaseClassName);
-
-    fireEvent.touchstart(root, {});
-
-    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--pressed_true");
-    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_true");
-    expect(getCheckboxBackground()).toHaveClass(
-      "seed-checkmark__background--variant_ghost-tone_brand-checked_true",
-    );
-
-    fireEvent.touchend(root, {});
-    const checkedReleaseRootClassName = getCheckboxControl().className;
-    const checkedReleaseClassName = getCheckboxBackground().className;
-
-    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--pressed_false");
-    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_true");
-
-    fireEvent.tap(root);
-
-    expect(onCheckedChange.mock.calls).toEqual([[true], [false]]);
-    expect(getCheckboxRoot().querySelector(".unchecked-test-icon")).not.toBeNull();
-    expect(getCheckboxControl().className).toBe(checkedReleaseRootClassName);
-    expect(getCheckboxBackground().className).toBe(checkedReleaseClassName);
-
-    fireEvent.touchstart(root, {});
-
-    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--pressed_true");
-    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_false");
-
-    fireEvent.touchcancel(root, {});
-
-    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--pressed_false");
-    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_false");
-  });
-
-  it("keeps the touchstart selection while controlled state changes during a press", () => {
-    const renderCheckbox = (checked: boolean) => (
-      <Checkbox.Root variant="ghost" checked={checked}>
-        <Checkbox.Control />
-      </Checkbox.Root>
-    );
-    const { rerender } = render(renderCheckbox(true));
-
-    const root = getCheckboxRoot();
-
-    fireEvent.touchstart(root, {});
-    const checkedPressClassName = getCheckboxBackground().className;
-
-    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_true");
-
-    rerender(renderCheckbox(false));
-
-    expect(getCheckboxBackground().className).toBe(checkedPressClassName);
-
-    fireEvent.touchend(root, {});
-    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_true");
-
-    fireEvent.touchstart(root, {});
-    const uncheckedPressClassName = getCheckboxBackground().className;
-
-    expect(getCheckboxBackground()).toHaveClass("seed-checkmark__background--checked_false");
-
-    rerender(renderCheckbox(true));
-
-    expect(getCheckboxBackground().className).toBe(uncheckedPressClassName);
   });
 });

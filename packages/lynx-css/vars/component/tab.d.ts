@@ -1,6 +1,9 @@
 export declare const vars: {
   "base": {
     "enabled": {
+      "root": {
+        "scrollMarginX": "var(--seed-dimension-spacing-x-global-gutter)"
+      },
       "label": {
         "color": "var(--seed-color-fg-neutral-subtle)"
       }

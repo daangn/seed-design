@@ -1,8 +1,18 @@
 import "@testing-library/jest-dom";
-import { render } from "@lynx-js/react/testing-library";
-import { describe, expect, it } from "vitest";
+import { fireEvent, render } from "@lynx-js/react/testing-library";
+import { describe, expect, it, vi } from "vitest";
 
+import { SeedProvider } from "../../contexts/SeedContext";
 import { FloatingActionButtonLabel, FloatingActionButtonRoot } from "./FloatingActionButton";
+
+vi.mock("@lynx-js/react", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@lynx-js/react")>();
+
+  return {
+    ...actual,
+    runOnMainThread: () => () => undefined,
+  };
+});
 
 function getFloatingActionButtonRoot(container: HTMLElement) {
   const root = container.querySelector<HTMLElement>(".seed-floating-action-button__root");
@@ -15,19 +25,11 @@ function getFloatingActionButtonRoot(container: HTMLElement) {
 }
 
 describe("FloatingActionButton", () => {
-  it("removes and restores the label node while preserving the root accessibility name", () => {
+  it("keeps the collapsed label mounted for its fade while the root keeps the accessibility name", () => {
     const { container, rerender } = render(
       <FloatingActionButtonRoot extended accessibility-label="새 글 작성">
         <FloatingActionButtonLabel>Extended</FloatingActionButtonLabel>
       </FloatingActionButtonRoot>,
-    );
-
-    expect(container.querySelector(".seed-floating-action-button__label")).toHaveTextContent(
-      "Extended",
-    );
-    expect(getFloatingActionButtonRoot(container)).toHaveAttribute(
-      "accessibility-label",
-      "새 글 작성",
     );
 
     rerender(
@@ -36,24 +38,181 @@ describe("FloatingActionButton", () => {
       </FloatingActionButtonRoot>,
     );
 
-    expect(container.querySelector(".seed-floating-action-button__label")).not.toBeInTheDocument();
+    const label = container.querySelector(".seed-floating-action-button__label");
+    expect(label).toHaveTextContent("Extended");
+    expect(label).toHaveClass("seed-floating-action-button__label--extended_false");
+    expect(label).toHaveAttribute("accessibility-elements-hidden", "true");
     expect(getFloatingActionButtonRoot(container)).toHaveAttribute(
       "accessibility-label",
       "새 글 작성",
     );
+  });
+
+  it("blocks tap and pressed state while disabled and announces the disabled trait", () => {
+    const handleTap = vi.fn();
+    const mainThreadWarn = vi
+      .spyOn(lynxTestingEnv.mainThread.globalThis["console"], "warn")
+      .mockImplementation(() => {});
+    const { container, rerender } = render(
+      <FloatingActionButtonRoot bindtap={handleTap}>
+        <FloatingActionButtonLabel>Extended</FloatingActionButtonLabel>
+      </FloatingActionButtonRoot>,
+    );
+    const root = getFloatingActionButtonRoot(container);
+
+    expect(root).toHaveAttribute("accessibility-traits", "button");
+    fireEvent.touchstart(root);
+    expect(root).toHaveClass("seed-floating-action-button__root--pressed_true");
+    fireEvent.touchend(root);
+    fireEvent.tap(root);
+    expect(handleTap).toHaveBeenCalledTimes(1);
 
     rerender(
-      <FloatingActionButtonRoot extended accessibility-label="새 글 작성">
+      <FloatingActionButtonRoot disabled bindtap={handleTap}>
         <FloatingActionButtonLabel>Extended</FloatingActionButtonLabel>
       </FloatingActionButtonRoot>,
     );
 
-    expect(container.querySelector(".seed-floating-action-button__label")).toHaveTextContent(
-      "Extended",
+    expect(root).toHaveAttribute("accessibility-traits", "disabled");
+    fireEvent.touchstart(root);
+    expect(root).toHaveClass("seed-floating-action-button__root--pressed_false");
+    fireEvent.touchend(root);
+    fireEvent.tap(root);
+    expect(handleTap).toHaveBeenCalledTimes(1);
+    expect(mainThreadWarn).not.toHaveBeenCalled();
+    mainThreadWarn.mockRestore();
+  });
+
+  it("enables the width transition only after the initially extended label is measured", () => {
+    const { container } = render(
+      <FloatingActionButtonRoot>
+        <FloatingActionButtonLabel>Extended</FloatingActionButtonLabel>
+      </FloatingActionButtonRoot>,
     );
-    expect(getFloatingActionButtonRoot(container)).toHaveAttribute(
-      "accessibility-label",
-      "새 글 작성",
+    const root = getFloatingActionButtonRoot(container);
+    const label = container.querySelector(".seed-floating-action-button__label");
+
+    if (!label) {
+      throw new Error("Expected FloatingActionButton label to exist.");
+    }
+
+    expect(root).toHaveClass("seed-floating-action-button__root--transitionEnabled_false");
+    fireEvent.layoutchange(label, { detail: { width: Number.NaN } });
+    expect(root).toHaveClass("seed-floating-action-button__root--transitionEnabled_false");
+    fireEvent.layoutchange(label, { detail: { width: 72 } });
+    expect(root).toHaveClass("seed-floating-action-button__root--transitionEnabled_true");
+  });
+
+  it("keeps the measured label width while an ancestor hides the button", () => {
+    const { container } = render(
+      <FloatingActionButtonRoot>
+        <FloatingActionButtonLabel>Extended</FloatingActionButtonLabel>
+      </FloatingActionButtonRoot>,
     );
+    const root = getFloatingActionButtonRoot(container);
+    const label = container.querySelector(".seed-floating-action-button__label");
+
+    if (!label) {
+      throw new Error("Expected FloatingActionButton label to exist.");
+    }
+
+    fireEvent.layoutchange(label, { detail: { width: 72, height: 22 } });
+    expect(Reflect.get(root.style, "--fab-label-width")).toBe("72px");
+    fireEvent.layoutchange(label, { detail: { width: 0, height: 0 } });
+    expect(Reflect.get(root.style, "--fab-label-width")).toBe("72px");
+  });
+
+  it("ignores sub-pixel label width jitter so the width transition is not restarted", () => {
+    const { container } = render(
+      <FloatingActionButtonRoot>
+        <FloatingActionButtonLabel>Extended</FloatingActionButtonLabel>
+      </FloatingActionButtonRoot>,
+    );
+    const root = getFloatingActionButtonRoot(container);
+    const label = container.querySelector(".seed-floating-action-button__label");
+
+    if (!label) {
+      throw new Error("Expected FloatingActionButton label to exist.");
+    }
+
+    // The label moves while the button expands, and its reported width wobbles under 1px.
+    fireEvent.layoutchange(label, { detail: { width: 73.5, height: 22 } });
+    expect(Reflect.get(root.style, "--fab-label-width")).toBe("74px");
+    fireEvent.layoutchange(label, { detail: { width: 73.33, height: 22 } });
+    fireEvent.layoutchange(label, { detail: { width: 73.67, height: 22 } });
+    expect(Reflect.get(root.style, "--fab-label-width")).toBe("74px");
+
+    fireEvent.layoutchange(label, { detail: { width: 90, height: 22 } });
+    expect(Reflect.get(root.style, "--fab-label-width")).toBe("90px");
+  });
+});
+
+describe("FloatingActionButton Liquid Glass", () => {
+  it("renders a glass blur-view root only with the host flag and a tree or component intent", () => {
+    const { container, rerender } = render(
+      <SeedProvider glassEffect>
+        <FloatingActionButtonRoot>
+          <FloatingActionButtonLabel>글쓰기</FloatingActionButtonLabel>
+        </FloatingActionButtonRoot>
+      </SeedProvider>,
+    );
+    let root = container.querySelector<HTMLElement>(".seed-floating-action-button__root");
+    expect(root?.tagName.toLowerCase()).toBe("view");
+
+    rerender(
+      <SeedProvider supportsLiquidGlass glassEffect>
+        <FloatingActionButtonRoot>
+          <FloatingActionButtonLabel>글쓰기</FloatingActionButtonLabel>
+        </FloatingActionButtonRoot>
+      </SeedProvider>,
+    );
+    root = container.querySelector<HTMLElement>(".seed-floating-action-button__root");
+    expect(root?.tagName.toLowerCase()).toBe("blur-view");
+    expect(root).toHaveClass("seed-floating-action-button__root--glass_true");
+    expect(root).toHaveAttribute("glass-interactive", "false");
+
+    rerender(
+      <SeedProvider supportsLiquidGlass>
+        <FloatingActionButtonRoot glassEffect={{ interactive: true }}>
+          <FloatingActionButtonLabel>글쓰기</FloatingActionButtonLabel>
+        </FloatingActionButtonRoot>
+      </SeedProvider>,
+    );
+    root = container.querySelector<HTMLElement>(".seed-floating-action-button__root");
+    expect(root?.tagName.toLowerCase()).toBe("blur-view");
+    expect(root).toHaveAttribute("glass-interactive", "true");
+  });
+
+  it("tints the glass with the enabled and pressed background for the applied theme", () => {
+    const { container, rerender } = render(
+      <SeedProvider supportsLiquidGlass glassEffect preferredColorScheme="light">
+        <FloatingActionButtonRoot>
+          <FloatingActionButtonLabel>글쓰기</FloatingActionButtonLabel>
+        </FloatingActionButtonRoot>
+      </SeedProvider>,
+    );
+    const root = () => container.querySelector<HTMLElement>(".seed-floating-action-button__root");
+    // The testing library cannot target `<blur-view>`, so touches start on the label and bubble to the root.
+    const touch = (type: "touchstart" | "touchend") => {
+      const label = root()?.querySelector(".seed-floating-action-button__label");
+      if (!label) throw new Error("Expected FloatingActionButton label to exist.");
+      fireEvent(label, new Event(`bindEvent:${type}`, { bubbles: true }));
+    };
+
+    expect(root()).toHaveAttribute("glass-tint-color", "#ff6600");
+    touch("touchstart");
+    expect(root()).toHaveAttribute("glass-tint-color", "#e14d00");
+    touch("touchend");
+
+    rerender(
+      <SeedProvider supportsLiquidGlass glassEffect preferredColorScheme="dark">
+        <FloatingActionButtonRoot>
+          <FloatingActionButtonLabel>글쓰기</FloatingActionButtonLabel>
+        </FloatingActionButtonRoot>
+      </SeedProvider>,
+    );
+    touch("touchstart");
+    expect(root()).toHaveAttribute("glass-tint-color", "#ff9e65");
+    expect(root()).toHaveAttribute("ios-user-interface-style", "dark");
   });
 });

@@ -7,7 +7,11 @@ test("스와이프백 시작 시 입력 포커스를 해제하고 취소해도 �
 }) => {
   await page.goto("/swipe-back-keyboard");
   await page.getByRole("button", { name: "입력 화면 한 장 더 열기" }).click();
-  const input = page.getByRole("textbox", { name: "검색어" }).last();
+  const inputs = page.getByRole("textbox", { name: "검색어" });
+  // The click can finish before the pushed screen mounts. Otherwise tap() may
+  // retain the original input while the new screen covers it during its retry.
+  await expect(inputs).toHaveCount(2);
+  const input = inputs.last();
   await input.tap();
   await input.fill("당근 검색");
   await expect(input).toBeFocused();

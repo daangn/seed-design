@@ -7,6 +7,8 @@ const alertDialog = defineSlotRecipe({
     "positioner",
     "backdrop",
     "content",
+    "scrollArea",
+    "scrollContent",
     "header",
     "footer",
     "action",
@@ -60,6 +62,10 @@ const alertDialog = defineSlotRecipe({
 
       backgroundColor: vars.base.enabled.content.color,
       maxWidth: vars.base.enabled.content.maxWidth,
+      // Keeps the content, margins included, within the positioner's safe area padding. A Lynx
+      // `view` doesn't scroll, so `scrollArea` takes the overflow.
+      maxHeight: "100%",
+      overflow: "hidden",
       marginTop: vars.base.enabled.content.marginY,
       marginRight: vars.base.enabled.content.marginX,
       marginBottom: vars.base.enabled.content.marginY,
@@ -84,6 +90,15 @@ const alertDialog = defineSlotRecipe({
         transitionDuration: vars.base.enabled.content.exitDuration,
         transitionTimingFunction: vars.base.enabled.content.exitTimingFunction,
       },
+    },
+    scrollArea: {
+      width: "100%",
+      flexShrink: 1,
+      minHeight: "0",
+    },
+    scrollContent: {
+      display: "flex",
+      flexDirection: "column",
     },
     header: {
       display: "flex",
