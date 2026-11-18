@@ -11,7 +11,7 @@ verified_at: "2026-10-13"
 
 ## 교훈과 다음 행동
 
-- CSS 값만 있는 길이(예: `useSafeArea()`가 host 값이 없을 때 돌려주는 `env(safe-area-inset-bottom)`)를 JS 숫자로 쓰려면 그 값으로 위치를 정한 view를 두고 `boundingClientRect`로 측정한다. 이때 probe는 크기 0인 view로 만든다. 사각형 경계가 필요하면 왼쪽 위(`top`·`left`)와 오른쪽 아래(`right`·`bottom`)에 0×0 view를 하나씩 둔다.
+- CSS 값만 있는 길이(예: `env(safe-area-inset-bottom)`)를 JS 숫자로 쓰려면 그 값으로 위치를 정한 view를 두고 `boundingClientRect`로 측정한다. 이때 probe는 크기 0인 view로 만든다. 사각형 경계가 필요하면 왼쪽 위(`top`·`left`)와 오른쪽 아래(`right`·`bottom`)에 0×0 view를 하나씩 둔다.
 - 화면을 덮는 투명 view(`top`·`right`·`bottom`·`left`를 지정한 fixed view)는 iOS에서 아래 `scroll-view`의 native pan을 막는다. `user-interaction-enabled={false}`는 Lynx touch 이벤트만 끄고 platform 제스처에는 영향이 없다(`@lynx-js/types` 문서). 그래서 이 문제는 해결되지 않는다.
 - 비모달 레이어(HelpBubble처럼 아래 화면을 계속 조작하는 레이어)에 probe를 추가하면 iOS 시뮬레이터에서 실제 pan으로 아래 스크롤을 확인한다. `agent-device open <app> --udid <sim> --session <name>` 다음 `agent-device gesture pan <x> <y> <dx> <dy> <ms> --session <name>`을 쓴다. 같은 화면에서 `agent-device swipe`는 변경 전 bundle도 스크롤하지 못해 판정에 쓰지 않는다. `agent-device close`는 PlayLynx 앱 자체를 닫아 다른 작업의 Card까지 사라지므로 실행하지 않는다.
 
@@ -28,3 +28,4 @@ verified_at: "2026-10-13"
 ## 변경 이력
 
 - 2026-10-13: C8 Select 안전 영역 수정의 기기 검증에서 기록했다.
+- 2026-11-18: DES-2843에서 `useSafeArea()`가 `env()` fallback 대신 Provider가 없으면 `"0px"`를 돌려주게 바뀌어, 교훈의 예시에서 `useSafeArea()` 반환값 설명을 지웠다. probe 크기 규칙은 재검증하지 않았다.
