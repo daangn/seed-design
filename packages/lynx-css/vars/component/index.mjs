@@ -36,6 +36,7 @@ export { vars as extendedActionSheetItem } from "./extended-action-sheet-item.mj
 export { vars as extendedActionSheet } from "./extended-action-sheet.mjs";
 export { vars as extendedFab } from "./extended-fab.mjs";
 export { vars as fab } from "./fab.mjs";
+export { vars as fieldButton } from "./field-button.mjs";
 export { vars as fieldLabel } from "./field-label.mjs";
 export { vars as field } from "./field.mjs";
 export { vars as floatingActionButton } from "./floating-action-button.mjs";
