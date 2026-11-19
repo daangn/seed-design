@@ -193,7 +193,7 @@ async function writeComponentSpec(
   });
 }
 
-async function writeTokenCss(dir: string, generatorPath?: string, prefix?: string) {
+async function writeTokenCss(dir: string, generatorPath?: string, prefix?: string, ts?: boolean) {
   const { ctx } = await prepare();
 
   const ast = {
@@ -228,6 +228,14 @@ async function writeTokenCss(dir: string, generatorPath?: string, prefix?: strin
     filename: "token.css",
     code,
     writePath: writePath,
+  });
+
+  if (!ts) return;
+
+  writeFileSync({
+    filename: "tokens.ts",
+    code: typescript.getTokenCssModule(code),
+    writePath: path.join(process.cwd(), dir, "tokens.ts"),
   });
 }
 
@@ -457,10 +465,14 @@ export const commands = {
           describe: "Path to custom generator module",
           type: "string",
         })
-        .option("prefix", prefixOption),
-    handler: async ({ dir, generator, prefix }) => {
+        .option("prefix", prefixOption)
+        .option("ts", {
+          describe: "Also write tokens.ts, exporting the CSS as a string in `tokens._raw`",
+          type: "boolean",
+        }),
+    handler: async ({ dir, generator, prefix, ts }) => {
       console.log("Start");
-      await writeTokenCss(dir, generator, prefix);
+      await writeTokenCss(dir, generator, prefix, ts);
       console.log("Done");
     },
   }),
