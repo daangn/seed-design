@@ -7,9 +7,14 @@ describe("HelpBubble close feedback", () => {
   beforeEach(() => {
     const mainThread = lynxTestingEnv.mainThread.globalThis;
     const systemInfo = mainThread["SystemInfo"];
+    const getComputedStyle = mainThread["__GetComputedStyleByKey"];
     mainThread["SystemInfo"] = { ...systemInfo, lynxSdkVersion: "3.6" };
+    // 0.117.0의 테스트 런타임에는 Main Thread의 computed-style 브리지가 없습니다.
+    mainThread["__GetComputedStyleByKey"] = (element: HTMLElement, property: string) =>
+      element.style.getPropertyValue(property);
     return () => {
       mainThread["SystemInfo"] = systemInfo;
+      mainThread["__GetComputedStyleByKey"] = getComputedStyle;
     };
   });
 
@@ -74,7 +79,7 @@ describe("HelpBubble close feedback", () => {
     ]);
     expect(button.style.transform).toBe(transform ?? "");
 
-    fireEvent.tap(content, {});
+    fireEvent(content, new Event("bindEvent:tap", { bubbles: true }));
     await waitSchedule();
     expect(onTap).toHaveBeenCalledTimes(1);
     expect(onOpenChange).toHaveBeenCalledWith(false);
