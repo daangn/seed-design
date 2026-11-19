@@ -1,5 +1,13 @@
 # @seed-design/lynx-react-file-upload
 
+## 1.0.2
+
+### Patch Changes
+
+- 6c1fa1f: Lynx 컴포넌트에서 같은 props와 측정값으로 반복하던 main-thread 전송과 하위 파트 렌더링을 줄입니다.
+- Updated dependencies [6c1fa1f]
+  - @seed-design/lynx-react-use-press-tap@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes
