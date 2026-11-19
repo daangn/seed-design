@@ -86,7 +86,8 @@ const createSeedDeclaration =
  * Generates CSS with SEED-specific font scaling and theme configuration
  */
 const generateSeedCss: GeneratorFunction = (ast, options) => {
-  const prefix = options.prefix ?? "seed";
+  // `||`, not `??`: an empty prefix would break the `--${prefix}-...` static references below.
+  const prefix = options.prefix || "seed";
   const seedOptions = {
     prefix,
     banner: `:root, [data-seed-color-mode="system"] {

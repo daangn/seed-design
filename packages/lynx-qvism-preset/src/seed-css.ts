@@ -77,7 +77,7 @@ const createSeedDeclaration =
  */
 const generateSeedCss: GeneratorFunction = (ast, options) => {
   const seedOptions = {
-    prefix: options.prefix ?? "seed",
+    prefix: options.prefix || "seed",
     banner: "",
     selectors: {
       global: {
