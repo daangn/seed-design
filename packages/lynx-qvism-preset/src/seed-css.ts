@@ -1,5 +1,6 @@
 import type collections from "@seed-design/rootage-artifacts/collections";
 import { css, type AST } from "@seed-design/rootage-core";
+import type { GeneratorFunction } from "@seed-design/rootage-core/generator";
 
 type TokenDeclaration = AST.TokenDeclaration;
 type TokenLit = AST.TokenLit;
@@ -74,16 +75,10 @@ const createSeedDeclaration =
  * SEED CSS Generator function
  * Generates CSS with SEED-specific font scaling and theme configuration
  */
-export default function generateSeedCss(
-  ast: Parameters<typeof css.getTokenCss>[0],
-  options?: Partial<Parameters<typeof css.getTokenCss>[1]>,
-): string {
-  // SEED-specific default options - we ignore most of the passed options
-  // and use our own defaults because CLI provides minimal options
-  const prefix = options?.prefix || "seed"; // Extract prefix for use in declaration
+const generateSeedCss: GeneratorFunction = (ast, options) => {
   const seedOptions = {
-    prefix,
-    banner: options?.banner ?? "",
+    prefix: options.prefix ?? "seed",
+    banner: "",
     selectors: {
       global: {
         default: ":root",
@@ -110,9 +105,7 @@ export default function generateSeedCss(
     customDeclaration: createSeedDeclaration(),
   };
 
-  // Use core's getTokenCss with our custom declaration
   return css.getTokenCss(ast, seedOptions);
-}
+};
 
-// Also export as named export for compatibility
-export { generateSeedCss };
+export default generateSeedCss;
