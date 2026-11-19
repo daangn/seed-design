@@ -31,7 +31,8 @@ const artifactsPath = require.resolve("@seed-design/rootage-artifacts");
 const artifactsDir = path.dirname(artifactsPath);
 
 function readYAMLFilesSync(dir: string, fileList: string[] = []) {
-  const files = fs.readdirSync(dir);
+  // readdir order varies by runtime and filesystem, and it reaches the order of the generated output.
+  const files = fs.readdirSync(dir).sort();
 
   for (const file of files) {
     const filePath = path.join(dir, file);
