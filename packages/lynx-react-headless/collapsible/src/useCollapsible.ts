@@ -75,7 +75,10 @@ export function useCollapsible({
     defaultValue: defaultOpen,
     onChange: onOpenChange,
   });
-  const [contentHeight, setContentHeight] = React.useState<number | null>(null);
+  const contentHeightRef = React.useRef<number | null>(null);
+  const openRef = React.useRef(open);
+  openRef.current = open;
+  const [, invalidateHeight] = React.useState(0);
 
   const toggle = React.useCallback(() => {
     "background only";
@@ -90,9 +93,14 @@ export function useCollapsible({
     // 마지막 높이를 유지한다. 빈 내용은 폭이 있어 그대로 반영된다.
     if (height === 0 && getLayoutSize(event, "width") === 0) return;
 
-    setContentHeight((current) => nextContentHeight(current, height));
+    const previous = contentHeightRef.current;
+    const next = nextContentHeight(previous, height);
+    if (previous === next) return;
+    contentHeightRef.current = next;
+    if (openRef.current) invalidateHeight((revision) => revision + 1);
   }, []);
 
+  const contentHeight = contentHeightRef.current;
   const height = !open ? "0px" : contentHeight === null ? "auto" : `${contentHeight}px`;
 
   const contentProps = React.useMemo<UseCollapsibleReturn["contentProps"]>(

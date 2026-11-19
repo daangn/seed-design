@@ -1,9 +1,11 @@
 import {
   runOnMainThread,
   runOnBackground,
+  useCallback,
   useContext,
   useEffect,
   useMainThreadRef,
+  useMemo,
   useRef,
 } from "@lynx-js/react";
 import type { RefObject } from "@lynx-js/react";
@@ -146,21 +148,24 @@ export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScal
   const scaleRef = useMainThreadRef<number | null>(null);
   const hasMountedRef = useRef(false);
 
-  function handleLayoutChange(event: MainThread.LayoutChangeEvent) {
-    "main thread";
+  const handleLayoutChange = useCallback(
+    (event: MainThread.LayoutChangeEvent) => {
+      "main thread";
 
-    targetRef.current = event.currentTarget as ScaleFeedbackElement;
-    const width = event.detail?.width ?? event.params?.width ?? 0;
-    const height = event.detail?.height ?? event.params?.height ?? 0;
-    if (width > 0 && height > 0) {
-      scaleRef.current = calculateScaleFeedback(width, height);
-    } else {
-      scaleRef.current = null;
-    }
-    targetRef.current?.setStyleProperty("transform-origin", "center center");
-  }
+      targetRef.current = event.currentTarget as ScaleFeedbackElement;
+      const width = event.detail?.width ?? event.params?.width ?? 0;
+      const height = event.detail?.height ?? event.params?.height ?? 0;
+      if (width > 0 && height > 0) {
+        scaleRef.current = calculateScaleFeedback(width, height);
+      } else {
+        scaleRef.current = null;
+      }
+      targetRef.current?.setStyleProperty("transform-origin", "center center");
+    },
+    [targetRef, scaleRef],
+  );
 
-  function handleTouchStart() {
+  const handleTouchStart = useCallback(() => {
     "main thread";
 
     if (!disabled && !reducedMotion) {
@@ -171,21 +176,21 @@ export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScal
       }
     }
     if (onTouchStart) runOnBackground(onTouchStart)();
-  }
+  }, [disabled, reducedMotion, scaleRef, targetRef, animationRef, onTouchStart]);
 
-  function handleTouchEnd() {
+  const handleTouchEnd = useCallback(() => {
     "main thread";
 
     runScaleFeedback(targetRef, animationRef, 1, feedbackScaleDuration);
     if (onTouchEnd) runOnBackground(onTouchEnd)();
-  }
+  }, [targetRef, animationRef, onTouchEnd]);
 
-  function handleTouchCancel() {
+  const handleTouchCancel = useCallback(() => {
     "main thread";
 
     runScaleFeedback(targetRef, animationRef, 1, feedbackScaleDuration);
     if (onTouchCancel) runOnBackground(onTouchCancel)();
-  }
+  }, [targetRef, animationRef, onTouchCancel]);
 
   useEffect(() => {
     if (!hasMountedRef.current) {
@@ -197,17 +202,24 @@ export function useScaleFeedback(options: UseScaleFeedbackOptions = {}): UseScal
     runOnMainThread(runScaleFeedback)(targetRef, animationRef, 1, 0);
   }, [disabled, reducedMotion]);
 
-  return {
-    scaleFeedbackTriggerProps: {
+  const scaleFeedbackTriggerProps = useMemo<ScaleFeedbackTriggerProps>(
+    () => ({
       "main-thread:bindtouchstart": handleTouchStart,
       "main-thread:bindtouchend": handleTouchEnd,
       "main-thread:bindtouchcancel": handleTouchCancel,
-    },
-    scaleFeedbackTargetProps: {
-      // Preserve a native view for transform animations instead of allowing Lynx to flatten it.
+    }),
+    [handleTouchStart, handleTouchEnd, handleTouchCancel],
+  );
+  const scaleFeedbackTargetProps = useMemo<ScaleFeedbackTargetProps>(
+    () => ({
       flatten: false,
       "main-thread:ref": targetRef,
       "main-thread:bindlayoutchange": handleLayoutChange,
-    },
-  };
+    }),
+    [targetRef, handleLayoutChange],
+  );
+  return useMemo(
+    () => ({ scaleFeedbackTriggerProps, scaleFeedbackTargetProps }),
+    [scaleFeedbackTriggerProps, scaleFeedbackTargetProps],
+  );
 }

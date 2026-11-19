@@ -1,6 +1,6 @@
 import { act, renderHook } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
-import { usePressTap } from "./usePressTap";
+import { usePressTap, type UsePressTapOptions } from "./usePressTap";
 
 const fakeEvent = {} as Parameters<ReturnType<typeof usePressTap>["bindtap"]>[0];
 
@@ -135,4 +135,38 @@ it("clears an active press when disabled and does not restore it when re-enabled
   expect(result.current.pressed).toBe(false);
   rerender({ disabled: false });
   expect(result.current.pressed).toBe(false);
+});
+
+it("reuses composed main-thread handlers across press state changes", () => {
+  const handler = () => {
+    "main thread";
+  };
+  const initialProps: UsePressTapOptions = {
+    mainThreadOnTouchStart: handler,
+    mainThreadOnTouchEnd: handler,
+    mainThreadOnTouchCancel: handler,
+  };
+  const { result, rerender } = renderHook((options) => usePressTap(options), { initialProps });
+  const first = result.current;
+  rerender({ ...initialProps });
+  expect(result.current).toBe(first);
+  act(() => result.current.bindtouchstart());
+  expect(result.current.pressed).toBe(true);
+  for (const key of [
+    "main-thread:bindtouchstart",
+    "main-thread:bindtouchend",
+    "main-thread:bindtouchcancel",
+  ] as const) {
+    expect(result.current[key]).toBe(first[key]);
+  }
+  const replacement = () => {
+    "main thread";
+  };
+  rerender({ ...initialProps, mainThreadOnTouchStart: replacement });
+  expect(result.current["main-thread:bindtouchstart"]).not.toBe(
+    first["main-thread:bindtouchstart"],
+  );
+  expect(result.current["main-thread:bindtouchend"]).toBe(first["main-thread:bindtouchend"]);
+  rerender({});
+  expect(result.current).not.toHaveProperty("main-thread:bindtouchstart");
 });

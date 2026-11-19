@@ -29,6 +29,33 @@ function setGlobalProps(globalProps: Record<string, unknown>) {
 }
 
 describe("useScaleFeedback", () => {
+  it("reuses main-thread props until their captured inputs change", () => {
+    const onTouchStart = vi.fn();
+    const { result, rerender } = renderHook(
+      (options: UseScaleFeedbackOptions) => useScaleFeedback(options),
+      { initialProps: { disabled: false, onTouchStart } },
+    );
+    const first = result.current;
+    rerender({ disabled: false, onTouchStart });
+    expect(result.current).toBe(first);
+
+    rerender({ disabled: true, onTouchStart });
+    expect(result.current.scaleFeedbackTargetProps).toBe(first.scaleFeedbackTargetProps);
+    expect(result.current.scaleFeedbackTriggerProps["main-thread:bindtouchstart"]).not.toBe(
+      first.scaleFeedbackTriggerProps["main-thread:bindtouchstart"],
+    );
+    expect(result.current.scaleFeedbackTriggerProps["main-thread:bindtouchend"]).toBe(
+      first.scaleFeedbackTriggerProps["main-thread:bindtouchend"],
+    );
+
+    const nextCallback = vi.fn();
+    const previous = result.current;
+    rerender({ disabled: true, onTouchStart: nextCallback });
+    expect(result.current.scaleFeedbackTriggerProps["main-thread:bindtouchstart"]).not.toBe(
+      previous.scaleFeedbackTriggerProps["main-thread:bindtouchstart"],
+    );
+  });
+
   it("keeps the animation target from being flattened", () => {
     const { result } = renderHook(() => useScaleFeedback());
 

@@ -17,6 +17,20 @@ import type {
 } from "@seed-design/lynx-react-floating";
 import { useControllableState } from "@seed-design/lynx-react-use-controllable-state";
 
+function isSameRect(previous: Rect | null, next: Rect | null): boolean {
+  return (
+    previous === next ||
+    (previous !== null &&
+      next !== null &&
+      previous.left === next.left &&
+      previous.top === next.top &&
+      previous.right === next.right &&
+      previous.bottom === next.bottom &&
+      previous.width === next.width &&
+      previous.height === next.height)
+  );
+}
+
 type ViewProps = IntrinsicElements["view"];
 
 const EMPTY_VALUE: string[] = [];
@@ -280,8 +294,10 @@ export function useSelect(props: UseSelectProps = {}): UseSelectReturn {
           ? previous
           : nextPosition,
       );
-      setLayerRect(nextLayerRect);
-      setTriggerRect(nextTriggerRect);
+      setLayerRect((previous) => (isSameRect(previous, nextLayerRect) ? previous : nextLayerRect));
+      setTriggerRect((previous) =>
+        isSameRect(previous, nextTriggerRect) ? previous : nextTriggerRect,
+      );
       setPositionedEpoch(openEpochRef.current);
     },
     [],

@@ -18,6 +18,7 @@ import {
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { useScaleFeedback, type ScaleFeedbackTargetProps } from "../../hooks/useScaleFeedback";
+import { useShallowMemo } from "../../utils/use-shallow-memo";
 import { mergeProps } from "../../utils/merge-props";
 import { ScaleFeedbackContentContext } from "../../contexts";
 import {
@@ -97,8 +98,12 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
     onCheckedChange,
     ...restProps
   } = props;
-  const [{ switch: switchVariantProps, switchmark: switchmarkVariantProps }, nativeProps] =
-    splitMultipleVariantsProps(restProps, { switch: switchStyle, switchmark });
+  const [
+    { switch: switchVariantPropsInput, switchmark: switchmarkVariantPropsInput },
+    nativeProps,
+  ] = splitMultipleVariantsProps(restProps, { switch: switchStyle, switchmark });
+  const switchVariantProps = useShallowMemo(switchVariantPropsInput);
+  const switchmarkVariantProps = useShallowMemo(switchmarkVariantPropsInput);
   const insideAccessibilityElement = useInsideAccessibilityElement();
   const resolvedAccessibilityLabel = accessibilityLabel ?? getAccessibleText(children);
 

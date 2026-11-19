@@ -141,11 +141,14 @@ export function useTabs({
   }, []);
 
   const updateTriggerDisabled = React.useCallback((triggerValue: string, disabled: boolean) => {
-    setItems((current) =>
-      current.map((item) =>
-        item.value === triggerValue && item.disabled !== disabled ? { ...item, disabled } : item,
-      ),
-    );
+    setItems((current) => {
+      const index = current.findIndex((item) => item.value === triggerValue);
+      const item = current[index];
+      if (!item || item.disabled === disabled) return current;
+      const next = [...current];
+      next[index] = { ...item, disabled };
+      return next;
+    });
   }, []);
 
   const syncTriggerOrder = React.useCallback((triggerValues: string[]) => {
