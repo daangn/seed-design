@@ -1,5 +1,13 @@
 # @seed-design/lynx-react
 
+## 1.3.2
+
+### Patch Changes
+
+- 4b6016b: Select의 눌림 배경과 항목 배경의 좌우 여백 전환을 보완하고, 첨부 버튼·HelpBubble의 Self Scale 및 ChipTabs·FloatingButton의 눌림 배경 피드백을 수정합니다.
+- Updated dependencies [4b6016b]
+  - @seed-design/lynx-css@1.3.1
+
 ## 1.3.1
 
 ### Patch Changes
