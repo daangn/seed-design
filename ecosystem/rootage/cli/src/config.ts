@@ -30,10 +30,9 @@ interface CommandOptionsMap {
   tailwind4: { prefix?: string };
 }
 
-// The constraint fails compilation when a `CommandOptionsMap` key names no command, instead of dropping it from `Config`.
-type CommandsOnly<C extends Command> = C;
+type Satisfies<T extends U, U> = T;
 
-export type ConfigurableCommand = CommandsOnly<keyof CommandOptionsMap>;
+export type ConfigurableCommand = Satisfies<keyof CommandOptionsMap, Command>;
 
 export type CommandOptions<C extends ConfigurableCommand> = CommandOptionsMap[C];
 
