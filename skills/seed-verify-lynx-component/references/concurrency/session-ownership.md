@@ -66,6 +66,7 @@ $CARD open "$BUNDLE_URL" --client "$CLIENT_ID"
 - 스크립트는 baseline을 기록한 뒤 `agent-lynx open`을 한 번만 호출하고, 최대 30초 동안 목록을 다시 조회한다. baseline에 없고 요청 URL과 같은 session이 정확히 하나면 `opened`와 `sessionId`를 준다. URL 비교에서 PlayLynx의 `#__playlynx_http_context=…`는 빼고, 딥 링크는 안쪽 bundle URL로 푼다.
 - open이 오류·timeout으로 끝나도 목록으로 판정한다. 후보가 0개나 여럿이면 `blocked`다 → 다시 open하지 않고 5단계 `release`로 정리를 시도한다.
 - 이미 Card를 연 기록이 있으면 `open`을 거부한다. 다른 장면은 같은 Card에서 탐색하거나 reload한다.
+- host가 `lynx://open?url=`이 아닌 앱 deep link로만 Card를 열면 스크립트가 그 URL을 풀지 못해 session을 대조하지 못한다. 이때는 host가 session에 남기는 bundle URL(query를 지우는 host면 query 없는 URL)로 `open`을 백그라운드로 시작하고 30초 대조 창 안에 앱 deep link를 OS opener로 한 번 연다. 스크립트가 새 session을 소유로 기록하므로 `exec`·`release`를 그대로 쓴다. 잠금은 `acquire`로 이미 얻은 상태여야 한다.
 
 완료 조건: `opened` 결과의 `CLIENT_ID`·`SESSION_ID`와 bundle URL을 작업 상태에 남겼다.
 
@@ -86,6 +87,7 @@ $CARD exec --client-scope --client "$CLIENT_ID" -- global-switch list
 - Card를 만드는 명령(`open`, `App.openPage`)은 `exec`가 거부한다. 소유 기록 없이 Card가 늘어나 정리 대상에서 빠지기 때문이다 → Card는 3단계 `open`으로만 연다. OS 딥 링크·MCP로도 Card를 따로 열지 않는다.
 - `exec`는 잠금 owner가 바뀌었거나 host가 바뀌었으면 실행하지 않고, 실행 중 소유권을 잃으면 명령을 멈춘다. 그 결과를 받으면 조작을 멈추고 `status`로 현재 소유자를 확인한다.
 - 장치와 무관한 작업(빌드·분석)으로 TTL보다 오래 걸릴 것 같으면 그 전에 `$CARD renew --client "$CLIENT_ID"`를 실행한다. 다만 Card를 연 채 headless lib를 다시 빌드하면 PlayLynx 연결이 끊길 수 있다 → 재빌드 전에 `release`한다.
+- `screenshot --fullscreen`은 소유 session이 아니라 기기 앞에 있는 Card를 찍는다. 같은 client의 다른 Card가 앞에 있으면 그 화면이 찍히므로 소유 Card의 증거로 쓰지 않는다. Lynx view 밖까지 덮는 native `<overlay>`는 소유 Card를 앞에 둔 기기 화면에서 시각으로 확인하고, 자동 증거는 `DOM.getDocument`의 `<overlay>` 속성(`visible`)으로 남긴다.
 - MCP처럼 `exec`를 거칠 수 없는 경로는 `opened` 결과의 같은 ID를 명시하고, 사용 중에 `renew`한다. latest session 자동 선택에 기대지 않는다.
 - 전역 `Memory.getAllMemoryUsage`의 `--session -1`은 명시적인 전역 대상이다 → `exec --client-scope -- … --session -1`로 넘기고, 결과의 session을 정리 대상으로 삼지 않는다.
 

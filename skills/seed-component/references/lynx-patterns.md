@@ -79,6 +79,8 @@ Lynx compound 컴포넌트라고 `createSlotRecipeContext`를 무조건 피하�
 - 임의 timeout으로 초기화 완료 추정 → 컴포넌트가 이미 소유한 등록·측정 상태로 계산한다.
 - React 레이어에서 `transitionDuration`을 inline `style`로 지정 → recipe variant를 쓴다.
 
+보정값이 `크기 × 위치 비율`처럼 선형이고 크기가 token이면 측정과 이 gate 대신 CSS에서 계산한다. Headless는 단위 없는 비율 변수(예: `--slider-thumb-offset-ratio`)만 inline으로 넘기고, Recipe가 사용처 선언에서 token과 곱한다(`packages/lynx-qvism-preset/src/recipes/slider.ts`의 `left: calc(var(--slider-thumb-left, 0%) + <thumb size token> * var(--slider-thumb-offset-ratio, 0))`). 측정을 기다리지 않아 첫 프레임부터 위치가 확정된다. `calc()`를 사용자 정의 속성에 담아 다른 선언에서 `var()`로 읽으면 그 선언이 무효가 된다 → 곱셈은 사용처 선언에 둔다.
+
 회귀 테스트:
 
 - 첫 번째가 아닌 항목을 초기 선택값으로 렌더링하고, 최초 렌더링에서 Label과 Indicator에 transition 비활성 className이 붙는지 확인한다.
@@ -154,6 +156,13 @@ Lynx는 web ARIA가 아니라 자체 `accessibility-*` 속성을 쓰고, 모든 
 - `accessibility-actions`(`string[]`) → 커스텀 액션. `bindaccessibilityaction` 이벤트와 함께 쓴다.
 - `accessibility-exclusive-focus`(`boolean`) → focus 격리.
 - `ios-platform-accessibility-id`(`string`) → iOS 테스트 식별자.
+
+### native 접근성 트리 규칙
+
+- 접근성 요소 root에는 `accessibility-label`을 명시한다. iOS는 하위 `<text>`에서 label을 만들지 않는다. styled 컴포넌트는 `packages/lynx-react/src/utils/accessibility.tsx`의 `getAccessibleText(children)`로 파생하고, 이 함수가 `undefined`를 돌려주면(intrinsic JSX children) 명시 label을 요구한다.
+- 접근성 요소를 중첩하지 않는다. 그룹 root는 `accessibility-element: false`로 두고, Trigger처럼 의미를 소유하는 요소는 `AccessibilityElementScope`로 안쪽 SEED 컨트롤을 비요소로 만든다.
+- 접근성 요소 root에는 `flatten: false`를 둔다. Android는 flatten된 view를 트리에서 뺀다. Scale Feedback 컴포넌트는 안쪽 `scaleContent`와 별도로 바깥 root에도 둔다.
+- 항목을 절대 위치로 두고 부모를 `transform`으로 옮기는 구조(예: LoopScroll Track의 mover)는 부모에 0이 아닌 높이를 준다. iOS는 `transform`이 있고 높이가 0인 view의 하위를 트리에서 뺀다.
 
 ## Docs and registry
 

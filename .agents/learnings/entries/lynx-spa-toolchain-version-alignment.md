@@ -2,16 +2,17 @@
 id: lynx-spa-toolchain-version-alignment
 description: "`examples/lynx-spa` build·dev가 `ESModulesLinkingError: export 'captureMainThreadObject' ... was not found in '@lynx-js/react/internal'`이나 `worklet-runtime`·`worklet-dev-runtime` 오류로 멈출 때, 또는 Renovate 등으로 다른 workspace의 `@lynx-js/react`·`react-rsbuild-plugin`·`rspeedy`를 올린 뒤 읽는다. lynx-spa의 고정 버전이 hoisted Lynx 툴체인과 어긋나는 조건과 어떤 패키지를 함께 맞출지를 다룬다. plugin lib 누락으로 인한 ERR_MODULE_NOT_FOUND는 lynx-spa-build-prerequisites를 본다."
 scope: ["examples/lynx-spa/**", "docs/package.json", "packages/lynx-react/**", "packages/lynx-react-headless/**"]
-status: active
+status: promoted
 related: ["lynx-spa-build-prerequisites", "lynx-spa-dev-prerequisites"]
 verified_at: "2026-11-10"
+promoted_to: ["examples/lynx-spa/AGENTS.md"]
 ---
 
 # lynx-spa의 Lynx 툴체인은 docs와 같은 버전 조합으로 맞춘다
 
 ## 교훈과 다음 행동
 
-- lynx-spa는 `@lynx-js/react`·`@lynx-js/react-rsbuild-plugin`·`@lynx-js/rspeedy`·`@lynx-js/config-rsbuild-plugin`을 정확한 버전으로 고정한다. 다른 workspace(docs, `packages/lynx-*`의 devDependencies)만 올라가면 lynx-spa 런타임과 컴파일 결과가 서로 다른 ReactLynx 버전을 기준으로 만들어진다.
+- lynx-spa는 `@lynx-js/react`·`@lynx-js/react-rsbuild-plugin`·`@lynx-js/rspeedy`·`@lynx-js/config-rsbuild-plugin`을 정확한 버전으로 고정하므로, 다른 workspace(docs, `packages/lynx-*`의 devDependencies)에서 올리면 함께 맞춰야 한다.
 - 위 증상이 나면 `examples/lynx-spa/package.json`의 네 패키지를 `docs/package.json`과 같은 버전으로 `bun add`(툴체인은 `bun add -d`)한다. react만 올리면 plugin 쪽에서 `worklet-dev-runtime` 오류가 나므로 네 패키지를 함께 맞춘다.
 - 맞춘 뒤 `bun.lock`에 `lynx-spa/@lynx-js/...` 중첩 항목이 남지 않았는지 확인한다. 남아 있으면 아직 별도 버전으로 해석되고 있다는 뜻이다.
 - `bun add`가 package.json의 무관한 항목 순서를 정렬할 수 있다. diff를 확인해 순서 변경은 되돌리고, `bun install`이 `no changes`인지 확인한다.
@@ -25,3 +26,4 @@ verified_at: "2026-11-10"
 ## 변경 이력
 
 - 2026-11-10: #2574 이후 lynx-spa build 실패를 고치며 기록했다.
+- 2026-11-18: 버전 정렬 절차를 `examples/lynx-spa/AGENTS.md`「Lynx 툴체인 버전」으로 승격하고, 컴파일·런타임 버전이 갈리는 일반 원리 문장을 덜었다. 실행 재검증은 하지 않았다.

@@ -3,7 +3,6 @@ id: lynx-loading-tap-device-check
 description: Lynx 버튼의 loading·disabled 중 tap 차단을 PlayLynx 기기에서 agent-lynx로 검증하거나, tap이 `Ref @eN is covered`·`is not visible`로 거부될 때 읽는다. absolute loading overlay가 덮은 버튼에서 실제로 전달되는 tap 대상을 고르고, loading 종료 시각으로 차단 여부를 판정하는 방법을 다룬다. 단위 테스트의 tap 차단 검증에는 적용하지 않는다.
 scope: ["packages/lynx-react/**", "packages/lynx-react-headless/**", "docs/examples/lynx/**", "examples/lynx-spa/**"]
 status: active
-related: ["iphone-lan-asset-prefix"]
 ---
 
 # loading 중 tap 차단은 overlay의 자식 ref와 시간 창으로 기기에서 확인한다
@@ -16,7 +15,7 @@ related: ["iphone-lan-asset-prefix"]
 
 ## 발생 근거와 적용 조건
 
-- DES-2612에서 ActionButton loading 예제의 재탭을 검증하려고 loading 전 snapshot의 root ref를 탭했다. `agent-lynx` 0.14.2는 absolute loading indicator가 덮은 ref를 `Ref @eN is covered`로 거부했고, 다음 시도에서는 `{hidden}` 노드를 골라 `is not visible`로 실패했다.
+- DES-2612에서 ActionButton loading 예제의 재탭을 검증하려고 loading 전 snapshot의 root ref를 탭했다. 첫 시도는 `Ref @eN is covered`, 다음 시도는 `{hidden}` 노드를 골라 `is not visible`로 거부됐다.
 - 영향: 두 번째 tap이 전달되지 않아 차단 여부를 판정할 수 없는 실행이 두 번 생겼다. loading indicator view를 탭한 실행에서 재탭 차단을 확인했다.
 - 피할 패턴: loading 전 ref를 재사용하거나 snapshot 트리의 마지막 ref를 기계적으로 고르는 것.
 - 위험: 거부된 tap을 "차단됨"으로 오판한다.
@@ -24,3 +23,4 @@ related: ["iphone-lan-asset-prefix"]
 ## 변경 이력
 
 - 2026-09-28: DES-2612 작업의 `AGENT_LEARNINGS.md` 항목을 이관했다. 실행 속도 같은 개인 환경 정보는 제외했다.
+- 2026-11-18: agent-lynx가 tap을 거부하는 조건의 일반 설명을 저장소 밖 사내 Lynx 문서로 옮기고, loading 차단 판정 절차만 남겼다.

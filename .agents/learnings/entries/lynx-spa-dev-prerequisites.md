@@ -2,8 +2,9 @@
 id: lynx-spa-dev-prerequisites
 description: 새 worktree에서 `examples/lynx-spa`의 dev server·build를 처음 실행해 기기 검증을 준비하거나, `lynx.config.ts` 로드 중 `@seed-design/rsbuild-plugin-lynx-icon/lib/index.js` ERR_MODULE_NOT_FOUND, 또는 lynx-css recipe CSS의 postcss-loader에서 `@seed-design/tailwind3-plugin/lib/index.cjs` Cannot find module이 날 때 읽는다. `prepare-workspace.ts`가 빌드하지 않는 두 plugin의 선행 빌드와, 컴파일 오류가 기기에서 빈 화면으로만 보이는 조건을 다룬다. docs 테스트·빌드 준비는 docs-build-prerequisites를 본다.
 scope: ["examples/lynx-spa/**", "docs/examples/lynx/**"]
-status: active
-related: ["docs-build-prerequisites", "workspace-installation", "iphone-lan-asset-prefix", "lynx-spa-package-lib-staleness"]
+status: promoted
+related: ["docs-build-prerequisites", "workspace-installation", "lynx-spa-package-lib-staleness"]
+promoted_to: ["examples/lynx-spa/AGENTS.md"]
 ---
 
 # 새 worktree의 lynx-spa 실행은 두 plugin의 선행 빌드가 필요하다
@@ -28,3 +29,4 @@ related: ["docs-build-prerequisites", "workspace-installation", "iphone-lan-asse
 - 2026-09-30: DES-2653 기기 검증 중 확인한 두 선행 빌드와 증상을 기록했다.
 - 2026-10-06: `prepare-workspace.ts`가 빌드하는 범위를 원천(`ultra --filter @seed-design/lynx-react`)과 서버 로그에 맞춰 고쳤다. 실행 재검증은 lib 갱신 조건(`lynx-spa-package-lib-staleness`)에서만 했다.
 - 2026-10-22: Lynx 1.0 dev 병합 후 브랜치 전제·낡은 참조를 정리했다. 실행 재검증은 하지 않았다. `prepare-workspace.ts` 설명을 실제 명령으로 맞췄다.
+- 2026-11-18: `lynx-spa-build-prerequisites`와 합쳐 `examples/lynx-spa/AGENTS.md`「workspace 준비」로 승격했다. `prepare-workspace.ts` 범위 설명도 그곳 한 곳으로 모았다. 실행 재검증은 하지 않았다.

@@ -48,7 +48,7 @@ const attachmentInput = defineSlotRecipe({
       flexShrink: 0,
       padding: 0,
       margin: 0,
-      // Lynx views clip by default; let the last item's remove button extend past the group.
+      // Bundles built with defaultOverflowVisible off clip views; keep the last item's remove button visible past the group there too.
       overflow: "visible",
     },
   },

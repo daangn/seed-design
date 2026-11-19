@@ -11,9 +11,9 @@ verified_at: "2026-10-06"
 
 ## 교훈과 다음 행동
 
-- 패키지(`packages/lynx-react`, `packages/lynx-react-headless/*`)는 devDependency `@lynx-js/types` `^3.7`·`^3.9`를 각자 node_modules에서 해석하고, `examples/lynx-spa`는 devDependency `@lynx-js/types` `4.1.0`을 직접 선언한다. 두 `NodesRef`는 `invoke().selectAll().fields` 시그니처가 달라 어느 방향으로도 대입되지 않는다.
+- 패키지(`packages/lynx-react`, `packages/lynx-react-headless/*`)는 devDependency `@lynx-js/types` `^3.7`·`^3.9`를 각자 node_modules에서 해석하고, `examples/lynx-spa`는 devDependency `@lynx-js/types` `4.1.0`을 직접 선언한다. 그래서 예제와 패키지가 서로 다른 `NodesRef` 타입을 본다.
 - 그래서 예제에서 `useRef<NodesRef>(null)`을 등록 타입(`{ current: NodesRef | null }`)이나 `Ref<NodesRef>` prop에 넘기면 TS2322가 난다. 4.x 인자를 받는 callback ref도 패키지의 `forwardRef<NodesRef>` ref prop에는 대입되지 않는다.
-- 공개 타입을 넓히거나 패키지 devDependency를 바꾸지 않는다 → 배포 뒤에는 peer dependency 하나로 해석되어 생기지 않는 문제다. 예제에서는 패키지 타입에서 node 타입을 꺼내고(`NonNullable<Registration["nativeRef"]["current"]>`), intrinsic 요소에는 callback ref를 주어 `node as RegisteredNode | null`로 옮겨 담는다. 이 cast는 TS2352 없이 통과한다. 이유를 주석으로 남긴다.
+- 공개 타입을 넓히거나 패키지 devDependency를 바꾸지 않는다 → 예제에서는 패키지 타입에서 node 타입을 꺼내고(`NonNullable<Registration["nativeRef"]["current"]>`), intrinsic 요소에는 callback ref를 주어 `node as RegisteredNode | null`로 옮겨 담는다. 이 cast는 TS2352 없이 통과한다. 이유를 주석으로 남긴다.
 - forwardRef 컴포넌트의 `ref`가 예제에 꼭 필요하지 않으면 넘기지 않는다.
 
 ## 발생 근거와 적용 조건
@@ -26,3 +26,4 @@ verified_at: "2026-10-06"
 
 - 2026-10-06: DES-2638 lynx-spa Headless 소비 페이지 typecheck에서 기록했다.
 - 2026-10-22: Lynx 1.0 dev 병합 후 브랜치 전제·낡은 참조를 정리했다. 실행 재검증은 하지 않았다. lynx-spa가 `@lynx-js/types`를 직접 선언한다는 사실(`examples/lynx-spa/package.json`)에 맞춰 전제 문장을 고쳤다.
+- 2026-11-18: 서로 다른 `@lynx-js/types` 버전의 `NodesRef`가 대입되지 않는 일반 원리를 저장소 밖 사내 Lynx 문서로 옮기고, 이 저장소의 버전 배치와 consumer 경계 처리만 남겼다. 실행 재검증은 하지 않았다.
