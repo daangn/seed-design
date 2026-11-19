@@ -23,7 +23,7 @@ import YAML from "yaml";
 import { createRequire } from "node:module";
 import type { Argv, CommandModule } from "yargs";
 
-import { type Config, loadConfig } from "./config";
+import { type CommandOptions, loadConfig, resolveCommandOptions } from "./config";
 
 const require = createRequire(import.meta.url);
 
@@ -142,7 +142,7 @@ export function getComponentSpecEntries(ctx: RootageCtx) {
 async function writeComponentSpec(
   dir: string,
   prefix?: string,
-  filter?: NonNullable<Config["component-spec"]>["filter"],
+  filter?: CommandOptions<"component-spec">["filter"],
 ) {
   const { ctx } = await prepare();
 
@@ -458,8 +458,8 @@ const dirPositional = {
   default: "./",
 } as const;
 
-const prefixOption = {
-  describe: "Prefix for generated tokens",
+const configOption = {
+  describe: "Path to a config file (searched in the working directory when omitted)",
   type: "string",
 } as const;
 
@@ -467,9 +467,10 @@ export const commands = {
   "token-ts": defineCommand({
     args: "<dir>",
     describe: "Generate TypeScript tokens",
-    builder: (yargs) => yargs.positional("dir", dirPositional).option("prefix", prefixOption),
-    handler: async ({ dir, prefix }) => {
+    builder: (yargs) => yargs.positional("dir", dirPositional).option("config", configOption),
+    handler: async ({ dir, config }) => {
       console.log("Start");
+      const { prefix } = resolveCommandOptions(await loadConfig(config), "token-ts");
       await writeTokenTs(dir, prefix);
       console.log("Done");
     },
@@ -477,45 +478,36 @@ export const commands = {
   "component-spec": defineCommand({
     args: "<dir>",
     describe: "Generate component specs",
-    builder: (yargs) =>
-      yargs.positional("dir", dirPositional).option("prefix", prefixOption).option("config", {
-        describe: "Path to a config file (searched in the working directory when omitted)",
-        type: "string",
-      }),
-    handler: async ({ dir, prefix, config }) => {
+    builder: (yargs) => yargs.positional("dir", dirPositional).option("config", configOption),
+    handler: async ({ dir, config }) => {
       console.log("Start");
-      const { "component-spec": options } = await loadConfig(config);
-      await writeComponentSpec(dir, prefix, options?.filter);
+      const { prefix, filter } = resolveCommandOptions(await loadConfig(config), "component-spec");
+      await writeComponentSpec(dir, prefix, filter);
       console.log("Done");
     },
   }),
   "token-css": defineCommand({
     args: "<dir>",
     describe: "Generate CSS tokens",
-    builder: (yargs) =>
-      yargs
-        .positional("dir", dirPositional)
-        .option("generator", {
-          describe: "Path to custom generator module",
-          type: "string",
-        })
-        .option("prefix", prefixOption)
-        .option("ts", {
-          describe: "Also write tokens.ts, exporting the CSS as a string in `tokens._raw`",
-          type: "boolean",
-        }),
-    handler: async ({ dir, generator, prefix, ts }) => {
+    builder: (yargs) => yargs.positional("dir", dirPositional).option("config", configOption),
+    handler: async ({ dir, config }) => {
       console.log("Start");
+      const { generator, prefix, ts } = resolveCommandOptions(
+        await loadConfig(config),
+        "token-css",
+      );
       await writeTokenCss(dir, generator, prefix, ts);
       console.log("Done");
     },
   }),
+  // These read nothing from the config, but loading it still rejects a `--config` that does not load.
   "json-schema": defineCommand({
     args: "<dir>",
     describe: "Generate JSON schema",
-    builder: (yargs) => yargs.positional("dir", dirPositional),
-    handler: async ({ dir }) => {
+    builder: (yargs) => yargs.positional("dir", dirPositional).option("config", configOption),
+    handler: async ({ dir, config }) => {
       console.log("Start");
+      await loadConfig(config);
       await writeJsonSchema(dir);
       console.log("Done");
     },
@@ -523,9 +515,10 @@ export const commands = {
   "json-ts": defineCommand({
     args: "<dir>",
     describe: "Generate JSON artifacts with their typed declarations",
-    builder: (yargs) => yargs.positional("dir", dirPositional),
-    handler: async ({ dir }) => {
+    builder: (yargs) => yargs.positional("dir", dirPositional).option("config", configOption),
+    handler: async ({ dir, config }) => {
       console.log("Start");
+      await loadConfig(config);
       await writeJsonTs(dir);
       console.log("Done");
     },
@@ -544,9 +537,10 @@ export const commands = {
     args: "<dir>",
     describe: "Generate Tailwind 3 plugin",
     builder: (yargs) =>
-      yargs.positional("dir", { ...dirPositional, alias: "o" }).option("prefix", prefixOption),
-    handler: async ({ dir, prefix }) => {
+      yargs.positional("dir", { ...dirPositional, alias: "o" }).option("config", configOption),
+    handler: async ({ dir, config }) => {
       console.log("Start");
+      const { prefix } = resolveCommandOptions(await loadConfig(config), "tailwind3-plugin");
       await writeTailwind3Plugin(dir, prefix);
       console.log("Done");
     },
@@ -555,16 +549,21 @@ export const commands = {
     args: "<dir>",
     describe: "Generate Tailwind 4.0",
     builder: (yargs) =>
-      yargs.positional("dir", { ...dirPositional, alias: "o" }).option("prefix", prefixOption),
-    handler: async ({ dir, prefix }) => {
+      yargs.positional("dir", { ...dirPositional, alias: "o" }).option("config", configOption),
+    handler: async ({ dir, config }) => {
       console.log("Start");
+      const { prefix } = resolveCommandOptions(await loadConfig(config), "tailwind4");
       await writeTailwind4(dir, prefix);
       console.log("Done");
     },
   }),
   validate: defineCommand({
     describe: "Validate YAML files and auto-fix unused schema properties",
-    handler: validateArtifacts,
+    builder: (yargs) => yargs.option("config", configOption),
+    handler: async ({ config }) => {
+      await loadConfig(config);
+      await validateArtifacts();
+    },
   }),
 };
 

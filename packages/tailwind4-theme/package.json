@@ -16,7 +16,7 @@
     "NOTICE"
   ],
   "scripts": {
-    "rootage:generate": "rootage tailwind4 ./ --prefix seed"
+    "rootage:generate": "rootage tailwind4 ./"
   },
   "exports": {
     ".": "./index.css",

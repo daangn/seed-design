@@ -12,10 +12,10 @@ Rootage는 특정 디자인 시스템에 종속되지 않는 범용 디자인 �
 Rootage는 특정 디자인 시스템의 로직이나 의존성을 포함하지 않아야 합니다. 토큰 생성을 위한 인프라를 제공하되, 토큰이 어떻게 생성되어야 하는지는 규정하지 않습니다.
 
 ### 2. 생성기(Generator)를 통한 확장성
-디자인 시스템별 로직은 `--generator` CLI 옵션을 통해 동적으로 로드할 수 있는 커스텀 생성기로 구현해야 합니다.
+디자인 시스템별 로직은 설정 파일의 `generator`로 동적으로 로드할 수 있는 커스텀 생성기로 구현해야 합니다.
 
 ### 3. 설정 가능한 기본값
-모든 기본값(예: prefix)은 하드코딩된 값이 아닌 CLI 옵션을 통해 설정 가능해야 합니다.
+모든 기본값(예: prefix)은 하드코딩된 값이 아닌 설정 파일을 통해 설정 가능해야 합니다.
 
 ## 아키텍처
 
@@ -68,7 +68,7 @@ export function createStringifier(options: {
 **목적**: 커맨드라인 인터페이스 제공 및 확장 가능한 옵션 지원
 
 **해야 할 것:**
-- 커맨드라인 옵션을 통한 설정 수용
+- 설정 파일을 통한 설정 수용
 - 동적 생성기 로딩 지원
 - 합리적이고 재정의 가능한 기본값 사용
 
@@ -76,24 +76,53 @@ export function createStringifier(options: {
 - 디자인 시스템별 접두사 하드코딩
 - 디자인 시스템별 테마나 모드 포함
 
-**CLI 옵션:**
-- `--generator <path>`: 커스텀 생성기 모듈 로드
-- `--prefix <prefix>`: 토큰 접두사 설정 (기본값: "rootage")
-- `--ts`: `token-css`가 `token.css`와 함께 같은 CSS를 문자열로 export하는 `tokens.ts`를 씁니다. CSS 파일을 import할 수 없는 JS 모듈(예: qvism preset의 `Theme.tokens`)에서 씁니다.
+**사용법:**
+
+커맨드는 출력 디렉터리 `<dir>`만 위치 인자로 받고, 나머지 옵션은 설정 파일에서 읽습니다.
+
+```bash
+rootage <command> <dir> [--config <path>]
+```
+
+- 설정 파일은 작업 디렉터리에서 `rootage.config.{js,ts,mjs,cjs,mts,cts}` 또는 `.config/rootage.{js,ts,mjs,cjs,mts,cts}`를 찾습니다. `--config <path>`로 경로를 직접 지정할 수 있습니다. 모든 커맨드가 `--config`를 받습니다.
+- `filter`처럼 함수 값을 담아야 하므로 JSON·YAML·`package.json` 설정은 지원하지 않습니다.
+- `.ts` 설정은 Node의 type stripping으로 로드됩니다. 확장자 없는 상대 import는 해석되지 않으므로, 생성기는 빌드된 파일의 경로 문자열로 지정합니다. `package.json`에 `"type": "module"`이 없는 패키지에서는 `.mts`를 쓰면 Node의 모듈 형식 경고를 피할 수 있습니다.
+
+**설정 파일:**
+
+```typescript
+// rootage.config.ts
+import type { Config } from "@seed-design/rootage-cli";
+
+export default {
+  "token-css": { prefix: "my-system", generator: "./lib/my-generator.js", ts: true },
+  "token-ts": { prefix: "my-system" },
+  "component-spec": {
+    prefix: "my-system",
+    filter: ({ path }) => path === "components/typography.yaml",
+  },
+  tailwind4: { prefix: "my-tailwind" },
+} satisfies Config;
+```
+
+최상위 키는 커맨드 이름이고, 각 커맨드는 자기 키의 옵션만 읽습니다.
+
+- `prefix`: 토큰 접두사입니다. `token-ts`, `component-spec`, `token-css`, `tailwind3-plugin`, `tailwind4`가 받습니다.
+- `token-css.generator`: 커스텀 생성기 모듈입니다. `.`으로 시작하는 경로는 설정 파일이 있는 디렉터리(`.config/` 안이라면 그 상위 디렉터리)를 기준으로 해석하고, 그 밖의 값은 모듈 이름으로 그대로 `import()`합니다.
+- `token-css.ts`: `true`면 `token.css`와 함께, 같은 CSS를 문자열로 export하는 `tokens.ts`를 같은 디렉터리에 씁니다. CSS 파일을 import할 수 없는 JS 모듈(예: qvism preset의 `Theme.tokens`)에서 씁니다.
+- `component-spec.filter`: 아티팩트 루트 기준 경로(`path`)와 스펙(`spec`)을 받아 생성할 컴포넌트 스펙을 고릅니다.
+- `json-schema`, `json-ts`, `validate`는 설정에서 읽는 옵션이 없습니다.
 
 **사용 예시:**
 ```bash
-# 기본 동작
+# 작업 디렉터리의 설정 파일 사용
 bun rootage token-css ./src
 
-# 커스텀 생성기 사용
-bun rootage token-css ./src --generator ./lib/my-generator.js --prefix my-system
-
-# token.css와 tokens.ts를 함께 생성
-bun rootage token-css ./src --generator ./lib/my-generator.js --prefix my-system --ts
+# 다른 설정 파일 사용
+bun rootage token-css ./src --config ./configs/rootage.config.ts
 ```
 
-`--ts`가 쓰는 `tokens.ts`의 형태는 다음과 같습니다. CSS 안의 `` ` ``, `\`, `${`는 이스케이프됩니다.
+`token-css.ts`가 쓰는 `tokens.ts`의 형태는 다음과 같습니다. CSS 안의 `` ` ``, `\`, `${`, CR은 이스케이프됩니다.
 
 ```ts
 export const tokens = {
@@ -144,12 +173,25 @@ export default function generateCSS(ast, options) {
 
 ### 커스텀 생성기 사용하기
 
-```bash
-# 생성기 빌드 (TypeScript인 경우)
-bun build ./src/my-generator.ts --outfile=./lib/my-generator.js
+TypeScript로 작성했다면 먼저 빌드합니다.
 
-# rootage CLI와 함께 사용
-bun rootage token-css ./src --generator ./lib/my-generator.js --prefix my-system
+```bash
+bun build ./src/my-generator.ts --outfile=./lib/my-generator.js
+```
+
+설정 파일에 빌드된 생성기를 지정하고 CLI를 실행합니다.
+
+```typescript
+// rootage.config.ts
+import type { Config } from "@seed-design/rootage-cli";
+
+export default {
+  "token-css": { prefix: "my-system", generator: "./lib/my-generator.js" },
+} satisfies Config;
+```
+
+```bash
+bun rootage token-css ./src
 ```
 
 ## 마이그레이션 가이드
@@ -166,11 +208,11 @@ Rootage에서 디자인 시스템별 로직을 분리할 때:
 기본 동작과 커스텀 생성기 모두로 변경사항을 테스트하세요:
 
 ```bash
-# 기본 동작 테스트
+# 기본 동작 테스트 (generator가 없는 설정, 또는 설정 파일 없음)
 bun rootage token-css ./src
 
-# 커스텀 생성기로 테스트
-bun rootage token-css ./src --generator ./custom-generator.js --prefix custom
+# 커스텀 생성기로 테스트 (custom.config.ts에 token-css.prefix와 token-css.generator 지정)
+bun rootage token-css ./src --config ./custom.config.ts
 ```
 
 ## 향후 고려사항
