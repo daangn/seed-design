@@ -1,5 +1,6 @@
 import type { ComponentSpecDeclaration, TokenDeclaration, GradientLit } from "../parser/ast";
 import { convertToKebabCase } from "../utils/string";
+import { type Breakpoint, getNonBaseBreakpoints } from "./breakpoints";
 
 // 토큰 타입별 저장소 인터페이스
 interface TokenCollections {
@@ -233,7 +234,13 @@ function processTypographyTokens(
 export function getTailwind3PluginCode(
   foundationTokens: TokenDeclaration[],
   typographyTokens: ComponentSpecDeclaration[],
-  options?: { prefix?: string; sourcePrefix?: string },
+  options?: {
+    prefix?: string;
+    sourcePrefix?: string;
+    breakpoints?: Breakpoint[];
+    /** Whether `screens` applies when the consumer passes no `breakpoints` option. */
+    breakpointsByDefault?: boolean;
+  },
 ): string {
   // 토큰 처리
   const collections = processFoundationTokens(foundationTokens, options);
@@ -263,6 +270,22 @@ export function getTailwind3PluginCode(
   // JSON 직렬화
   const serializeJson = (obj: any) => JSON.stringify(obj, null, 2);
 
+  // Replaces Tailwind's default screens instead of extending them, so 2xl does not outlive the
+  // SEED breakpoints. The base mode needs no variant: unprefixed classes already cover it.
+  const screens = options?.breakpoints
+    ? `
+      ...(breakpoints && {
+        screens: ${serializeJson(
+          Object.fromEntries(
+            getNonBaseBreakpoints(options.breakpoints).map(({ id, minWidth }) => [
+              id,
+              `${minWidth}px`,
+            ]),
+          ),
+        )},
+      }),`
+    : "";
+
   // Tailwind Plugin 코드 생성
   return `// @ts-nocheck
 import plugin from "tailwindcss/plugin";
@@ -279,8 +302,8 @@ import plugin from "tailwindcss/plugin";
  * 
  * 모든 토큰은 CSS 변수를 사용하여 다크 모드와 자동 호환됩니다.
  */
-export default plugin(
-  ({ theme, addComponents, matchUtilities }) => {  
+export default plugin.withOptions(
+  () => ({ theme, addComponents, matchUtilities }) => {
     // typography 유틸리티
     const typography = theme("typography");
     if (typography) {
@@ -326,8 +349,8 @@ export default plugin(
       );
     });
   },
-  {
-    theme: {
+  ({ breakpoints = ${options?.breakpointsByDefault ?? false} }: { breakpoints?: boolean } = {}) => ({
+    theme: {${screens}
       extend: {
         colors: ${serializeJson(extendedColors)},
         backgroundImage: ${serializeJson(gradientBackgrounds)},
@@ -343,6 +366,6 @@ export default plugin(
         scale: ${serializeJson(collections.scale)},
       },
     },
-  },
+  }),
 );`;
 }

@@ -301,12 +301,19 @@ async function writeFile(filePath: string, content: string) {
   }
 }
 
+// SEED breakpoints replace Tailwind's defaults only for consumers who opt in until the next major.
+const TAILWIND_BREAKPOINTS_BY_DEFAULT = false;
+
 async function writeTailwind3Plugin(dir: string, prefix?: string): Promise<string> {
   const { ctx } = await prepare();
   const tokens = getTokenDeclarations(ctx);
 
   const typographyTokens = getComponentSpecDeclarations(ctx);
-  const code = tailwind3.getTailwind3PluginCode(tokens, typographyTokens, { prefix });
+  const code = tailwind3.getTailwind3PluginCode(tokens, typographyTokens, {
+    prefix,
+    breakpoints: breakpoints.getBreakpoints(getTokenCollectionDeclarations(ctx)),
+    breakpointsByDefault: TAILWIND_BREAKPOINTS_BY_DEFAULT,
+  });
 
   const pluginPath = path.join(process.cwd(), dir, "index.ts");
 
@@ -318,17 +325,26 @@ async function writeTailwind4(dir: string, prefix?: string): Promise<string> {
   const { ctx } = await prepare();
   const tokens = getTokenDeclarations(ctx);
   const typographyTokens = getComponentSpecDeclarations(ctx);
+  const values = breakpoints.getBreakpoints(getTokenCollectionDeclarations(ctx));
 
   // tailwind4 모듈의 함수 사용
   const themeCode = tailwind4.getTailwind4CompleteThemeCode(tokens, typographyTokens, {
     sourcePrefix: prefix,
     prefix: "", // 접두사 제거 (--dimension-x0_5 형태로 출력)
     banner: "",
+    breakpoints: TAILWIND_BREAKPOINTS_BY_DEFAULT ? values : undefined,
   });
+
+  // Opt-in entry while breakpoints are off by default; afterwards it stays as an empty file so
+  // existing imports keep resolving.
+  const breakpointsCode = TAILWIND_BREAKPOINTS_BY_DEFAULT
+    ? "/* Breakpoints are included in index.css. This file is kept empty for existing imports. */\n"
+    : tailwind4.getTailwind4BreakpointsCode(values);
 
   const writePath = path.join(process.cwd(), dir, "index.css");
 
   await writeFile(writePath, themeCode);
+  await writeFile(path.join(process.cwd(), dir, "breakpoints.css"), breakpointsCode);
   return writePath;
 }
 

@@ -116,6 +116,23 @@ SEED 디자인 시스템의 모든 디자인 토큰은 다음과 같은 유틸�
 
 그라데이션은 토큰 CSS의 `--seed-gradient-*`를 참조하므로 light/dark 모드에 맞는 색상 stop을 사용합니다. `fade-mask`는 두 모드에서 같은 16개 alpha stop을 사용합니다. 위 클래스는 모두 `background-image`이며, `fade-mask` 클래스가 요소에 마스크를 적용하는 것은 아닙니다.
 
+### 반응형 breakpoint
+
+`breakpoints` 옵션을 켜면 SEED breakpoint를 `sm:`, `md:`, `lg:`, `xl:` 변형으로 쓸 수 있습니다. 값은 `@seed-design/css/breakpoints`와 같은 원천에서 생성됩니다. 다음 major 버전부터는 옵션 없이 기본으로 적용됩니다.
+
+```js
+// tailwind.config.js
+plugins: [seedPlugin({ breakpoints: true })],
+```
+
+```jsx
+<div className="flex flex-col md:flex-row">md 이상에서 가로 배치</div>
+```
+
+- Tailwind 기본 `screens`를 대체하므로 `2xl:` 변형은 없습니다. 접두사 없는 클래스가 `base`에 해당합니다.
+- `tailwind.config.js`의 `screens`에 SEED 값을 복제해 두었다면 지우세요.
+- breakpoint를 추가하려면 `theme.extend.screens`를 쓰세요. `theme.screens`를 직접 지정하면 SEED breakpoint를 덮어씁니다.
+
 ## 지원하는 토큰
 
 이 플러그인은 다음과 같은 SEED 디자인 토큰을 지원합니다:
@@ -132,6 +149,7 @@ SEED 디자인 시스템의 모든 디자인 토큰은 다음과 같은 유틸�
 - 애니메이션 지속 시간 (duration-d*)
 - 타이밍 함수 (easing-*)
 - 타이포그래피 스타일 (t1-regular, t1-bold, t2-regular, ...etc)
+- 반응형 breakpoint (`sm:`, `md:`, `lg:`, `xl:`)
 
 웹에서 `fade-mask` 원본 CSS 변수를 사용하려면 `@seed-design/css` 2.7.0 이상이 필요합니다. 기존 peer 범위의 구버전 CSS에 변수가 없으면 파운데이션에서 생성한 light stop을 fallback으로 사용합니다. `fade-mask`의 light/dark stop은 동일합니다. 다른 gradient도 변수가 없을 때 light stop으로 표시되므로, 모드 전환에는 토큰 CSS를 반드시 불러오세요.
 

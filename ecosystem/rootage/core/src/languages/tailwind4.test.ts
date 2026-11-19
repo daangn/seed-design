@@ -1,6 +1,6 @@
 import { expect, test, describe } from "bun:test";
 import { factory } from "../parser";
-import { getTailwind4CompleteThemeCode } from "./tailwind4";
+import { getTailwind4BreakpointsCode, getTailwind4CompleteThemeCode } from "./tailwind4";
 
 describe("getTailwind4CompleteThemeCode", () => {
   describe("Gradient with TokenLit", () => {
@@ -177,6 +177,31 @@ describe("getTailwind4CompleteThemeCode", () => {
       const result = getTailwind4CompleteThemeCode(tokens, []);
 
       expect(result).toContain("--color-fg-brand");
+    });
+  });
+
+  describe("Breakpoints", () => {
+    test("should reset the default breakpoints and declare every breakpoint but the base in px", () => {
+      const result = getTailwind4CompleteThemeCode([], [], {
+        breakpoints: [
+          { id: "base", minWidth: 0 },
+          { id: "sm", minWidth: 480 },
+        ],
+      });
+
+      expect(result).toStartWith(
+        "@theme {\n  --breakpoint-*: initial;\n  --breakpoint-sm: 480px;\n",
+      );
+      expect(result).not.toContain("--breakpoint-base");
+    });
+
+    test("should emit the breakpoints as a standalone theme", () => {
+      expect(
+        getTailwind4BreakpointsCode([
+          { id: "base", minWidth: 0 },
+          { id: "sm", minWidth: 480 },
+        ]),
+      ).toBe("@theme {\n  --breakpoint-*: initial;\n  --breakpoint-sm: 480px;\n}\n");
     });
   });
 });

@@ -180,4 +180,27 @@ describe("getTailwind3PluginCode", () => {
       expect(result).toContain('"s95": "var(--seed-scale-s95)"');
     });
   });
+
+  describe("Breakpoints", () => {
+    test("should replace the default screens only when the breakpoints option is on", () => {
+      const result = getTailwind3PluginCode([], [], {
+        breakpoints: [
+          { id: "base", minWidth: 0 },
+          { id: "sm", minWidth: 480 },
+        ],
+      });
+
+      expect(result).toContain("({ breakpoints = false }: { breakpoints?: boolean } = {}) => ({");
+      expect(result).toContain('...(breakpoints && {\n        screens: {\n  "sm": "480px"\n},');
+    });
+
+    test("should turn the breakpoints option on by default when requested", () => {
+      const result = getTailwind3PluginCode([], [], {
+        breakpoints: [{ id: "base", minWidth: 0 }],
+        breakpointsByDefault: true,
+      });
+
+      expect(result).toContain("({ breakpoints = true }: { breakpoints?: boolean } = {}) => ({");
+    });
+  });
 });

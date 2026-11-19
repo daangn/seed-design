@@ -110,6 +110,25 @@ Lynx의 전체 설정과 제한사항은 [Lynx Tailwind 가이드](https://seed-
 
 그라데이션은 토큰 CSS의 `--seed-gradient-*`를 참조하므로 light/dark 모드에 맞는 색상 stop을 사용합니다. `fade-mask`는 두 모드에서 같은 16개 alpha stop을 사용합니다. 위 클래스는 모두 `background-image`이며, `fade-mask` 클래스가 요소에 마스크를 적용하는 것은 아닙니다.
 
+### 반응형 breakpoint
+
+`breakpoints.css`를 불러오면 SEED breakpoint를 `sm:`, `md:`, `lg:`, `xl:` 변형으로 쓸 수 있습니다. 값은 `@seed-design/css/breakpoints`와 같은 원천에서 생성됩니다. 다음 major 버전부터는 `@seed-design/tailwind4-theme`에 포함되어 기본으로 적용됩니다.
+
+```css
+@import "tailwindcss";
+@import "@seed-design/tailwind4-theme";
+@import "@seed-design/tailwind4-theme/breakpoints.css";
+```
+
+```jsx
+<div className="flex flex-col md:flex-row">md 이상에서 가로 배치</div>
+```
+
+- Tailwind 기본 `--breakpoint-*`를 초기화하고 SEED 값으로 대체합니다. 그래서 `2xl:` 변형은 없습니다. 접두사 없는 클래스가 `base`에 해당합니다.
+- `breakpoints.css`는 `tailwindcss` 뒤에 불러오세요. 앞에 두면 Tailwind 기본값이 다시 적용됩니다.
+- CSS의 `@theme`에 SEED 값을 복제해 두었다면 지우세요.
+- breakpoint를 추가하려면 `breakpoints.css` 뒤의 `@theme`에 `--breakpoint-*`를 선언하세요. Tailwind는 변형을 값 순서로 정렬하므로 SEED와 같이 `px` 단위를 쓰세요.
+
 ## 지원하는 토큰
 
 이 패키지는 모든 SEED 디자인 토큰을 Tailwind CSS 4.0의 테마 변수로 제공합니다:
@@ -126,6 +145,7 @@ Lynx의 전체 설정과 제한사항은 [Lynx Tailwind 가이드](https://seed-
 - 애니메이션 지속 시간 (duration-d*)
 - 타이밍 함수 (easing-*)
 - 타이포그래피 스타일 (t1-regular, t1-bold, t2-regular, ...etc)
+- 반응형 breakpoint (`sm:`, `md:`, `lg:`, `xl:`)
 
 ## 버전 호환성
 
