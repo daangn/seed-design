@@ -118,7 +118,7 @@ SEED 디자인 시스템의 모든 디자인 토큰은 다음과 같은 유틸�
 
 ### 반응형 breakpoint
 
-`breakpoints` 옵션을 켜면 SEED breakpoint를 `sm:`, `md:`, `lg:`, `xl:` 변형으로 쓸 수 있습니다. 값은 `@seed-design/css/breakpoints`와 같은 원천에서 생성됩니다. 다음 major 버전부터는 옵션 없이 기본으로 적용됩니다.
+`breakpoints` 옵션을 켜면 SEED breakpoint를 `sm:`, `md:`, `lg:`, `xl:` 변형으로 쓸 수 있습니다. 값은 `@seed-design/css/breakpoints`와 같은 원천에서 생성됩니다. 다음 major 버전부터는 옵션 없이 기본으로 적용할 예정입니다.
 
 ```js
 // tailwind.config.js

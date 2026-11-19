@@ -192,7 +192,7 @@ SEED의 모든 디자인 토큰을 Tailwind 유틸리티 클래스로 사용할 
 
 SEED breakpoint를 Tailwind의 `sm:`, `md:`, `lg:`, `xl:` 변형으로 쓸 수 있습니다. 이 값은 SEED 컴포넌트의 반응형 prop, `@seed-design/css/breakpoints`와 원천이 같습니다. 그래서 SEED를 업그레이드하면 Tailwind 변형의 전환점도 함께 바뀝니다. 값은 [반응형 디자인](/react/components/concepts/responsive-design#breakpoints) 문서를 참고하세요.
 
-지금은 선택해서 켜는 기능입니다. 다음 major 버전부터 기본으로 적용됩니다.
+지금은 선택해서 켜는 기능입니다. 다음 major 버전부터 기본으로 적용할 예정입니다.
 
 <Tabs items={['Tailwind CSS 4', 'Tailwind CSS 3']}>
 
@@ -218,7 +218,7 @@ plugins: [seedPlugin({ breakpoints: true })], // [!code highlight]
 
 </Tabs>
 
-- Tailwind 기본 breakpoint를 대체합니다. `2xl:` 변형은 제공하지 않습니다.
+- 켜면 Tailwind 기본 breakpoint를 대체합니다. `2xl:` 변형은 제공하지 않습니다.
 - `base`에는 변형이 없습니다. 접두사 없는 클래스가 `base`에 해당합니다.
 - Tailwind 설정에 SEED breakpoint 값을 직접 적어 두었다면 지우세요. 복제한 값은 SEED가 바뀔 때 따라 바뀌지 않습니다.
 - breakpoint를 추가하려면 Tailwind CSS 4에서는 `@theme`에 `--breakpoint-*`를, Tailwind CSS 3에서는 `theme.extend.screens`를 쓰세요. Tailwind CSS 4에서는 변형이 값 순서로 정렬되므로 SEED와 같이 `px` 단위를 쓰세요.

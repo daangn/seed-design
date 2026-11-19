@@ -112,7 +112,7 @@ Lynx의 전체 설정과 제한사항은 [Lynx Tailwind 가이드](https://seed-
 
 ### 반응형 breakpoint
 
-`breakpoints.css`를 불러오면 SEED breakpoint를 `sm:`, `md:`, `lg:`, `xl:` 변형으로 쓸 수 있습니다. 값은 `@seed-design/css/breakpoints`와 같은 원천에서 생성됩니다. 다음 major 버전부터는 `@seed-design/tailwind4-theme`에 포함되어 기본으로 적용됩니다.
+`breakpoints.css`를 불러오면 SEED breakpoint를 `sm:`, `md:`, `lg:`, `xl:` 변형으로 쓸 수 있습니다. 값은 `@seed-design/css/breakpoints`와 같은 원천에서 생성됩니다. 다음 major 버전부터는 `@seed-design/tailwind4-theme`에 포함해 기본으로 적용할 예정입니다.
 
 ```css
 @import "tailwindcss";
