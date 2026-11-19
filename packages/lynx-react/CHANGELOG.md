@@ -1,5 +1,53 @@
 # @seed-design/lynx-react
 
+## 1.4.0
+
+### Minor Changes
+
+- 2c04039: Lynx Help Bubble, Attachment Input·Attachment Display의 눌림 축소 피드백이 고정 배율 대신 요소의 렌더된 크기로 계산하는 Scale Feedback을 사용합니다. 다른 컴포넌트와 같은 깊이로 줄어듭니다.
+  
+  - Help Bubble 닫기 버튼과 Attachment Input·Attachment Display Trigger에 Scale Feedback을 적용합니다.
+  - Attachment Input·Attachment Display에서 끌고 있는 item은 Scale Feedback과 같은 깊이로 줄어듭니다.
+- e77272e: `SeedProvider`에 화면 전체(window) 기준 Safe Area를 넘기는 `windowSafeAreaInsets`를 추가합니다.
+  
+  - `container`를 지정해 native overlay에 그리는 Bottom Sheet·Menu Sheet·Dialog·Alert Dialog·Menu·Select·Help Bubble은 `windowSafeAreaInsets`로 여백과 위치 경계를 정합니다. LynxView가 탭이나 채팅 화면 상단에 임베드되어 `safeAreaInsets`가 `0`이어도 시트가 home indicator 영역과 겹치지 않습니다.
+  - `windowSafeAreaInsets`를 넘기지 않거나 `container`가 없는 레이어는 지금처럼 `safeAreaInsets`를 씁니다.
+  - `useSeedContext()`가 `windowSafeAreaInsets`를 반환합니다.
+- 7a9b12d: Lynx에서 휠로 오전·오후, 시, 분을 선택하는 Time Picker를 추가합니다. `npx @seed-design/cli@latest add ui:time-picker`로 설치하는 Registry snippet이 Wheel Picker를 조립합니다.
+  
+  - `@seed-design/lynx-react`는 시간 값과 컬럼 상태를 만드는 `useTimePicker`와 `TimePickerValue` 등 관련 타입을 공개합니다. 값은 오전·오후를 나누지 않는 24시간 형식 `{ hour, minute }`이고, `minuteStep`, `disabled`, controlled·uncontrolled 사용을 React와 같게 지원합니다.
+  - Lynx에는 `Intl`이 없어 `locale`은 언어 하위 태그 `ko`, `ja`, `en`만 구분합니다. 오전·오후 표기와 컬럼 순서가 언어에 따라 바뀌고, 그 밖의 locale은 `en`을 씁니다.
+  - 시 컬럼의 숫자를 오른쪽에 맞추는 `TimePicker.ItemLabel`과 `@seed-design/lynx-css`의 `time-picker` Recipe를 추가합니다.
+
+### Patch Changes
+
+- 6897d40: Bottom Sheet·Menu Sheet·Dialog가 LynxView의 `vh`·`vw` 대신 Positioner 레이어를 측정한 크기로 크기와 snap 위치를 계산합니다. 내용 높이로 삽입된 LynxView에서 `container="window"` 시트가 보이지 않던 문제와, `container` 레이어가 LynxView보다 클 때 시트·Dialog의 최대 높이가 LynxView 높이를 기준으로 계산되던 문제를 수정합니다.
+  
+  - 백분율 snap point는 `screenHeight`·`screenWidth`를 넘기지 않으면 레이어를 측정한 뒤 열리기 시작합니다. 넘긴 값은 계속 우선합니다.
+  - `useBottomSheetContext()`가 측정한 레이어 크기 `layerSize`를 제공합니다.
+  - `fit` 시트가 하단 padding만 잡힌 첫 layout 높이에서 멈추던 문제를 수정합니다. 진입 중이거나 열린 `fit` 시트는 내용 높이가 바뀌면 새 높이로 다시 snap합니다. 드래그 중에는 다시 snap하지 않습니다.
+- 26139c4: Lynx Text Field의 여백·prefix·suffix를 탭하면 입력이 focus되지 않고, 다른 입력이 focus된 상태에서는 키보드가 내려가던 문제를 수정합니다.
+  
+  - `TextFieldRoot`는 어디를 탭해도 입력을 focus하며, `disabled`·`readOnly`에서는 focus하지 않습니다. 탭이 다른 입력의 focus를 해제하지 않도록 `ignore-focus`를 기본으로 적용하고, 입력에는 `ignore-focus={false}`를 적용합니다. 두 값 모두 직접 지정할 수 있습니다.
+  - Headless `useTextField`가 Root native view에 펼칠 `rootProps`를 반환합니다.
+- Updated dependencies [2c04039]
+- Updated dependencies [1a3af35]
+- Updated dependencies [e77272e]
+- Updated dependencies [6897d40]
+- Updated dependencies [4096cc9]
+- Updated dependencies [4096cc9]
+- Updated dependencies [7a9b12d]
+- Updated dependencies [26139c4]
+  - @seed-design/lynx-css@1.4.0
+  - @seed-design/lynx-react-floating@1.1.0
+  - @seed-design/lynx-react-select@1.1.0
+  - @seed-design/lynx-react-menu@1.1.0
+  - @seed-design/lynx-react-popover@1.1.0
+  - @seed-design/lynx-react-use-safe-area@1.2.0
+  - @seed-design/lynx-react-bottom-sheet@1.1.0
+  - @seed-design/lynx-react-time-picker@1.0.0
+  - @seed-design/lynx-react-text-field@1.3.0
+
 ## 1.3.2
 
 ### Patch Changes
