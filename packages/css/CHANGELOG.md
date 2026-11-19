@@ -1,5 +1,12 @@
 # @seed-design/css
 
+## 3.3.1
+
+### Patch Changes
+
+- ed3b41b: Page Banner 및 Callout의 텍스트 영역 높이가 기기의 화면 배율에 따라 조금씩 달라지던 문제를 수정합니다.
+- f6ee2ab: 펼친 iPhone Duo 등에서 웹뷰가 글자를 자동으로 키우지 않도록 `html`에 `text-size-adjust: 100%`를 적용합니다.
+
 ## 3.3.0
 
 ### Minor Changes

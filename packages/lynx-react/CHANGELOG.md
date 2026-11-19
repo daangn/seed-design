@@ -1,5 +1,35 @@
 # @seed-design/lynx-react
 
+## 1.3.1
+
+### Patch Changes
+
+- 6c1fa1f: Lynx 컴포넌트에서 같은 props와 측정값으로 반복하던 main-thread 전송과 하위 파트 렌더링을 줄입니다.
+- 78fb4ca: Lynx `WheelPicker`를 튕기거나 놓았을 때 마지막 몇 px를 오래 기어가거나 느리게 놓으면 한 칸 이동에 수 초가 걸리던 문제를 수정합니다. 이제 놓은 속도에서 이어 감속해 항목에 바로 정착하고, 끝으로 빠르게 던지면 끝을 살짝 넘었다가 돌아옵니다.
+- Updated dependencies [6c1fa1f]
+- Updated dependencies [78fb4ca]
+  - @seed-design/lynx-react-accordion@1.0.2
+  - @seed-design/lynx-react-action-button@1.0.2
+  - @seed-design/lynx-react-attachment-display@1.0.2
+  - @seed-design/lynx-react-callout@1.0.2
+  - @seed-design/lynx-react-checkbox@1.0.2
+  - @seed-design/lynx-react-collapsible@1.0.2
+  - @seed-design/lynx-react-field-button@1.0.2
+  - @seed-design/lynx-react-file-upload@1.0.2
+  - @seed-design/lynx-react-menu@1.0.2
+  - @seed-design/lynx-react-page-banner@1.0.2
+  - @seed-design/lynx-react-popover@1.0.2
+  - @seed-design/lynx-react-quantity-picker@1.0.2
+  - @seed-design/lynx-react-radio-group@1.0.2
+  - @seed-design/lynx-react-scale-feedback@1.1.2
+  - @seed-design/lynx-react-segmented-control@1.0.2
+  - @seed-design/lynx-react-select@1.0.2
+  - @seed-design/lynx-react-switch@1.0.2
+  - @seed-design/lynx-react-tabs@1.1.2
+  - @seed-design/lynx-react-toggle@1.0.2
+  - @seed-design/lynx-react-use-press-tap@1.0.2
+  - @seed-design/lynx-react-loop-scroll@1.0.2
+
 ## 1.3.0
 
 ### Minor Changes
