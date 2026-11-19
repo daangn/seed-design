@@ -15,6 +15,7 @@ import {
 } from "@seed-design/lynx-react-popover";
 import clsx from "clsx";
 
+import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxTextRef, LynxViewProps, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
@@ -347,6 +348,7 @@ export const HelpBubbleCloseButton = React.forwardRef<unknown, HelpBubbleCloseBu
       "accessibility-label": accessibilityLabel,
       "accessibility-traits": accessibilityTraits,
     });
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback();
     const { open, positioned, side } = usePopoverContext();
     const closeButtonClassNames = helpBubble({ open, positioned, side, pressed });
 
@@ -355,13 +357,16 @@ export const HelpBubbleCloseButton = React.forwardRef<unknown, HelpBubbleCloseBu
         {...mergeProps(
           { flatten: false },
           closeButtonProps,
+          scaleFeedbackTriggerProps,
           nativeProps,
           ref ? { ref: ref as LynxViewRef } : {},
         )}
         className={clsx(closeButtonClassNames.closeButton, className)}
         style={style}
       >
-        {children}
+        <view {...scaleFeedbackTargetProps} className={closeButtonClassNames.closeButtonContent}>
+          {children}
+        </view>
       </view>
     );
   },

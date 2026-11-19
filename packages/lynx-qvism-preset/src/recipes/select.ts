@@ -184,6 +184,17 @@ export const selectTrigger = defineSlotRecipe({
   },
   compoundVariants: [
     {
+      disabled: false,
+      readOnly: false,
+      css: {
+        root: {
+          "&:active .seed-select-trigger__pressedOverlay": {
+            opacity: 1,
+          },
+        },
+      },
+    },
+    {
       pressed: true,
       disabled: false,
       readOnly: false,
@@ -353,15 +364,15 @@ export const selectItem = defineSlotRecipe({
     pressedOverlay: {
       position: "absolute",
       top: 0,
-      right: selectItemVars.base.pressed.root.marginX,
+      right: 0,
       bottom: 0,
-      left: selectItemVars.base.pressed.root.marginX,
+      left: 0,
       borderRadius: selectItemVars.base.enabled.root.cornerRadius,
-      backgroundColor: selectItemVars.base.pressed.root.color,
       opacity: 0,
-      transitionProperty: "opacity",
-      transitionDuration: selectItemVars.base.enabled.root.colorDuration,
-      transitionTimingFunction: selectItemVars.base.enabled.root.colorTimingFunction,
+      backgroundColor: selectItemVars.base.pressed.root.color,
+      transitionProperty: "opacity, left, right",
+      transitionDuration: `${selectItemVars.base.enabled.root.colorDuration}, ${selectItemVars.base.enabled.root.marginDuration}, ${selectItemVars.base.enabled.root.marginDuration}`,
+      transitionTimingFunction: `${selectItemVars.base.enabled.root.colorTimingFunction}, ${selectItemVars.base.enabled.root.marginTimingFunction}, ${selectItemVars.base.enabled.root.marginTimingFunction}`,
       pointerEvents: "none",
     },
     body: {
@@ -448,7 +459,15 @@ export const selectItem = defineSlotRecipe({
         description: { color: selectItemVars.base.disabled.description.color },
         indicator: { color: selectItemVars.base.disabled.indicator.color },
       },
-      false: {},
+      false: {
+        root: {
+          "&:active .seed-select-item__pressedOverlay": {
+            opacity: 1,
+            left: selectItemVars.base.pressed.root.marginX,
+            right: selectItemVars.base.pressed.root.marginX,
+          },
+        },
+      },
     },
     selected: {
       true: {},
@@ -463,7 +482,13 @@ export const selectItem = defineSlotRecipe({
     {
       pressed: true,
       disabled: false,
-      css: { pressedOverlay: { opacity: 1 } },
+      css: {
+        pressedOverlay: {
+          opacity: 1,
+          left: selectItemVars.base.pressed.root.marginX,
+          right: selectItemVars.base.pressed.root.marginX,
+        },
+      },
     },
   ],
   defaultVariants: {

@@ -153,6 +153,9 @@
     transition-duration: var(--seed-duration-d3);
     transition-timing-function: var(--seed-timing-function-easing)
 }
+.seed-select-trigger__root--disabled_false-readOnly_false:active .seed-select-trigger__pressedOverlay {
+    opacity: 1
+}
 .seed-select-trigger__pressedOverlay--pressed_true-disabled_false-readOnly_false {
     opacity: 1
 }

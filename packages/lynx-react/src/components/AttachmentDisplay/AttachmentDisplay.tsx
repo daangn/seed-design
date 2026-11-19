@@ -34,6 +34,7 @@ import {
 import type { LynxHostProps, LynxIconElementProps, LynxPressableProps } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { useSafeAreaStyle } from "../../hooks/useSafeAreaStyle";
 import { toArray } from "../../utils/children";
@@ -310,6 +311,13 @@ export const AttachmentDisplayTrigger = React.forwardRef<NodesRef, AttachmentDis
       "accessibility-element": accessibilityElement,
       "accessibility-traits": accessibilityTraits,
     });
+    const { bindtouchstart, bindtouchend, bindtouchcancel, ...triggerProps } = trigger.triggerProps;
+    const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+      disabled: trigger.disabled,
+      onTouchStart: bindtouchstart,
+      onTouchEnd: bindtouchend,
+      onTouchCancel: bindtouchcancel,
+    });
     const classes = attachmentInputTrigger({
       ...variantProps,
       pressed: trigger.pressed,
@@ -321,8 +329,10 @@ export const AttachmentDisplayTrigger = React.forwardRef<NodesRef, AttachmentDis
           {...mergeProps(
             { flatten: false },
             context.stateProps,
-            trigger.triggerProps,
+            triggerProps,
+            scaleFeedbackTriggerProps,
             nativeProps,
+            scaleFeedbackTargetProps,
             {
               "accessibility-label": accessibilityLabel,
               "accessibility-role-description": accessibilityRoleDescription,
@@ -392,7 +402,7 @@ export const AttachmentDisplayTriggerItemCount = React.forwardRef<
 AttachmentDisplayTriggerItemCount.displayName = "AttachmentDisplayTriggerItemCount";
 
 export interface AttachmentDisplayItemProps
-  extends Omit<AttachmentInputItemVariantProps, "type">,
+  extends Omit<AttachmentInputItemVariantProps, "type" | "removePressed">,
     LynxHostProps<"view"> {
   entry: AttachmentDisplayEntry;
 }
@@ -532,6 +542,23 @@ export const AttachmentDisplayItemActionButton = React.forwardRef<
   } = props;
   const classes = useItemClassNames();
   const context = useAttachmentDisplayContext();
+  const {
+    pressed: _pressed,
+    bindtouchstart,
+    bindtouchend,
+    bindtouchcancel,
+    ...pressHandlers
+  } = usePressTap({
+    disabled: context.disabled || context.readOnly,
+    onTap: bindtap,
+    mainThreadOnTap: mainThreadBindtap,
+  });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled: context.disabled || context.readOnly,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
+  });
   const actionChildren = toArray(children).map((child, index) =>
     typeof child === "string" || typeof child === "number" ? (
       <text key={index} className={classes.actionLabel}>
@@ -549,10 +576,13 @@ export const AttachmentDisplayItemActionButton = React.forwardRef<
       }}
     >
       <view
-        {...mergeProps(ref ? { ref } : {}, nativeProps, {
-          bindtap,
-          "main-thread:bindtap": mainThreadBindtap,
-        })}
+        {...mergeProps(
+          ref ? { ref } : {},
+          pressHandlers,
+          scaleFeedbackTriggerProps,
+          nativeProps,
+          scaleFeedbackTargetProps,
+        )}
         className={clsx(classes.actionButton, className)}
       >
         {actionChildren}
@@ -601,8 +631,19 @@ export const AttachmentDisplayItemRemoveButton = React.forwardRef<
   } = props;
   const context = useAttachmentDisplayContext();
   const classes = useItemClassNames();
+  const { pressed, bindtouchstart, bindtouchend, bindtouchcancel } = usePressTap({
+    disabled: context.readOnly,
+  });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled: context.readOnly,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
+  });
+
+  const feedbackClasses = attachmentInputItem({
+    readOnly: context.readOnly,
+    removePressed: pressed,
   });
 
   return (
@@ -624,7 +665,7 @@ export const AttachmentDisplayItemRemoveButton = React.forwardRef<
           removeProps,
           ref ? { ref } : {},
         )}
-        className={clsx(classes.removeButton, className)}
+        className={clsx(classes.removeButton, feedbackClasses.removeButton, className)}
       >
         {children}
       </HeadlessAttachmentDisplayItemRemoveButton>

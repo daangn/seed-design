@@ -66,20 +66,20 @@
 .seed-help-bubble__closeButton {
     display: flex;
     flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    padding-top: calc((38px - var(--seed-dimension-x3_5)) / 2);
-    padding-right: calc((38px - var(--seed-dimension-x3_5)) / 2);
-    padding-bottom: calc((38px - var(--seed-dimension-x3_5)) / 2);
-    padding-left: calc((38px - var(--seed-dimension-x3_5)) / 2);
     margin-left: calc(var(--seed-dimension-x1) - ((38px - var(--seed-dimension-x3_5)) / 2));
     margin-right: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2));
     margin-top: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2) + var(--seed-dimension-x0_5));
     margin-bottom: calc(-1 * ((38px - var(--seed-dimension-x3_5)) / 2) + var(--seed-dimension-x0_5));
     border-radius: var(--seed-radius-r3);
-    color: var(--seed-color-fg-on-neutral-solid);
-    transform: scale(1);
-    transition: transform var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale)
+    color: var(--seed-color-fg-on-neutral-solid)
+}
+.seed-help-bubble__closeButtonContent {
+    display: flex;
+    flex-grow: 1;
+    align-self: stretch;
+    align-items: center;
+    justify-content: center;
+    padding: calc((38px - var(--seed-dimension-x3_5)) / 2)
 }
 .seed-help-bubble__motion--positioned_true {
     width: calc(100% + 16px)
@@ -95,9 +95,6 @@
 }
 .seed-help-bubble__arrow--side_left {
     transform: rotate(270deg)
-}
-.seed-help-bubble__closeButton--pressed_true {
-    transform: scale(var(--seed-scale-s97))
 }
 .seed-help-bubble__motion--positioned_false {
     opacity: 0;

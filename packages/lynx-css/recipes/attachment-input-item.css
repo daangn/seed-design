@@ -128,7 +128,7 @@
     background-color: var(--seed-color-bg-layer-default);
     border-radius: var(--seed-radius-full);
     color: var(--seed-color-fg-neutral);
-    transition: background-color var(--seed-duration-color-transition), transform var(--seed-duration-pressed-scale) var(--seed-timing-function-pressed-scale)
+    transition: background-color var(--seed-duration-color-transition)
 }
 .seed-attachment-input-item__removeIcon {
     width: var(--seed-dimension-x2_5);
@@ -277,6 +277,12 @@
 }
 .seed-attachment-input-item__removeIcon--disabled_true {
     color: var(--seed-color-fg-disabled)
+}
+.seed-attachment-input-item__removeButton--readOnly_false:active {
+    background-color: var(--seed-color-bg-layer-default-pressed)
+}
+.seed-attachment-input-item__removeButton--readOnly_false-removePressed_true {
+    background-color: var(--seed-color-bg-layer-default-pressed)
 }
 .seed-attachment-input-item__root--type_image-readOnly_true {
     opacity: 0.5

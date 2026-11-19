@@ -1,7 +1,4 @@
 import { helpBubble as vars } from "../vars/component";
-import * as duration from "../vars/duration";
-import * as scale from "../vars/scale";
-import * as timingFunction from "../vars/timing-function";
 import { defineSlotRecipe } from "../utils/define";
 
 const helpBubble = defineSlotRecipe({
@@ -16,6 +13,7 @@ const helpBubble = defineSlotRecipe({
     "title",
     "description",
     "closeButton",
+    "closeButtonContent",
   ],
   base: {
     // The Platform implementation supplies the measured left/top/width and
@@ -90,20 +88,20 @@ const helpBubble = defineSlotRecipe({
     closeButton: {
       display: "flex",
       flexShrink: 0,
-      alignItems: "center",
-      justifyContent: "center",
-      paddingTop: `calc((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2)`,
-      paddingRight: `calc((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2)`,
-      paddingBottom: `calc((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2)`,
-      paddingLeft: `calc((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2)`,
       marginLeft: `calc(${vars.base.enabled.root.gap} - ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2))`,
       marginRight: `calc(-1 * ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2))`,
       marginTop: `calc(-1 * ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2) + ${vars.base.enabled.closeButton.marginTop})`,
       marginBottom: `calc(-1 * ((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2) + ${vars.base.enabled.closeButton.marginTop})`,
       borderRadius: vars.base.enabled.root.cornerRadius,
       color: vars.base.enabled.closeButton.color,
-      transform: "scale(1)",
-      transition: `transform ${duration.pressedScale} ${timingFunction.pressedScale}`,
+    },
+    closeButtonContent: {
+      display: "flex",
+      flexGrow: 1,
+      alignSelf: "stretch",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: `calc((${vars.base.enabled.closeButton.targetSize} - ${vars.base.enabled.closeButton.size}) / 2)`,
     },
   },
   variants: {
@@ -124,7 +122,7 @@ const helpBubble = defineSlotRecipe({
       left: { arrow: { transform: "rotate(270deg)" } },
     },
     pressed: {
-      true: { closeButton: { transform: `scale(${scale.s97})` } },
+      true: {},
       false: {},
     },
   },

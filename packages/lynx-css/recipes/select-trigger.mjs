@@ -43,6 +43,10 @@ const defaultVariant = {
 
 const compoundVariants = [
   {
+    "disabled": false,
+    "readOnly": false
+  },
+  {
     "pressed": true,
     "disabled": false,
     "readOnly": false

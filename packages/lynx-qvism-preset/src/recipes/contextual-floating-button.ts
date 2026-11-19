@@ -120,6 +120,18 @@ const contextualFloatingButton = defineSlotRecipe({
     },
   },
   compoundVariants: [
+    {
+      variant: "solid",
+      disabled: false,
+      loading: false,
+      css: { root: { "&:active": { background: vars.variantSolid.pressed.root.color } } },
+    },
+    {
+      variant: "layer",
+      disabled: false,
+      loading: false,
+      css: { root: { "&:active": { background: vars.variantLayer.pressed.root.color } } },
+    },
     // Source order establishes the ActionButton state priority: loading > disabled > pressed.
     {
       variant: "solid",
