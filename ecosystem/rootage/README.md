@@ -79,6 +79,7 @@ export function createStringifier(options: {
 **CLI 옵션:**
 - `--generator <path>`: 커스텀 생성기 모듈 로드
 - `--prefix <prefix>`: 토큰 접두사 설정 (기본값: "rootage")
+- `--ts`: `token-css`가 `token.css`와 함께 같은 CSS를 문자열로 export하는 `tokens.ts`를 씁니다. CSS 파일을 import할 수 없는 JS 모듈(예: qvism preset의 `Theme.tokens`)에서 씁니다.
 
 **사용 예시:**
 ```bash
@@ -87,6 +88,17 @@ bun rootage token-css ./src
 
 # 커스텀 생성기 사용
 bun rootage token-css ./src --generator ./lib/my-generator.js --prefix my-system
+
+# token.css와 tokens.ts를 함께 생성
+bun rootage token-css ./src --generator ./lib/my-generator.js --prefix my-system --ts
+```
+
+`--ts`가 쓰는 `tokens.ts`의 형태는 다음과 같습니다. CSS 안의 `` ` ``, `\`, `${`는 이스케이프됩니다.
+
+```ts
+export const tokens = {
+  _raw: `:root { --my-system-color-bg: #ffffff; }`
+};
 ```
 
 ## 커스텀 생성기 작성하기

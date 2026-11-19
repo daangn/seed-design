@@ -1,7 +1,7 @@
 import { describe, expect, it, test } from "bun:test";
 import YAML from "yaml";
 import { Authoring, factory } from "../parser";
-import { createStringifier, getExchangeDts, getExchangeMjs } from "./typescript";
+import { createStringifier, getExchangeDts, getExchangeMjs, getTokenCssModule } from "./typescript";
 
 /** Creates a gradient value matching the per-mode values returned by resolveTokenValues. */
 function fakeGradient(...stops: [string, number][]) {
@@ -873,5 +873,28 @@ describe("getExchangeMjs", () => {
     expect(getExchangeMjs("menu-sheet-item.json")).toBe(
       'import artifact from "./menu-sheet-item.json" with { type: "json" };\nexport default artifact;\n',
     );
+  });
+});
+
+describe("getTokenCssModule", () => {
+  it("should export the CSS as tokens._raw", () => {
+    expect(getTokenCssModule(":root {\n  --a: 1px;\n}\n")).toBe(
+      "export const tokens = {\n  _raw: `:root {\n  --a: 1px;\n}\n`\n};",
+    );
+  });
+
+  it("should escape characters that would end or interpolate the template literal", () => {
+    const css = ':root { --a: "`${b}`"; --c: "\\\\"; }';
+    const code = getTokenCssModule(css);
+
+    expect(new Function(code.replace("export const tokens =", "return"))()).toEqual({ _raw: css });
+  });
+
+  // Template literals normalize CRLF and lone CR to LF, so CR must survive as an escape.
+  it("should keep carriage returns through the template literal", () => {
+    const css = ":root {\r\n  --a: 1px;\r}\r\n";
+    const code = getTokenCssModule(css);
+
+    expect(new Function(code.replace("export const tokens =", "return"))()).toEqual({ _raw: css });
   });
 });

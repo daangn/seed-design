@@ -37,7 +37,7 @@
       ]
     },
     "packages/qvism-preset": {
-      "entry": ["write-tokens.mjs", "src/index.{ts,tsx,js,jsx}"]
+      "entry": ["src/index.{ts,tsx,js,jsx}"]
     },
     "packages/react-headless/*": {
       "entry": ["index.{ts,tsx,js,jsx}", "src/index.{ts,tsx,js,jsx}"]
