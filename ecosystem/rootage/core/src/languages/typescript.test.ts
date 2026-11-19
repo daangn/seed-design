@@ -889,4 +889,12 @@ describe("getTokenCssModule", () => {
 
     expect(new Function(code.replace("export const tokens =", "return"))()).toEqual({ _raw: css });
   });
+
+  // Template literals normalize CRLF and lone CR to LF, so CR must survive as an escape.
+  it("should keep carriage returns through the template literal", () => {
+    const css = ":root {\r\n  --a: 1px;\r}\r\n";
+    const code = getTokenCssModule(css);
+
+    expect(new Function(code.replace("export const tokens =", "return"))()).toEqual({ _raw: css });
+  });
 });

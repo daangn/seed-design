@@ -442,4 +442,4 @@ export function getExchangeMjs(jsonFileName: string): string {
  * that take the stylesheet as a string rather than importing a `.css` file.
  */
 export const getTokenCssModule = (css: string) =>
-  `export const tokens = {\n  _raw: \`${css.replace(/[\\`]|\$\{/g, (match) => `\\${match}`)}\`\n};`;
+  `export const tokens = {\n  _raw: \`${css.replace(/[\\`\r]|\$\{/g, (match) => (match === "\r" ? "\\r" : `\\${match}`))}\`\n};`;
