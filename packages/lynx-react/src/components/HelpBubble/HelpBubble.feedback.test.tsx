@@ -1,10 +1,26 @@
 import { runOnBackground, useMainThreadRef } from "@lynx-js/react";
 import { fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { HelpBubbleCloseButton, HelpBubbleRoot } from "./HelpBubble";
 
 describe("HelpBubble close feedback", () => {
-  it("composes the scale target ref and touch handler while preserving dismissal", async () => {
+  beforeEach(() => {
+    const mainThread = lynxTestingEnv.mainThread.globalThis;
+    const systemInfo = mainThread["SystemInfo"];
+    mainThread["SystemInfo"] = { ...systemInfo, lynxSdkVersion: "3.6" };
+    return () => {
+      mainThread["SystemInfo"] = systemInfo;
+    };
+  });
+
+  it.each([
+    { transform: undefined, finish: "touchend" },
+    { transform: "translateX(8px)", finish: "touchend" },
+    { transform: "translateX(8px)", finish: "touchcancel" },
+  ] as const)("scales the content and preserves the button transform on $finish ($transform)", async ({
+    transform,
+    finish,
+  }) => {
     function Example({
       report,
       onOpenChange,
@@ -23,6 +39,7 @@ describe("HelpBubble close feedback", () => {
         <HelpBubbleRoot defaultOpen onOpenChange={onOpenChange}>
           <HelpBubbleCloseButton
             accessibility-label="닫기"
+            style={transform ? { transform } : undefined}
             main-thread:ref={userRef}
             main-thread:bindtouchstart={handleTouch}
             bindtap={onTap}
@@ -38,13 +55,26 @@ describe("HelpBubble close feedback", () => {
       { enableMainThread: true, enableBackgroundThread: true },
     );
     await waitSchedule();
-    const target = container.querySelector(".seed-help-bubble__closeButton")!;
-    fireEvent.touchstart(target, {});
+    const button = container.querySelector<HTMLElement>(".seed-help-bubble__closeButton")!;
+    const content = button.querySelector<HTMLElement>(".seed-help-bubble__closeButtonContent")!;
+
+    content.style.width = "40px";
+    content.style.height = "40px";
+    fireEvent.touchstart(button, {});
     await waitSchedule();
     expect(report.mock.calls).toEqual([[true]]);
-    fireEvent.touchcancel(target, {});
+    expect([...elementTree.animationMap.values()]).toMatchObject([
+      { element: content, keyframes: [expect.anything(), { transform: "scale(0.95)" }] },
+    ]);
+
+    fireEvent[finish](button, {});
     await waitSchedule();
-    fireEvent.tap(target, {});
+    expect([...elementTree.animationMap.values()]).toMatchObject([
+      { element: content, keyframes: [expect.anything(), { transform: "scale(1)" }] },
+    ]);
+    expect(button.style.transform).toBe(transform ?? "");
+
+    fireEvent.tap(content, {});
     await waitSchedule();
     expect(onTap).toHaveBeenCalledTimes(1);
     expect(onOpenChange).toHaveBeenCalledWith(false);

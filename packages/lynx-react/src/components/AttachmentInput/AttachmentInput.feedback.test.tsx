@@ -117,12 +117,16 @@ describe.each([false, true])("attachment feedback (display: %s)", (display) => {
     const remove = container.querySelector(".seed-attachment-input-item__removeButton")!;
     const action = container.querySelector(".seed-attachment-input-item__actionButton")!;
     fireEvent.touchstart(remove, {});
+    await waitSchedule();
+    expect(remove.className.includes("removePressed_true")).toBe(state === "disabled");
+
+    fireEvent.touchend(remove, {});
+    await waitSchedule();
+    expect(remove.className).not.toContain("removePressed_true");
+
     fireEvent.tap(remove);
     fireEvent.tap(action);
     await waitSchedule();
-    expect(
-      remove.classList.contains("seed-attachment-input-item__removeButton--removePressed_true"),
-    ).toBe(state === "disabled");
     expect(onAction).not.toHaveBeenCalled();
     expect(onRemove).toHaveBeenCalledTimes(state === "disabled" ? 1 : 0);
   });

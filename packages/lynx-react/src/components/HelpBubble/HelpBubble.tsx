@@ -359,13 +359,14 @@ export const HelpBubbleCloseButton = React.forwardRef<unknown, HelpBubbleCloseBu
           closeButtonProps,
           scaleFeedbackTriggerProps,
           nativeProps,
-          scaleFeedbackTargetProps,
           ref ? { ref: ref as LynxViewRef } : {},
         )}
         className={clsx(closeButtonClassNames.closeButton, className)}
         style={style}
       >
-        {children}
+        <view {...scaleFeedbackTargetProps} className={closeButtonClassNames.closeButtonContent}>
+          {children}
+        </view>
       </view>
     );
   },
