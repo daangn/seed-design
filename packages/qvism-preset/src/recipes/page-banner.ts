@@ -1,6 +1,7 @@
 import spec from "@seed-design/rootage-artifacts/components/page-banner";
 import { pageBannerCloseButton as closeButtonVars, pageBanner as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
+import { renderedFontLength } from "../utils/font-scale";
 import { active, engaged, focusVisible, pseudo } from "../utils/pseudo";
 import {
   createContentScaleStyles,
@@ -17,7 +18,7 @@ import { vars as tokens } from "../vars";
 
 const closeButtonNegativeMargin = `(${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5`;
 const prefixIconVerticalAdjustMargin = `(${vars.base.enabled.root.minHeight} - ${vars.base.enabled.prefixIcon.size}) * 0.5 - ${vars.base.enabled.root.paddingY}`;
-const buttonBleedAmount = `(${vars.base.enabled.button.targetHeight} - ${vars.base.enabled.button.lineHeight}) * 0.5`;
+const buttonBleedAmount = `(${vars.base.enabled.button.targetHeight} - ${renderedFontLength(vars.base.enabled.button.lineHeight)}) * 0.5`;
 
 const pageBanner = defineSlotRecipe({
   name: "page-banner",

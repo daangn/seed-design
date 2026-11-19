@@ -1,5 +1,6 @@
 import { tagGroup as vars, tagGroupItem as itemVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
+import { renderedFontLength } from "../utils/font-scale";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
 import { not, pseudo } from "../utils/pseudo";
 
@@ -19,13 +20,17 @@ function createItemIconAlignmentStyles({
   fontSize: string;
   lineHeight: string;
 }) {
+  // Under Android textZoom, em resolves against the unzoomed font-size like the token, but cap comes from the zoomed font metrics.
+  const glyphCenterFallback = renderedFontLength(`${GLYPH_CENTER_EM_RATIO_FALLBACK}em`);
+  const glyphCenter = `${GLYPH_CENTER_CAP_RATIO}cap`;
+
   return {
-    "--tag-group-item-inline-icon-offset": `calc(${
-      1 - GLYPH_CENTER_EM_RATIO_FALLBACK
-    }em - ${lineHeight} / 2)`,
-    "--tag-group-item-icon-flex-offset": `calc(${iconSize} / 2 - ${GLYPH_CENTER_EM_RATIO_FALLBACK}em)`,
-    "--tag-group-item-prefix-icon-flex-offset": `calc(${prefixIconSize} / 2 - ${GLYPH_CENTER_EM_RATIO_FALLBACK}em)`,
-    "--tag-group-item-suffix-icon-flex-offset": `calc(${suffixIconSize} / 2 - ${GLYPH_CENTER_EM_RATIO_FALLBACK}em)`,
+    "--tag-group-item-inline-icon-offset": `calc(${renderedFontLength(
+      `(${1 - GLYPH_CENTER_EM_RATIO_FALLBACK}em - ${lineHeight} / 2)`,
+    )})`,
+    "--tag-group-item-icon-flex-offset": `calc(${iconSize} / 2 - ${glyphCenterFallback})`,
+    "--tag-group-item-prefix-icon-flex-offset": `calc(${prefixIconSize} / 2 - ${glyphCenterFallback})`,
+    "--tag-group-item-suffix-icon-flex-offset": `calc(${suffixIconSize} / 2 - ${glyphCenterFallback})`,
     ...onlyIcon({
       size: iconSize,
       fontSize,
@@ -39,10 +44,12 @@ function createItemIconAlignmentStyles({
       fontSize,
     }),
     "@supports (top: 1cap)": {
-      "--tag-group-item-inline-icon-offset": `calc(1em - ${lineHeight} / 2 - ${GLYPH_CENTER_CAP_RATIO}cap)`,
-      "--tag-group-item-icon-flex-offset": `calc(${iconSize} / 2 - ${GLYPH_CENTER_CAP_RATIO}cap)`,
-      "--tag-group-item-prefix-icon-flex-offset": `calc(${prefixIconSize} / 2 - ${GLYPH_CENTER_CAP_RATIO}cap)`,
-      "--tag-group-item-suffix-icon-flex-offset": `calc(${suffixIconSize} / 2 - ${GLYPH_CENTER_CAP_RATIO}cap)`,
+      "--tag-group-item-inline-icon-offset": `calc(${renderedFontLength(
+        `(1em - ${lineHeight} / 2)`,
+      )} - ${glyphCenter})`,
+      "--tag-group-item-icon-flex-offset": `calc(${iconSize} / 2 - ${glyphCenter})`,
+      "--tag-group-item-prefix-icon-flex-offset": `calc(${prefixIconSize} / 2 - ${glyphCenter})`,
+      "--tag-group-item-suffix-icon-flex-offset": `calc(${suffixIconSize} / 2 - ${glyphCenter})`,
     },
   };
 }

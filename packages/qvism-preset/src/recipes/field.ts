@@ -2,6 +2,7 @@ import { field as vars, fieldLabel as labelVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { invalid, not, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
+import { fontScaledRem, renderedFontLength } from "../utils/font-scale";
 
 export const field = defineSlotRecipe({
   name: "field",
@@ -55,7 +56,7 @@ export const field = defineSlotRecipe({
         size: vars.base.enabled.descriptionIcon.size,
         color: vars.base.enabled.descriptionIcon.color,
         marginRight: vars.base.enabled.descriptionIcon.paddingRight,
-        marginTop: `calc((${vars.base.enabled.description.lineHeight} - ${vars.base.enabled.descriptionIcon.size}) / 2)`,
+        marginTop: `calc((${renderedFontLength(vars.base.enabled.description.lineHeight)} - ${vars.base.enabled.descriptionIcon.size}) / 2)`,
       }),
     },
     errorMessage: {
@@ -70,7 +71,7 @@ export const field = defineSlotRecipe({
         size: vars.base.enabled.errorIcon.size,
         color: vars.base.enabled.errorIcon.color,
         marginRight: vars.base.enabled.errorIcon.paddingRight,
-        marginTop: `calc((${vars.base.enabled.errorMessage.lineHeight} - ${vars.base.enabled.errorIcon.size}) / 2)`,
+        marginTop: `calc((${renderedFontLength(vars.base.enabled.errorMessage.lineHeight)} - ${vars.base.enabled.errorIcon.size}) / 2)`,
       }),
     },
     characterCountArea: {
@@ -123,9 +124,7 @@ export const fieldLabel = defineSlotRecipe({
       display: "inline",
       verticalAlign: "bottom",
 
-      // TODO: have some better way to derive `--seed-font-size-limit-min/max` and px values
-      // NOTE: when updating vars, update px values accordingly
-      paddingLeft: `clamp(calc(4px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorText.paddingLeft}, calc(4px * var(--seed-font-size-limit-max)))`,
+      paddingLeft: fontScaledRem(vars.base.enabled.indicatorText.paddingLeft),
 
       color: vars.base.enabled.indicatorText.color,
       fontSize: vars.base.enabled.indicatorText.fontSize,
@@ -136,12 +135,10 @@ export const fieldLabel = defineSlotRecipe({
       display: "inline",
       verticalAlign: "top",
 
-      // TODO: have some better way to derive `--seed-font-size-limit-min/max` and px values
-      // NOTE: when updating vars, update px values accordingly
-      width: `clamp(calc(6px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.size}, calc(6px * var(--seed-font-size-limit-max)))`,
-      height: `clamp(calc(6px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.size}, calc(6px * var(--seed-font-size-limit-max)))`,
-      marginTop: `clamp(calc(4px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.paddingTop}, calc(4px * var(--seed-font-size-limit-max)))`,
-      marginLeft: `clamp(calc(2px * var(--seed-font-size-limit-min)), ${vars.base.enabled.indicatorIcon.paddingLeft}, calc(2px * var(--seed-font-size-limit-max)))`,
+      width: fontScaledRem(vars.base.enabled.indicatorIcon.size),
+      height: fontScaledRem(vars.base.enabled.indicatorIcon.size),
+      marginTop: fontScaledRem(vars.base.enabled.indicatorIcon.paddingTop),
+      marginLeft: fontScaledRem(vars.base.enabled.indicatorIcon.paddingLeft),
 
       color: vars.base.enabled.indicatorIcon.color,
     },

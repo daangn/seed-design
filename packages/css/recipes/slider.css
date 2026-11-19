@@ -100,7 +100,7 @@
 }
 .seed-slider__markers {
     position: relative;
-    height: var(--seed-line-height-t3);
+    height: calc(var(--seed-line-height-t3) * var(--seed-static-font-scale, 1));
 }
 .seed-slider__valueIndicatorRoot {
     display: flex;
