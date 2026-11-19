@@ -144,7 +144,7 @@ export const tokens = {
 ### 예시: 커스텀 CSS 생성기
 
 ```typescript
-// my-design-system-generator.ts
+// src/my-generator.ts
 import { css, type AST } from "@seed-design/rootage-core";
 
 type TokenDeclaration = AST.TokenDeclaration;
