@@ -1,5 +1,27 @@
 # @seed-design/lynx-react-popover
 
+## 1.1.0
+
+### Minor Changes
+
+- 1a3af35: `SeedProvider`의 `safeAreaInsets`나 `SafeAreaProvider`가 있으면 Select·Menu·Popover가 숫자 inset으로 위치 경계를 계산합니다. 측정용 probe view를 그리지 않습니다.
+  
+  - `@seed-design/lynx-react-floating`에 `measureRootRect`와 `getSafeAreaBoundary`를 추가합니다.
+  - `SafeAreaProbe`, `measureFloatingBoundary`와 관련 타입, `useSelect`·`useMenu`·`usePopover`가 반환하는 `safeAreaRef`는 deprecated입니다. 다음 메이저 버전에서 제거합니다.
+  - Provider가 없는 앱은 지금처럼 동작합니다.
+- e77272e: `SeedProvider`에 화면 전체(window) 기준 Safe Area를 넘기는 `windowSafeAreaInsets`를 추가합니다.
+  
+  - `container`를 지정해 native overlay에 그리는 Bottom Sheet·Menu Sheet·Dialog·Alert Dialog·Menu·Select·Help Bubble은 `windowSafeAreaInsets`로 여백과 위치 경계를 정합니다. LynxView가 탭이나 채팅 화면 상단에 임베드되어 `safeAreaInsets`가 `0`이어도 시트가 home indicator 영역과 겹치지 않습니다.
+  - `windowSafeAreaInsets`를 넘기지 않거나 `container`가 없는 레이어는 지금처럼 `safeAreaInsets`를 씁니다.
+  - `useSeedContext()`가 `windowSafeAreaInsets`를 반환합니다.
+
+### Patch Changes
+
+- Updated dependencies [1a3af35]
+- Updated dependencies [e77272e]
+  - @seed-design/lynx-react-floating@1.1.0
+  - @seed-design/lynx-react-use-safe-area@1.2.0
+
 ## 1.0.2
 
 ### Patch Changes
