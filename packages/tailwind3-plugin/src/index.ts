@@ -60,7 +60,7 @@ export default plugin.withOptions(
       );
     });
   },
-  ({ breakpoints = false }: { breakpoints?: boolean } = {}) => ({
+  ({ breakpoints = true }: { breakpoints?: boolean } = {}) => ({
     theme: {
       ...(breakpoints && {
         screens: {

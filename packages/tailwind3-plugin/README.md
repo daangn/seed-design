@@ -118,20 +118,16 @@ SEED 디자인 시스템의 모든 디자인 토큰은 다음과 같은 유틸�
 
 ### 반응형 breakpoint
 
-`breakpoints` 옵션을 켜면 SEED breakpoint를 `sm:`, `md:`, `lg:`, `xl:` 변형으로 쓸 수 있습니다. 값은 `@seed-design/css/breakpoints`와 같은 원천에서 생성됩니다. 다음 major 버전부터는 옵션 없이 기본으로 적용할 예정입니다.
-
-```js
-// tailwind.config.js
-plugins: [seedPlugin({ breakpoints: true })],
-```
-
 ```jsx
 <div className="flex flex-col md:flex-row">md 이상에서 가로 배치</div>
 ```
 
+SEED breakpoint를 `sm:`, `md:`, `lg:`, `xl:` 변형으로 제공합니다. 값은 `@seed-design/css/breakpoints`와 같은 원천에서 생성됩니다.
+
 - Tailwind 기본 `screens`를 대체하므로 `2xl:` 변형은 없습니다. 접두사 없는 클래스가 `base`에 해당합니다.
 - `tailwind.config.js`의 `screens`에 SEED 값을 복제해 두었다면 지우세요.
 - breakpoint를 추가하려면 `theme.extend.screens`를 쓰세요. `theme.screens`를 직접 지정하면 SEED breakpoint를 덮어씁니다.
+- Tailwind 기본 breakpoint를 계속 쓰려면 `seedPlugin({ breakpoints: false })`로 끄세요.
 
 ## 지원하는 토큰
 

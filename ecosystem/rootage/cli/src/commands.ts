@@ -309,8 +309,8 @@ async function writeFile(filePath: string, content: string) {
   }
 }
 
-// SEED breakpoints replace Tailwind's defaults only for consumers who opt in until the next major.
-const TAILWIND_BREAKPOINTS_BY_DEFAULT = false;
+// SEED breakpoints replace Tailwind's defaults unless the consumer opts out.
+const TAILWIND_BREAKPOINTS_BY_DEFAULT = true;
 
 async function writeTailwind3Plugin(dir: string, prefix?: string): Promise<string> {
   const { ctx } = await prepare();
