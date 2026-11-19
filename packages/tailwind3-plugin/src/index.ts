@@ -13,8 +13,8 @@ import plugin from "tailwindcss/plugin";
  * 
  * 모든 토큰은 CSS 변수를 사용하여 다크 모드와 자동 호환됩니다.
  */
-export default plugin(
-  ({ theme, addComponents, matchUtilities }) => {  
+export default plugin.withOptions(
+  () => ({ theme, addComponents, matchUtilities }) => {
     // typography 유틸리티
     const typography = theme("typography");
     if (typography) {
@@ -60,8 +60,16 @@ export default plugin(
       );
     });
   },
-  {
+  ({ breakpoints = false }: { breakpoints?: boolean } = {}) => ({
     theme: {
+      ...(breakpoints && {
+        screens: {
+  "sm": "480px",
+  "md": "768px",
+  "lg": "1280px",
+  "xl": "1440px"
+},
+      }),
       extend: {
         colors: {
   "palette-gray-00": "var(--seed-color-palette-gray-00)",
@@ -920,5 +928,5 @@ export default plugin(
 },
       },
     },
-  },
+  }),
 );

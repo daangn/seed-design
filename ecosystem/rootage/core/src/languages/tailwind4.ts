@@ -8,6 +8,7 @@ import type {
   GradientLit,
   TokenDeclaration as ASTTokenDeclaration,
 } from "../parser/ast";
+import { type Breakpoint, getNonBaseBreakpoints } from "./breakpoints";
 import { convertToKebabCase } from "../utils/string";
 import { kebabCase } from "change-case";
 
@@ -17,6 +18,7 @@ interface ThemeGenerationOptions {
   prefix?: string;
   sourcePrefix?: string;
   banner?: string;
+  breakpoints?: Breakpoint[];
 }
 
 const gradientDirections = {
@@ -409,6 +411,26 @@ ${typographyStyles.join("\n")}
  * Tailwind CSS 4.0에서 디자인 토큰을 사용하기 위한 @theme 코드를 생성
  * Tailwind 4.0은 @theme 디렉티브를 통해 테마 변수를 정의하고 유틸리티 클래스를 생성
  */
+// Resets Tailwind's default breakpoints so 2xl does not outlive the SEED breakpoints, and keeps
+// every breakpoint in px: Tailwind sorts variants by value and mixed units sort unexpectedly.
+// The base mode needs no variant: unprefixed classes already cover it.
+function getBreakpointDeclarations(breakpoints: Breakpoint[]): string[] {
+  return [
+    "  --breakpoint-*: initial;",
+    ...getNonBaseBreakpoints(breakpoints).map(
+      ({ id, minWidth }) => `  --breakpoint-${id}: ${minWidth}px;`,
+    ),
+  ];
+}
+
+/** Breakpoints as a standalone theme, for importing after `tailwindcss` and the SEED theme. */
+export function getTailwind4BreakpointsCode(breakpoints: Breakpoint[]): string {
+  return `@theme {
+${getBreakpointDeclarations(breakpoints).join("\n")}
+}
+`;
+}
+
 export function getTailwind4CompleteThemeCode(
   tokens: ASTTokenDeclaration[],
   typographyTokens: ComponentSpecDeclaration[],
@@ -446,7 +468,12 @@ export function getTailwind4CompleteThemeCode(
     gradientDirectionDeclarations.push(`  --gradient-${key}: ${value};`);
   });
 
+  const breakpointDeclarations = options.breakpoints
+    ? getBreakpointDeclarations(options.breakpoints)
+    : [];
+
   const allThemeDeclarations = [
+    ...breakpointDeclarations,
     ...themeDeclarations,
     ...colorDeclarations,
     ...gradientDirectionDeclarations,
