@@ -16,7 +16,7 @@ import {
   tailwind4,
   validate,
 } from "@seed-design/rootage-core";
-import { runGenerator } from "@seed-design/rootage-core/generator";
+import { type GeneratorFunction, runGenerator } from "@seed-design/rootage-core/generator";
 import fs from "fs-extra";
 import path from "node:path";
 import YAML from "yaml";
@@ -195,7 +195,12 @@ async function writeComponentSpec(
   });
 }
 
-async function writeTokenCss(dir: string, generatorPath?: string, prefix?: string, ts?: boolean) {
+async function writeTokenCss(
+  dir: string,
+  generator?: GeneratorFunction,
+  prefix?: string,
+  ts?: boolean,
+) {
   const { ctx } = await prepare();
 
   const ast = {
@@ -216,9 +221,9 @@ async function writeTokenCss(dir: string, generatorPath?: string, prefix?: strin
 
   let code: string;
 
-  if (generatorPath) {
+  if (generator) {
     // Use custom generator
-    code = await runGenerator(generatorPath, ast, options);
+    code = await runGenerator(generator, ast, options);
   } else {
     // Use default CSS generator from core
     code = css.getTokenCss(ast, options);

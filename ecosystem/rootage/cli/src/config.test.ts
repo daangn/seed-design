@@ -2,7 +2,6 @@ import { afterAll, describe, expect, it } from "bun:test";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
 
 import { loadConfig, resolveCommandOptions } from "./config";
 
@@ -26,20 +25,18 @@ describe("loadConfig", () => {
     );
 
     expect(await loadConfig(undefined, path.join(root, "searched"))).toEqual({
-      config: { "token-ts": { prefix: "searched" } },
-      baseDir: path.join(root, "searched"),
+      "token-ts": { prefix: "searched" },
     });
   });
 
-  it("treats the directory above .config/ as the base directory", async () => {
+  it("finds .config/rootage.* in the search directory", async () => {
     writeFile(
       "dotconfig/.config/rootage.mjs",
       `export default { "token-ts": { prefix: "dotconfig" } };`,
     );
 
     expect(await loadConfig(undefined, path.join(root, "dotconfig"))).toEqual({
-      config: { "token-ts": { prefix: "dotconfig" } },
-      baseDir: path.join(root, "dotconfig"),
+      "token-ts": { prefix: "dotconfig" },
     });
   });
 
@@ -50,77 +47,58 @@ describe("loadConfig", () => {
     );
 
     expect(await loadConfig("configs/custom.mjs", path.join(root, "explicit"))).toEqual({
-      config: { "token-ts": { prefix: "explicit" } },
-      baseDir: path.join(root, "explicit/configs"),
+      "token-ts": { prefix: "explicit" },
     });
   });
 
   it("returns an empty config when nothing is found", async () => {
     fs.mkdirSync(path.join(root, "empty"), { recursive: true });
 
-    expect(await loadConfig(undefined, path.join(root, "empty"))).toEqual({
-      config: {},
-      baseDir: path.join(root, "empty"),
-    });
+    expect(await loadConfig(undefined, path.join(root, "empty"))).toEqual({});
   });
 
   it("rejects an explicit path that does not exist", async () => {
     await expect(loadConfig("missing.mjs", root)).rejects.toThrow();
   });
+
+  it("loads a TypeScript config that imports its generator without an extension", async () => {
+    writeFile(
+      "source/src/generator.ts",
+      `import { suffix } from "./utils/suffix";\nexport default (): string => \`generated\${suffix}\`;`,
+    );
+    writeFile("source/src/utils/suffix.ts", `export const suffix: string = "!";`);
+    writeFile(
+      "source/rootage.config.ts",
+      `import generator from "./src/generator";\nexport default { "token-css": { generator } };`,
+    );
+
+    const { generator } = resolveCommandOptions(
+      await loadConfig(undefined, path.join(root, "source")),
+      "token-css",
+    );
+
+    expect(await generator?.({ tokens: [], tokenCollections: [] }, {})).toBe("generated!");
+  });
 });
 
 describe("resolveCommandOptions", () => {
-  const baseDir = path.join(root, "pkg");
-
   it("reads only the command's own key", () => {
     const config = { tailwind4: { prefix: "tw" } };
 
-    expect(resolveCommandOptions({ config, baseDir }, "tailwind4")).toEqual({ prefix: "tw" });
-    expect(resolveCommandOptions({ config, baseDir }, "tailwind3-plugin")).toEqual({});
+    expect(resolveCommandOptions(config, "tailwind4")).toEqual({ prefix: "tw" });
+    expect(resolveCommandOptions(config, "tailwind3-plugin")).toEqual({});
   });
 
   it("keeps a command's own options", () => {
     const filter = () => true;
+    const generator = () => "";
 
     expect(
-      resolveCommandOptions(
-        { config: { "component-spec": { prefix: "seed", filter } }, baseDir },
-        "component-spec",
-      ),
+      resolveCommandOptions({ "component-spec": { prefix: "seed", filter } }, "component-spec"),
     ).toEqual({ prefix: "seed", filter });
-  });
-
-  it("resolves a relative generator against the base directory", () => {
-    const config = { "token-css": { generator: "./lib/gen.js" } };
-
-    expect(resolveCommandOptions({ config, baseDir }, "token-css").generator).toBe(
-      pathToFileURL(path.join(baseDir, "lib/gen.js")).href,
-    );
-  });
-
-  it("passes a bare generator specifier through", () => {
-    const config = { "token-css": { generator: "some-package/generator" } };
-
-    expect(resolveCommandOptions({ config, baseDir }, "token-css").generator).toBe(
-      "some-package/generator",
-    );
-  });
-});
-
-describe("generator resolution", () => {
-  it("loads the generator relative to the config file, not the working directory", async () => {
-    writeFile("project/lib/gen.mjs", `export default () => "generated";`);
-    writeFile(
-      "project/rootage.config.mjs",
-      `export default { "token-css": { generator: "./lib/gen.mjs" } };`,
-    );
-
-    const { generator } = resolveCommandOptions(
-      await loadConfig("project/rootage.config.mjs", root),
-      "token-css",
-    );
-    if (!generator) throw new Error("generator is not resolved");
-
-    expect((await import(generator)).default()).toBe("generated");
+    expect(resolveCommandOptions({ "token-css": { generator, ts: true } }, "token-css")).toEqual({
+      generator,
+      ts: true,
+    });
   });
 });

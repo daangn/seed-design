@@ -12,7 +12,7 @@ Rootage는 특정 디자인 시스템에 종속되지 않는 범용 디자인 �
 Rootage는 특정 디자인 시스템의 로직이나 의존성을 포함하지 않아야 합니다. 토큰 생성을 위한 인프라를 제공하되, 토큰이 어떻게 생성되어야 하는지는 규정하지 않습니다.
 
 ### 2. 생성기(Generator)를 통한 확장성
-디자인 시스템별 로직은 설정 파일의 `generator`로 동적으로 로드할 수 있는 커스텀 생성기로 구현해야 합니다.
+디자인 시스템별 로직은 설정 파일의 `generator`에 넘기는 커스텀 생성기 함수로 구현해야 합니다.
 
 ### 3. 설정 가능한 기본값
 모든 기본값(예: prefix)은 하드코딩된 값이 아닌 설정 파일을 통해 설정 가능해야 합니다.
@@ -85,8 +85,8 @@ rootage <command> <dir> [--config <path>]
 ```
 
 - 설정 파일은 작업 디렉터리에서 `rootage.config.{js,ts,mjs,cjs,mts,cts}` 또는 `.config/rootage.{js,ts,mjs,cjs,mts,cts}`를 찾습니다. `--config <path>`로 경로를 직접 지정할 수 있습니다. 모든 커맨드가 `--config`를 받습니다.
-- `filter`처럼 함수 값을 담아야 하므로 JSON·YAML·`package.json` 설정은 지원하지 않습니다.
-- `.ts` 설정은 Node의 type stripping으로 로드됩니다. 확장자 없는 상대 import는 해석되지 않으므로, 생성기는 빌드된 파일의 경로 문자열로 지정합니다. `package.json`에 `"type": "module"`이 없는 패키지에서는 `.mts`를 쓰면 Node의 모듈 형식 경고를 피할 수 있습니다.
+- `filter`, `generator`처럼 함수 값을 담아야 하므로 JSON·YAML·`package.json` 설정은 지원하지 않습니다.
+- CLI는 Bun에서 실행됩니다(`#!/usr/bin/env bun`). 그래서 `.ts` 설정과 설정이 import하는 TypeScript 생성기 소스를 빌드 없이 그대로 불러오고, 확장자 없는 상대 import(`./src/my-generator`)도 해석됩니다.
 
 **설정 파일:**
 
@@ -94,8 +94,10 @@ rootage <command> <dir> [--config <path>]
 // rootage.config.ts
 import type { Config } from "@seed-design/rootage-cli";
 
+import generateMyCss from "./src/my-generator";
+
 export default {
-  "token-css": { prefix: "my-system", generator: "./lib/my-generator.js", ts: true },
+  "token-css": { prefix: "my-system", generator: generateMyCss, ts: true },
   "token-ts": { prefix: "my-system" },
   "component-spec": {
     prefix: "my-system",
@@ -108,7 +110,7 @@ export default {
 최상위 키는 커맨드 이름이고, 각 커맨드는 자기 키의 옵션만 읽습니다.
 
 - `prefix`: 토큰 접두사입니다. `token-ts`, `component-spec`, `token-css`, `tailwind3-plugin`, `tailwind4`가 받습니다.
-- `token-css.generator`: 커스텀 생성기 모듈입니다. `.`으로 시작하는 경로는 설정 파일이 있는 디렉터리(`.config/` 안이라면 그 상위 디렉터리)를 기준으로 해석하고, 그 밖의 값은 모듈 이름으로 그대로 `import()`합니다.
+- `token-css.generator`: `token.css`를 만드는 생성기 함수입니다. 타입은 `@seed-design/rootage-core/generator`의 `GeneratorFunction`이고, CLI는 받은 함수를 그대로 호출합니다. 없으면 core의 기본 CSS 생성기를 씁니다.
 - `token-css.ts`: `true`면 `token.css`와 함께, 같은 CSS를 문자열로 export하는 `tokens.ts`를 같은 디렉터리에 씁니다. CSS 파일을 import할 수 없는 JS 모듈(예: qvism preset의 `Theme.tokens`)에서 씁니다.
 - `component-spec.filter`: 아티팩트 루트 기준 경로(`path`)와 스펙(`spec`)을 받아 생성할 컴포넌트 스펙을 고릅니다.
 - `json-schema`, `json-ts`, `validate`는 설정에서 읽는 옵션이 없습니다.
@@ -138,7 +140,6 @@ export const tokens = {
 - AST와 옵션을 받는 함수를 export해야 함
 - 생성된 출력을 문자열로 반환해야 함
 - 자체 설정과 기본값을 처리해야 함
-- TypeScript로 작성된 경우 JavaScript로 컴파일되어야 함
 
 ### 예시: 커스텀 CSS 생성기
 
@@ -173,20 +174,16 @@ export default function generateCSS(ast, options) {
 
 ### 커스텀 생성기 사용하기
 
-TypeScript로 작성했다면 먼저 빌드합니다.
-
-```bash
-bun build ./src/my-generator.ts --outfile=./lib/my-generator.js
-```
-
-설정 파일에 빌드된 생성기를 지정하고 CLI를 실행합니다.
+설정 파일에서 생성기 소스를 import해 함수로 지정하고 CLI를 실행합니다. 빌드 단계는 필요 없습니다.
 
 ```typescript
 // rootage.config.ts
 import type { Config } from "@seed-design/rootage-cli";
 
+import generateMyCss from "./src/my-generator";
+
 export default {
-  "token-css": { prefix: "my-system", generator: "./lib/my-generator.js" },
+  "token-css": { prefix: "my-system", generator: generateMyCss },
 } satisfies Config;
 ```
 

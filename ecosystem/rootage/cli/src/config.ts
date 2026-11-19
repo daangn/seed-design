@@ -1,6 +1,6 @@
+import type { GeneratorFunction } from "@seed-design/rootage-core/generator";
 import { cosmiconfig } from "cosmiconfig";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
 
 import type { Command, getComponentSpecEntries } from "./commands";
 
@@ -10,19 +10,13 @@ type ComponentSpecEntryShape = ReturnType<typeof getComponentSpecEntries>[number
 // through this package, where the alias would expand to rootage-core types it cannot reach.
 export interface ComponentSpecEntry extends ComponentSpecEntryShape {}
 
-interface GeneratorOptions {
-  /**
-   * Generator module to load. A path starting with `.` resolves against the config file's
-   * directory; anything else is passed to `import()` as is.
-   */
-  generator?: string;
-}
-
 interface CommandOptionsMap {
   "token-ts": { prefix?: string };
   "component-spec": { prefix?: string; filter?: (entry: ComponentSpecEntry) => boolean };
-  "token-css": GeneratorOptions & {
+  "token-css": {
     prefix?: string;
+    /** Writes `token.css` with this function instead of the default CSS generator. */
+    generator?: GeneratorFunction;
     /** Also writes `tokens.ts`, exporting the CSS as a string in `tokens._raw`. */
     ts?: boolean;
   };
@@ -40,15 +34,9 @@ export type Config = {
   [C in ConfigurableCommand]?: CommandOptions<C>;
 };
 
-export interface LoadedConfig {
-  config: Config;
-  /** Directory that relative paths in the config resolve against. */
-  baseDir: string;
-}
-
 const MODULE_NAME = "rootage";
 
-// Limited to modules: `filter` is a function, which JSON, YAML and `package.json` cannot hold.
+// Limited to modules: `filter` and `generator` are functions, which JSON, YAML and `package.json` cannot hold.
 const explorer = cosmiconfig(MODULE_NAME, {
   searchPlaces: [
     `.config/${MODULE_NAME}.js`,
@@ -66,32 +54,18 @@ const explorer = cosmiconfig(MODULE_NAME, {
   ],
 });
 
-export async function loadConfig(
-  configPath?: string,
-  searchFrom = process.cwd(),
-): Promise<LoadedConfig> {
+export async function loadConfig(configPath?: string, searchFrom = process.cwd()): Promise<Config> {
   const result = configPath
     ? await explorer.load(path.resolve(searchFrom, configPath))
     : await explorer.search(searchFrom);
-  if (!result || result.isEmpty) return { config: {}, baseDir: searchFrom };
+  if (!result || result.isEmpty) return {};
 
   console.log("Using config", result.filepath);
 
-  // A config under `.config/` describes the directory above it, as for `rootage.config.*`.
-  const configDir = path.dirname(result.filepath);
-  const baseDir = path.basename(configDir) === ".config" ? path.dirname(configDir) : configDir;
-
-  return { config: result.config, baseDir };
+  return result.config;
 }
 
-export function resolveCommandOptions<C extends ConfigurableCommand>(
-  { config, baseDir }: LoadedConfig,
+export const resolveCommandOptions = <C extends ConfigurableCommand>(
+  config: Config,
   command: C,
-): CommandOptions<C> {
-  const options: CommandOptions<C> = config[command] ?? {};
-
-  if (!("generator" in options) || typeof options.generator !== "string") return options;
-  if (!options.generator.startsWith(".")) return options;
-
-  return { ...options, generator: pathToFileURL(path.resolve(baseDir, options.generator)).href };
-}
+): CommandOptions<C> => config[command] ?? {};
