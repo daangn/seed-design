@@ -68,7 +68,7 @@ export function createFumadocsOptions(): CollectionOptions & {
     remarkCodeTabOptions: false,
     remarkNpmOptions: false,
     // `getText("processed")`. heading 뒤에 붙는 `[#id]`는 heading 텍스트의 일부로 읽혀 slug를 바꾼다.
-    // `output: "string"`: llms 룰(`app/_llms/rules`)은 MDX 태그가 남은 문자열을 후처리한다.
+    // `output: "string"`: llms 룰(`lib/llms/rules`)은 MDX 태그가 남은 문자열을 후처리한다.
     includeProcessedMarkdown: { headingIds: false, output: "string" },
     // 컬렉션 사이에서 같은 플러그인을 공유해 Figma URL 요청 상태를 재사용합니다.
     mdastPlugins: [
