@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "bun:test";
+import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 
 import type { ReactElement } from "react";
 
@@ -10,8 +10,26 @@ import { useImage, type UseImageProps } from "./useImage";
 const ROOT_TEST_ID = "image-root";
 const FALLBACK_TEXT = "AB";
 const IMAGE_ALT_TEXT = "Fake Image";
-const IMAGE_SRC = "fake-image.png";
+// happy-dom 21은 문서 URL(about:blank) 기준으로 src를 해석해 상대 경로면 즉시 error 이벤트를 보낸다.
+const IMAGE_SRC = "https://example.com/fake-image.png";
 const IMAGE_SRC_SET = "fake-image-1x.png 1x, fake-image-2x.png 2x";
+
+// happy-dom 21은 이미지를 불러오지 않아 `complete`가 항상 true이고 크기가 0이다.
+// 그대로 두면 useImage가 마운트 직후 error로 판정하므로, 아직 로딩 중인 이미지로 고정한다.
+const completeDescriptor = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, "complete");
+
+beforeEach(() => {
+  Object.defineProperty(HTMLImageElement.prototype, "complete", {
+    configurable: true,
+    get: () => false,
+  });
+});
+
+afterEach(() => {
+  if (completeDescriptor) {
+    Object.defineProperty(HTMLImageElement.prototype, "complete", completeDescriptor);
+  }
+});
 
 function setUp(jsx: ReactElement) {
   return {
