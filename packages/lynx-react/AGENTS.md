@@ -58,6 +58,22 @@ Menu·Select·HelpBubble처럼 화면 위에 뜨는 레이어의 host 규칙이�
 - main thread 애니메이션 → `useMainThreadRef`, `main-thread:ref`, `"main thread"` directive 같은 기존 패턴을 따른다. thread 사이에 공유하는 함수는 각 실행 환경의 directive 규칙을 확인한다.
 - 반복 애니메이션 → React state 대신 `setStyleProperty`·`setStyleProperties`로 스타일을 직접 갱신한다.
 
+### commit 테스트
+
+- 컴포넌트를 새로 만들거나 Provider·context·handler 전달을 바꾸면 `<Component>.commits.test.tsx`를 추가·갱신한다. 대상 옆에 두고 다른 테스트와 섞지 않는다 → dual-thread render가 single-thread render의 ref 식별자와 섞인다.
+- `render(ui, { enableMainThread: true, enableBackgroundThread: true })`를 `@seed-design/lynx-vitest-config/commits`의 `measureCommits`로 감싸 센다. helper는 hydration commit을 빼고 `{ total, nonEmpty, bytes }`를 돌려준다.
+- 빈 commit도 native 왕복 비용이다 → `nonEmpty`만 보지 말고 `total`을 고정한다.
+- 단언은 `toMatchObject({ total, nonEmpty })`로 쓴다 → `toEqual`은 `bytes`까지 고정한다.
+- 해당하는 시나리오만 둔다.
+  - mount: hydration 이후 mount로 잰다. `render()`는 hydration 전 commit을 hydration 하나로 합치므로, 빈 `<view />`를 `render`한 뒤 `measureCommits(() => view.rerender(<대상 />))`로 mount한다. 항목 N개를 mount하고 `layoutchange`·`load` 같은 native 이벤트를 기기처럼 요소마다 따로 발화해 정착까지 센다. N에 비례하지 않아야 하며 정확한 횟수를 고정한다.
+  - 값이 바뀌지 않는 입력: 정착한 뒤 같은 값의 native 이벤트(같은 폭 `layoutchange`, `load` 재발화)를 다시 보내면 `total`이 0이다.
+  - 같은 props로 rerender: `nonEmpty`가 0이고 `total`을 고정한다. 부모 rerender가 보내는 빈 commit 1회는 구조상 남는다.
+  - 대표 상호작용 1회(선택·토글·열기): 횟수를 고정한다.
+- `bytes`(`payload.data` 길이 합)는 절대값으로 고정하지 않는다. 항목 수를 바꿔 재는 상호작용에서 patch 크기가 항목 수에 비례하지 않는다는 상대 비교에만 쓴다 → `Tabs.commits.test.tsx`.
+- 지금 불변식을 만족하지 못하면 목표 불변식을 `it.fails`로 쓰고 원인 위치와 현재 측정값을 주석에 남긴다. 현재 값을 고정하는 단언은 따로 두지 않는다 → 최적화하면 `it.fails`가 깨져 알린다.
+- 버전마다 값이 다르면 `usesPreact10`으로 기댓값을 나눈다. 값은 `.github/workflows/lynx-test.yml` matrix의 모든 버전에서 측정한다.
+- 같은 이벤트 key에 Main Thread handler가 있으면 테스트 런타임이 Background handler를 부르지 않는다 → `Tabs.commits.test.tsx`처럼 `useScaleFeedback`의 `main-thread:bindlayoutchange`를 mock에서 뺀다.
+
 ### 웹과의 차이 문서화
 
 - Lynx가 지원하지 않는 prop → 타입에서 `Omit`하고 `@platform Lynx` JSDoc을 단다.
