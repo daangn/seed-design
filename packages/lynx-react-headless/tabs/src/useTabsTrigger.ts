@@ -1,7 +1,7 @@
 import * as React from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { usePressTap } from "@seed-design/lynx-react-use-press-tap";
-import { useTabsContext } from "./useTabsContext.js";
+import { useTabsTriggerState } from "./useTabsContext.js";
 import { getTabsLayoutWidth } from "./Tabs.utils.js";
 type NativeViewProps = IntrinsicElements["view"];
 type LayoutChangeHandler = NonNullable<NativeViewProps["bindlayoutchange"]>;
@@ -31,7 +31,7 @@ export function useTabsTrigger({
   "main-thread:bindtouchend": mainThreadBindtouchend,
   "main-thread:bindtouchcancel": mainThreadBindtouchcancel,
 }: UseTabsTriggerProps) {
-  const context = useTabsContext();
+  const context = useTabsTriggerState();
   const selected = context.value === triggerValue;
   const visuallySelected = context.visualValue === triggerValue;
 

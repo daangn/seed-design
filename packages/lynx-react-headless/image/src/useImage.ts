@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "@lynx-js/react";
+import { type RefObject, useCallback, useEffect, useMemo, useRef, useState } from "@lynx-js/react";
 import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
 
 export type ImageLoadingStatus = "loading" | "loaded" | "error";
@@ -19,6 +19,17 @@ export interface UseImageReturn {
   handleError: () => void;
 }
 
+export function useImageRequest(src: string | undefined): {
+  request: { src: string | undefined };
+  activeRequest: RefObject<{ src: string | undefined }>;
+} {
+  // A → B → A creates three distinct native requests.
+  const request = useMemo(() => ({ src }), [src]);
+  const activeRequest = useRef(request);
+  activeRequest.current = request;
+  return { request, activeRequest };
+}
+
 /**
  * @platform Lynx
  *
@@ -33,10 +44,7 @@ export interface UseImageReturn {
  */
 export function useImage(props: UseImageProps): UseImageReturn {
   const { src, onLoadingStatusChange } = props;
-  // Each source selection is a distinct request, including A → B → A.
-  const request = useMemo(() => ({ src }), [src]);
-  const activeRequest = useRef(request);
-  activeRequest.current = request;
+  const { request, activeRequest } = useImageRequest(src);
   const [state, setState] = useState<{ request: typeof request; status: ImageLoadingStatus }>({
     request,
     status: src ? "loading" : "error",

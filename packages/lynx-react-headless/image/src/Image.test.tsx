@@ -43,6 +43,18 @@ describe("Image", () => {
     expect(onStatus.mock.calls).toEqual([["loading"], ["loaded"]]);
     expect(elementTree.root?.querySelector(".fallback")).toBeNull();
   });
+  it("notifies each status change after the matching consumer event", () => {
+    const calls: string[] = [];
+    render(
+      <Example onStatus={(status) => calls.push(status)} onLoad={() => calls.push("bindload")} />,
+    );
+    load(image());
+    load(image());
+    load(image(), "error");
+    load(image(), "error");
+    expect(calls).toEqual(["loading", "bindload", "loaded", "bindload", "error"]);
+    expect(elementTree.root?.querySelector(".fallback")).not.toBeNull();
+  });
   it("recreates native requests on src changes and ignores old events", () => {
     const onStatus = vi.fn();
     const { rerender } = render(<Example onStatus={onStatus} />);
