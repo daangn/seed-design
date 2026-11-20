@@ -12,7 +12,7 @@ import { vars } from "@seed-design/css/vars";
 import type { InferActivityParams, RegisteredActivityName } from "@stackflow/config";
 import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
-import { List, ListButtonItem } from "seed-design/ui/list";
+import { NextList, NextListButtonItem } from "seed-design/ui/next-list";
 import {
   AppBar,
   AppBarBackButton,
@@ -52,6 +52,7 @@ import {
   CompassIcon,
   ImageIcon,
   LayersIcon,
+  ListChecksIcon,
   ListIcon,
   MessageSquareDashedIcon,
   MousePointerClickIcon,
@@ -154,7 +155,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
                 console.log(result?.action);
               }}
             >
-              <ListButtonItem title="Menu Sheet" detail="ActivityMenuSheet" />
+              <NextListButtonItem title="Menu Sheet" detail="ActivityMenuSheet" />
             </DialogPushTrigger>
           ),
         },
@@ -168,7 +169,10 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
                 console.log(result?.action);
               }}
             >
-              <ListButtonItem title="Swipeable Menu Sheet" detail="ActivitySwipeableMenuSheet" />
+              <NextListButtonItem
+                title="Swipeable Menu Sheet"
+                detail="ActivitySwipeableMenuSheet"
+              />
             </DialogPushTrigger>
           ),
         },
@@ -185,7 +189,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           component: (
             <AlertDialogRoot {...overlayProps}>
               <AlertDialogTrigger asChild>
-                <ListButtonItem title="Alert Dialog (step)" />
+                <NextListButtonItem title="Alert Dialog (step)" />
               </AlertDialogTrigger>
               <Portal>
                 <AlertDialogContent layerIndex={useActivityZIndexBase({ activityOffset: 1 })}>
@@ -235,7 +239,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
           component: (
             <MenuRoot size="medium" matchReferenceWidth>
               <MenuTrigger asChild>
-                <ListButtonItem title="List Button Item으로 여는 Menu" />
+                <NextListButtonItem title="List Button Item으로 여는 Menu" />
               </MenuTrigger>
               <MenuContent>
                 <MenuGroup>
@@ -291,6 +295,19 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
         { title: "List Switch Item", ...to("ActivityListSwitchItem", {}) },
         { title: "List Check Item", ...to("ActivityListCheckItem", {}) },
         { title: "List Radio Item", ...to("ActivityListRadioItem", {}) },
+      ],
+    },
+    {
+      title: "Next List",
+      icon: ListChecksIcon,
+      items: [
+        { title: "Next List Item", ...to("ActivityNextListItem", {}) },
+        { title: "Next List Image Frame", ...to("ActivityNextListImageFrame", {}) },
+        { title: "Next List Button Item", ...to("ActivityNextListButtonItem", {}) },
+        { title: "Next List Link Item", ...to("ActivityNextListLinkItem", {}) },
+        { title: "Next List Switch Item", ...to("ActivityNextListSwitchItem", {}) },
+        { title: "Next List Check Item", ...to("ActivityNextListCheckItem", {}) },
+        { title: "Next List Radio Item", ...to("ActivityNextListRadioItem", {}) },
       ],
     },
     {
@@ -623,12 +640,12 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
                   />
                 </HStack>
                 <VStack py="x1_5" borderRadius="r3_5" bg="bg.layerDefault">
-                  <List itemBorderRadius="r2">
+                  <NextList itemBorderRadius="r2">
                     {section.items.map((item) =>
                       item.component ? (
                         <React.Fragment key={item.title}>{item.component}</React.Fragment>
                       ) : (
-                        <ListButtonItem
+                        <NextListButtonItem
                           key={item.title}
                           onClick={item.onClick}
                           title={item.title}
@@ -636,7 +653,7 @@ const ActivityHome: StaticActivityComponentType<"ActivityHome"> = ({ params }) =
                         />
                       ),
                     )}
-                  </List>
+                  </NextList>
                 </VStack>
               </VStack>
             ))}

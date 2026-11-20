@@ -1,4 +1,4 @@
-import { VStack, List as SeedList } from "@seed-design/react";
+import { VStack, NextList as SeedNextList } from "@seed-design/react";
 import { useActivity, useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
@@ -7,7 +7,7 @@ import {
   BottomSheetFooter,
   BottomSheetRoot,
 } from "seed-design/ui/bottom-sheet";
-import { List, ListRadioItem } from "seed-design/ui/list";
+import { NextList, NextListRadioItem } from "seed-design/ui/next-list";
 import { Radiomark } from "seed-design/ui/radio-group";
 import { useActivityZIndexBase } from "@seed-design/stackflow";
 import { useState } from "react";
@@ -74,22 +74,22 @@ const ActivityCategorySheet: StaticActivityComponentType<"ActivityCategorySheet"
       <BottomSheetContent showHandle title="카테고리 선택" layerIndex={useActivityZIndexBase()}>
         <BottomSheetBody paddingX={0}>
           <VStack maxHeight="400px" overflowY="auto">
-            <List asChild>
-              <SeedList.RadioRoot
+            <NextList asChild>
+              <SeedNextList.RadioRoot
                 value={selected}
                 onValueChange={setSelected}
                 aria-label="카테고리 선택"
               >
                 {categories.map((category) => (
-                  <ListRadioItem
+                  <NextListRadioItem
                     key={category.value}
                     value={category.value}
                     title={category.label}
                     prefix={<Radiomark size="large" tone="neutral" />}
                   />
                 ))}
-              </SeedList.RadioRoot>
-            </List>
+              </SeedNextList.RadioRoot>
+            </NextList>
           </VStack>
         </BottomSheetBody>
         <BottomSheetFooter>

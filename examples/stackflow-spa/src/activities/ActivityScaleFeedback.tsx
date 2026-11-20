@@ -9,7 +9,7 @@ import {
   Icon,
   Callout as SeedCallout,
   SuffixIcon,
-  List as SeedList,
+  NextList as SeedNextList,
 } from "@seed-design/react";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
@@ -25,7 +25,7 @@ import {
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { ActionableCallout, DismissibleCallout } from "seed-design/ui/callout";
 import { Checkbox, Checkmark } from "seed-design/ui/checkbox";
-import { List, ListCheckItem, ListRadioItem } from "seed-design/ui/list";
+import { NextList, NextListCheckItem, NextListRadioItem } from "seed-design/ui/next-list";
 import { DismissiblePageBanner } from "seed-design/ui/page-banner";
 import {
   Radiomark,
@@ -160,34 +160,37 @@ const ActivityScaleFeedback: StaticActivityComponentType<"ActivityScaleFeedback"
             </Section>
 
             <Section
-              title="Checkbox / RadioGroup — ListItem 안"
-              description="행 배경만 바뀌고 마크는 줄지 않습니다. ListItem이 마크의 배율을 1로 고정합니다."
+              title="Checkbox / RadioGroup — NextList item 안"
+              description="행 내용이 함께 줄고 마크는 한 번 더 줄지 않습니다. NextList item이 마크의 배율을 1로 고정합니다."
             >
               <Stage concentric>
-                <List as="fieldset" itemBorderRadius="r1_5">
-                  <ListCheckItem
+                <NextList as="fieldset" itemBorderRadius="r1_5">
+                  <NextListCheckItem
                     title="prefix Checkmark"
                     prefix={<Checkmark size="large" />}
                     defaultChecked
                   />
-                  <ListCheckItem title="suffix Checkmark" suffix={<Checkmark size="large" />} />
-                </List>
+                  <NextListCheckItem title="suffix Checkmark" suffix={<Checkmark size="large" />} />
+                </NextList>
               </Stage>
               <Stage concentric>
-                <List asChild itemBorderRadius="r1_5">
-                  <SeedList.RadioRoot defaultValue="first" aria-label="ListItem 안의 RadioGroup">
-                    <ListRadioItem
+                <NextList asChild itemBorderRadius="r1_5">
+                  <SeedNextList.RadioRoot
+                    defaultValue="first"
+                    aria-label="NextList item 안의 RadioGroup"
+                  >
+                    <NextListRadioItem
                       title="Radiomark 1"
                       value="first"
                       prefix={<Radiomark size="large" />}
                     />
-                    <ListRadioItem
+                    <NextListRadioItem
                       title="Radiomark 2"
                       value="second"
                       prefix={<Radiomark size="large" />}
                     />
-                  </SeedList.RadioRoot>
-                </List>
+                  </SeedNextList.RadioRoot>
+                </NextList>
               </Stage>
             </Section>
 

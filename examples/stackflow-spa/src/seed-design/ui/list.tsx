@@ -9,13 +9,20 @@ import {
 import { listItem } from "@seed-design/css/recipes/list-item";
 import * as React from "react";
 
+/**
+ * @deprecated Deprecated in @seed-design/react@3.3.0; will be removed in 4.0.0. Use `NextListProps` instead.
+ */
 export interface ListProps extends SeedList.RootProps {}
 
 /**
+ * @deprecated Deprecated in @seed-design/react@3.3.0; will be removed in 4.0.0. Use `NextList` instead.
  * @see https://seed-design.io/react/components/list
  */
 export const List = SeedList.Root;
 
+/**
+ * @deprecated Deprecated in @seed-design/react@3.3.0; will be removed in 4.0.0. Use `NextListItemProps` instead.
+ */
 export interface ListItemProps
   extends Omit<SeedList.ItemProps, "title" | "prefix" | "asChild" | "children"> {
   title: React.ReactNode;
@@ -25,6 +32,7 @@ export interface ListItemProps
 }
 
 /**
+ * @deprecated Deprecated in @seed-design/react@3.3.0; will be removed in 4.0.0. Use `NextListItem` instead.
  * @see https://seed-design.io/react/components/list
  */
 export const ListItem = React.forwardRef<HTMLLIElement, ListItemProps>(
@@ -45,6 +53,9 @@ ListItem.displayName = "ListItem";
 
 type ListItemBaseProps = Omit<SeedList.ItemProps, keyof React.HTMLAttributes<HTMLLIElement>>;
 
+/**
+ * @deprecated Deprecated in @seed-design/react@3.3.0; will be removed in 4.0.0. Use `NextListButtonItemProps` instead.
+ */
 export interface ListButtonItemProps
   extends Omit<
     ListItemBaseProps & React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -60,6 +71,7 @@ export interface ListButtonItemProps
 }
 
 /**
+ * @deprecated Deprecated in @seed-design/react@3.3.0; will be removed in 4.0.0. Use `NextListButtonItem` instead.
  * @see https://seed-design.io/react/components/list
  */
 export const ListButtonItem = React.forwardRef<HTMLButtonElement, ListButtonItemProps>(
@@ -87,6 +99,9 @@ export const ListButtonItem = React.forwardRef<HTMLButtonElement, ListButtonItem
 );
 ListButtonItem.displayName = "ListButtonItem";
 
+/**
+ * @deprecated Deprecated in @seed-design/react@3.3.0; will be removed in 4.0.0. Use `NextListLinkItemProps` instead.
+ */
 export interface ListLinkItemProps
   extends Omit<
     ListItemBaseProps & React.AnchorHTMLAttributes<HTMLAnchorElement>,
@@ -102,6 +117,7 @@ export interface ListLinkItemProps
 }
 
 /**
+ * @deprecated Deprecated in @seed-design/react@3.3.0; will be removed in 4.0.0. Use `NextListLinkItem` instead.
  * @see https://seed-design.io/react/components/list
  */
 export const ListLinkItem = React.forwardRef<HTMLAnchorElement, ListLinkItemProps>(
@@ -124,6 +140,9 @@ export const ListLinkItem = React.forwardRef<HTMLAnchorElement, ListLinkItemProp
 );
 ListLinkItem.displayName = "ListLinkItem";
 
+/**
+ * @deprecated Deprecated in @seed-design/react@3.3.0; will be removed in 4.0.0. Use `NextListSwitchItemProps` instead.
+ */
 export interface ListSwitchItemProps
   extends Omit<SeedList.SwitchItemProps, "title" | "prefix" | "asChild" | "children"> {
   title: React.ReactNode;
@@ -137,6 +156,7 @@ export interface ListSwitchItemProps
 }
 
 /**
+ * @deprecated Deprecated in @seed-design/react@3.3.0; will be removed in 4.0.0. Use `NextListSwitchItem` instead.
  * @see https://seed-design.io/react/components/list
  */
 export const ListSwitchItem = React.forwardRef<HTMLInputElement, ListSwitchItemProps>(
@@ -154,6 +174,9 @@ export const ListSwitchItem = React.forwardRef<HTMLInputElement, ListSwitchItemP
 );
 ListSwitchItem.displayName = "ListSwitchItem";
 
+/**
+ * @deprecated Deprecated in @seed-design/react@3.3.0; will be removed in 4.0.0. Use `NextListCheckItemProps` instead.
+ */
 export interface ListCheckItemProps
   extends Omit<SeedList.CheckItemProps, "title" | "prefix" | "asChild" | "children"> {
   title: React.ReactNode;
@@ -167,6 +190,7 @@ export interface ListCheckItemProps
 }
 
 /**
+ * @deprecated Deprecated in @seed-design/react@3.3.0; will be removed in 4.0.0. Use `NextListCheckItem` instead.
  * @see https://seed-design.io/react/components/list
  */
 export const ListCheckItem = React.forwardRef<HTMLInputElement, ListCheckItemProps>(
@@ -184,6 +208,9 @@ export const ListCheckItem = React.forwardRef<HTMLInputElement, ListCheckItemPro
 );
 ListCheckItem.displayName = "ListCheckItem";
 
+/**
+ * @deprecated Deprecated in @seed-design/react@3.3.0; will be removed in 4.0.0. Use `NextListRadioItemProps` instead.
+ */
 export interface ListRadioItemProps
   extends Omit<SeedList.RadioItemProps, "title" | "prefix" | "asChild" | "children"> {
   title: React.ReactNode;
@@ -197,6 +224,7 @@ export interface ListRadioItemProps
 }
 
 /**
+ * @deprecated Deprecated in @seed-design/react@3.3.0; will be removed in 4.0.0. Use `NextListRadioItem` instead.
  * @see https://seed-design.io/react/components/list
  */
 export const ListRadioItem = React.forwardRef<HTMLInputElement, ListRadioItemProps>(
@@ -214,6 +242,9 @@ export const ListRadioItem = React.forwardRef<HTMLInputElement, ListRadioItemPro
 );
 ListRadioItem.displayName = "ListRadioItem";
 
+/**
+ * @deprecated Deprecated in @seed-design/react@3.3.0; will be removed in 4.0.0. Use `NextListDividerProps` instead.
+ */
 export interface ListDividerProps extends SeedDividerProps {
   /**
    * @default "li"
@@ -227,6 +258,7 @@ export interface ListDividerProps extends SeedDividerProps {
 }
 
 /**
+ * @deprecated Deprecated in @seed-design/react@3.3.0; will be removed in 4.0.0. Use `NextListDivider` instead.
  * @see https://seed-design.io/react/components/list
  */
 export const ListDivider = React.forwardRef<HTMLLIElement, ListDividerProps>(
