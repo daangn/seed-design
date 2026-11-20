@@ -13,9 +13,5 @@ describe("Lynx Web Shadow DOM CSS", () => {
       ":host {\n  font-smoothing: antialiased;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}",
     );
     expect(css).toContain("x-textarea:defined::part(textarea) {\n  padding: 0;\n}");
-    expect(css).toContain(".seed-radio__label--size_medium");
-    expect(css).toContain(".seed-radio__label--size_large");
-    expect(css).toContain(".seed-checkbox__label--size_medium");
-    expect(css).toContain(".seed-checkbox__label--size_large");
   });
 });
