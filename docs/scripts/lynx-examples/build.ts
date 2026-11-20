@@ -30,7 +30,7 @@ export async function buildLynxExamples({ mode, cold = false }: BuildLynxExample
   await rm(outputDirectory, { recursive: true, force: true });
 
   const processResult = Bun.spawnSync(
-    ["bunx", "--bun", "rspeedy", "build", "--config", "lynx.config.ts", "--mode", mode],
+    ["bunx", "--bun", "rsbuild", "build", "--config", "lynx.config.ts", "--mode", mode],
     {
       cwd: DOCS_DIRECTORY,
       stdout: "inherit",
@@ -52,7 +52,7 @@ export async function buildLynxExamples({ mode, cold = false }: BuildLynxExample
 if (import.meta.main && process.env.SEED_DOCS_LYNX_PREBUILT === "1") {
   // CI가 입력 hash가 같은 게시 결과를 캐시에서 복원했다(`.github/actions/docs-build-cache`).
   const count = await verifyPublishedManifest();
-  console.log(`캐시에서 복원한 Lynx 예제 ${count}개를 확인했습니다(Rspeedy 빌드 생략).`);
+  console.log(`캐시에서 복원한 Lynx 예제 ${count}개를 확인했습니다(Rsbuild 빌드 생략).`);
 } else if (import.meta.main) {
   await buildLynxExamples({
     mode: process.argv.includes("--development") ? "development" : "production",

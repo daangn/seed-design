@@ -24,7 +24,7 @@ async function prepareAndStart() {
     [
       "bunx",
       "--bun",
-      "rspeedy",
+      "rsbuild",
       "build",
       "--watch",
       "--config",

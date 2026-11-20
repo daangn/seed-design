@@ -11,7 +11,7 @@
     "verbatimModuleSyntax": true,
     "noEmit": true,
     "skipLibCheck": true,
-    "types": ["@lynx-js/rspeedy/client"],
+    "types": ["@rsbuild/core/types"],
     "paths": {
       "@/components/ui/*": ["../../registry/lynx/ui/*"]
     }
