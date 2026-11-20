@@ -279,27 +279,27 @@ export function useNavigationMenuRoot(
   const group = useNextDelayGroup(context);
   const useGroupDelay = group.hasProvider && openDelay === undefined && closeDelay === undefined;
 
-  useEffect(() => {
-    if (!mounted) return;
-    if (!floatingRefs.reference.current || !floatingRefs.floating.current) return;
-
-    return autoUpdate(
-      floatingRefs.reference.current,
-      floatingRefs.floating.current,
-      context.update,
-    );
-  }, [mounted, floatingRefs.reference, floatingRefs.floating, context]);
-
-  // Read the env()-resolved insets off the positioner, which carries the env()
-  // declarations via SAFE_AREA_STYLE. Key on the reactive `elements.floating`, not
-  // `refs.floating`: the ref object's identity never changes, so an effect depending
-  // on it runs only once at mount — before FloatingPortal has committed the positioner
-  // child — reads a null ref, bails, and never re-fires, leaving `safeArea` stuck at
-  // zeros. `elements.floating` updates when the positioner mounts (it stays mounted
-  // even while closed), so the insets are read before the first open and the flyout
-  // clears the safe area on its first frame. Re-read on resize for orientation changes.
+  // Key the effects below on the reactive `context.elements`, not `refs.*`: the ref objects'
+  // identity never changes, so an effect keyed on them would not re-run as each element attaches.
+  const referenceElement = context.elements.reference;
   const floatingElement = context.elements.floating;
 
+  // `context.update` rather than `context`: floating-ui rebuilds the context object on every
+  // position commit, so depending on it would tear autoUpdate's scroll listeners and observers
+  // down and rebuild them on every scroll frame. `update` keeps its identity across those commits.
+  const { update } = context;
+
+  useEffect(() => {
+    if (!mounted) return;
+    if (!referenceElement || !floatingElement) return;
+
+    return autoUpdate(referenceElement, floatingElement, update);
+  }, [mounted, referenceElement, floatingElement, update]);
+
+  // Read the env()-resolved insets off the positioner, which carries the env() declarations
+  // via SAFE_AREA_STYLE. The positioner stays mounted even while closed, so the insets are
+  // read before the first open and the flyout clears the safe area on its first frame. Re-read
+  // on resize for orientation changes.
   useEffect(() => {
     if (!floatingElement) return;
 
