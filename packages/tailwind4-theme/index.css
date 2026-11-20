@@ -1022,6 +1022,36 @@
   row-gap: --value(--dimension-*);
 }
 
+@utility inset-* {
+  inset: --value(--dimension-*);
+}
+
+@utility inset-x-* {
+  left: --value(--dimension-*);
+  right: --value(--dimension-*);
+}
+
+@utility inset-y-* {
+  top: --value(--dimension-*);
+  bottom: --value(--dimension-*);
+}
+
+@utility top-* {
+  top: --value(--dimension-*);
+}
+
+@utility right-* {
+  right: --value(--dimension-*);
+}
+
+@utility bottom-* {
+  bottom: --value(--dimension-*);
+}
+
+@utility left-* {
+  left: --value(--dimension-*);
+}
+
 @utility radius-* {
   border-radius: --value(--radius-*);
 }

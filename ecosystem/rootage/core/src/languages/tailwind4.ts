@@ -267,6 +267,13 @@ ${styleLines.join("\n")}
       "gap-*": { gap: "--dimension-*" },
       "gap-x-*": { columnGap: "--dimension-*" },
       "gap-y-*": { rowGap: "--dimension-*" },
+      "inset-*": { inset: "--dimension-*" },
+      "inset-x-*": { left: "--dimension-*", right: "--dimension-*" },
+      "inset-y-*": { top: "--dimension-*", bottom: "--dimension-*" },
+      "top-*": { top: "--dimension-*" },
+      "right-*": { right: "--dimension-*" },
+      "bottom-*": { bottom: "--dimension-*" },
+      "left-*": { left: "--dimension-*" },
     };
 
     Object.entries(dimensionUtilities).forEach(([name, props]) => {
