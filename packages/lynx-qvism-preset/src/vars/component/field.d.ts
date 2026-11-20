@@ -11,9 +11,9 @@ export declare const vars: {
       /** 필수 입력 필드임을 나타내는 아이콘입니다. indicatorText 및 Field Label과의 조화를 위해 폰트 스케일링에 반응합니다. */
       "indicatorIcon": {
         "color": "var(--seed-color-fg-critical)",
-        "size": "0.375rem",
-        "paddingTop": "0.25rem",
-        "paddingLeft": "0.125rem"
+        "size": "6sp",
+        "paddingTop": "4sp",
+        "paddingLeft": "2sp"
       },
       "indicatorText": {
         "color": "var(--seed-color-fg-neutral-subtle)",
@@ -21,7 +21,7 @@ export declare const vars: {
         /** Field Label과의 조화를 위해 Field Label의 lineHeight와 동일한 값을 갖습니다. */
         "lineHeight": "var(--seed-line-height-t5)",
         "fontWeight": "var(--seed-font-weight-regular)",
-        "paddingLeft": "0.25rem"
+        "paddingLeft": "4sp"
       },
       "footer": {
         "paddingX": "var(--seed-dimension-x0_5)",

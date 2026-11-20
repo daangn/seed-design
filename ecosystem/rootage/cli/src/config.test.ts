@@ -101,4 +101,12 @@ describe("resolveCommandOptions", () => {
       ts: true,
     });
   });
+
+  it("keeps the component-spec generator function as is", () => {
+    const generator = () => [];
+
+    expect(
+      resolveCommandOptions({ "component-spec": { generator } }, "component-spec").generator,
+    ).toBe(generator);
+  });
 });

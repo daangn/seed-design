@@ -1,4 +1,7 @@
-import type { GeneratorFunction } from "@seed-design/rootage-core/generator";
+import type {
+  ComponentSpecGeneratorFunction,
+  GeneratorFunction,
+} from "@seed-design/rootage-core/generator";
 import { cosmiconfig } from "cosmiconfig";
 import path from "node:path";
 
@@ -12,7 +15,12 @@ export interface ComponentSpecEntry extends ComponentSpecEntryShape {}
 
 interface CommandOptionsMap {
   "token-ts": { prefix?: string };
-  "component-spec": { prefix?: string; filter?: (entry: ComponentSpecEntry) => boolean };
+  "component-spec": {
+    prefix?: string;
+    /** Writes the spec files with this function instead of the default TypeScript stringifier. */
+    generator?: ComponentSpecGeneratorFunction;
+    filter?: (entry: ComponentSpecEntry) => boolean;
+  };
   "token-css": {
     prefix?: string;
     /** Writes `token.css` with this function instead of the default CSS generator. */

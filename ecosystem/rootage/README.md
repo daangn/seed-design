@@ -111,6 +111,7 @@ export default {
 
 - `prefix`: 토큰 접두사입니다. `token-ts`, `component-spec`, `token-css`, `tailwind3-plugin`, `tailwind4`가 받습니다.
 - `token-css.generator`: `token.css`를 만드는 생성기 함수입니다. 타입은 `@seed-design/rootage-core/generator`의 `GeneratorFunction`이고, CLI는 받은 함수를 그대로 호출합니다. 없으면 core의 기본 CSS 생성기를 씁니다.
+- `component-spec.generator`: 컴포넌트 스펙 파일을 만드는 생성기 함수입니다. 타입은 같은 모듈의 `ComponentSpecGeneratorFunction`입니다. 없으면 기본 TypeScript 출력(스펙별 `.mjs`·`.d.ts`와 index)을 씁니다.
 - `token-css.ts`: `true`면 `token.css`와 함께, 같은 CSS를 문자열로 export하는 `tokens.ts`를 같은 디렉터리에 씁니다. CSS 파일을 import할 수 없는 JS 모듈(예: qvism preset의 `Theme.tokens`)에서 씁니다.
 - `component-spec.filter`: 아티팩트 루트 기준 경로(`path`)와 스펙(`spec`)을 받아 생성할 컴포넌트 스펙을 고릅니다.
 - `json-schema`, `json-ts`, `breakpoints`, `validate`는 설정에서 읽는 옵션이 없습니다.
@@ -189,6 +190,38 @@ export default {
 
 ```bash
 bun rootage token-css ./src
+```
+
+### 컴포넌트 스펙 생성기
+
+`component-spec`도 설정 파일의 `"component-spec": { generator }`로 생성기 함수를 받습니다. 생성기는 컴포넌트 스펙과 옵션을 받아, 출력 디렉터리 기준 경로와 코드의 배열을 반환해야 합니다. 타입은 `@seed-design/rootage-core/generator`의 `ComponentSpecGeneratorFunction`입니다.
+
+```typescript
+// src/my-component-spec.ts
+import { typescript } from "@seed-design/rootage-core";
+import type { ComponentSpecGeneratorFunction } from "@seed-design/rootage-core/generator";
+
+const generate: ComponentSpecGeneratorFunction = (ast, options) =>
+  typescript
+    .createStringifier({ ...options, formatDimension: ({ value, unit }) => `${value}${unit}` })
+    .getComponentSpecFiles(ast.componentSpecs);
+
+export default generate;
+```
+
+```typescript
+// rootage.config.ts
+import type { Config } from "@seed-design/rootage-cli";
+
+import generateMyComponentSpec from "./src/my-component-spec";
+
+export default {
+  "component-spec": { prefix: "my-system", generator: generateMyComponentSpec },
+} satisfies Config;
+```
+
+```bash
+rootage component-spec ./vars/component
 ```
 
 ## 마이그레이션 가이드
