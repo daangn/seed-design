@@ -544,9 +544,9 @@ export const AttachmentDisplayItemActionButton = React.forwardRef<
   const context = useAttachmentDisplayContext();
   const {
     pressed: _pressed,
-    bindtouchstart,
-    bindtouchend,
-    bindtouchcancel,
+    bindtouchstart: _pressStart,
+    bindtouchend: _pressEnd,
+    bindtouchcancel: _pressCancel,
     ...pressHandlers
   } = usePressTap({
     disabled: context.disabled || context.readOnly,
@@ -555,9 +555,6 @@ export const AttachmentDisplayItemActionButton = React.forwardRef<
   });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled: context.disabled || context.readOnly,
-    onTouchStart: bindtouchstart,
-    onTouchEnd: bindtouchend,
-    onTouchCancel: bindtouchcancel,
   });
   const actionChildren = toArray(children).map((child, index) =>
     typeof child === "string" || typeof child === "number" ? (

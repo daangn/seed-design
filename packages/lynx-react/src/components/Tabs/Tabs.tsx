@@ -4,7 +4,6 @@ import {
   Tabs as HeadlessTabs,
   TabsProvider,
   useTabs,
-  useTabsContext,
   useTabsTrigger,
   useTabsIndicator,
   useTabsContent,
@@ -21,6 +20,7 @@ import {
   useLabelTextAccessibilityProps,
 } from "../../utils/accessibility";
 import { mergeProps } from "../../utils/merge-props";
+import { useShallowMemo } from "../../utils/use-shallow-memo";
 import { Box } from "../Box";
 type TabsRecipeState = Pick<
   TabsVariantProps,
@@ -32,6 +32,7 @@ type TabsClassNames = Record<TabsSlotName, string>;
 interface TabsStyleContextValue {
   classNames: TabsClassNames;
   getClassNames: (state?: TabsRecipeState) => TabsClassNames;
+  transitionsEnabled: boolean;
   viewportInsets: HeadlessTabsListProps["viewportInsets"];
 }
 
@@ -58,7 +59,8 @@ export interface TabsRootProps extends TabsPublicVariantProps, LynxHostProps<"vi
 }
 
 export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) => {
-  const [variantProps, rootProps] = tabs.splitVariantProps(props);
+  const [variantPropsInput, rootProps] = tabs.splitVariantProps(props);
+  const variantProps = useShallowMemo(variantPropsInput);
   const getClassNames = React.useCallback(
     (state: TabsRecipeState = {}) =>
       tabs({
@@ -92,10 +94,14 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
         : undefined,
     [variantProps.extendSafeAreaX, safeAreaLeft, safeAreaRight],
   );
-  const classNames = getClassNames({ transitionEnabled: api.transitionsEnabled });
+  const { transitionsEnabled } = api;
+  const classNames = React.useMemo(
+    () => getClassNames({ transitionEnabled: transitionsEnabled }),
+    [getClassNames, transitionsEnabled],
+  );
   const styleContext = React.useMemo(
-    () => ({ classNames, getClassNames, viewportInsets }),
-    [classNames, getClassNames, viewportInsets],
+    () => ({ classNames, getClassNames, transitionsEnabled, viewportInsets }),
+    [classNames, getClassNames, transitionsEnabled, viewportInsets],
   );
   return (
     <TabsProvider value={api}>
@@ -169,7 +175,6 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
   const context = useTabsStyleContext();
   const insideAccessibilityElement = useInsideAccessibilityElement();
   const label = accessibilityLabel ?? getAccessibleText(children);
-  const { transitionsEnabled } = useTabsContext();
   const api = useTabsTrigger({
     value: triggerValue,
     disabled,
@@ -180,14 +185,11 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
   });
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
-    onTouchStart: api.bindtouchstart,
-    onTouchEnd: api.bindtouchend,
-    onTouchCancel: api.bindtouchcancel,
   });
   const triggerClasses = context.getClassNames({
     selected: api.isVisuallySelected,
     disabled: api.isDisabled,
-    transitionEnabled: transitionsEnabled,
+    transitionEnabled: context.transitionsEnabled,
   });
   const triggerProps = mergeProps(
     { flatten: false },

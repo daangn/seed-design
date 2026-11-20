@@ -1,5 +1,5 @@
 export * from "./useTabs.js";
-export * from "./useTabsContext.js";
+export { TabsProvider, useTabsContext, type UseTabsContext } from "./useTabsContext.js";
 export * from "./useTabsList.js";
 export * from "./useTabsTrigger.js";
 export * from "./useTabsTriggerContext.js";

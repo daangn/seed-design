@@ -16,9 +16,28 @@ export interface UseAppBarReturn {
 
 export function useAppBar(): UseAppBarReturn {
   const { safeAreaInsetTop, safeAreaInsetLeft, safeAreaInsetRight } = useSafeArea();
-  const [leftWidth, setLeftWidth] = React.useState(0);
-  const [rightWidth, setRightWidth] = React.useState(0);
-  const centeredTitlePaddingX = `${Math.max(leftWidth, rightWidth)}px`;
+  const sideWidths = React.useRef({ left: 0, right: 0 });
+  const [titlePadding, setTitlePadding] = React.useState(0);
+  const setSideWidth = React.useCallback((side: "left" | "right", width: number) => {
+    "background only";
+    sideWidths.current[side] = width;
+    setTitlePadding(Math.max(sideWidths.current.left, sideWidths.current.right));
+  }, []);
+  const setLeftWidth = React.useCallback(
+    (width: number) => {
+      "background only";
+      setSideWidth("left", width);
+    },
+    [setSideWidth],
+  );
+  const setRightWidth = React.useCallback(
+    (width: number) => {
+      "background only";
+      setSideWidth("right", width);
+    },
+    [setSideWidth],
+  );
+  const centeredTitlePaddingX = `${titlePadding}px`;
 
   return React.useMemo(
     () => ({
@@ -29,6 +48,13 @@ export function useAppBar(): UseAppBarReturn {
       setLeftWidth,
       setRightWidth,
     }),
-    [safeAreaInsetTop, safeAreaInsetLeft, safeAreaInsetRight, centeredTitlePaddingX],
+    [
+      safeAreaInsetTop,
+      safeAreaInsetLeft,
+      safeAreaInsetRight,
+      centeredTitlePaddingX,
+      setLeftWidth,
+      setRightWidth,
+    ],
   );
 }
