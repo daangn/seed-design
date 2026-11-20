@@ -125,22 +125,24 @@ describe("RadioSelectBox commits", () => {
     expect(commits).toMatchObject({ total: 1, nonEmpty: 0 });
   });
 
-  // headless RadioGroup.Root와 Item 사이에 컴포넌트(RadioSelectBox.Group)가 있으면 선택 때 Item마다 commit이 하나씩
-  // 생긴다. Item을 Root 바로 아래 두면 1회이고, Group 대신 빈 wrapper 컴포넌트를 둬도 늘어난다. context 구독으로 다시
-  // 렌더되는 Item마다 ReactLynx가 commit을 따로 보내는 것으로 보인다
-  // (lynx-react-headless/radio-group/src/RadioGroup.tsx RadioGroupRoot의 Provider → SelectBox.tsx RadioSelectBoxItem).
-  it("currently scales selection commits with the item count", async () => {
-    expect(await selectSecondRadio(2)).toMatchObject(
-      usesPreact10 ? { total: 7, nonEmpty: 6 } : { total: 3, nonEmpty: 2 },
-    );
-    expect(await selectSecondRadio(8)).toMatchObject(
-      usesPreact10 ? { total: 13, nonEmpty: 6 } : { total: 9, nonEmpty: 2 },
-    );
-  });
+  // Preact 10에서는 선택 commit이 항목 수에 비례한다. 같은 vnode를 다시 렌더링하지 않고 건너뛰어, context를 구독한 Item마다
+  // commit이 따로 생기는 것으로 보인다(lynx-react-headless/radio-group/src/RadioGroup.tsx RadioGroupRoot의 Provider →
+  // SelectBox.tsx RadioSelectBoxItem).
+  (usesPreact10 ? it.fails : it)(
+    "does not scale selection commits with the item count",
+    async () => {
+      const few = await selectSecondRadio(2);
+      const many = await selectSecondRadio(8);
+      expect(many.total).toBe(few.total);
+      expect(few).toMatchObject({ total: 1, nonEmpty: 1 });
+    },
+  );
 
-  it.fails("does not scale selection commits with the item count", async () => {
-    const few = await selectSecondRadio(2);
-    const many = await selectSecondRadio(8);
-    expect(many.total).toBe(few.total);
-  });
+  (usesPreact10 ? it : it.skip)(
+    "currently scales selection commits with the item count on Preact 10",
+    async () => {
+      expect(await selectSecondRadio(2)).toMatchObject({ total: 8, nonEmpty: 6 });
+      expect(await selectSecondRadio(8)).toMatchObject({ total: 14, nonEmpty: 6 });
+    },
+  );
 });

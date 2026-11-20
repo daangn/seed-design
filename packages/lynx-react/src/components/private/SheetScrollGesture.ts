@@ -1,4 +1,4 @@
-import { useMainThreadRef } from "@lynx-js/react";
+import { useMainThreadRef, useState } from "@lynx-js/react";
 import type { IntrinsicElements, MainThread } from "@lynx-js/types";
 
 type ScrollEvent = Parameters<NonNullable<IntrinsicElements["scroll-view"]["bindscroll"]>>[0];
@@ -19,40 +19,44 @@ export function useSheetScrollGestureProps(): Record<string, unknown> {
     owner: "undecided",
   });
 
-  function handleScroll(event: ScrollEvent) {
-    "main thread";
+  // Created once: on @lynx-js/react < 0.126, new worklets on every render are sent again as a patch.
+  const [props] = useState(() => {
+    function handleScroll(event: ScrollEvent) {
+      "main thread";
 
-    scrollTopRef.current = event.detail.scrollTop;
-  }
-
-  function handleTouchStart(event: MainThread.TouchEvent) {
-    "main thread";
-
-    gestureRef.current = {
-      startY: event.detail.y,
-      owner: scrollTopRef.current > 0 ? "scroll" : "undecided",
-    };
-  }
-
-  function handleTouchMove(event: MainThread.TouchEvent) {
-    "main thread";
-
-    const gesture = gestureRef.current;
-    if (gesture.owner === "undecided") {
-      const deltaY = event.detail.y - gesture.startY;
-      if (Math.abs(deltaY) < GESTURE_DECISION_DISTANCE) {
-        event.stopPropagation();
-        return;
-      }
-
-      gesture.owner = deltaY > 0 ? "sheet" : "scroll";
+      scrollTopRef.current = event.detail.scrollTop;
     }
-    if (gesture.owner === "scroll") event.stopPropagation();
-  }
 
-  return {
-    "main-thread:bindscroll": handleScroll,
-    "main-thread:bindtouchstart": handleTouchStart,
-    "main-thread:bindtouchmove": handleTouchMove,
-  };
+    function handleTouchStart(event: MainThread.TouchEvent) {
+      "main thread";
+
+      gestureRef.current = {
+        startY: event.detail.y,
+        owner: scrollTopRef.current > 0 ? "scroll" : "undecided",
+      };
+    }
+
+    function handleTouchMove(event: MainThread.TouchEvent) {
+      "main thread";
+
+      const gesture = gestureRef.current;
+      if (gesture.owner === "undecided") {
+        const deltaY = event.detail.y - gesture.startY;
+        if (Math.abs(deltaY) < GESTURE_DECISION_DISTANCE) {
+          event.stopPropagation();
+          return;
+        }
+
+        gesture.owner = deltaY > 0 ? "sheet" : "scroll";
+      }
+      if (gesture.owner === "scroll") event.stopPropagation();
+    }
+
+    return {
+      "main-thread:bindscroll": handleScroll,
+      "main-thread:bindtouchstart": handleTouchStart,
+      "main-thread:bindtouchmove": handleTouchMove,
+    };
+  });
+  return props;
 }

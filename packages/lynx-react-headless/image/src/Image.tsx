@@ -1,7 +1,7 @@
 import * as React from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
-import { useImage, type ImageLoadingStatus, type UseImageProps } from "./useImage.js";
+import type { ImageLoadingStatus, UseImageProps } from "./useImage.js";
 
 type ViewProps = IntrinsicElements["view"];
 type ImageProps = IntrinsicElements["image"];
@@ -68,22 +68,37 @@ const ImageRequest = React.forwardRef<unknown, ImageContentProps>((props, ref) =
   );
 });
 ImageRequest.displayName = "ImageRequest";
+// Report straight to Image.Root: a second state here would commit once more per load.
 export const ImageContent = React.forwardRef<unknown, ImageContentProps>((props, ref) => {
+  const { src } = props;
   const { setLoadingStatus } = useImageContext();
-  const api = useImage({ src: props.src, onLoadingStatusChange: setLoadingStatus });
+  // Each source selection is a distinct request, including A → B → A.
+  const request = React.useMemo(
+    () => ({ src, status: undefined as ImageLoadingStatus | undefined }),
+    [src],
+  );
+  const activeRequest = React.useRef(request);
+  activeRequest.current = request;
+  const report = (status: ImageLoadingStatus) => {
+    "background only";
+    if (activeRequest.current !== request || request.status === status) return;
+    request.status = status;
+    setLoadingStatus(status);
+  };
+  React.useEffect(() => report(src ? "loading" : "error"), [request]);
   React.useEffect(() => () => setLoadingStatus("error"), [setLoadingStatus]);
   return (
     <ImageRequest
-      key={props.src}
+      key={src}
       {...props}
       {...(ref ? { ref } : {})}
       bindload={(event) => {
         props.bindload?.(event);
-        api.handleLoad();
+        if (src) report("loaded");
       }}
       binderror={(event) => {
         props.binderror?.(event);
-        api.handleError();
+        if (src) report("error");
       }}
     />
   );

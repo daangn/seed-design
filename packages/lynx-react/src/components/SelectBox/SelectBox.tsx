@@ -20,6 +20,7 @@ import {
 } from "@seed-design/lynx-react-collapsible";
 import {
   RadioGroupItemProvider,
+  useRadioGroupContext,
   useRadioGroupItem,
   type UseRadioGroupItemProps,
 } from "@seed-design/lynx-react-radio-group";
@@ -191,6 +192,9 @@ export interface SelectBoxGroupProps extends LynxHostProps<"view"> {
 
 const SelectBoxGroup = React.forwardRef<unknown, SelectBoxGroupProps>((props, ref) => {
   const { children, columns = 1, className, style, ...nativeProps } = props;
+  // RadioGroup 안에서는 선택 값을 구독해 선택이 바뀔 때 headless Root의 렌더링 안에서 함께 다시 렌더링한다. 구독하지
+  // 않으면 이 컴포넌트에서 렌더링이 멈추고, context를 구독한 Item마다 Preact가 따로 렌더링해 Item 수만큼 commit이 생긴다.
+  useRadioGroupContext({ strict: false });
   const classes = selectBoxGroup({ multiColumn: columns > 1 });
   const layout: PublicSelectBoxVariantProps["layout"] = columns > 1 ? "vertical" : "horizontal";
 

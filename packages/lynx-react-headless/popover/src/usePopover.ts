@@ -102,10 +102,17 @@ export interface UsePopoverReturn {
    * 닫힌 뒤 200ms에 호출합니다.
    */
   finishClose: () => void;
-  /** 기준 요소의 크기·위치가 바뀌었을 때 다시 측정하도록 요청합니다. */
+  /**
+   * 기준 요소의 크기·위치가 바뀌었을 때 다시 측정하도록 요청합니다. 진행 중인 측정을 버리고, 열린 동안 매 frame 도는
+   * 측정이 다음 frame에 다시 잽니다. 다시 렌더링하지 않습니다.
+   */
   requestPositionUpdate: () => void;
   /** 열릴 때마다 1씩 늘어납니다. 늦게 끝난 측정을 버리는 데 씁니다. */
   openEpoch: number;
+  /**
+   * @deprecated `requestPositionUpdate`가 다시 렌더링하지 않으므로 항상 `0`입니다. 측정 요청 횟수는
+   * `positionRevisionRef`로 읽습니다.
+   */
   positionRevision: number;
   anchorRef: MutableRefObject<NodesRef | null>;
   triggerRef: MutableRefObject<NodesRef | null>;
@@ -211,7 +218,6 @@ export function usePopover(props: UsePopoverProps = {}): UsePopoverReturn {
   const [positionedEpoch, setPositionedEpoch] = useState<number | null>(null);
   const [measuredPlacement, setMeasuredPlacement] = useState<Placement | null>(null);
   const [{ store: positionStore, set: setPositionSnapshot }] = useState(createPositionStore);
-  const [positionRevision, setPositionRevision] = useState(0);
   const positionRevisionRef = useRef(0);
   const isOpenRef = useRef(open);
   const openEpochRef = useRef(0);
@@ -285,9 +291,10 @@ export function usePopover(props: UsePopoverProps = {}): UsePopoverReturn {
     },
     [positionStore, setPositionSnapshot],
   );
+  // 열린 동안 PopoverContent가 매 frame 위치를 다시 재므로, 진행 중인 측정만 버린다. state를 바꾸면 측정값이 같아도
+  // context를 구독한 부품마다 빈 commit이 생긴다.
   const requestPositionUpdate = useCallback(() => {
     positionRevisionRef.current += 1;
-    setPositionRevision(positionRevisionRef.current);
   }, []);
   const side = (measuredPlacement ?? placement).split("-")[0] as Side;
 
@@ -308,7 +315,7 @@ export function usePopover(props: UsePopoverProps = {}): UsePopoverReturn {
       finishClose,
       requestPositionUpdate,
       openEpoch,
-      positionRevision,
+      positionRevision: 0,
       anchorRef,
       triggerRef,
       layerRef,
@@ -336,7 +343,6 @@ export function usePopover(props: UsePopoverProps = {}): UsePopoverReturn {
       finishClose,
       requestPositionUpdate,
       openEpoch,
-      positionRevision,
       setPosition,
       resetPosition,
     ],
