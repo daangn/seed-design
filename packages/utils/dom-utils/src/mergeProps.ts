@@ -52,7 +52,7 @@ export function mergeProps<T>(...args: T[]): UnionToIntersection<TupleTypes<T[]>
 const chain =
   <T extends (...p: any[]) => void>(...fns: (T | undefined)[]) =>
   (...p: Parameters<T>) => {
-    fns.forEach(function (fn) {
+    fns.forEach((fn) => {
       fn?.(...p);
     });
   };
