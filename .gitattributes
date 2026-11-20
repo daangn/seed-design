@@ -4,7 +4,6 @@
 # The single source of truth for "which files are generated".
 #
 # Consumers that can ask git directly do so instead of repeating these paths:
-#   - .github/workflows/claude-code-review.yml  ':(exclude,attr:linguist-generated)'
 #   - .claude/hooks/generated-files-guard.ts    git check-attr
 #   - .claude/agents/*, skills/*                git check-attr
 # .coderabbit.yaml and biome.json cannot read gitattributes, so they repeat the
