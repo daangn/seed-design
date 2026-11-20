@@ -33,8 +33,6 @@ GPT-6-Astra와 GPT-5.6 Luna·Terra·Sol에 같은 필수 검사·수락 기준·
 
 공통 실행 절차와 런타임 증거 수집은 [검증 런북](references/verification.md)을 읽고 따른다. `agent-lynx` CLI가 기본 경로이며, DevTool MCP는 사용할 수 있을 때만 보강한다. 둘 다 사용할 수 없으면 가능한 정적 확인만 하고 native 결과는 `환경 차단`으로 남긴다.
 
-commit 횟수와 단계별 처리 시간이 검증 대상이면 [commit-probe](references/commit-probe.md)로 같은 호스트에서 변경 전후를 비교한다.
-
 온라인 검증은 단독 실행도 [session 소유권과 Card 수명](references/concurrency/session-ownership.md)을 먼저 읽는다. 같은 PlayLynx client는 Card 생성부터 제거 확인까지 공유 잠금으로 직렬화하며, 잠금 획득·open·session 대상 명령·정리는 [`scripts/lynx-card.ts`](scripts/lynx-card.ts)의 `acquire → open → exec → release`로 한다. 새 client가 생긴다고 가정하거나 기존 Card를 임의 점유하지 않는다.
 
 ## 검증 흐름
