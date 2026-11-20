@@ -1,5 +1,6 @@
 import type collections from "@seed-design/rootage-artifacts/collections";
 import { css, type AST } from "@seed-design/rootage-core";
+import type { GeneratorFunction } from "@seed-design/rootage-core/generator";
 import { breakpoints } from "./utils/breakpoint";
 
 type TokenDeclaration = AST.TokenDeclaration;
@@ -25,7 +26,7 @@ type Selectors = {
  * point a custom prefix at variables nothing defines and silently fall back.
  */
 const createSeedDeclaration =
-  (prefix: string) =>
+  () =>
   ({
     decl,
     mode,
@@ -68,7 +69,7 @@ const createSeedDeclaration =
       // Build CSS variable names for scaling
       const tokenType = isFontSize ? "font-size" : "line-height";
       const multiplierVar = "var(--seed-font-size-multiplier, 1)";
-      const staticTokenVar = `var(--${prefix}-${tokenType}-${tokenKey}-static)`;
+      const staticTokenVar = `var(${tokenName({ ...decl.token, key: `${tokenKey}-static` })})`;
       const limitMinVar = `var(--seed-${tokenType}-limit-min, 1)`;
       const limitMaxVar = `var(--seed-${tokenType}-limit-max, 1)`;
 
@@ -84,18 +85,10 @@ const createSeedDeclaration =
  * SEED CSS Generator function
  * Generates CSS with SEED-specific font scaling and theme configuration
  */
-export default function generateSeedCss(
-  ast: Parameters<typeof css.getTokenCss>[0],
-  options?: Partial<Parameters<typeof css.getTokenCss>[1]>,
-): string {
-  // SEED-specific default options - we ignore most of the passed options
-  // and use our own defaults because CLI provides minimal options
-  const prefix = options?.prefix || "seed"; // Extract prefix for use in declaration
+const generateSeedCss: GeneratorFunction = (ast, options) => {
   const seedOptions = {
-    prefix,
-    banner:
-      options?.banner ||
-      `:root, [data-seed-color-mode="system"] {
+    prefix: options.prefix,
+    banner: `:root, [data-seed-color-mode="system"] {
   color-scheme: light dark;
 }
 
@@ -135,12 +128,10 @@ export default function generateSeedCss(
         reduced: "@media (prefers-reduced-motion: reduce)",
       },
     } satisfies Selectors,
-    customDeclaration: createSeedDeclaration(prefix), // Pass prefix to declaration factory
+    customDeclaration: createSeedDeclaration(),
   };
 
-  // Use core's getTokenCss with our custom declaration
   return css.getTokenCss(ast, seedOptions);
-}
+};
 
-// Also export as named export for compatibility
-export { generateSeedCss };
+export default generateSeedCss;
