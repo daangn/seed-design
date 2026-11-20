@@ -1026,9 +1026,18 @@
   inset: --value(--dimension-*);
 }
 
+@utility -inset-* {
+  inset: calc(--value(--dimension-*) * -1);
+}
+
 @utility inset-x-* {
   left: --value(--dimension-*);
   right: --value(--dimension-*);
+}
+
+@utility -inset-x-* {
+  left: calc(--value(--dimension-*) * -1);
+  right: calc(--value(--dimension-*) * -1);
 }
 
 @utility inset-y-* {
@@ -1036,20 +1045,41 @@
   bottom: --value(--dimension-*);
 }
 
+@utility -inset-y-* {
+  top: calc(--value(--dimension-*) * -1);
+  bottom: calc(--value(--dimension-*) * -1);
+}
+
 @utility top-* {
   top: --value(--dimension-*);
+}
+
+@utility -top-* {
+  top: calc(--value(--dimension-*) * -1);
 }
 
 @utility right-* {
   right: --value(--dimension-*);
 }
 
+@utility -right-* {
+  right: calc(--value(--dimension-*) * -1);
+}
+
 @utility bottom-* {
   bottom: --value(--dimension-*);
 }
 
+@utility -bottom-* {
+  bottom: calc(--value(--dimension-*) * -1);
+}
+
 @utility left-* {
   left: --value(--dimension-*);
+}
+
+@utility -left-* {
+  left: calc(--value(--dimension-*) * -1);
 }
 
 @utility radius-* {
