@@ -167,4 +167,9 @@ describe("ScrollFog", () => {
     expect(getMasks(container)).toHaveLength(0);
     expect(root.firstElementChild?.tagName.toLowerCase()).toBe("text");
   });
+
+  it("tags the root with the Rootage name", () => {
+    const { container } = render(<ScrollFog />);
+    expect(getRoot(container)).toHaveAttribute("lynx-test-tag", "seed:ScrollFog");
+  });
 });

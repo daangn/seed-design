@@ -84,4 +84,18 @@ describe("MannerTempBadge", () => {
     fireEvent.tap(badgeRoot as Element);
     expect(onTap).toHaveBeenCalledTimes(1);
   });
+
+  it("tags the root with the level and lets a consumer lynx-test-tag win", () => {
+    render(<MannerTempBadge>36.5°C</MannerTempBadge>);
+    expect(getRenderedRoot().querySelector(".seed-manner-temp-badge__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:MannerTempBadge;level=l1",
+    );
+
+    render(<MannerTempBadge lynx-test-tag="seller-temp">36.5°C</MannerTempBadge>);
+    expect(getRenderedRoot().querySelector(".seed-manner-temp-badge__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seller-temp",
+    );
+  });
 });

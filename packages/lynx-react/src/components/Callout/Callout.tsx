@@ -1,4 +1,8 @@
-import { callout, type CalloutVariantProps } from "@seed-design/lynx-css/recipes/callout";
+import {
+  callout,
+  calloutSeedTagSpec,
+  type CalloutVariantProps,
+} from "@seed-design/lynx-css/recipes/callout";
 import {
   CalloutProvider,
   useCallout,
@@ -14,6 +18,7 @@ import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { IconSlotProvider } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(callout);
 
@@ -92,6 +97,7 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
           <view
             {...mergeProps(
               interactive ? { flatten: false } : {},
+              { "lynx-test-tag": seedTag(calloutSeedTagSpec, variantProps) },
               rootProps,
               interactive ? scaleFeedbackTargetProps : {},
               interactive ? scaleFeedbackTriggerProps : {},

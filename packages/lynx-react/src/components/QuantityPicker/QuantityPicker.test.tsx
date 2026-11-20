@@ -325,4 +325,19 @@ describe("QuantityPicker", () => {
       warn.mockRestore();
     }
   });
+
+  it("tags the root with its size and lets a consumer lynx-test-tag win", () => {
+    let { container } = renderQuantityPicker();
+    expect(getRoot(container)).toHaveAttribute("lynx-test-tag", "seed:QuantityPicker;size=medium");
+
+    ({ container } = renderQuantityPicker({ size: "large", layout: "fill", disabled: true }));
+    expect(getRoot(container)).toHaveAttribute("lynx-test-tag", "seed:QuantityPicker;size=large");
+
+    ({ container } = render(
+      <QuantityPicker.Root min={0} max={5} lynx-test-tag="cart-quantity">
+        <QuantityPicker.ValueDisplay />
+      </QuantityPicker.Root>,
+    ));
+    expect(getRoot(container)).toHaveAttribute("lynx-test-tag", "cart-quantity");
+  });
 });

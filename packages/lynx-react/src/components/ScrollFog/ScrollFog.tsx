@@ -1,4 +1,4 @@
-import { scrollFog } from "@seed-design/lynx-css/recipes/scroll-fog";
+import { scrollFog, scrollFogSeedTagSpec } from "@seed-design/lynx-css/recipes/scroll-fog";
 import { scrollFog as scrollFogVars } from "@seed-design/lynx-css/vars/component";
 import * as React from "@lynx-js/react";
 import type {
@@ -12,6 +12,7 @@ import clsx from "clsx";
 
 import type { LynxHostProps } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
   PropsWithoutRef<P> & RefAttributes<T>
 >;
@@ -129,6 +130,7 @@ export const ScrollFog: LynxForwardRefComponent<NodesRef, ScrollFogProps> = Reac
     <view
       {...mergeProps(
         {
+          "lynx-test-tag": seedTag(scrollFogSeedTagSpec),
           style: createRootStyle(style, {
             top: topSize,
             bottom: bottomSize,

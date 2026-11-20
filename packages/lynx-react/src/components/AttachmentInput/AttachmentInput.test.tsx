@@ -4,6 +4,7 @@ import { render, renderHook } from "@lynx-js/react/testing-library";
 import { describe, expect, it } from "vitest";
 import { Field } from "../Field";
 import {
+  AttachmentInput,
   AttachmentInputRoot,
   AttachmentInputContainer,
   useAttachmentInput,
@@ -75,6 +76,47 @@ describe("AttachmentInput Field state fallback", () => {
     );
     const { result } = renderHook(() => useAttachmentInput({ invalid: false }), { wrapper });
 
-    expect(result.current).toMatchObject({ readOnly: true, invalid: false, disabled: false });
+    expect(result.current).toMatchObject({
+      readOnly: true,
+      invalid: false,
+      disabled: false,
+    });
+  });
+
+  it("tags the root, trigger, and items with the drawn item type", () => {
+    const fileEntry = {
+      id: "test",
+      status: "success" as const,
+      file: {
+        uri: "file://test.png",
+        name: "test.png",
+        type: "image/png",
+        size: 10,
+      },
+    };
+    const { container, rerender } = render(
+      <AttachmentInput.Root defaultAcceptedFileEntries={[fileEntry]}>
+        <AttachmentInput.Trigger />
+        <AttachmentInput.Item fileEntry={fileEntry} />
+        <AttachmentInput.Item fileEntry={fileEntry} type="image" />
+      </AttachmentInput.Root>,
+    );
+    expect(container.querySelector(".seed-attachment-input__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:AttachmentInput",
+    );
+    expect(container.querySelector(".seed-attachment-input-trigger__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:AttachmentInputTrigger",
+    );
+    const items = container.querySelectorAll(".seed-attachment-input-item__root");
+    expect(items[0]).toHaveAttribute("lynx-test-tag", "seed:AttachmentInputItem;type=general");
+    expect(items[1]).toHaveAttribute("lynx-test-tag", "seed:AttachmentInputItem;type=image");
+
+    rerender(<AttachmentInputRoot lynx-test-tag="listing-photos" />);
+    expect(container.querySelector(".seed-attachment-input__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "listing-photos",
+    );
   });
 });

@@ -1,6 +1,6 @@
 import * as React from "@lynx-js/react";
 import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
-import { searchInput } from "@seed-design/lynx-css/recipes/search-input";
+import { searchInput, searchInputSeedTagSpec } from "@seed-design/lynx-css/recipes/search-input";
 import {
   TextFieldProvider,
   useTextField,
@@ -15,6 +15,7 @@ import type { LynxHostProps, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { IconSlotProvider } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(searchInput);
 
@@ -77,7 +78,10 @@ export const SearchInputRoot = React.forwardRef<NodesRef, SearchInputRootProps>(
         <SearchInputContext.Provider value={context}>
           <ClassNamesProvider value={classes}>
             <view
-              {...mergeProps({ ref: mergedRef }, nativeProps)}
+              {...mergeProps(
+                { ref: mergedRef, "lynx-test-tag": seedTag(searchInputSeedTagSpec) },
+                nativeProps,
+              )}
               className={clsx(classes.root, className)}
             >
               {children}

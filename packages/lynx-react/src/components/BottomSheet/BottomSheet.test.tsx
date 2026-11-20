@@ -40,8 +40,14 @@ vi.mock("@seed-design/lynx-react-bottom-sheet", async () => {
     return <>{props["children"]}</>;
   };
 
-  const BottomSheetHandle = (props: Record<string, unknown> & { children?: React.ReactNode }) => (
-    <view className={props["className"] as string}>{props["children"]}</view>
+  const BottomSheetHandle = ({
+    children,
+    className,
+    ...rest
+  }: Record<string, unknown> & { children?: React.ReactNode }) => (
+    <view {...rest} className={className as string}>
+      {children}
+    </view>
   );
 
   const BottomSheetBackdrop = (
@@ -162,6 +168,33 @@ describe("BottomSheet", () => {
     expect(touchArea?.contains(visualHandle)).toBe(true);
   });
 
+  it("tags Handle and CloseButton as their Rootage components and lets a consumer tag win", () => {
+    const { container } = render(
+      <BottomSheet.Root>
+        <BottomSheet.Handle />
+        <BottomSheet.CloseButton accessibility-label="닫기" />
+      </BottomSheet.Root>,
+    );
+    expect(container.querySelector(".seed-bottom-sheet-handle__touchArea")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:BottomSheetHandle",
+    );
+    expect(container.querySelector(".seed-bottom-sheet__closeButton")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:BottomSheetCloseButton",
+    );
+
+    const { container: overridden } = render(
+      <BottomSheet.Root>
+        <BottomSheet.Handle lynx-test-tag="filter-handle" />
+      </BottomSheet.Root>,
+    );
+    expect(overridden.querySelector(".seed-bottom-sheet-handle__touchArea")).toHaveAttribute(
+      "lynx-test-tag",
+      "filter-handle",
+    );
+  });
+
   it("passes inner layout styles and safe area bottom to Content", () => {
     render(
       <BottomSheet.Root>
@@ -178,6 +211,35 @@ describe("BottomSheet", () => {
         paddingTop: "8px",
       },
     });
+  });
+
+  it("tags the sheet panel with Rootage headerAlignment and the rendered close button", () => {
+    const { rerender } = render(
+      <BottomSheet.Root>
+        <BottomSheet.Content />
+      </BottomSheet.Root>,
+    );
+    expect(sheetMocks.contentProps.at(-1)?.["lynx-test-tag"]).toBe(
+      "seed:BottomSheet;headerAlignment=left;closeButton=false",
+    );
+
+    rerender(
+      <BottomSheet.Root headerAlign="center">
+        <BottomSheet.Content>
+          <BottomSheet.CloseButton accessibility-label="닫기" />
+        </BottomSheet.Content>
+      </BottomSheet.Root>,
+    );
+    expect(sheetMocks.contentProps.at(-1)?.["lynx-test-tag"]).toBe(
+      "seed:BottomSheet;headerAlignment=center;closeButton=true",
+    );
+
+    rerender(
+      <BottomSheet.Root>
+        <BottomSheet.Content lynx-test-tag="filter-sheet" />
+      </BottomSheet.Root>,
+    );
+    expect(sheetMocks.contentProps.at(-1)?.["lynx-test-tag"]).toBe("filter-sheet");
   });
 
   it("releases the sheet's inline left inset so the positioner can center it", () => {

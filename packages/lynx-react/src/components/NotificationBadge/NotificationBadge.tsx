@@ -1,5 +1,6 @@
 import {
   notificationBadge,
+  notificationBadgeSeedTagSpec,
   type NotificationBadgeVariantProps,
 } from "@seed-design/lynx-css/recipes/notification-badge";
 import {
@@ -11,6 +12,7 @@ import * as React from "@lynx-js/react";
 
 import type { LynxHostProps, LynxViewRef } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 
 const NotificationBadgeContext = React.createContext<NotificationBadgeVariantProps | null>(null);
 
@@ -34,7 +36,11 @@ export const NotificationBadge = React.forwardRef<unknown, NotificationBadgeProp
 
     return (
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...mergeProps(
+          ref ? { ref: ref as LynxViewRef } : {},
+          { "lynx-test-tag": seedTag(notificationBadgeSeedTagSpec, variantProps) },
+          nativeProps,
+        )}
         className={clsx(classes.root, className)}
       >
         <text className={classes.label} text-single-line-vertical-align="center">

@@ -420,4 +420,16 @@ describe("SegmentedTextInput", () => {
     fireEvent.focus(ref.current as unknown as Element);
     expect(actions.focus).toHaveBeenLastCalledWith(expect.objectContaining({ enabled: false }));
   });
+
+  it("tags the root with the drawn Rootage variant axes", () => {
+    render(
+      <SegmentedTextInput.Root>
+        <SegmentedTextInput.Segment accessibility-label="인증번호" length={4} />
+      </SegmentedTextInput.Root>,
+    );
+    expect(getRenderedRoot().querySelector(".seed-segmented-text-input__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:SegmentedTextInput;size=large",
+    );
+  });
 });

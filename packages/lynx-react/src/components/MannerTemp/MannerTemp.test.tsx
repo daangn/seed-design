@@ -169,4 +169,24 @@ describe("MannerTemp", () => {
     expect(root.querySelector("text")?.textContent).toBe("36.5°C");
     expect(root.querySelector("image")).toBeNull();
   });
+
+  it("tags the root with the level and lets a consumer lynx-test-tag win", () => {
+    render(<MannerTemp>36.5°C</MannerTemp>);
+    expect(getRenderedRoot().querySelector(".seed-manner-temp__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:MannerTemp;level=l1",
+    );
+
+    render(<MannerTemp level="l6">40°C</MannerTemp>);
+    expect(getRenderedRoot().querySelector(".seed-manner-temp__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:MannerTemp;level=l6",
+    );
+
+    render(<MannerTemp lynx-test-tag="seller-temp">40°C</MannerTemp>);
+    expect(getRenderedRoot().querySelector(".seed-manner-temp__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seller-temp",
+    );
+  });
 });

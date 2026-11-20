@@ -108,4 +108,22 @@ describe("TagGroup", () => {
     expect(wrappers).toHaveLength(1);
     expect(wrappers[0]?.textContent).toBe("·두 번째");
   });
+
+  it("tags the root and items, with items inheriting root variants", () => {
+    render(
+      <TagGroup.Root size="t3" weight="bold">
+        <TagGroup.Item tone="neutral">
+          <TagGroup.ItemLabel>첫 번째</TagGroup.ItemLabel>
+        </TagGroup.Item>
+      </TagGroup.Root>,
+    );
+    expect(getRenderedRoot().querySelector(".seed-tag-group__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:TagGroup;size=t3",
+    );
+    expect(getRenderedRoot().querySelector(".seed-tag-group-item__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:TagGroupItem;size=t3;weight=bold;tone=neutral",
+    );
+  });
 });

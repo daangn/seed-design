@@ -1,5 +1,6 @@
 import {
   contextualFloatingButton,
+  contextualFloatingButtonSeedTagSpec,
   type ContextualFloatingButtonVariantProps,
 } from "@seed-design/lynx-css/recipes/contextual-floating-button";
 import { useActionButton, type UseActionButtonProps } from "@seed-design/lynx-react-action-button";
@@ -11,6 +12,7 @@ import type { LynxElementProps, LynxHostProps, LynxPressableProps, LynxViewRef }
 import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { IconRequired, IconSlotProvider, getIconSlotName } from "../Icon/Icon";
 import { ProgressCircleRange, ProgressCircleRoot, ProgressCircleTrack } from "../ProgressCircle";
 
@@ -200,6 +202,7 @@ export const ContextualFloatingButton = React.forwardRef<unknown, ContextualFloa
               flatten: false,
               "accessibility-label": accessibilityLabel,
               "accessibility-role-description": accessibilityRoleDescription,
+              "lynx-test-tag": seedTag(contextualFloatingButtonSeedTagSpec, variantProps),
             },
             ref ? { ref } : {},
             scaleFeedbackTargetProps,

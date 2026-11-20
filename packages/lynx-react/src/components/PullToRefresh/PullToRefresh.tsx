@@ -10,9 +10,13 @@ import {
   type PullToRefreshContentProps as HeadlessContentProps,
   type PullToRefreshListContentProps as HeadlessListContentProps,
 } from "@seed-design/lynx-react-pull-to-refresh";
-import { pullToRefresh } from "@seed-design/lynx-css/recipes/pull-to-refresh";
+import {
+  pullToRefresh,
+  pullToRefreshSeedTagSpec,
+} from "@seed-design/lynx-css/recipes/pull-to-refresh";
 import type { LynxHostProps } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
+import { seedTag } from "../../utils/seed-tag";
 
 const { withProvider, withContext } = createSlotRecipeContext(pullToRefresh);
 
@@ -29,7 +33,11 @@ export interface PullToRefreshListContentProps
 
 export const PullToRefreshRoot: ForwardRefExoticComponent<
   PropsWithoutRef<PullToRefreshRootProps> & RefAttributes<NodesRef>
-> = withProvider<NodesRef, PullToRefreshRootProps>(HeadlessRoot, "root");
+> = withProvider<NodesRef, PullToRefreshRootProps>(HeadlessRoot, "root", {
+  defaultProps: {
+    "lynx-test-tag": seedTag(pullToRefreshSeedTagSpec),
+  } as Partial<PullToRefreshRootProps>,
+});
 export const PullToRefreshIndicator: ForwardRefExoticComponent<
   PropsWithoutRef<PullToRefreshIndicatorProps> & RefAttributes<NodesRef>
 > = withContext<NodesRef, PullToRefreshIndicatorProps>(HeadlessIndicator, "indicator");

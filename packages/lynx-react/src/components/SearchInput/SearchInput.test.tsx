@@ -165,4 +165,16 @@ describe("SearchInput", () => {
     expect(warn).toHaveBeenCalledWith(expect.stringContaining("SearchInputInput"));
     expect(warn).toHaveBeenCalledWith(expect.stringContaining("SearchInputClearButton"));
   });
+
+  it("tags the root with the Rootage name", () => {
+    render(
+      <SearchInput.Root>
+        <SearchInput.Input accessibility-label="검색" />
+      </SearchInput.Root>,
+    );
+    expect(getRenderedRoot().querySelector(".seed-search-input__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:SearchInput",
+    );
+  });
 });
