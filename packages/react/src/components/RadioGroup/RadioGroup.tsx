@@ -28,18 +28,14 @@ const withStateProps = createWithStateProps([useRadioGroupItemContext]);
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface RadioGroupRootProps
-  extends RadioGroupVariantProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends RadioGroupVariantProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const RadioGroupRoot = withGroupContext<HTMLDivElement, RadioGroupRootProps>(Primitive.div);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface RadioGroupItemProps
-  extends RadioVariantProps,
-    RadiomarkVariantProps,
-    RadioGroupPrimitive.ItemProps {}
+  extends RadioVariantProps, RadiomarkVariantProps, RadioGroupPrimitive.ItemProps {}
 
 export interface RadioGroupItemPrimitiveProps extends RadioGroupPrimitive.ItemProps {}
 
@@ -70,8 +66,7 @@ export const RadioGroupItem = Object.assign(
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface RadioGroupItemLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const RadioGroupItemLabel = withContext<HTMLSpanElement, RadioGroupItemLabelProps>(
   withStateProps(Primitive.span),
@@ -81,8 +76,7 @@ export const RadioGroupItemLabel = withContext<HTMLSpanElement, RadioGroupItemLa
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface RadioGroupItemControlProps
-  extends RadiomarkVariantProps,
-    RadioGroupPrimitive.ItemControlProps {}
+  extends RadiomarkVariantProps, RadioGroupPrimitive.ItemControlProps {}
 
 export const RadioGroupItemControl = withScaleFeedback(
   withRadiomarkProvider<HTMLDivElement, RadioGroupItemControlProps>(

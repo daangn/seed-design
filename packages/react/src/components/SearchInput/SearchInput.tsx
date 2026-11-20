@@ -21,8 +21,7 @@ const SearchInputSubmitContext = createContext<SearchInputSubmitContextValue>({
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SearchInputRootProps
-  extends SearchInputVariantProps,
-    Omit<TextField.RootProps, "onSubmit"> {
+  extends SearchInputVariantProps, Omit<TextField.RootProps, "onSubmit"> {
   /**
    * Called with the current value when Enter is pressed.
    * Enter that confirms an IME composition (e.g. Korean input) is ignored.

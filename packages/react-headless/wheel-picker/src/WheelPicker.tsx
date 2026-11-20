@@ -60,7 +60,8 @@ export const WheelPickerRoot = React.forwardRef<HTMLDivElement, WheelPickerRootP
 WheelPickerRoot.displayName = "WheelPickerRoot";
 
 export interface WheelPickerColumnProps
-  extends UseWheelPickerColumnProps,
+  extends
+    UseWheelPickerColumnProps,
     PrimitiveProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue" | "onChange"> {
   renderOption?: (

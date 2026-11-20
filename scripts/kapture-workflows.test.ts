@@ -118,38 +118,41 @@ describe("Kapture consumer workflows", () => {
     ["true", "", "/head-cache", false],
     ["true", "/base-cache", "", false],
     ["true", "/base cache", "/head cache", true],
-  ])("capture cache arguments are optional and preserve paths (%s, %s, %s)", (enabled, base, head, included) => {
-    const step = executionSteps(workflows.capture.jobs.capture).find(
-      (step) => step.id === "capture",
-    );
-    assert(step?.run);
-    const result = spawnSync(
-      "bash",
-      [
-        "-c",
-        `npx() { printf '%s\\n' "$@"; }\n${step.run.replace(/\$\{\{[\s\S]*?\}\}/g, "fixture")}`,
-      ],
-      {
-        env: {
-          ...process.env,
-          KAPTURE_CAPTURE_CACHE: enabled,
-          KAPTURE_CACHE_DIRECTORY: base,
-          KAPTURE_HEAD_CACHE_DIRECTORY: head,
+  ])(
+    "capture cache arguments are optional and preserve paths (%s, %s, %s)",
+    (enabled, base, head, included) => {
+      const step = executionSteps(workflows.capture.jobs.capture).find(
+        (step) => step.id === "capture",
+      );
+      assert(step?.run);
+      const result = spawnSync(
+        "bash",
+        [
+          "-c",
+          `npx() { printf '%s\\n' "$@"; }\n${step.run.replace(/\$\{\{[\s\S]*?\}\}/g, "fixture")}`,
+        ],
+        {
+          env: {
+            ...process.env,
+            KAPTURE_CAPTURE_CACHE: enabled,
+            KAPTURE_CACHE_DIRECTORY: base,
+            KAPTURE_HEAD_CACHE_DIRECTORY: head,
+          },
+          encoding: "utf8",
         },
-        encoding: "utf8",
-      },
-    );
-    expect(result.status).toBe(0);
-    const args = result.stdout.trim().split("\n");
-    expect(args).toContain("test");
-    for (const [option, path] of [
-      ["--capture-cache-dir", base],
-      ["--capture-cache-output", head],
-    ]) {
-      expect(args.includes(option)).toBe(included);
-      if (included) expect(args[args.indexOf(option) + 1]).toBe(path);
-    }
-  });
+      );
+      expect(result.status).toBe(0);
+      const args = result.stdout.trim().split("\n");
+      expect(args).toContain("test");
+      for (const [option, path] of [
+        ["--capture-cache-dir", base],
+        ["--capture-cache-output", head],
+      ]) {
+        expect(args.includes(option)).toBe(included);
+        if (included) expect(args[args.indexOf(option) + 1]).toBe(path);
+      }
+    },
+  );
   test("supports all release lanes without special stacked branches", () => {
     expect(new Set(workflows.capture.on.pull_request.branches)).toEqual(
       new Set(["dev", "minor", "major"]),
@@ -365,17 +368,19 @@ describe("Kapture consumer workflows", () => {
     [0, 0, 1, 0],
     [2, 0, 3, 2],
     [3, 1, 3, 2],
-  ])("retries read-only review context at most three times (%s failures)", (failures, status, calls, delays) => {
-    const context = executionSteps(workflows.report.jobs.context).find(
-      (step) => step.id === "context",
-    );
-    assert(context?.run);
-    const result = spawnSync(
-      "bash",
-      [
-        "-e",
-        "-c",
-        `calls=0
+  ])(
+    "retries read-only review context at most three times (%s failures)",
+    (failures, status, calls, delays) => {
+      const context = executionSteps(workflows.report.jobs.context).find(
+        (step) => step.id === "context",
+      );
+      assert(context?.run);
+      const result = spawnSync(
+        "bash",
+        [
+          "-e",
+          "-c",
+          `calls=0
 npx() {
   calls=$((calls + 1))
   printf 'call\\n'
@@ -384,17 +389,18 @@ npx() {
 }
 sleep() { printf 'delay\\n'; }
 ${context.run}`,
-      ],
-      { env: { ...process.env, FIXTURE_FAILURES: String(failures) }, encoding: "utf8" },
-    );
-    expect({ status: result.status, stderr: result.stderr }).toEqual({ status, stderr: "" });
-    expect(result.stdout.trim().split("\n")).toEqual([
-      ...Array.from({ length: delays }, () => ["call", "delay"]).flat(),
-      "call",
-      ...(status === 0 ? ["ready=false"] : []),
-    ]);
-    expect(result.stdout.match(/^call$/gm)).toHaveLength(calls);
-  });
+        ],
+        { env: { ...process.env, FIXTURE_FAILURES: String(failures) }, encoding: "utf8" },
+      );
+      expect({ status: result.status, stderr: result.stderr }).toEqual({ status, stderr: "" });
+      expect(result.stdout.trim().split("\n")).toEqual([
+        ...Array.from({ length: delays }, () => ["call", "delay"]).flat(),
+        "call",
+        ...(status === 0 ? ["ready=false"] : []),
+      ]);
+      expect(result.stdout.match(/^call$/gm)).toHaveLength(calls);
+    },
+  );
 
   test("grants PR comment writes only to trusted publish and approval jobs", () => {
     expect(workflows.publish.jobs.publish.permissions).toEqual({

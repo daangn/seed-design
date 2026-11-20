@@ -221,8 +221,10 @@ export const AttachmentDropzone: React.FC<AttachmentDropzoneProps> = ({ children
 };
 AttachmentDropzone.displayName = "AttachmentDropzone";
 
-export interface AttachmentInputItemProps
-  extends Omit<SeedAttachmentInput.ItemProps, "children" | "asChild"> {
+export interface AttachmentInputItemProps extends Omit<
+  SeedAttachmentInput.ItemProps,
+  "children" | "asChild"
+> {
   onRetry?: () => void;
   /**
    * Rendered before the item contents. Pass an `AttachmentInput.ItemReorderHandle` to make the item reorderable.

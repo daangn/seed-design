@@ -13,8 +13,7 @@ type ViewProps = IntrinsicElements["view"];
 type TextProps = IntrinsicElements["text"];
 
 export interface FieldButtonRootProps
-  extends UseFieldButtonProps,
-    Omit<ViewProps, keyof UseFieldButtonProps> {}
+  extends UseFieldButtonProps, Omit<ViewProps, keyof UseFieldButtonProps> {}
 
 /**
  * 스타일 없이 FieldButton 상태를 하위 요소에 제공하는 native `<view>`입니다.

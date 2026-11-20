@@ -176,8 +176,7 @@ ImageFrameBadge.displayName = "ImageFrameBadge";
 
 /** @platform Lynx `svg` accepts a Lynx icon component; native DOM SVG is unsupported. */
 export interface ImageFrameIconProps
-  extends Omit<LynxViewProps, "children" | "style">,
-    Pick<LynxStyledElementProps, "style"> {
+  extends Omit<LynxViewProps, "children" | "style">, Pick<LynxStyledElementProps, "style"> {
   /** @external */
   children?: never;
   svg: React.ReactElement<LynxIconElementProps>;
@@ -215,8 +214,7 @@ ImageFrameIndicator.displayName = "ImageFrameIndicator";
 
 /** @platform Lynx No HTML button/form props, keyboard focus or `asChild`. */
 export interface ImageFrameReactionButtonProps
-  extends UseToggleProps,
-    Omit<LynxViewProps, "children"> {
+  extends UseToggleProps, Omit<LynxViewProps, "children"> {
   /** @external */
   children?: never;
 }

@@ -72,9 +72,8 @@ export function TypographyMigrationIndex() {
                       )}
                     </Fragment>
                   );
-                })
-              ) : // next가 없고 alternative가 있는 경우
-              item.alternative && item.alternative.length > 0 ? (
+                }) // next가 없고 alternative가 있는 경우
+              ) : item.alternative && item.alternative.length > 0 ? (
                 item.alternative.map((altTextStyleId, index) => {
                   return (
                     <Fragment key={altTextStyleId}>

@@ -88,9 +88,7 @@ export function useAttachmentInput(props: AttachmentInputProps = {}): Attachment
 }
 
 export interface AttachmentInputRootProps
-  extends AttachmentInputProps,
-    AttachmentInputVariantProps,
-    LynxHostProps<"view"> {}
+  extends AttachmentInputProps, AttachmentInputVariantProps, LynxHostProps<"view"> {}
 
 /**
  * `@seed-design/lynx-react-file-upload`의 `FileUploadRoot`에 SEED recipe를 조립합니다.
@@ -193,7 +191,8 @@ export const AttachmentInputItemGroup = React.forwardRef<NodesRef, AttachmentInp
 AttachmentInputItemGroup.displayName = "AttachmentInputItemGroup";
 
 export interface AttachmentInputTriggerProps
-  extends AttachmentInputTriggerVariantProps,
+  extends
+    AttachmentInputTriggerVariantProps,
     Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
     LynxPressableProps {}
 
@@ -305,8 +304,7 @@ export const AttachmentInputTriggerItemCount = React.forwardRef<
 AttachmentInputTriggerItemCount.displayName = "AttachmentInputTriggerItemCount";
 
 export interface AttachmentInputItemProps
-  extends Omit<AttachmentInputItemVariantProps, "removePressed">,
-    LynxHostProps<"view"> {
+  extends Omit<AttachmentInputItemVariantProps, "removePressed">, LynxHostProps<"view"> {
   fileEntry: FileEntry;
 }
 
@@ -478,8 +476,7 @@ export const AttachmentInputItemBadge = React.forwardRef<NodesRef, AttachmentInp
 AttachmentInputItemBadge.displayName = "AttachmentInputItemBadge";
 
 export interface AttachmentInputItemActionButtonProps
-  extends Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
-    LynxPressableProps {}
+  extends Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">, LynxPressableProps {}
 
 export const AttachmentInputItemActionButton = React.forwardRef<
   NodesRef,
@@ -556,8 +553,7 @@ export const AttachmentInputItemBackdrop = React.forwardRef<
 AttachmentInputItemBackdrop.displayName = "AttachmentInputItemBackdrop";
 
 export interface AttachmentInputItemRemoveButtonProps
-  extends Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
-    LynxPressableProps {}
+  extends Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">, LynxPressableProps {}
 
 /**
  * `FileUploadItemRemoveButton`의 삭제·`readOnly` 차단·접근성 위에 SEED recipe와 아이콘 slot을 조립합니다.

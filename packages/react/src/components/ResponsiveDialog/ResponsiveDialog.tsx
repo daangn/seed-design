@@ -123,8 +123,10 @@ export const ResponsiveDialogRoot = ({
 };
 ResponsiveDialogRoot.displayName = "ResponsiveDialogRoot";
 
-export interface ResponsiveDialogTriggerProps
-  extends SharedProps<Dialog.TriggerProps, BottomSheet.TriggerProps> {}
+export interface ResponsiveDialogTriggerProps extends SharedProps<
+  Dialog.TriggerProps,
+  BottomSheet.TriggerProps
+> {}
 
 export const ResponsiveDialogTrigger = React.forwardRef<
   HTMLButtonElement,
@@ -140,8 +142,10 @@ export const ResponsiveDialogTrigger = React.forwardRef<
 });
 ResponsiveDialogTrigger.displayName = "ResponsiveDialogTrigger";
 
-export interface ResponsiveDialogPositionerProps
-  extends SharedProps<Dialog.PositionerProps, BottomSheet.PositionerProps> {}
+export interface ResponsiveDialogPositionerProps extends SharedProps<
+  Dialog.PositionerProps,
+  BottomSheet.PositionerProps
+> {}
 
 export const ResponsiveDialogPositioner = React.forwardRef<
   HTMLDivElement,
@@ -157,8 +161,10 @@ export const ResponsiveDialogPositioner = React.forwardRef<
 });
 ResponsiveDialogPositioner.displayName = "ResponsiveDialogPositioner";
 
-export interface ResponsiveDialogBackdropProps
-  extends SharedProps<Dialog.BackdropProps, BottomSheet.BackdropProps> {}
+export interface ResponsiveDialogBackdropProps extends SharedProps<
+  Dialog.BackdropProps,
+  BottomSheet.BackdropProps
+> {}
 
 export const ResponsiveDialogBackdrop = React.forwardRef<
   HTMLDivElement,
@@ -174,8 +180,10 @@ export const ResponsiveDialogBackdrop = React.forwardRef<
 });
 ResponsiveDialogBackdrop.displayName = "ResponsiveDialogBackdrop";
 
-export interface ResponsiveDialogContentProps
-  extends SharedProps<Dialog.ContentProps, BottomSheet.ContentProps> {}
+export interface ResponsiveDialogContentProps extends SharedProps<
+  Dialog.ContentProps,
+  BottomSheet.ContentProps
+> {}
 
 export const ResponsiveDialogContent = React.forwardRef<
   HTMLDivElement,
@@ -191,8 +199,10 @@ export const ResponsiveDialogContent = React.forwardRef<
 });
 ResponsiveDialogContent.displayName = "ResponsiveDialogContent";
 
-export interface ResponsiveDialogHeaderProps
-  extends SharedProps<Dialog.HeaderProps, BottomSheet.HeaderProps> {}
+export interface ResponsiveDialogHeaderProps extends SharedProps<
+  Dialog.HeaderProps,
+  BottomSheet.HeaderProps
+> {}
 
 export const ResponsiveDialogHeader = React.forwardRef<HTMLDivElement, ResponsiveDialogHeaderProps>(
   (props, ref) => {
@@ -207,8 +217,10 @@ export const ResponsiveDialogHeader = React.forwardRef<HTMLDivElement, Responsiv
 );
 ResponsiveDialogHeader.displayName = "ResponsiveDialogHeader";
 
-export interface ResponsiveDialogTitleProps
-  extends SharedProps<Dialog.TitleProps, BottomSheet.TitleProps> {}
+export interface ResponsiveDialogTitleProps extends SharedProps<
+  Dialog.TitleProps,
+  BottomSheet.TitleProps
+> {}
 
 export const ResponsiveDialogTitle = React.forwardRef<
   HTMLHeadingElement,
@@ -224,8 +236,10 @@ export const ResponsiveDialogTitle = React.forwardRef<
 });
 ResponsiveDialogTitle.displayName = "ResponsiveDialogTitle";
 
-export interface ResponsiveDialogDescriptionProps
-  extends SharedProps<Dialog.DescriptionProps, BottomSheet.DescriptionProps> {}
+export interface ResponsiveDialogDescriptionProps extends SharedProps<
+  Dialog.DescriptionProps,
+  BottomSheet.DescriptionProps
+> {}
 
 export const ResponsiveDialogDescription = React.forwardRef<
   HTMLParagraphElement,
@@ -241,8 +255,10 @@ export const ResponsiveDialogDescription = React.forwardRef<
 });
 ResponsiveDialogDescription.displayName = "ResponsiveDialogDescription";
 
-export interface ResponsiveDialogBodyProps
-  extends SharedProps<Dialog.BodyProps, BottomSheet.BodyProps> {}
+export interface ResponsiveDialogBodyProps extends SharedProps<
+  Dialog.BodyProps,
+  BottomSheet.BodyProps
+> {}
 
 export const ResponsiveDialogBody = React.forwardRef<HTMLDivElement, ResponsiveDialogBodyProps>(
   (props, ref) => {
@@ -257,8 +273,10 @@ export const ResponsiveDialogBody = React.forwardRef<HTMLDivElement, ResponsiveD
 );
 ResponsiveDialogBody.displayName = "ResponsiveDialogBody";
 
-export interface ResponsiveDialogFooterProps
-  extends SharedProps<Dialog.FooterProps, BottomSheet.FooterProps> {}
+export interface ResponsiveDialogFooterProps extends SharedProps<
+  Dialog.FooterProps,
+  BottomSheet.FooterProps
+> {}
 
 export const ResponsiveDialogFooter = React.forwardRef<HTMLDivElement, ResponsiveDialogFooterProps>(
   (props, ref) => {
@@ -277,8 +295,10 @@ ResponsiveDialogFooter.displayName = "ResponsiveDialogFooter";
  * Unstyled button that closes the dialog or bottom sheet on click, meant to be
  * composed with an action button via `asChild`.
  */
-export interface ResponsiveDialogActionProps
-  extends SharedProps<Dialog.ActionProps, Drawer.CloseButtonProps> {}
+export interface ResponsiveDialogActionProps extends SharedProps<
+  Dialog.ActionProps,
+  Drawer.CloseButtonProps
+> {}
 
 export const ResponsiveDialogAction = React.forwardRef<
   HTMLButtonElement,
@@ -294,8 +314,10 @@ export const ResponsiveDialogAction = React.forwardRef<
 });
 ResponsiveDialogAction.displayName = "ResponsiveDialogAction";
 
-export interface ResponsiveDialogCloseButtonProps
-  extends SharedProps<Dialog.CloseButtonProps, BottomSheet.CloseButtonProps> {}
+export interface ResponsiveDialogCloseButtonProps extends SharedProps<
+  Dialog.CloseButtonProps,
+  BottomSheet.CloseButtonProps
+> {}
 
 export const ResponsiveDialogCloseButton = React.forwardRef<
   HTMLButtonElement,

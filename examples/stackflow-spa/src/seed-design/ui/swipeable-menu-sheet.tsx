@@ -17,8 +17,10 @@ export interface SwipeableMenuSheetTriggerProps extends SeedSwipeableMenuSheet.T
 
 export const SwipeableMenuSheetTrigger = SeedSwipeableMenuSheet.Trigger;
 
-export interface SwipeableMenuSheetContentProps
-  extends Omit<SeedSwipeableMenuSheet.ContentProps, "title" | "asChild"> {
+export interface SwipeableMenuSheetContentProps extends Omit<
+  SeedSwipeableMenuSheet.ContentProps,
+  "title" | "asChild"
+> {
   title?: React.ReactNode;
 
   description?: React.ReactNode;
@@ -82,8 +84,10 @@ export interface SwipeableMenuSheetGroupProps extends SeedSwipeableMenuSheet.Gro
 
 export const SwipeableMenuSheetGroup = SeedSwipeableMenuSheet.Group;
 
-export interface SwipeableMenuSheetItemProps
-  extends Omit<SeedSwipeableMenuSheet.ItemProps, "children" | "asChild"> {
+export interface SwipeableMenuSheetItemProps extends Omit<
+  SeedSwipeableMenuSheet.ItemProps,
+  "children" | "asChild"
+> {
   prefixIcon?: React.ReactNode;
 
   label: React.ReactNode;

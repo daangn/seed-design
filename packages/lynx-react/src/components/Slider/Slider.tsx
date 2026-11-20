@@ -28,8 +28,7 @@ export type SliderValues = number[];
  * touch 좌표는 Root의 가로 범위를 기준으로 값으로 바꿉니다.
  */
 export interface SliderRootProps
-  extends Omit<LynxHostProps<"view">, keyof UseSliderProps>,
-    UseSliderProps {
+  extends Omit<LynxHostProps<"view">, keyof UseSliderProps>, UseSliderProps {
   children?: React.ReactNode;
 }
 
@@ -54,8 +53,7 @@ export interface SliderMarkersProps extends LynxHostProps<"view"> {
   children?: React.ReactNode;
 }
 export interface SliderMarkerProps
-  extends LynxHostProps<"view">,
-    Omit<SliderMarkerVariantProps, "dir" | "disabled"> {
+  extends LynxHostProps<"view">, Omit<SliderMarkerVariantProps, "dir" | "disabled"> {
   value: number;
   children?: React.ReactNode;
 }

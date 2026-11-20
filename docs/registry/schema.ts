@@ -53,11 +53,10 @@ export interface Registry {
 /**
  * this should be in sync with `packages/cli/src/schema.ts`
  */
-export interface GeneratedRegistryItem
-  extends Pick<
-    Registry["items"][number],
-    "id" | "description" | "deprecated" | "hideFromCLICatalog"
-  > {
+export interface GeneratedRegistryItem extends Pick<
+  Registry["items"][number],
+  "id" | "description" | "deprecated" | "hideFromCLICatalog"
+> {
   /**
    * @description snippets에 명시된 파일에서 의존하는 패키지. CLI가 실제로 설치함
    * @example ["@seed-design/react-tabs"]

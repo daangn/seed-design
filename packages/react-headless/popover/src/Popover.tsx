@@ -36,8 +36,7 @@ export const PopoverAnchor = forwardRef<HTMLDivElement, PopoverAnchorProps>((pro
 PopoverAnchor.displayName = "PopoverAnchor";
 
 export interface PopoverTriggerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLButtonElement> {}
 
 export const PopoverTrigger = forwardRef<HTMLButtonElement, PopoverTriggerProps>((props, ref) => {
   const api = usePopoverContext();
@@ -100,8 +99,7 @@ const PopoverDismissibleLayer = ({ children }: { children: React.ReactNode }) =>
 };
 
 export interface PopoverPositionerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const PopoverPositioner = forwardRef<HTMLDivElement, PopoverPositionerProps>(
   (props, ref) => {
@@ -119,8 +117,7 @@ export const PopoverPositioner = forwardRef<HTMLDivElement, PopoverPositionerPro
 PopoverPositioner.displayName = "PopoverPositioner";
 
 export interface PopoverPositionerPortalProps
-  extends PopoverPositionerProps,
-    Pick<FloatingPortalProps, "id" | "root" | "preserveTabOrder"> {}
+  extends PopoverPositionerProps, Pick<FloatingPortalProps, "id" | "root" | "preserveTabOrder"> {}
 
 export const PopoverPositionerPortal = forwardRef<HTMLDivElement, PopoverPositionerPortalProps>(
   ({ id, root, preserveTabOrder, ...otherProps }, ref) => {
@@ -221,8 +218,7 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>((p
 PopoverContent.displayName = "PopoverContent";
 
 export interface PopoverTitleProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLHeadingElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLHeadingElement> {}
 
 export const PopoverTitle = forwardRef<HTMLHeadingElement, PopoverTitleProps>((props, ref) => {
   const api = usePopoverContext();
@@ -233,8 +229,7 @@ export const PopoverTitle = forwardRef<HTMLHeadingElement, PopoverTitleProps>((p
 PopoverTitle.displayName = "PopoverTitle";
 
 export interface PopoverDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLParagraphElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLParagraphElement> {}
 
 export const PopoverDescription = forwardRef<HTMLParagraphElement, PopoverDescriptionProps>(
   (props, ref) => {
@@ -260,8 +255,7 @@ export const PopoverArrow = forwardRef<HTMLDivElement, PopoverArrowProps>((props
 PopoverArrow.displayName = "PopoverArrow";
 
 export interface PopoverCloseButtonProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const PopoverCloseButton = forwardRef<HTMLButtonElement, PopoverCloseButtonProps>(
   (props, ref) => {

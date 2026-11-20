@@ -7,8 +7,10 @@ import type * as React from "react";
 export const HelpBubbleTooltipDelayGroup = SeedHelpBubbleTooltip.DelayGroup;
 export interface HelpBubbleTooltipDelayGroupProps extends SeedHelpBubbleTooltip.DelayGroupProps {}
 
-export interface HelpBubbleTooltipTriggerProps
-  extends Omit<SeedHelpBubbleTooltip.RootProps, "children"> {
+export interface HelpBubbleTooltipTriggerProps extends Omit<
+  SeedHelpBubbleTooltip.RootProps,
+  "children"
+> {
   title: React.ReactNode;
 
   description?: React.ReactNode;
@@ -49,8 +51,10 @@ export const HelpBubbleTooltipTrigger = forwardRef<
 });
 HelpBubbleTooltipTrigger.displayName = "HelpBubbleTooltipTrigger";
 
-export interface HelpBubbleTooltipTriggerPortalProps
-  extends Omit<SeedHelpBubbleTooltip.RootProps, "children"> {
+export interface HelpBubbleTooltipTriggerPortalProps extends Omit<
+  SeedHelpBubbleTooltip.RootProps,
+  "children"
+> {
   title: React.ReactNode;
 
   description?: React.ReactNode;

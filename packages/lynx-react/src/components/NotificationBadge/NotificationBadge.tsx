@@ -22,8 +22,7 @@ const NotificationBadgeContext = React.createContext<NotificationBadgeVariantPro
  * 기본값으로 사용하고, Badge에 직접 전달한 `size`가 이를 덮어씁니다.
  */
 export interface NotificationBadgeProps
-  extends NotificationBadgeVariantProps,
-    LynxHostProps<"view"> {}
+  extends NotificationBadgeVariantProps, LynxHostProps<"view"> {}
 
 export const NotificationBadge = React.forwardRef<unknown, NotificationBadgeProps>(
   (innerProps, ref) => {
@@ -49,8 +48,7 @@ export const NotificationBadge = React.forwardRef<unknown, NotificationBadgeProp
 NotificationBadge.displayName = "NotificationBadge";
 
 export interface NotificationBadgePositionerProps
-  extends NotificationBadgePositionerVariantProps,
-    LynxHostProps<"view"> {}
+  extends NotificationBadgePositionerVariantProps, LynxHostProps<"view"> {}
 
 export const NotificationBadgePositioner = React.forwardRef<
   unknown,

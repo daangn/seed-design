@@ -31,10 +31,7 @@ export {
   type SideNavigationInsetProps,
 } from "./SideNavigation";
 
-export {
-  SideNavigationProvider,
-  type SideNavigationProviderProps,
-} from "./SideNavigation";
+export { SideNavigationProvider, type SideNavigationProviderProps } from "./SideNavigation";
 
 export * as SideNavigation from "./SideNavigation.namespace";
 

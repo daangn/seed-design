@@ -37,8 +37,7 @@ export interface FieldLabelProps extends FieldLabelVariantProps, Field.LabelProp
 export const FieldLabel = withLabelProvider<HTMLLabelElement, FieldLabelProps>(Field.Label, "root");
 
 export interface FieldIndicatorTextProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const FieldIndicatorText = withLabelContext<HTMLSpanElement, FieldIndicatorTextProps>(
   withStateProps(Primitive.span),
@@ -99,8 +98,7 @@ export const FieldErrorMessage = withContext<HTMLSpanElement, FieldErrorMessageP
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface FieldCharacterCountProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {
   /**
    * The current number of characters/graphemes
    */

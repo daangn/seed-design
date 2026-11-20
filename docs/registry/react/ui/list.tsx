@@ -18,8 +18,10 @@ export interface ListProps extends SeedList.RootProps {}
  */
 export const List = SeedList.Root;
 
-export interface ListItemProps
-  extends Omit<SeedList.ItemProps, "title" | "prefix" | "asChild" | "children"> {
+export interface ListItemProps extends Omit<
+  SeedList.ItemProps,
+  "title" | "prefix" | "asChild" | "children"
+> {
   title: React.ReactNode;
   detail?: React.ReactNode;
   prefix?: React.ReactNode;
@@ -47,11 +49,10 @@ ListItem.displayName = "ListItem";
 
 type ListItemBaseProps = Omit<SeedList.ItemProps, keyof React.HTMLAttributes<HTMLLIElement>>;
 
-export interface ListButtonItemProps
-  extends Omit<
-    ListItemBaseProps & React.ButtonHTMLAttributes<HTMLButtonElement>,
-    "title" | "prefix" | "asChild" | "children"
-  > {
+export interface ListButtonItemProps extends Omit<
+  ListItemBaseProps & React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "title" | "prefix" | "asChild" | "children"
+> {
   title: React.ReactNode;
   detail?: React.ReactNode;
   prefix?: React.ReactNode;
@@ -89,11 +90,10 @@ export const ListButtonItem = React.forwardRef<HTMLButtonElement, ListButtonItem
 );
 ListButtonItem.displayName = "ListButtonItem";
 
-export interface ListLinkItemProps
-  extends Omit<
-    ListItemBaseProps & React.AnchorHTMLAttributes<HTMLAnchorElement>,
-    "title" | "prefix" | "asChild" | "children"
-  > {
+export interface ListLinkItemProps extends Omit<
+  ListItemBaseProps & React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  "title" | "prefix" | "asChild" | "children"
+> {
   title: React.ReactNode;
   detail?: React.ReactNode;
   prefix?: React.ReactNode;
@@ -126,8 +126,10 @@ export const ListLinkItem = React.forwardRef<HTMLAnchorElement, ListLinkItemProp
 );
 ListLinkItem.displayName = "ListLinkItem";
 
-export interface ListSwitchItemProps
-  extends Omit<SeedList.SwitchItemProps, "title" | "prefix" | "asChild" | "children"> {
+export interface ListSwitchItemProps extends Omit<
+  SeedList.SwitchItemProps,
+  "title" | "prefix" | "asChild" | "children"
+> {
   title: React.ReactNode;
   detail?: React.ReactNode;
   prefix?: React.ReactNode;
@@ -156,8 +158,10 @@ export const ListSwitchItem = React.forwardRef<HTMLInputElement, ListSwitchItemP
 );
 ListSwitchItem.displayName = "ListSwitchItem";
 
-export interface ListCheckItemProps
-  extends Omit<SeedList.CheckItemProps, "title" | "prefix" | "asChild" | "children"> {
+export interface ListCheckItemProps extends Omit<
+  SeedList.CheckItemProps,
+  "title" | "prefix" | "asChild" | "children"
+> {
   title: React.ReactNode;
   detail?: React.ReactNode;
   prefix?: React.ReactNode;
@@ -186,8 +190,10 @@ export const ListCheckItem = React.forwardRef<HTMLInputElement, ListCheckItemPro
 );
 ListCheckItem.displayName = "ListCheckItem";
 
-export interface ListRadioItemProps
-  extends Omit<SeedList.RadioItemProps, "title" | "prefix" | "asChild" | "children"> {
+export interface ListRadioItemProps extends Omit<
+  SeedList.RadioItemProps,
+  "title" | "prefix" | "asChild" | "children"
+> {
   title: React.ReactNode;
   detail?: React.ReactNode;
   prefix?: React.ReactNode;

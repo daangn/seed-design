@@ -114,7 +114,8 @@ RadioGroupRoot.displayName = "RadioGroupRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface RadioGroupItemProps
-  extends RadioItemVariantProps,
+  extends
+    RadioItemVariantProps,
     RadiomarkItemVariantProps,
     Pick<UseRadioGroupItemProps, "value" | "disabled">,
     LynxHostProps<"view"> {}
@@ -187,8 +188,7 @@ RadioGroupItem.displayName = "RadioGroupItem";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface RadioGroupItemControlProps
-  extends RadiomarkItemVariantProps,
-    LynxHostProps<"view"> {}
+  extends RadiomarkItemVariantProps, LynxHostProps<"view"> {}
 
 export const RadioGroupItemControl = React.forwardRef<unknown, RadioGroupItemControlProps>(
   (props, ref) => {

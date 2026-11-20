@@ -6,8 +6,10 @@ export interface PullToRefreshRootProps extends PullToRefresh.RootProps {}
 
 export const PullToRefreshRoot = PullToRefresh.Root;
 
-export interface PullToRefreshIndicatorProps
-  extends Omit<PullToRefresh.IndicatorProps, "children"> {}
+export interface PullToRefreshIndicatorProps extends Omit<
+  PullToRefresh.IndicatorProps,
+  "children"
+> {}
 
 export const PullToRefreshIndicator = forwardRef<
   ComponentRef<typeof PullToRefresh.Indicator>,

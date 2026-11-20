@@ -24,8 +24,10 @@ const LABEL_SELECT_FILE = "파일 선택";
 const LABEL_RETRY = "재시도";
 const LABEL_REMOVE = "파일 제거";
 
-export interface AttachmentDisplayFieldProps
-  extends Omit<SeedAttachmentDisplay.RootProps, "asChild"> {
+export interface AttachmentDisplayFieldProps extends Omit<
+  SeedAttachmentDisplay.RootProps,
+  "asChild"
+> {
   label?: React.ReactNode;
   /**
    * @default "medium"
@@ -158,8 +160,10 @@ export const AttachmentDisplay = React.forwardRef<HTMLDivElement, AttachmentDisp
 );
 AttachmentDisplay.displayName = "AttachmentDisplay";
 
-export interface AttachmentDisplayItemProps
-  extends Omit<SeedAttachmentDisplay.ItemProps, "children" | "asChild"> {
+export interface AttachmentDisplayItemProps extends Omit<
+  SeedAttachmentDisplay.ItemProps,
+  "children" | "asChild"
+> {
   onRetry?: () => void;
   /**
    * Rendered before the item contents. Pass an `AttachmentDisplay.ItemReorderHandle` to make the item reorderable.

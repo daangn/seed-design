@@ -79,7 +79,8 @@ export const QuantityPickerRoot = React.forwardRef<HTMLDivElement, QuantityPicke
 QuantityPickerRoot.displayName = "QuantityPickerRoot";
 
 export interface QuantityPickerDecrementButtonProps
-  extends PrimitiveProps,
+  extends
+    PrimitiveProps,
     Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "disabled" | "type"> {}
 
 export const QuantityPickerDecrementButton = React.forwardRef<
@@ -100,8 +101,7 @@ export const QuantityPickerDecrementButton = React.forwardRef<
 QuantityPickerDecrementButton.displayName = "QuantityPickerDecrementButton";
 
 export interface QuantityPickerValueDisplayProps
-  extends PrimitiveProps,
-    Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {}
+  extends PrimitiveProps, Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {}
 
 export const QuantityPickerValueDisplay = React.forwardRef<
   HTMLSpanElement,
@@ -114,7 +114,8 @@ export const QuantityPickerValueDisplay = React.forwardRef<
 QuantityPickerValueDisplay.displayName = "QuantityPickerValueDisplay";
 
 export interface QuantityPickerIncrementButtonProps
-  extends PrimitiveProps,
+  extends
+    PrimitiveProps,
     Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "disabled" | "type"> {}
 
 export const QuantityPickerIncrementButton = React.forwardRef<
@@ -128,7 +129,8 @@ export const QuantityPickerIncrementButton = React.forwardRef<
 QuantityPickerIncrementButton.displayName = "QuantityPickerIncrementButton";
 
 export interface QuantityPickerHiddenInputProps
-  extends PrimitiveProps,
+  extends
+    PrimitiveProps,
     Omit<React.InputHTMLAttributes<HTMLInputElement>, "disabled" | "required" | "type" | "value"> {}
 
 export const QuantityPickerHiddenInput = React.forwardRef<

@@ -8,9 +8,7 @@ import { useFieldButton, type UseFieldButtonProps } from "./useFieldButton";
 import { FieldButtonProvider, useFieldButtonContext } from "./useFieldButtonContext";
 
 export interface FieldButtonRootProps
-  extends UseFieldButtonProps,
-    PrimitiveProps,
-    HTMLAttributes<HTMLDivElement> {}
+  extends UseFieldButtonProps, PrimitiveProps, HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonRoot = forwardRef<HTMLDivElement, FieldButtonRootProps>(
   ({ disabled, readOnly, invalid, name, values, onValuesChange, ...otherProps }, ref) => {
@@ -27,8 +25,7 @@ export const FieldButtonRoot = forwardRef<HTMLDivElement, FieldButtonRootProps>(
 FieldButtonRoot.displayName = "FieldButtonRoot";
 
 export interface FieldButtonButtonProps
-  extends PrimitiveProps,
-    ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const FieldButtonButton = forwardRef<HTMLButtonElement, FieldButtonButtonProps>(
   (props, ref) => {
@@ -41,8 +38,7 @@ export const FieldButtonButton = forwardRef<HTMLButtonElement, FieldButtonButton
 FieldButtonButton.displayName = "FieldButtonButton";
 
 export interface FieldButtonDescriptionProps
-  extends PrimitiveProps,
-    HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, HTMLAttributes<HTMLSpanElement> {}
 
 export const FieldButtonDescription = forwardRef<HTMLSpanElement, FieldButtonDescriptionProps>(
   (props, ref) => {
@@ -55,8 +51,7 @@ export const FieldButtonDescription = forwardRef<HTMLSpanElement, FieldButtonDes
 FieldButtonDescription.displayName = "FieldButtonDescription";
 
 export interface FieldButtonErrorMessageProps
-  extends PrimitiveProps,
-    HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonErrorMessage = forwardRef<HTMLDivElement, FieldButtonErrorMessageProps>(
   (props, ref) => {
@@ -69,8 +64,7 @@ export const FieldButtonErrorMessage = forwardRef<HTMLDivElement, FieldButtonErr
 FieldButtonErrorMessage.displayName = "FieldButtonErrorMessage";
 
 export interface FieldButtonHiddenInputProps
-  extends PrimitiveProps,
-    React.InputHTMLAttributes<HTMLInputElement> {
+  extends PrimitiveProps, React.InputHTMLAttributes<HTMLInputElement> {
   valueIndex: number;
 }
 
@@ -87,8 +81,7 @@ export const FieldButtonHiddenInput = forwardRef<HTMLInputElement, FieldButtonHi
 FieldButtonHiddenInput.displayName = "FieldButtonHiddenInput";
 
 export interface FieldButtonClearButtonProps
-  extends PrimitiveProps,
-    ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const FieldButtonClearButton = forwardRef<HTMLButtonElement, FieldButtonClearButtonProps>(
   (props, ref) => {

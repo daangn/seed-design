@@ -5,8 +5,7 @@ import React from "react";
 import clsx from "clsx";
 
 export interface BottomSheetHandleProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const BottomSheetHandle = React.forwardRef<HTMLDivElement, BottomSheetHandleProps>(
   ({ className, ...props }, ref) => {

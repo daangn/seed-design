@@ -8,8 +8,7 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 const { withContext, withProvider } = createSlotRecipeContext(pullToRefresh);
 
 export interface PullToRefreshRootProps
-  extends PullToRefreshVariantProps,
-    PullToRefreshPrimitive.RootProps {}
+  extends PullToRefreshVariantProps, PullToRefreshPrimitive.RootProps {}
 
 export const PullToRefreshRoot = withProvider<HTMLDivElement, PullToRefreshRootProps>(
   PullToRefreshPrimitive.Root,

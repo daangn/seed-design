@@ -51,9 +51,7 @@ function hasExitTransition(event: Parameters<NativeTransitionHandler>[0]): boole
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface HelpBubbleRootProps
-  extends HelpBubblePublicVariantProps,
-    LynxHostProps<"view">,
-    UsePopoverProps {
+  extends HelpBubblePublicVariantProps, LynxHostProps<"view">, UsePopoverProps {
   /** @default "top" */
   placement?: UsePopoverProps["placement"];
   /** @default 4 */
@@ -170,7 +168,8 @@ HelpBubbleTrigger.displayName = "HelpBubbleTrigger";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface HelpBubblePositionerProps
-  extends LynxHostProps<"view">,
+  extends
+    LynxHostProps<"view">,
     Pick<PopoverPositionerProps, "container" | "overlayLevel" | "overlayViewProps"> {
   /**
    * Positioner의 기본 z-index `99`에 더합니다. `container`가 없을 때 같은 화면의 형제 요소와의 순서를
@@ -200,8 +199,7 @@ HelpBubblePositioner.displayName = "HelpBubblePositioner";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface HelpBubbleContentProps
-  extends Pick<StyleProps, "maxWidth">,
-    LynxHostProps<"view"> {}
+  extends Pick<StyleProps, "maxWidth">, LynxHostProps<"view"> {}
 
 export const HelpBubbleContent = React.forwardRef<unknown, HelpBubbleContentProps>((props, ref) => {
   const { style, restProps } = useStyleProps(props);

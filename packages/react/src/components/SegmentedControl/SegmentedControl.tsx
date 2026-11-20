@@ -10,8 +10,7 @@ import { withContentScale } from "../../utils/withContentScale";
 const { withProvider, withContext } = createSlotRecipeContext(segmentedControl);
 
 export interface SegmentedControlRootProps
-  extends SegmentedControlVariantProps,
-    SegmentedControlPrimitive.RootProps {}
+  extends SegmentedControlVariantProps, SegmentedControlPrimitive.RootProps {}
 
 export const SegmentedControlRoot = withProvider<HTMLDivElement, SegmentedControlRootProps>(
   SegmentedControlPrimitive.Root,
@@ -19,8 +18,7 @@ export const SegmentedControlRoot = withProvider<HTMLDivElement, SegmentedContro
 );
 
 export interface SegmentedControlIndicatorProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SegmentedControlIndicator = withContext<
   HTMLDivElement,

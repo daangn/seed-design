@@ -14,7 +14,8 @@ import { useStyleProps, type StyleProps } from "../../utils/styled";
 const { withContext } = createRecipeContext(skeleton);
 
 export interface SkeletonProps
-  extends SkeletonVariantProps,
+  extends
+    SkeletonVariantProps,
     PrimitiveProps,
     Pick<StyleProps, "width">,
     Omit<React.HTMLAttributes<HTMLDivElement>, "color"> {

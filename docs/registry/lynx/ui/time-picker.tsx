@@ -43,7 +43,8 @@ const renderLabels: Record<TimePickerColumnType, (option: WheelPickerOption) => 
 };
 
 export interface TimePickerProps
-  extends UseTimePickerProps,
+  extends
+    UseTimePickerProps,
     Omit<
       WheelPickerProps,
       | keyof UseTimePickerProps

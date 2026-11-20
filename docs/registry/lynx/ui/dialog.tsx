@@ -27,8 +27,7 @@ export interface DialogFooterProps extends SeedDialog.FooterProps {}
 export const DialogFooter = SeedDialog.Footer;
 
 export interface DialogActionProps
-  extends Omit<SeedDialog.ActionProps, "children">,
-    ActionButtonProps {}
+  extends Omit<SeedDialog.ActionProps, "children">, ActionButtonProps {}
 
 /**
  * `ActionButton`을 닫기 동작과 함께 렌더링합니다. `disabled`·`loading`이면 닫지 않습니다.

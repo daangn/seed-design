@@ -24,8 +24,7 @@ export const DialogRoot = (props: DialogRootProps) => {
 };
 
 export interface DialogTriggerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLButtonElement> {}
 
 export const DialogTrigger = forwardRef<HTMLButtonElement, DialogTriggerProps>((props, ref) => {
   const api = useDialogContext();
@@ -34,8 +33,7 @@ export const DialogTrigger = forwardRef<HTMLButtonElement, DialogTriggerProps>((
 DialogTrigger.displayName = "DialogTrigger";
 
 export interface DialogPositionerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const DialogPositioner = forwardRef<HTMLDivElement, DialogPositionerProps>((props, ref) => {
   const api = useDialogContext();
@@ -120,8 +118,7 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((pro
 DialogContent.displayName = "DialogContent";
 
 export interface DialogTitleProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLHeadingElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLHeadingElement> {}
 
 export const DialogTitle = forwardRef<HTMLHeadingElement, DialogTitleProps>((props, ref) => {
   const api = useDialogContext();
@@ -131,8 +128,7 @@ export const DialogTitle = forwardRef<HTMLHeadingElement, DialogTitleProps>((pro
 });
 
 export interface DialogDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLParagraphElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLParagraphElement> {}
 
 export const DialogDescription = forwardRef<HTMLParagraphElement, DialogDescriptionProps>(
   (props, ref) => {
@@ -147,8 +143,7 @@ export const DialogDescription = forwardRef<HTMLParagraphElement, DialogDescript
 );
 
 export interface DialogCloseButtonProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const DialogCloseButton = forwardRef<HTMLButtonElement, DialogCloseButtonProps>(
   (props, ref) => {

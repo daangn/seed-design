@@ -33,8 +33,10 @@ export interface ResponsiveDialogTriggerProps extends SeedResponsiveDialog.Trigg
 
 export const ResponsiveDialogTrigger = SeedResponsiveDialog.Trigger;
 
-export interface ResponsiveDialogContentProps
-  extends Omit<SeedResponsiveDialog.ContentProps, "title" | "asChild"> {
+export interface ResponsiveDialogContentProps extends Omit<
+  SeedResponsiveDialog.ContentProps,
+  "title" | "asChild"
+> {
   title?: React.ReactNode;
 
   description?: React.ReactNode;
@@ -154,8 +156,7 @@ export interface ResponsiveDialogFooterProps extends SeedResponsiveDialog.Footer
 export const ResponsiveDialogFooter = SeedResponsiveDialog.Footer;
 
 export interface ResponsiveDialogActionProps
-  extends Omit<SeedResponsiveDialog.ActionProps, "color">,
-    ActionButtonProps {}
+  extends Omit<SeedResponsiveDialog.ActionProps, "color">, ActionButtonProps {}
 
 export const ResponsiveDialogAction = forwardRef<HTMLButtonElement, ResponsiveDialogActionProps>(
   (props, ref) => {

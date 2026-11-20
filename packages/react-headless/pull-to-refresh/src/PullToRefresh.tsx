@@ -12,9 +12,7 @@ import {
 import { PullToRefreshProvider, usePullToRefreshContext } from "./usePullToRefreshContext";
 
 export interface PullToRefreshRootProps
-  extends UsePullToRefreshProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends UsePullToRefreshProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const PullToRefreshRoot = forwardRef<HTMLDivElement, PullToRefreshRootProps>(
   (props, ref) => {
@@ -52,8 +50,10 @@ export const PullToRefreshRoot = forwardRef<HTMLDivElement, PullToRefreshRootPro
 );
 PullToRefreshRoot.displayName = "PullToRefreshRoot";
 
-export interface PullToRefreshIndicatorProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
+export interface PullToRefreshIndicatorProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "children"
+> {
   children: (props: PullToRefreshIndicatorRenderProps) => React.ReactNode;
 }
 
@@ -66,8 +66,7 @@ export const PullToRefreshIndicator = (props: PullToRefreshIndicatorProps) => {
 };
 
 export interface PullToRefreshContentProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const PullToRefreshContent = forwardRef<HTMLDivElement, PullToRefreshContentProps>(
   (props, ref) => {

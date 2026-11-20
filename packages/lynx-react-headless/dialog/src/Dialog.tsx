@@ -62,8 +62,10 @@ function useResolvedTransition(transition: boolean | undefined): boolean | undef
 // Root
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface DialogRootProps
-  extends Omit<LynxDialogRootProps, "show" | "defaultShow" | "onShowChange"> {
+export interface DialogRootProps extends Omit<
+  LynxDialogRootProps,
+  "show" | "defaultShow" | "onShowChange"
+> {
   /**
    * Whether the dialog is open (controlled mode).
    * Internally mapped to `show` of `@lynx-js/lynx-ui-dialog`.
@@ -146,8 +148,10 @@ DialogCloseButton.displayName = "DialogCloseButton";
 // Positioner / Backdrop / Content
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface DialogPositionerProps
-  extends Omit<LynxDialogViewProps, "container" | "overlayLevel" | "dialogViewProps"> {
+export interface DialogPositionerProps extends Omit<
+  LynxDialogViewProps,
+  "container" | "overlayLevel" | "dialogViewProps"
+> {
   /**
    * Native container name such as `"window"`. When set, the layer renders into a native
    * `<overlay>` that can cover host UI outside the Lynx view. Otherwise it renders as a

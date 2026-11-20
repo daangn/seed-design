@@ -11,8 +11,7 @@ import { SegmentedControlItemProvider } from "./useSegmentedControlItemContext.j
 type ViewProps = IntrinsicElements["view"];
 
 export interface SegmentedControlRootProps
-  extends UseSegmentedControlProps,
-    Omit<ViewProps, keyof UseSegmentedControlProps | "style"> {
+  extends UseSegmentedControlProps, Omit<ViewProps, keyof UseSegmentedControlProps | "style"> {
   /** geometry 변수와 병합하므로 객체만 받습니다. */
   style?: CSSProperties;
 }
@@ -60,8 +59,7 @@ export const SegmentedControlRoot = React.forwardRef<unknown, SegmentedControlRo
 SegmentedControlRoot.displayName = "SegmentedControlRoot";
 
 export interface SegmentedControlItemProps
-  extends UseSegmentedControlItemProps,
-    Omit<ViewProps, keyof UseSegmentedControlItemProps> {}
+  extends UseSegmentedControlItemProps, Omit<ViewProps, keyof UseSegmentedControlItemProps> {}
 
 /**
  * 스타일 없이 Item 등록·선택·press·접근성을 연결하는 native `<view>`입니다.

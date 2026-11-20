@@ -55,7 +55,8 @@ function useStyledFieldButtonContext(consumer: string): StyledFieldButtonContext
  *   커스텀 컴포넌트로 감싼 Button은 기존 구조를 보존하며 Content Scale을 생략합니다.
  */
 export interface FieldButtonRootProps
-  extends Omit<FieldButtonVariantProps, "pressed">,
+  extends
+    Omit<FieldButtonVariantProps, "pressed">,
     Pick<UseFieldButtonProps, "values" | "onValuesChange">,
     Omit<LynxHostProps<"view">, keyof FieldButtonVariantProps | keyof UseFieldButtonProps> {}
 
@@ -110,8 +111,7 @@ FieldButtonRoot.displayName = "FieldButtonRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface FieldButtonButtonProps
-  extends Omit<LynxHostProps<"view">, keyof LynxPressableProps>,
-    LynxPressableProps {}
+  extends Omit<LynxHostProps<"view">, keyof LynxPressableProps>, LynxPressableProps {}
 
 export const FieldButtonButton = React.forwardRef<unknown, FieldButtonButtonProps>((props, ref) => {
   const context = useStyledFieldButtonContext("FieldButton.Button");

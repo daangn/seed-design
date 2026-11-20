@@ -23,8 +23,7 @@ type ListScrollToUpperEvent = Parameters<NonNullable<ListProps["bindscrolltouppe
 
 /** @platform Lynx Root는 clip 컨테이너이며 Content가 세로 scroll host입니다. asChild는 지원하지 않습니다. */
 export interface PullToRefreshRootProps
-  extends UsePullToRefreshProps,
-    Omit<ViewProps, keyof UsePullToRefreshProps | "ref" | "children"> {
+  extends UsePullToRefreshProps, Omit<ViewProps, keyof UsePullToRefreshProps | "ref" | "children"> {
   children?: ReactNode;
 }
 

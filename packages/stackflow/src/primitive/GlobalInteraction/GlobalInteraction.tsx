@@ -6,8 +6,7 @@ import { useGlobalInteraction } from "./useGlobalInteraction";
 import { GlobalInteractionProvider } from "./useGlobalInteractionContext";
 
 export interface GlobalInteractionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const GlobalInteraction = forwardRef<HTMLDivElement, GlobalInteractionProps>(
   (props, ref) => {

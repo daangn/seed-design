@@ -157,7 +157,8 @@ function useTriggerClassNames() {
  * Lynx uses native tap, overlay dismissal, `accessibility-*` attributes, and app-owned state.
  */
 export interface SelectRootProps
-  extends SelectPublicVariantProps,
+  extends
+    SelectPublicVariantProps,
     SelectTriggerPublicVariantProps,
     SelectItemPublicVariantProps,
     LynxHostProps<"view">,
@@ -409,7 +410,8 @@ SelectSuffixIcon.displayName = "SelectSuffixIcon";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SelectPositionerProps
-  extends LynxHostProps<"view">,
+  extends
+    LynxHostProps<"view">,
     Pick<SelectPositionerPrimitiveProps, "container" | "overlayLevel" | "overlayViewProps"> {}
 
 /**

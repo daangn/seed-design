@@ -8,8 +8,9 @@ import { VariantTable } from "./components/variant-table";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 import * as React from "react";
 
-interface RadioGroupFieldWrapperProps
-  extends React.ComponentPropsWithoutRef<typeof RadioGroupField.Root> {
+interface RadioGroupFieldWrapperProps extends React.ComponentPropsWithoutRef<
+  typeof RadioGroupField.Root
+> {
   label?: React.ReactNode;
   indicator?: React.ReactNode;
   description?: React.ReactNode;

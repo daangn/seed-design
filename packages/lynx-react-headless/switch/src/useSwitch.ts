@@ -20,7 +20,8 @@ export interface UseSwitchStateProps {
 }
 
 export interface UseSwitchProps
-  extends UseSwitchStateProps,
+  extends
+    UseSwitchStateProps,
     Pick<
       ViewProps,
       "main-thread:bindtouchstart" | "main-thread:bindtouchend" | "main-thread:bindtouchcancel"

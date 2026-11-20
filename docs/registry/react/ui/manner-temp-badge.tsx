@@ -8,8 +8,10 @@ import {
 import * as React from "react";
 import { mannerTempToLevel } from "../lib/manner-temp-level";
 
-export interface MannerTempBadgeProps
-  extends Omit<SeedMannerTempBadgeProps, "children" | "asChild"> {
+export interface MannerTempBadgeProps extends Omit<
+  SeedMannerTempBadgeProps,
+  "children" | "asChild"
+> {
   /**
    * The manner temperature of the badge.
    * Level will be calculated based on this value.

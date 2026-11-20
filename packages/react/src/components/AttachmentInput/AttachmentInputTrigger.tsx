@@ -21,7 +21,8 @@ import { withScaleFeedback } from "../../utils/withScaleFeedback";
 const { withProvider, useClassNames } = createSlotRecipeContext(attachmentInputTrigger);
 
 export interface AttachmentInputTriggerProps
-  extends AttachmentInputTriggerVariantProps,
+  extends
+    AttachmentInputTriggerVariantProps,
     PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
@@ -58,8 +59,7 @@ export const AttachmentInputTriggerIcon = React.forwardRef<
 });
 
 export interface AttachmentInputTriggerItemCountProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AttachmentInputTriggerItemCount = React.forwardRef<
   HTMLDivElement,

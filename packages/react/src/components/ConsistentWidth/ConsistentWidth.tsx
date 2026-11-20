@@ -3,8 +3,7 @@ import clsx from "clsx";
 import { forwardRef } from "react";
 
 export interface ConsistentWidthProps
-  extends PrimitiveProps,
-    Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
+  extends PrimitiveProps, Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
   children: string;
 }
 

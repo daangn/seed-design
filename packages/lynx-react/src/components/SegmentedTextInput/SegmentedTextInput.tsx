@@ -29,7 +29,8 @@ const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(segmentedT
  * 끝에 붙은 것으로 취급하므로, 그 뒤 Segment에도 `key`를 바꿔 다시 렌더링한다.
  */
 export interface SegmentedTextInputRootProps
-  extends Omit<SegmentedTextInputVariantProps, "focused">,
+  extends
+    Omit<SegmentedTextInputVariantProps, "focused">,
     Omit<LynxHostProps<"view">, keyof SegmentedTextInputVariantProps | "children"> {
   children?: React.ReactNode;
   value?: string[];
@@ -120,7 +121,8 @@ type NativeInputProps = LynxHostProps<"input">;
  *   방향키 이동도 없다.
  */
 export interface SegmentedTextInputInputSegmentProps
-  extends SegmentLayoutProps,
+  extends
+    SegmentLayoutProps,
     Omit<
       NativeInputProps,
       "type" | "maxlength" | "default-value" | "readonly" | "disabled" | "placeholder"
@@ -171,8 +173,7 @@ export interface SegmentedTextInputInputSegmentProps
 }
 
 export interface SegmentedTextInputStaticSegmentProps
-  extends SegmentLayoutProps,
-    Omit<LynxHostProps<"view">, "children"> {
+  extends SegmentLayoutProps, Omit<LynxHostProps<"view">, "children"> {
   /**
    * Segment 전체를 입력 없이 정적 내용으로 표시한다. 값 배열에 포함하지 않으며 보조기기에서 읽지 않는다.
    */

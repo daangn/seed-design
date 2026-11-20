@@ -15,8 +15,7 @@ const withStateProps = createWithStateProps([useTooltipContext]);
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface HelpBubbleTooltipRootProps
-  extends HelpBubbleVariantProps,
-    TooltipPrimitive.RootProps {
+  extends HelpBubbleVariantProps, TooltipPrimitive.RootProps {
   /**
    * @default "top"
    */
@@ -79,9 +78,7 @@ export const HelpBubbleTooltipPositionerPortal = withContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface HelpBubbleTooltipContentProps
-  extends PrimitiveProps,
-    Pick<StyleProps, "maxWidth">,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, Pick<StyleProps, "maxWidth">, React.HTMLAttributes<HTMLDivElement> {}
 
 export const HelpBubbleTooltipContent = withContext<HTMLDivElement, HelpBubbleTooltipContentProps>(
   withStyleProps(withStateProps(Primitive.div)),
@@ -142,8 +139,7 @@ HelpBubbleTooltipArrowTip.displayName = "HelpBubbleTooltipArrowTip";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface HelpBubbleTooltipBodyProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const HelpBubbleTooltipBody = withContext<HTMLDivElement, HelpBubbleTooltipBodyProps>(
   withStateProps(Primitive.div),
@@ -151,8 +147,7 @@ export const HelpBubbleTooltipBody = withContext<HTMLDivElement, HelpBubbleToolt
 );
 
 export interface HelpBubbleTooltipTitleProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const HelpBubbleTooltipTitle = withContext<HTMLSpanElement, HelpBubbleTooltipTitleProps>(
   withStateProps(Primitive.span),
@@ -160,8 +155,7 @@ export const HelpBubbleTooltipTitle = withContext<HTMLSpanElement, HelpBubbleToo
 );
 
 export interface HelpBubbleTooltipDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const HelpBubbleTooltipDescription = withContext<
   HTMLDivElement,

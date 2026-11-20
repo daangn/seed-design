@@ -6,9 +6,7 @@ import { useTextFieldWithGraphemes } from "./useTextFieldWithGraphemes";
 
 describe("useTextFieldWithGraphemes", () => {
   it("counts extended grapheme clusters", () => {
-    const { result } = renderHook(() =>
-      useTextFieldWithGraphemes({ defaultValue: "👨‍👩‍👧‍👦🏳️‍🌈é" }),
-    );
+    const { result } = renderHook(() => useTextFieldWithGraphemes({ defaultValue: "👨‍👩‍👧‍👦🏳️‍🌈é" }));
 
     expect(result.current.graphemes).toEqual(["👨‍👩‍👧‍👦", "🏳️‍🌈", "é"]);
     expect(result.current.counterProps).toEqual({ current: 3, max: 0 });

@@ -3,8 +3,10 @@
 import { FloatingActionButton as SeedFloatingActionButton } from "@seed-design/react";
 import * as React from "react";
 
-export interface FloatingActionButtonProps
-  extends Omit<SeedFloatingActionButton.RootProps, "children" | "asChild"> {
+export interface FloatingActionButtonProps extends Omit<
+  SeedFloatingActionButton.RootProps,
+  "children" | "asChild"
+> {
   icon: React.ReactNode;
 
   label: React.ReactNode;

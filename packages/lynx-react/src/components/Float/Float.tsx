@@ -8,8 +8,7 @@ import { handleDimension } from "../../utils/styled";
 
 /** @platform Lynx Renders a native view; polymorphic `as` and HTML attributes are unsupported. */
 export interface FloatProps
-  extends Omit<LynxViewProps, "style">,
-    Pick<LynxStyledElementProps, "style"> {
+  extends Omit<LynxViewProps, "style">, Pick<LynxStyledElementProps, "style"> {
   placement: NonNullable<FloatVariantProps["placement"]>;
   /** @default 0 */
   offsetX?: 0 | Dimension | (string & {});

@@ -19,8 +19,7 @@ type MainThreadTouchProps = Pick<
 >;
 
 export interface UseQuantityPickerButtonProps
-  extends ButtonAccessibilityProps,
-    MainThreadTouchProps {
+  extends ButtonAccessibilityProps, MainThreadTouchProps {
   /** 사용자 tap handler입니다. action이 막혀 있지 않을 때만 수량 변경 또는 Remove 뒤에 실행됩니다. */
   bindtap?: ViewProps["bindtap"];
   /** action이 막혀 있지 않을 때만 `buttonProps`에 포함됩니다. */

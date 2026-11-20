@@ -1,8 +1,10 @@
 import * as React from "@lynx-js/react";
 import { FloatingActionButton as SeedFloatingActionButton } from "@seed-design/lynx-react";
 
-export interface FloatingActionButtonProps
-  extends Omit<SeedFloatingActionButton.RootProps, "children"> {
+export interface FloatingActionButtonProps extends Omit<
+  SeedFloatingActionButton.RootProps,
+  "children"
+> {
   icon: SeedFloatingActionButton.IconProps["icon"];
 
   label: string;

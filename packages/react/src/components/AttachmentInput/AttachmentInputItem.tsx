@@ -35,9 +35,7 @@ const { useClassNames, ClassNamesProvider, withContext } =
 const overlayTracker = createRenderTrackingContext("AttachmentInputItemOverlay");
 
 export interface AttachmentInputItemProps
-  extends AttachmentInputItemVariantProps,
-    PrimitiveProps,
-    React.LiHTMLAttributes<HTMLLIElement> {
+  extends AttachmentInputItemVariantProps, PrimitiveProps, React.LiHTMLAttributes<HTMLLIElement> {
   fileEntry: FileEntry;
 
   /**
@@ -84,8 +82,7 @@ AttachmentInputItem.displayName = "AttachmentInputItem";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentInputItemNameProps
-  extends PrimitiveProps,
-    FileUploadPrimitive.ItemNameProps {}
+  extends PrimitiveProps, FileUploadPrimitive.ItemNameProps {}
 
 export const AttachmentInputItemName = React.forwardRef<
   HTMLSpanElement,
@@ -147,8 +144,7 @@ export const AttachmentInputItemImage = withContext<
 >(FileUploadPrimitive.ItemImage, "image");
 
 export interface AttachmentInputItemThumbnailProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 // when actual thumbnail implementation happens, this will likely need a dedicated headless component
 export const AttachmentInputItemThumbnail = React.forwardRef<
@@ -175,8 +171,7 @@ AttachmentInputItemThumbnail.displayName = "AttachmentInputItemThumbnail";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentInputItemBadgeProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AttachmentInputItemBadge = React.forwardRef<
   HTMLDivElement,
@@ -197,8 +192,7 @@ AttachmentInputItemBadge.displayName = "AttachmentInputItemBadge";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentInputItemActionButtonProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const AttachmentInputItemActionButton = React.forwardRef<
   HTMLButtonElement,
@@ -243,8 +237,7 @@ AttachmentInputItemBackdrop.displayName = "AttachmentInputItemBackdrop";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentInputItemMetadataProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AttachmentInputItemMetadata = React.forwardRef<
   HTMLDivElement,
@@ -270,8 +263,7 @@ AttachmentInputItemMetadata.displayName = "AttachmentInputItemMetadata";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentInputItemReorderHandleProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 /**
  * A focusable button that covers the item and serves as the keyboard and screen reader handle

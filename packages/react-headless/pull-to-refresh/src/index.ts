@@ -7,10 +7,7 @@ export {
   type PullToRefreshRootProps,
 } from "./PullToRefresh";
 
-export {
-  usePullToRefreshContext,
-  type UsePullToRefreshContext,
-} from "./usePullToRefreshContext";
+export { usePullToRefreshContext, type UsePullToRefreshContext } from "./usePullToRefreshContext";
 
 export { pullToRefreshPreventPull } from "./dom";
 

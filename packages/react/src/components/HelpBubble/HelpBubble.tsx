@@ -80,9 +80,7 @@ export const HelpBubblePositionerPortal = withContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface HelpBubbleContentProps
-  extends PrimitiveProps,
-    Pick<StyleProps, "maxWidth">,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, Pick<StyleProps, "maxWidth">, React.HTMLAttributes<HTMLDivElement> {}
 
 export const HelpBubbleContent = withContext<HTMLDivElement, HelpBubbleContentProps>(
   withStyleProps(withStateProps(PopoverPrimitive.Content)),
@@ -161,8 +159,7 @@ export const HelpBubbleBody = withContext<HTMLDivElement, HelpBubbleBodyProps>(
 );
 
 export interface HelpBubbleTitleProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const HelpBubbleTitle = withContext<HTMLSpanElement, HelpBubbleTitleProps>(
   forwardRef<HTMLSpanElement, HelpBubbleTitleProps>((props, ref) => (
@@ -175,8 +172,7 @@ export const HelpBubbleTitle = withContext<HTMLSpanElement, HelpBubbleTitleProps
 );
 
 export interface HelpBubbleDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const HelpBubbleDescription = withContext<HTMLDivElement, HelpBubbleDescriptionProps>(
   forwardRef<HTMLDivElement, HelpBubbleDescriptionProps>((props, ref) => (

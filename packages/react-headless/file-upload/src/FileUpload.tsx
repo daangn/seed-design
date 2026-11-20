@@ -15,9 +15,7 @@ import {
 } from "./useFileUploadContext";
 
 export interface FileUploadRootProps
-  extends UseFileUploadProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends UseFileUploadProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const FileUploadRoot = forwardRef<HTMLDivElement, FileUploadRootProps>(
   (
@@ -73,8 +71,7 @@ export const FileUploadRoot = forwardRef<HTMLDivElement, FileUploadRootProps>(
 FileUploadRoot.displayName = "FileUploadRoot";
 
 export interface FileUploadDropzoneProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const FileUploadDropzone = forwardRef<HTMLDivElement, FileUploadDropzoneProps>(
   (props, ref) => {
@@ -87,8 +84,7 @@ export const FileUploadDropzone = forwardRef<HTMLDivElement, FileUploadDropzoneP
 FileUploadDropzone.displayName = "FileUploadDropzone";
 
 export interface FileUploadTriggerProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const FileUploadTrigger = forwardRef<HTMLButtonElement, FileUploadTriggerProps>(
   (props, ref) => {
@@ -101,8 +97,7 @@ export const FileUploadTrigger = forwardRef<HTMLButtonElement, FileUploadTrigger
 FileUploadTrigger.displayName = "FileUploadTrigger";
 
 export interface FileUploadHiddenInputProps
-  extends PrimitiveProps,
-    React.InputHTMLAttributes<HTMLInputElement> {}
+  extends PrimitiveProps, React.InputHTMLAttributes<HTMLInputElement> {}
 
 export const FileUploadHiddenInput = forwardRef<HTMLInputElement, FileUploadHiddenInputProps>(
   (props, ref) => {
@@ -115,8 +110,7 @@ export const FileUploadHiddenInput = forwardRef<HTMLInputElement, FileUploadHidd
 FileUploadHiddenInput.displayName = "FileUploadHiddenInput";
 
 export interface FileUploadItemNameProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const FileUploadItemName = forwardRef<HTMLSpanElement, FileUploadItemNameProps>(
   ({ children, ...props }, ref) => {
@@ -135,8 +129,7 @@ export const FileUploadItemName = forwardRef<HTMLSpanElement, FileUploadItemName
 FileUploadItemName.displayName = "FileUploadItemName";
 
 export interface FileUploadItemSizeProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {
   /**
    * Formatter function for file size.
    */
@@ -160,8 +153,7 @@ export const FileUploadItemSize = forwardRef<HTMLSpanElement, FileUploadItemSize
 FileUploadItemSize.displayName = "FileUploadItemSize";
 
 export interface FileUploadItemRemoveButtonProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const FileUploadItemRemoveButton = forwardRef<
   HTMLButtonElement,
@@ -176,8 +168,7 @@ export const FileUploadItemRemoveButton = forwardRef<
 FileUploadItemRemoveButton.displayName = "FileUploadItemRemoveButton";
 
 export interface FileUploadItemImageProps
-  extends PrimitiveProps,
-    React.ImgHTMLAttributes<HTMLImageElement> {}
+  extends PrimitiveProps, React.ImgHTMLAttributes<HTMLImageElement> {}
 
 export const FileUploadItemImage = forwardRef<HTMLImageElement, FileUploadItemImageProps>(
   (props, ref) => {
@@ -193,8 +184,7 @@ export const FileUploadItemImage = forwardRef<HTMLImageElement, FileUploadItemIm
 FileUploadItemImage.displayName = "FileUploadItemImage";
 
 export interface FileUploadItemBackdropProps
-  extends PrimitiveProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
+  extends PrimitiveProps, Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
   status: FileEntry["status"];
   children: React.ReactNode | ((entry: FileEntry) => React.ReactNode);
 }

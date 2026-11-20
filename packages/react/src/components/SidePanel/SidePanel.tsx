@@ -17,7 +17,8 @@ const closeButtonTracker = createRenderTrackingContext("SidePanelCloseButton");
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SidePanelRootProps
-  extends SidePanelVariantProps,
+  extends
+    SidePanelVariantProps,
     Pick<
       Drawer.RootProps,
       | "children"
@@ -81,8 +82,7 @@ export const SidePanelBackdrop = withContext<HTMLDivElement, SidePanelBackdropPr
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SidePanelContentProps
-  extends Drawer.ContentProps,
-    Pick<StyleProps, "width" | "maxWidth"> {}
+  extends Drawer.ContentProps, Pick<StyleProps, "width" | "maxWidth"> {}
 
 export const SidePanelContent = withContext<HTMLDivElement, SidePanelContentProps>(
   withStyleProps(Drawer.Content),
@@ -136,7 +136,8 @@ SidePanelDescription.displayName = "SidePanelDescription";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SidePanelBodyProps
-  extends PrimitiveProps,
+  extends
+    PrimitiveProps,
     Pick<StyleProps, "paddingX" | "justifyContent" | "alignItems">,
     React.HTMLAttributes<HTMLDivElement> {}
 
@@ -184,8 +185,7 @@ SidePanelBody.displayName = "SidePanelBody";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SidePanelFooterProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SidePanelFooter = withContext<HTMLDivElement, SidePanelFooterProps>(
   Primitive.div,

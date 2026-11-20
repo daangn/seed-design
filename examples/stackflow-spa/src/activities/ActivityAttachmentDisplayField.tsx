@@ -45,14 +45,11 @@ const insetStyle = {
 } as React.CSSProperties;
 
 function presetEntries(prefix: string, count: number): AttachmentDisplayItemEntry[] {
-  return Array.from(
-    { length: count },
-    (_, i): AttachmentDisplayItemEntry => ({
-      id: `${prefix}-${i}`,
-      thumbnailUrl: sampleThumbnailUrl(`${prefix}-${i}`),
-      status: "success",
-    }),
-  );
+  return Array.from({ length: count }, (_, i): AttachmentDisplayItemEntry => ({
+    id: `${prefix}-${i}`,
+    thumbnailUrl: sampleThumbnailUrl(`${prefix}-${i}`),
+    status: "success",
+  }));
 }
 
 // uncontrolled defaultEntries는 첫 렌더에서만 읽히므로 모듈 상수로 한 번만 만든다.

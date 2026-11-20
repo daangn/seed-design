@@ -15,7 +15,8 @@ type MainThreadTouchProps = Pick<
 >;
 
 export interface UseCalloutProps
-  extends UseDismissibleProps,
+  extends
+    UseDismissibleProps,
     CalloutAccessibilityProps,
     MainThreadTouchProps,
     Pick<ViewProps, "main-thread:bindtap"> {

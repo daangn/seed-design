@@ -9,10 +9,7 @@ export {
   type AttachmentInputRootProps,
 } from "./AttachmentInput";
 
-export {
-  AttachmentInputContext,
-  type AttachmentInputContextProps,
-} from "./AttachmentInput";
+export { AttachmentInputContext, type AttachmentInputContextProps } from "./AttachmentInput";
 
 export {
   AttachmentInputDropzone,

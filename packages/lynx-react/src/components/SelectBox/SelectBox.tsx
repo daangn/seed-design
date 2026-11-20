@@ -221,7 +221,8 @@ export const RadioSelectBoxGroup = SelectBoxGroup;
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface CheckSelectBoxRootProps
-  extends PublicSelectBoxVariantProps,
+  extends
+    PublicSelectBoxVariantProps,
     LynxHostProps<"view">,
     Pick<
       UseCheckboxProps,
@@ -326,7 +327,8 @@ CheckSelectBoxRoot.displayName = "CheckSelectBoxRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface RadioSelectBoxItemProps
-  extends PublicSelectBoxVariantProps,
+  extends
+    PublicSelectBoxVariantProps,
     LynxHostProps<"view">,
     Pick<UseRadioGroupItemProps, "value" | "disabled"> {
   /** @default "when-selected" */

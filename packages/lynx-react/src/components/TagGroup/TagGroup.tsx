@@ -27,9 +27,7 @@ const { PropsProvider, useProps, ClassNamesProvider, useClassNames } =
  * - `asChild` prop: Lynx Slot 미지원
  */
 export interface TagGroupRootProps
-  extends TagGroupVariantProps,
-    TagGroupItemVariantProps,
-    LynxHostProps<"view"> {
+  extends TagGroupVariantProps, TagGroupItemVariantProps, LynxHostProps<"view"> {
   /**
    * children 사이에 삽입되는 구분자. 기본값 `"·"`.
    * 문자열을 전달하면 앞뒤 공백을 제거합니다.
@@ -85,9 +83,7 @@ TagGroupRoot.displayName = "TagGroupRoot";
  * - `asChild` prop: Lynx Slot 미지원
  */
 export interface TagGroupItemProps
-  extends TagGroupItemVariantProps,
-    Pick<StyleProps, "flexShrink">,
-    LynxHostProps<"view"> {}
+  extends TagGroupItemVariantProps, Pick<StyleProps, "flexShrink">, LynxHostProps<"view"> {}
 
 export const TagGroupItem = React.forwardRef<unknown, TagGroupItemProps>((props, ref) => {
   const parentVariantProps = useProps();

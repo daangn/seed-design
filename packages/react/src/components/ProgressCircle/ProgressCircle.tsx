@@ -8,8 +8,7 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 const { withContext, withProvider } = createSlotRecipeContext(progressCircle);
 
 export interface ProgressCircleRootProps
-  extends ProgressCirclePrimitive.RootProps,
-    Omit<ProgressCircleVariantProps, "indeterminate"> {}
+  extends ProgressCirclePrimitive.RootProps, Omit<ProgressCircleVariantProps, "indeterminate"> {}
 
 export const ProgressCircleRoot = withProvider<SVGSVGElement, ProgressCircleRootProps>(
   ProgressCirclePrimitive.Root,

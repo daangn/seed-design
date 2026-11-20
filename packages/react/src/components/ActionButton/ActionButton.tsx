@@ -22,7 +22,8 @@ import {
 } from "@seed-design/css/vars";
 
 export interface ActionButtonProps
-  extends ActionButtonVariantProps,
+  extends
+    ActionButtonVariantProps,
     UsePendingButtonProps,
     PrimitiveProps,
     Pick<StyleProps, "flexGrow" | "bleed" | "bleedX" | "bleedY">,

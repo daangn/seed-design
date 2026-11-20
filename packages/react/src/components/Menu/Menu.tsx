@@ -52,9 +52,7 @@ export const MenuTrigger = MenuPrimitive.Trigger;
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface MenuPositionerProps
-  extends MenuPrimitive.PositionerProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends MenuPrimitive.PositionerProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const MenuPositioner = React.forwardRef<HTMLDivElement, MenuPositionerProps>(
   ({ className, ...props }, ref) => {
@@ -149,8 +147,7 @@ export const MenuItemLabel = withItemContext<HTMLSpanElement, MenuItemLabelProps
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface MenuItemDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const MenuItemDescription = withItemContext<HTMLSpanElement, MenuItemDescriptionProps>(
   withItemStateProps(Primitive.span),

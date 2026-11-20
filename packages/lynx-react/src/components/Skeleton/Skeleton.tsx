@@ -15,7 +15,8 @@ import { useStyleProps, type StyleProps } from "../../utils/styled";
  * 지원하지 않습니다. Native host props로 접근성 기본값과 이벤트를 지정할 수 있습니다.
  */
 export interface SkeletonProps
-  extends SkeletonVariantProps,
+  extends
+    SkeletonVariantProps,
     Omit<LynxHostProps<"view">, "children" | "width" | "height">,
     Pick<StyleProps, "width"> {
   /**

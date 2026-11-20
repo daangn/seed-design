@@ -8,9 +8,7 @@ import { MannerTempEmotePropsProvider } from "./MannerTempEmote";
 const { withContext } = createRecipeContext(mannerTemp);
 
 export interface MannerTempProps
-  extends MannerTempVariantProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends MannerTempVariantProps, PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 const MannerTempBase = withContext<HTMLSpanElement, MannerTempProps>(Primitive.span);
 

@@ -10,7 +10,8 @@ import { RadioGroupProvider, useRadioGroupContext } from "./useRadioGroupContext
 import { RadioGroupItemProvider, useRadioGroupItemContext } from "./useRadioGroupItemContext";
 
 export interface RadioGroupRootProps
-  extends UseRadioGroupProps,
+  extends
+    UseRadioGroupProps,
     PrimitiveProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue"> {}
 
@@ -38,8 +39,7 @@ export const RadioGroupRoot = forwardRef<HTMLDivElement, RadioGroupRootProps>((p
 RadioGroupRoot.displayName = "RadioGroupRoot";
 
 export interface RadioGroupLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const RadioGroupLabel = forwardRef<HTMLDivElement, RadioGroupLabelProps>((props, ref) => {
   const { refs, labelProps } = useRadioGroupContext();
@@ -50,7 +50,8 @@ export const RadioGroupLabel = forwardRef<HTMLDivElement, RadioGroupLabelProps>(
 RadioGroupLabel.displayName = "RadioGroupLabel";
 
 export interface RadioGroupItemProps
-  extends RadioItemProps,
+  extends
+    RadioItemProps,
     PrimitiveProps,
     Omit<React.LabelHTMLAttributes<HTMLLabelElement>, "value"> {}
 
@@ -69,8 +70,7 @@ export const RadioGroupItem = forwardRef<HTMLLabelElement, RadioGroupItemProps>(
 RadioGroupItem.displayName = "RadioGroupItem";
 
 export interface RadioGroupItemControlProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const RadioGroupItemControl = forwardRef<HTMLDivElement, RadioGroupItemControlProps>(
   (props, ref) => {
@@ -83,8 +83,7 @@ export const RadioGroupItemControl = forwardRef<HTMLDivElement, RadioGroupItemCo
 RadioGroupItemControl.displayName = "RadioGroupItemControl";
 
 export interface RadioGroupItemHiddenInputProps
-  extends PrimitiveProps,
-    React.InputHTMLAttributes<HTMLInputElement> {}
+  extends PrimitiveProps, React.InputHTMLAttributes<HTMLInputElement> {}
 
 export const RadioGroupItemHiddenInput = forwardRef<
   HTMLInputElement,
@@ -98,8 +97,7 @@ export const RadioGroupItemHiddenInput = forwardRef<
 RadioGroupItemHiddenInput.displayName = "RadioGroupItemHiddenInput";
 
 export interface RadioGroupDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const RadioGroupDescription = forwardRef<HTMLSpanElement, RadioGroupDescriptionProps>(
   (props, ref) => {
@@ -112,8 +110,7 @@ export const RadioGroupDescription = forwardRef<HTMLSpanElement, RadioGroupDescr
 RadioGroupDescription.displayName = "RadioGroupDescription";
 
 export interface RadioGroupErrorMessageProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const RadioGroupErrorMessage = forwardRef<HTMLDivElement, RadioGroupErrorMessageProps>(
   (props, ref) => {

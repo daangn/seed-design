@@ -70,8 +70,7 @@ export const MenuAnchor = forwardRef<HTMLDivElement, MenuAnchorProps>((props, re
 MenuAnchor.displayName = "MenuAnchor";
 
 export interface MenuTriggerProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const MenuTrigger = forwardRef<HTMLButtonElement, MenuTriggerProps>((props, ref) => {
   const api = useMenuContext();
@@ -179,9 +178,7 @@ export const MenuContent = forwardRef<HTMLDivElement, MenuContentProps>((props, 
 MenuContent.displayName = "MenuContent";
 
 export interface MenuItemProps
-  extends UseMenuItemProps,
-    PrimitiveProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, "onClick"> {}
+  extends UseMenuItemProps, PrimitiveProps, Omit<React.HTMLAttributes<HTMLDivElement>, "onClick"> {}
 
 export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps>(
   ({ disabled, typeaheadLabel, onClick, ...restProps }, ref) => {

@@ -3,8 +3,10 @@
 import { IdentityPlaceholder as SeedIdentityPlaceholder } from "@seed-design/react";
 import * as React from "react";
 
-export interface IdentityPlaceholderProps
-  extends Omit<SeedIdentityPlaceholder.RootProps, "children" | "asChild"> {}
+export interface IdentityPlaceholderProps extends Omit<
+  SeedIdentityPlaceholder.RootProps,
+  "children" | "asChild"
+> {}
 
 /**
  * @see https://seed-design.io/react/components/identity-placeholder

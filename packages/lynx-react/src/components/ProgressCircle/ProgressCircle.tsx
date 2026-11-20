@@ -178,7 +178,8 @@ interface MainThreadProgress {
 }
 
 export interface ProgressCircleRootProps
-  extends ProgressCircleVariantProps,
+  extends
+    ProgressCircleVariantProps,
     UseProgressProps,
     Omit<LynxHostProps<"view">, keyof UseProgressProps> {
   /**
@@ -477,7 +478,7 @@ function IndeterminateRange({
     stopAnimations();
     const options = {
       duration: INDETERMINATE_DURATION,
-      iterations: Infinity,
+      iterations: Number.POSITIVE_INFINITY,
       easing: "linear",
     };
     const targets = [

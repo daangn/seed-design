@@ -27,7 +27,8 @@ type WheelPickerCssProperties = React.CSSProperties & {
 };
 
 export interface WheelPickerRootProps
-  extends WheelPickerVariantProps,
+  extends
+    WheelPickerVariantProps,
     Omit<
       WheelPickerPrimitive.RootProps,
       "asChild" | "children" | "disabled" | "itemSize" | "readOnly" | "visibleItemCount"
@@ -115,8 +116,7 @@ export const WheelPickerRoot = React.forwardRef<HTMLDivElement, WheelPickerRootP
 WheelPickerRoot.displayName = "WheelPickerRoot";
 
 export interface WheelPickerItemLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 /** Wheel Picker 항목의 기본 여백과 타이포그래피를 적용합니다. */
 export const WheelPickerItemLabel = React.forwardRef<HTMLDivElement, WheelPickerItemLabelProps>(
@@ -135,20 +135,19 @@ export const WheelPickerItemLabel = React.forwardRef<HTMLDivElement, WheelPicker
 );
 WheelPickerItemLabel.displayName = "WheelPickerItemLabel";
 
-export interface WheelPickerColumnProps
-  extends Omit<
-    WheelPickerPrimitive.ColumnProps,
-    | "asChild"
-    | "defaultValue"
-    | "getAriaValueText"
-    | "loop"
-    | "onIndexChange"
-    | "onValueChange"
-    | "options"
-    | "renderOption"
-    | "value"
-    | "valueChangeBehavior"
-  > {
+export interface WheelPickerColumnProps extends Omit<
+  WheelPickerPrimitive.ColumnProps,
+  | "asChild"
+  | "defaultValue"
+  | "getAriaValueText"
+  | "loop"
+  | "onIndexChange"
+  | "onValueChange"
+  | "options"
+  | "renderOption"
+  | "value"
+  | "valueChangeBehavior"
+> {
   /** 컬럼에 표시할 선택 항목입니다. 하나 이상의 항목을 제공해야 합니다. */
   options: readonly WheelPickerOption[];
 

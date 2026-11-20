@@ -5,11 +5,10 @@ import * as React from "react";
 
 import { IconChevronRightLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
 
-export interface PageBannerProps
-  extends Omit<
-    SeedPageBanner.RootProps,
-    "children" | "title" | "asChild" | "open" | "defaultOpen" | "onDismiss"
-  > {
+export interface PageBannerProps extends Omit<
+  SeedPageBanner.RootProps,
+  "children" | "title" | "asChild" | "open" | "defaultOpen" | "onDismiss"
+> {
   prefixIcon?: React.ReactNode;
 
   title?: React.ReactNode;
@@ -45,11 +44,10 @@ export interface PageBannerButtonProps extends SeedPageBanner.ButtonProps {}
 
 export const PageBannerButton = SeedPageBanner.Button;
 
-export interface ActionablePageBannerProps
-  extends Omit<
-    SeedPageBanner.RootProps,
-    "children" | "title" | "asChild" | "open" | "defaultOpen" | "onDismiss"
-  > {
+export interface ActionablePageBannerProps extends Omit<
+  SeedPageBanner.RootProps,
+  "children" | "title" | "asChild" | "open" | "defaultOpen" | "onDismiss"
+> {
   prefixIcon?: React.ReactNode;
 
   title?: React.ReactNode;
@@ -81,8 +79,10 @@ export const ActionablePageBanner = React.forwardRef<
 });
 ActionablePageBanner.displayName = "ActionablePageBanner";
 
-export interface DismissiblePageBannerProps
-  extends Omit<SeedPageBanner.RootProps, "children" | "title" | "asChild"> {
+export interface DismissiblePageBannerProps extends Omit<
+  SeedPageBanner.RootProps,
+  "children" | "title" | "asChild"
+> {
   prefixIcon?: React.ReactNode;
 
   title?: React.ReactNode;

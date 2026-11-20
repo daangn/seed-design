@@ -95,8 +95,7 @@ export const MenuSheetBackdrop = withContext<HTMLDivElement, MenuSheetBackdropPr
  * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface MenuSheetContentProps
-  extends DialogPrimitive.ContentProps,
-    Pick<MenuSheetItemVariantProps, "labelAlign"> {}
+  extends DialogPrimitive.ContentProps, Pick<MenuSheetItemVariantProps, "labelAlign"> {}
 
 /**
  * @deprecated Use `SwipeableMenuSheet` instead.
@@ -124,8 +123,7 @@ export const MenuSheetContent = React.forwardRef<HTMLDivElement, MenuSheetConten
  * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface MenuSheetHeaderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 /**
  * @deprecated Use `SwipeableMenuSheet` instead.
@@ -188,8 +186,7 @@ export const MenuSheetList = withContext<HTMLDivElement, MenuSheetListProps>(
  * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface MenuSheetGroupProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    Pick<MenuSheetItemVariantProps, "labelAlign"> {}
+  extends React.HTMLAttributes<HTMLDivElement>, Pick<MenuSheetItemVariantProps, "labelAlign"> {}
 
 /**
  * @deprecated Use `SwipeableMenuSheet` instead.
@@ -221,9 +218,7 @@ export const MenuSheetGroup = React.forwardRef<HTMLDivElement, MenuSheetGroupPro
  * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface MenuSheetItemProps
-  extends PrimitiveProps,
-    MenuSheetItemVariantProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, MenuSheetItemVariantProps, React.HTMLAttributes<HTMLButtonElement> {}
 
 /**
  * @deprecated Use `SwipeableMenuSheet` instead.
@@ -255,8 +250,7 @@ export const MenuSheetItem = withContentScale(
  * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface MenuSheetItemContentProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 /**
  * @deprecated Use `SwipeableMenuSheet` instead.
@@ -270,8 +264,7 @@ export const MenuSheetItemContent = withItemContext<HTMLDivElement, MenuSheetIte
  * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface MenuSheetItemLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 /**
  * @deprecated Use `SwipeableMenuSheet` instead.
@@ -285,8 +278,7 @@ export const MenuSheetItemLabel = withItemContext<HTMLSpanElement, MenuSheetItem
  * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface MenuSheetItemDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 /**
  * @deprecated Use `SwipeableMenuSheet` instead.
@@ -302,8 +294,7 @@ export const MenuSheetItemDescription = withItemContext<
  * @deprecated Use `SwipeableMenuSheet` instead.
  */
 export interface MenuSheetFooterProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 /**
  * @deprecated Use `SwipeableMenuSheet` instead.

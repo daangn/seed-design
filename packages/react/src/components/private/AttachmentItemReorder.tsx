@@ -15,8 +15,7 @@ export function useReorderHandleTrackRef(): (node: HTMLElement | null) => void {
 }
 
 export interface AttachmentItemRootProps
-  extends PrimitiveProps,
-    React.LiHTMLAttributes<HTMLLIElement> {
+  extends PrimitiveProps, React.LiHTMLAttributes<HTMLLIElement> {
   dragging?: boolean;
 }
 

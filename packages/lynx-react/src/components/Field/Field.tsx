@@ -33,8 +33,7 @@ const { ClassNamesProvider: FieldLabelClassNamesProvider, useClassNames: useFiel
  * - DOM ARIA id 연결. 입력 컴포넌트에서 `accessibility-label`을 사용해야 함
  */
 export interface FieldRootProps
-  extends UseFieldProps,
-    Omit<LynxHostProps<"view">, keyof UseFieldProps> {}
+  extends UseFieldProps, Omit<LynxHostProps<"view">, keyof UseFieldProps> {}
 
 export const FieldRoot = React.forwardRef<NodesRef, FieldRootProps>((props, ref) => {
   const { children, className, invalid = false, ...otherProps } = props;
@@ -73,8 +72,7 @@ export const FieldHeader = React.forwardRef<unknown, FieldHeaderProps>((props, r
 FieldHeader.displayName = "FieldHeader";
 
 export interface FieldLabelProps
-  extends FieldLabelVariantProps,
-    Omit<LynxHostProps<"text">, keyof FieldLabelVariantProps> {}
+  extends FieldLabelVariantProps, Omit<LynxHostProps<"text">, keyof FieldLabelVariantProps> {}
 
 export const FieldLabel = React.forwardRef<unknown, FieldLabelProps>((props, ref) => {
   const [variantProps, otherProps] = fieldLabel.splitVariantProps(props);

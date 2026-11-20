@@ -20,8 +20,7 @@ type ImageProps = IntrinsicElements["image"];
 type TouchEvent = Parameters<NonNullable<ViewProps["bindtouchstart"]>>[0];
 
 export interface AttachmentDisplayRootProps
-  extends UseAttachmentDisplayProps,
-    Omit<ViewProps, keyof UseAttachmentDisplayProps> {}
+  extends UseAttachmentDisplayProps, Omit<ViewProps, keyof UseAttachmentDisplayProps> {}
 
 /**
  * 스타일 없이 원격 첨부 상태를 하위 요소에 제공하는 native `<view>`입니다.
@@ -68,7 +67,8 @@ export const AttachmentDisplayRoot = React.forwardRef<NodesRef, AttachmentDispla
 AttachmentDisplayRoot.displayName = "AttachmentDisplayRoot";
 
 export interface AttachmentDisplayTriggerProps
-  extends UseAttachmentDisplayTriggerProps,
+  extends
+    UseAttachmentDisplayTriggerProps,
     Omit<ViewProps, keyof UseAttachmentDisplayTriggerProps> {}
 
 /**

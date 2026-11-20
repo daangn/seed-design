@@ -52,7 +52,8 @@ const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(textInput)
  * Root 어디를 탭해도 입력을 focus하며, 다른 입력의 focus를 해제하지 않도록 `ignore-focus`를 기본으로 켠다.
  */
 export interface TextFieldRootProps
-  extends Omit<TextInputVariantProps, "focused">,
+  extends
+    Omit<TextInputVariantProps, "focused">,
     UseTextFieldProps,
     Omit<LynxHostProps<"view">, keyof TextInputVariantProps | keyof UseTextFieldProps> {}
 

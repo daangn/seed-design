@@ -169,8 +169,7 @@ interface DatePickerSelectionValueProps<Value, ChangeValue = Value> {
 }
 
 export interface DatePickerSingleProps
-  extends DatePickerCommonProps,
-    DatePickerSelectionValueProps<DatePickerDate> {
+  extends DatePickerCommonProps, DatePickerSelectionValueProps<DatePickerDate> {
   selectionMode?: "single";
   rangeStartReadOnly?: never;
 }
@@ -202,7 +201,8 @@ type DatePickerReadOnlyRangeProps = DatePickerRangeBaseProps & {
 export type DatePickerRangeProps = DatePickerMutableRangeProps | DatePickerReadOnlyRangeProps;
 
 export interface DatePickerMultipleProps
-  extends DatePickerCommonProps,
+  extends
+    DatePickerCommonProps,
     DatePickerSelectionValueProps<readonly DatePickerDate[], DatePickerDate[]> {
   selectionMode: "multiple";
   rangeStartReadOnly?: never;

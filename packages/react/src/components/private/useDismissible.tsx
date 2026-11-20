@@ -54,9 +54,7 @@ export const useDismissibleContext = () => {
 };
 
 export interface DismissibleRootProps
-  extends PrimitiveProps,
-    UseDismissibleProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, UseDismissibleProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const DismissibleRoot = React.forwardRef<HTMLDivElement, DismissibleRootProps>(
   ({ defaultOpen, open, onDismiss, ...otherProps }, ref) => {
@@ -73,8 +71,7 @@ export const DismissibleRoot = React.forwardRef<HTMLDivElement, DismissibleRootP
 );
 
 export interface DismissibleCloseButtonProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLButtonElement> {}
 
 export const DismissibleCloseButton = React.forwardRef<
   HTMLButtonElement,

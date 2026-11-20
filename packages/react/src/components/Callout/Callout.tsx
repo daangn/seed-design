@@ -36,8 +36,7 @@ export const CalloutTitle = withContext<HTMLSpanElement, CalloutTitleProps>(
 );
 
 export interface CalloutDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const CalloutDescription = withContext<HTMLSpanElement, CalloutDescriptionProps>(
   Primitive.span,
@@ -45,8 +44,7 @@ export const CalloutDescription = withContext<HTMLSpanElement, CalloutDescriptio
 );
 
 export interface CalloutLinkProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const CalloutLink = withContext<HTMLButtonElement, CalloutLinkProps>(
   Primitive.button,
@@ -54,8 +52,7 @@ export const CalloutLink = withContext<HTMLButtonElement, CalloutLinkProps>(
 );
 
 export interface CalloutCloseButtonProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const CalloutCloseButton = withScaleFeedback(
   withContext<HTMLButtonElement, CalloutCloseButtonProps>(DismissibleCloseButton, "closeButton"),

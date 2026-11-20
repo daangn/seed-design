@@ -70,7 +70,8 @@ const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(accordion)
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AccordionRootProps
-  extends UseAccordionProps,
+  extends
+    UseAccordionProps,
     PublicAccordionVariantProps,
     Omit<LynxHostProps<"view">, keyof UseAccordionProps | keyof PublicAccordionVariantProps> {}
 
@@ -118,8 +119,7 @@ AccordionRoot.displayName = "AccordionRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AccordionItemProps
-  extends UseAccordionItemProps,
-    Omit<LynxHostProps<"view">, keyof UseAccordionItemProps> {}
+  extends UseAccordionItemProps, Omit<LynxHostProps<"view">, keyof UseAccordionItemProps> {}
 
 export const AccordionItem = React.forwardRef<unknown, AccordionItemProps>((props, ref) => {
   const { children, className, value, disabled: itemDisabled, ...nativeProps } = props;
@@ -193,7 +193,8 @@ AccordionHeader.displayName = "AccordionHeader";
  * 상태 문구는 `expandedAccessibilityValue`·`collapsedAccessibilityValue`로 바꾼다.
  */
 export interface AccordionTriggerProps
-  extends Omit<LynxHostProps<"view">, "bindtap" | AccordionTriggerStateAccessibilityKey>,
+  extends
+    Omit<LynxHostProps<"view">, "bindtap" | AccordionTriggerStateAccessibilityKey>,
     Pick<UseCollapsibleTriggerProps, "bindtap"> {
   expandedAccessibilityValue?: string;
   collapsedAccessibilityValue?: string;

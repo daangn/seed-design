@@ -4,8 +4,10 @@ import { IconXmarkCircleFill } from "@karrotmarket/react-monochrome-icon"; // "@
 import { Icon, SearchInput as SeedSearchInput } from "@seed-design/react";
 import * as React from "react";
 
-export interface SearchInputProps
-  extends Omit<SeedSearchInput.RootProps, "children" | "asChild" | "aria-label"> {
+export interface SearchInputProps extends Omit<
+  SeedSearchInput.RootProps,
+  "children" | "asChild" | "aria-label"
+> {
   placeholder?: string;
 
   /**

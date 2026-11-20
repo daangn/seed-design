@@ -10,9 +10,7 @@ import { useImage, type UseImageProps } from "./useImage";
 import { ImageProvider, useImageContext } from "./useImageContext";
 
 export interface ImageRootProps
-  extends UseImageProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends UseImageProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const ImageRoot = forwardRef<HTMLDivElement, ImageRootProps>((props, ref) => {
   const { onLoadingStatusChange, ...otherProps } = props;
@@ -26,8 +24,7 @@ export const ImageRoot = forwardRef<HTMLDivElement, ImageRootProps>((props, ref)
 ImageRoot.displayName = "ImageRoot";
 
 export interface ImageContentProps
-  extends PrimitiveProps,
-    React.ImgHTMLAttributes<HTMLImageElement> {}
+  extends PrimitiveProps, React.ImgHTMLAttributes<HTMLImageElement> {}
 
 export const ImageContent = forwardRef<HTMLImageElement, ImageContentProps>((props, ref) => {
   const { src, srcSet, onLoad, onError, ...otherProps } = props;

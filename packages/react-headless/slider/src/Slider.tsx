@@ -8,7 +8,8 @@ import { SliderProvider, useSliderContext } from "./useSliderContext";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 
 export interface SliderRootProps
-  extends UseSliderProps,
+  extends
+    UseSliderProps,
     PrimitiveProps,
     // UseSliderProps takes dir to determine start/end
     Omit<React.HTMLAttributes<HTMLDivElement>, "dir"> {}
@@ -103,8 +104,7 @@ export const SliderThumb = React.forwardRef<HTMLDivElement, SliderThumbProps>(
 SliderThumb.displayName = "SliderThumb";
 
 export interface SliderHiddenInputProps
-  extends PrimitiveProps,
-    React.InputHTMLAttributes<HTMLInputElement> {
+  extends PrimitiveProps, React.InputHTMLAttributes<HTMLInputElement> {
   thumbIndex: number;
 }
 
@@ -147,8 +147,7 @@ export const SliderMarker = React.forwardRef<HTMLDivElement, SliderMarkerProps>(
 SliderMarker.displayName = "SliderMarker";
 
 export interface SliderValueIndicatorRootProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {
   thumbIndex: number;
 }
 
@@ -166,8 +165,7 @@ export const SliderValueIndicatorRoot = React.forwardRef<
 SliderValueIndicatorRoot.displayName = "SliderValueIndicatorRoot";
 
 export interface SliderValueIndicatorLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {
   thumbIndex: number;
 }
 

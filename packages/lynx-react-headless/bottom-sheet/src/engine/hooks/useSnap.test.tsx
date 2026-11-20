@@ -403,57 +403,57 @@ describe("sheet touch cancellation", () => {
     { side: "bottom" as const, handleOnly: false },
     { side: "right" as const, handleOnly: false },
     { side: "bottom" as const, handleOnly: true },
-  ])("finishes an interrupted entry after touchcancel: $side, handleOnly=$handleOnly", async ({
-    side,
-    handleOnly,
-  }) => {
-    const onOpen = vi.fn();
-    const onClose = vi.fn();
-    const { container } = render(
-      <SheetRoot
-        defaultShow
-        snapPoints={[300]}
-        side={side}
-        handleOnly={handleOnly}
-        screenHeight={800}
-        screenWidth={400}
-        onOpen={onOpen}
-        onClose={onClose}
-      >
-        <SheetContent className="sheet-outer" innerClassName="sheet-content">
-          <SheetHandle className="sheet-handle" />
-        </SheetContent>
-      </SheetRoot>,
-      { enableMainThread: true, enableBackgroundThread: true },
-    );
-    await waitSchedule();
-    expect(pending.size).toBe(1);
-    const position = [...pending.keys()][0];
-    position.set(260);
-    const target = container.querySelector(
-      handleOnly ? ".sheet-handle" : side === "right" ? ".sheet-content" : ".sheet-outer",
-    );
-    if (!target) throw new Error("Expected the drag target to mount");
-    fireEvent.touchstart(target, { detail: { x: 0, y: 0 } });
-    fireEvent.touchmove(target, {
-      detail: { x: side === "right" ? -20 : 0, y: side === "bottom" ? -20 : 0 },
-    });
-    await waitSchedule();
-    expect(position.get()).toBe(280);
-    expect(pending.size).toBe(0);
-    expect(onOpen).not.toHaveBeenCalled();
+  ])(
+    "finishes an interrupted entry after touchcancel: $side, handleOnly=$handleOnly",
+    async ({ side, handleOnly }) => {
+      const onOpen = vi.fn();
+      const onClose = vi.fn();
+      const { container } = render(
+        <SheetRoot
+          defaultShow
+          snapPoints={[300]}
+          side={side}
+          handleOnly={handleOnly}
+          screenHeight={800}
+          screenWidth={400}
+          onOpen={onOpen}
+          onClose={onClose}
+        >
+          <SheetContent className="sheet-outer" innerClassName="sheet-content">
+            <SheetHandle className="sheet-handle" />
+          </SheetContent>
+        </SheetRoot>,
+        { enableMainThread: true, enableBackgroundThread: true },
+      );
+      await waitSchedule();
+      expect(pending.size).toBe(1);
+      const position = [...pending.keys()][0];
+      position.set(260);
+      const target = container.querySelector(
+        handleOnly ? ".sheet-handle" : side === "right" ? ".sheet-content" : ".sheet-outer",
+      );
+      if (!target) throw new Error("Expected the drag target to mount");
+      fireEvent.touchstart(target, { detail: { x: 0, y: 0 } });
+      fireEvent.touchmove(target, {
+        detail: { x: side === "right" ? -20 : 0, y: side === "bottom" ? -20 : 0 },
+      });
+      await waitSchedule();
+      expect(position.get()).toBe(280);
+      expect(pending.size).toBe(0);
+      expect(onOpen).not.toHaveBeenCalled();
 
-    fireEvent.touchcancel(target, { detail: { x: 0, y: 0 } });
-    await waitSchedule();
-    expect(pending.size).toBe(1);
-    await runOnMainThread(() => {
-      "main thread";
-      (globalThis as TestGlobals).__sheetTestMotion.finish(300);
-    })();
-    await waitSchedule();
-    expect(onOpen).toHaveBeenCalledOnce();
-    expect(onClose).not.toHaveBeenCalled();
-  });
+      fireEvent.touchcancel(target, { detail: { x: 0, y: 0 } });
+      await waitSchedule();
+      expect(pending.size).toBe(1);
+      await runOnMainThread(() => {
+        "main thread";
+        (globalThis as TestGlobals).__sheetTestMotion.finish(300);
+      })();
+      await waitSchedule();
+      expect(onOpen).toHaveBeenCalledOnce();
+      expect(onClose).not.toHaveBeenCalled();
+    },
+  );
 });
 
 describe("sheet layer measurement", () => {

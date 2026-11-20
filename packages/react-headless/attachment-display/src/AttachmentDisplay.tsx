@@ -15,9 +15,7 @@ import {
 } from "./useAttachmentDisplayContext";
 
 export interface AttachmentDisplayRootProps
-  extends UseAttachmentDisplayProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends UseAttachmentDisplayProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AttachmentDisplayRoot = forwardRef<HTMLDivElement, AttachmentDisplayRootProps>(
   (
@@ -54,8 +52,7 @@ export const AttachmentDisplayRoot = forwardRef<HTMLDivElement, AttachmentDispla
 AttachmentDisplayRoot.displayName = "AttachmentDisplayRoot";
 
 export interface AttachmentDisplayTriggerProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const AttachmentDisplayTrigger = forwardRef<
   HTMLButtonElement,
@@ -69,8 +66,7 @@ export const AttachmentDisplayTrigger = forwardRef<
 AttachmentDisplayTrigger.displayName = "AttachmentDisplayTrigger";
 
 export interface AttachmentDisplayItemImageProps
-  extends PrimitiveProps,
-    React.ImgHTMLAttributes<HTMLImageElement> {}
+  extends PrimitiveProps, React.ImgHTMLAttributes<HTMLImageElement> {}
 
 export const AttachmentDisplayItemImage = forwardRef<
   HTMLImageElement,
@@ -84,8 +80,7 @@ export const AttachmentDisplayItemImage = forwardRef<
 AttachmentDisplayItemImage.displayName = "AttachmentDisplayItemImage";
 
 export interface AttachmentDisplayItemRemoveButtonProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const AttachmentDisplayItemRemoveButton = forwardRef<
   HTMLButtonElement,
@@ -99,8 +94,7 @@ export const AttachmentDisplayItemRemoveButton = forwardRef<
 AttachmentDisplayItemRemoveButton.displayName = "AttachmentDisplayItemRemoveButton";
 
 export interface AttachmentDisplayItemBackdropProps
-  extends PrimitiveProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
+  extends PrimitiveProps, Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
   status: DisplayItemEntry["status"];
   children: React.ReactNode | ((entry: DisplayItemEntry) => React.ReactNode);
 }
@@ -122,8 +116,7 @@ export const AttachmentDisplayItemBackdrop = forwardRef<
 AttachmentDisplayItemBackdrop.displayName = "AttachmentDisplayItemBackdrop";
 
 export interface AttachmentDisplayDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const AttachmentDisplayDescription = forwardRef<
   HTMLSpanElement,
@@ -137,8 +130,7 @@ export const AttachmentDisplayDescription = forwardRef<
 AttachmentDisplayDescription.displayName = "AttachmentDisplayDescription";
 
 export interface AttachmentDisplayErrorMessageProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const AttachmentDisplayErrorMessage = forwardRef<
   HTMLSpanElement,

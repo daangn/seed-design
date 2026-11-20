@@ -9,7 +9,8 @@ import { useTextField, type UseTextFieldProps } from "./useTextField";
 import { TextFieldProvider, useTextFieldContext } from "./useTextFieldContext";
 
 export interface TextFieldRootProps
-  extends UseTextFieldProps,
+  extends
+    UseTextFieldProps,
     PrimitiveProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue"> {}
 
@@ -48,8 +49,7 @@ export const TextFieldRoot = forwardRef<HTMLDivElement, TextFieldRootProps>((pro
 TextFieldRoot.displayName = "TextFieldRoot";
 
 export interface TextFieldInputProps
-  extends PrimitiveProps,
-    React.InputHTMLAttributes<HTMLInputElement> {}
+  extends PrimitiveProps, React.InputHTMLAttributes<HTMLInputElement> {}
 
 export const TextFieldInput = forwardRef<HTMLInputElement, TextFieldInputProps>((props, ref) => {
   const { inputProps, inputRef } = useTextFieldContext();
@@ -61,8 +61,7 @@ export const TextFieldInput = forwardRef<HTMLInputElement, TextFieldInputProps>(
 TextFieldInput.displayName = "TextFieldInput";
 
 export interface TextFieldTextareaProps
-  extends PrimitiveProps,
-    React.InputHTMLAttributes<HTMLTextAreaElement> {}
+  extends PrimitiveProps, React.InputHTMLAttributes<HTMLTextAreaElement> {}
 
 export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextareaProps>(
   (props, ref) => {
@@ -76,8 +75,7 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
 TextFieldTextarea.displayName = "TextFieldTextarea";
 
 export interface TextFieldClearButtonProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 /**
  * Clears the value through a native `input` event, so it works with uncontrolled fields too.

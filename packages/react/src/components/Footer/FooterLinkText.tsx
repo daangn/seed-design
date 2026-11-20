@@ -4,9 +4,7 @@ import clsx from "clsx";
 import * as React from "react";
 
 export interface FooterLinkTextProps
-  extends FooterVariantProps,
-    PrimitiveProps,
-    React.AnchorHTMLAttributes<HTMLAnchorElement> {}
+  extends FooterVariantProps, PrimitiveProps, React.AnchorHTMLAttributes<HTMLAnchorElement> {}
 
 export const FooterLinkText = React.forwardRef<HTMLAnchorElement, FooterLinkTextProps>(
   ({ className, children, ...props }, ref) => {

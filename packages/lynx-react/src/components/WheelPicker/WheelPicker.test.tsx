@@ -223,58 +223,58 @@ describe("WheelPicker", () => {
     expect(onValueChange.mock.calls).toEqual([["high", { stepDelta: 1 }]]);
   });
 
-  it.each([
-    "value",
-    "defaultValue",
-  ] as const)("존재하지 않는 %s는 첫 항목을 표시하고 알리지 않는다", async (key) => {
-    vi.spyOn(console, "warn").mockImplementation(() => {});
-    const onValueChange = vi.fn();
-    const onIndexChange = vi.fn();
-    await renderPicker({ [key]: "missing", onValueChange, onIndexChange });
+  it.each(["value", "defaultValue"] as const)(
+    "존재하지 않는 %s는 첫 항목을 표시하고 알리지 않는다",
+    async (key) => {
+      vi.spyOn(console, "warn").mockImplementation(() => {});
+      const onValueChange = vi.fn();
+      const onIndexChange = vi.fn();
+      await renderPicker({ [key]: "missing", onValueChange, onIndexChange });
 
-    expect(centeredIndex()).toBe(0);
-    expect(selectedLabel()).toBe("낮음");
-    expect(get(".column")).toHaveAttribute("accessibility-value", "낮음");
-    expect(onValueChange).not.toHaveBeenCalled();
-    expect(onIndexChange).not.toHaveBeenCalled();
-  });
+      expect(centeredIndex()).toBe(0);
+      expect(selectedLabel()).toBe("낮음");
+      expect(get(".column")).toHaveAttribute("accessibility-value", "낮음");
+      expect(onValueChange).not.toHaveBeenCalled();
+      expect(onIndexChange).not.toHaveBeenCalled();
+    },
+  );
 
-  it.each([
-    "disabled",
-    "readOnly",
-  ] as const)("%s에서는 드래그와 탭이 값을 바꾸지 않으며 색 상태를 구분한다", async (state) => {
-    const onValueChange = vi.fn();
-    const onIndexChange = vi.fn();
-    await renderPicker({
-      defaultValue: "medium",
-      rootProps: { [state]: true },
-      onValueChange,
-      onIndexChange,
-    });
+  it.each(["disabled", "readOnly"] as const)(
+    "%s에서는 드래그와 탭이 값을 바꾸지 않으며 색 상태를 구분한다",
+    async (state) => {
+      const onValueChange = vi.fn();
+      const onIndexChange = vi.fn();
+      await renderPicker({
+        defaultValue: "medium",
+        rootProps: { [state]: true },
+        onValueChange,
+        onIndexChange,
+      });
 
-    touch("touchstart", 300);
-    advance(16);
-    touch("touchmove", 220);
-    touch("touchend", 220);
-    await runFrames();
-    pressItem(2);
-    advance(30);
-    touch("touchend", 300);
-    await runFrames();
+      touch("touchstart", 300);
+      advance(16);
+      touch("touchmove", 220);
+      touch("touchend", 220);
+      await runFrames();
+      pressItem(2);
+      advance(30);
+      touch("touchend", 300);
+      await runFrames();
 
-    expect(centeredIndex()).toBe(1);
-    expect(selectedLabel()).toBe("보통");
-    expect(get(".column")).toHaveAttribute("accessibility-value", "보통");
-    expect(onValueChange).not.toHaveBeenCalled();
-    expect(onIndexChange).not.toHaveBeenCalled();
-    const selectedText = get(".seed-wheel-picker__itemText--selected_true");
-    expect(selectedText.classList.contains("seed-wheel-picker__itemText--disabled_true")).toBe(
-      state === "disabled",
-    );
-    expect(get(".column").getAttribute("accessibility-traits")).toBe(
-      state === "disabled" ? "disabled" : null,
-    );
-  });
+      expect(centeredIndex()).toBe(1);
+      expect(selectedLabel()).toBe("보통");
+      expect(get(".column")).toHaveAttribute("accessibility-value", "보통");
+      expect(onValueChange).not.toHaveBeenCalled();
+      expect(onIndexChange).not.toHaveBeenCalled();
+      const selectedText = get(".seed-wheel-picker__itemText--selected_true");
+      expect(selectedText.classList.contains("seed-wheel-picker__itemText--disabled_true")).toBe(
+        state === "disabled",
+      );
+      expect(get(".column").getAttribute("accessibility-traits")).toBe(
+        state === "disabled" ? "disabled" : null,
+      );
+    },
+  );
 
   it.each([
     {

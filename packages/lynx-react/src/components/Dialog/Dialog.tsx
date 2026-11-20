@@ -54,8 +54,7 @@ const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(dialog);
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface DialogRootProps
-  extends DialogVariantProps,
-    Omit<HeadlessDialogRootProps, keyof DialogVariantProps> {}
+  extends DialogVariantProps, Omit<HeadlessDialogRootProps, keyof DialogVariantProps> {}
 
 /**
  * @platform Lynx — `@seed-design/lynx-react-dialog` 위에 SEED recipe를 조립한다.
@@ -87,8 +86,7 @@ DialogRoot.displayName = "DialogRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface DialogTriggerProps
-  extends HeadlessDialogTriggerProps,
-    Pick<LynxAccessibilityProps, "accessibility-label"> {}
+  extends HeadlessDialogTriggerProps, Pick<LynxAccessibilityProps, "accessibility-label"> {}
 
 /**
  * @platform Lynx — `asChild` and refs are unsupported.
@@ -222,8 +220,7 @@ DialogContent.displayName = "DialogContent";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface DialogHeaderProps
-  extends StyleProps,
-    Omit<LynxHostProps<"view">, keyof StyleProps> {}
+  extends StyleProps, Omit<LynxHostProps<"view">, keyof StyleProps> {}
 
 export const DialogHeader: LynxForwardRefComponent<unknown, DialogHeaderProps> = forwardRef<
   unknown,
@@ -249,8 +246,7 @@ export const DialogHeader: LynxForwardRefComponent<unknown, DialogHeaderProps> =
 DialogHeader.displayName = "DialogHeader";
 
 export interface DialogBodyProps
-  extends StyleProps,
-    Omit<LynxHostProps<"scroll-view">, keyof StyleProps> {}
+  extends StyleProps, Omit<LynxHostProps<"scroll-view">, keyof StyleProps> {}
 
 export const DialogBody: LynxForwardRefComponent<unknown, DialogBodyProps> = forwardRef<
   unknown,
@@ -276,8 +272,7 @@ export const DialogBody: LynxForwardRefComponent<unknown, DialogBodyProps> = for
 DialogBody.displayName = "DialogBody";
 
 export interface DialogTitleProps
-  extends StyleProps,
-    Omit<LynxHostProps<"text">, keyof StyleProps> {
+  extends StyleProps, Omit<LynxHostProps<"text">, keyof StyleProps> {
   /**
    * @defaultValue true
    */
@@ -302,8 +297,7 @@ export const DialogTitle: LynxForwardRefComponent<unknown, DialogTitleProps> = f
 DialogTitle.displayName = "DialogTitle";
 
 export interface DialogDescriptionProps
-  extends StyleProps,
-    Omit<LynxHostProps<"text">, keyof StyleProps> {}
+  extends StyleProps, Omit<LynxHostProps<"text">, keyof StyleProps> {}
 
 export const DialogDescription: LynxForwardRefComponent<unknown, DialogDescriptionProps> =
   forwardRef<unknown, DialogDescriptionProps>((props, ref) => {
@@ -321,8 +315,7 @@ export const DialogDescription: LynxForwardRefComponent<unknown, DialogDescripti
 DialogDescription.displayName = "DialogDescription";
 
 export interface DialogFooterProps
-  extends StyleProps,
-    Omit<LynxHostProps<"view">, keyof StyleProps> {}
+  extends StyleProps, Omit<LynxHostProps<"view">, keyof StyleProps> {}
 
 export const DialogFooter: LynxForwardRefComponent<unknown, DialogFooterProps> = forwardRef<
   unknown,

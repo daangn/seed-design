@@ -88,8 +88,7 @@ export interface PopoverFooterProps extends SeedPopover.FooterProps {}
 export const PopoverFooter = SeedPopover.Footer;
 
 export interface PopoverActionProps
-  extends Omit<SeedPopover.ActionProps, "color">,
-    ActionButtonProps {}
+  extends Omit<SeedPopover.ActionProps, "color">, ActionButtonProps {}
 
 export const PopoverAction = forwardRef<HTMLButtonElement, PopoverActionProps>((props, ref) => {
   return (

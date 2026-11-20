@@ -4,8 +4,10 @@ import * as React from "react";
 import { Text, VStack, type TextProps, type VStackProps } from "@seed-design/react";
 import { ActionButton, type ActionButtonProps } from "./action-button";
 
-export interface ResultSectionProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "title" | "children"> {
+export interface ResultSectionProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "title" | "children"
+> {
   /**
    * @default "large"
    */

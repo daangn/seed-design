@@ -36,7 +36,7 @@ export function customBase64Encode(bytes: Uint8Array) {
     // Set the 4 least significant bits to zero
     b = (chunk & 3) << 4; // 3 = 2^2 - 1
 
-    base64 += chars[a] + chars[b] + "==";
+    base64 += `${chars[a] + chars[b]}==`;
   } else if (byteRemainder === 2) {
     chunk = (bytes[mainLength] << 8) | bytes[mainLength + 1];
 
@@ -46,7 +46,7 @@ export function customBase64Encode(bytes: Uint8Array) {
     // Set the 2 least significant bits to zero
     c = (chunk & 15) << 2; // 15 = 2^4 - 1
 
-    base64 += chars[a] + chars[b] + chars[c] + "=";
+    base64 += `${chars[a] + chars[b] + chars[c]}=`;
   }
 
   return base64;

@@ -14,7 +14,8 @@ const { PropsProvider, useProps, withContext, ClassNamesProvider } =
   createSlotRecipeContext(tagGroupItem);
 
 export interface TagGroupRootProps
-  extends TagGroupVariantProps,
+  extends
+    TagGroupVariantProps,
     TagGroupItemVariantProps,
     PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {
@@ -55,7 +56,8 @@ export const TagGroupRoot = forwardRef<HTMLSpanElement, TagGroupRootProps>(
 );
 
 export interface TagGroupItemProps
-  extends TagGroupItemVariantProps,
+  extends
+    TagGroupItemVariantProps,
     Pick<StyleProps, "flexShrink">,
     PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
@@ -83,8 +85,7 @@ export const TagGroupItem = forwardRef<HTMLSpanElement, TagGroupItemProps>(
 );
 
 export interface TagGroupItemLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const TagGroupItemLabel = withContext<HTMLSpanElement, TagGroupItemLabelProps>(
   Primitive.span,

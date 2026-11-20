@@ -95,8 +95,7 @@ export const NavigationMenuRoot = ({
 };
 
 export interface NavigationMenuTriggerProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const NavigationMenuTrigger = forwardRef<HTMLButtonElement, NavigationMenuTriggerProps>(
   (props, ref) => {
@@ -113,8 +112,7 @@ export const NavigationMenuTrigger = forwardRef<HTMLButtonElement, NavigationMen
 NavigationMenuTrigger.displayName = "NavigationMenuTrigger";
 
 export interface NavigationMenuPositionerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {
   /**
    * The container element to render the portal into.
    * @default document.body
@@ -139,8 +137,7 @@ export const NavigationMenuPositioner = forwardRef<HTMLDivElement, NavigationMen
 NavigationMenuPositioner.displayName = "NavigationMenuPositioner";
 
 export interface NavigationMenuContentProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const NavigationMenuContent = forwardRef<HTMLDivElement, NavigationMenuContentProps>(
   (props, ref) => {
@@ -182,8 +179,7 @@ NavigationMenuContent.displayName = "NavigationMenuContent";
 const NavigationMenuGroupContext = createContext<UseNavigationMenuGroupReturn | null>(null);
 
 export interface NavigationMenuGroupProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const NavigationMenuGroup = forwardRef<HTMLDivElement, NavigationMenuGroupProps>(
   (props, ref) => {
@@ -201,8 +197,7 @@ NavigationMenuGroup.displayName = "NavigationMenuGroup";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface NavigationMenuGroupLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const NavigationMenuGroupLabel = forwardRef<HTMLDivElement, NavigationMenuGroupLabelProps>(
   (props, ref) => {
@@ -224,8 +219,7 @@ NavigationMenuGroupLabel.displayName = "NavigationMenuGroupLabel";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface NavigationMenuItemProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Marks this item as the current page (sets aria-current="page").
    */

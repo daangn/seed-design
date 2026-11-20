@@ -60,8 +60,7 @@ export const PageBannerRoot = withContentScale(
 // );
 
 export interface PageBannerContentProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const PageBannerContent = withContext<HTMLDivElement, PageBannerContentProps>(
   Primitive.div,
@@ -76,8 +75,7 @@ export const PageBannerBody = withContext<HTMLDivElement, PageBannerBodyProps>(
 );
 
 export interface PageBannerTitleProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const PageBannerTitle = withContext<HTMLSpanElement, PageBannerTitleProps>(
   Primitive.span,
@@ -85,8 +83,7 @@ export const PageBannerTitle = withContext<HTMLSpanElement, PageBannerTitleProps
 );
 
 export interface PageBannerDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const PageBannerDescription = withContext<HTMLSpanElement, PageBannerDescriptionProps>(
   Primitive.span,
@@ -94,16 +91,14 @@ export const PageBannerDescription = withContext<HTMLSpanElement, PageBannerDesc
 );
 
 export interface PageBannerButtonProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const PageBannerButton = withScaleFeedback(
   withContext<HTMLButtonElement, PageBannerButtonProps>(Primitive.button, "button"),
 );
 
 export interface PageBannerCloseButtonProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const PageBannerCloseButton = withScaleFeedback(
   withContext<HTMLButtonElement, PageBannerCloseButtonProps>(DismissibleCloseButton, "closeButton"),

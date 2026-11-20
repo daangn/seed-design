@@ -9,8 +9,10 @@ import {
 } from "@seed-design/react";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 
-export interface TextFieldProps
-  extends Omit<SeedTextField.RootProps, "prefix" | "onValueChange" | "asChild"> {
+export interface TextFieldProps extends Omit<
+  SeedTextField.RootProps,
+  "prefix" | "onValueChange" | "asChild"
+> {
   label?: React.ReactNode;
   /**
    * @default "medium"

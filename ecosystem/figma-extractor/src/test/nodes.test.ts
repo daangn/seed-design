@@ -5,9 +5,8 @@ import * as clientMock from "../api/__mocks__/client";
 // once another test file has already loaded "../api/client".
 mock.module("../api/client", () => clientMock);
 
-const { getComponentMetadataItemsInFile, getComponentSetMetadataItemsInFile } = await import(
-  "../api/nodes"
-);
+const { getComponentMetadataItemsInFile, getComponentSetMetadataItemsInFile } =
+  await import("../api/nodes");
 const { createApiClient } = await import("../api/client");
 
 describe("nodes", () => {

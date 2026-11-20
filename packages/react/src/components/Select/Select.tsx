@@ -56,7 +56,8 @@ const withItemStateProps = createWithStateProps([useSelectItemContext]);
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SelectRootProps
-  extends SelectVariantProps,
+  extends
+    SelectVariantProps,
     SelectTriggerVariantProps,
     SelectItemVariantProps,
     SelectPrimitive.RootProps {}
@@ -94,8 +95,7 @@ export const SelectRoot = (props: SelectRootProps) => {
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SelectTriggerProps
-  extends SelectTriggerVariantProps,
-    SelectPrimitive.TriggerProps {}
+  extends SelectTriggerVariantProps, SelectPrimitive.TriggerProps {}
 
 export const SelectTrigger = withContentScale(
   React.forwardRef<HTMLButtonElement, SelectTriggerProps>(({ className, ...props }, ref) => {
@@ -252,8 +252,7 @@ SelectContent.displayName = "SelectContent";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SelectScrollAreaProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SelectScrollArea = withContentContext<HTMLDivElement, SelectScrollAreaProps>(
   Primitive.div,
@@ -281,8 +280,7 @@ export const SelectGroupLabel = withContentContext<HTMLDivElement, SelectGroupLa
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SelectItemProps
-  extends SelectItemVariantProps,
-    Omit<SelectPrimitive.ItemProps, "icon"> {
+  extends SelectItemVariantProps, Omit<SelectPrimitive.ItemProps, "icon"> {
   /**
    * The option's prefix icon. Forwarded to the headless item's position-agnostic
    * `icon`, which registers it for the trigger prefix slot and exposes it to the
@@ -355,8 +353,7 @@ export const SelectItemBody = withItemContext<HTMLDivElement, SelectItemBodyProp
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SelectItemLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const SelectItemLabel = React.forwardRef<HTMLSpanElement, SelectItemLabelProps>(
   ({ children, className, ...otherProps }, ref) => {
@@ -382,8 +379,7 @@ SelectItemLabel.displayName = "SelectItemLabel";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SelectItemDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const SelectItemDescription = withItemContext<HTMLSpanElement, SelectItemDescriptionProps>(
   withItemStateProps(Primitive.span),

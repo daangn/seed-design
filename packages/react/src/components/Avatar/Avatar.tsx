@@ -39,8 +39,7 @@ export const AvatarBadge = withContext<HTMLDivElement, AvatarBadgeProps>(Primiti
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AvatarStackProps
-  extends AvatarStackVariantProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends AvatarStackVariantProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AvatarStack = React.forwardRef<HTMLDivElement, AvatarStackProps>(
   ({ className, children, size, ...otherProps }, ref) => {

@@ -24,8 +24,7 @@ const withStateProps = createWithStateProps([useSegmentedTextInputContext]);
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SegmentedTextInputRootProps
-  extends SegmentedTextInputVariantProps,
-    SegmentedTextInputPrimitive.RootProps {}
+  extends SegmentedTextInputVariantProps, SegmentedTextInputPrimitive.RootProps {}
 
 const FieldAwareRoot = forwardRef<HTMLDivElement, SegmentedTextInputPrimitive.RootProps>(
   ({ disabled, readOnly, invalid, required, ...otherProps }, ref) => {
@@ -68,8 +67,7 @@ interface SegmentLayoutProps {
 }
 
 export interface SegmentedTextInputInputSegmentProps
-  extends SegmentLayoutProps,
-    Omit<SegmentedTextInputPrimitive.SegmentProps, "placeholder"> {
+  extends SegmentLayoutProps, Omit<SegmentedTextInputPrimitive.SegmentProps, "placeholder"> {
   /**
    * 빈 Segment에 표시하는 내용. 문자열이 아니면(예: `<SegmentedTextInput.Dots count={1} />`) 입력 위에 겹쳐 그린다.
    * masked Segment는 빈 자리를 점으로 그리므로 쓰지 않는다.
@@ -87,9 +85,7 @@ export interface SegmentedTextInputInputSegmentProps
 }
 
 export interface SegmentedTextInputStaticSegmentProps
-  extends SegmentLayoutProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {
+  extends SegmentLayoutProps, PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {
   /**
    * Segment 전체를 입력 없이 정적 내용으로 표시한다. 값 배열에 포함하지 않으며 보조기기에서 읽지 않는다.
    */
@@ -279,8 +275,7 @@ SegmentedTextInputSegment.displayName = "SegmentedTextInputSegment";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SegmentedTextInputDotsProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {
   /**
    * 점 개수.
    */
@@ -321,8 +316,7 @@ export const SegmentedTextInputSeparator = withContext<
 >(SegmentedTextInputPrimitive.Separator, "separator");
 
 export interface SegmentedTextInputSuffixProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 /**
  * 카드사 로고처럼 입력 끝에 붙는 부가 요소. 세로 가운데에 두고 오른쪽 끝에 붙인다. 크기는 내용이 정한다.

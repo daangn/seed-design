@@ -6,8 +6,7 @@ import { ProgressCircleProvider, useProgressCircleContext } from "./useProgressC
 type ViewProps = IntrinsicElements["view"];
 
 export interface ProgressCircleRootProps
-  extends UseProgressProps,
-    Omit<ViewProps, keyof UseProgressProps> {}
+  extends UseProgressProps, Omit<ViewProps, keyof UseProgressProps> {}
 
 /**
  * 스타일 없이 progressbar 접근성을 연결하는 native `<view>`입니다.

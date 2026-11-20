@@ -64,7 +64,9 @@ describe("Rootage snapshot workflows", () => {
     expect(workflow).toContain("'control-sha': context.sha");
     expect(workflow).toContain("'run-id': context.runId");
     expect(workflow).toContain("'run-attempt': Number(process.env.GITHUB_RUN_ATTEMPT)");
-    expect(workflow).toContain("snapshot-release-metadata-${{ github.run_id }}-${{ github.run_attempt }}");
+    expect(workflow).toContain(
+      "snapshot-release-metadata-${{ github.run_id }}-${{ github.run_attempt }}",
+    );
     expect(workflow).toContain("<!-- seed-snapshot-metadata ${JSON.stringify(metadata)} -->");
     expect(workflow).toContain("SNAPSHOT_METADATA: ${{ needs.resolve.outputs.snapshot-metadata }}");
   });

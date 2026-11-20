@@ -32,8 +32,7 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
 TabsRoot.displayName = "TabsRoot";
 
 export interface TabsListProps
-  extends UseTabsListProps,
-    Omit<ScrollViewProps, keyof UseTabsListProps> {
+  extends UseTabsListProps, Omit<ScrollViewProps, keyof UseTabsListProps> {
   listContentProps?: ViewProps;
 }
 export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) => {
@@ -63,8 +62,7 @@ export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) =>
 TabsList.displayName = "TabsList";
 
 export interface TabsTriggerProps
-  extends UseTabsTriggerProps,
-    Omit<ViewProps, keyof UseTabsTriggerProps> {}
+  extends UseTabsTriggerProps, Omit<ViewProps, keyof UseTabsTriggerProps> {}
 export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, ref) => {
   const {
     children,
@@ -140,8 +138,7 @@ export const TabsIndicator = React.forwardRef<unknown, TabsIndicatorProps>((prop
 TabsIndicator.displayName = "TabsIndicator";
 
 export interface TabsContentProps
-  extends UseTabsContentProps,
-    Omit<ViewProps, keyof UseTabsContentProps> {}
+  extends UseTabsContentProps, Omit<ViewProps, keyof UseTabsContentProps> {}
 export const TabsContent = React.forwardRef<unknown, TabsContentProps>((props, ref) => {
   const { children, value, ...nativeProps } = props;
   const api = useTabsContent({ value });
@@ -165,8 +162,7 @@ export const TabsContent = React.forwardRef<unknown, TabsContentProps>((props, r
 TabsContent.displayName = "TabsContent";
 
 export interface TabsCarouselProps
-  extends UseTabsCarouselProps,
-    Omit<ViewProps, keyof UseTabsCarouselProps> {}
+  extends UseTabsCarouselProps, Omit<ViewProps, keyof UseTabsCarouselProps> {}
 export const TabsCarousel = React.forwardRef<unknown, TabsCarouselProps>((props, ref) => {
   const {
     children,
@@ -195,8 +191,7 @@ export const TabsCarousel = React.forwardRef<unknown, TabsCarouselProps>((props,
 TabsCarousel.displayName = "TabsCarousel";
 
 export interface TabsCarouselCameraProps
-  extends UseTabsCarouselCameraProps,
-    Omit<ViewPagerProps, keyof UseTabsCarouselCameraProps> {}
+  extends UseTabsCarouselCameraProps, Omit<ViewPagerProps, keyof UseTabsCarouselCameraProps> {}
 export const TabsCarouselCamera = React.forwardRef<unknown, TabsCarouselCameraProps>(
   (props, ref) => {
     const { children, bindchange, bindwillchange, bindoffsetchange, ...nativeProps } = props;

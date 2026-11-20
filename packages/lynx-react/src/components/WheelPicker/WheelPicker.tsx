@@ -54,8 +54,7 @@ export interface WheelPickerValueChangeDetails {
  *   이름과 현재 값은 각 Column의 accessibility-*로 제공합니다.
  */
 export interface WheelPickerRootProps
-  extends Omit<WheelPickerVariantProps, "selected">,
-    Omit<LynxHostProps<"view">, "children"> {
+  extends Omit<WheelPickerVariantProps, "selected">, Omit<LynxHostProps<"view">, "children"> {
   /** WheelPicker.Column 목록입니다. */
   children: React.ReactNode;
   /** 모든 컬럼의 터치 조작을 막고 disabled 색을 적용합니다. */

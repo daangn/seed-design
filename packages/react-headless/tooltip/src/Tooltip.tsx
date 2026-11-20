@@ -29,8 +29,7 @@ export const TooltipRoot = (props: TooltipRootProps) => {
 };
 
 export interface TooltipTriggerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLButtonElement> {}
 
 export const TooltipTrigger = forwardRef<HTMLButtonElement, TooltipTriggerProps>((props, ref) => {
   const api = useTooltipContext();
@@ -44,8 +43,7 @@ export const TooltipTrigger = forwardRef<HTMLButtonElement, TooltipTriggerProps>
 TooltipTrigger.displayName = "TooltipTrigger";
 
 export interface TooltipPositionerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const TooltipPositioner = forwardRef<HTMLDivElement, TooltipPositionerProps>(
   (props, ref) => {
@@ -61,8 +59,7 @@ export const TooltipPositioner = forwardRef<HTMLDivElement, TooltipPositionerPro
 TooltipPositioner.displayName = "TooltipPositioner";
 
 export interface TooltipPositionerPortalProps
-  extends TooltipPositionerProps,
-    Pick<FloatingPortalProps, "id" | "root" | "preserveTabOrder"> {}
+  extends TooltipPositionerProps, Pick<FloatingPortalProps, "id" | "root" | "preserveTabOrder"> {}
 
 export const TooltipPositionerPortal = forwardRef<HTMLDivElement, TooltipPositionerPortalProps>(
   ({ id, root, preserveTabOrder, ...otherProps }, ref) => {

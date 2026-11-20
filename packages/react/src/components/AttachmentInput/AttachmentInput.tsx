@@ -21,8 +21,7 @@ export const { withProvider, withContext } = createSlotRecipeContext(attachmentI
 const withStateProps = createWithStateProps([useFileUploadContext]);
 
 export interface AttachmentInputRootProps
-  extends AttachmentInputVariantProps,
-    FileUploadPrimitive.RootProps {}
+  extends AttachmentInputVariantProps, FileUploadPrimitive.RootProps {}
 
 export const AttachmentInputRoot = withProvider<HTMLDivElement, AttachmentInputRootProps>(
   FileUploadPrimitive.Root,
@@ -30,8 +29,7 @@ export const AttachmentInputRoot = withProvider<HTMLDivElement, AttachmentInputR
 );
 
 export interface AttachmentInputContainerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AttachmentInputContainer = withContext<HTMLDivElement, AttachmentInputContainerProps>(
   withStateProps(Primitive.div),
@@ -64,8 +62,7 @@ export const AttachmentInputHiddenInput = React.forwardRef<
 AttachmentInputHiddenInput.displayName = "AttachmentInputHiddenInput";
 
 export interface AttachmentInputItemGroupProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLUListElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLUListElement> {}
 
 export const AttachmentInputItemGroup = withContext<
   HTMLUListElement,

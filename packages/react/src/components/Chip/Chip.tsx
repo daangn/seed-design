@@ -20,9 +20,7 @@ const withStateProps = createWithStateProps([
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ChipButtonProps
-  extends PrimitiveProps,
-    ChipVariantProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, ChipVariantProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const ChipButton = withIconRequired(
   withScaleFeedback(withProvider<HTMLButtonElement, ChipButtonProps>(Primitive.button, "root")),
@@ -76,8 +74,7 @@ ChipPrefixIcon.displayName = "Chip.PrefixIcon";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ChipPrefixAvatarProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const ChipPrefixAvatar = withContext<HTMLDivElement, ChipPrefixAvatarProps>(
   withStateProps(Primitive.div),

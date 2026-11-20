@@ -20,8 +20,10 @@ const sampleThumbnailUrl = (seed: string) =>
     `<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect width='200' height='200' fill='${sampleThumbnailColors[seed] ?? "#adb5bd"}'/></svg>`,
   )}`;
 
-interface AttachmentDisplayReorderableStoryProps
-  extends Omit<React.ComponentProps<typeof AttachmentDisplayField>, "children"> {}
+interface AttachmentDisplayReorderableStoryProps extends Omit<
+  React.ComponentProps<typeof AttachmentDisplayField>,
+  "children"
+> {}
 
 const AttachmentDisplayReorderableForStory = (props: AttachmentDisplayReorderableStoryProps) => (
   <AttachmentDisplayField maxEntries={5} {...props}>

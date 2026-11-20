@@ -68,7 +68,7 @@ async function getTransformReadme(transformPath: string, transformName: string):
 
       // 헤딩 레벨 조정 (# -> ##, ## -> ###, ### -> ####)
       content = content.replace(/^(#{1,3}) (.+)$/gm, (_match, hashes, text) => {
-        return `${hashes}#`.substring(0, 5) + " " + text;
+        return `${`${hashes}#`.substring(0, 5)} ${text}`;
       });
 
       return content.trim();

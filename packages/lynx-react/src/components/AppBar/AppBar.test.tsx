@@ -338,46 +338,46 @@ describe("AppBar", () => {
     });
   });
 
-  it.each([
-    "left",
-    "right",
-  ] as const)("bleeds both sides of a single button in the %s slot", (side) => {
-    const Slot = side === "left" ? AppBar.Left : AppBar.Right;
-    render(
-      <AppBar.Root>
-        <Slot>
-          <AppBar.IconButton accessibility-label="Back" />
-        </Slot>
-      </AppBar.Root>,
-    );
-    const button = getAppBarRoot().querySelector(".seed-app-bar__iconButton");
-    expect(button).toHaveClass("seed-app-bar__icon-button-edge-leading");
-    expect(button).toHaveClass("seed-app-bar__icon-button-edge-trailing");
-  });
+  it.each(["left", "right"] as const)(
+    "bleeds both sides of a single button in the %s slot",
+    (side) => {
+      const Slot = side === "left" ? AppBar.Left : AppBar.Right;
+      render(
+        <AppBar.Root>
+          <Slot>
+            <AppBar.IconButton accessibility-label="Back" />
+          </Slot>
+        </AppBar.Root>,
+      );
+      const button = getAppBarRoot().querySelector(".seed-app-bar__iconButton");
+      expect(button).toHaveClass("seed-app-bar__icon-button-edge-leading");
+      expect(button).toHaveClass("seed-app-bar__icon-button-edge-trailing");
+    },
+  );
 
-  it.each([
-    "left",
-    "right",
-  ] as const)("bleeds only the outer sides of buttons in the %s slot", (side) => {
-    const Slot = side === "left" ? AppBar.Left : AppBar.Right;
-    render(
-      <AppBar.Root>
-        <Slot>
-          <AppBar.IconButton accessibility-label="Search" />
-          <AppBar.IconButton accessibility-label="Share" />
-          <AppBar.IconButton accessibility-label="Close" />
-        </Slot>
-      </AppBar.Root>,
-    );
-    const buttons = getAppBarRoot().querySelectorAll(".seed-app-bar__iconButton");
-    expect(buttons).toHaveLength(3);
-    expect(buttons[0]).toHaveClass("seed-app-bar__icon-button-edge-leading");
-    expect(buttons[0]).not.toHaveClass("seed-app-bar__icon-button-edge-trailing");
-    expect(buttons[1]).not.toHaveClass("seed-app-bar__icon-button-edge-leading");
-    expect(buttons[1]).not.toHaveClass("seed-app-bar__icon-button-edge-trailing");
-    expect(buttons[2]).not.toHaveClass("seed-app-bar__icon-button-edge-leading");
-    expect(buttons[2]).toHaveClass("seed-app-bar__icon-button-edge-trailing");
-  });
+  it.each(["left", "right"] as const)(
+    "bleeds only the outer sides of buttons in the %s slot",
+    (side) => {
+      const Slot = side === "left" ? AppBar.Left : AppBar.Right;
+      render(
+        <AppBar.Root>
+          <Slot>
+            <AppBar.IconButton accessibility-label="Search" />
+            <AppBar.IconButton accessibility-label="Share" />
+            <AppBar.IconButton accessibility-label="Close" />
+          </Slot>
+        </AppBar.Root>,
+      );
+      const buttons = getAppBarRoot().querySelectorAll(".seed-app-bar__iconButton");
+      expect(buttons).toHaveLength(3);
+      expect(buttons[0]).toHaveClass("seed-app-bar__icon-button-edge-leading");
+      expect(buttons[0]).not.toHaveClass("seed-app-bar__icon-button-edge-trailing");
+      expect(buttons[1]).not.toHaveClass("seed-app-bar__icon-button-edge-leading");
+      expect(buttons[1]).not.toHaveClass("seed-app-bar__icon-button-edge-trailing");
+      expect(buttons[2]).not.toHaveClass("seed-app-bar__icon-button-edge-leading");
+      expect(buttons[2]).toHaveClass("seed-app-bar__icon-button-edge-trailing");
+    },
+  );
 
   it("updates both edges when a conditional sibling changes without remounting the button", () => {
     const mount = vi.fn();
@@ -449,26 +449,25 @@ describe("AppBar", () => {
     expect(iconButton).toHaveClass("seed-app-bar__icon-button-edge-trailing");
   });
 
-  it.each([
-    "leading",
-    "trailing",
-    "both",
-  ] as const)("respects explicit edge=%s over automatic edges", (edge) => {
-    render(
-      <AppBar.Root>
-        <AppBar.Left>
-          <AppBar.IconButton accessibility-label="Back" edge={edge} />
-        </AppBar.Left>
-      </AppBar.Root>,
-    );
-    const button = getAppBarRoot().querySelector(".seed-app-bar__iconButton");
-    expect(button?.classList.contains("seed-app-bar__icon-button-edge-leading")).toBe(
-      edge !== "trailing",
-    );
-    expect(button?.classList.contains("seed-app-bar__icon-button-edge-trailing")).toBe(
-      edge !== "leading",
-    );
-  });
+  it.each(["leading", "trailing", "both"] as const)(
+    "respects explicit edge=%s over automatic edges",
+    (edge) => {
+      render(
+        <AppBar.Root>
+          <AppBar.Left>
+            <AppBar.IconButton accessibility-label="Back" edge={edge} />
+          </AppBar.Left>
+        </AppBar.Root>,
+      );
+      const button = getAppBarRoot().querySelector(".seed-app-bar__iconButton");
+      expect(button?.classList.contains("seed-app-bar__icon-button-edge-leading")).toBe(
+        edge !== "trailing",
+      );
+      expect(button?.classList.contains("seed-app-bar__icon-button-edge-trailing")).toBe(
+        edge !== "leading",
+      );
+    },
+  );
 
   it("preserves caller styles when automatic edge compensation applies", () => {
     render(

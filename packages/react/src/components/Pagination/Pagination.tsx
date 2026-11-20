@@ -7,8 +7,10 @@ import clsx from "clsx";
 import * as React from "react";
 import { Icon } from "../Icon/Icon";
 
-export interface PaginationButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "color"> {}
+export interface PaginationButtonProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "color"
+> {}
 
 /**
  * Icon-only button for moving to the previous or next page.
@@ -32,8 +34,10 @@ export const PaginationButton = React.forwardRef<HTMLButtonElement, PaginationBu
 );
 PaginationButton.displayName = "PaginationButton";
 
-export interface PaginationPageItemProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "color"> {
+export interface PaginationPageItemProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "color"
+> {
   /**
    * Whether the item represents the current page.
    */

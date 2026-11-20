@@ -11,8 +11,7 @@ type MainThreadTouchProps = Pick<
 >;
 
 export interface UseAttachmentDisplayTriggerProps
-  extends TriggerAccessibilityProps,
-    MainThreadTouchProps {
+  extends TriggerAccessibilityProps, MainThreadTouchProps {
   /**
    * Trigger를 탭하면 호출합니다. 앱의 media picker를 열고 결과를 `addEntries`에 전달합니다.
    * `triggerDisabled`이면 호출하지 않습니다.

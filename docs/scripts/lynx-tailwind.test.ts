@@ -23,16 +23,15 @@ const transform = async (css: string) =>
   (await postcss([compatibility]).process(css, { from: undefined })).css;
 
 describe("documented Lynx Tailwind compatibility", () => {
-  test.each([
-    ":root, :host",
-    ":host,:root",
-    ":host ,\n :root",
-  ])("preserves theme variables for %s", async (selector) => {
-    const css = await transform(`${selector} { --color-fg: var(--seed-color-fg); }`);
-    const rule = postcss.parse(css).first as postcss.Rule;
-    expect(rule.selector).toBe(":root");
-    expect(rule.nodes[0]).toMatchObject({ prop: "--color-fg", value: "var(--seed-color-fg)" });
-  });
+  test.each([":root, :host", ":host,:root", ":host ,\n :root"])(
+    "preserves theme variables for %s",
+    async (selector) => {
+      const css = await transform(`${selector} { --color-fg: var(--seed-color-fg); }`);
+      const rule = postcss.parse(css).first as postcss.Rule;
+      expect(rule.selector).toBe(":root");
+      expect(rule.nodes[0]).toMatchObject({ prop: "--color-fg", value: "var(--seed-color-fg)" });
+    },
+  );
 
   test("does not rewrite unrelated or functional selectors", async () => {
     const input =
@@ -73,20 +72,20 @@ describe("documented Lynx Tailwind compatibility", () => {
 });
 
 describe("SEED Tailwind token providers", () => {
-  test.each([
-    "tailwind3-plugin/src/index.ts",
-    "tailwind4-theme/index.css",
-  ])("%s references tokens supplied by Lynx base.css", (file) => {
-    const packages = resolve(import.meta.dir, "../../packages");
-    const source = readFileSync(resolve(packages, file), "utf8");
-    const base = readFileSync(resolve(packages, "lynx-css/base.css"), "utf8");
-    const references = [...new Set(source.match(/--seed-[\w-]+/g))];
-    const definitions = new Set(
-      [...base.matchAll(/(--seed-[\w-]+)\s*:/g)].map((match) => match[1]),
-    );
-    expect(references.length).toBeGreaterThan(0);
-    expect(references.filter((name) => !definitions.has(name))).toEqual([]);
-  });
+  test.each(["tailwind3-plugin/src/index.ts", "tailwind4-theme/index.css"])(
+    "%s references tokens supplied by Lynx base.css",
+    (file) => {
+      const packages = resolve(import.meta.dir, "../../packages");
+      const source = readFileSync(resolve(packages, file), "utf8");
+      const base = readFileSync(resolve(packages, "lynx-css/base.css"), "utf8");
+      const references = [...new Set(source.match(/--seed-[\w-]+/g))];
+      const definitions = new Set(
+        [...base.matchAll(/(--seed-[\w-]+)\s*:/g)].map((match) => match[1]),
+      );
+      expect(references.length).toBeGreaterThan(0);
+      expect(references.filter((name) => !definitions.has(name))).toEqual([]);
+    },
+  );
 });
 
 describe("Lynx Styling permanent links", () => {

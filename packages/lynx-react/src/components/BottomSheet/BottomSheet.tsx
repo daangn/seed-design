@@ -98,7 +98,8 @@ export const SEED_EXIT_ANIMATION: SheetTransition = {
 export type BottomSheetRootRef = HeadlessBottomSheetRootRef;
 
 export interface BottomSheetRootProps
-  extends Omit<BottomSheetVariantProps, "closeButton">,
+  extends
+    Omit<BottomSheetVariantProps, "closeButton">,
     Omit<HeadlessBottomSheetRootProps, keyof BottomSheetVariantProps> {}
 
 /**

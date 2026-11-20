@@ -9,8 +9,7 @@ type ViewProps = IntrinsicElements["view"];
 type TextProps = IntrinsicElements["text"];
 
 export interface RadioGroupRootProps
-  extends UseRadioGroupProps,
-    Omit<ViewProps, keyof UseRadioGroupProps> {}
+  extends UseRadioGroupProps, Omit<ViewProps, keyof UseRadioGroupProps> {}
 
 /**
  * 스타일 없이 RadioGroup의 선택 값·disabled·invalid·접근성을 하위 요소에 제공하는 native `<view>`입니다.
@@ -108,8 +107,7 @@ export const RadioGroupErrorMessage = React.forwardRef<unknown, RadioGroupErrorM
 RadioGroupErrorMessage.displayName = "RadioGroupErrorMessage";
 
 export interface RadioGroupItemProps
-  extends UseRadioGroupItemProps,
-    Omit<ViewProps, keyof UseRadioGroupItemProps> {}
+  extends UseRadioGroupItemProps, Omit<ViewProps, keyof UseRadioGroupItemProps> {}
 
 /**
  * 스타일 없이 Item 선택·press·접근성을 연결하는 native `<view>`입니다.

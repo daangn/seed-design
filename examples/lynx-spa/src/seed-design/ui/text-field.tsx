@@ -9,8 +9,10 @@ import {
 type TextFieldRootRef = React.ComponentRef<typeof SeedTextField.Root>;
 type FieldRootRef = React.ComponentRef<typeof SeedField.Root>;
 
-export interface TextFieldProps
-  extends Omit<SeedTextField.RootProps, "children" | "onValueChange" | "nativeInsertionMaxLength"> {
+export interface TextFieldProps extends Omit<
+  SeedTextField.RootProps,
+  "children" | "onValueChange" | "nativeInsertionMaxLength"
+> {
   children?: React.ReactNode;
   label?: React.ReactNode;
   labelWeight?: SeedField.LabelProps["weight"];

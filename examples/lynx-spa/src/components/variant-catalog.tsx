@@ -20,10 +20,7 @@ export type {
   VariantCatalogValues,
   VariantValues,
 } from "./variant-playground.jsx";
-export {
-  definePreviewStates,
-  defineVariantAxes,
-} from "./variant-playground.jsx";
+export { definePreviewStates, defineVariantAxes } from "./variant-playground.jsx";
 
 type Mode = "playground" | "table" | "examples";
 

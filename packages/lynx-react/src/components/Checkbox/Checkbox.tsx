@@ -86,7 +86,8 @@ function useCheckmarkControlContext(consumer: string): CheckmarkControlContextVa
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface CheckboxRootProps
-  extends CheckboxVariantProps,
+  extends
+    CheckboxVariantProps,
     Omit<CheckmarkVariantProps, "size" | "checked" | "disabled" | "indeterminate">,
     Pick<
       UseCheckboxProps,
@@ -178,8 +179,7 @@ CheckboxRoot.displayName = "CheckboxRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface CheckboxControlProps
-  extends Pick<CheckmarkVariantProps, "tone" | "variant" | "size">,
-    LynxHostProps<"view"> {}
+  extends Pick<CheckmarkVariantProps, "tone" | "variant" | "size">, LynxHostProps<"view"> {}
 
 export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((props, ref) => {
   const [variantProps, restProps] = checkmark.splitVariantProps(props);

@@ -17,8 +17,7 @@ const closeButtonTracker = createRenderTrackingContext("DialogCloseButton");
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface DialogRootProps
-  extends DialogVariantProps,
-    Omit<DialogPrimitive.RootProps, "role"> {
+  extends DialogVariantProps, Omit<DialogPrimitive.RootProps, "role"> {
   /**
    * @default true
    */
@@ -73,8 +72,7 @@ export const DialogBackdrop = withContext<HTMLDivElement, DialogBackdropProps>(
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface DialogContentProps
-  extends DialogPrimitive.ContentProps,
-    Pick<StyleProps, "width" | "maxWidth"> {}
+  extends DialogPrimitive.ContentProps, Pick<StyleProps, "width" | "maxWidth"> {}
 
 export const DialogContent = withContext<HTMLDivElement, DialogContentProps>(
   withStyleProps(DialogPrimitive.Content),
@@ -124,7 +122,8 @@ export const DialogDescription = withContext<HTMLParagraphElement, DialogDescrip
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface DialogBodyProps
-  extends PrimitiveProps,
+  extends
+    PrimitiveProps,
     Pick<StyleProps, "paddingX" | "minHeight" | "maxHeight" | "justifyContent" | "alignItems">,
     React.HTMLAttributes<HTMLDivElement> {}
 

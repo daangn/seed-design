@@ -13,8 +13,7 @@ type ViewProps = IntrinsicElements["view"];
 type NativeInputProps = IntrinsicElements["input"];
 
 export interface SegmentedTextInputRootProps
-  extends UseSegmentedTextInputProps,
-    Omit<ViewProps, keyof UseSegmentedTextInputProps> {}
+  extends UseSegmentedTextInputProps, Omit<ViewProps, keyof UseSegmentedTextInputProps> {}
 
 /**
  * 스타일 없이 SegmentedTextInput 상태를 하위 Segment에 제공하는 native `<view>`입니다.
@@ -66,7 +65,8 @@ export const SegmentedTextInputRoot = React.forwardRef<NodesRef, SegmentedTextIn
 SegmentedTextInputRoot.displayName = "SegmentedTextInputRoot";
 
 export interface SegmentedTextInputSegmentProps
-  extends Omit<UseSegmentedTextInputSegmentInputProps, "segmentKey">,
+  extends
+    Omit<UseSegmentedTextInputSegmentInputProps, "segmentKey">,
     Omit<NativeInputProps, keyof UseSegmentedTextInputSegmentInputProps | "ref"> {}
 
 /**

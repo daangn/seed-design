@@ -39,8 +39,7 @@ export const TextFieldPrefixIcon = withContext<SVGSVGElement, TextFieldPrefixIco
 );
 
 export interface TextFieldPrefixTextProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const TextFieldPrefixText = withContext<HTMLSpanElement, TextFieldPrefixTextProps>(
   withStateProps(Primitive.span),
@@ -55,8 +54,7 @@ export const TextFieldSuffixIcon = withContext<SVGSVGElement, TextFieldSuffixIco
 );
 
 export interface TextFieldSuffixTextProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const TextFieldSuffixText = withContext<HTMLSpanElement, TextFieldSuffixTextProps>(
   withStateProps(Primitive.span),

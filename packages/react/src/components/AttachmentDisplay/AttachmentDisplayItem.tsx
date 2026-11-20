@@ -34,7 +34,8 @@ const { useClassNames, ClassNamesProvider, withContext } =
 const overlayTracker = createRenderTrackingContext("AttachmentDisplayItemOverlay");
 
 export interface AttachmentDisplayItemProps
-  extends Omit<AttachmentInputItemVariantProps, "type">,
+  extends
+    Omit<AttachmentInputItemVariantProps, "type">,
     PrimitiveProps,
     React.LiHTMLAttributes<HTMLLIElement> {
   entry: DisplayItemEntry;
@@ -93,8 +94,7 @@ export const AttachmentDisplayItemImage = withContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentDisplayItemThumbnailProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AttachmentDisplayItemThumbnail = React.forwardRef<
   HTMLDivElement,
@@ -120,8 +120,7 @@ AttachmentDisplayItemThumbnail.displayName = "AttachmentDisplayItemThumbnail";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentDisplayItemMetadataProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AttachmentDisplayItemMetadata = React.forwardRef<
   HTMLDivElement,
@@ -170,8 +169,7 @@ AttachmentDisplayItemBackdrop.displayName = "AttachmentDisplayItemBackdrop";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentDisplayItemBadgeProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AttachmentDisplayItemBadge = React.forwardRef<
   HTMLDivElement,
@@ -192,8 +190,7 @@ AttachmentDisplayItemBadge.displayName = "AttachmentDisplayItemBadge";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentDisplayItemActionButtonProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const AttachmentDisplayItemActionButton = React.forwardRef<
   HTMLButtonElement,
@@ -228,8 +225,7 @@ export const AttachmentDisplayItemRemoveButton = withScaleFeedback(
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentDisplayItemReorderHandleProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 /**
  * A focusable button that covers the item and serves as the keyboard and screen reader handle

@@ -16,8 +16,7 @@ type MainThreadTouchProps = Pick<
 >;
 
 export interface UsePageBannerCloseButtonProps
-  extends CloseButtonAccessibilityProps,
-    MainThreadTouchProps {
+  extends CloseButtonAccessibilityProps, MainThreadTouchProps {
   /** `dismiss`보다 먼저 실행됩니다. */
   bindtap?: ViewProps["bindtap"];
 

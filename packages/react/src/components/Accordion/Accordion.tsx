@@ -73,8 +73,7 @@ AccordionBody.displayName = "AccordionBody";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AccordionTitleProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const AccordionTitle = withContext<HTMLSpanElement, AccordionTitleProps>(
   withStateProps(Primitive.span),
@@ -85,8 +84,7 @@ AccordionTitle.displayName = "AccordionTitle";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AccordionDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const AccordionDescription = withContext<HTMLSpanElement, AccordionDescriptionProps>(
   withStateProps(Primitive.span),
@@ -97,8 +95,7 @@ AccordionDescription.displayName = "AccordionDescription";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AccordionPrefixProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AccordionPrefix = withContext<HTMLDivElement, AccordionPrefixProps>(
   withStateProps(Primitive.div),
@@ -109,8 +106,7 @@ AccordionPrefix.displayName = "AccordionPrefix";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AccordionSuffixIconProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AccordionSuffixIcon = withContext<HTMLDivElement, AccordionSuffixIconProps>(
   withStateProps(Primitive.div),

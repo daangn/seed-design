@@ -8,9 +8,7 @@ import { useAppScreen, type UseAppScreenProps } from "./useAppScreen";
 import { AppScreenProvider, useAppScreenContext } from "./useAppScreenContext";
 
 export interface AppScreenRootProps
-  extends PrimitiveProps,
-    UseAppScreenProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, UseAppScreenProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((props, ref) => {
   const {

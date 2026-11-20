@@ -15,8 +15,7 @@ import { useAccordionItem, type UseAccordionItemProps } from "./useAccordionItem
 type ViewProps = IntrinsicElements["view"];
 
 export interface AccordionRootProps
-  extends UseAccordionProps,
-    Omit<ViewProps, keyof UseAccordionProps> {}
+  extends UseAccordionProps, Omit<ViewProps, keyof UseAccordionProps> {}
 
 export const AccordionRoot = React.forwardRef<unknown, AccordionRootProps>((props, ref) => {
   const { children, values, defaultValues, onValuesChange, disabled, multiple, ...nativeProps } =
@@ -34,8 +33,7 @@ export const AccordionRoot = React.forwardRef<unknown, AccordionRootProps>((prop
 AccordionRoot.displayName = "AccordionRoot";
 
 export interface AccordionItemProps
-  extends UseAccordionItemProps,
-    Omit<ViewProps, keyof UseAccordionItemProps> {}
+  extends UseAccordionItemProps, Omit<ViewProps, keyof UseAccordionItemProps> {}
 
 /**
  * Item의 Collapsible 상태를 `AccordionItemProvider`와 `CollapsibleProvider`로 함께 제공합니다.
@@ -79,8 +77,10 @@ type AccordionTriggerStateAccessibilityKey = "accessibility-traits" | "accessibi
  * `AccordionTrigger`의 `aria-expanded`·`aria-disabled`처럼 컴포넌트 값을 유지한다.
  * 상태 문구는 `expandedAccessibilityValue`·`collapsedAccessibilityValue`로 바꾼다.
  */
-export interface AccordionTriggerProps
-  extends Omit<CollapsibleTriggerProps, AccordionTriggerStateAccessibilityKey> {}
+export interface AccordionTriggerProps extends Omit<
+  CollapsibleTriggerProps,
+  AccordionTriggerStateAccessibilityKey
+> {}
 
 /** Item의 열림 상태를 전환하는 `CollapsibleTrigger`입니다. */
 export const AccordionTrigger = React.forwardRef<unknown, AccordionTriggerProps>((props, ref) => {

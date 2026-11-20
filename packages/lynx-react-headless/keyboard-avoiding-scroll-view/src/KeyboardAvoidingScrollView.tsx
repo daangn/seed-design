@@ -26,7 +26,8 @@ type ViewProps = IntrinsicElements["view"];
 type ScrollViewProps = IntrinsicElements["scroll-view"];
 
 export interface KeyboardAvoidingScrollViewRootProps
-  extends Omit<UseKeyboardAvoidingScrollViewProps, "ref">,
+  extends
+    Omit<UseKeyboardAvoidingScrollViewProps, "ref">,
     Omit<ViewProps, keyof UseKeyboardAvoidingScrollViewProps | "children"> {
   children?: ReactNode;
 }
@@ -67,7 +68,8 @@ export const KeyboardAvoidingScrollViewRoot: ForwardRefExoticComponent<
 KeyboardAvoidingScrollViewRoot.displayName = "KeyboardAvoidingScrollViewRoot";
 
 export interface KeyboardAvoidingScrollViewContentProps
-  extends Omit<UseKeyboardAvoidingScrollViewContentProps, "ref">,
+  extends
+    Omit<UseKeyboardAvoidingScrollViewContentProps, "ref">,
     Omit<ScrollViewProps, keyof UseKeyboardAvoidingScrollViewContentProps | "children"> {
   children?: ReactNode;
 }
@@ -115,7 +117,8 @@ export const KeyboardAvoidingScrollViewContent: ForwardRefExoticComponent<
 KeyboardAvoidingScrollViewContent.displayName = "KeyboardAvoidingScrollViewContent";
 
 export interface KeyboardAvoidingScrollViewFooterProps
-  extends Omit<UseKeyboardAvoidingScrollViewFooterProps, "ref">,
+  extends
+    Omit<UseKeyboardAvoidingScrollViewFooterProps, "ref">,
     Omit<ViewProps, keyof UseKeyboardAvoidingScrollViewFooterProps | "children"> {
   children?: ReactNode;
 }

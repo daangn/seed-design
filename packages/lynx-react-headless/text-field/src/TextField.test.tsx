@@ -904,58 +904,58 @@ describe("TextField", () => {
     expect(getRenderedQueries().queryByText("secret")).toBeNull();
   });
 
-  it.each([
-    "Android",
-    "iOS",
-  ] as const)("does not restore the previous value after an accepted controlled textarea newline on %s", async (platform) => {
-    setSystemInfo({ platform });
+  it.each(["Android", "iOS"] as const)(
+    "does not restore the previous value after an accepted controlled textarea newline on %s",
+    async (platform) => {
+      setSystemInfo({ platform });
 
-    const textareaRef = createRef<NodesRef>();
-    const onValueChange = vi.fn();
-    const bindinput = vi.fn();
+      const textareaRef = createRef<NodesRef>();
+      const onValueChange = vi.fn();
+      const bindinput = vi.fn();
 
-    function ControlledTextarea() {
-      const [value, setValue] = useState("첫 줄");
+      function ControlledTextarea() {
+        const [value, setValue] = useState("첫 줄");
 
-      return (
-        <TextField.Root
-          className="test-text-field"
-          value={value}
-          onValueChange={(nextValue) => {
-            onValueChange(nextValue);
-            setValue(nextValue);
-          }}
-        >
-          <TextField.Textarea ref={textareaRef} bindinput={bindinput} />
-        </TextField.Root>
-      );
-    }
+        return (
+          <TextField.Root
+            className="test-text-field"
+            value={value}
+            onValueChange={(nextValue) => {
+              onValueChange(nextValue);
+              setValue(nextValue);
+            }}
+          >
+            <TextField.Textarea ref={textareaRef} bindinput={bindinput} />
+          </TextField.Root>
+        );
+      }
 
-    render(<ControlledTextarea />);
+      render(<ControlledTextarea />);
 
-    const root = getRenderedRoot();
-    const textarea = root.querySelector("textarea");
-    if (!textarea || !textareaRef.current) {
-      throw new Error("Expected native textarea to exist.");
-    }
+      const root = getRenderedRoot();
+      const textarea = root.querySelector("textarea");
+      if (!textarea || !textareaRef.current) {
+        throw new Error("Expected native textarea to exist.");
+      }
 
-    const invoke = vi.fn(() => ({ exec: vi.fn() }));
-    textareaRef.current.invoke = invoke as unknown as NodesRef["invoke"];
+      const invoke = vi.fn(() => ({ exec: vi.fn() }));
+      textareaRef.current.invoke = invoke as unknown as NodesRef["invoke"];
 
-    fireNativeEvent(textareaRef.current, textarea, "input", {
-      value: "첫 줄\n",
-      selectionStart: 4,
-      selectionEnd: 4,
-      isComposing: false,
-    });
-    expect(onValueChange).toHaveBeenCalledWith("첫 줄\n");
-    expect(bindinput).toHaveBeenCalledOnce();
-    expect(invoke).not.toHaveBeenCalled();
+      fireNativeEvent(textareaRef.current, textarea, "input", {
+        value: "첫 줄\n",
+        selectionStart: 4,
+        selectionEnd: 4,
+        isComposing: false,
+      });
+      expect(onValueChange).toHaveBeenCalledWith("첫 줄\n");
+      expect(bindinput).toHaveBeenCalledOnce();
+      expect(invoke).not.toHaveBeenCalled();
 
-    await flushControlledReconciliation();
-    expect(getRenderedRoot().querySelector("textarea")).toBe(textarea);
-    expect(invoke).not.toHaveBeenCalled();
-  });
+      await flushControlledReconciliation();
+      expect(getRenderedRoot().querySelector("textarea")).toBe(textarea);
+      expect(invoke).not.toHaveBeenCalled();
+    },
+  );
 
   it("preserves explicit textarea maxlength through selection changes", () => {
     const textareaRef = createRef<NodesRef>();

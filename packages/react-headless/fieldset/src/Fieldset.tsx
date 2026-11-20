@@ -33,8 +33,7 @@ export const FieldsetLabel = forwardRef<HTMLDivElement, FieldsetLabelProps>((pro
 FieldsetLabel.displayName = "FieldsetLabel";
 
 export interface FieldsetDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const FieldsetDescription = forwardRef<HTMLSpanElement, FieldsetDescriptionProps>(
   (props, ref) => {
@@ -47,8 +46,7 @@ export const FieldsetDescription = forwardRef<HTMLSpanElement, FieldsetDescripti
 FieldsetDescription.displayName = "FieldsetDescription";
 
 export interface FieldsetErrorMessageProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldsetErrorMessage = forwardRef<HTMLDivElement, FieldsetErrorMessageProps>(
   (props, ref) => {

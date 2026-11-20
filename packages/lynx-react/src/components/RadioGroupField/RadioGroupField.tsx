@@ -32,8 +32,7 @@ const { ClassNamesProvider: FieldLabelClassNamesProvider, useClassNames: useFiel
  * - DOM ARIA id 연결. Root에 `accessibility-label`을 지정해야 함
  */
 export interface RadioGroupFieldRootProps
-  extends UseRadioGroupProps,
-    Omit<LynxHostProps<"view">, keyof UseRadioGroupProps> {}
+  extends UseRadioGroupProps, Omit<LynxHostProps<"view">, keyof UseRadioGroupProps> {}
 
 export const RadioGroupFieldRoot = React.forwardRef<unknown, RadioGroupFieldRootProps>(
   (props, ref) => {
@@ -76,8 +75,7 @@ export const RadioGroupFieldHeader = React.forwardRef<unknown, RadioGroupFieldHe
 RadioGroupFieldHeader.displayName = "RadioGroupFieldHeader";
 
 export interface RadioGroupFieldLabelProps
-  extends FieldLabelVariantProps,
-    Omit<LynxHostProps<"text">, keyof FieldLabelVariantProps> {}
+  extends FieldLabelVariantProps, Omit<LynxHostProps<"text">, keyof FieldLabelVariantProps> {}
 
 export const RadioGroupFieldLabel = React.forwardRef<unknown, RadioGroupFieldLabelProps>(
   (props, ref) => {

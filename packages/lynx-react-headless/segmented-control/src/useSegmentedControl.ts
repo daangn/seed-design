@@ -19,8 +19,7 @@ export interface UseSegmentedControlStateProps {
 }
 
 export interface UseSegmentedControlProps
-  extends UseSegmentedControlStateProps,
-    RootAccessibilityProps {
+  extends UseSegmentedControlStateProps, RootAccessibilityProps {
   /**
    * `true`이면 모든 Item의 press·사용자 tap handler·선택 변경이 막힙니다.
    * @default false

@@ -35,7 +35,8 @@ const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
  *   A CloseButton hidden inside a custom component remains in the content group.
  */
 export interface PageBannerRootProps
-  extends Omit<PageBannerVariantProps, "pressed" | "closeButtonPressed" | "interactive">,
+  extends
+    Omit<PageBannerVariantProps, "pressed" | "closeButtonPressed" | "interactive">,
     Pick<
       UsePageBannerProps,
       "defaultOpen" | "open" | "onDismiss" | "bindtap" | "main-thread:bindtap"
@@ -265,7 +266,8 @@ PageBannerButton.displayName = "PageBannerButton";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface PageBannerCloseButtonProps
-  extends Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
+  extends
+    Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
     Pick<UsePageBannerCloseButtonProps, "bindtap" | "main-thread:bindtap"> {}
 
 export const PageBannerCloseButton = React.forwardRef<unknown, PageBannerCloseButtonProps>(

@@ -14,8 +14,10 @@ function createMockImageFile(name: string): File {
   return new File([bytes], name, { type: "image/png" });
 }
 
-interface AttachmentInputReorderableStoryProps
-  extends Omit<React.ComponentProps<typeof AttachmentField>, "children"> {}
+interface AttachmentInputReorderableStoryProps extends Omit<
+  React.ComponentProps<typeof AttachmentField>,
+  "children"
+> {}
 
 const AttachmentInputReorderableForStory = (props: AttachmentInputReorderableStoryProps) => (
   <AttachmentField maxFiles={5} {...props}>

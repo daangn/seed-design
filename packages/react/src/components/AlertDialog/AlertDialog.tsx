@@ -71,8 +71,7 @@ export const AlertDialogContent = withContext<HTMLDivElement, AlertDialogContent
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AlertDialogHeaderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AlertDialogHeader = withContext<HTMLDivElement, AlertDialogHeaderProps>(
   Primitive.div,
@@ -100,8 +99,7 @@ export const AlertDialogDescription = withContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AlertDialogFooterProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AlertDialogFooter = withContext<HTMLDivElement, AlertDialogFooterProps>(
   Primitive.div,

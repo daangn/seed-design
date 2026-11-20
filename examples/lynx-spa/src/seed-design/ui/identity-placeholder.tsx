@@ -1,8 +1,10 @@
 import * as React from "@lynx-js/react";
 import { IdentityPlaceholder as SeedIdentityPlaceholder } from "@seed-design/lynx-react";
 
-export interface IdentityPlaceholderProps
-  extends Omit<SeedIdentityPlaceholder.RootProps, "children"> {
+export interface IdentityPlaceholderProps extends Omit<
+  SeedIdentityPlaceholder.RootProps,
+  "children"
+> {
   imageProps?: SeedIdentityPlaceholder.ImageProps;
 }
 

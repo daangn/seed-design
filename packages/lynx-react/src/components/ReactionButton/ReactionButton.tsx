@@ -22,7 +22,8 @@ import { ProgressCircleRange, ProgressCircleRoot, ProgressCircleTrack } from "..
  * - `asChild`
  */
 export interface ReactionButtonProps
-  extends Omit<ReactionButtonVariantProps, "selected" | "disabled" | "loading">,
+  extends
+    Omit<ReactionButtonVariantProps, "selected" | "disabled" | "loading">,
     Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
     LynxPressableProps {
   pressed?: boolean;

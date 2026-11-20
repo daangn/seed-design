@@ -54,8 +54,7 @@ export const ListItem = React.forwardRef<unknown, ListItemProps>(
 ListItem.displayName = "ListItem";
 
 export interface ListButtonItemProps
-  extends Omit<SeedList.ButtonItemProps, "children">,
-    ListItemContentProps {}
+  extends Omit<SeedList.ButtonItemProps, "children">, ListItemContentProps {}
 
 /**
  * @see https://seed-design.io/lynx/components/list
@@ -72,8 +71,7 @@ export const ListButtonItem = React.forwardRef<unknown, ListButtonItemProps>(
 ListButtonItem.displayName = "ListButtonItem";
 
 export interface ListCheckItemProps
-  extends Omit<SeedList.CheckboxItemProps, "children">,
-    ListItemContentProps {}
+  extends Omit<SeedList.CheckboxItemProps, "children">, ListItemContentProps {}
 
 /**
  * @see https://seed-design.io/lynx/components/list
@@ -104,8 +102,7 @@ export const ListCheckItem = React.forwardRef<unknown, ListCheckItemProps>(
 ListCheckItem.displayName = "ListCheckItem";
 
 export interface ListRadioItemProps
-  extends Omit<SeedList.RadioItemProps, "children">,
-    ListItemContentProps {}
+  extends Omit<SeedList.RadioItemProps, "children">, ListItemContentProps {}
 
 /**
  * @see https://seed-design.io/lynx/components/list
@@ -133,8 +130,7 @@ export const ListRadioItem = React.forwardRef<unknown, ListRadioItemProps>(
 ListRadioItem.displayName = "ListRadioItem";
 
 export interface ListSwitchItemProps
-  extends Omit<SeedList.SwitchItemProps, "children">,
-    ListItemContentProps {}
+  extends Omit<SeedList.SwitchItemProps, "children">, ListItemContentProps {}
 
 /**
  * @see https://seed-design.io/lynx/components/list

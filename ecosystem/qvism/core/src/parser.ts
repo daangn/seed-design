@@ -61,7 +61,7 @@ function decl(parent: Container, name: string, value: CSSValue): void {
   let valueStr: string;
   if (typeof value === "number") {
     // Append 'px' if needed
-    valueStr = value === 0 || UNITLESS[name] ? value.toString() : value + "px";
+    valueStr = value === 0 || UNITLESS[name] ? value.toString() : `${value}px`;
   } else {
     valueStr = String(value);
   }

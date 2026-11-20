@@ -14,8 +14,7 @@ export interface WheelPickerOption {
   ariaLabel?: string;
 }
 
-export interface WheelPickerColumn
-  extends Omit<SeedWheelPicker.ColumnProps, "options"> {
+export interface WheelPickerColumn extends Omit<SeedWheelPicker.ColumnProps, "options"> {
   /** 컬럼을 식별하는 고유 값입니다. */
   id: string;
 

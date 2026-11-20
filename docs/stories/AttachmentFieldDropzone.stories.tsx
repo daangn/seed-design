@@ -14,8 +14,10 @@ function createMockImageFile(name: string): File {
   return new File([bytes], name, { type: "image/png" });
 }
 
-interface AttachmentInputStoryProps
-  extends Omit<React.ComponentProps<typeof AttachmentField>, "children"> {}
+interface AttachmentInputStoryProps extends Omit<
+  React.ComponentProps<typeof AttachmentField>,
+  "children"
+> {}
 
 const AttachmentInputForStory = (props: AttachmentInputStoryProps) => (
   <AttachmentField maxFiles={3} {...props}>

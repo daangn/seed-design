@@ -144,14 +144,12 @@ export interface NormalizedFrameNode extends NormalizedFrameTrait {
 }
 
 export interface NormalizedRectangleNode
-  extends NormalizedDefaultShapeTrait,
-    NormalizedCornerTrait {
+  extends NormalizedDefaultShapeTrait, NormalizedCornerTrait {
   type: FigmaRestSpec.RectangleNode["type"];
 }
 
 export interface NormalizedTextNode
-  extends NormalizedDefaultShapeTrait,
-    NormalizedTypePropertiesTrait {
+  extends NormalizedDefaultShapeTrait, NormalizedTypePropertiesTrait {
   type: FigmaRestSpec.TextNode["type"];
 }
 
@@ -190,7 +188,8 @@ export interface NormalizedVectorNode extends NormalizedDefaultShapeTrait, Norma
 }
 
 export interface NormalizedBooleanOperationNode
-  extends NormalizedIsLayerTrait,
+  extends
+    NormalizedIsLayerTrait,
     NormalizedHasChildrenTrait,
     NormalizedHasLayoutTrait,
     NormalizedHasGeometryTrait,

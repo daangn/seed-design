@@ -23,10 +23,7 @@ export {
   type AttachmentDisplayRootProps,
 } from "./AttachmentDisplay";
 
-export {
-  AttachmentDisplayContext,
-  type AttachmentDisplayContextProps,
-} from "./AttachmentDisplay";
+export { AttachmentDisplayContext, type AttachmentDisplayContextProps } from "./AttachmentDisplay";
 
 export {
   AttachmentDisplayItem,

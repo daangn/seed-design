@@ -125,19 +125,20 @@ describe("archive routing", () => {
     expect(response.headers.has("set-cookie")).toBe(false);
   });
 
-  it.each([
-    404, 304,
-  ])("preserves HTTP %s instead of returning a success fallback", async (status) => {
-    const response = await handleArchiveRequest(
-      request("/react/v2/missing", { method: "HEAD" }),
-      archives,
-      stub((forwarded) => {
-        expect(forwarded.method).toBe("HEAD");
-        return new Response(null, { status });
-      }),
-    );
-    expect(response.status).toBe(status);
-  });
+  it.each([404, 304])(
+    "preserves HTTP %s instead of returning a success fallback",
+    async (status) => {
+      const response = await handleArchiveRequest(
+        request("/react/v2/missing", { method: "HEAD" }),
+        archives,
+        stub((forwarded) => {
+          expect(forwarded.method).toBe("HEAD");
+          return new Response(null, { status });
+        }),
+      );
+      expect(response.status).toBe(status);
+    },
+  );
 
   it("rewrites Pages redirects to the public archive", async () => {
     const response = await handleArchiveRequest(

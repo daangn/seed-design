@@ -92,8 +92,7 @@ export const QuantityPickerRoot = React.forwardRef<unknown, QuantityPickerRootPr
 QuantityPickerRoot.displayName = "QuantityPickerRoot";
 
 interface QuantityPickerButtonProps
-  extends UseQuantityPickerButtonProps,
-    Omit<ViewProps, keyof UseQuantityPickerButtonProps> {}
+  extends UseQuantityPickerButtonProps, Omit<ViewProps, keyof UseQuantityPickerButtonProps> {}
 
 function useQuantityPickerButtonView(
   props: QuantityPickerButtonProps,

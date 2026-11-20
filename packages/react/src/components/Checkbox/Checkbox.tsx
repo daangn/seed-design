@@ -28,18 +28,14 @@ const withStateProps = createWithStateProps([useCheckboxContext]);
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface CheckboxGroupProps
-  extends CheckboxGroupVariantProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends CheckboxGroupVariantProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const CheckboxGroup = withGroupContext<HTMLDivElement, CheckboxGroupProps>(Primitive.div);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface CheckboxRootProps
-  extends CheckboxVariantProps,
-    CheckmarkVariantProps,
-    CheckboxPrimitive.RootProps {}
+  extends CheckboxVariantProps, CheckmarkVariantProps, CheckboxPrimitive.RootProps {}
 
 export interface CheckboxRootPrimitiveProps extends CheckboxPrimitive.RootProps {}
 
@@ -75,8 +71,7 @@ export const CheckboxRoot = Object.assign(
  */
 
 export interface CheckboxControlProps
-  extends CheckmarkVariantProps,
-    CheckboxPrimitive.ControlProps {}
+  extends CheckmarkVariantProps, CheckboxPrimitive.ControlProps {}
 
 export const CheckboxControl = withScaleFeedback(
   withCheckmarkProvider<HTMLDivElement, CheckboxControlProps>(CheckboxPrimitive.Control, "root"),

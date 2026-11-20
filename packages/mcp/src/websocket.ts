@@ -117,7 +117,7 @@ export function createFigmaWebSocketClient(serverUrl: string) {
         // Handle regular responses
         const myResponse = json.message;
         logger.debug(`Received message: ${JSON.stringify(myResponse)}`);
-        logger.log("myResponse" + JSON.stringify(myResponse));
+        logger.log(`myResponse${JSON.stringify(myResponse)}`);
 
         // Handle response to a request
         if (

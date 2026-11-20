@@ -22,8 +22,10 @@ export const SegmentedControl = React.forwardRef<unknown, SegmentedControlProps>
 );
 SegmentedControl.displayName = "SegmentedControl";
 
-export interface SegmentedControlItemProps
-  extends Omit<SeedSegmentedControl.ItemProps, "notification"> {
+export interface SegmentedControlItemProps extends Omit<
+  SeedSegmentedControl.ItemProps,
+  "notification"
+> {
   notification?: boolean;
 }
 

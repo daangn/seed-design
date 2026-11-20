@@ -29,7 +29,8 @@ const {
 // stays at Drawer's default `true`, keeping the focus trap and aria-modal contract on the
 // action list).
 export interface SwipeableMenuSheetRootProps
-  extends MenuSheetVariantProps,
+  extends
+    MenuSheetVariantProps,
     Pick<
       Drawer.RootProps,
       | "children"
@@ -86,8 +87,7 @@ export const SwipeableMenuSheetBackdrop = withContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SwipeableMenuSheetContentProps
-  extends Drawer.ContentProps,
-    Pick<MenuSheetItemVariantProps, "labelAlign"> {}
+  extends Drawer.ContentProps, Pick<MenuSheetItemVariantProps, "labelAlign"> {}
 
 export const SwipeableMenuSheetContent = React.forwardRef<
   HTMLDivElement,
@@ -110,8 +110,7 @@ SwipeableMenuSheetContent.displayName = "SwipeableMenuSheetContent";
 // `preventCycle` only applies when snap points are configured, and
 // SwipeableMenuSheet omits snap points from its Root API.
 export interface SwipeableMenuSheetHandleProps
-  extends PrimitiveProps,
-    Omit<Drawer.HandleProps, "preventCycle"> {}
+  extends PrimitiveProps, Omit<Drawer.HandleProps, "preventCycle"> {}
 
 export const SwipeableMenuSheetHandle = React.forwardRef<
   HTMLDivElement,
@@ -160,8 +159,7 @@ export const SwipeableMenuSheetDescription = withContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SwipeableMenuSheetListProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SwipeableMenuSheetList = withContext<HTMLDivElement, SwipeableMenuSheetListProps>(
   Primitive.div,
@@ -171,7 +169,8 @@ export const SwipeableMenuSheetList = withContext<HTMLDivElement, SwipeableMenuS
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SwipeableMenuSheetGroupProps
-  extends PrimitiveProps,
+  extends
+    PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement>,
     Pick<MenuSheetItemVariantProps, "labelAlign"> {}
 
@@ -195,9 +194,7 @@ SwipeableMenuSheetGroup.displayName = "SwipeableMenuSheetGroup";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SwipeableMenuSheetItemProps
-  extends PrimitiveProps,
-    MenuSheetItemVariantProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, MenuSheetItemVariantProps, React.HTMLAttributes<HTMLButtonElement> {}
 
 export const SwipeableMenuSheetItem = withContentScale(
   React.forwardRef<HTMLButtonElement, SwipeableMenuSheetItemProps>(
@@ -222,8 +219,7 @@ export const SwipeableMenuSheetItem = withContentScale(
 SwipeableMenuSheetItem.displayName = "SwipeableMenuSheetItem";
 
 export interface SwipeableMenuSheetItemContentProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SwipeableMenuSheetItemContent = withItemContext<
   HTMLDivElement,
@@ -231,8 +227,7 @@ export const SwipeableMenuSheetItemContent = withItemContext<
 >(Primitive.div, "content");
 
 export interface SwipeableMenuSheetItemLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const SwipeableMenuSheetItemLabel = withItemContext<
   HTMLSpanElement,
@@ -240,8 +235,7 @@ export const SwipeableMenuSheetItemLabel = withItemContext<
 >(Primitive.span, "label");
 
 export interface SwipeableMenuSheetItemDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const SwipeableMenuSheetItemDescription = withItemContext<
   HTMLSpanElement,
@@ -251,8 +245,7 @@ export const SwipeableMenuSheetItemDescription = withItemContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SwipeableMenuSheetFooterProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SwipeableMenuSheetFooter = withContext<HTMLDivElement, SwipeableMenuSheetFooterProps>(
   Primitive.div,
