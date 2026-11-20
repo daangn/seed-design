@@ -71,6 +71,8 @@ export function useTabs({
   const [contentValues, setContentValues] = React.useState<string[]>([]);
   const [indicatorValue, setIndicatorValue] = React.useState<string | undefined>();
   const [triggerWidths, setTriggerWidths] = React.useState<Record<string, number>>({});
+  // 최신 측정값. 화면에 쓰이는 폭만 triggerWidths state로 옮긴다(publishTriggerWidths).
+  const measuredWidthsRef = React.useRef<Record<string, number>>({});
   const pagerRef = React.useRef<NodesRef | null>(null);
   const indicatorRef = React.useMainThreadRef<MainThread.Element>(null);
 
@@ -104,6 +106,35 @@ export function useTabs({
   const visualValue = indicatorValue ?? value;
   const indicatorIndex = items.findIndex((item) => item.value === visualValue);
   const selectedPagerIndex = value === undefined ? -1 : pagerValues.indexOf(value);
+  const publishStateRef = React.useRef({ items, value, indicatorIndex });
+  publishStateRef.current = { items, value, indicatorIndex };
+
+  // 기기는 trigger마다 layoutchange를 따로 보낸다. 모든 trigger가 측정되기 전에는 선택·표시 중인 trigger까지의
+  // 폭이 바뀔 때만 state에 옮겨 trigger 수만큼 commit하지 않는다. 측정이 끝난 뒤에는 바로 옮긴다.
+  const publishTriggerWidths = React.useCallback(() => {
+    const widths = measuredWidthsRef.current;
+    const { items, value, indicatorIndex } = publishStateRef.current;
+    const lastUsedIndex = Math.max(
+      indicatorIndex,
+      items.findIndex((item) => item.value === value),
+    );
+    const complete = items.every(
+      // biome-ignore lint/suspicious/noPrototypeBuiltins: Object.hasOwn is unavailable in supported Lynx runtimes.
+      (item) => Object.prototype.hasOwnProperty.call(widths, item.value),
+    );
+    setTriggerWidths((current) => {
+      const changed = (key: string) => current[key] !== widths[key];
+      if (!complete && !items.slice(0, lastUsedIndex + 1).some((item) => changed(item.value)))
+        return current;
+      const keys = Object.keys(widths);
+      return keys.length === Object.keys(current).length && !keys.some(changed) ? current : widths;
+    });
+  }, []);
+
+  React.useEffect(() => {
+    "background only";
+    publishTriggerWidths();
+  }, [items, value, indicatorIndex, publishTriggerWidths]);
   const setPagerNode = React.useCallback(
     (node: NodesRef | null) => {
       pagerRef.current = node;
@@ -121,6 +152,8 @@ export function useTabs({
     return () => {
       "background only";
       setItems((current) => current.filter((item) => item.value !== triggerValue));
+      const { [triggerValue]: _removed, ...measuredWidths } = measuredWidthsRef.current;
+      measuredWidthsRef.current = measuredWidths;
       setTriggerWidths((current) => {
         const next = { ...current };
         delete next[triggerValue];
@@ -158,11 +191,14 @@ export function useTabs({
     });
   }, []);
 
-  const updateTriggerWidth = React.useCallback((triggerValue: string, width: number) => {
-    setTriggerWidths((current) =>
-      current[triggerValue] === width ? current : { ...current, [triggerValue]: width },
-    );
-  }, []);
+  const updateTriggerWidth = React.useCallback(
+    (triggerValue: string, width: number) => {
+      if (measuredWidthsRef.current[triggerValue] === width) return;
+      measuredWidthsRef.current = { ...measuredWidthsRef.current, [triggerValue]: width };
+      publishTriggerWidths();
+    },
+    [publishTriggerWidths],
+  );
 
   const selectValue = React.useCallback(
     (nextValue: string) => {

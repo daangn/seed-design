@@ -189,17 +189,21 @@ export interface BottomSheetPositionerProps extends HeadlessBottomSheetPositione
  * recipe의 `positioner` slot className을 자동 적용해 `position: fixed` + 전체
  * 뷰포트 커버 레이아웃을 보장한다.
  */
-const StyledBottomSheetPositioner = withContext<unknown, BottomSheetPositionerProps>(
-  HeadlessBottomSheetPositioner,
-  "positioner",
-);
-
 export const BottomSheetPositioner: LynxForwardRefComponent<unknown, BottomSheetPositionerProps> =
-  forwardRef<unknown, BottomSheetPositionerProps>((props, ref) => (
-    <OverlaySafeAreaProvider container={props.container}>
-      <StyledBottomSheetPositioner {...(ref ? { ref } : {})} {...props} />
-    </OverlaySafeAreaProvider>
-  ));
+  forwardRef<unknown, BottomSheetPositionerProps>((props, ref) => {
+    // Root 바로 아래 부품이 className context를 읽어야 CloseButton이 바꾼 className이 시트 전체에 한 commit으로
+    // 간다. 읽지 않으면 Preact가 이 부품에서 내려가기를 멈춰 Root와 시트가 따로 commit된다.
+    const classNames = useClassNames();
+
+    return (
+      <OverlaySafeAreaProvider container={props.container}>
+        <HeadlessBottomSheetPositioner
+          {...mergeProps(ref ? { ref } : {}, props)}
+          className={clsx(classNames.positioner, props.className)}
+        />
+      </OverlaySafeAreaProvider>
+    );
+  });
 BottomSheetPositioner.displayName = "BottomSheetPositioner";
 
 ////////////////////////////////////////////////////////////////////////////////////

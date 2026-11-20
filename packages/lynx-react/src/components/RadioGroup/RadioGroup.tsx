@@ -10,6 +10,7 @@ import { radioGroup } from "@seed-design/lynx-css/recipes/radio-group";
 import {
   RadioGroupItemControl as HeadlessRadioGroupItemControl,
   RadioGroupItemProvider,
+  useRadioGroupContext,
   useRadioGroupItem,
   useRadioGroupItemContext,
   type UseRadioGroupItemContext,
@@ -95,6 +96,9 @@ export interface RadioGroupRootProps extends LynxHostProps<"view"> {}
  */
 export const RadioGroupRoot = React.forwardRef<unknown, RadioGroupRootProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
+  // 선택 값을 구독해 선택이 바뀔 때 headless Root의 렌더링 안에서 함께 다시 렌더링한다. 구독하지 않으면 이 컴포넌트에서
+  // 렌더링이 멈추고, context를 구독한 Item마다 Preact가 따로 렌더링해 Item 수만큼 commit이 생긴다.
+  useRadioGroupContext({ strict: false });
 
   return (
     <view

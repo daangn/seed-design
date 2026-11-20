@@ -13,6 +13,7 @@ import {
   type DialogPositionerProps as HeadlessDialogPositionerProps,
   type DialogRootProps as HeadlessDialogRootProps,
   type DialogTriggerProps as HeadlessDialogTriggerProps,
+  useDialogContext,
 } from "@seed-design/lynx-react-dialog";
 import {
   forwardRef,
@@ -51,6 +52,9 @@ const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(alertDialo
 
 // SEED recipe animates the `ui-entering`/`ui-open`/`ui-closed` classes, so parts opt into
 // lynx-ui transition classes by default. Root `skipAnimation` turns them off in the headless parts.
+// Parts that wrap a lynx-ui part call `useDialogContext()` so they rerender with the lynx-ui part in
+// the same commit when the open state or presence phase changes. Without it Preact stops at the
+// unchanged wrapper element and commits each lynx-ui part on its own.
 // Alert semantics are defaults on top of `@seed-design/lynx-react-dialog` options:
 // Backdrop `clickToClose` and Content native accessibility. Title heading comes from the headless part.
 
@@ -98,6 +102,7 @@ export const AlertDialogTrigger = forwardRef<never, AlertDialogTriggerProps>((pr
     "accessibility-label": accessibilityLabel,
     ...triggerProps
   } = props;
+  useDialogContext();
   const insideAccessibilityElement = useInsideAccessibilityElement();
 
   return (
@@ -157,12 +162,16 @@ function AlertDialogPositionerLayer(props: AlertDialogPositionerProps) {
  * `container`를 지정하면 `SeedProvider`의 `windowSafeAreaInsets`가 있을 때 그 값으로 padding을 정한다.
  */
 export const AlertDialogPositioner = forwardRef<never, AlertDialogPositionerProps>(
-  (props, _ref) => (
-    // padding을 계산하는 Layer보다 바깥에서 safe area를 정해야 window 기준 값이 padding에 반영된다.
-    <OverlaySafeAreaProvider container={props.container}>
-      <AlertDialogPositionerLayer {...props} />
-    </OverlaySafeAreaProvider>
-  ),
+  (props, _ref) => {
+    useDialogContext();
+
+    return (
+      // padding을 계산하는 Layer보다 바깥에서 safe area를 정해야 window 기준 값이 padding에 반영된다.
+      <OverlaySafeAreaProvider container={props.container}>
+        <AlertDialogPositionerLayer {...props} />
+      </OverlaySafeAreaProvider>
+    );
+  },
 ) as AlertDialogComponent<AlertDialogPositionerProps>;
 AlertDialogPositioner.displayName = "AlertDialogPositioner";
 
@@ -185,6 +194,7 @@ export interface AlertDialogBackdropProps extends HeadlessDialogBackdropProps {
  */
 export const AlertDialogBackdrop = forwardRef<never, AlertDialogBackdropProps>((props, _ref) => {
   const { className, transition = true, clickToClose = false, ...backdropProps } = props;
+  useDialogContext();
   const classNames = useClassNames();
 
   return (
@@ -222,6 +232,7 @@ export const AlertDialogContent = forwardRef<never, AlertDialogContentProps>((pr
     dialogContentProps,
     ...accessibilityProps
   } = props;
+  useDialogContext();
   const classNames = useClassNames();
 
   return (
@@ -318,6 +329,8 @@ export const AlertDialogFooter: LynxForwardRefComponent<unknown, AlertDialogFoot
   forwardRef<unknown, AlertDialogFooterProps>((props, ref) => {
     const { style, restProps } = useStyleProps(props);
     const { children, className, ...nativeProps } = restProps;
+    // Actions usually sit here, so the footer joins the same commit as well.
+    useDialogContext();
     const classNames = useClassNames();
 
     return (
@@ -344,6 +357,7 @@ export interface AlertDialogActionProps extends HeadlessDialogCloseButtonProps {
 /** @platform Lynx — maps to `DialogClose`; `asChild` and refs are unsupported. */
 export const AlertDialogAction = forwardRef<never, AlertDialogActionProps>((props, _ref) => {
   const { className, transition = true, ...closeProps } = props;
+  useDialogContext();
   const classNames = useClassNames();
 
   return (

@@ -68,6 +68,7 @@ async function rerenderWithSameProps() {
 }
 
 describe("BottomSheet commits", () => {
+  // 두 번째 commit은 CloseButton이 mount 뒤 Root에 알려 바뀐 `closeButton` variant className이다.
   it("commits a fixed number of times on mount", async () => {
     const { commits } = await mount();
     expect(commits).toMatchObject({ total: 11, nonEmpty: 7 });

@@ -7,6 +7,7 @@ import {
 import {
   SegmentedTextInputProvider,
   useSegmentedTextInput,
+  useSegmentedTextInputContext,
   useSegmentedTextInputSegment,
   useSegmentedTextInputSegmentInput,
 } from "@seed-design/lynx-react-segmented-text-input";
@@ -386,6 +387,10 @@ SegmentedTextInputSegmentControl.displayName = "SegmentedTextInputSegmentControl
 
 export const SegmentedTextInputSegment = React.forwardRef<NodesRef, SegmentedTextInputSegmentProps>(
   (props, ref) => {
+    // Root 값을 구독해 입력이 바뀔 때 Root의 렌더링 안에서 함께 다시 렌더링한다. 구독하지 않으면 이 컴포넌트에서
+    // 렌더링이 멈추고, context를 구독한 입력 Segment마다 Preact가 따로 렌더링해 Segment 수만큼 commit이 생긴다.
+    useSegmentedTextInputContext();
+
     if (props.staticText !== undefined) {
       return (
         <SegmentedTextInputStaticSegment

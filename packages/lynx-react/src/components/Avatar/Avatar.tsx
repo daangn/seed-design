@@ -73,6 +73,9 @@ export interface AvatarFallbackProps extends Image.FallbackProps {}
 export const AvatarFallback = React.forwardRef<unknown, AvatarFallbackProps>(
   ({ children, className, ...nativeProps }, ref) => {
     const classes = useClassNames();
+    // Subscribing here lets Image.Root render Image.Fallback in its own pass. Otherwise Preact
+    // reaches the nested consumer later and a load sends a second commit.
+    useImageContext();
     return (
       <Image.Fallback
         {...nativeProps}
