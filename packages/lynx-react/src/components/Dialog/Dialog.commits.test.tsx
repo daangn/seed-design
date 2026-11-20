@@ -1,5 +1,5 @@
 import { act, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
-import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import * as Dialog from "./Dialog.namespace";
@@ -92,6 +92,12 @@ describe("Dialog commits", () => {
       await flushFrames();
     });
     expect(view.container.querySelector(".seed-dialog__content")).not.toBeNull();
-    expect(commits).toMatchObject({ total: 19, nonEmpty: 13 });
+    // SEED 부품 없이 lynx-ui-dialog만 같은 구조로 조립해도 같은 수다. 모두 lynx-ui의 state가 따로 commit한다.
+    // tap: Root(빈 commit), DialogView의 layer mount, Backdrop·Content의 Presence mount.
+    // lynx-ui-presence의 Entering·Entered 단계: 각각 Root 1회. Entered 뒤 열린 자식 수 집계: 빈 commit 1회.
+    // Preact 10에서는 같은 업데이트로 다시 렌더되는 컴포넌트마다 commit이 따로 생긴다.
+    expect(commits).toMatchObject(
+      usesPreact10 ? { total: 21, nonEmpty: 13 } : { total: 7, nonEmpty: 5 },
+    );
   });
 });

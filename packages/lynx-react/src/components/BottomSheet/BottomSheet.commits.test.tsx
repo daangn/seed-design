@@ -68,27 +68,15 @@ async function rerenderWithSameProps() {
 }
 
 describe("BottomSheet commits", () => {
+  // 두 번째 commit은 CloseButton이 mount 뒤 Root에 알려 바뀐 `closeButton` variant className이다.
   it("commits a fixed number of times on mount", async () => {
     const { commits } = await mount();
     expect(commits).toMatchObject(
-      usesPreact10 ? { total: 11, nonEmpty: 7 } : { total: 3, nonEmpty: 2 },
+      usesPreact10 ? { total: 11, nonEmpty: 7 } : { total: 2, nonEmpty: 2 },
     );
   });
 
-  // Preact 10에서는 같은 props로 rerender할 때마다 Body scroll-view의
-  // `main-thread:bindscroll`·`bindtouchstart`·`bindtouchmove` worklet을 새 실행 id로 다시
-  // 보낸다(components/private/SheetScrollGesture.ts). 원인은 확인하지 못했다.
-  (usesPreact10 ? it.fails : it)(
-    "sends only empty commits when rerendered with the same props",
-    async () => {
-      expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 0 });
-    },
-  );
-
-  (usesPreact10 ? it : it.skip)(
-    "currently sends a patch when rerendered with the same props on Preact 10",
-    async () => {
-      expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 1 });
-    },
-  );
+  it("sends only empty commits when rerendered with the same props", async () => {
+    expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 0 });
+  });
 });

@@ -99,15 +99,7 @@ describe("HelpBubble commits", () => {
     expect(commits).toMatchObject({ total: 1, nonEmpty: 0 });
   });
 
-  // Trigger layoutchange마다 requestPositionUpdate가 positionRevision state를 올려 다시 렌더하고 위치를 다시 잰다
-  // (lynx-react-headless/popover/src/usePopover.ts requestPositionUpdate). 측정값이 같아도 빈 commit이 남는다.
-  it("currently sends empty commits when the open trigger layout is reported again", async () => {
-    expect(await reportOpenTriggerLayoutAgain()).toMatchObject(
-      usesPreact10 ? { total: 6, nonEmpty: 0 } : { total: 4, nonEmpty: 0 },
-    );
-  });
-
-  it.fails("does not commit when the open trigger layout is reported again", async () => {
+  it("does not commit when the open trigger layout is reported again", async () => {
     expect(await reportOpenTriggerLayoutAgain()).toMatchObject({ total: 0, nonEmpty: 0 });
   });
 
@@ -117,7 +109,7 @@ describe("HelpBubble commits", () => {
     expect(getTrigger(view.container).getAttribute("accessibility-value")).toBe("expanded");
     expect(view.container.querySelector("[class*='positioned_true']")).not.toBeNull();
     expect(commits).toMatchObject(
-      usesPreact10 ? { total: 23, nonEmpty: 10 } : { total: 12, nonEmpty: 3 },
+      usesPreact10 ? { total: 17, nonEmpty: 10 } : { total: 8, nonEmpty: 3 },
     );
   });
 });

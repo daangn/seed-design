@@ -77,23 +77,26 @@ async function selectSecond(count: number) {
 }
 
 describe("Tabs commits", () => {
-  // trigger 폭이 올 때마다 useTabs의 triggerWidths state가 바뀌어 commit한다(lynx-react-headless/tabs/src/useTabs.ts updateTriggerWidth).
-  // 목표는 mount 1회와 폭 반영 1회다.
-  it("currently scales mount commits with the trigger count", async () => {
-    expect(await mountAndUnmount(8)).toMatchObject(
-      usesPreact10 ? { total: 111, nonEmpty: 13 } : { total: 11, nonEmpty: 3 },
-    );
-    expect(await mountAndUnmount(24)).toMatchObject(
-      usesPreact10 ? { total: 703, nonEmpty: 29 } : { total: 27, nonEmpty: 3 },
-    );
-  });
+  // mount 2회(첫 렌더·trigger 등록), 첫 trigger 폭 반영 1회, 측정 완료 1회와 transition 켜기 1회다.
+  // transition은 측정값을 반영한 다음 업데이트에서 켜야 기기에서 첫 위치가 미끄러지지 않는다.
+  // Preact 10에서는 context 구독으로 다시 렌더되는 Trigger마다 commit이 따로 생긴다.
+  (usesPreact10 ? it.fails : it)(
+    "does not scale mount commits with the trigger count",
+    async () => {
+      const few = await mountAndUnmount(8);
+      const many = await mountAndUnmount(24);
+      expect(many.total).toBe(few.total);
+      expect(few).toMatchObject({ total: 5, nonEmpty: 3 });
+    },
+  );
 
-  it.fails("does not scale mount commits with the trigger count", async () => {
-    const few = await mountAndUnmount(8);
-    const many = await mountAndUnmount(24);
-    expect(many.total).toBe(few.total);
-    expect(few).toMatchObject({ total: 2, nonEmpty: 2 });
-  });
+  (usesPreact10 ? it : it.skip)(
+    "currently scales mount commits with the trigger count on Preact 10",
+    async () => {
+      expect(await mountAndUnmount(8)).toMatchObject({ total: 45, nonEmpty: 13 });
+      expect(await mountAndUnmount(24)).toMatchObject({ total: 109, nonEmpty: 29 });
+    },
+  );
 
   it("does not commit when the trigger widths are reported again", async () => {
     const { view } = await mount(8);

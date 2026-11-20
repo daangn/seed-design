@@ -84,22 +84,9 @@ describe("MenuSheet commits", () => {
     expect(commits).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
-  // Preact 10에서는 같은 props로 rerender할 때마다 List scroll-view의
-  // `main-thread:bindscroll`·`bindtouchstart`·`bindtouchmove` worklet을 새 실행 id로 다시
-  // 보낸다(components/private/SheetScrollGesture.ts). 원인은 확인하지 못했다.
-  (usesPreact10 ? it.fails : it)(
-    "sends only empty commits when rerendered with the same props",
-    async () => {
-      expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 0 });
-    },
-  );
-
-  (usesPreact10 ? it : it.skip)(
-    "currently sends a patch when rerendered with the same props on Preact 10",
-    async () => {
-      expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 1 });
-    },
-  );
+  it("sends only empty commits when rerendered with the same props", async () => {
+    expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 0 });
+  });
 
   it.each([2, 8])("commits pressing and releasing one of %i items", async (count) => {
     const { view } = await mount(count);
