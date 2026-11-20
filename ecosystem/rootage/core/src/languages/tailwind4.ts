@@ -255,6 +255,8 @@ ${styleLines.join("\n")}
       "pb-*": { paddingBottom: "--dimension-*" },
       "pl-*": { paddingLeft: "--dimension-*" },
       "pr-*": { paddingRight: "--dimension-*" },
+      "ps-*": { paddingInlineStart: "--dimension-*" },
+      "pe-*": { paddingInlineEnd: "--dimension-*" },
       "px-*": { paddingLeft: "--dimension-*", paddingRight: "--dimension-*" },
       "py-*": { paddingTop: "--dimension-*", paddingBottom: "--dimension-*" },
       "m-*": { margin: "--dimension-*" },
@@ -262,15 +264,57 @@ ${styleLines.join("\n")}
       "mb-*": { marginBottom: "--dimension-*" },
       "ml-*": { marginLeft: "--dimension-*" },
       "mr-*": { marginRight: "--dimension-*" },
+      "ms-*": { marginInlineStart: "--dimension-*" },
+      "me-*": { marginInlineEnd: "--dimension-*" },
       "mx-*": { marginLeft: "--dimension-*", marginRight: "--dimension-*" },
       "my-*": { marginTop: "--dimension-*", marginBottom: "--dimension-*" },
       "gap-*": { gap: "--dimension-*" },
       "gap-x-*": { columnGap: "--dimension-*" },
       "gap-y-*": { rowGap: "--dimension-*" },
+      "inset-*": { inset: "--dimension-*" },
+      "inset-x-*": { left: "--dimension-*", right: "--dimension-*" },
+      "inset-y-*": { top: "--dimension-*", bottom: "--dimension-*" },
+      "top-*": { top: "--dimension-*" },
+      "right-*": { right: "--dimension-*" },
+      "bottom-*": { bottom: "--dimension-*" },
+      "left-*": { left: "--dimension-*" },
+      "start-*": { insetInlineStart: "--dimension-*" },
+      "end-*": { insetInlineEnd: "--dimension-*" },
+      "inset-s-*": { insetInlineStart: "--dimension-*" },
+      "inset-e-*": { insetInlineEnd: "--dimension-*" },
     };
+
+    // Tailwind's own `-` prefix convention: `-mt-x2`, `-right-x2`.
+    const negatableUtilities = new Set([
+      "m-*",
+      "mt-*",
+      "mb-*",
+      "ml-*",
+      "mr-*",
+      "ms-*",
+      "me-*",
+      "mx-*",
+      "my-*",
+      "inset-*",
+      "inset-x-*",
+      "inset-y-*",
+      "top-*",
+      "right-*",
+      "bottom-*",
+      "left-*",
+      "start-*",
+      "end-*",
+      "inset-s-*",
+      "inset-e-*",
+    ]);
 
     Object.entries(dimensionUtilities).forEach(([name, props]) => {
       this.utilityDeclarations.push(this.createUtilityDeclaration(name, props));
+      if (negatableUtilities.has(name)) {
+        this.utilityDeclarations.push(
+          this.createUtilityDeclaration(`-${name}`, props, { negative: true }),
+        );
+      }
     });
   }
 
@@ -302,11 +346,16 @@ ${styleLines.join("\n")}
     }
   }
 
-  private createUtilityDeclaration(name: string, props: Record<string, string>): string {
+  private createUtilityDeclaration(
+    name: string,
+    props: Record<string, string>,
+    { negative = false } = {},
+  ): string {
     const styleLines = Object.entries(props).map(([prop, value]) => {
       const cssProperty = kebabCase(prop);
       if (value.startsWith("--")) {
-        return `  ${cssProperty}: --value(${value});`;
+        const resolved = `--value(${value})`;
+        return `  ${cssProperty}: ${negative ? `calc(${resolved} * -1)` : resolved};`;
       }
       return `  ${cssProperty}: ${value};`;
     });
