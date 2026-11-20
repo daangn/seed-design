@@ -11,7 +11,7 @@ export function Highlighted({ text, terms }: { text: string; terms: string[] }) 
   return splitHighlights(text, terms).map((chunk, index) =>
     chunk.match ? (
       <mark
-        // biome-ignore lint/suspicious/noArrayIndexKey: chunks are positional, and the list is rebuilt whenever the text or terms change
+        // oxlint-disable-next-line react/no-array-index-key -- chunks are positional, and the list is rebuilt whenever the text or terms change
         key={index}
         className="bg-(--selection-bg) text-(color:--selection-fg)"
       >

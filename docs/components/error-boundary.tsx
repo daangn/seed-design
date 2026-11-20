@@ -5,7 +5,7 @@ import { ErrorBoundary } from "react-error-boundary";
 function Fallback({
   error,
 }: {
-  // biome-ignore lint/suspicious/noExplicitAny: any is used to match the Error type
+  // oxlint-disable-next-line typescript/no-explicit-any -- any is used to match the Error type
   error: any;
 }) {
   return (

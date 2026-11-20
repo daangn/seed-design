@@ -99,7 +99,7 @@ function Widget() {
         <AutoLayout spacing={8}>
           {inputFrames.map((frame, i) => (
             <AutoLayout
-              // biome-ignore lint/suspicious/noArrayIndexKey: Intentional use of index as key
+              // oxlint-disable-next-line react/no-array-index-key -- Intentional use of index as key
               key={i}
               onClick={() => handleSelectFrame(frame)}
               fill={selectedFrame === frame ? "#ECEDEF" : "#FFFFFF"}

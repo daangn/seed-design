@@ -80,7 +80,7 @@ export type ComponentMapping<
     >,
     oldComponentStructure?: InferredComponentStructure,
   ) => NewComponentProperties<New>;
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // oxlint-disable-next-line typescript/no-explicit-any -- <explanation>
   childrenMappings?: ComponentMapping<any, any>[];
   swappableVariants?: SwappableVariant<Old, New>[];
 };

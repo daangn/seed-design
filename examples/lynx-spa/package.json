@@ -4,9 +4,9 @@
   "type": "module",
   "scripts": {
     "build": "bun ../../docs/scripts/lynx-examples/prepare-workspace.ts && bunx rspeedy build",
-    "check": "cd ../.. && bun biome check --write examples/lynx-spa",
+    "check": "cd ../.. && bun vp check --fix examples/lynx-spa",
     "dev": "bun ../../docs/scripts/lynx-examples/prepare-workspace.ts && bunx rspeedy dev",
-    "format": "cd ../.. && bun biome format --write examples/lynx-spa",
+    "format": "cd ../.. && bun vp fmt examples/lynx-spa",
     "preview": "bunx rspeedy preview",
     "typecheck": "bun node_modules/typescript/bin/tsc -p tsconfig.json && bun node_modules/typescript/bin/tsc -p tsconfig.node.json"
   },

@@ -52,7 +52,7 @@ export function DescriptionButton({ description }: { description: string }) {
         <div
           id={contentId}
           role="dialog"
-          // biome-ignore lint/a11y/noNoninteractiveTabindex: SEED PopoverContent makes the content the Tab stop after the trigger.
+          // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- SEED PopoverContent makes the content the Tab stop after the trigger.
           tabIndex={0}
           aria-labelledby={titleId}
           data-side="top"

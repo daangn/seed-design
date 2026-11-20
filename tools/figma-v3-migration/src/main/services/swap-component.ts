@@ -16,7 +16,7 @@ interface VariantProperties {
 export type CapturedInstance = {
   // oldProperties: ComponentProperties;
   // newComponentName: string;
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // oxlint-disable-next-line typescript/no-explicit-any -- <explanation>
   newProperties: Record<string, any>;
 };
 
@@ -56,7 +56,7 @@ function getImagePaints(node: SceneNode): Paint[] | null {
 // 컴포넌트의 구조를 캡처
 function captureInstances(
   node: SceneNode,
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // oxlint-disable-next-line typescript/no-explicit-any -- <explanation>
   childrenMappings: ComponentMapping<any, any>[],
 ): ComponentInstances {
   const instances: ComponentInstances = {};
@@ -161,7 +161,7 @@ function findMatchingVariant(
  */
 function mergeVariants(
   baseVariants: Record<string, string>,
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // oxlint-disable-next-line typescript/no-explicit-any -- <explanation>
   mapping: ComponentMapping<any, any>,
   instanceId: string,
   selectedVariants: Record<string, string>,
@@ -358,9 +358,9 @@ export async function swapComponent(
 
     // 새로운 프로퍼티 계산
     const newProperties = mapping.calculateProperties(
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      // oxlint-disable-next-line typescript/no-explicit-any -- <explanation>
       oldInstance.componentProperties as any,
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      // oxlint-disable-next-line typescript/no-explicit-any -- <explanation>
       oldComponentStructure as any,
     );
 

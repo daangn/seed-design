@@ -43,7 +43,7 @@ export function getTabsTriggerRects(
   let hasCompletePrefix = true;
 
   for (const value of values) {
-    // biome-ignore lint/suspicious/noPrototypeBuiltins: Object.hasOwn is unavailable in supported Lynx runtimes.
+    // oxlint-disable-next-line eslint/no-prototype-builtins, eslint/prefer-object-has-own -- Object.hasOwn is unavailable in supported Lynx runtimes.
     const width = Object.prototype.hasOwnProperty.call(widths, value) ? widths[value] : undefined;
     if (width === undefined) {
       hasCompletePrefix = false;

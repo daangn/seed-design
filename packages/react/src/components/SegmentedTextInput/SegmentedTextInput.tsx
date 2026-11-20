@@ -195,7 +195,7 @@ const SegmentedTextInputInputSegment = forwardRef<
               aria-hidden
             >
               {Array.from({ length }, (_, i) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: 점은 자리 순서 외에 구분할 값이 없다.
+                // oxlint-disable-next-line react/no-array-index-key -- 점은 자리 순서 외에 구분할 값이 없다.
                 <Fragment key={i}>
                   {i === value.length && <MaskedCaret focused={focused} readOnly={readOnly} />}
                   <span
@@ -303,7 +303,7 @@ export const SegmentedTextInputDots = forwardRef<HTMLSpanElement, SegmentedTextI
         className={clsx(classNames.dots, className)}
       >
         {Array.from({ length: count }, (_, i) => (
-          // biome-ignore lint/suspicious/noArrayIndexKey: 점은 자리 순서 외에 구분할 값이 없다.
+          // oxlint-disable-next-line react/no-array-index-key -- 점은 자리 순서 외에 구분할 값이 없다.
           <span key={i} className={classNames.dot} />
         ))}
       </Primitive.span>

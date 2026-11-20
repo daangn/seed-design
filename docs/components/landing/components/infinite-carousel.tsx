@@ -113,7 +113,7 @@ export function InfiniteCarousel<T>({
   };
 
   return (
-    // biome-ignore lint/a11y/noStaticElementInteractions: delegates decorative motion changes from descendant links.
+    // oxlint-disable-next-line jsx-a11y/no-static-element-interactions -- delegates decorative motion changes from descendant links.
     <div
       ref={rootRef}
       onFocusCapture={handleFocus}
@@ -141,7 +141,7 @@ export function InfiniteCarousel<T>({
             className={`flex shrink-0 ${gapClassName}`}
           >
             {items.map((item, index) => (
-              // biome-ignore lint/suspicious/noArrayIndexKey: each duplicated static item list keeps its order.
+              // oxlint-disable-next-line react/no-array-index-key -- each duplicated static item list keeps its order.
               <Fragment key={index}>
                 {renderItem(item, index, { isDuplicate: copy !== originalCopy })}
               </Fragment>

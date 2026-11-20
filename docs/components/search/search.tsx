@@ -223,7 +223,7 @@ export default function DefaultSearchDialog({
   // One box holds every block, so a query answered further down than the last one would open
   // already scrolled past the components promoted above it.
   const resultsRef = useRef<HTMLDivElement>(null);
-  // biome-ignore lint/correctness/useExhaustiveDependencies: `results` is what the reset reacts to, not a value it reads
+  // oxlint-disable-next-line react/exhaustive-deps -- `results` is what the reset reacts to, not a value it reads
   useEffect(() => {
     resultsRef.current?.scrollTo({ top: 0 });
   }, [results]);

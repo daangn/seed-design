@@ -105,7 +105,6 @@ export function LynxComponentQRCode({
         Lynx Explorer로 스캔해 기기에서 확인하세요.
       </p>
       {currentQr?.data ? (
-        // biome-ignore lint/performance/noImgElement: 브라우저에서 생성한 data URL은 최적화 대상이 아닙니다.
         <img src={currentQr.data} width={120} height={120} alt="Lynx Explorer 실행 QR 코드" />
       ) : currentQr?.error ? (
         <p className="m-0 text-sm text-fd-muted-foreground text-pretty">

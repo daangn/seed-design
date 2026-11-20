@@ -61,7 +61,7 @@ const ActivityDemoHome: ActivityComponentType<"ActivityDemoHome"> = () => {
   return (
     <SnackbarProvider>
       <style
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: this is for hiding scrollbar
+        // oxlint-disable-next-line react/no-danger -- this is for hiding scrollbar
         dangerouslySetInnerHTML={{
           __html: "::-webkit-scrollbar{display:none}",
         }}

@@ -50,7 +50,7 @@ export const AvatarStack = React.forwardRef<HTMLDivElement, AvatarStackProps>(
       <PropsProvider value={useMemo(() => ({ size }), [size])}>
         <div ref={ref} className={clsx(classNames.root, className)} {...otherProps}>
           {avatars.map((avatar, index) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: There is no unique key for each child
+            // oxlint-disable-next-line react/no-array-index-key -- There is no unique key for each child
             <div key={index} className={classNames.item}>
               {avatar}
             </div>

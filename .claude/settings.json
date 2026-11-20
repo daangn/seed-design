@@ -44,7 +44,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r '.tool_response.filePath' | xargs bun biome format --write"
+            "command": "jq -r '.tool_response.filePath' | xargs bun vp fmt --no-error-on-unmatched-pattern"
           }
         ]
       },

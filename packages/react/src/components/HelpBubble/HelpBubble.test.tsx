@@ -66,7 +66,7 @@ describe("HelpBubble", () => {
   it("leaves focus where the page put it when it opens", async () => {
     const { getByTestId } = render(
       <>
-        {/* biome-ignore lint/a11y/noAutofocus: reproduces a page that focuses a field on load */}
+        {/* oxlint-disable-next-line jsx-a11y/no-autofocus -- reproduces a page that focuses a field on load */}
         <input data-testid="field" autoFocus />
         <BasicHelpBubble defaultOpen />
       </>,

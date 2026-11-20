@@ -12,7 +12,7 @@
     "watch:ui": "vite build --watch --config vite.ui.config.ts",
     "watch:main": "vite build --watch --config vite.main.config.ts",
     "dev": "concurrently \"bun run watch:ui\" \"bun run watch:main\"",
-    "lint": "biome check .",
+    "lint": "vp check .",
     "preview": "vite preview",
     "extract": "bun figma-extractor src/main/data/__generated__/v3-component-sets component-sets",
     "typecheck": "bun run typecheck:main && bun run typecheck:ui",

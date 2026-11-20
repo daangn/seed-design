@@ -207,7 +207,7 @@ describe("QuantityPicker", () => {
   it("reverses flattened children for rtl", () => {
     render(
       <QuantityPicker.Root className="root" min={0} max={5} dir="rtl">
-        {/* biome-ignore lint/complexity/noUselessFragments: Root must flatten Fragment children */}
+        {/* oxlint-disable-next-line react/jsx-no-useless-fragment -- Root must flatten Fragment children */}
         <>
           <QuantityPicker.DecrementButton className="decrement" />
           <QuantityPicker.ValueDisplay className="value" />

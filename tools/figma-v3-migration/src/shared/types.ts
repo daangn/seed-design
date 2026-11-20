@@ -243,7 +243,7 @@ export type SwapResult = Record<
   {
     ok: boolean;
     errorMessage?: string;
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    // oxlint-disable-next-line typescript/no-explicit-any -- <explanation>
     metadata?: Record<string, any>;
   }
 >;

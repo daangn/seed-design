@@ -1,6 +1,6 @@
 {
   "recommendations": [
-    "biomejs.biome",
+    "oxc.oxc-vscode",
     "formulahendry.auto-close-tag",
     "redhat.vscode-yaml",
     "esbenp.prettier-vscode",

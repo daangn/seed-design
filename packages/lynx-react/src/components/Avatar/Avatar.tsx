@@ -118,7 +118,7 @@ export const AvatarStack = React.forwardRef<unknown, AvatarStackProps>((props, r
         className={clsx(classes.root, className)}
       >
         {toArray(children).map((child, index) => (
-          // biome-ignore lint/suspicious/noArrayIndexKey: Wrapper order defines stacking order, matching React AvatarStack.
+          // oxlint-disable-next-line react/no-array-index-key -- Wrapper order defines stacking order, matching React AvatarStack.
           <view key={index} className={clsx(classes.item, index > 0 && classes.overlap)}>
             {child}
           </view>

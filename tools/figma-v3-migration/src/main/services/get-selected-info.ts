@@ -148,7 +148,6 @@ function removePreferredValues(obj: Record<string, unknown>) {
 
   // preferredValues 키가 있다면 제거
   if ("preferredValues" in newObj) {
-    // biome-ignore lint/performance/noDelete: <explanation>
     delete newObj.preferredValues;
   }
 

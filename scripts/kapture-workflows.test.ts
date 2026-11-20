@@ -1,4 +1,4 @@
-// biome-ignore-all lint/suspicious/noTemplateCurlyInString: GitHub Actions 표현식의 원문을 검사한다.
+/* oxlint-disable eslint/no-template-curly-in-string -- GitHub Actions 표현식의 원문을 검사한다. */
 import { describe, expect, test } from "bun:test";
 import { strict as assert } from "node:assert";
 import { readFileSync } from "node:fs";
