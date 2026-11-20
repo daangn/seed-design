@@ -28,6 +28,11 @@ function load(container: Element) {
   fireEvent(image, new Event("bindEvent:load"));
 }
 
+async function loadAfterMount() {
+  const { view } = await mount();
+  return measureCommits(() => load(view.container));
+}
+
 describe("Avatar commits", () => {
   // mount commit 뒤에 useImage effect가 Image.Root에 loading 상태를 알리며 빈 commit을 보낸다
   // (lynx-react-headless/image/src/useImage.ts notifyStatus → Image.tsx ImageRoot setStatus).
@@ -46,11 +51,15 @@ describe("Avatar commits", () => {
 
   // ImageFrame과 같이 Image.Content의 useImage state가 먼저 바뀌어 commit하고, effect가 Image.Root state로 옮긴 뒤에야
   // Avatar.Image의 pending className과 fallback을 바꾼다(lynx-react-headless/image/src/useImage.ts
-  // updateStatus·notifyStatus → Image.tsx ImageRoot). 현재: 3회 중 patch 있는 commit 2회, Preact 10은 4회 중
-  // 2회.
+  // updateStatus·notifyStatus → Image.tsx ImageRoot).
+  it("currently sends empty commits for an image load", async () => {
+    expect(await loadAfterMount()).toMatchObject(
+      usesPreact10 ? { total: 4, nonEmpty: 2 } : { total: 3, nonEmpty: 2 },
+    );
+  });
+
   it.fails("commits an image load without empty patches", async () => {
-    const { view } = await mount();
-    const commits = await measureCommits(() => load(view.container));
+    const commits = await loadAfterMount();
     expect(commits.nonEmpty).toBe(commits.total);
   });
 

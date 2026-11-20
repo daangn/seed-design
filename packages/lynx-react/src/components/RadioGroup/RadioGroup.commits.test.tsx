@@ -1,5 +1,5 @@
 import { fireEvent, render } from "@lynx-js/react/testing-library";
-import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
 import { describe, expect, it } from "vitest";
 
 import { RadioGroupField } from "../RadioGroupField";
@@ -29,6 +29,16 @@ async function mount(count: number) {
   return { view, commits };
 }
 
+async function selectSecond(count: number) {
+  const { view } = await mount(count);
+  const item = view.container.querySelector("[accessibility-label='항목 1']");
+  if (!item) throw new Error("Missing item");
+  const commits = await measureCommits(() => fireEvent.tap(item));
+  expect(item.getAttribute("accessibility-value")).toBe("selected");
+  view.unmount();
+  return commits;
+}
+
 describe("RadioGroup commits", () => {
   it.each([2, 8])("commits once when %i items mount", async (count) => {
     const { commits } = await mount(count);
@@ -44,19 +54,18 @@ describe("RadioGroup commits", () => {
   // RadioSelectBox와 같이 선택 때 Item마다 commit이 하나씩 생긴다. headless Root(RadioGroupField.Root)와 Item 사이에
   // 컴포넌트(RadioGroup.Root)가 있어 SelectBox.commits.test.tsx와 같은 원인으로 보인다
   // (lynx-react-headless/radio-group/src/RadioGroup.tsx RadioGroupRoot의 Provider → RadioGroup.tsx RadioGroupItem).
-  // 현재: 2개 3회·8개 9회(patch 있는 commit 2회), Preact 10은 9회·15회(6회).
+  it("currently scales selection commits with the item count", async () => {
+    expect(await selectSecond(2)).toMatchObject(
+      usesPreact10 ? { total: 9, nonEmpty: 6 } : { total: 3, nonEmpty: 2 },
+    );
+    expect(await selectSecond(8)).toMatchObject(
+      usesPreact10 ? { total: 15, nonEmpty: 6 } : { total: 9, nonEmpty: 2 },
+    );
+  });
+
   it.fails("commits a selection without scaling with the item count", async () => {
-    const select = async (count: number) => {
-      const { view } = await mount(count);
-      const item = view.container.querySelector("[accessibility-label='항목 1']");
-      if (!item) throw new Error("Missing item");
-      const commits = await measureCommits(() => fireEvent.tap(item));
-      expect(item.getAttribute("accessibility-value")).toBe("selected");
-      view.unmount();
-      return commits;
-    };
-    const few = await select(2);
-    const many = await select(8);
+    const few = await selectSecond(2);
+    const many = await selectSecond(8);
     expect(many.total).toBe(few.total);
     expect(few).toMatchObject({ total: 1, nonEmpty: 1 });
   });

@@ -61,19 +61,20 @@ function getTrigger(container: Element) {
   return trigger;
 }
 
+// 빈 화면을 hydrate한 뒤 mount해야 mount commit이 hydration에 합쳐지지 않는다.
 async function mount() {
-  let view!: ReturnType<typeof render>;
+  const view = render(<view />, { enableMainThread: true, enableBackgroundThread: true });
   const commits = await measureCommits(async () => {
-    view = render(<Example />, { enableMainThread: true, enableBackgroundThread: true });
+    view.rerender(<Example />);
     await flushFrames();
   });
   return { view, commits };
 }
 
 describe("Dialog commits", () => {
-  it("does not commit after hydration on mount", async () => {
+  it("commits once on mount", async () => {
     const { commits } = await mount();
-    expect(commits).toMatchObject({ total: 0, nonEmpty: 0 });
+    expect(commits).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
   it("sends only empty commits when rerendered open with the same props", async () => {

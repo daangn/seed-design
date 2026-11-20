@@ -89,6 +89,17 @@ function layoutContent(container: Element) {
   fireEvent(content, event);
 }
 
+async function openMenu(count: number) {
+  const { view } = await mount(count);
+  const commits = await measureCommits(() => open(view.container));
+  expect(getTrigger(view.container).getAttribute("accessibility-value")).toBe("expanded");
+  expect(view.container.querySelector(".content")?.getAttribute("style")).toMatch(
+    /visibility:\s*visible/,
+  );
+  view.unmount();
+  return commits;
+}
+
 describe("Menu commits", () => {
   it.each([4, 16])("commits a fixed number of times when %i items mount", async (count) => {
     const { commits } = await mount(count);
@@ -111,24 +122,21 @@ describe("Menu commits", () => {
 
   // Preact 10에서는 여는 commit이 Item 수에 비례한다. context 구독으로 다시 렌더되는 Item마다 commit이 따로 생기는 것으로 보인다
   // (lynx-react-headless/menu/src/useMenu.ts의 context 값 → Menu.tsx MenuItem).
-  // 현재: Preact 10은 4개 20회·16개 44회(patch 있는 commit 5회), 0.126 이상은 둘 다 8회(3회).
   (usesPreact10 ? it.fails : it)(
     "commits opening and positioning without scaling with the item count",
     async () => {
-      const openMenu = async (count: number) => {
-        const { view } = await mount(count);
-        const commits = await measureCommits(() => open(view.container));
-        expect(getTrigger(view.container).getAttribute("accessibility-value")).toBe("expanded");
-        expect(view.container.querySelector(".content")?.getAttribute("style")).toMatch(
-          /visibility:\s*visible/,
-        );
-        view.unmount();
-        return commits;
-      };
       const few = await openMenu(4);
       const many = await openMenu(16);
       expect(many.total).toBe(few.total);
       expect(few).toMatchObject({ total: 8, nonEmpty: 3 });
+    },
+  );
+
+  (usesPreact10 ? it : it.skip)(
+    "currently scales opening commits with the item count on Preact 10",
+    async () => {
+      expect(await openMenu(4)).toMatchObject({ total: 20, nonEmpty: 5 });
+      expect(await openMenu(16)).toMatchObject({ total: 44, nonEmpty: 5 });
     },
   );
 });

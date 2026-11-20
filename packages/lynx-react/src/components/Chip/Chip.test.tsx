@@ -485,7 +485,12 @@ describe("Chip Liquid Glass", () => {
       );
     };
     const { rerender } = render(<Example />);
-    const tint = () => getChipRoot().getAttribute("glass-tint-color");
+    // 토큰 값 대신 tint가 색 형식으로 있는지와 상태·테마별로 바뀌는지를 본다.
+    const tint = () => {
+      const value = getChipRoot().getAttribute("glass-tint-color");
+      expect(value).toMatch(/^#(?:[0-9a-f]{6}|[0-9a-f]{8})$/);
+      return value;
+    };
     const scheme = () => getChipRoot().getAttribute("ios-user-interface-style");
     // The testing library cannot target `<blur-view>`, so touches start on the label and bubble to the root.
     const touch = (type: "touchstart" | "touchcancel") => {
@@ -494,7 +499,7 @@ describe("Chip Liquid Glass", () => {
       fireEvent(label, new Event(`bindEvent:${type}`, { bubbles: true }));
     };
 
-    // 토큰 값 대신 상태별로 tint가 바뀌는지만 본다. bg.neutral-weak-alpha처럼 alpha가 있는 색도 그대로 쓴다.
+    // bg.neutral-weak-alpha처럼 alpha가 있는 색도 그대로 쓴다.
     // With no host preference, iOS keeps following the system appearance.
     const enabled = tint();
     expect(enabled).toMatch(/^#[0-9a-f]{8}$/);
@@ -512,7 +517,12 @@ describe("Chip Liquid Glass", () => {
     touch("touchcancel");
 
     rerender(<Example variant="outlineWeak" checked scheme="dark" />);
+    const outlineWeakCheckedDark = tint();
+    expect(outlineWeakCheckedDark).not.toBe(checked);
     expect(scheme()).toBe("dark");
+
+    rerender(<Example variant="outlineStrong" scheme="dark" />);
+    expect(tint()).not.toBe(outlineWeakCheckedDark);
 
     // The applied theme follows colorMode, not the host preference.
     rerender(<Example colorMode="dark-only" scheme="light" />);

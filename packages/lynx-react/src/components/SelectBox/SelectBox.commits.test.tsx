@@ -104,6 +104,15 @@ describe("CheckSelectBox commits", () => {
   });
 });
 
+async function selectSecondRadio(count: number) {
+  const { view } = await mountRadio(count);
+  const { trigger, surface } = getSecondItem(view.container);
+  const commits = await measureCommits(() => fireEvent.tap(trigger));
+  expect(surface.getAttribute("accessibility-value")).toBe("selected");
+  view.unmount();
+  return commits;
+}
+
 describe("RadioSelectBox commits", () => {
   it.each([2, 8])("commits once when %i items mount", async (count) => {
     const { commits } = await mountRadio(count);
@@ -120,18 +129,18 @@ describe("RadioSelectBox commits", () => {
   // 생긴다. Item을 Root 바로 아래 두면 1회이고, Group 대신 빈 wrapper 컴포넌트를 둬도 늘어난다. context 구독으로 다시
   // 렌더되는 Item마다 ReactLynx가 commit을 따로 보내는 것으로 보인다
   // (lynx-react-headless/radio-group/src/RadioGroup.tsx RadioGroupRoot의 Provider → SelectBox.tsx RadioSelectBoxItem).
-  // 현재: 2개 3회·8개 9회(patch 있는 commit 2회), Preact 10은 7회·13회(6회).
+  it("currently scales selection commits with the item count", async () => {
+    expect(await selectSecondRadio(2)).toMatchObject(
+      usesPreact10 ? { total: 7, nonEmpty: 6 } : { total: 3, nonEmpty: 2 },
+    );
+    expect(await selectSecondRadio(8)).toMatchObject(
+      usesPreact10 ? { total: 13, nonEmpty: 6 } : { total: 9, nonEmpty: 2 },
+    );
+  });
+
   it.fails("does not scale selection commits with the item count", async () => {
-    const select = async (count: number) => {
-      const { view } = await mountRadio(count);
-      const { trigger, surface } = getSecondItem(view.container);
-      const commits = await measureCommits(() => fireEvent.tap(trigger));
-      expect(surface.getAttribute("accessibility-value")).toBe("selected");
-      view.unmount();
-      return commits;
-    };
-    const few = await select(2);
-    const many = await select(8);
+    const few = await selectSecondRadio(2);
+    const many = await selectSecondRadio(8);
     expect(many.total).toBe(few.total);
   });
 });

@@ -83,6 +83,11 @@ async function mount(count: keyof typeof OPTIONS) {
   return { view, commits };
 }
 
+async function rerenderWithSameProps() {
+  const { view } = await mount(4);
+  return measureCommits(() => view.rerender(<Example count={4} />));
+}
+
 describe("WheelPicker commits", () => {
   it.each([4, 16] as const)("commits once when %i options mount", async (count) => {
     const { commits } = await mount(count);
@@ -91,14 +96,18 @@ describe("WheelPicker commits", () => {
 
   // Preact 10에서는 같은 props로 rerender할 때마다 LoopScroll 항목마다 `main-thread:bindtouchstart` worklet을 새 실행
   // id로 다시 보낸다 (lynx-react-headless/loop-scroll/src/LoopScroll.tsx LoopScrollTrackItem의
-  // handleTouchStart). useCallback으로 고정한 handler라 handler 재생성 때문은 아니며, 원인은 확인하지 못했다. 현재: Preact 10은
-  // 1회 중 patch 있는 commit 1회, 0.126 이상은 빈 commit 1회.
+  // handleTouchStart). useCallback으로 고정한 handler라 handler 재생성 때문은 아니며, 원인은 확인하지 못했다.
   (usesPreact10 ? it.fails : it)(
     "sends only empty commits when rerendered with the same props",
     async () => {
-      const { view } = await mount(4);
-      const commits = await measureCommits(() => view.rerender(<Example count={4} />));
-      expect(commits).toMatchObject({ total: 1, nonEmpty: 0 });
+      expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 0 });
+    },
+  );
+
+  (usesPreact10 ? it : it.skip)(
+    "currently sends a patch when rerendered with the same props on Preact 10",
+    async () => {
+      expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 1 });
     },
   );
 
