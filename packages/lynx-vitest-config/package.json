@@ -4,7 +4,11 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.mjs"
+    ".": "./src/index.mjs",
+    "./commits": {
+      "types": "./src/commits.d.mts",
+      "default": "./src/commits.mjs"
+    }
   },
   "peerDependencies": {
     "@lynx-js/react": ">=0.117.0",
