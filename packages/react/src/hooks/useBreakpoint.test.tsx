@@ -55,14 +55,14 @@ describe("useBreakpoint", () => {
     expect(result.current).toBe("base");
   });
 
-  it("returns 'md' when viewport is 768px", () => {
-    currentWidth = 768;
+  it("returns 'md' when viewport is 840px", () => {
+    currentWidth = 840;
     const { result } = renderHook(() => useBreakpoint());
     expect(result.current).toBe("md");
   });
 
   it("returns the largest matching breakpoint", () => {
-    currentWidth = 1440;
+    currentWidth = 1600;
     const { result } = renderHook(() => useBreakpoint());
     expect(result.current).toBe("xl");
   });
@@ -71,10 +71,10 @@ describe("useBreakpoint", () => {
     const { result } = renderHook(() => useBreakpoint());
     expect(result.current).toBe("base");
 
-    act(() => setViewport(768));
+    act(() => setViewport(840));
     expect(result.current).toBe("md");
 
-    act(() => setViewport(1280));
+    act(() => setViewport(1200));
     expect(result.current).toBe("lg");
   });
 
@@ -84,7 +84,7 @@ describe("useBreakpoint", () => {
   });
 
   it("uses BreakpointProvider context when wrapped", () => {
-    currentWidth = 768;
+    currentWidth = 840;
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <BreakpointProvider>{children}</BreakpointProvider>
     );

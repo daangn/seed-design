@@ -21,7 +21,7 @@ const viewportMap: ViewportMap = Object.fromEntries(
         name: `${w}px (>= ${key} (${value}px))`,
         styles: {
           width: `${w}px`,
-          height: `${Math.round(w > 768 ? (w * 9) / 16 : (w * 18.5) / 9)}px`,
+          height: `${Math.round(w > breakpoints.md ? (w * 9) / 16 : (w * 18.5) / 9)}px`,
         },
       },
     ];

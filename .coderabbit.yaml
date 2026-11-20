@@ -20,6 +20,7 @@ reviews:
     - "!packages/css/breakpoints/**/*"
     - "!packages/lynx-css/vars/**/*"
     - "!packages/lynx-css/recipes/**/*"
+    - "!packages/lynx-css/breakpoints/**/*"
     - "!packages/lynx-css/*.css"
     - "!packages/rootage/components/schema.json"
     - "!packages/qvism-preset/src/vars/**/*"

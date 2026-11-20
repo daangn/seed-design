@@ -139,7 +139,7 @@
     gap: var(--seed-dimension-x3);
   }
 
-  @media (min-width: 1280px) {
+  @media (min-width: 1200px) {
     .seed-select-item__root--size_responsive {
       padding-block: var(--seed-dimension-x2_5);
       gap: var(--seed-dimension-x2);
@@ -151,7 +151,7 @@
     height: 22px;
   }
 
-  @media (min-width: 1280px) {
+  @media (min-width: 1200px) {
     .seed-select-item__prefixIcon--size_responsive {
       width: var(--seed-dimension-x4_5);
       height: var(--seed-dimension-x4_5);
@@ -163,7 +163,7 @@
     line-height: var(--seed-line-height-t5);
   }
 
-  @media (min-width: 1280px) {
+  @media (min-width: 1200px) {
     .seed-select-item__label--size_responsive {
       font-size: var(--seed-font-size-t4);
       line-height: var(--seed-line-height-t4);
@@ -175,7 +175,7 @@
     line-height: var(--seed-line-height-t3);
   }
 
-  @media (min-width: 1280px) {
+  @media (min-width: 1200px) {
     .seed-select-item__description--size_responsive {
       font-size: var(--seed-font-size-t2);
       line-height: var(--seed-line-height-t2);
@@ -187,7 +187,7 @@
     height: var(--seed-dimension-x3_5);
   }
 
-  @media (min-width: 1280px) {
+  @media (min-width: 1200px) {
     .seed-select-item__indicator--size_responsive {
       width: var(--seed-dimension-x3);
       height: var(--seed-dimension-x3);

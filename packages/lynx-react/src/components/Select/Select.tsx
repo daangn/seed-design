@@ -2,6 +2,7 @@ import * as React from "@lynx-js/react";
 import { isValidElement } from "@lynx-js/react";
 import clsx from "clsx";
 
+import { breakpoints } from "@seed-design/lynx-css/breakpoints";
 import { select, type SelectVariantProps } from "@seed-design/lynx-css/recipes/select";
 import {
   selectTrigger,
@@ -209,7 +210,7 @@ export const SelectRoot = React.forwardRef<unknown, SelectRootProps>((props, ref
   const { width: screenWidth } = useViewport();
   const size =
     sizeProp === "responsive"
-      ? screenWidth !== undefined && screenWidth >= 1280
+      ? screenWidth !== undefined && screenWidth >= breakpoints.lg
         ? "medium"
         : "large"
       : (variantProps.size ?? "large");

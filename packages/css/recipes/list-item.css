@@ -181,7 +181,7 @@
         background-color: var(--seed-color-bg-brand-weak-pressed);
     }
 }
-@media (min-width: 480px) {
+@media (min-width: 600px) {
     .seed-list-item__prefix {
         --seed-box-padding-right: var(--seed-box-padding-right-sm, initial);
     }
@@ -193,7 +193,7 @@
         --seed-box-padding-right: var(--seed-box-padding-right-sm, initial);
     }
 }
-@media (min-width: 768px) {
+@media (min-width: 840px) {
     .seed-list-item__prefix {
         --seed-box-padding-right: var(--seed-box-padding-right-md, initial);
     }
@@ -205,7 +205,7 @@
         --seed-box-padding-right: var(--seed-box-padding-right-md, initial);
     }
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-list-item__prefix {
         --seed-box-padding-right: var(--seed-box-padding-right-lg, initial);
     }
@@ -217,7 +217,7 @@
         --seed-box-padding-right: var(--seed-box-padding-right-lg, initial);
     }
 }
-@media (min-width: 1440px) {
+@media (min-width: 1600px) {
     .seed-list-item__prefix {
         --seed-box-padding-right: var(--seed-box-padding-right-xl, initial);
     }

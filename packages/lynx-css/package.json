@@ -39,6 +39,10 @@
       "types": "./vars/component/*.d.ts",
       "import": "./vars/component/*.mjs"
     },
+    "./breakpoints": {
+      "types": "./breakpoints/index.d.ts",
+      "import": "./breakpoints/index.mjs"
+    },
     "./scale-feedback": {
       "types": "./scale-feedback/index.d.ts",
       "import": "./scale-feedback/index.mjs"
@@ -48,6 +52,7 @@
   "files": [
     "package.json",
     "recipes",
+    "breakpoints",
     "scale-feedback",
     "vars",
     "*.css",
@@ -55,7 +60,7 @@
     "NOTICE"
   ],
   "scripts": {
-    "rootage:generate": "bun rootage token-ts ./vars --prefix seed && rootage component-spec ./vars/component --prefix seed",
+    "rootage:generate": "bun rootage token-ts ./vars --prefix seed && rootage component-spec ./vars/component --prefix seed && rootage breakpoints ./breakpoints",
     "qvism:generate": "bun qvism ./ ./recipes && bun run ./scripts/generate-scale-feedback.mjs && bun run ./scripts/generate-glass-tint.mjs",
     "lint:publish": "bun publint"
   },

@@ -196,7 +196,7 @@
 .seed-accordion__trigger--size_responsive {
     padding-block: var(--seed-dimension-x4);
 }
-@media (min-width: 768px) {
+@media (min-width: 840px) {
     .seed-accordion__trigger--size_responsive {
         padding-block: var(--seed-dimension-x5);
     }
@@ -205,7 +205,7 @@
     margin-right: var(--seed-dimension-x3);
     --seed-icon-size: 22px;
 }
-@media (min-width: 768px) {
+@media (min-width: 840px) {
     .seed-accordion__prefix--size_responsive {
         margin-right: var(--seed-dimension-x3);
         --seed-icon-size: 22px;
@@ -215,7 +215,7 @@
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
 }
-@media (min-width: 768px) {
+@media (min-width: 840px) {
     .seed-accordion__title--size_responsive {
         font-size: var(--seed-font-size-t7);
         line-height: var(--seed-line-height-t7);
@@ -225,7 +225,7 @@
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3);
 }
-@media (min-width: 768px) {
+@media (min-width: 840px) {
     .seed-accordion__description--size_responsive {
         font-size: var(--seed-font-size-t5);
         line-height: var(--seed-line-height-t5);
@@ -235,7 +235,7 @@
     --seed-suffix-icon-size: var(--seed-dimension-x5);
     --seed-suffix-icon-margin-left: var(--seed-dimension-x3);
 }
-@media (min-width: 768px) {
+@media (min-width: 840px) {
     .seed-accordion__suffixIcon--size_responsive {
         --seed-suffix-icon-size: var(--seed-dimension-x6);
         --seed-suffix-icon-margin-left: var(--seed-dimension-x3);
@@ -250,7 +250,7 @@
 .seed-accordion__root--variant_separated-size_responsive {
     gap: var(--seed-dimension-x3);
 }
-@media (min-width: 768px) {
+@media (min-width: 840px) {
     .seed-accordion__root--variant_separated-size_responsive {
         gap: var(--seed-dimension-x4);
     }

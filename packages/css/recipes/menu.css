@@ -86,7 +86,7 @@
 .seed-menu__content--size_responsive {
     width: var(--seed-menu-reference-width, 240px);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-menu__content--size_responsive {
         width: var(--seed-menu-reference-width, 200px);
     }
@@ -98,7 +98,7 @@
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-medium);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-menu__groupLabel--size_responsive {
         padding-block: var(--seed-dimension-x2);
         padding-inline: var(--seed-dimension-x4);

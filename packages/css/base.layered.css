@@ -1164,7 +1164,7 @@
     }
   }
 
-  @media (min-width: 480px) {
+  @media (min-width: 600px) {
     .seed-box {
       --seed-box-padding: var(--seed-box-padding-sm, initial);
       --seed-box-padding-y: var(--seed-box-padding-y-sm, initial);
@@ -1201,7 +1201,7 @@
     }
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 840px) {
     .seed-box {
       --seed-box-padding: var(--seed-box-padding-md, initial);
       --seed-box-padding-y: var(--seed-box-padding-y-md, initial);
@@ -1238,7 +1238,7 @@
     }
   }
 
-  @media (min-width: 1280px) {
+  @media (min-width: 1200px) {
     .seed-box {
       --seed-box-padding: var(--seed-box-padding-lg, initial);
       --seed-box-padding-y: var(--seed-box-padding-y-lg, initial);
@@ -1275,7 +1275,7 @@
     }
   }
 
-  @media (min-width: 1440px) {
+  @media (min-width: 1600px) {
     .seed-box {
       --seed-box-padding: var(--seed-box-padding-xl, initial);
       --seed-box-padding-y: var(--seed-box-padding-y-xl, initial);

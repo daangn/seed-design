@@ -64,27 +64,27 @@ describe("useBreakpointValue", () => {
   });
 
   it("falls back to base when current breakpoint has no value", () => {
-    currentWidth = 480; // sm
+    currentWidth = 600; // sm
     const { result } = renderHook(() => useBreakpointValue({ base: 1, md: 2 }));
     // sm is not defined, falls back to base
     expect(result.current).toBe(1);
   });
 
   it("resolves md value at md breakpoint", () => {
-    currentWidth = 768;
+    currentWidth = 840;
     const { result } = renderHook(() => useBreakpointValue({ base: 1, md: 2, xl: 4 }));
     expect(result.current).toBe(2);
   });
 
   it("falls back to md at lg when lg is not defined", () => {
-    currentWidth = 1280; // lg
+    currentWidth = 1200; // lg
     const { result } = renderHook(() => useBreakpointValue({ base: 1, md: 2, xl: 4 }));
     // lg not defined, falls back to md
     expect(result.current).toBe(2);
   });
 
   it("resolves xl value at xl breakpoint", () => {
-    currentWidth = 1440;
+    currentWidth = 1600;
     const { result } = renderHook(() => useBreakpointValue({ base: 1, md: 2, xl: 4 }));
     expect(result.current).toBe(4);
   });
@@ -93,7 +93,7 @@ describe("useBreakpointValue", () => {
     const { result } = renderHook(() => useBreakpointValue({ base: "compact", md: "full" }));
     expect(result.current).toBe("compact");
 
-    act(() => setViewport(768));
+    act(() => setViewport(840));
     expect(result.current).toBe("full");
 
     act(() => setViewport(0));

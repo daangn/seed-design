@@ -141,7 +141,7 @@
     min-height: 94px;
     padding-block: var(--seed-dimension-x3_5);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__value--size_responsive:is(textarea) {
         min-height: 82px;
         padding-block: var(--seed-dimension-x3);
@@ -246,7 +246,7 @@
     min-height: var(--seed-dimension-x13);
     border-radius: var(--seed-radius-r3);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__root--variant_outline-size_responsive {
         gap: var(--seed-dimension-x2);
         min-height: var(--seed-dimension-x10);
@@ -257,7 +257,7 @@
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__value--variant_outline-size_responsive {
         font-size: var(--seed-font-size-t4);
         line-height: var(--seed-line-height-t4);
@@ -267,7 +267,7 @@
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__value--variant_outline-size_responsive::placeholder {
         font-size: var(--seed-font-size-t4);
         line-height: var(--seed-line-height-t4);
@@ -276,7 +276,7 @@
 .seed-text-input__value--variant_outline-size_responsive:first-child {
     padding-left: var(--seed-dimension-x4);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__value--variant_outline-size_responsive:first-child {
         padding-left: var(--seed-dimension-x3_5);
     }
@@ -284,7 +284,7 @@
 .seed-text-input__value--variant_outline-size_responsive:last-child {
     padding-right: var(--seed-dimension-x4);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__value--variant_outline-size_responsive:last-child {
         padding-right: var(--seed-dimension-x3_5);
     }
@@ -293,7 +293,7 @@
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__prefixText--variant_outline-size_responsive {
         font-size: var(--seed-font-size-t4);
         line-height: var(--seed-line-height-t4);
@@ -302,7 +302,7 @@
 .seed-text-input__prefixText--variant_outline-size_responsive:first-child {
     margin-left: var(--seed-dimension-x4);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__prefixText--variant_outline-size_responsive:first-child {
         margin-left: var(--seed-dimension-x3_5);
     }
@@ -311,7 +311,7 @@
     width: var(--seed-dimension-x5);
     height: var(--seed-dimension-x5);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__prefixIcon--variant_outline-size_responsive {
         width: var(--seed-dimension-x4);
         height: var(--seed-dimension-x4);
@@ -320,7 +320,7 @@
 .seed-text-input__prefixIcon--variant_outline-size_responsive:first-child {
     margin-left: var(--seed-dimension-x4);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__prefixIcon--variant_outline-size_responsive:first-child {
         margin-left: var(--seed-dimension-x3_5);
     }
@@ -329,7 +329,7 @@
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__suffixText--variant_outline-size_responsive {
         font-size: var(--seed-font-size-t4);
         line-height: var(--seed-line-height-t4);
@@ -338,7 +338,7 @@
 .seed-text-input__suffixText--variant_outline-size_responsive:last-child {
     margin-right: var(--seed-dimension-x4);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__suffixText--variant_outline-size_responsive:last-child {
         margin-right: var(--seed-dimension-x3_5);
     }
@@ -347,7 +347,7 @@
     width: var(--seed-dimension-x5);
     height: var(--seed-dimension-x5);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__suffixIcon--variant_outline-size_responsive {
         width: var(--seed-dimension-x4);
         height: var(--seed-dimension-x4);
@@ -356,7 +356,7 @@
 .seed-text-input__suffixIcon--variant_outline-size_responsive:last-child {
     margin-right: var(--seed-dimension-x4);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__suffixIcon--variant_outline-size_responsive:last-child {
         margin-right: var(--seed-dimension-x3_5);
     }
@@ -424,7 +424,7 @@
     min-height: var(--seed-dimension-x10);
     padding-block: var(--seed-dimension-x2);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__root--variant_underline-size_responsive {
         gap: var(--seed-dimension-x2);
         min-height: 34px;
@@ -435,7 +435,7 @@
     font-size: var(--seed-font-size-t6);
     line-height: var(--seed-line-height-t6);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__value--variant_underline-size_responsive {
         font-size: var(--seed-font-size-t5);
         line-height: var(--seed-line-height-t5);
@@ -445,7 +445,7 @@
     font-size: var(--seed-font-size-t6);
     line-height: var(--seed-line-height-t6);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__value--variant_underline-size_responsive::placeholder {
         font-size: var(--seed-font-size-t5);
         line-height: var(--seed-line-height-t5);
@@ -455,7 +455,7 @@
     font-size: var(--seed-font-size-t6);
     line-height: var(--seed-line-height-t6);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__prefixText--variant_underline-size_responsive {
         font-size: var(--seed-font-size-t5);
         line-height: var(--seed-line-height-t5);
@@ -465,7 +465,7 @@
     width: var(--seed-dimension-x6);
     height: var(--seed-dimension-x6);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__prefixIcon--variant_underline-size_responsive {
         width: var(--seed-dimension-x5);
         height: var(--seed-dimension-x5);
@@ -475,7 +475,7 @@
     font-size: var(--seed-font-size-t6);
     line-height: var(--seed-line-height-t6);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__suffixText--variant_underline-size_responsive {
         font-size: var(--seed-font-size-t5);
         line-height: var(--seed-line-height-t5);
@@ -485,7 +485,7 @@
     width: var(--seed-dimension-x6);
     height: var(--seed-dimension-x6);
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-text-input__suffixIcon--variant_underline-size_responsive {
         width: var(--seed-dimension-x5);
         height: var(--seed-dimension-x5);

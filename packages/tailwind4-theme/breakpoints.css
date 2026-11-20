@@ -1,7 +1,7 @@
 @theme {
   --breakpoint-*: initial;
-  --breakpoint-sm: 480px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 1280px;
-  --breakpoint-xl: 1440px;
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 840px;
+  --breakpoint-lg: 1200px;
+  --breakpoint-xl: 1600px;
 }

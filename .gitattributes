@@ -18,6 +18,7 @@ packages/css/*.css                          linguist-generated
 packages/css/breakpoints/**                 linguist-generated
 packages/lynx-css/vars/**                   linguist-generated
 packages/lynx-css/recipes/**                linguist-generated
+packages/lynx-css/breakpoints/**            linguist-generated
 # 수동 Recipe: packages/lynx-css/AGENTS.md「수동 Recipe: progress-circle」
 packages/lynx-css/recipes/progress-circle.* -linguist-generated
 packages/lynx-css/*.css                     linguist-generated

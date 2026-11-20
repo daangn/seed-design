@@ -7,17 +7,17 @@
     width: 100%;
     margin-inline: auto
 }
-@media (min-width: 768px) {
+@media (min-width: 840px) {
     .seed-layout__content--density_low {
         max-width: 720px
     }
 }
-@media (min-width: 768px) {
+@media (min-width: 840px) {
     .seed-layout__content--density_medium {
         max-width: 720px
     }
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-layout__content--density_medium {
         max-width: 1040px
     }

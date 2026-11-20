@@ -460,28 +460,28 @@
 .seed-date-picker__wheelView--visibleRange_twoWeeks [data-wheel-picker-indicator] {
     inset-inline: 0;
 }
-@media (min-width: 480px) {
+@media (min-width: 600px) {
     .seed-date-picker__root {
         --seed-box-height: var(--seed-box-height-sm, initial);
         --seed-box-min-height: var(--seed-box-min-height-sm, initial);
         --seed-box-max-height: var(--seed-box-max-height-sm, initial);
     }
 }
-@media (min-width: 768px) {
+@media (min-width: 840px) {
     .seed-date-picker__root {
         --seed-box-height: var(--seed-box-height-md, initial);
         --seed-box-min-height: var(--seed-box-min-height-md, initial);
         --seed-box-max-height: var(--seed-box-max-height-md, initial);
     }
 }
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
     .seed-date-picker__root {
         --seed-box-height: var(--seed-box-height-lg, initial);
         --seed-box-min-height: var(--seed-box-min-height-lg, initial);
         --seed-box-max-height: var(--seed-box-max-height-lg, initial);
     }
 }
-@media (min-width: 1440px) {
+@media (min-width: 1600px) {
     .seed-date-picker__root {
         --seed-box-height: var(--seed-box-height-xl, initial);
         --seed-box-min-height: var(--seed-box-min-height-xl, initial);
