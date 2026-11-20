@@ -15,6 +15,11 @@ Lynx용 CSS 변수·Recipe를 배포하는 `@seed-design/lynx-css` 패키지다.
 
 - `scale-feedback/`은 `bun qvism:generate`가 Recipe 생성 뒤 실행하는 `scripts/generate-scale-feedback.mjs`가 Rootage duration·timing-function 토큰으로 만든다. `.gitattributes`에 없어 `git check-attr`는 `unspecified`를 반환하지만 생성물이다 → 직접 고치지 않고 스크립트나 토큰을 고친 뒤 `bun qvism:generate`를 실행한다.
 
+### 생성물: breakpoints
+
+- `breakpoints/`는 `bun rootage:generate`가 `packages/rootage/collections.yaml`의 `viewport-width` mode `minWidth`로 만든다. `@seed-design/css/breakpoints`와 같은 값이다 → 값은 YAML을 고치고 `bun rootage:generate && bun qvism:generate`를 실행한다.
+- `packages/lynx-react`에서 viewport 너비로 크기를 고를 때 → px를 직접 쓰지 않고 이 모듈의 `breakpoints`를 읽는다.
+
 ### 생성물: Recipe의 glassTint
 
 - `recipes/chip.*`·`recipes/floating-action-button.*` 끝의 `glassTint`는 `bun qvism:generate`의 마지막 단계인 `scripts/generate-glass-tint.mjs`가 qvism 출력 뒤에 붙인다. `vars/component/`의 `root.color`와 Rootage color 토큰으로 만든다. Lynx `glass-tint-color`가 CSS 변수를 읽지 못해 variant·state별 색을 테마마다 hex로 풀어 둔다.

@@ -7,7 +7,7 @@ Rootage YAML이 토큰과 컴포넌트 스키마의 원천이다. 생성 단계�
 `bun generate:all`은 2–5단계를 순서대로 실행한다.
 
 1. `bun figma:sync`: `ecosystem/figma-extractor`가 Figma variables를 `scripts/data/variables`로 추출하고, `scripts/figma-to-rootage.ts`가 `packages/rootage/`의 `color.yaml`·`gradient.yaml`·`shadow.yaml`을 다시 쓴다. `FIGMA_FILE_KEY`와 `FIGMA_PERSONAL_ACCESS_TOKEN`이 없으면 경고만 내고 추출을 건너뛰므로 출력의 경고를 확인한다.
-2. `bun rootage:generate`: `packages/rootage/*.yaml`·`components/*.yaml`로 `packages/rootage/__generated__/`, `components/schema.json`, CSS·preset 패키지의 `vars/`·`src/vars/`·`token.css`·`tokens.ts`, `packages/css/breakpoints/`, Tailwind plugin·theme을 만든다.
+2. `bun rootage:generate`: `packages/rootage/*.yaml`·`components/*.yaml`로 `packages/rootage/__generated__/`, `components/schema.json`, CSS·preset 패키지의 `vars/`·`src/vars/`·`token.css`·`tokens.ts`, `packages/css/breakpoints/`·`packages/lynx-css/breakpoints/`, Tailwind plugin·theme을 만든다.
 3. `bun qvism:generate`: `packages/qvism-preset/src/recipes/`와 `packages/lynx-qvism-preset/src/recipes/`로 `packages/css/recipes/`와 `packages/lynx-css/recipes/`를 만든다. Recipe가 2단계의 `src/vars/`를 쓰므로 컴포넌트 스키마를 바꾸면 이 단계도 이어서 실행한다.
 4. `bun lynx:generate`: `bun lynx-headless:build` 뒤 `packages/lynx-react`와 `packages/tailwind3-plugin`을 빌드한다.
 5. `bun docs:generate`: `docs/registry/`와 `docs/content/`로 `docs/public/__registry__/`, `docs/public/__docs__/` 등 문서 산출물을 만든다.

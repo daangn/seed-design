@@ -1,4 +1,5 @@
 import { IconHouseLine } from "@karrotmarket/react-monochrome-icon";
+import { breakpoints } from "@seed-design/css/breakpoints";
 import { Box, HStack, useBreakpoint } from "@seed-design/react";
 import { useFlow, type StaticActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
@@ -66,7 +67,7 @@ function ContentWidthReadout({
     };
   }, [size, widthOverride, maxWidthOverride]);
 
-  const isMd = vw >= 768;
+  const isMd = vw >= breakpoints.md;
   const cap = maxWidthOverride ? MAX_WIDTH_OVERRIDE : WIDTH_FRACTION * vw;
   const desired = widthOverride ? WIDTH_OVERRIDE : isMd ? SIZE_TOKEN[size] : WIDTH_FRACTION * vw;
   const expected = Math.round(Math.min(desired, cap));

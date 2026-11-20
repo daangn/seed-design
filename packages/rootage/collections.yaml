@@ -20,14 +20,14 @@ data:
         description: "세로 모드 폰"
         minWidth: 0
       - id: sm
-        description: "가로 모드 폰 또는 좁은 태블릿"
-        minWidth: 480
+        description: "세로 모드 태블릿 또는 펼친 폴더블"
+        minWidth: 600
       - id: md
-        description: "태블릿"
-        minWidth: 768
+        description: "가로 모드 태블릿"
+        minWidth: 840
       - id: lg
         description: "데스크톱"
-        minWidth: 1280
+        minWidth: 1200
       - id: xl
         description: "넓은 데스크톱"
-        minWidth: 1440
+        minWidth: 1600

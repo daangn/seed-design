@@ -1,6 +1,7 @@
 import * as React from "@lynx-js/react";
 import clsx from "clsx";
 
+import { breakpoints } from "@seed-design/lynx-css/breakpoints";
 import { menu, type MenuVariantProps } from "@seed-design/lynx-css/recipes/menu";
 import { menuItem, type MenuItemVariantProps } from "@seed-design/lynx-css/recipes/menu-item";
 import type { Placement as MenuPlacement } from "@seed-design/lynx-react-floating";
@@ -133,7 +134,7 @@ export const MenuRoot = React.forwardRef<unknown, MenuRootProps>((props, ref) =>
   });
   const { width: screenWidth } = useViewport();
   const resolvedSize =
-    sizeProp === "responsive" && screenWidth !== undefined && screenWidth >= 1280
+    sizeProp === "responsive" && screenWidth !== undefined && screenWidth >= breakpoints.lg
       ? "small"
       : (variantProps.size ?? "medium");
   const classes = menu({ size: resolvedSize, open: api.open, positioned: api.positioned });
