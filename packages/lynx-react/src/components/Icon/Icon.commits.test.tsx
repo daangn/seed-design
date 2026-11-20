@@ -16,29 +16,37 @@ function Example() {
   return <Icon icon={<TestIcon />} size="x5" color="fg.neutral" />;
 }
 
+// 빈 화면을 hydrate한 뒤 mount해야 mount commit이 hydration에 합쳐지지 않는다.
 async function mount() {
-  let view!: ReturnType<typeof render>;
-  const commits = await measureCommits(() => {
-    view = render(<Example />, { enableMainThread: true, enableBackgroundThread: true });
-  });
+  const view = render(<view />, { enableMainThread: true, enableBackgroundThread: true });
+  const commits = await measureCommits(() => view.rerender(<Example />));
   return { view, commits };
 }
 
+async function rerenderWithSameProps() {
+  const { view } = await mount();
+  return measureCommits(() => view.rerender(<Example />));
+}
+
 describe("Icon commits", () => {
-  it("does not commit after hydration on mount", async () => {
+  it("commits once on mount", async () => {
     const { commits } = await mount();
-    expect(commits).toMatchObject({ total: 0, nonEmpty: 0 });
+    expect(commits).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
   // Preact 10에서는 같은 props로 rerender할 때마다 아이콘 `<image>`의 `main-thread:binduiappear` worklet을 새 실행
-  // id로 다시 보낸다 (hooks/useIconColor.ts syncOnUiAppear). 원인은 확인하지 못했다. 현재: Preact 10은 1회 중 patch 있는
-  // commit 1회, 0.126 이상은 빈 commit 1회.
+  // id로 다시 보낸다 (hooks/useIconColor.ts syncOnUiAppear). 원인은 확인하지 못했다.
   (usesPreact10 ? it.fails : it)(
     "sends only empty commits when rerendered with the same props",
     async () => {
-      const { view } = await mount();
-      const commits = await measureCommits(() => view.rerender(<Example />));
-      expect(commits).toMatchObject({ total: 1, nonEmpty: 0 });
+      expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 0 });
+    },
+  );
+
+  (usesPreact10 ? it : it.skip)(
+    "currently sends a patch when rerendered with the same props on Preact 10",
+    async () => {
+      expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 1 });
     },
   );
 });

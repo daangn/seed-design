@@ -70,7 +70,8 @@ Menu·Select·HelpBubble처럼 화면 위에 뜨는 레이어의 host 규칙이�
   - 같은 props로 rerender: `nonEmpty`가 0이고 `total`을 고정한다. 부모 rerender가 보내는 빈 commit 1회는 구조상 남는다.
   - 대표 상호작용 1회(선택·토글·열기): 횟수를 고정한다.
 - `bytes`(`payload.data` 길이 합)는 절대값으로 고정하지 않는다. 항목 수를 바꿔 재는 상호작용에서 patch 크기가 항목 수에 비례하지 않는다는 상대 비교에만 쓴다 → `Tabs.commits.test.tsx`.
-- 지금 불변식을 만족하지 못하면 목표 불변식을 `it.fails`로 쓰고 원인 위치와 현재 측정값을 주석에 남긴다. 현재 값을 고정하는 단언은 따로 두지 않는다 → 최적화하면 `it.fails`가 깨져 알린다.
+- 지금 불변식을 만족하지 못하면 목표 불변식을 `it.fails`로 쓰고, 같은 시나리오의 현재 값을 일반 `it`(`currently …`)으로 바로 옆에 고정한다 → 값이 더 나빠지면 `it`이 깨지고, 최적화하면 둘 다 깨져 알린다. 원인 위치는 주석에 남기고 수치는 단언과 겹치므로 쓰지 않는다. 측정 코드는 파일 안의 작은 함수로 공유한다.
+- 일부 버전에서만 불변식을 못 지키면 `(usesPreact10 ? it.fails : it)`로 목표를 쓰고, 현재 값은 그 버전에서만 `(usesPreact10 ? it : it.skip)`으로 고정한다 → 지키는 버전에서는 목표 `it`이 정확한 값을 고정한다.
 - 버전마다 값이 다르면 `usesPreact10`으로 기댓값을 나눈다. 값은 `.github/workflows/lynx-test.yml` matrix의 모든 버전에서 측정한다.
 - 같은 이벤트 key에 Main Thread handler가 있으면 테스트 런타임이 Background handler를 부르지 않는다 → `Tabs.commits.test.tsx`처럼 `useScaleFeedback`의 `main-thread:bindlayoutchange`를 mock에서 뺀다.
 

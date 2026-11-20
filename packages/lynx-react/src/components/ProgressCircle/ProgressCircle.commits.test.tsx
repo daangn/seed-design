@@ -13,14 +13,10 @@ function Example({ value }: { value?: number }) {
   );
 }
 
+// 빈 화면을 hydrate한 뒤 mount해야 mount commit이 hydration에 합쳐지지 않는다.
 async function mount(value?: number) {
-  let view!: ReturnType<typeof render>;
-  const commits = await measureCommits(() => {
-    view = render(<Example value={value} />, {
-      enableMainThread: true,
-      enableBackgroundThread: true,
-    });
-  });
+  const view = render(<view />, { enableMainThread: true, enableBackgroundThread: true });
+  const commits = await measureCommits(() => view.rerender(<Example value={value} />));
   return { view, commits };
 }
 
@@ -28,9 +24,9 @@ describe("ProgressCircle commits", () => {
   it.each([
     ["determinate", 40],
     ["indeterminate", undefined],
-  ])("does not commit after hydration when %s mounts", async (_, value) => {
+  ])("commits once when %s mounts", async (_, value) => {
     const { commits } = await mount(value);
-    expect(commits).toMatchObject({ total: 0, nonEmpty: 0 });
+    expect(commits).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
   it.each([

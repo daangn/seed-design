@@ -62,18 +62,34 @@ function getTrigger(container: Element) {
   return trigger;
 }
 
+// 빈 화면을 hydrate한 뒤 mount해야 mount commit이 hydration에 합쳐지지 않는다.
 async function mount() {
-  let view!: ReturnType<typeof render>;
-  const commits = await measureCommits(() => {
-    view = render(<Example />, { enableMainThread: true, enableBackgroundThread: true });
-  });
+  const view = render(<view />, { enableMainThread: true, enableBackgroundThread: true });
+  const commits = await measureCommits(() => view.rerender(<Example />));
   return { view, commits };
 }
 
+// 연 뒤 Trigger의 같은 크기 layoutchange를 다시 보낸다.
+async function reportOpenTriggerLayoutAgain() {
+  const { view } = await mount();
+  await measureCommits(() => fireEvent.tap(getTrigger(view.container)));
+  return measureCommits(() => {
+    const trigger = getTrigger(view.container);
+    const init = {
+      eventType: "bindEvent",
+      eventName: "layoutchange",
+      detail: { width: 240, height: 40 },
+    };
+    const event = createEvent("bindEvent:layoutchange", trigger, init);
+    Object.assign(event, init);
+    fireEvent(trigger, event);
+  });
+}
+
 describe("HelpBubble commits", () => {
-  it("does not commit after hydration on mount", async () => {
+  it("commits once on mount", async () => {
     const { commits } = await mount();
-    expect(commits).toMatchObject({ total: 0, nonEmpty: 0 });
+    expect(commits).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
   it("sends only empty commits when rerendered open with the same props", async () => {
@@ -85,22 +101,14 @@ describe("HelpBubble commits", () => {
 
   // Trigger layoutchange마다 requestPositionUpdate가 positionRevision state를 올려 다시 렌더하고 위치를 다시 잰다
   // (lynx-react-headless/popover/src/usePopover.ts requestPositionUpdate). 측정값이 같아도 빈 commit이 남는다.
-  // 현재: 4회(patch 있는 commit 0회), Preact 10은 6회(0회).
+  it("currently sends empty commits when the open trigger layout is reported again", async () => {
+    expect(await reportOpenTriggerLayoutAgain()).toMatchObject(
+      usesPreact10 ? { total: 6, nonEmpty: 0 } : { total: 4, nonEmpty: 0 },
+    );
+  });
+
   it.fails("does not commit when the open trigger layout is reported again", async () => {
-    const { view } = await mount();
-    await measureCommits(() => fireEvent.tap(getTrigger(view.container)));
-    const commits = await measureCommits(() => {
-      const trigger = getTrigger(view.container);
-      const init = {
-        eventType: "bindEvent",
-        eventName: "layoutchange",
-        detail: { width: 240, height: 40 },
-      };
-      const event = createEvent("bindEvent:layoutchange", trigger, init);
-      Object.assign(event, init);
-      fireEvent(trigger, event);
-    });
-    expect(commits).toMatchObject({ total: 0, nonEmpty: 0 });
+    expect(await reportOpenTriggerLayoutAgain()).toMatchObject({ total: 0, nonEmpty: 0 });
   });
 
   it("commits opening and positioning", async () => {

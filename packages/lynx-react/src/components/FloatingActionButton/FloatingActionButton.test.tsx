@@ -199,11 +199,16 @@ describe("FloatingActionButton Liquid Glass", () => {
       fireEvent(label, new Event(`bindEvent:${type}`, { bubbles: true }));
     };
 
-    // 토큰 값 대신 상태·테마별로 tint가 바뀌는지만 본다.
-    const enabled = root()?.getAttribute("glass-tint-color");
-    expect(enabled).toMatch(/^#[0-9a-f]{6}$/);
+    // 토큰 값 대신 tint가 색 형식으로 있는지와 상태·테마별로 바뀌는지를 본다.
+    const tint = () => {
+      const value = root()?.getAttribute("glass-tint-color");
+      expect(value).toMatch(/^#[0-9a-f]{6}$/);
+      return value;
+    };
+
+    const enabled = tint();
     touch("touchstart");
-    const pressed = root()?.getAttribute("glass-tint-color");
+    const pressed = tint();
     expect(pressed).not.toBe(enabled);
     touch("touchend");
 
@@ -215,7 +220,7 @@ describe("FloatingActionButton Liquid Glass", () => {
       </SeedProvider>,
     );
     touch("touchstart");
-    expect(root()?.getAttribute("glass-tint-color")).not.toBe(pressed);
+    expect(tint()).not.toBe(pressed);
     expect(root()).toHaveAttribute("ios-user-interface-style", "dark");
   });
 });

@@ -60,15 +60,39 @@ async function mount(count: number) {
   return { view, commits };
 }
 
+async function mountAndUnmount(count: number) {
+  const { view, commits } = await mount(count);
+  view.unmount();
+  return commits;
+}
+
+async function selectSecond(count: number) {
+  const { view } = await mount(count);
+  const [, second] = getTriggers(view.container);
+  if (!second) throw new Error("Missing trigger");
+  const commits = await measureCommits(() => fireEvent.tap(second));
+  expect(second.getAttribute("accessibility-value")).toBe("selected");
+  view.unmount();
+  return commits;
+}
+
 describe("Tabs commits", () => {
   // trigger 폭이 올 때마다 useTabs의 triggerWidths state가 바뀌어 commit한다(lynx-react-headless/tabs/src/useTabs.ts updateTriggerWidth).
-  // 목표는 mount 1회와 폭 반영 1회다. 현재: 8개 11회·24개 27회(patch 있는 commit 3회), Preact 10은 111회(13회)·703회(29회).
+  // 목표는 mount 1회와 폭 반영 1회다.
+  it("currently scales mount commits with the trigger count", async () => {
+    expect(await mountAndUnmount(8)).toMatchObject(
+      usesPreact10 ? { total: 111, nonEmpty: 13 } : { total: 11, nonEmpty: 3 },
+    );
+    expect(await mountAndUnmount(24)).toMatchObject(
+      usesPreact10 ? { total: 703, nonEmpty: 29 } : { total: 27, nonEmpty: 3 },
+    );
+  });
+
   it.fails("does not scale mount commits with the trigger count", async () => {
-    const few = await mount(8);
-    few.view.unmount();
-    const many = await mount(24);
-    expect(many.commits.total).toBe(few.commits.total);
-    expect(few.commits).toMatchObject({ total: 2, nonEmpty: 2 });
+    const few = await mountAndUnmount(8);
+    const many = await mountAndUnmount(24);
+    expect(many.total).toBe(few.total);
+    expect(few).toMatchObject({ total: 2, nonEmpty: 2 });
   });
 
   it("does not commit when the trigger widths are reported again", async () => {
@@ -84,25 +108,24 @@ describe("Tabs commits", () => {
   });
 
   // Preact 10에서는 ChipTabs와 같이 선택 commit이 trigger 수에 비례한다(lynx-react-headless/tabs/src/useTabs.ts의
-  // context 값 → Tabs.tsx TabsTrigger). 현재: Preact 10은 8개 11회·24개 27회(patch 있는 commit 3회), 0.126 이상은 둘 다 1회.
+  // context 값 → Tabs.tsx TabsTrigger).
   (usesPreact10 ? it.fails : it)(
     "commits a selection change without scaling with the trigger count",
     async () => {
-      const select = async (count: number) => {
-        const { view } = await mount(count);
-        const [, second] = getTriggers(view.container);
-        if (!second) throw new Error("Missing trigger");
-        const commits = await measureCommits(() => fireEvent.tap(second));
-        expect(second.getAttribute("accessibility-value")).toBe("selected");
-        view.unmount();
-        return commits;
-      };
-      const few = await select(8);
-      const many = await select(24);
+      const few = await selectSecond(8);
+      const many = await selectSecond(24);
       expect(many.total).toBe(few.total);
       // patch 크기도 trigger 수에 비례하지 않는다(trigger 3배에서 1.5배 미만).
       expect(many.bytes).toBeLessThan(few.bytes * 1.5);
       expect(few).toMatchObject({ total: 1, nonEmpty: 1 });
+    },
+  );
+
+  (usesPreact10 ? it : it.skip)(
+    "currently scales selection commits with the trigger count on Preact 10",
+    async () => {
+      expect(await selectSecond(8)).toMatchObject({ total: 11, nonEmpty: 3 });
+      expect(await selectSecond(24)).toMatchObject({ total: 27, nonEmpty: 3 });
     },
   );
 });

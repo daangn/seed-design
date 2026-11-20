@@ -4,21 +4,19 @@ import { describe, expect, it } from "vitest";
 
 import { ReactionButton } from "./ReactionButton";
 
+// 빈 화면을 hydrate한 뒤 mount해야 mount commit이 hydration에 합쳐지지 않는다.
 async function mount() {
-  let view!: ReturnType<typeof render>;
-  const commits = await measureCommits(() => {
-    view = render(<ReactionButton>좋아요</ReactionButton>, {
-      enableMainThread: true,
-      enableBackgroundThread: true,
-    });
-  });
+  const view = render(<view />, { enableMainThread: true, enableBackgroundThread: true });
+  const commits = await measureCommits(() =>
+    view.rerender(<ReactionButton>좋아요</ReactionButton>),
+  );
   return { view, commits };
 }
 
 describe("ReactionButton commits", () => {
-  it("does not commit after hydration on mount", async () => {
+  it("commits once on mount", async () => {
     const { commits } = await mount();
-    expect(commits).toMatchObject({ total: 0, nonEmpty: 0 });
+    expect(commits).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
   it("sends only empty commits when rerendered with the same props", async () => {
