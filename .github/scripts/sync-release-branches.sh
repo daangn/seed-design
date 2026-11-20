@@ -28,7 +28,7 @@ append_result() {
 initialize_summary() {
   local trigger="수동 실행"
 
-  if [[ "${GITHUB_EVENT_NAME:-}" == "pull_request_target" ]]; then
+  if [[ "${GITHUB_EVENT_NAME:-}" == "pull_request" ]]; then
     trigger="Changesets Version PR #${VERSION_PR_NUMBER:-unknown} 병합"
   fi
 
