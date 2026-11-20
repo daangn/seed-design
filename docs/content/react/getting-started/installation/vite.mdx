@@ -177,7 +177,7 @@ export default defineConfig({
 | --- | --- | --- | --- |
 | `colorMode` | `"system" \| "light-only" \| "dark-only"` | `"system"` | 전역 색상 모드. `system`은 사용자의 OS 설정을 따릅니다 |
 | `injectColorSchemeTag` | `boolean` | `true` | `color-scheme` 메타 태그를 주입할지 여부 |
-| `fontScaling` | `boolean` | `false` | iOS에서 사용자의 시스템 글자 크기 설정에 따라 텍스트를 확대·축소할지 여부 |
+| `fontScaling` | `boolean` | `false` | iOS에서 시스템 글자 크기를 반영하고, iOS·Android에서 계산한 배율을 `data-seed-font-multiplier`에 기록할지 여부. [Font Scaling 가이드](/react/getting-started/styling/font-scaling) 참고 |
 
 ```ts title="vite.config.ts"
 seedDesignPlugin({

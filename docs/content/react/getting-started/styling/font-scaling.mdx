@@ -1,0 +1,61 @@
+---
+title: Font Scaling
+description: React 기반 앱 내 WebView에서 SEED의 폰트 스케일링을 설정하고 iOS·Android별 동작을 확인합니다.
+---
+
+이 문서는 SEED CSS와 React 번들러 플러그인을 사용하는 앱 내 WebView를 다룹니다. 일반 웹사이트의 브라우저 확대와는 구분합니다. 글자가 커질 때의 정보·배치 기준은 [Font Scaling 패턴](/patterns/font-scaling)을 참고하세요.
+
+## 실행 환경별 동작
+
+| 환경 | 설정과 확인 사항 |
+| --- | --- |
+| iOS WebView | 사용자가 설정한 글자 크기를 반영하려면 `fontScaling`을 활성화합니다. SEED 토큰과 글꼴 선언 위치를 함께 확인합니다. 시스템 글꼴만 지정해도 글자 크기가 사용자 설정을 따르는 것은 아닙니다. |
+| Android WebView | 호스트 앱의 텍스트 확대 설정과 SEED CSS가 함께 표시 결과를 결정합니다. `fontScaling: false`가 호스트 앱의 확대까지 끄는 설정은 아닙니다. |
+
+iOS의 연결 방식은 [WebKit의 시스템 텍스트 스타일 안내](https://webkit.org/blog/3709/using-the-system-font-in-web-content/), Android의 앱 측 설정은 [WebView의 textZoom](https://developer.android.com/reference/android/webkit/WebSettings#setTextZoom(int))을 참고합니다. Android 네이티브 화면과 WebView는 같은 설정에서도 글자 크기가 다를 수 있으므로 각각 확인합니다.
+
+## SEED 적용하기
+
+### 글자 크기와 줄 높이를 함께 적용하는 토큰
+
+SEED는 글자 크기·줄 높이 토큰과 이를 조합한 텍스트 스타일을 제공합니다. 같은 단계의 글자 크기와 줄 높이 토큰을 함께 사용하면 글자가 커질 때 줄 높이도 함께 늘어납니다. 토큰의 구성은 [Typography](/foundations/typography)에서 확인합니다.
+
+CSS 토큰에는 시스템 텍스트 스타일을 연결했을 때 기본 크기를 맞추기 위한 보정도 포함됩니다. 직접 작성한 상대 단위 값에는 이 보정이 없으므로 SEED 토큰과 표시 크기가 다를 수 있습니다. 기본 설정에서 글꼴·글자 크기·줄 높이가 의도대로 유지되는지 확인합니다.
+
+### 사용자 글자 크기를 반영하는 옵션
+
+React 번들러 플러그인의 `fontScaling` 옵션은 기본값이 `false`입니다. iOS WebView에서 시스템 글자 크기를 SEED 스타일에 반영하려면 활성화합니다. 글꼴 선언 위치도 [React Fonts](/react/getting-started/styling/fonts)에 따라 확인합니다.
+
+Android WebView에서는 옵션을 끈다고 호스트 앱의 텍스트 확대까지 꺼지는 것은 아닙니다. 이 옵션을 켜면 SEED가 스케일링 상태와 계산한 배율을 HTML 데이터 속성에 기록합니다. 적용 방법은 아래 관련 자료의 번들러 설정 문서를 참고합니다.
+
+### 확대에서 제외할 때 사용하는 Static 스타일
+
+Static 스타일은 사용자 설정이 바뀌어도 글자 크기를 유지할 때 사용합니다. Android WebView에서는 확대 효과를 상쇄하기 위해 CSS 토큰과 번들러 플러그인의 테마 초기화 스크립트(theming script)를 함께 사용합니다. 글자 크기를 `px`로 지정하는 것만으로는 이 보정을 대신할 수 없습니다. 사용하는 패키지 버전으로 실제 앱에서 크기가 유지되는지 확인합니다.
+
+Static 스타일을 적용할 텍스트는 읽기 편의성을 고려해 정합니다. 글자가 넘친다는 이유만으로 적용하지 않고, 사용자가 정보를 읽을 수 있는 방법과 배치 변경 가능성을 먼저 검토합니다.
+
+### 배치 판단에 활용하는 배율 정보
+
+`fontScaling: true`일 때 제공하는 `data-seed-font-multiplier`는 SEED가 계산한 적용 배율 정보입니다. 이 값은 OS에서 사용자가 선택한 설정 단계와 다릅니다. 개별 컴포넌트에 확대 제한이 있으면 해당 텍스트의 실제 배율과도 다를 수 있습니다.
+
+테마 초기화 스크립트는 실행 시점의 배율을 기록하며, 이후의 설정 변경을 계속 감지하지는 않습니다. 사용자가 글자 크기를 바꾸고 화면으로 돌아왔을 때 이 값을 다시 계산해야 하는지 확인합니다. 배치 전환에는 이 값뿐 아니라 화면 너비와 실제 문구가 차지하는 공간도 함께 고려합니다.
+
+토큰과 옵션을 적용해도 고정 높이, 말줄임, 액션 배치까지 자동으로 해결되지는 않습니다. [Font Scaling 패턴](/patterns/font-scaling)에 따라 화면 구성을 함께 조정합니다.
+
+## CSS 단위와 레이아웃
+
+WebView에서는 CSS 단위도 함께 살펴봅니다. `rem`은 루트 요소의 글자 크기를 기준으로 하므로 너비나 여백에 쓰면 루트 글자 크기가 바뀔 때 레이아웃도 달라집니다. 반대로 `px`로 지정한 글자라고 해서 앱의 텍스트 확대에서 항상 제외되는 것은 아닙니다. Android WebView는 [`textZoom`](https://developer.android.com/reference/android/webkit/WebSettings#setTextZoom(int))으로 텍스트 확대 비율을 따로 설정할 수 있습니다. 단위 이름만으로 확대 여부를 판단하지 말고 실제 앱에서 확인합니다.
+
+## 실제 앱에서 확인하기
+
+- iOS·Android 각각에서 기본 크기와 가장 큰 글자 설정을 확인합니다. 작은 설정과 중간 단계도 함께 비교합니다.
+- 기본 크기에서 글꼴과 줄 높이가 유지되는지, 큰 글자에서 내용과 액션이 잘리지 않는지 확인합니다.
+- 시스템 설정을 바꾸고 화면으로 돌아왔을 때 갱신되는지 확인합니다. 이때 테마 초기화 스크립트가 다시 실행되는지, WebView를 새로 만드는지도 확인합니다.
+- 호스트 앱의 확대 설정, SEED 패키지 버전, OS 버전을 함께 기록합니다. 브라우저 미리보기만으로 앱 내 동작을 확정하지 않습니다.
+
+## 관련 자료
+
+- [Font Scaling 패턴](/patterns/font-scaling): 공통 디자인 원칙과 검증 기준
+- 번들러 설정: [Vite](/react/getting-started/installation/vite#플러그인-옵션), [Webpack](/react/getting-started/installation/webpack), [Rsbuild](/react/getting-started/installation/rsbuild)
+- [Fonts](/react/getting-started/styling/fonts): 글꼴 선언 위치
+- [Text](/react/components/typography/text): 텍스트 스타일과 크기·줄 높이 토큰 적용
