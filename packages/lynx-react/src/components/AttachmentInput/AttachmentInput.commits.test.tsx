@@ -54,23 +54,17 @@ function Example({ count }: { count: keyof typeof ENTRIES }) {
   );
 }
 
+// 빈 화면을 hydrate한 뒤 mount해야 mount commit이 hydration에 합쳐지지 않는다.
 async function mount(count: keyof typeof ENTRIES) {
-  let view!: ReturnType<typeof render>;
-  const commits = await measureCommits(() => {
-    view = render(<Example count={count} />, {
-      enableMainThread: true,
-      enableBackgroundThread: true,
-    });
-  });
+  const view = render(<view />, { enableMainThread: true, enableBackgroundThread: true });
+  const commits = await measureCommits(() => view.rerender(<Example count={count} />));
   return { view, commits };
 }
 
 describe("AttachmentInput commits", () => {
-  it.each([
-    2, 6,
-  ] as const)("does not commit after hydration when %i entries mount", async (count) => {
+  it.each([2, 6] as const)("commits once when %i entries mount", async (count) => {
     const { commits } = await mount(count);
-    expect(commits).toMatchObject({ total: 0, nonEmpty: 0 });
+    expect(commits).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
   it("sends only empty commits when rerendered with the same props", async () => {

@@ -66,33 +66,38 @@ function fireTouch(target: Element, name: "touchstart" | "touchend") {
   fireEvent(target, event);
 }
 
+// 빈 화면을 hydrate한 뒤 mount해야 mount commit이 hydration에 합쳐지지 않는다.
 async function mount(count: number) {
-  let view!: ReturnType<typeof render>;
-  const commits = await measureCommits(() => {
-    view = render(<Example count={count} />, {
-      enableMainThread: true,
-      enableBackgroundThread: true,
-    });
-  });
+  const view = render(<view />, { enableMainThread: true, enableBackgroundThread: true });
+  const commits = await measureCommits(() => view.rerender(<Example count={count} />));
   return { view, commits };
 }
 
+async function rerenderWithSameProps() {
+  const { view } = await mount(2);
+  return measureCommits(() => view.rerender(<Example count={2} />));
+}
+
 describe("MenuSheet commits", () => {
-  it.each([2, 8])("does not commit after hydration when %i items mount", async (count) => {
+  it.each([2, 8])("commits once when %i items mount", async (count) => {
     const { commits } = await mount(count);
-    expect(commits).toMatchObject({ total: 0, nonEmpty: 0 });
+    expect(commits).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
   // Preact 10에서는 같은 props로 rerender할 때마다 List scroll-view의
   // `main-thread:bindscroll`·`bindtouchstart`·`bindtouchmove` worklet을 새 실행 id로 다시
-  // 보낸다(components/private/SheetScrollGesture.ts). 원인은 확인하지 못했다. 현재: Preact 10은 1회 중 patch 있는
-  // commit 1회, 0.126 이상은 빈 commit 1회.
+  // 보낸다(components/private/SheetScrollGesture.ts). 원인은 확인하지 못했다.
   (usesPreact10 ? it.fails : it)(
     "sends only empty commits when rerendered with the same props",
     async () => {
-      const { view } = await mount(2);
-      const commits = await measureCommits(() => view.rerender(<Example count={2} />));
-      expect(commits).toMatchObject({ total: 1, nonEmpty: 0 });
+      expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 0 });
+    },
+  );
+
+  (usesPreact10 ? it : it.skip)(
+    "currently sends a patch when rerendered with the same props on Preact 10",
+    async () => {
+      expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 1 });
     },
   );
 

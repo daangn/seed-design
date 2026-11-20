@@ -25,18 +25,27 @@ function RadioExample({ count }: { count: number }) {
   );
 }
 
+// 빈 화면을 hydrate한 뒤 mount해야 mount commit이 hydration에 합쳐지지 않는다.
 async function mount(ui: React.ReactElement) {
-  let view!: ReturnType<typeof render>;
-  const commits = await measureCommits(() => {
-    view = render(ui, { enableMainThread: true, enableBackgroundThread: true });
-  });
+  const view = render(<view />, { enableMainThread: true, enableBackgroundThread: true });
+  const commits = await measureCommits(() => view.rerender(ui));
   return { view, commits };
 }
 
+async function selectSecond(count: number) {
+  const { view } = await mount(<RadioExample count={count} />);
+  const item = view.container.querySelectorAll(".seed-chip__root")[1];
+  if (!item) throw new Error("Missing item");
+  const commits = await measureCommits(() => fireEvent.tap(item));
+  expect(item.getAttribute("accessibility-value")).toBe("selected");
+  view.unmount();
+  return commits;
+}
+
 describe("Chip.Toggle commits", () => {
-  it("does not commit after hydration on mount", async () => {
+  it("commits once on mount", async () => {
     const { commits } = await mount(<ToggleExample />);
-    expect(commits).toMatchObject({ total: 0, nonEmpty: 0 });
+    expect(commits).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
   it("sends only empty commits when rerendered with the same props", async () => {
@@ -58,9 +67,9 @@ describe("Chip.Toggle commits", () => {
 });
 
 describe("Chip.RadioRoot commits", () => {
-  it.each([2, 8])("does not commit after hydration when %i items mount", async (count) => {
+  it.each([2, 8])("commits once when %i items mount", async (count) => {
     const { commits } = await mount(<RadioExample count={count} />);
-    expect(commits).toMatchObject({ total: 0, nonEmpty: 0 });
+    expect(commits).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
   it("sends only empty commits when rerendered with the same props", async () => {
@@ -71,23 +80,22 @@ describe("Chip.RadioRoot commits", () => {
 
   // Preact 10에서는 선택 commit이 항목 수에 비례한다. SelectBox.commits.test.tsx의 RadioSelectBox와 같이 context 구독으로
   // 다시 렌더되는 Item마다 commit이 따로 생기는 것으로 보인다(lynx-react-headless/radio-group의 RadioGroupRoot context →
-  // Chip.tsx ChipRadioItem). 현재: Preact 10은 2개 5회·8개 11회(patch 있는 commit 4회), 0.126 이상은 둘 다 1회.
+  // Chip.tsx ChipRadioItem).
   (usesPreact10 ? it.fails : it)(
     "commits a selection without scaling with the item count",
     async () => {
-      const select = async (count: number) => {
-        const { view } = await mount(<RadioExample count={count} />);
-        const item = view.container.querySelectorAll(".seed-chip__root")[1];
-        if (!item) throw new Error("Missing item");
-        const commits = await measureCommits(() => fireEvent.tap(item));
-        expect(item.getAttribute("accessibility-value")).toBe("selected");
-        view.unmount();
-        return commits;
-      };
-      const few = await select(2);
-      const many = await select(8);
+      const few = await selectSecond(2);
+      const many = await selectSecond(8);
       expect(many.total).toBe(few.total);
       expect(few).toMatchObject({ total: 1, nonEmpty: 1 });
+    },
+  );
+
+  (usesPreact10 ? it : it.skip)(
+    "currently scales selection commits with the item count on Preact 10",
+    async () => {
+      expect(await selectSecond(2)).toMatchObject({ total: 5, nonEmpty: 4 });
+      expect(await selectSecond(8)).toMatchObject({ total: 11, nonEmpty: 4 });
     },
   );
 });

@@ -24,15 +24,35 @@ async function mount(count: number) {
   return { view, commits };
 }
 
+async function selectSecond(count: number) {
+  const { view } = await mount(count);
+  const item = view.container.querySelectorAll(".seed-segmented-control__item")[1];
+  if (!item) throw new Error("Missing item");
+  const commits = await measureCommits(() => fireEvent.tap(item));
+  expect(item.getAttribute("accessibility-value")).toBe("selected");
+  view.unmount();
+  return commits;
+}
+
 describe("SegmentedControl commits", () => {
   // Preact 10에서는 mount commit이 Item 수에 비례한다. Item이 첫 렌더 뒤에 등록하는 items state
   // (lynx-react-headless/segmented-control/src/useSegmentedControl.ts)와 관련된 것으로 보인다.
-  // 현재: Preact 10은 2개 6회·6개 10회(둘 다 patch 있는 commit 4회), 0.126 이상은 둘 다 3회(3회).
   (usesPreact10 ? it.fails : it).each([2, 6])(
     "commits a fixed number of times when %i items mount",
     async (count) => {
       const { commits } = await mount(count);
       expect(commits).toMatchObject({ total: 3, nonEmpty: 3 });
+    },
+  );
+
+  (usesPreact10 ? it : it.skip).each([
+    [2, { total: 6, nonEmpty: 4 }],
+    [6, { total: 10, nonEmpty: 4 }],
+  ])(
+    "currently scales mount commits with the item count (%i items) on Preact 10",
+    async (count, expected) => {
+      const { commits } = await mount(count);
+      expect(commits).toMatchObject(expected);
     },
   );
 
@@ -44,25 +64,23 @@ describe("SegmentedControl commits", () => {
 
   // Preact 10에서는 선택 commit이 Item 수에 비례한다. context 구독으로 다시 렌더되는 Item마다 commit이 따로 생기는 것으로 보인다
   // (lynx-react-headless/segmented-control/src/useSegmentedControl.ts의 context 값).
-  // 현재: Preact 10은 2개 4회·6개 8회(patch 있는 commit 3회), 0.126 이상은 둘 다 1회.
   (usesPreact10 ? it.fails : it)(
     "commits a selection without scaling with the item count",
     async () => {
-      const select = async (count: number) => {
-        const { view } = await mount(count);
-        const item = view.container.querySelectorAll(".seed-segmented-control__item")[1];
-        if (!item) throw new Error("Missing item");
-        const commits = await measureCommits(() => fireEvent.tap(item));
-        expect(item.getAttribute("accessibility-value")).toBe("selected");
-        view.unmount();
-        return commits;
-      };
-      const few = await select(2);
-      const many = await select(6);
+      const few = await selectSecond(2);
+      const many = await selectSecond(6);
       expect(many.total).toBe(few.total);
       // patch 크기도 Item 수에 비례하지 않는다(Item 3배에서 1.5배 미만).
       expect(many.bytes).toBeLessThan(few.bytes * 1.5);
       expect(few).toMatchObject({ total: 1, nonEmpty: 1 });
+    },
+  );
+
+  (usesPreact10 ? it : it.skip)(
+    "currently scales selection commits with the item count on Preact 10",
+    async () => {
+      expect(await selectSecond(2)).toMatchObject({ total: 4, nonEmpty: 3 });
+      expect(await selectSecond(6)).toMatchObject({ total: 8, nonEmpty: 3 });
     },
   );
 });
