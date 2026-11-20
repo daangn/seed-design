@@ -1,6 +1,6 @@
 # docs/scripts/lynx-examples
 
-`docs/examples/lynx`의 ReactLynx 예제를 컴포넌트마다 bundle 하나로 묶어 Rspeedy로 빌드하고 `docs/public/__lynx__`에 게시한다. 브라우저 미리보기와 native Lynx bundle을 manifest 하나로 관리하며, 같은 컴포넌트의 예제 ID는 같은 bundle 경로를 가리킨다. Probelynx E2E용 `e2e-manifest.json`은 같은 manifest에서 만든다(별도 Rspeedy 엔트리 없음).
+`docs/examples/lynx`의 ReactLynx 예제를 컴포넌트마다 bundle 하나로 묶어 Rsbuild CLI(`pluginReactLynx`가 등록하는 Lynx 빌드 엔진)로 빌드하고 `docs/public/__lynx__`에 게시한다. 브라우저 미리보기와 native Lynx bundle을 manifest 하나로 관리하며, 같은 컴포넌트의 예제 ID는 같은 bundle 경로를 가리킨다. Probelynx E2E용 `e2e-manifest.json`은 같은 manifest에서 만든다(별도 빌드 엔트리 없음).
 
 ## 검증
 
@@ -13,6 +13,8 @@
 - 실행 진입점은 `build.ts`, `watch.ts`, `prepare-workspace.ts`뿐이다. 재사용 로직은 `discovery.ts`, `manifest.ts`, `workspace.ts`처럼 역할별 모듈에 두고 같은 이름의 `.test.ts`를 붙인다.
 - `prepare-workspace.ts`는 docs의 `dev`·`typecheck`와 `examples/lynx-spa`의 `dev`·`build` script가 직접 실행한다 → 인자나 동작을 바꾸면 두 `package.json`의 호출도 함께 고친다.
 - 경로, schema 버전, 도구 버전은 `constants.ts`에서만 선언한다.
+- 빌드 설정 파일 이름은 `docs/lynx.config.ts`로 두고 `build.ts`·`watch.ts`가 `--config`로 넘긴다. CI의 Lynx 산출물 캐시 key(`.github/actions/docs-build-cache/action.yml`의 `hashFiles`)가 이 경로를 입력으로 쓴다 → 이름을 바꾸려면 그 목록도 함께 고친다.
+- bundle 파일 이름(`[name].[contenthash:8].[platform].bundle`)은 `output.filename`이 아니라 `pluginLynx({ output: { filename: { bundle } } })`로 넘긴다. Rsbuild의 `output.filename`에는 `bundle` 항목이 없어 hash 없는 기본 이름으로 나온다.
 - production과 development 빌드는 `build.ts`의 `buildLynxExamples`를 함께 쓴다 → 모드별 빌드 함수를 따로 만들지 않는다.
 - 파일 시스템 함수는 기본 경로를 인자로 받는다(예: `discoverLynxExamples(examplesDirectory = EXAMPLES_DIRECTORY)`). 테스트는 임시 디렉터리를 넘긴다.
 - 오류 메시지에는 문제가 된 논리 ID나 실제 경로를 넣는다.

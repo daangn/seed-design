@@ -1,8 +1,9 @@
 import { resolve } from "node:path";
 import { pluginLynxConfig } from "@lynx-js/config-rsbuild-plugin";
 import { pluginReactLynx } from "@lynx-js/react-rsbuild-plugin";
-import type { Rspack } from "@lynx-js/rspeedy";
-import { defineConfig, rspack } from "@lynx-js/rspeedy";
+import { pluginLynx } from "@lynx-js/rsbuild-plugin";
+import type { Rspack } from "@rsbuild/core";
+import { defineConfig, rspack } from "@rsbuild/core";
 import { pluginLynxIcon } from "@seed-design/rsbuild-plugin-lynx-icon";
 import {
   CACHE_DIRECTORY,
@@ -37,6 +38,16 @@ export default defineConfig(async () => {
         fontScaleEffectiveOnlyOnSp: true,
         enableFixedNew: true,
       }),
+      // Rsbuild CLI에서는 bundle 파일 이름을 `output.filename`이 아니라 Lynx 빌드 엔진 옵션으로 넘긴다.
+      pluginLynx({
+        output: {
+          filename: {
+            bundle: development
+              ? "[name].[platform].bundle"
+              : "[name].[contenthash:8].[platform].bundle",
+          },
+        },
+      }),
     ],
     resolve: {
       alias: {
@@ -70,11 +81,6 @@ export default defineConfig(async () => {
       dataUriLimit: { image: 8 * 1024 },
       distPath: {
         root: process.env.LYNX_EXAMPLES_DEV_OUTPUT ? DEVELOPMENT_DIRECTORY : STAGING_DIRECTORY,
-      },
-      filename: {
-        bundle: development
-          ? "[name].[platform].bundle"
-          : "[name].[contenthash:8].[platform].bundle",
       },
       cleanDistPath: !process.env.LYNX_EXAMPLES_DEV_OUTPUT,
     },

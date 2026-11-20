@@ -157,7 +157,7 @@ export async function readManifest(path: string): Promise<LynxExampleManifest> {
 }
 
 /**
- * CI가 캐시에서 복원한 게시 결과(`SEED_DOCS_LYNX_PREBUILT=1`)를 Rspeedy 없이 쓸 수 있는지 확인한다.
+ * CI가 캐시에서 복원한 게시 결과(`SEED_DOCS_LYNX_PREBUILT=1`)를 Rsbuild 빌드 없이 쓸 수 있는지 확인한다.
  * manifest가 가리키는 파일이 모두 있고 render용 사본이 게시 manifest와 같아야 한다.
  */
 export async function verifyPublishedManifest(

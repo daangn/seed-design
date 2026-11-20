@@ -22,7 +22,7 @@ export const BUILD_DATA_MANIFEST_PATH = resolve(
 );
 
 export const LYNX_TOOL_VERSIONS = {
-  rspeedy: "0.16.4",
+  rsbuild: "2.2.9",
   reactRsbuildPlugin: "0.18.3",
   configRsbuildPlugin: "0.2.2",
   react: "0.123.3",
