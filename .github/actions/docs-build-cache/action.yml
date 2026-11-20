@@ -50,7 +50,7 @@ runs:
       shell: bash
       env:
         LOCK_HASH: ${{ hashFiles('bun.lock') }}
-        LYNX_OUT_HASH: ${{ hashFiles('docs/examples/lynx/**', 'docs/registry/lynx/**', 'docs/playground/lynx/**', 'docs/lynx.config.ts', 'docs/postcss.config.js', 'docs/tsconfig*.json', 'docs/package.json', 'docs/scripts/lynx-examples/**', 'packages/lynx-react/**', 'packages/lynx-react-headless/**', 'packages/lynx-css/**', 'packages/utils/lynx-react-scale-feedback/**', 'packages/rsbuild-plugin-lynx-icon/**', 'packages/css/base.css', 'tsconfig.lynx.json', 'patches/**', 'package.json', 'bunfig.toml', 'bun.lock', '.bun-version') }}
+        LYNX_OUT_HASH: ${{ hashFiles('docs/examples/lynx/**', 'docs/registry/lynx/**', 'docs/playground/lynx/**', 'docs/lynx.config.ts', 'docs/postcss.config.js', 'docs/tsconfig*.json', 'docs/package.json', 'docs/scripts/lynx-examples/**', 'packages/lynx-react/**', 'packages/lynx-react-headless/**', 'packages/lynx-css/**', 'packages/utils/lynx-react-scale-feedback/**', 'packages/rsbuild-plugin-lynx-icon/**', 'tsconfig.lynx.json', 'patches/**', 'package.json', 'bunfig.toml', 'bun.lock', '.bun-version') }}
         ASTRO_CONFIG_HASH: ${{ hashFiles('docs/astro.config.ts', 'docs/src/content/sections.ts', 'docs/lib/content/satteri-options.ts') }}
       run: |
         if [ -e packages/lynx-react/node_modules ] || [ -e packages/lynx-react/lib ]; then
