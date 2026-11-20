@@ -1,6 +1,10 @@
 import "@testing-library/jest-dom";
+import * as React from "@lynx-js/react";
 import { render } from "@lynx-js/react/testing-library";
+import type { MainThread } from "@lynx-js/types";
 import { afterEach, describe, expect, it, vi } from "vitest";
+
+import type { LynxIconElementProps } from "../../types";
 
 import * as Checkbox from "./Checkbox.namespace";
 
@@ -24,14 +28,38 @@ function getCheckboxRoot() {
   return checkboxRoot;
 }
 
-function getCheckboxControl() {
-  const control = getCheckboxRoot().querySelector<HTMLElement>(".seed-checkmark__root");
+const MockIcon = React.forwardRef<MainThread.Element, LynxIconElementProps & { src: string }>(
+  (props, ref) => (
+    <image
+      {...props}
+      {...(ref ? { "main-thread:ref": ref as React.Ref<MainThread.Element> } : {})}
+    />
+  ),
+);
+MockIcon.displayName = "MockIcon";
 
-  if (!control) {
-    throw new Error("Expected Checkbox control to exist.");
-  }
-
-  return control;
+function renderIndicator(
+  state: { checked?: boolean; indeterminate?: boolean },
+  icons: { unchecked?: boolean; indeterminate?: boolean } = {
+    unchecked: true,
+    indeterminate: true,
+  },
+) {
+  vi.spyOn(console, "warn").mockImplementation(() => {});
+  render(
+    <Checkbox.Root accessibility-label="알림" {...state}>
+      <Checkbox.Control>
+        <Checkbox.Indicator
+          checked={<MockIcon src="checked.png" />}
+          unchecked={icons.unchecked ? <MockIcon src="unchecked.png" /> : undefined}
+          indeterminate={icons.indeterminate ? <MockIcon src="indeterminate.png" /> : undefined}
+        />
+      </Checkbox.Control>
+    </Checkbox.Root>,
+  );
+  return Array.from(getCheckboxRoot().querySelectorAll("image"), (image) =>
+    image.getAttribute("src"),
+  );
 }
 
 describe("Checkbox", () => {
@@ -163,13 +191,22 @@ describe("Checkbox", () => {
     expect(root).toHaveAttribute("accessibility-traits", "button");
   });
 
-  it("applies the checkbox size class to the control", () => {
-    render(
-      <Checkbox.Root size="large" accessibility-label="알림">
-        <Checkbox.Control />
-      </Checkbox.Root>,
-    );
+  it.each([
+    [{}, "unchecked.png"],
+    [{ checked: true }, "checked.png"],
+    [{ checked: false, indeterminate: true }, "indeterminate.png"],
+    [{ checked: true, indeterminate: true }, "indeterminate.png"],
+  ])("renders the Indicator icon for %o", (state, src) => {
+    expect(renderIndicator(state)).toEqual([src]);
+  });
 
-    expect(getCheckboxControl()).toHaveClass("seed-checkbox__control--size_large");
+  it.each([
+    [{}, { unchecked: false, indeterminate: true }],
+    [
+      { checked: true, indeterminate: true },
+      { unchecked: true, indeterminate: false },
+    ],
+  ])("renders no Indicator icon when %o has no icon", (state, icons) => {
+    expect(renderIndicator(state, icons)).toEqual([]);
   });
 });

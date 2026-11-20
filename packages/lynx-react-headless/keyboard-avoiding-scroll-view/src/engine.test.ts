@@ -359,7 +359,8 @@ describe("createKeyboardAvoidingEngine", () => {
     await harness.scheduler.flushTimer();
     await harness.scheduler.flushFrame();
 
-    expect(harness.driver.setSpacerHeight).not.toHaveBeenCalledWith("spacer", 0, true);
+    // 인계가 깨지면 기본 metrics에서 spacer를 `(0, false)`로 없애므로 전환 여부와 무관하게 0 높이를 막는다.
+    expect(harness.driver.setSpacerHeight).not.toHaveBeenCalledWith("spacer", 0, expect.anything());
   });
 
   it("keeps a Field downgrade stable for the current keyboard session", async () => {

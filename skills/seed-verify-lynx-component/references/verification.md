@@ -11,7 +11,7 @@
 새 컴포넌트·공개 package·Registry·생성물이 포함되거나 native 동작·bundle 결과를 새로 주장하거나 바꿨으면 버전을 따로 기록한다.
 
 - 실행 host/app과 Engine 버전
-- bundle 생성에 쓴 `@lynx-js/react`, React plugin, Rspeedy 버전
+- bundle 생성에 쓴 `@lynx-js/react`, React plugin, 번들러 버전(lynx-spa는 Rsbuild, docs는 Rspeedy)
 - Web preview를 검증하면 그 runtime 버전
 - 변경 전 기준 결과: 변경본과 실행 명령 또는 시나리오를 연결한다. 기준 결과가 없으면 현재 결과와 합치지 않고 이유와 함께 `미확인`으로 남긴다.
 
@@ -106,8 +106,8 @@ package public export → SPA example import → lynx/<component>/<scenario> →
 `'background only'` 지시어의 효과나 리팩터링 전후 산출물 차이를 주장할 때만 한다. 테스트 통과는 main-thread에서 본문이 빠졌는지 보여 주지 않는다.
 
 1. lynx-spa는 `@seed-design/lynx-react`를 `lib/`로 소비한다. 전후 빌드마다 먼저 `bun --filter @seed-design/lynx-react build`(고친 headless 패키지가 있으면 그 패키지도)를 실행하고 `lib/`에 바뀐 코드가 들어갔는지 확인한다.
-2. `DEBUG=rspeedy bun --filter lynx-spa build`는 `examples/lynx-spa/dist/.rspeedy/main/`에 `main-thread.js`와 `background.*.js`를 남긴다. 변경 전 파일을 복사해 두고, 두 파일을 `tr ';{}' '\n\n\n'`로 나눈 뒤 diff한다.
-3. lynx-spa page가 import하지 않고 문서 예제에서만 쓰는 컴포넌트는 `dist/.rspeedy/lazy-bundle/______docs_examples_lynx_<component>_<example>.tsx/`에 들어간다. `grep -l -a 'seed-<component>__' -r dist/.rspeedy`로 대상 bundle을 먼저 찾는다. main bundle의 차이가 hash·debugmetadata뿐이라고 "변경 없음"으로 판정하지 않는다.
+2. `DEBUG=lynx bun --filter lynx-spa build`는 `examples/lynx-spa/dist/.lynx/main/`에 `main-thread.js`와 `background.*.js`를 남긴다. 변경 전 파일을 복사해 두고, 두 파일을 `tr ';{}' '\n\n\n'`로 나눈 뒤 diff한다.
+3. lynx-spa page가 import하지 않고 문서 예제에서만 쓰는 컴포넌트는 `examples/lynx-spa/dist/.lynx/lazy-bundle/______docs_examples_lynx_<component>_<example>.tsx/`에 들어간다. 저장소 루트에서 `grep -l -a 'seed-<component>__' -r examples/lynx-spa/dist/.lynx`로 대상 bundle을 먼저 찾는다. main bundle의 차이가 hash·debugmetadata뿐이라고 "변경 없음"으로 판정하지 않는다.
 
 ## 5. 시각·시간축 증거
 

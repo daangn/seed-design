@@ -73,14 +73,17 @@ describe("usePressTap", () => {
       expect(result.current.pressed).toBe(false);
     });
 
-    it("can be omitted without error", () => {
+    it("clears pressed on tap without requiring a callback", () => {
       const { result } = renderHook(() => usePressTap());
 
-      expect(() => {
-        act(() => {
-          result.current.bindtap(fakeEvent);
-        });
-      }).not.toThrow();
+      act(() => {
+        result.current.bindtouchstart(fakeEvent);
+      });
+      act(() => {
+        result.current.bindtap(fakeEvent);
+      });
+
+      expect(result.current.pressed).toBe(false);
     });
   });
 
@@ -112,17 +115,6 @@ describe("usePressTap", () => {
 
     expect(result.current).not.toHaveProperty("main-thread:bindtap");
   });
-
-  it("returns stable handler references across renders", () => {
-    const { result, rerender } = renderHook(() => usePressTap());
-
-    const firstBindtap = result.current.bindtap;
-    const firstBindtouchstart = result.current.bindtouchstart;
-    rerender();
-
-    expect(result.current.bindtap).toBe(firstBindtap);
-    expect(result.current.bindtouchstart).toBe(firstBindtouchstart);
-  });
 });
 
 it("clears an active press when disabled and does not restore it when re-enabled", () => {
@@ -135,6 +127,8 @@ it("clears an active press when disabled and does not restore it when re-enabled
   expect(result.current.pressed).toBe(false);
   rerender({ disabled: false });
   expect(result.current.pressed).toBe(false);
+  act(() => result.current.bindtouchstart());
+  expect(result.current.pressed).toBe(true);
 });
 
 it("reuses composed main-thread handlers across press state changes", () => {

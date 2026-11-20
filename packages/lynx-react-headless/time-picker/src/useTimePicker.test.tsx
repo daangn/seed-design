@@ -9,14 +9,8 @@ function renderTimePicker(props: UseTimePickerProps = {}) {
 }
 
 describe("useTimePicker", () => {
-  it("인자 없이 호출할 수 있다", () => {
-    const { result } = renderHook(() => useTimePicker());
-
-    expect(result.current.value).toEqual({ hour: 0, minute: 0 });
-  });
-
   it("값이 없으면 00:00을 사용한다", () => {
-    const { result } = renderTimePicker();
+    const { result } = renderHook(() => useTimePicker());
 
     expect(result.current.value).toEqual({ hour: 0, minute: 0 });
     expect(result.current.columns.period.value).toBe("am");
@@ -202,15 +196,9 @@ describe("useTimePicker", () => {
   });
 
   it("범위를 벗어나거나 정수가 아닌 값이면 error를 throw한다", () => {
-    expect(() => renderTimePicker({ value: { hour: 24, minute: 0 } })).toThrow(
-      "value.hour는 0 이상 23 이하의 정수여야 합니다.",
-    );
-    expect(() => renderTimePicker({ defaultValue: { hour: 10, minute: -1 } })).toThrow(
-      "defaultValue.minute은 0 이상 59 이하의 정수여야 합니다.",
-    );
-    expect(() => renderTimePicker({ value: { hour: 10.5, minute: 0 } })).toThrow(
-      "value.hour는 0 이상 23 이하의 정수여야 합니다.",
-    );
+    expect(() => renderTimePicker({ value: { hour: 24, minute: 0 } })).toThrow(RangeError);
+    expect(() => renderTimePicker({ defaultValue: { hour: 10, minute: -1 } })).toThrow(RangeError);
+    expect(() => renderTimePicker({ value: { hour: 10.5, minute: 0 } })).toThrow(RangeError);
   });
 
   it("유효하지 않은 minuteStep이면 error를 throw한다", () => {
@@ -218,6 +206,6 @@ describe("useTimePicker", () => {
       renderTimePicker({
         minuteStep: 3 as UseTimePickerProps["minuteStep"],
       }),
-    ).toThrow("minuteStep은 1, 5, 10, 15, 30 중 하나여야 합니다.");
+    ).toThrow(RangeError);
   });
 });

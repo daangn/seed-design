@@ -1,4 +1,4 @@
-/// <reference types="@lynx-js/rspeedy/client" />
+/// <reference types="@rsbuild/core/types" />
 
 declare module "@karrotmarket/icon-data/*.json" {
   interface RawIconData {

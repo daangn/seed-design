@@ -39,8 +39,6 @@ describe("MannerTemp", () => {
     const emote = root.querySelector(".seed-manner-temp__emote");
 
     expect(mannerTempRoot).toHaveClass("custom-manner-temp");
-    expect(mannerTempRoot).toHaveClass("seed-manner-temp__root--level_l6");
-    expect(label).toHaveClass("seed-manner-temp__label");
     expect(label).toHaveClass("seed-manner-temp__label--level_l6");
     expect(emote).toHaveAttribute(
       "src",

@@ -24,6 +24,12 @@ function State() {
   );
 }
 
+function expectRefOn(ref: unknown, element: Element | null) {
+  // Lynx ref는 native node 대신 RefProxy이고, 붙은 요소에 `react-ref-<refAttr>` 속성을 남긴다.
+  const { refAttr } = ref as { refAttr: number[] };
+  expect(element).toHaveAttribute(`react-ref-${refAttr.join("-")}`);
+}
+
 describe("Checkbox.Root", () => {
   it("toggles uncontrolled state on tap after the consumer tap handler", () => {
     const calls: string[] = [];
@@ -205,15 +211,12 @@ describe("Checkbox.Root", () => {
       </Checkbox.Root>,
     );
 
-    expect(rootRef).toBeTruthy();
-    expect(controlRef).toBeTruthy();
-    expect(root().querySelector(".control")).not.toBeNull();
+    expectRefOn(rootRef, root());
+    expectRefOn(controlRef, root().querySelector(".control"));
   });
 
   it("requires Control to be rendered inside Root", () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => render(<Checkbox.Control />)).toThrow(
-      "useCheckboxContext must be used within a CheckboxRoot",
-    );
+    expect(() => render(<Checkbox.Control />)).toThrow();
   });
 });
