@@ -1,6 +1,6 @@
 import { dirname, resolve } from "node:path";
-import { rspack } from "@lynx-js/rspeedy";
-import type { RsbuildPlugin, Rspack } from "@lynx-js/rspeedy";
+import { rspack } from "@rsbuild/core";
+import type { RsbuildPlugin, Rspack } from "@rsbuild/core";
 import { DOCS_DIRECTORY, EXAMPLES_DIRECTORY } from "./constants.js";
 import { discoverLynxExamples } from "./discovery.js";
 import { createCatalogModule } from "./modules.js";

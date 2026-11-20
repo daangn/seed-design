@@ -1,1 +1,1 @@
-/// <reference types="@lynx-js/rspeedy/client" />
+/// <reference types="@rsbuild/core/types" />

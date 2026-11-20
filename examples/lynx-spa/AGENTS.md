@@ -29,6 +29,6 @@ Rsbuild(`pluginReactLynx`가 등록하는 Lynx 빌드 엔진) 기반 Lynx SPA �
 
 ### Lynx 툴체인 버전
 
-- 이 앱은 `@lynx-js/react`·`@lynx-js/react-rsbuild-plugin`·`@lynx-js/config-rsbuild-plugin`·`@rsbuild/core`를 정확한 버전으로 고정한다. 다른 workspace에서 이 패키지를 올리면 앞의 세 패키지는 `docs/package.json`과 같은 버전으로, `@rsbuild/core`는 docs가 쓰는 `@lynx-js/rspeedy`의 `@rsbuild/core` 의존 버전(`bun.lock`의 `@lynx-js/rspeedy` 항목)으로 함께 맞춘다(`@lynx-js/react`는 `bun add`, 나머지는 `bun add -d --exact`). 어긋나면 `captureMainThreadObject ... was not found in '@lynx-js/react/internal'`이나 `worklet-dev-runtime` 오류로 build가 멈춘다.
-- 맞춘 뒤 `bun.lock`에 `lynx-spa/@lynx-js/...` 중첩 항목이 남지 않았는지 확인한다. `lynx-spa/@rsbuild/core`는 루트에 다른 `@rsbuild/core`가 올라가 있어 생기는 항목이므로 버전만 확인한다. `bun add`가 `package.json`의 무관한 항목 순서를 바꾸면 되돌리고, `bun install`이 `no changes`인지 확인한다.
+- 이 앱은 `@lynx-js/react`·`@lynx-js/react-rsbuild-plugin`·`@lynx-js/config-rsbuild-plugin`·`@rsbuild/core`를 정확한 버전으로 고정한다. 다른 workspace에서 이 패키지를 올리면 네 패키지를 `docs/package.json`과 같은 버전으로 함께 맞춘다(`@lynx-js/react`는 `bun add`, 나머지는 `bun add -d --exact`). 어긋나면 `captureMainThreadObject ... was not found in '@lynx-js/react/internal'`이나 `worklet-dev-runtime` 오류로 build가 멈춘다.
+- 맞춘 뒤 `bun.lock`에 `lynx-spa/@lynx-js/...` 중첩 항목이 남지 않았는지 확인한다. `bun add`가 `package.json`의 무관한 항목 순서를 바꾸면 되돌리고, `bun install`이 `no changes`인지 확인한다.
 - `@lynx-js/qrcode-rsbuild-plugin`은 0.7.2 이상을 쓴다. 그보다 낮은 버전의 `registerConsoleShortcuts`는 Rspeedy만 노출하는 `rspeedy.api`를 구조 분해하므로, 그 API가 없는 Rsbuild CLI에서는 첫 compile 뒤 QR 출력 단계에서 예외를 던진다.

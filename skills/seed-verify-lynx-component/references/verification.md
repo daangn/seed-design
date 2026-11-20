@@ -11,7 +11,7 @@
 새 컴포넌트·공개 package·Registry·생성물이 포함되거나 native 동작·bundle 결과를 새로 주장하거나 바꿨으면 버전을 따로 기록한다.
 
 - 실행 host/app과 Engine 버전
-- bundle 생성에 쓴 `@lynx-js/react`, React plugin, 번들러 버전(lynx-spa는 Rsbuild, docs는 Rspeedy)
+- bundle 생성에 쓴 `@lynx-js/react`, React plugin, 번들러(Rsbuild) 버전
 - Web preview를 검증하면 그 runtime 버전
 - 변경 전 기준 결과: 변경본과 실행 명령 또는 시나리오를 연결한다. 기준 결과가 없으면 현재 결과와 합치지 않고 이유와 함께 `미확인`으로 남긴다.
 
