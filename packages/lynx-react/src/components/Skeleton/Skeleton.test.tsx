@@ -68,7 +68,7 @@ describe("Skeleton", () => {
   it.each(["t4", "t4Static"] as const)("resolves height lineHeight.%s", (token) => {
     render(<Skeleton height={`lineHeight.${token}`} />);
 
-    expect(getSkeletonRoot()).toHaveStyle({ height: vars.$lineHeight[token] });
+    expect(getSkeletonRoot().style.height).toBe(vars.$lineHeight[token]);
   });
 
   it.each([
@@ -77,7 +77,7 @@ describe("Skeleton", () => {
   ])("preserves existing height %s", (height, expected) => {
     render(<Skeleton height={height} />);
 
-    expect(getSkeletonRoot()).toHaveStyle({ height: expected });
+    expect(getSkeletonRoot().style.height).toBe(expected);
   });
 
   it("lets user style override width and height props and forwards ref to the root", () => {
@@ -85,7 +85,9 @@ describe("Skeleton", () => {
 
     render(<Skeleton ref={ref} width="x8" height="lineHeight.t4" style={{ height: "32px" }} />);
 
-    expect(getSkeletonRoot()).toHaveStyle({ width: vars.$dimension.x8, height: "32px" });
+    const { style } = getSkeletonRoot();
+    expect(style.width).toBe(vars.$dimension.x8);
+    expect(style.height).toBe("32px");
     expect(ref.current).not.toBeNull();
   });
 

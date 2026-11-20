@@ -27,6 +27,9 @@ function get(selector: string): HTMLElement {
   if (!element) throw new Error(selector);
   return element;
 }
+function rotationDegrees(transform: string | undefined) {
+  return Number.parseFloat(transform?.match(/rotate\(([^)]+)deg\)/)?.[1] ?? "");
+}
 async function flush() {
   await waitSchedule();
   await waitSchedule();
@@ -150,8 +153,10 @@ describe("ProgressCircle MT 진행률", () => {
     }
     const initial = get(".seed-progress-circle__semicircle--first").style.transform;
     const firstAnimation = nativeAnimations[0];
-    expect(firstAnimation?.keyframes?.[0]?.transform).toBe(
-      get(".seed-progress-circle__spinner").style.transform,
+    // jsdom serializes inline transforms with rounded numbers, so compare the angle.
+    expect(rotationDegrees(firstAnimation?.keyframes?.[0]?.transform)).toBeCloseTo(
+      rotationDegrees(get(".seed-progress-circle__spinner").style.transform),
+      3,
     );
     expect(firstAnimation?.keyframes?.[120]?.transform).not.toBe(
       firstAnimation?.keyframes?.[0]?.transform,

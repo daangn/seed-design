@@ -164,10 +164,9 @@ describe("Box", () => {
 
     const box = getRenderedRoot().querySelector(".box-test");
 
-    // happy-dom normalizes the `calc(env(...) * -1)` that Box emits.
     expectStyle((box as HTMLElement).style, {
-      "margin-left": "calc(env(safe-area-inset-left) *-1)",
-      "margin-right": "calc(env(safe-area-inset-right) *-1)",
+      "margin-left": "calc(env(safe-area-inset-left) * -1)",
+      "margin-right": "calc(env(safe-area-inset-right) * -1)",
     });
   });
 

@@ -244,7 +244,7 @@ describe("Popover", () => {
 
     // anchor bottom 340 + gutter 4 + arrow tip 8
     expect(positionerStyle()).toContain("top: 352px");
-    expect(query(".arrow").getAttribute("style")).toContain("bottom: 100%");
+    expect((query(".arrow") as HTMLElement).style.bottom).toBe("100%");
 
     rerender(
       <Popover.Root defaultOpen placement="bottom" gutter={4}>

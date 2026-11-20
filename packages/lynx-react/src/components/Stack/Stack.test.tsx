@@ -24,22 +24,20 @@ describe("Stack", () => {
   it("applies a VStack gap token to both axes without the gap shorthand", () => {
     render(<VStack gap="x3" />);
 
-    expect(getRenderedRoot()).toHaveStyle({
-      rowGap: "var(--seed-dimension-x3)",
-      columnGap: "var(--seed-dimension-x3)",
-    });
-    expect(getRenderedRoot().style.getPropertyValue("gap")).toBe("");
+    const { style } = getRenderedRoot();
+    expect(style.rowGap).toBe("var(--seed-dimension-x3)");
+    expect(style.columnGap).toBe("var(--seed-dimension-x3)");
+    expect(style.getPropertyValue("gap")).toBe("");
   });
 
   it("applies an HStack gap token to both axes so wrapped lines are spaced", () => {
     render(<HStack gap="x4" wrap />);
 
-    expect(getRenderedRoot()).toHaveStyle({
-      flexWrap: "wrap",
-      rowGap: "var(--seed-dimension-x4)",
-      columnGap: "var(--seed-dimension-x4)",
-    });
-    expect(getRenderedRoot().style.getPropertyValue("gap")).toBe("");
+    const { style } = getRenderedRoot();
+    expect(style.flexWrap).toBe("wrap");
+    expect(style.rowGap).toBe("var(--seed-dimension-x4)");
+    expect(style.columnGap).toBe("var(--seed-dimension-x4)");
+    expect(style.getPropertyValue("gap")).toBe("");
   });
 
   it("keeps a numeric zero gap value", () => {
@@ -51,7 +49,7 @@ describe("Stack", () => {
   it("keeps an arbitrary string gap value", () => {
     render(<HStack gap="1.5rem" />);
 
-    expect(getRenderedRoot()).toHaveStyle({ columnGap: "1.5rem" });
+    expect(getRenderedRoot().style.columnGap).toBe("1.5rem");
   });
 
   it("keeps style gap precedence over the gap prop", () => {
@@ -63,10 +61,9 @@ describe("Stack", () => {
   it("keeps an axis longhand in style above the gap prop for that axis only", () => {
     render(<HStack gap="x3" style={{ rowGap: "24px" }} />);
 
-    expect(getRenderedRoot()).toHaveStyle({
-      rowGap: "24px",
-      columnGap: "var(--seed-dimension-x3)",
-    });
+    const { style } = getRenderedRoot();
+    expect(style.rowGap).toBe("24px");
+    expect(style.columnGap).toBe("var(--seed-dimension-x3)");
   });
 
   it("applies bleed as a negative margin", () => {

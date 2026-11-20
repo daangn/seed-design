@@ -247,12 +247,8 @@ describe("TextField", () => {
     );
 
     const { getByText } = getRenderedQueries();
-    expect(getByText("한 줄 플레이스홀더")).toHaveStyle({
-      color: "var(--seed-color-fg-placeholder)",
-    });
-    expect(getByText("여러 줄 플레이스홀더")).toHaveStyle({
-      color: "var(--seed-color-fg-placeholder)",
-    });
+    expect(getByText("한 줄 플레이스홀더").style.color).toBe("var(--seed-color-fg-placeholder)");
+    expect(getByText("여러 줄 플레이스홀더").style.color).toBe("var(--seed-color-fg-placeholder)");
   });
 
   it("uses direct native autoresize on Android", () => {
