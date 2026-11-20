@@ -180,7 +180,7 @@ export default defineConfig({
       "eslint/no-useless-rename": "warn",
       "eslint/no-with": "error",
       "eslint/one-var": ["error", "never"],
-      "eslint/prefer-arrow-callback": "warn",
+      "eslint/prefer-arrow-callback": ["warn", { allowNamedFunctions: true }],
       "eslint/prefer-const": "warn",
       "eslint/prefer-exponentiation-operator": "warn",
       "eslint/prefer-numeric-literals": "warn",
