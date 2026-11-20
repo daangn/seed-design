@@ -4,5 +4,5 @@
     "noEmit": true,
     "types": ["bun"]
   },
-  "include": ["./lynx.config.ts", "../../docs/scripts/lynx-examples/**/*.ts"]
+  "include": ["./rsbuild.config.ts", "../../docs/scripts/lynx-examples/**/*.ts"]
 }

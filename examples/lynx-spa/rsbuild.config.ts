@@ -3,8 +3,8 @@ import { fileURLToPath } from "node:url";
 import { pluginLynxConfig } from "@lynx-js/config-rsbuild-plugin";
 import { registerConsoleShortcuts } from "@lynx-js/qrcode-rsbuild-plugin/shortcuts";
 import { pluginReactLynx } from "@lynx-js/react-rsbuild-plugin";
-import type { RsbuildPlugin, Rspack } from "@lynx-js/rspeedy";
-import { defineConfig } from "@lynx-js/rspeedy";
+import type { RsbuildPlugin, Rspack } from "@rsbuild/core";
+import { defineConfig } from "@rsbuild/core";
 import { pluginLynxIcon } from "@seed-design/rsbuild-plugin-lynx-icon";
 import { pluginLynxPlayground } from "../../docs/scripts/lynx-examples/playground-plugin.js";
 
@@ -76,6 +76,8 @@ export default defineConfig(async () => ({
   ],
   dev: {
     assetPrefix: ASSET_PREFIX,
+    // registerConsoleShortcuts가 stdin을 직접 읽으므로 Rsbuild 기본 단축키를 끈다(Rspeedy 기본값과 같다).
+    cliShortcuts: false,
     writeToDisk: false,
   },
   resolve: {
@@ -88,9 +90,6 @@ export default defineConfig(async () => ({
   },
   output: {
     assetPrefix: ASSET_PREFIX ?? "/",
-    filename: {
-      bundle: "[name].[platform].bundle",
-    },
   },
   tools: {
     rspack(config: Rspack.Configuration) {

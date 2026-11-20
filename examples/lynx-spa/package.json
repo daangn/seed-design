@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "bun ../../docs/scripts/lynx-examples/prepare-workspace.ts && bunx rspeedy build",
+    "build": "bun ../../docs/scripts/lynx-examples/prepare-workspace.ts && bunx rsbuild build",
     "check": "cd ../.. && bun biome check --write examples/lynx-spa",
-    "dev": "bun ../../docs/scripts/lynx-examples/prepare-workspace.ts && bunx rspeedy dev",
+    "dev": "bun ../../docs/scripts/lynx-examples/prepare-workspace.ts && bunx rsbuild dev",
     "format": "cd ../.. && bun biome format --write examples/lynx-spa",
-    "preview": "bunx rspeedy preview",
+    "preview": "bunx rsbuild preview",
     "typecheck": "bun node_modules/typescript/bin/tsc -p tsconfig.json && bun node_modules/typescript/bin/tsc -p tsconfig.node.json"
   },
   "dependencies": {
@@ -51,10 +51,10 @@
   "devDependencies": {
     "@lynx-js/config-rsbuild-plugin": "0.2.5",
     "@lynx-js/preact-devtools": "^5.0.1-c0c936b",
-    "@lynx-js/qrcode-rsbuild-plugin": "^0.4.6",
-    "@lynx-js/react-rsbuild-plugin": "0.22.1",
-    "@lynx-js/rspeedy": "0.18.4",
+    "@lynx-js/qrcode-rsbuild-plugin": "^0.7.3",
+    "@lynx-js/react-rsbuild-plugin": "0.22.2",
     "@lynx-js/types": "4.1.0",
+    "@rsbuild/core": "2.2.9",
     "@seed-design/rsbuild-plugin-lynx-icon": "workspace:*",
     "@types/react": "^19",
     "postcss": "^8.5.8",
