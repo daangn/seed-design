@@ -230,12 +230,22 @@ describe("generated icon CSS import order", () => {
   const base = readFileSync("../lynx-css/base.css", "utf8");
   const recipe = readFileSync("../lynx-css/recipes/callout.css", "utf8");
 
+  // jsdom resolves var() in computed styles, so compare against a probe that uses the expected value.
+  function resolved(dom: { window: Window }, property: string, value: string) {
+    const probe = dom.window.document.createElement("span");
+    probe.style.setProperty(property, value);
+    dom.window.document.body.append(probe);
+    return dom.window.getComputedStyle(probe).getPropertyValue(property);
+  }
+
   it("keeps the legacy standalone fallback selectors", () => {
-    const dom = new JSDOM(`<style>${base}</style><div class="seed-suffix-icon"></div>`);
+    const dom = new JSDOM(
+      `<style>${base}</style><body style="color: rgb(1, 2, 3)"><div class="seed-suffix-icon" style="--seed-suffix-icon-size: 20px"></div></body>`,
+    );
     const style = dom.window.getComputedStyle(dom.window.document.querySelector("div")!);
-    expect(style.width).toBe("var(--seed-suffix-icon-size)");
-    expect(style.height).toBe("var(--seed-suffix-icon-size)");
-    expect(style.color).toBe("var(--seed-suffix-icon-color, currentcolor)");
+    expect(style.width).toBe("20px");
+    expect(style.height).toBe("20px");
+    expect(style.color).toBe("rgb(1, 2, 3)");
     dom.window.close();
   });
 
@@ -244,9 +254,9 @@ describe("generated icon CSS import order", () => {
       <div class="seed-suffix-icon-slot seed-callout__suffixIcon seed-callout__suffixIcon--tone_neutral"></div>`);
     const icon = dom.window.document.querySelector("div")!;
     const style = dom.window.getComputedStyle(icon);
-    expect(style.width).toBe("var(--seed-dimension-x4)");
-    expect(style.height).toBe("var(--seed-dimension-x4)");
-    expect(style.color).toBe("var(--seed-color-fg-neutral)");
+    expect(style.width).toBe(resolved(dom, "width", "var(--seed-dimension-x4)"));
+    expect(style.height).toBe(resolved(dom, "height", "var(--seed-dimension-x4)"));
+    expect(style.color).toBe(resolved(dom, "color", "var(--seed-color-fg-neutral)"));
     expect(style.flexShrink).toBe("0");
     dom.window.close();
   });
