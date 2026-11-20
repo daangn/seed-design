@@ -138,12 +138,10 @@ Tailwind CSS v4를 선택했다면 `@seed-design/tailwind4-theme`으로 SEED 토
 </view>
 ```
 
-v3 클래스는 `var(--seed-color-*)`를 직접 참조합니다. v4 theme은 루트에 `--color-*` alias를 선언하고 utility에서 이를 참조합니다. 루트 `<page>`의 테마와 함께 사용하세요.
+v3 클래스는 `var(--seed-color-*)`를 직접 참조합니다. v4도 [설정 가이드](/lynx/getting-started/styling/tailwind-css-4#css-import)대로 `theme(inline)`으로 불러오면 utility가 `var(--seed-color-*)`를 직접 참조합니다. 루트 `<page>`의 테마와 함께 사용하세요.
 
 <Callout type="warning">
-  v4에서는 하위 요소에 `seed-color-mode-dark-only` 등을 적용해도 루트에서
-  정의한 Tailwind alias가 해당 영역의 SEED 토큰을 다시 참조하지 않을 수 있습니다.
-  이 경우 Tailwind utility와 직접 토큰 참조의 색상이 달라집니다.
+  v4 구성에서 하위 요소에 `seed-color-mode-dark-only` 등을 적용하는 테마 덮어쓰기는 기기에서 확인하지 않았습니다.
   현재 안내하는 v4 구성은 루트 테마 기준이며 하위 영역 덮어쓰기는 지원 범위에 포함하지 않습니다.
   [v4 설정과 제한사항](/lynx/getting-started/styling/tailwind-css-4)을 함께 확인하세요.
 </Callout>

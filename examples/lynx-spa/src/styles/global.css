@@ -1,8 +1,8 @@
 @import "@seed-design/lynx-css/base.css";
 
-@import "tailwindcss/theme.css" layer(theme);
-@import "@seed-design/tailwind4-theme";
-@import "tailwindcss/utilities.css" layer(utilities);
+@import "tailwindcss/theme.css" theme(inline);
+@import "@seed-design/tailwind4-theme" theme(inline);
+@import "tailwindcss/utilities.css";
 
 @source "../";
 
