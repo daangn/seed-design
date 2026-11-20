@@ -185,7 +185,8 @@ describe("Version Packages peer dependency 검사", () => {
       join(repositoryRoot, ".github/workflows/version-peer-deps-merge-blocker.yml"),
     ).text();
 
-    expect(workflow).toContain("pull_request_target:");
+    expect(workflow).toContain("pull_request:");
+    expect(workflow).not.toContain("pull_request_target");
     expect(workflow).toContain("branches: [dev]");
     expect(workflow).toContain("types: [opened, reopened, synchronize, edited]");
     expect(workflow).toContain("contents: read");
