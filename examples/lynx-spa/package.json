@@ -60,7 +60,7 @@
     "postcss": "^8.5.8",
     "tailwindcss": "^4.0.0",
     "sharp": "^0.35.0",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.0"
   },
   "engines": {
     "node": ">=18"
