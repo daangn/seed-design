@@ -161,7 +161,7 @@ export function VariantPlayground<
       <view className="flex flex-1 items-center justify-center p-x4 overflow-hidden relative">
         {children(values as VariantCatalogValues<Variants, PreviewStates>, setValue)}
         {previewStateText != null && (
-          <view className="absolute right-x2 bottom-x2">
+          <view className="absolute right-[var(--seed-dimension-x2)] bottom-[var(--seed-dimension-x2)]">
             <text className="text-[10px] leading-[12px] text-fg-neutral-muted">
               {previewStateText}
             </text>
