@@ -38,3 +38,11 @@ export declare const contextualFloatingButton: ((
     props: T,
   ) => [ContextualFloatingButtonVariantProps, Omit<T, keyof ContextualFloatingButtonVariantProps>];
 }
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export declare const contextualFloatingButtonSeedTagSpec: {
+  readonly name: "ContextualFloatingButton";
+  readonly axes: readonly ["variant", "layout"];
+  readonly defaults: { readonly variant: "solid"; readonly layout: "withText" };
+};

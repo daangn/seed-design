@@ -71,3 +71,11 @@ export function menuSheetItem(props) {
 Object.assign(menuSheetItem, { splitVariantProps: (props) => splitVariantProps(props, menuSheetItemVariantMap) });
 
 // @recipe(seed): menu-sheet-item
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export const menuSheetItemSeedTagSpec = {
+  name: "MenuSheetItem",
+  axes: ["tone", "labelAlign"],
+  defaults: { tone: "neutral", labelAlign: "left" },
+};

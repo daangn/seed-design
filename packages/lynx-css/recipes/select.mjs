@@ -75,3 +75,11 @@ export function select(props) {
 Object.assign(select, { splitVariantProps: (props) => splitVariantProps(props, selectVariantMap) });
 
 // @recipe(seed): select
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export const selectSeedTagSpec = {
+  name: "Select",
+  axes: ["size"],
+  defaults: { size: "large" },
+};

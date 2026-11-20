@@ -208,3 +208,11 @@ export const glassTint = {
     selectedPressed: { light: "#eeeff1", dark: "#393d46" },
   },
 };
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export const chipSeedTagSpec = {
+  name: "Chip",
+  axes: ["variant", "size", "layout"],
+  defaults: { variant: "solid", size: "medium", layout: "withText" },
+};

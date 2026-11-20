@@ -42,3 +42,11 @@ export declare const checkmark: ((
     props: T,
   ) => [CheckmarkVariantProps, Omit<T, keyof CheckmarkVariantProps>];
 }
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export declare const checkmarkSeedTagSpec: {
+  readonly name: "Checkmark";
+  readonly axes: readonly ["variant", "tone", "size"];
+  readonly defaults: { readonly variant: "square"; readonly tone: "brand"; readonly size: "medium" };
+};
