@@ -13,7 +13,8 @@ const { withProvider, withContext } = createSlotRecipeContext(floatingActionButt
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface FloatingActionButtonRootProps
-  extends FloatingActionButtonVariantProps,
+  extends
+    FloatingActionButtonVariantProps,
     PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
@@ -29,8 +30,7 @@ export const FloatingActionButtonIcon = withContext<
 >(InternalIcon, "icon");
 
 export interface FloatingActionButtonLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const FloatingActionButtonLabel = withContext<
   HTMLSpanElement,

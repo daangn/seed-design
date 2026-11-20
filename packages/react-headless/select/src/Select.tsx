@@ -27,8 +27,7 @@ export const SelectRoot = ({ children, ...props }: SelectRootProps) => {
 };
 
 export interface SelectTriggerProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const SelectTrigger = forwardRef<HTMLButtonElement, SelectTriggerProps>((props, ref) => {
   const api = useSelectContext();
@@ -67,8 +66,7 @@ export const SelectValue = forwardRef<HTMLSpanElement, SelectValueProps>(
 SelectValue.displayName = "SelectValue";
 
 export interface SelectPlaceholderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 /**
  * Renders placeholder content while nothing is selected — and also while the
@@ -87,8 +85,7 @@ export const SelectPlaceholder = forwardRef<HTMLSpanElement, SelectPlaceholderPr
 SelectPlaceholder.displayName = "SelectPlaceholder";
 
 export interface SelectPositionerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {
   /**
    * The container element to render the portal into.
    * @default document.body
@@ -184,9 +181,7 @@ export const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>((pro
 SelectContent.displayName = "SelectContent";
 
 export interface SelectItemProps
-  extends UseSelectItemProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends UseSelectItemProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
   ({ value, disabled, typeaheadLabel, label, textValue, icon, ...restProps }, ref) => {
@@ -225,8 +220,7 @@ export const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>((props, 
 SelectGroup.displayName = "SelectGroup";
 
 export interface SelectGroupLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SelectGroupLabel = forwardRef<HTMLDivElement, SelectGroupLabelProps>((props, ref) => {
   const group = useContext(SelectGroupContext);

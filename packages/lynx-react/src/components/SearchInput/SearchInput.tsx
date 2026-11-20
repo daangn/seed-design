@@ -35,7 +35,8 @@ const SearchInputContext = React.createContext<SearchInputContextValue>({
  * `@seed-design/lynx-react-text-field`의 값 상태 위에 SEED search-input recipe를 조립한다.
  */
 export interface SearchInputRootProps
-  extends Pick<UseTextFieldProps, "value" | "defaultValue" | "onValueChange" | "name">,
+  extends
+    Pick<UseTextFieldProps, "value" | "defaultValue" | "onValueChange" | "name">,
     Omit<LynxHostProps<"view">, keyof UseTextFieldProps> {
   /**
    * 키보드의 검색(확인) 키를 누르면 현재 값과 함께 호출된다.
@@ -99,11 +100,10 @@ type NativeInputProps = IntrinsicElements["input"];
  * `confirm-type`은 `"search"`로 고정한다. 화면에 보이는 레이블이 없으므로 `accessibility-label`이 필요하다.
  * 제출 뒤 focus는 Root의 `blurOnSubmit`이 native `confirm-enter`로 정한다.
  */
-export interface SearchInputInputProps
-  extends Omit<
-    LynxHostProps<"input">,
-    "children" | "confirm-type" | "confirm-enter" | "disabled" | "readonly"
-  > {}
+export interface SearchInputInputProps extends Omit<
+  LynxHostProps<"input">,
+  "children" | "confirm-type" | "confirm-enter" | "disabled" | "readonly"
+> {}
 
 export const SearchInputInput = React.forwardRef<NodesRef, SearchInputInputProps>((props, ref) => {
   const classes = useClassNames();

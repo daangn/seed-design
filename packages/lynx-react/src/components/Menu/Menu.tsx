@@ -90,9 +90,7 @@ function hasExitTransition(event: Parameters<NativeTransitionHandler>[0]): boole
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface MenuRootProps
-  extends MenuPublicVariantProps,
-    LynxHostProps<"view">,
-    Omit<UseMenuProps, "onOpenChange"> {
+  extends MenuPublicVariantProps, LynxHostProps<"view">, Omit<UseMenuProps, "onOpenChange"> {
   onOpenChange?: (open: boolean, details: MenuOpenChangeDetails) => void;
 }
 
@@ -212,7 +210,8 @@ MenuTrigger.displayName = "MenuTrigger";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface MenuPositionerProps
-  extends LynxHostProps<"view">,
+  extends
+    LynxHostProps<"view">,
     Pick<MenuPositionerPrimitiveProps, "container" | "overlayLevel" | "overlayViewProps"> {}
 
 /**

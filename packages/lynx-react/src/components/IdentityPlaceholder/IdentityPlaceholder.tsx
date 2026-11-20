@@ -30,8 +30,7 @@ const identitySources = {
  * - `asChild`
  */
 export interface IdentityPlaceholderRootProps
-  extends IdentityPlaceholderVariantProps,
-    LynxHostProps<"view"> {}
+  extends IdentityPlaceholderVariantProps, LynxHostProps<"view"> {}
 
 export const IdentityPlaceholderRoot = React.forwardRef<unknown, IdentityPlaceholderRootProps>(
   (props, ref) => {

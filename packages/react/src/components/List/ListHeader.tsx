@@ -4,9 +4,7 @@ import clsx from "clsx";
 import type { PrimitiveProps } from "@seed-design/react-primitive";
 
 export interface ListHeaderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement>,
-    ListHeaderVariantProps {
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement>, ListHeaderVariantProps {
   /**
    * @default "div"
    */

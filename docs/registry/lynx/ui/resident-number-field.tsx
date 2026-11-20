@@ -7,8 +7,10 @@ import {
 type SegmentedTextInputRootRef = React.ComponentRef<typeof SeedSegmentedTextInput.Root>;
 type FieldRootRef = React.ComponentRef<typeof SeedField.Root>;
 
-export interface ResidentNumberInputProps
-  extends Omit<SeedSegmentedTextInput.RootProps, "children"> {
+export interface ResidentNumberInputProps extends Omit<
+  SeedSegmentedTextInput.RootProps,
+  "children"
+> {
   /**
    * 입력받을 자리 수.
    * - `6`: 생년월일 6자리만 입력받고 뒷자리는 점으로 표시합니다.

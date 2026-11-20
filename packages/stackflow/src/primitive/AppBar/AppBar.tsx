@@ -7,9 +7,7 @@ import { useAppBar, type UseAppBarProps } from "./useAppBar";
 import { AppBarProvider, useAppBarContext } from "./useAppBarContext";
 
 export interface AppBarRootProps
-  extends PrimitiveProps,
-    UseAppBarProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, UseAppBarProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AppBarRoot = forwardRef<HTMLDivElement, AppBarRootProps>((props, ref) => {
   const { ...otherProps } = props;

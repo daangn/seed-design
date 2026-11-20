@@ -13,7 +13,8 @@ import { AccordionItemProvider, useAccordionItemContext } from "./useAccordionIt
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AccordionRootProps
-  extends UseAccordionProps,
+  extends
+    UseAccordionProps,
     PrimitiveProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue"> {}
 
@@ -39,9 +40,7 @@ AccordionRoot.displayName = "AccordionRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AccordionItemProps
-  extends UseAccordionItemProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends UseAccordionItemProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>((props, ref) => {
   const { value, disabled: itemDisabled, ...rest } = props;
@@ -86,8 +85,7 @@ AccordionHeader.displayName = "AccordionHeader";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AccordionTriggerProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 /**
  * `AccordionTrigger` toggles the open/closed state of an `AccordionItem`.
@@ -111,8 +109,7 @@ AccordionTrigger.displayName = "AccordionTrigger";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AccordionContentProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>((props, ref) => {
   const itemApi = useAccordionItemContext();

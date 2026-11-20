@@ -8,9 +8,7 @@ import { useToggle, type UseToggleProps } from "./useToggle";
 import { ToggleProvider } from "./useToggleContext";
 
 export interface ToggleRootProps
-  extends UseToggleProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
+  extends UseToggleProps, PrimitiveProps, React.HTMLAttributes<HTMLButtonElement> {}
 
 export const ToggleRoot = forwardRef<HTMLButtonElement, ToggleRootProps>((props, ref) => {
   const { pressed, defaultPressed, onPressedChange, disabled, ...otherProps } = props;

@@ -7,9 +7,7 @@ import { useProgress, useProgressCircle, type UseProgressProps } from "./useProg
 import { ProgressCircleProvider, useProgressCircleContext } from "./useProgressCircleContext";
 
 export interface ProgressCircleRootProps
-  extends UseProgressProps,
-    PrimitiveProps,
-    React.SVGAttributes<SVGSVGElement> {}
+  extends UseProgressProps, PrimitiveProps, React.SVGAttributes<SVGSVGElement> {}
 
 export const ProgressCircleRoot = forwardRef<SVGSVGElement, ProgressCircleRootProps>(
   (props, ref) => {
@@ -34,8 +32,7 @@ export const ProgressCircleRoot = forwardRef<SVGSVGElement, ProgressCircleRootPr
 ProgressCircleRoot.displayName = "ProgressCircleRoot";
 
 export interface ProgressCircleTrackProps
-  extends PrimitiveProps,
-    React.SVGAttributes<SVGCircleElement> {}
+  extends PrimitiveProps, React.SVGAttributes<SVGCircleElement> {}
 
 export const ProgressCircleTrack = forwardRef<SVGCircleElement, ProgressCircleTrackProps>(
   (props, ref) => {
@@ -47,8 +44,7 @@ export const ProgressCircleTrack = forwardRef<SVGCircleElement, ProgressCircleTr
 ProgressCircleTrack.displayName = "ProgressCircleTrack";
 
 export interface ProgressCircleRangeProps
-  extends PrimitiveProps,
-    React.SVGAttributes<SVGCircleElement> {}
+  extends PrimitiveProps, React.SVGAttributes<SVGCircleElement> {}
 
 export const ProgressCircleRange = forwardRef<SVGCircleElement, ProgressCircleRangeProps>(
   (props, ref) => {

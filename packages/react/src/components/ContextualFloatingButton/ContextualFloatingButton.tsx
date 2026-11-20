@@ -15,7 +15,8 @@ import {
 } from "../LoadingIndicator/usePendingButton";
 
 export interface ContextualFloatingButtonProps
-  extends ContextualFloatingButtonVariantProps,
+  extends
+    ContextualFloatingButtonVariantProps,
     UsePendingButtonProps,
     PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}

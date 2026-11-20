@@ -12,8 +12,7 @@ type SizesConfig = {
 };
 
 export interface ScrollFogProps
-  extends ScrollFogVariantProps,
-    React.HTMLAttributes<HTMLDivElement> {
+  extends ScrollFogVariantProps, React.HTMLAttributes<HTMLDivElement> {
   /**
    * Fog 효과를 표시할 방향입니다.
    * @default ["top", "bottom"]

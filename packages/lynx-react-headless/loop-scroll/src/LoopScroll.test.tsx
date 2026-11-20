@@ -400,109 +400,109 @@ describe("LoopScroll", () => {
     expect(onIndexChange).toHaveBeenLastCalledWith((nearest + 9) % 10, { stepDelta: -1 });
   });
 
-  it.each([
-    false,
-    true,
-  ])("짧은 이동은 정착 전 렌더 창과 항목을 갱신하지 않는다 (loop=%s)", async (loop) => {
-    const onIndexChange = vi.fn();
-    const renderItem = vi.fn(({ index }: { index: number }) => <text>{String(index)}</text>);
-    render(
-      <LoopScroll.Root
-        className="root"
-        itemCount={1000}
-        itemSize={ITEM_SIZE}
-        visibleItemCount={5}
-        defaultIndex={500}
-        loop={loop}
-        onIndexChange={onIndexChange}
-      >
-        <LoopScroll.Track className="track">{renderItem}</LoopScroll.Track>
-      </LoopScroll.Root>,
-      { enableMainThread: true, enableBackgroundThread: true },
-    );
-    await waitSchedule();
-    const initialItems = Array.from(mover().children);
-    renderItem.mockClear();
+  it.each([false, true])(
+    "짧은 이동은 정착 전 렌더 창과 항목을 갱신하지 않는다 (loop=%s)",
+    async (loop) => {
+      const onIndexChange = vi.fn();
+      const renderItem = vi.fn(({ index }: { index: number }) => <text>{String(index)}</text>);
+      render(
+        <LoopScroll.Root
+          className="root"
+          itemCount={1000}
+          itemSize={ITEM_SIZE}
+          visibleItemCount={5}
+          defaultIndex={500}
+          loop={loop}
+          onIndexChange={onIndexChange}
+        >
+          <LoopScroll.Track className="track">{renderItem}</LoopScroll.Track>
+        </LoopScroll.Root>,
+        { enableMainThread: true, enableBackgroundThread: true },
+      );
+      await waitSchedule();
+      const initialItems = Array.from(mover().children);
+      renderItem.mockClear();
 
-    touch("touchstart", 100, 300);
-    advance(16);
-    touch("touchmove", 100, 244);
-    advance(200);
-    touch("touchend", 100, 244);
-    await runFrames(1);
-
-    expect(centeredPosition()).toBeGreaterThan(501);
-    expect(renderItem).not.toHaveBeenCalled();
-    expect(Array.from(mover().children)).toEqual(initialItems);
-    expect(onIndexChange).not.toHaveBeenCalled();
-
-    await runFrames();
-    expect(centeredPosition()).toBe(501);
-    expect(selectedLabels()).toEqual(["501"]);
-    expect(onIndexChange.mock.calls).toEqual([[501, { stepDelta: 1 }]]);
-  });
-
-  it.each([
-    false,
-    true,
-  ])("1000개 항목도 화면 주변만 렌더하고 긴 fling 뒤 목표를 표시한다 (loop=%s)", async (loop) => {
-    const onIndexChange = vi.fn();
-    await renderWheel({ itemCount: 1000, defaultIndex: 500, loop, onIndexChange });
-    expect(mover().children.length).toBeLessThanOrEqual(25);
-    expect(selectedLabels()).toEqual(["500"]);
-
-    flick(800, 40);
-    await waitSchedule();
-    await runFrames();
-    const target = Math.round(centeredPosition());
-    expect(target).toBeGreaterThan(520);
-    expect(selectedLabels()).toEqual([String(target % 1000)]);
-    expect(onIndexChange).toHaveBeenLastCalledWith(target % 1000, { stepDelta: target - 500 });
-    expect(mover().children.length).toBeLessThanOrEqual(25);
-
-    pressItem(target + 2);
-    touch("touchend", 100, 300);
-    await runFrames();
-    expect(centeredPosition()).toBe(target + 2);
-    expect(selectedLabels()).toEqual([String((target + 2) % 1000)]);
-    expect(mover().children.length).toBeLessThanOrEqual(25);
-  });
-
-  it.each([
-    "instant",
-    "smooth",
-  ] as const)("긴 외부 이동은 목표 항목을 준비하고 사용자 변경을 알리지 않는다 (%s)", async (indexChangeBehavior) => {
-    const onIndexChange = vi.fn();
-    const { rerender } = await renderWheel({
-      itemCount: 1000,
-      loop: false,
-      index: 0,
-      indexChangeBehavior,
-      onIndexChange,
-    });
-    rerender(
-      <Wheel
-        itemCount={1000}
-        loop={false}
-        index={900}
-        indexChangeBehavior={indexChangeBehavior}
-        onIndexChange={onIndexChange}
-      />,
-    );
-    await waitSchedule();
-    expect(selectedLabels()).toEqual(["900"]);
-    if (indexChangeBehavior === "smooth") {
+      touch("touchstart", 100, 300);
+      advance(16);
+      touch("touchmove", 100, 244);
+      advance(200);
+      touch("touchend", 100, 244);
       await runFrames(1);
-      const center = Math.round(centeredPosition());
-      const labels = Array.from(mover().children, (node) => node.textContent);
-      expect(labels).toContain(String(center));
-    }
-    await runFrames();
-    expect(centeredPosition()).toBe(900);
-    expect(selectedLabels()).toEqual(["900"]);
-    expect(mover().children.length).toBeLessThanOrEqual(25);
-    expect(onIndexChange).not.toHaveBeenCalled();
-  });
+
+      expect(centeredPosition()).toBeGreaterThan(501);
+      expect(renderItem).not.toHaveBeenCalled();
+      expect(Array.from(mover().children)).toEqual(initialItems);
+      expect(onIndexChange).not.toHaveBeenCalled();
+
+      await runFrames();
+      expect(centeredPosition()).toBe(501);
+      expect(selectedLabels()).toEqual(["501"]);
+      expect(onIndexChange.mock.calls).toEqual([[501, { stepDelta: 1 }]]);
+    },
+  );
+
+  it.each([false, true])(
+    "1000개 항목도 화면 주변만 렌더하고 긴 fling 뒤 목표를 표시한다 (loop=%s)",
+    async (loop) => {
+      const onIndexChange = vi.fn();
+      await renderWheel({ itemCount: 1000, defaultIndex: 500, loop, onIndexChange });
+      expect(mover().children.length).toBeLessThanOrEqual(25);
+      expect(selectedLabels()).toEqual(["500"]);
+
+      flick(800, 40);
+      await waitSchedule();
+      await runFrames();
+      const target = Math.round(centeredPosition());
+      expect(target).toBeGreaterThan(520);
+      expect(selectedLabels()).toEqual([String(target % 1000)]);
+      expect(onIndexChange).toHaveBeenLastCalledWith(target % 1000, { stepDelta: target - 500 });
+      expect(mover().children.length).toBeLessThanOrEqual(25);
+
+      pressItem(target + 2);
+      touch("touchend", 100, 300);
+      await runFrames();
+      expect(centeredPosition()).toBe(target + 2);
+      expect(selectedLabels()).toEqual([String((target + 2) % 1000)]);
+      expect(mover().children.length).toBeLessThanOrEqual(25);
+    },
+  );
+
+  it.each(["instant", "smooth"] as const)(
+    "긴 외부 이동은 목표 항목을 준비하고 사용자 변경을 알리지 않는다 (%s)",
+    async (indexChangeBehavior) => {
+      const onIndexChange = vi.fn();
+      const { rerender } = await renderWheel({
+        itemCount: 1000,
+        loop: false,
+        index: 0,
+        indexChangeBehavior,
+        onIndexChange,
+      });
+      rerender(
+        <Wheel
+          itemCount={1000}
+          loop={false}
+          index={900}
+          indexChangeBehavior={indexChangeBehavior}
+          onIndexChange={onIndexChange}
+        />,
+      );
+      await waitSchedule();
+      expect(selectedLabels()).toEqual(["900"]);
+      if (indexChangeBehavior === "smooth") {
+        await runFrames(1);
+        const center = Math.round(centeredPosition());
+        const labels = Array.from(mover().children, (node) => node.textContent);
+        expect(labels).toContain(String(center));
+      }
+      await runFrames();
+      expect(centeredPosition()).toBe(900);
+      expect(selectedLabels()).toEqual(["900"]);
+      expect(mover().children.length).toBeLessThanOrEqual(25);
+      expect(onIndexChange).not.toHaveBeenCalled();
+    },
+  );
 
   it("loop에서 여러 바퀴를 연속 이동해도 index와 각 이동의 stepDelta를 정확히 알린다", async () => {
     const onIndexChange = vi.fn();

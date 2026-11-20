@@ -9,8 +9,7 @@ type NativeInputProps = IntrinsicElements["input"];
 type NativeTextareaProps = IntrinsicElements["textarea"];
 
 export interface TextFieldRootProps
-  extends UseTextFieldProps,
-    Omit<ViewProps, keyof UseTextFieldProps> {}
+  extends UseTextFieldProps, Omit<ViewProps, keyof UseTextFieldProps> {}
 
 /**
  * 스타일 없이 TextField 상태를 하위 입력 파트에 제공하는 native `<view>`입니다.
@@ -83,8 +82,7 @@ export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
 TextFieldRoot.displayName = "TextFieldRoot";
 
 export interface TextFieldInputProps
-  extends UseTextFieldInputProps,
-    Omit<NativeInputProps, keyof UseTextFieldInputProps | "ref"> {}
+  extends UseTextFieldInputProps, Omit<NativeInputProps, keyof UseTextFieldInputProps | "ref"> {}
 
 /**
  * 무스타일 native `<input>`입니다. `TextFieldRoot` 안에서만 렌더링합니다.
@@ -110,8 +108,7 @@ export const TextFieldInput = React.forwardRef<NodesRef, TextFieldInputProps>((p
 TextFieldInput.displayName = "TextFieldInput";
 
 export interface TextFieldTextareaProps
-  extends UseTextFieldInputProps,
-    Omit<NativeTextareaProps, keyof UseTextFieldInputProps | "ref"> {}
+  extends UseTextFieldInputProps, Omit<NativeTextareaProps, keyof UseTextFieldInputProps | "ref"> {}
 
 /**
  * 무스타일 native `<textarea>`입니다. `TextFieldRoot` 안에서만 렌더링합니다.

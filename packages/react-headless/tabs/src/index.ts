@@ -18,10 +18,7 @@ export {
 export * as Tabs from "./Tabs.namespace";
 
 export { useTabsContext, type UseTabsContext } from "./useTabsContext";
-export {
-  useTabsCarouselContext,
-  type UseTabsCarouselContext,
-} from "./useTabsCarouselContext";
+export { useTabsCarouselContext, type UseTabsCarouselContext } from "./useTabsCarouselContext";
 export { useTabsTriggerContext, type UseTabsTriggerContext } from "./useTabsTriggerContext";
 
 export { tabsCarouselPreventDrag } from "./dom";

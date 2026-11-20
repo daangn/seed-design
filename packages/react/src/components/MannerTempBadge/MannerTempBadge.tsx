@@ -11,8 +11,6 @@ const { withContext } = createRecipeContext(mannerTempBadge);
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface MannerTempBadgeProps
-  extends MannerTempBadgeVariantProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends MannerTempBadgeVariantProps, PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const MannerTempBadge = withContext<HTMLSpanElement, MannerTempBadgeProps>(Primitive.span);

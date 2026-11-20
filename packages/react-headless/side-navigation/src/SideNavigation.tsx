@@ -36,8 +36,7 @@ export function SideNavigationProvider(props: SideNavigationProviderProps) {
 SideNavigationProvider.displayName = "SideNavigationProvider";
 
 export interface SideNavigationRootProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLElement> {}
 
 export const SideNavigationRoot = forwardRef<HTMLElement, SideNavigationRootProps>((props, ref) => {
   const { stateProps, rootProps } = useSideNavigationContext();
@@ -47,8 +46,7 @@ export const SideNavigationRoot = forwardRef<HTMLElement, SideNavigationRootProp
 SideNavigationRoot.displayName = "SideNavigationRoot";
 
 export interface SideNavigationTriggerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLButtonElement> {}
 
 export const SideNavigationTrigger = forwardRef<HTMLButtonElement, SideNavigationTriggerProps>(
   (props, ref) => {
@@ -60,9 +58,7 @@ export const SideNavigationTrigger = forwardRef<HTMLButtonElement, SideNavigatio
 SideNavigationTrigger.displayName = "SideNavigationTrigger";
 
 export interface SideNavigationItemCollapsibleRootProps
-  extends UseSideNavigationCollapsibleProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends UseSideNavigationCollapsibleProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SideNavigationItemCollapsibleRoot = forwardRef<
   HTMLDivElement,
@@ -86,8 +82,7 @@ export const SideNavigationItemCollapsibleRoot = forwardRef<
 SideNavigationItemCollapsibleRoot.displayName = "SideNavigationItemCollapsibleRoot";
 
 export interface SideNavigationItemCollapsibleTriggerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLButtonElement> {}
 
 export const SideNavigationItemCollapsibleTrigger = forwardRef<
   HTMLButtonElement,
@@ -100,8 +95,7 @@ export const SideNavigationItemCollapsibleTrigger = forwardRef<
 SideNavigationItemCollapsibleTrigger.displayName = "SideNavigationItemCollapsibleTrigger";
 
 export interface SideNavigationItemCollapsibleContentProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SideNavigationItemCollapsibleContent = forwardRef<
   HTMLDivElement,

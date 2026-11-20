@@ -16,7 +16,8 @@ import {
 } from "./useSegmentedTextInputSegment";
 
 export interface SegmentedTextInputRootProps
-  extends UseSegmentedTextInputProps,
+  extends
+    UseSegmentedTextInputProps,
     PrimitiveProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue"> {}
 
@@ -55,7 +56,8 @@ export const SegmentedTextInputRoot = forwardRef<HTMLDivElement, SegmentedTextIn
 SegmentedTextInputRoot.displayName = "SegmentedTextInputRoot";
 
 export interface SegmentedTextInputSegmentProps
-  extends UseSegmentedTextInputSegmentProps,
+  extends
+    UseSegmentedTextInputSegmentProps,
     PrimitiveProps,
     Omit<
       React.InputHTMLAttributes<HTMLInputElement>,
@@ -81,8 +83,7 @@ export const SegmentedTextInputSegment = forwardRef<
 SegmentedTextInputSegment.displayName = "SegmentedTextInputSegment";
 
 export interface SegmentedTextInputSeparatorProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 /**
  * Segment 사이의 장식용 구분자. 보조기기에서 읽지 않는다.
@@ -99,8 +100,7 @@ export const SegmentedTextInputSeparator = forwardRef<
 SegmentedTextInputSeparator.displayName = "SegmentedTextInputSeparator";
 
 export interface SegmentedTextInputStaticTextProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 /**
  * 정적 불릿처럼 입력값이 아닌 고정 텍스트. 보조기기에서 읽지 않는다.

@@ -23,8 +23,10 @@ import * as React from "react";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SideNavigationTriggerProps
-  extends Omit<SeedSideNavigation.TriggerProps, "children" | "asChild"> {}
+export interface SideNavigationTriggerProps extends Omit<
+  SeedSideNavigation.TriggerProps,
+  "children" | "asChild"
+> {}
 
 export const SideNavigationTrigger = React.forwardRef<
   HTMLButtonElement,
@@ -46,8 +48,10 @@ SideNavigationTrigger.displayName = "SideNavigationTrigger";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SideNavigationItemButtonProps
-  extends Omit<SeedSideNavigation.ItemProps, "children" | "asChild"> {
+export interface SideNavigationItemButtonProps extends Omit<
+  SeedSideNavigation.ItemProps,
+  "children" | "asChild"
+> {
   prefixIcon?: React.ReactNode;
   label: React.ReactNode;
   suffixIcon?: React.ReactNode;

@@ -25,8 +25,7 @@ export const DrawerRoot = (props: DrawerRootProps) => {
 };
 
 export interface DrawerTriggerProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const DrawerTrigger = forwardRef<HTMLButtonElement, DrawerTriggerProps>((props, ref) => {
   const api = useDrawerContext();
@@ -35,8 +34,7 @@ export const DrawerTrigger = forwardRef<HTMLButtonElement, DrawerTriggerProps>((
 DrawerTrigger.displayName = "DrawerTrigger";
 
 export interface DrawerPositionerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const DrawerPositioner = forwardRef<HTMLDivElement, DrawerPositionerProps>((props, ref) => {
   const api = useDrawerContext();
@@ -323,8 +321,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
 DrawerContent.displayName = "DrawerContent";
 
 export interface DrawerTitleProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLHeadingElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLHeadingElement> {}
 
 export const DrawerTitle = forwardRef<HTMLHeadingElement, DrawerTitleProps>((props, ref) => {
   const api = useDrawerContext();
@@ -333,8 +330,7 @@ export const DrawerTitle = forwardRef<HTMLHeadingElement, DrawerTitleProps>((pro
 DrawerTitle.displayName = "DrawerTitle";
 
 export interface DrawerDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLParagraphElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLParagraphElement> {}
 
 export const DrawerDescription = forwardRef<HTMLParagraphElement, DrawerDescriptionProps>(
   (props, ref) => {
@@ -353,8 +349,7 @@ export const DrawerHeader = forwardRef<HTMLDivElement, DrawerHeaderProps>((props
 DrawerHeader.displayName = "DrawerHeader";
 
 export interface DrawerCloseButtonProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const DrawerCloseButton = forwardRef<HTMLButtonElement, DrawerCloseButtonProps>(
   (props, ref) => {

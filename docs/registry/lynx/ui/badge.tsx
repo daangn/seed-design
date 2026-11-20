@@ -2,8 +2,10 @@ import IconILowercaseSerifCircleLine from "@karrotmarket/lynx-monochrome-icon/Ic
 import * as React from "@lynx-js/react";
 import { Badge as SeedBadge, Icon, type IconProps } from "@seed-design/lynx-react";
 
-export interface BadgeActionProps
-  extends Omit<SeedBadge.ActionProps, "accessibility-label" | "children"> {
+export interface BadgeActionProps extends Omit<
+  SeedBadge.ActionProps,
+  "accessibility-label" | "children"
+> {
   "accessibility-label": string;
   render?: (triggerElement: React.ReactElement) => React.ReactNode;
 }

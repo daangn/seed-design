@@ -110,28 +110,28 @@ describe("Accordion headless components", () => {
     expect(node(".second-trigger")).toHaveAttribute("accessibility-value", "펼쳐짐");
   });
 
-  it.each([
-    "root",
-    "item",
-  ] as const)("blocks tap and pressed feedback when the %s is disabled", (scope) => {
-    const onValuesChange = vi.fn();
-    render(
-      <Accordion.Root onValuesChange={onValuesChange} disabled={scope === "root"}>
-        <Accordion.Item value="first" disabled={scope === "item"}>
-          <Accordion.Trigger className="first-trigger" />
-          <Accordion.Content className="first-content">Content</Accordion.Content>
-          <PressedProbe />
-        </Accordion.Item>
-      </Accordion.Root>,
-    );
-    touch(".pressed-probe", "touchstart");
-    expect(node(".pressed-probe")).toHaveAttribute("data-pressed", "false");
-    tap(".first-trigger");
-    expect(onValuesChange).not.toHaveBeenCalled();
-    expect(node(".first-trigger")).toHaveAttribute("accessibility-traits", "disabled");
-    expect(node(".first-trigger")).toHaveAttribute("accessibility-value", "접힘");
-    expect(node(".first-content")).toHaveAttribute("accessibility-elements-hidden", "true");
-  });
+  it.each(["root", "item"] as const)(
+    "blocks tap and pressed feedback when the %s is disabled",
+    (scope) => {
+      const onValuesChange = vi.fn();
+      render(
+        <Accordion.Root onValuesChange={onValuesChange} disabled={scope === "root"}>
+          <Accordion.Item value="first" disabled={scope === "item"}>
+            <Accordion.Trigger className="first-trigger" />
+            <Accordion.Content className="first-content">Content</Accordion.Content>
+            <PressedProbe />
+          </Accordion.Item>
+        </Accordion.Root>,
+      );
+      touch(".pressed-probe", "touchstart");
+      expect(node(".pressed-probe")).toHaveAttribute("data-pressed", "false");
+      tap(".first-trigger");
+      expect(onValuesChange).not.toHaveBeenCalled();
+      expect(node(".first-trigger")).toHaveAttribute("accessibility-traits", "disabled");
+      expect(node(".first-trigger")).toHaveAttribute("accessibility-value", "접힘");
+      expect(node(".first-content")).toHaveAttribute("accessibility-elements-hidden", "true");
+    },
+  );
 
   it("toggles before invoking the user's bindtap", () => {
     const order: string[] = [];

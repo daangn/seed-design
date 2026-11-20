@@ -106,8 +106,7 @@ export interface SliderValueIndicatorLabelProps extends Slider.ValueIndicatorLab
 export const SliderValueIndicatorLabel = withStateProps(Slider.ValueIndicatorLabel);
 
 export interface SliderValueIndicatorArrowProps
-  extends PrimitiveProps,
-    HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, HTMLAttributes<HTMLDivElement> {}
 
 export const SliderValueIndicatorArrow = withContext<
   HTMLDivElement,

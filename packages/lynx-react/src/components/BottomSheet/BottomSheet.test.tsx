@@ -365,25 +365,25 @@ describe("BottomSheet", () => {
     expect(onTap).toHaveBeenCalledOnce();
   });
 
-  it.each([
-    "left",
-    "center",
-  ] as const)("reserves title space for CloseButton only while it is rendered (headerAlign=%s)", (headerAlign) => {
-    const renderSheet = (showCloseButton: boolean) => (
-      <BottomSheet.Root headerAlign={headerAlign}>
-        <BottomSheet.Title>Title</BottomSheet.Title>
-        {showCloseButton ? <BottomSheet.CloseButton accessibility-label="닫기" /> : null}
-      </BottomSheet.Root>
-    );
-    const closeButtonTitleClass = `seed-bottom-sheet__title--headerAlign_${headerAlign}-closeButton_true`;
-    const { getByText, rerender } = render(renderSheet(true));
+  it.each(["left", "center"] as const)(
+    "reserves title space for CloseButton only while it is rendered (headerAlign=%s)",
+    (headerAlign) => {
+      const renderSheet = (showCloseButton: boolean) => (
+        <BottomSheet.Root headerAlign={headerAlign}>
+          <BottomSheet.Title>Title</BottomSheet.Title>
+          {showCloseButton ? <BottomSheet.CloseButton accessibility-label="닫기" /> : null}
+        </BottomSheet.Root>
+      );
+      const closeButtonTitleClass = `seed-bottom-sheet__title--headerAlign_${headerAlign}-closeButton_true`;
+      const { getByText, rerender } = render(renderSheet(true));
 
-    expect(getByText("Title")).toHaveClass(closeButtonTitleClass);
+      expect(getByText("Title")).toHaveClass(closeButtonTitleClass);
 
-    rerender(renderSheet(false));
+      rerender(renderSheet(false));
 
-    expect(getByText("Title")).not.toHaveClass(closeButtonTitleClass);
-  });
+      expect(getByText("Title")).not.toHaveClass(closeButtonTitleClass);
+    },
+  );
 });
 
 describe("BottomSheet window safe area", () => {

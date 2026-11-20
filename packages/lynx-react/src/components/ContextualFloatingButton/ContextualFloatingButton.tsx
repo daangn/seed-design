@@ -22,8 +22,7 @@ type ContextualFloatingButtonPublicVariantProps = Omit<
 >;
 
 interface ContextualFloatingButtonRootProps
-  extends ContextualFloatingButtonVariantProps,
-    LynxHostProps<"view"> {}
+  extends ContextualFloatingButtonVariantProps, LynxHostProps<"view"> {}
 
 const ContextualFloatingButtonRoot = React.forwardRef<unknown, ContextualFloatingButtonRootProps>(
   (innerProps, ref) => {
@@ -144,7 +143,8 @@ function ContextualFloatingButtonLoadingIndicator() {
  * - `accessibility-traits` defaults to `"button"`, or `"disabled"` while disabled or loading.
  */
 export interface ContextualFloatingButtonProps
-  extends ContextualFloatingButtonPublicVariantProps,
+  extends
+    ContextualFloatingButtonPublicVariantProps,
     Pick<UseActionButtonProps, "disabled" | "loading">,
     Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
     LynxPressableProps {}

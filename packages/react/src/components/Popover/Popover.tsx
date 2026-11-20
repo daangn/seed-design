@@ -112,7 +112,8 @@ PopoverPositioner.displayName = "PopoverPositioner";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface PopoverContentProps
-  extends PrimitiveProps,
+  extends
+    PrimitiveProps,
     Pick<StyleProps, "width" | "maxWidth">,
     React.HTMLAttributes<HTMLDivElement> {}
 
@@ -146,8 +147,7 @@ PopoverHeader.displayName = "PopoverHeader";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface PopoverTitleProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLHeadingElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLHeadingElement> {}
 
 export const PopoverTitle = withContext<HTMLHeadingElement, PopoverTitleProps>(
   PopoverPrimitive.Title,
@@ -159,8 +159,7 @@ PopoverTitle.displayName = "PopoverTitle";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface PopoverDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLParagraphElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLParagraphElement> {}
 
 export const PopoverDescription = withContext<HTMLParagraphElement, PopoverDescriptionProps>(
   PopoverPrimitive.Description,
@@ -172,7 +171,8 @@ PopoverDescription.displayName = "PopoverDescription";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface PopoverBodyProps
-  extends PrimitiveProps,
+  extends
+    PrimitiveProps,
     Pick<
       StyleProps,
       "paddingX" | "height" | "maxHeight" | "minHeight" | "justifyContent" | "alignItems"

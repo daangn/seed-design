@@ -33,8 +33,7 @@ export interface AlertDialogFooterProps extends SeedAlertDialog.FooterProps {}
 export const AlertDialogFooter = SeedAlertDialog.Footer;
 
 export interface AlertDialogActionProps
-  extends Omit<SeedAlertDialog.ActionProps, "children">,
-    ActionButtonProps {}
+  extends Omit<SeedAlertDialog.ActionProps, "children">, ActionButtonProps {}
 
 /**
  * `ActionButton`을 닫기 동작과 함께 렌더링합니다. `disabled`·`loading`이면 닫지 않습니다.

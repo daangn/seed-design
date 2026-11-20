@@ -1,31 +1,28 @@
 import { expect, it } from "bun:test";
 import { archiveCliCommands } from "./archive-cli-commands";
 
-it.each([
-  "npx",
-  "pnpm dlx",
-  "yarn dlx",
-  "bun x",
-  "bunx",
-])("scopes %s registry commands only", (runner) => {
-  const commands = [
-    "add ui:action-button",
-    "add-all ui",
-    "compat --all",
-    "docs react action-button",
-  ];
-  for (const command of commands) {
-    const input = `${runner} @seed-design/cli@latest ${command}`;
-    const [name, ...args] = command.split(" ");
-    expect(archiveCliCommands(input, "react/v1.2")).toBe(
-      `${runner} @seed-design/cli@latest ${name} --baseUrl https://seed-design.io/react/v1.2 ${args.join(" ")}`,
+it.each(["npx", "pnpm dlx", "yarn dlx", "bun x", "bunx"])(
+  "scopes %s registry commands only",
+  (runner) => {
+    const commands = [
+      "add ui:action-button",
+      "add-all ui",
+      "compat --all",
+      "docs react action-button",
+    ];
+    for (const command of commands) {
+      const input = `${runner} @seed-design/cli@latest ${command}`;
+      const [name, ...args] = command.split(" ");
+      expect(archiveCliCommands(input, "react/v1.2")).toBe(
+        `${runner} @seed-design/cli@latest ${name} --baseUrl https://seed-design.io/react/v1.2 ${args.join(" ")}`,
+      );
+      expect(archiveCliCommands(input, "")).toBe(input);
+    }
+    expect(archiveCliCommands(`${runner} @seed-design/cli@latest init`, "react/v1.2")).toBe(
+      `${runner} @seed-design/cli@latest init`,
     );
-    expect(archiveCliCommands(input, "")).toBe(input);
-  }
-  expect(archiveCliCommands(`${runner} @seed-design/cli@latest init`, "react/v1.2")).toBe(
-    `${runner} @seed-design/cli@latest init`,
-  );
-});
+  },
+);
 
 it("preserves explicit custom sources and version selections", () => {
   for (const option of [

@@ -16,8 +16,10 @@ export interface ResponsiveSidePanelTriggerProps extends SeedResponsiveSidePanel
 
 export const ResponsiveSidePanelTrigger = SeedResponsiveSidePanel.Trigger;
 
-export interface ResponsiveSidePanelContentProps
-  extends Omit<SeedResponsiveSidePanel.ContentProps, "title" | "asChild"> {
+export interface ResponsiveSidePanelContentProps extends Omit<
+  SeedResponsiveSidePanel.ContentProps,
+  "title" | "asChild"
+> {
   title?: React.ReactNode;
 
   description?: React.ReactNode;

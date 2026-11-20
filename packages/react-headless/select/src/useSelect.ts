@@ -56,8 +56,7 @@ export type SelectOpenChangeDetails = {
 }[keyof SelectOpenChangeReasonToDetailMap];
 
 export interface UseSelectProps
-  extends UseSelectPositioningProps,
-    Pick<UseSelectOptionsProps, "formatValue"> {
+  extends UseSelectPositioningProps, Pick<UseSelectOptionsProps, "formatValue"> {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean, details?: SelectOpenChangeDetails) => void;

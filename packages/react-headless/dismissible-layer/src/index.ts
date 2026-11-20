@@ -1,7 +1,4 @@
-export {
-  useDismissibleLayer,
-  type UseDismissibleLayerOptions,
-} from "./useDismissibleLayer";
+export { useDismissibleLayer, type UseDismissibleLayerOptions } from "./useDismissibleLayer";
 
 export { DismissibleLayer, type DismissibleLayerProps } from "./DismissibleLayer";
 

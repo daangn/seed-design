@@ -433,17 +433,20 @@ describe("usePopover", () => {
       ["right", "left center"],
       ["right-end", "left bottom"],
       ["left-start", "right top"],
-    ] as const)("derives --seed-popover-transform-origin from the resolved placement (%s)", async (placement, expected) => {
-      const user = userEvent.setup();
-      const { getByText, getByTestId } = render(<BasicPopover placement={placement} />);
-      await waitForPositioning();
+    ] as const)(
+      "derives --seed-popover-transform-origin from the resolved placement (%s)",
+      async (placement, expected) => {
+        const user = userEvent.setup();
+        const { getByText, getByTestId } = render(<BasicPopover placement={placement} />);
+        await waitForPositioning();
 
-      await user.click(getByText("Open Popover"));
+        await user.click(getByText("Open Popover"));
 
-      expect(getByTestId("content").style.getPropertyValue("--seed-popover-transform-origin")).toBe(
-        expected,
-      );
-    });
+        expect(
+          getByTestId("content").style.getPropertyValue("--seed-popover-transform-origin"),
+        ).toBe(expected);
+      },
+    );
   });
 
   // Every close path reports why it happened, so a consumer can tell a deliberate dismissal

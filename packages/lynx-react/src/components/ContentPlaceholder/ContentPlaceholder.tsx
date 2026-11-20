@@ -29,7 +29,8 @@ const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(contentPla
 
 /** @platform Lynx */
 export interface ContentPlaceholderRootProps
-  extends ContentPlaceholderVariantProps,
+  extends
+    ContentPlaceholderVariantProps,
     StyleProps,
     LynxStyledElementProps,
     LynxAccessibilityProps {
@@ -65,8 +66,7 @@ ContentPlaceholderRoot.displayName = "ContentPlaceholderRoot";
 
 /** Custom assets own their color. Pass an initial tint-color to monochrome icons. */
 export interface ContentPlaceholderAssetProps
-  extends LynxStyledElementProps,
-    LynxAccessibilityProps {}
+  extends LynxStyledElementProps, LynxAccessibilityProps {}
 
 export const ContentPlaceholderAsset = React.forwardRef<unknown, ContentPlaceholderAssetProps>(
   (props, ref) => {

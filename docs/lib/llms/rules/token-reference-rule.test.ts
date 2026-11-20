@@ -164,9 +164,8 @@ describe("tokenReferenceRule", () => {
   });
 
   it("reads an HTML-escaped groups attribute", () => {
-    expect(
-      render(`<TokenReference groups="[&#x22;fixture-alpha&#x22;]" />`),
-    ).toMatchInlineSnapshot(`
+    expect(render(`<TokenReference groups="[&#x22;fixture-alpha&#x22;]" />`))
+      .toMatchInlineSnapshot(`
       "| Token | mode-one | mode-two |
       | --- | --- | --- |
       | $fixture-alpha.solid.one | #0a0b0c | #0d0e0f |

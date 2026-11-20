@@ -3,11 +3,10 @@ import * as React from "react";
 
 import { IconChevronRightLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon";
 
-export interface CalloutProps
-  extends Omit<
-    SeedCallout.RootProps,
-    "children" | "title" | "asChild" | "open" | "defaultOpen" | "onDismiss"
-  > {
+export interface CalloutProps extends Omit<
+  SeedCallout.RootProps,
+  "children" | "title" | "asChild" | "open" | "defaultOpen" | "onDismiss"
+> {
   prefixIcon?: React.ReactNode;
 
   title?: React.ReactNode;
@@ -36,11 +35,10 @@ export const Callout = React.forwardRef<React.ElementRef<typeof SeedCallout.Root
 );
 Callout.displayName = "Callout";
 
-export interface ActionableCalloutProps
-  extends Omit<
-    SeedCallout.RootProps,
-    "children" | "title" | "asChild" | "open" | "defaultOpen" | "onDismiss"
-  > {
+export interface ActionableCalloutProps extends Omit<
+  SeedCallout.RootProps,
+  "children" | "title" | "asChild" | "open" | "defaultOpen" | "onDismiss"
+> {
   title?: React.ReactNode;
 
   description: React.ReactNode;
@@ -67,8 +65,10 @@ export const ActionableCallout = React.forwardRef<
 });
 ActionableCallout.displayName = "ActionableCallout";
 
-export interface DismissibleCalloutProps
-  extends Omit<SeedCallout.RootProps, "children" | "title" | "asChild"> {
+export interface DismissibleCalloutProps extends Omit<
+  SeedCallout.RootProps,
+  "children" | "title" | "asChild"
+> {
   title?: React.ReactNode;
 
   description: React.ReactNode;

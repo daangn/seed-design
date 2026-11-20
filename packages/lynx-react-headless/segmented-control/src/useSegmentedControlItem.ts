@@ -11,7 +11,8 @@ type ItemAccessibilityProps = Pick<
 >;
 
 export interface UseSegmentedControlItemProps
-  extends ItemAccessibilityProps,
+  extends
+    ItemAccessibilityProps,
     Pick<
       ViewProps,
       "main-thread:bindtouchstart" | "main-thread:bindtouchend" | "main-thread:bindtouchcancel"

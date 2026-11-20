@@ -13,8 +13,10 @@ type TouchStartHandler = NonNullable<ScrollViewProps["bindtouchstart"]>;
 type TouchEndHandler = NonNullable<ScrollViewProps["bindtouchend"]>;
 type TouchCancelHandler = NonNullable<ScrollViewProps["bindtouchcancel"]>;
 
-export interface UseKeyboardAvoidingScrollViewContentProps
-  extends Pick<ScrollViewProps, "bindscroll" | "bindtouchend" | "bindtouchcancel"> {
+export interface UseKeyboardAvoidingScrollViewContentProps extends Pick<
+  ScrollViewProps,
+  "bindscroll" | "bindtouchend" | "bindtouchcancel"
+> {
   /** `<scroll-view>`와 함께 연결할 ref입니다. */
   ref?: Ref<NodesRef>;
   /** `<scroll-view>`의 style입니다. Root의 남은 높이를 채우는 기본 flex 값보다 사용자 값이 우선합니다. */

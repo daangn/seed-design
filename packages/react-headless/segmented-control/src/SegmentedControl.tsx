@@ -16,7 +16,8 @@ import {
 } from "./useSegmentedControlItemContext";
 
 export interface SegmentedControlRootProps
-  extends UseSegmentedControlProps,
+  extends
+    UseSegmentedControlProps,
     PrimitiveProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue"> {}
 
@@ -44,7 +45,8 @@ export const SegmentedControlRoot = React.forwardRef<HTMLDivElement, SegmentedCo
 SegmentedControlRoot.displayName = "SegmentedControl";
 
 export interface SegmentedControlItemProps
-  extends UseSegmentedControlItemProps,
+  extends
+    UseSegmentedControlItemProps,
     PrimitiveProps,
     Omit<React.InputHTMLAttributes<HTMLLabelElement>, "value"> {}
 
@@ -65,8 +67,7 @@ export const SegmentedControlItem = React.forwardRef<HTMLLabelElement, Segmented
 SegmentedControlItem.displayName = "SegmentedControlItem";
 
 export interface SegmentedControlItemHiddenInputProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLInputElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLInputElement> {}
 
 export const SegmentedControlItemHiddenInput = React.forwardRef<
   HTMLInputElement,

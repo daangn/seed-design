@@ -33,7 +33,8 @@ export interface UseCheckboxStateProps {
 }
 
 export interface UseCheckboxProps
-  extends UseCheckboxStateProps,
+  extends
+    UseCheckboxStateProps,
     CheckboxAccessibilityProps,
     Pick<
       ViewProps,

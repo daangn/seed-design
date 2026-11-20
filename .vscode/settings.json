@@ -26,9 +26,7 @@
   },
   "editor.formatOnSave": true,
   "oxc.fmt.disableNestedConfig": true,
-  "auto-close-tag.activationOnLanguage": [
-    "mdx"
-  ],
+  "auto-close-tag.activationOnLanguage": ["mdx"],
   "files.eol": "\n",
-  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

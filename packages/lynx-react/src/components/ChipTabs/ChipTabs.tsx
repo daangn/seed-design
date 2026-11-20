@@ -57,7 +57,8 @@ function useChipTabsVariantProps(consumer: string): ChipTabsVariantProps {
  * - 키보드 포커스와 roving tabindex
  */
 export interface ChipTabsRootProps
-  extends LynxHostProps<"view">,
+  extends
+    LynxHostProps<"view">,
     ChipTabsPublicVariantProps,
     Pick<UseTabsProps, "value" | "defaultValue" | "onValueChange"> {}
 
@@ -110,8 +111,7 @@ ChipTabsRoot.displayName = "ChipTabsRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ChipTabsListProps
-  extends LynxHostProps<"scroll-view">,
-    Pick<HeadlessTabsListProps, "scrollAlign"> {
+  extends LynxHostProps<"scroll-view">, Pick<HeadlessTabsListProps, "scrollAlign"> {
   /** 선택한 chip을 목록 안에서 정렬할 방식입니다. @defaultValue "nearest" */
   scrollAlign?: HeadlessTabsListProps["scrollAlign"];
 }
@@ -143,8 +143,7 @@ ChipTabsList.displayName = "ChipTabsList";
 
 /** Native text label and optional inline notification slot을 갖는 chip trigger입니다. */
 export interface ChipTabsTriggerProps
-  extends Omit<LynxHostProps<"view">, "children">,
-    Pick<UseTabsTriggerProps, "value" | "disabled"> {
+  extends Omit<LynxHostProps<"view">, "children">, Pick<UseTabsTriggerProps, "value" | "disabled"> {
   children: string | number;
   notification?: React.ReactNode;
 }
@@ -295,8 +294,7 @@ ChipTabsCarousel.displayName = "ChipTabsCarousel";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ChipTabsCarouselCameraProps
-  extends LynxHostProps<"viewpager">,
-    UseTabsCarouselCameraProps {}
+  extends LynxHostProps<"viewpager">, UseTabsCarouselCameraProps {}
 
 export const ChipTabsCarouselCamera = React.forwardRef<unknown, ChipTabsCarouselCameraProps>(
   (props, ref) => {

@@ -28,32 +28,31 @@ describe("documentation archive paths", () => {
     expect(paths.routes("lynx").contentSlug(["v0", "components"])).toEqual(["v0", "components"]);
   });
 
-  it.each([
-    "v1.0",
-    "v1.1",
-    "v1.2",
-    "v2",
-    "v3",
-    "v20",
-  ])("isolates %s pages, endpoints and assets without nesting react twice", (version) => {
-    const paths = createArchivePaths(`react/${version}`);
-    expect([
-      paths.routes("react").base,
-      paths.link("/react"),
-      paths.link("/react/components/button?x=1#usage"),
-      paths.asset("/logo.webp"),
-      paths.endpoint("/__registry__/react/ui/button.json"),
-    ]).toEqual([
-      `/react/${version}`,
-      `/react/${version}`,
-      `/react/${version}/components/button?x=1#usage`,
-      `/react/${version}/_assets/logo.webp`,
-      `/react/${version}/__registry__/react/ui/button.json`,
-    ]);
-    const routes = paths.routes("react");
-    expect(routes.routeSlug(["components", "button"])).toEqual([version, "components", "button"]);
-    expect(routes.contentSlug([version, "components", "button"])).toEqual(["components", "button"]);
-  });
+  it.each(["v1.0", "v1.1", "v1.2", "v2", "v3", "v20"])(
+    "isolates %s pages, endpoints and assets without nesting react twice",
+    (version) => {
+      const paths = createArchivePaths(`react/${version}`);
+      expect([
+        paths.routes("react").base,
+        paths.link("/react"),
+        paths.link("/react/components/button?x=1#usage"),
+        paths.asset("/logo.webp"),
+        paths.endpoint("/__registry__/react/ui/button.json"),
+      ]).toEqual([
+        `/react/${version}`,
+        `/react/${version}`,
+        `/react/${version}/components/button?x=1#usage`,
+        `/react/${version}/_assets/logo.webp`,
+        `/react/${version}/__registry__/react/ui/button.json`,
+      ]);
+      const routes = paths.routes("react");
+      expect(routes.routeSlug(["components", "button"])).toEqual([version, "components", "button"]);
+      expect(routes.contentSlug([version, "components", "button"])).toEqual([
+        "components",
+        "button",
+      ]);
+    },
+  );
 
   it("isolates Lynx pages and example assets without moving the React routes", () => {
     const paths = createArchivePaths("lynx/v0");

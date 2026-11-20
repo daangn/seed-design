@@ -62,9 +62,7 @@ const { ClassNamesProvider: LabelClassNamesProvider, useClassNames: useLabelClas
   createSlotRecipeContext(fieldLabel);
 
 export interface AttachmentDisplayRootProps
-  extends AttachmentDisplayProps,
-    AttachmentInputVariantProps,
-    LynxHostProps<"view"> {}
+  extends AttachmentDisplayProps, AttachmentInputVariantProps, LynxHostProps<"view"> {}
 
 /**
  * `@seed-design/lynx-react-attachment-display`의 `AttachmentDisplayRoot`에 SEED recipe를 조립합니다.
@@ -95,8 +93,7 @@ export const AttachmentDisplayRoot = React.forwardRef<NodesRef, AttachmentDispla
 AttachmentDisplayRoot.displayName = "AttachmentDisplayRoot";
 
 export interface AttachmentDisplayControlProps
-  extends AttachmentInputVariantProps,
-    LynxHostProps<"view"> {}
+  extends AttachmentInputVariantProps, LynxHostProps<"view"> {}
 
 export const AttachmentDisplayControl = React.forwardRef<NodesRef, AttachmentDisplayControlProps>(
   (props, ref) => {
@@ -214,8 +211,7 @@ export const AttachmentDisplayHeader = React.forwardRef<NodesRef, AttachmentDisp
 AttachmentDisplayHeader.displayName = "AttachmentDisplayHeader";
 
 export interface AttachmentDisplayLabelProps
-  extends FieldLabelVariantProps,
-    LynxHostProps<"text"> {}
+  extends FieldLabelVariantProps, LynxHostProps<"text"> {}
 export const AttachmentDisplayLabel = React.forwardRef<NodesRef, AttachmentDisplayLabelProps>(
   (props, ref) => {
     const [variantProps, otherProps] = fieldLabel.splitVariantProps(props);
@@ -282,7 +278,8 @@ export const AttachmentDisplayRequiredIndicator = React.forwardRef<
 AttachmentDisplayRequiredIndicator.displayName = "AttachmentDisplayRequiredIndicator";
 
 export interface AttachmentDisplayTriggerProps
-  extends AttachmentInputTriggerVariantProps,
+  extends
+    AttachmentInputTriggerVariantProps,
     Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
     LynxPressableProps {}
 
@@ -402,8 +399,7 @@ export const AttachmentDisplayTriggerItemCount = React.forwardRef<
 AttachmentDisplayTriggerItemCount.displayName = "AttachmentDisplayTriggerItemCount";
 
 export interface AttachmentDisplayItemProps
-  extends Omit<AttachmentInputItemVariantProps, "type" | "removePressed">,
-    LynxHostProps<"view"> {
+  extends Omit<AttachmentInputItemVariantProps, "type" | "removePressed">, LynxHostProps<"view"> {
   entry: AttachmentDisplayEntry;
 }
 export const AttachmentDisplayItem = React.forwardRef<NodesRef, AttachmentDisplayItemProps>(
@@ -527,8 +523,7 @@ export const AttachmentDisplayItemBadge = React.forwardRef<NodesRef, LynxHostPro
 AttachmentDisplayItemBadge.displayName = "AttachmentDisplayItemBadge";
 
 export interface AttachmentDisplayItemActionButtonProps
-  extends Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
-    LynxPressableProps {}
+  extends Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">, LynxPressableProps {}
 export const AttachmentDisplayItemActionButton = React.forwardRef<
   NodesRef,
   AttachmentDisplayItemActionButtonProps
@@ -592,8 +587,10 @@ export const AttachmentDisplayItemActionButton = React.forwardRef<
 });
 AttachmentDisplayItemActionButton.displayName = "AttachmentDisplayItemActionButton";
 
-export interface AttachmentDisplayItemBackdropProps
-  extends Omit<LynxHostProps<"view">, "children"> {
+export interface AttachmentDisplayItemBackdropProps extends Omit<
+  LynxHostProps<"view">,
+  "children"
+> {
   status: AttachmentDisplayEntry["status"];
   children?: React.ReactNode | ((entry: AttachmentDisplayEntry) => React.ReactNode);
 }
@@ -614,8 +611,7 @@ export const AttachmentDisplayItemBackdrop = React.forwardRef<
 AttachmentDisplayItemBackdrop.displayName = "AttachmentDisplayItemBackdrop";
 
 export interface AttachmentDisplayItemRemoveButtonProps
-  extends Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
-    LynxPressableProps {}
+  extends Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">, LynxPressableProps {}
 /**
  * `AttachmentDisplayItemRemoveButton`의 삭제·`readOnly` 차단·접근성 위에 SEED recipe와 아이콘 slot을 조립합니다.
  */

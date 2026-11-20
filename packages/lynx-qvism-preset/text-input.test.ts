@@ -10,9 +10,7 @@ describe("Lynx text input recipe", () => {
       color: vars.base.enabled.placeholder.color,
       fontWeight: vars.base.enabled.placeholder.fontWeight,
     });
-    expect(
-      textInput.variants["disabled"]["true"]["value"][pseudo("::placeholder")],
-    ).toEqual({
+    expect(textInput.variants["disabled"]["true"]["value"][pseudo("::placeholder")]).toEqual({
       color: vars.base.disabled.placeholder.color,
     });
   });

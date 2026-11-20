@@ -93,8 +93,10 @@ export function useSegmentedTextInputSegment({
   return { segmentKey, textField };
 }
 
-export interface UseSegmentedTextInputSegmentInputProps
-  extends Omit<UseTextFieldInputProps, "readonly" | "maxlength"> {
+export interface UseSegmentedTextInputSegmentInputProps extends Omit<
+  UseTextFieldInputProps,
+  "readonly" | "maxlength"
+> {
   /** `useSegmentedTextInputSegment`가 반환한 key입니다. */
   segmentKey: object;
   /**

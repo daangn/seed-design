@@ -82,8 +82,7 @@ SideNavigationProvider.displayName = "SideNavigationProvider";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SideNavigationRootProps
-  extends SideNavigationVariantProps,
-    SideNavigationPrimitive.RootProps {}
+  extends SideNavigationVariantProps, SideNavigationPrimitive.RootProps {}
 
 export const SideNavigationRoot = withProvider<HTMLElement, SideNavigationRootProps>(
   SideNavigationPrimitive.Root,
@@ -95,8 +94,7 @@ SideNavigationRoot.displayName = "SideNavigationRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SideNavigationHeaderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SideNavigationHeader = withContext<HTMLDivElement, SideNavigationHeaderProps>(
   withSideNavigationStateProps(Primitive.div),
@@ -108,8 +106,7 @@ SideNavigationHeader.displayName = "SideNavigationHeader";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SideNavigationContentProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SideNavigationContent = React.forwardRef<HTMLDivElement, SideNavigationContentProps>(
   ({ className, ...props }, forwardedRef) => {
@@ -153,8 +150,7 @@ SideNavigationContent.displayName = "SideNavigationContent";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SideNavigationFooterProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SideNavigationFooter = withContext<HTMLDivElement, SideNavigationFooterProps>(
   withSideNavigationStateProps(Primitive.div),
@@ -166,8 +162,7 @@ SideNavigationFooter.displayName = "SideNavigationFooter";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SideNavigationGroupProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SideNavigationGroup = withContext<HTMLDivElement, SideNavigationGroupProps>(
   withSideNavigationStateProps(Primitive.div),
@@ -179,8 +174,7 @@ SideNavigationGroup.displayName = "SideNavigationGroup";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SideNavigationGroupLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SideNavigationGroupLabel = withContext<HTMLDivElement, SideNavigationGroupLabelProps>(
   withSideNavigationStateProps(Primitive.div),
@@ -192,7 +186,8 @@ SideNavigationGroupLabel.displayName = "SideNavigationGroupLabel";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SideNavigationItemProps
-  extends SideNavigationMenuItemVariantProps,
+  extends
+    SideNavigationMenuItemVariantProps,
     UseSideNavigationItemProps,
     PrimitiveProps,
     React.HTMLAttributes<HTMLButtonElement> {}
@@ -226,8 +221,7 @@ SideNavigationItem.displayName = "SideNavigationItem";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SideNavigationItemLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const SideNavigationItemLabel = withItemContext<
   HTMLSpanElement,
@@ -257,8 +251,7 @@ export const SideNavigationItemSuffixIcon = withItemContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SideNavigationItemCollapsibleRootProps
-  extends SideNavigationMenuItemVariantProps,
-    SideNavigationPrimitive.ItemCollapsibleRootProps {}
+  extends SideNavigationMenuItemVariantProps, SideNavigationPrimitive.ItemCollapsibleRootProps {}
 
 export const SideNavigationItemCollapsibleRoot = React.forwardRef<
   HTMLDivElement,
@@ -281,8 +274,7 @@ SideNavigationItemCollapsibleRoot.displayName = "SideNavigationItemCollapsibleRo
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SideNavigationItemCollapsibleTriggerProps
-  extends UseSideNavigationItemProps,
-    SideNavigationPrimitive.ItemCollapsibleTriggerProps {}
+  extends UseSideNavigationItemProps, SideNavigationPrimitive.ItemCollapsibleTriggerProps {}
 
 export const SideNavigationItemCollapsibleTrigger = React.forwardRef<
   HTMLButtonElement,
@@ -333,9 +325,7 @@ SideNavigationTrigger.displayName = "SideNavigationTrigger";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SideNavigationInsetProps
-  extends SideNavigationInsetVariantProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends SideNavigationInsetVariantProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const SideNavigationInset = withInsetContext<HTMLDivElement, SideNavigationInsetProps>(
   Primitive.div,

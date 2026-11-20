@@ -11,7 +11,8 @@ import type { UseMiddleTruncateProps } from "./useMiddleTruncate";
 import { useMiddleTruncate } from "./useMiddleTruncate";
 
 export interface MiddleTruncateProps
-  extends UseMiddleTruncateProps,
+  extends
+    UseMiddleTruncateProps,
     PrimitiveProps,
     Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {}
 

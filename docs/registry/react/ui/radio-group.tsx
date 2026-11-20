@@ -11,8 +11,7 @@ import { radioGroup, type RadioGroupVariantProps } from "@seed-design/css/recipe
 import * as React from "react";
 
 export interface RadioGroupProps
-  extends Omit<SeedRadioGroupField.RootProps, "asChild">,
-    RadioGroupVariantProps {
+  extends Omit<SeedRadioGroupField.RootProps, "asChild">, RadioGroupVariantProps {
   label?: React.ReactNode;
   /**
    * @default "medium"
@@ -99,8 +98,10 @@ export const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
 );
 RadioGroup.displayName = "RadioGroup";
 
-export interface RadioGroupItemProps
-  extends Omit<SeedRadioGroup.ItemProps, "children" | "asChild"> {
+export interface RadioGroupItemProps extends Omit<
+  SeedRadioGroup.ItemProps,
+  "children" | "asChild"
+> {
   label?: React.ReactNode;
 
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
@@ -132,8 +133,10 @@ export const RadioGroupItem = React.forwardRef<HTMLInputElement, RadioGroupItemP
 );
 RadioGroupItem.displayName = "RadioGroupItem";
 
-export interface RadiomarkProps
-  extends Omit<SeedRadioGroup.ItemControlProps, "children" | "asChild"> {}
+export interface RadiomarkProps extends Omit<
+  SeedRadioGroup.ItemControlProps,
+  "children" | "asChild"
+> {}
 
 /**
  * @see https://seed-design.io/react/components/radio-group

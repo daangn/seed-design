@@ -42,8 +42,7 @@ const LabelWidthContext = React.createContext<React.Dispatch<
 > | null>(null);
 
 interface FloatingActionButtonRootViewProps
-  extends Omit<FloatingActionButtonVariantProps, "glass">,
-    LynxHostProps<"view"> {
+  extends Omit<FloatingActionButtonVariantProps, "glass">, LynxHostProps<"view"> {
   liquidGlass: ActiveLiquidGlass | null;
 }
 
@@ -114,7 +113,8 @@ FloatingActionButtonRootView.displayName = "FloatingActionButtonRootView";
  * Tap, pressed state, and accessibility defaults come from `@seed-design/lynx-react-action-button`.
  */
 export interface FloatingActionButtonRootProps
-  extends FloatingActionButtonPublicVariantProps,
+  extends
+    FloatingActionButtonPublicVariantProps,
     Pick<UseActionButtonProps, "disabled">,
     LiquidGlassProps,
     Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">,
@@ -182,8 +182,10 @@ FloatingActionButtonRoot.displayName = "FloatingActionButtonRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FloatingActionButtonIconProps
-  extends Omit<InternalIconProps, "deps" | "disableDefaultResize"> {}
+export interface FloatingActionButtonIconProps extends Omit<
+  InternalIconProps,
+  "deps" | "disableDefaultResize"
+> {}
 
 const StyledIcon = withContext<unknown, InternalIconProps>(InternalIcon, "icon");
 

@@ -40,8 +40,7 @@ export const FieldsetLabel = withLabelProvider<HTMLDivElement, FieldsetLabelProp
 );
 
 export interface FieldsetIndicatorTextProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const FieldsetIndicatorText = withLabelContext<HTMLSpanElement, FieldsetIndicatorTextProps>(
   Primitive.span,

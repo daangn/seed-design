@@ -3,8 +3,10 @@
 import { ContentPlaceholder as SeedContentPlaceholder } from "@seed-design/react";
 import * as React from "react";
 
-export interface ContentPlaceholderProps
-  extends Omit<SeedContentPlaceholder.RootProps, "asChild"> {}
+export interface ContentPlaceholderProps extends Omit<
+  SeedContentPlaceholder.RootProps,
+  "asChild"
+> {}
 
 /**
  * @see https://seed-design.io/react/components/content-placeholder

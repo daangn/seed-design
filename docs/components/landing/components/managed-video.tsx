@@ -17,11 +17,10 @@ export interface ManagedVideoSource {
   type?: string;
 }
 
-interface ManagedVideoProps
-  extends Omit<
-    ComponentPropsWithoutRef<"video">,
-    "autoPlay" | "children" | "poster" | "preload" | "src"
-  > {
+interface ManagedVideoProps extends Omit<
+  ComponentPropsWithoutRef<"video">,
+  "autoPlay" | "children" | "poster" | "preload" | "src"
+> {
   onFirstLoop?: () => void;
   playbackEnabled: boolean;
   poster?: string;

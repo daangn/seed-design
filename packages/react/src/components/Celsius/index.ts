@@ -1,4 +1,1 @@
-export {
-  Celsius,
-  type CelsiusProps,
-} from "./Celsius";
+export { Celsius, type CelsiusProps } from "./Celsius";

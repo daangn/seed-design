@@ -127,8 +127,10 @@ export const ResponsiveSidePanelRoot = ({
   );
 };
 
-export interface ResponsiveSidePanelTriggerProps
-  extends SharedProps<SidePanel.TriggerProps, BottomSheet.TriggerProps> {}
+export interface ResponsiveSidePanelTriggerProps extends SharedProps<
+  SidePanel.TriggerProps,
+  BottomSheet.TriggerProps
+> {}
 
 export const ResponsiveSidePanelTrigger = React.forwardRef<
   HTMLButtonElement,
@@ -144,8 +146,10 @@ export const ResponsiveSidePanelTrigger = React.forwardRef<
 });
 ResponsiveSidePanelTrigger.displayName = "ResponsiveSidePanelTrigger";
 
-export interface ResponsiveSidePanelPositionerProps
-  extends SharedProps<SidePanel.PositionerProps, BottomSheet.PositionerProps> {}
+export interface ResponsiveSidePanelPositionerProps extends SharedProps<
+  SidePanel.PositionerProps,
+  BottomSheet.PositionerProps
+> {}
 
 export const ResponsiveSidePanelPositioner = React.forwardRef<
   HTMLDivElement,
@@ -161,8 +165,10 @@ export const ResponsiveSidePanelPositioner = React.forwardRef<
 });
 ResponsiveSidePanelPositioner.displayName = "ResponsiveSidePanelPositioner";
 
-export interface ResponsiveSidePanelBackdropProps
-  extends SharedProps<SidePanel.BackdropProps, BottomSheet.BackdropProps> {}
+export interface ResponsiveSidePanelBackdropProps extends SharedProps<
+  SidePanel.BackdropProps,
+  BottomSheet.BackdropProps
+> {}
 
 export const ResponsiveSidePanelBackdrop = React.forwardRef<
   HTMLDivElement,
@@ -183,7 +189,8 @@ ResponsiveSidePanelBackdrop.displayName = "ResponsiveSidePanelBackdrop";
  * rendered as a BottomSheet.
  */
 export interface ResponsiveSidePanelContentProps
-  extends SharedProps<SidePanel.ContentProps, BottomSheet.ContentProps>,
+  extends
+    SharedProps<SidePanel.ContentProps, BottomSheet.ContentProps>,
     Pick<SidePanel.ContentProps, "width" | "maxWidth"> {}
 
 export const ResponsiveSidePanelContent = React.forwardRef<
@@ -200,8 +207,10 @@ export const ResponsiveSidePanelContent = React.forwardRef<
 });
 ResponsiveSidePanelContent.displayName = "ResponsiveSidePanelContent";
 
-export interface ResponsiveSidePanelHeaderProps
-  extends SharedProps<SidePanel.HeaderProps, BottomSheet.HeaderProps> {}
+export interface ResponsiveSidePanelHeaderProps extends SharedProps<
+  SidePanel.HeaderProps,
+  BottomSheet.HeaderProps
+> {}
 
 export const ResponsiveSidePanelHeader = React.forwardRef<
   HTMLDivElement,
@@ -217,8 +226,10 @@ export const ResponsiveSidePanelHeader = React.forwardRef<
 });
 ResponsiveSidePanelHeader.displayName = "ResponsiveSidePanelHeader";
 
-export interface ResponsiveSidePanelTitleProps
-  extends SharedProps<SidePanel.TitleProps, BottomSheet.TitleProps> {}
+export interface ResponsiveSidePanelTitleProps extends SharedProps<
+  SidePanel.TitleProps,
+  BottomSheet.TitleProps
+> {}
 
 export const ResponsiveSidePanelTitle = React.forwardRef<
   HTMLHeadingElement,
@@ -234,8 +245,10 @@ export const ResponsiveSidePanelTitle = React.forwardRef<
 });
 ResponsiveSidePanelTitle.displayName = "ResponsiveSidePanelTitle";
 
-export interface ResponsiveSidePanelDescriptionProps
-  extends SharedProps<SidePanel.DescriptionProps, BottomSheet.DescriptionProps> {}
+export interface ResponsiveSidePanelDescriptionProps extends SharedProps<
+  SidePanel.DescriptionProps,
+  BottomSheet.DescriptionProps
+> {}
 
 export const ResponsiveSidePanelDescription = React.forwardRef<
   HTMLParagraphElement,
@@ -251,8 +264,10 @@ export const ResponsiveSidePanelDescription = React.forwardRef<
 });
 ResponsiveSidePanelDescription.displayName = "ResponsiveSidePanelDescription";
 
-export interface ResponsiveSidePanelBodyProps
-  extends SharedProps<SidePanel.BodyProps, BottomSheet.BodyProps> {}
+export interface ResponsiveSidePanelBodyProps extends SharedProps<
+  SidePanel.BodyProps,
+  BottomSheet.BodyProps
+> {}
 
 export const ResponsiveSidePanelBody = React.forwardRef<
   HTMLDivElement,
@@ -268,8 +283,10 @@ export const ResponsiveSidePanelBody = React.forwardRef<
 });
 ResponsiveSidePanelBody.displayName = "ResponsiveSidePanelBody";
 
-export interface ResponsiveSidePanelFooterProps
-  extends SharedProps<SidePanel.FooterProps, BottomSheet.FooterProps> {}
+export interface ResponsiveSidePanelFooterProps extends SharedProps<
+  SidePanel.FooterProps,
+  BottomSheet.FooterProps
+> {}
 
 export const ResponsiveSidePanelFooter = React.forwardRef<
   HTMLDivElement,
@@ -285,8 +302,10 @@ export const ResponsiveSidePanelFooter = React.forwardRef<
 });
 ResponsiveSidePanelFooter.displayName = "ResponsiveSidePanelFooter";
 
-export interface ResponsiveSidePanelCloseButtonProps
-  extends SharedProps<SidePanel.CloseButtonProps, BottomSheet.CloseButtonProps> {}
+export interface ResponsiveSidePanelCloseButtonProps extends SharedProps<
+  SidePanel.CloseButtonProps,
+  BottomSheet.CloseButtonProps
+> {}
 
 export const ResponsiveSidePanelCloseButton = React.forwardRef<
   HTMLButtonElement,

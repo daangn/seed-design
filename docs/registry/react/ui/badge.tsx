@@ -4,8 +4,10 @@ import { IconILowercaseSerifCircleLine } from "@karrotmarket/react-monochrome-ic
 import { Badge as SeedBadge, Icon } from "@seed-design/react";
 import * as React from "react";
 
-export interface BadgeActionProps
-  extends Omit<SeedBadge.ActionProps, "aria-label" | "asChild" | "children"> {
+export interface BadgeActionProps extends Omit<
+  SeedBadge.ActionProps,
+  "aria-label" | "asChild" | "children"
+> {
   "aria-label": string;
   render?: (trigger: React.ReactElement) => React.ReactNode;
 }

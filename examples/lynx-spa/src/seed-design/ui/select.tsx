@@ -10,8 +10,7 @@ const SelectAccessibilityLabelContext =
   React.createContext<LynxAccessibilityProps["accessibility-label"]>(undefined);
 
 export interface SelectRootProps
-  extends SeedSelect.RootProps,
-    Pick<SeedField.RootProps, "required" | "invalid" | "readOnly"> {
+  extends SeedSelect.RootProps, Pick<SeedField.RootProps, "required" | "invalid" | "readOnly"> {
   label?: React.ReactNode;
   labelWeight?: SeedField.LabelProps["weight"];
   indicator?: React.ReactNode;

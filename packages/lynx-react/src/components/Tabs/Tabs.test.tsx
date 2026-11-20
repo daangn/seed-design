@@ -75,56 +75,62 @@ describe("Tabs", () => {
   it.each([
     ["Tabs", Tabs, "seed-tabs"],
     ["ChipTabs", ChipTabs, "seed-chip-tabs"],
-  ] as const)("keeps %s trigger defaults inside a scope without warning", (name, Component, prefix) => {
-    const warn = vi.spyOn(console, "warn");
-    const { container } = render(
-      <AccessibilityElementScope>
-        <Component.Root defaultValue="one">
-          <Component.List>
-            <Component.Trigger value="one">{""}</Component.Trigger>
-            <Component.Trigger value="two" accessibility-element>
-              두 번째
-            </Component.Trigger>
-          </Component.List>
-        </Component.Root>
-      </AccessibilityElementScope>,
-    );
-    const triggers = container.querySelectorAll(`.${prefix}__trigger`);
-    expect(triggers[0]).toHaveAttribute("accessibility-element", "true");
-    expect(triggers[1]).toHaveAttribute("accessibility-element", "true");
-    expect(
-      warn.mock.calls.filter(
-        ([message]) => typeof message === "string" && message.startsWith(`${name}Trigger:`),
-      ),
-    ).toHaveLength(0);
-  });
+  ] as const)(
+    "keeps %s trigger defaults inside a scope without warning",
+    (name, Component, prefix) => {
+      const warn = vi.spyOn(console, "warn");
+      const { container } = render(
+        <AccessibilityElementScope>
+          <Component.Root defaultValue="one">
+            <Component.List>
+              <Component.Trigger value="one">{""}</Component.Trigger>
+              <Component.Trigger value="two" accessibility-element>
+                두 번째
+              </Component.Trigger>
+            </Component.List>
+          </Component.Root>
+        </AccessibilityElementScope>,
+      );
+      const triggers = container.querySelectorAll(`.${prefix}__trigger`);
+      expect(triggers[0]).toHaveAttribute("accessibility-element", "true");
+      expect(triggers[1]).toHaveAttribute("accessibility-element", "true");
+      expect(
+        warn.mock.calls.filter(
+          ([message]) => typeof message === "string" && message.startsWith(`${name}Trigger:`),
+        ),
+      ).toHaveLength(0);
+    },
+  );
 
   it.each([
     ["Tabs", Tabs, "seed-tabs"],
     ["ChipTabs", ChipTabs, "seed-chip-tabs"],
-  ] as const)("exposes %s trigger names without duplicate label text", (_name, Component, prefix) => {
-    const { container } = render(
-      <Component.Root defaultValue="one">
-        <Component.List>
-          <Component.Trigger value="one" notification={<text>New</text>}>
-            첫 번째
-          </Component.Trigger>
-          <Component.Trigger value="two">{2}</Component.Trigger>
-        </Component.List>
-      </Component.Root>,
-    );
-    const triggers = container.querySelectorAll(`.${prefix}__trigger`);
-    expect(triggers[0]).toHaveAttribute("accessibility-label", "첫 번째");
-    expect(triggers[0]).toHaveAttribute("accessibility-value", "selected");
-    expect(triggers[1]).toHaveAttribute("accessibility-label", "2");
-    for (const trigger of triggers) {
-      expect(trigger).toHaveAttribute("flatten", "false");
-      expect(trigger).toHaveAttribute("accessibility-element", "true");
-      const label = trigger.querySelector(`.${prefix}__triggerLabel`);
-      expect(label).toHaveAttribute("accessibility-element", "false");
-      expect(label).toHaveAttribute("accessibility-elements-hidden", "true");
-    }
-  });
+  ] as const)(
+    "exposes %s trigger names without duplicate label text",
+    (_name, Component, prefix) => {
+      const { container } = render(
+        <Component.Root defaultValue="one">
+          <Component.List>
+            <Component.Trigger value="one" notification={<text>New</text>}>
+              첫 번째
+            </Component.Trigger>
+            <Component.Trigger value="two">{2}</Component.Trigger>
+          </Component.List>
+        </Component.Root>,
+      );
+      const triggers = container.querySelectorAll(`.${prefix}__trigger`);
+      expect(triggers[0]).toHaveAttribute("accessibility-label", "첫 번째");
+      expect(triggers[0]).toHaveAttribute("accessibility-value", "selected");
+      expect(triggers[1]).toHaveAttribute("accessibility-label", "2");
+      for (const trigger of triggers) {
+        expect(trigger).toHaveAttribute("flatten", "false");
+        expect(trigger).toHaveAttribute("accessibility-element", "true");
+        const label = trigger.querySelector(`.${prefix}__triggerLabel`);
+        expect(label).toHaveAttribute("accessibility-element", "false");
+        expect(label).toHaveAttribute("accessibility-elements-hidden", "true");
+      }
+    },
+  );
 
   it.each([
     ["Tabs", Tabs, "seed-tabs"],
@@ -194,52 +200,55 @@ describe("Tabs", () => {
   it.each([
     ["Tabs", Tabs, "seed-tabs"],
     ["ChipTabs", ChipTabs, "seed-chip-tabs"],
-  ] as const)("toggles safe-area expansion without resetting selection for %s", (_name, Component, prefix) => {
-    measurement.enabled = true;
-    const safeAreaStyle: React.ComponentProps<typeof Component.Root>["style"] &
-      Record<"--seed-safe-area-left" | "--seed-safe-area-right", string> = {
-      "--seed-safe-area-left": "84px",
-      "--seed-safe-area-right": "0px",
-    };
-    function Subject({ extend }: { extend: boolean }) {
-      return (
-        <Component.Root defaultValue="one" extendSafeAreaX={extend} style={safeAreaStyle}>
-          <Component.List>
-            <Component.Trigger value="one">one</Component.Trigger>
-            <Component.Trigger value="two">two</Component.Trigger>
-          </Component.List>
-          <Component.Content value="two">
-            <text>Selected content</text>
-          </Component.Content>
-        </Component.Root>
+  ] as const)(
+    "toggles safe-area expansion without resetting selection for %s",
+    (_name, Component, prefix) => {
+      measurement.enabled = true;
+      const safeAreaStyle: React.ComponentProps<typeof Component.Root>["style"] &
+        Record<"--seed-safe-area-left" | "--seed-safe-area-right", string> = {
+        "--seed-safe-area-left": "84px",
+        "--seed-safe-area-right": "0px",
+      };
+      function Subject({ extend }: { extend: boolean }) {
+        return (
+          <Component.Root defaultValue="one" extendSafeAreaX={extend} style={safeAreaStyle}>
+            <Component.List>
+              <Component.Trigger value="one">one</Component.Trigger>
+              <Component.Trigger value="two">two</Component.Trigger>
+            </Component.List>
+            <Component.Content value="two">
+              <text>Selected content</text>
+            </Component.Content>
+          </Component.Root>
+        );
+      }
+      const { container, rerender } = render(<Subject extend={false} />);
+      const root = container.querySelector(`.${prefix}__root`)!;
+      const second = container.querySelectorAll(`.${prefix}__trigger`)[1];
+      fireEvent.tap(second);
+      expect(second).toHaveAttribute("accessibility-value", "selected");
+      expect(root).not.toHaveClass(`${prefix}__root--extendSafeAreaX_true`);
+      expect(container.querySelectorAll('[user-interaction-enabled="false"]')).toHaveLength(0);
+
+      rerender(<Subject extend />);
+      expect(root).toHaveClass(`${prefix}__root--extendSafeAreaX_true`);
+      expect(second).toHaveAttribute("accessibility-value", "selected");
+      expect(container.querySelector(`.${prefix}__content`)).toHaveClass(
+        `${prefix}__content--extendSafeAreaX_true`,
       );
-    }
-    const { container, rerender } = render(<Subject extend={false} />);
-    const root = container.querySelector(`.${prefix}__root`)!;
-    const second = container.querySelectorAll(`.${prefix}__trigger`)[1];
-    fireEvent.tap(second);
-    expect(second).toHaveAttribute("accessibility-value", "selected");
-    expect(root).not.toHaveClass(`${prefix}__root--extendSafeAreaX_true`);
-    expect(container.querySelectorAll('[user-interaction-enabled="false"]')).toHaveLength(0);
+      const probes = container.querySelectorAll('[user-interaction-enabled="false"]');
+      expect(probes).toHaveLength(2);
+      for (const probe of probes) {
+        expect(probe).toHaveStyle({ width: "0px", height: "0px", position: "absolute" });
+        expect(probe).toHaveAttribute("accessibility-elements-hidden", "true");
+      }
+      expect(root).not.toHaveAttribute("extendSafeAreaX");
 
-    rerender(<Subject extend />);
-    expect(root).toHaveClass(`${prefix}__root--extendSafeAreaX_true`);
-    expect(second).toHaveAttribute("accessibility-value", "selected");
-    expect(container.querySelector(`.${prefix}__content`)).toHaveClass(
-      `${prefix}__content--extendSafeAreaX_true`,
-    );
-    const probes = container.querySelectorAll('[user-interaction-enabled="false"]');
-    expect(probes).toHaveLength(2);
-    for (const probe of probes) {
-      expect(probe).toHaveStyle({ width: "0px", height: "0px", position: "absolute" });
-      expect(probe).toHaveAttribute("accessibility-elements-hidden", "true");
-    }
-    expect(root).not.toHaveAttribute("extendSafeAreaX");
-
-    rerender(<Subject extend={false} />);
-    expect(second).toHaveAttribute("accessibility-value", "selected");
-    expect(container.querySelectorAll('[user-interaction-enabled="false"]')).toHaveLength(0);
-  });
+      rerender(<Subject extend={false} />);
+      expect(second).toHaveAttribute("accessibility-value", "selected");
+      expect(container.querySelectorAll('[user-interaction-enabled="false"]')).toHaveLength(0);
+    },
+  );
   it("lets user scroll props win while keeping the internal scroll state updated", async () => {
     measurement.enabled = true;
     const bindscroll = vi.fn();
@@ -417,25 +426,28 @@ describe("Tabs", () => {
   it.each([
     ["Tabs", Tabs, "seed-tabs"],
     ["ChipTabs", ChipTabs, "seed-chip-tabs"],
-  ] as const)("maps %s selected and disabled state to recipe classes", (_name, Component, prefix) => {
-    const { container } = render(
-      <Component.Root defaultValue="one">
-        <Component.List>
-          <Component.Trigger value="one">one</Component.Trigger>
-          <Component.Trigger value="two">two</Component.Trigger>
-          <Component.Trigger value="three" disabled>
-            three
-          </Component.Trigger>
-        </Component.List>
-      </Component.Root>,
-    );
-    const triggers = container.querySelectorAll(`.${prefix}__trigger`);
-    expect(triggers[0]).toHaveClass(`${prefix}__trigger--selected_true`);
-    expect(triggers[2]).toHaveClass(`${prefix}__trigger--disabled_true`);
-    fireEvent.tap(triggers[1]);
-    expect(triggers[0]).toHaveClass(`${prefix}__trigger--selected_false`);
-    expect(triggers[1]).toHaveClass(`${prefix}__trigger--selected_true`);
-  });
+  ] as const)(
+    "maps %s selected and disabled state to recipe classes",
+    (_name, Component, prefix) => {
+      const { container } = render(
+        <Component.Root defaultValue="one">
+          <Component.List>
+            <Component.Trigger value="one">one</Component.Trigger>
+            <Component.Trigger value="two">two</Component.Trigger>
+            <Component.Trigger value="three" disabled>
+              three
+            </Component.Trigger>
+          </Component.List>
+        </Component.Root>,
+      );
+      const triggers = container.querySelectorAll(`.${prefix}__trigger`);
+      expect(triggers[0]).toHaveClass(`${prefix}__trigger--selected_true`);
+      expect(triggers[2]).toHaveClass(`${prefix}__trigger--disabled_true`);
+      fireEvent.tap(triggers[1]);
+      expect(triggers[0]).toHaveClass(`${prefix}__trigger--selected_false`);
+      expect(triggers[1]).toHaveClass(`${prefix}__trigger--selected_true`);
+    },
+  );
 
   it("enables transition recipe classes once all trigger widths are measured", () => {
     const { container } = render(<BasicTabs defaultValue="two" />);

@@ -21,8 +21,7 @@ function composeTouch(consumer: TouchHandler | undefined, press: TouchHandler): 
 }
 
 export interface PageBannerRootProps
-  extends UsePageBannerProps,
-    Omit<ViewProps, keyof UsePageBannerProps> {}
+  extends UsePageBannerProps, Omit<ViewProps, keyof UsePageBannerProps> {}
 
 /**
  * 스타일 없이 PageBanner의 표시 상태와 탭할 수 있는 Root를 연결하는 native `<view>`입니다.
@@ -92,8 +91,7 @@ export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((pr
 PageBannerRoot.displayName = "PageBannerRoot";
 
 export interface PageBannerButtonProps
-  extends UsePageBannerButtonProps,
-    Omit<ViewProps, keyof UsePageBannerButtonProps> {}
+  extends UsePageBannerButtonProps, Omit<ViewProps, keyof UsePageBannerButtonProps> {}
 
 /**
  * 스타일 없이 PageBanner 안의 독립 action을 연결하는 native `<view>`입니다.
@@ -126,8 +124,7 @@ export const PageBannerButton = React.forwardRef<unknown, PageBannerButtonProps>
 PageBannerButton.displayName = "PageBannerButton";
 
 export interface PageBannerCloseButtonProps
-  extends UsePageBannerCloseButtonProps,
-    Omit<ViewProps, keyof UsePageBannerCloseButtonProps> {}
+  extends UsePageBannerCloseButtonProps, Omit<ViewProps, keyof UsePageBannerCloseButtonProps> {}
 
 /**
  * 스타일 없이 PageBanner를 닫는 native `<view>`입니다. 사용자 `bindtap`을 실행한 뒤 `dismiss`를 호출합니다.

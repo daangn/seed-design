@@ -24,8 +24,7 @@ function formatFileSize(bytes: number): string {
 }
 
 export interface FileUploadRootProps
-  extends UseFileUploadProps,
-    Omit<ViewProps, keyof UseFileUploadProps> {}
+  extends UseFileUploadProps, Omit<ViewProps, keyof UseFileUploadProps> {}
 
 /**
  * 스타일 없이 첨부 상태를 하위 요소에 제공하는 native `<view>`입니다.
@@ -82,8 +81,7 @@ export const FileUploadRoot = React.forwardRef<NodesRef, FileUploadRootProps>((p
 FileUploadRoot.displayName = "FileUploadRoot";
 
 export interface FileUploadTriggerProps
-  extends UseFileUploadTriggerProps,
-    Omit<ViewProps, keyof UseFileUploadTriggerProps> {}
+  extends UseFileUploadTriggerProps, Omit<ViewProps, keyof UseFileUploadTriggerProps> {}
 
 /**
  * 스타일 없이 파일 선택을 시작하는 native `<view>`입니다. tap하면 Root의 `onSelectFiles`를 호출합니다.

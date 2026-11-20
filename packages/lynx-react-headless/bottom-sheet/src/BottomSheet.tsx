@@ -36,8 +36,10 @@ const SKIP_ANIMATION_TRANSITION: SheetTransition = { type: "tween", duration: 0 
 
 export type BottomSheetRootRef = SheetRootRef;
 
-export interface BottomSheetRootProps
-  extends Omit<SheetRootProps, "show" | "defaultShow" | "onShowChange"> {
+export interface BottomSheetRootProps extends Omit<
+  SheetRootProps,
+  "show" | "defaultShow" | "onShowChange"
+> {
   /**
    * Whether the sheet is open (controlled mode).
    * Internally mapped to `show` of the internal sheet engine.

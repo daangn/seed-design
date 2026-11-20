@@ -103,31 +103,31 @@ describe.each([false, true])("attachment feedback (display: %s)", (display) => {
     expect(onRemove).toHaveBeenCalledTimes(1);
   });
 
-  it.each([
-    "disabled",
-    "readOnly",
-  ] as const)("blocks action taps while %s and keeps removal available when disabled", async (state) => {
-    const onAction = vi.fn();
-    const onRemove = vi.fn();
-    const { container } = render(
-      <Example {...{ display, onAction, onRemove, onTouch: vi.fn(), [state]: true }} />,
-      { enableMainThread: true, enableBackgroundThread: true },
-    );
-    await waitSchedule();
-    const remove = container.querySelector(".seed-attachment-input-item__removeButton")!;
-    const action = container.querySelector(".seed-attachment-input-item__actionButton")!;
-    fireEvent.touchstart(remove, {});
-    await waitSchedule();
-    expect(remove.className.includes("removePressed_true")).toBe(state === "disabled");
+  it.each(["disabled", "readOnly"] as const)(
+    "blocks action taps while %s and keeps removal available when disabled",
+    async (state) => {
+      const onAction = vi.fn();
+      const onRemove = vi.fn();
+      const { container } = render(
+        <Example {...{ display, onAction, onRemove, onTouch: vi.fn(), [state]: true }} />,
+        { enableMainThread: true, enableBackgroundThread: true },
+      );
+      await waitSchedule();
+      const remove = container.querySelector(".seed-attachment-input-item__removeButton")!;
+      const action = container.querySelector(".seed-attachment-input-item__actionButton")!;
+      fireEvent.touchstart(remove, {});
+      await waitSchedule();
+      expect(remove.className.includes("removePressed_true")).toBe(state === "disabled");
 
-    fireEvent.touchend(remove, {});
-    await waitSchedule();
-    expect(remove.className).not.toContain("removePressed_true");
+      fireEvent.touchend(remove, {});
+      await waitSchedule();
+      expect(remove.className).not.toContain("removePressed_true");
 
-    fireEvent.tap(remove);
-    fireEvent.tap(action);
-    await waitSchedule();
-    expect(onAction).not.toHaveBeenCalled();
-    expect(onRemove).toHaveBeenCalledTimes(state === "disabled" ? 1 : 0);
-  });
+      fireEvent.tap(remove);
+      fireEvent.tap(action);
+      await waitSchedule();
+      expect(onAction).not.toHaveBeenCalled();
+      expect(onRemove).toHaveBeenCalledTimes(state === "disabled" ? 1 : 0);
+    },
+  );
 });

@@ -15,8 +15,7 @@ import { VariantTable } from "./components/variant-table";
 import { VISUAL_VIEWPORT_PARAMETERS } from "./utils/parameters";
 
 interface ClosedSelectProps
-  extends SelectRootProps,
-    Pick<SelectTriggerProps, "placeholder" | "prefixIcon"> {}
+  extends SelectRootProps, Pick<SelectTriggerProps, "placeholder" | "prefixIcon"> {}
 
 // Closed trigger only. SelectContent still renders — its options register on
 // mount even while the listbox stays hidden — so the trigger resolves the

@@ -51,26 +51,26 @@ describe("AttachmentDisplay safe-area extension", () => {
     );
   });
 
-  it.each([
-    false,
-    true,
-  ])("extends once when Root extension is %s and Control also requests it", (rootExtended) => {
-    const { container } = render(
-      <AttachmentDisplayRoot extendSafeAreaX={rootExtended}>
-        <AttachmentDisplayControl extendSafeAreaX>
-          <AttachmentDisplayContainer>
-            <text>Attachment</text>
-          </AttachmentDisplayContainer>
-        </AttachmentDisplayControl>
-      </AttachmentDisplayRoot>,
-    );
-    expect(
-      container.querySelectorAll(".seed-attachment-input__root--extendSafeAreaX_true"),
-    ).toHaveLength(1);
-    expect(container.querySelector(".seed-attachment-input__containerContent")).toHaveClass(
-      "seed-attachment-input__containerContent--extendSafeAreaX_true",
-    );
-  });
+  it.each([false, true])(
+    "extends once when Root extension is %s and Control also requests it",
+    (rootExtended) => {
+      const { container } = render(
+        <AttachmentDisplayRoot extendSafeAreaX={rootExtended}>
+          <AttachmentDisplayControl extendSafeAreaX>
+            <AttachmentDisplayContainer>
+              <text>Attachment</text>
+            </AttachmentDisplayContainer>
+          </AttachmentDisplayControl>
+        </AttachmentDisplayRoot>,
+      );
+      expect(
+        container.querySelectorAll(".seed-attachment-input__root--extendSafeAreaX_true"),
+      ).toHaveLength(1);
+      expect(container.querySelector(".seed-attachment-input__containerContent")).toHaveClass(
+        "seed-attachment-input__containerContent--extendSafeAreaX_true",
+      );
+    },
+  );
 
   it("inherits a Root extension through a default Control and clears it when toggled off", () => {
     const content = (

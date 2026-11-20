@@ -229,7 +229,8 @@ PopoverTrigger.displayName = "PopoverTrigger";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface PopoverPositionerProps
-  extends StyledViewProps,
+  extends
+    StyledViewProps,
     Pick<OverlayViewProps, "container" | "overlayLevel" | "overlayViewProps"> {}
 
 /**
@@ -732,8 +733,7 @@ PopoverArrow.displayName = "PopoverArrow";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface PopoverCloseButtonProps
-  extends UsePopoverCloseButtonProps,
-    Omit<ViewProps, keyof UsePopoverCloseButtonProps> {}
+  extends UsePopoverCloseButtonProps, Omit<ViewProps, keyof UsePopoverCloseButtonProps> {}
 
 /**
  * 탭하면 Popover를 닫는 native `<view>`입니다. 사용자 `bindtap`을 먼저 실행합니다.

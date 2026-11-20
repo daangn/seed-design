@@ -17,17 +17,15 @@ import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context"
 const { withProvider, withContext } = createSlotRecipeContext(pullToRefresh);
 
 export interface PullToRefreshRootProps
-  extends Omit<HeadlessRootProps, keyof LynxHostProps<"view">>,
-    LynxHostProps<"view"> {}
+  extends Omit<HeadlessRootProps, keyof LynxHostProps<"view">>, LynxHostProps<"view"> {}
 export interface PullToRefreshIndicatorProps
-  extends Pick<HeadlessIndicatorProps, "children">,
-    Omit<LynxHostProps<"view">, "children"> {}
+  extends Pick<HeadlessIndicatorProps, "children">, Omit<LynxHostProps<"view">, "children"> {}
 export interface PullToRefreshContentProps
-  extends Omit<HeadlessContentProps, keyof LynxHostProps<"scroll-view">>,
+  extends
+    Omit<HeadlessContentProps, keyof LynxHostProps<"scroll-view">>,
     LynxHostProps<"scroll-view"> {}
 export interface PullToRefreshListContentProps
-  extends Omit<HeadlessListContentProps, keyof LynxHostProps<"list">>,
-    LynxHostProps<"list"> {}
+  extends Omit<HeadlessListContentProps, keyof LynxHostProps<"list">>, LynxHostProps<"list"> {}
 
 export const PullToRefreshRoot: ForwardRefExoticComponent<
   PropsWithoutRef<PullToRefreshRootProps> & RefAttributes<NodesRef>

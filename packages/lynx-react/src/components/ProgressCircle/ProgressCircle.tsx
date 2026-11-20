@@ -178,7 +178,8 @@ interface MainThreadProgress {
 }
 
 export interface ProgressCircleRootProps
-  extends ProgressCircleVariantProps,
+  extends
+    ProgressCircleVariantProps,
     UseProgressProps,
     Omit<LynxHostProps<"view">, keyof UseProgressProps> {
   /**

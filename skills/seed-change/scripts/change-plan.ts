@@ -965,7 +965,7 @@ function nameStatusPathCount(status: string | undefined): number {
 function nameStatusPaths(output: string): string[] {
   const fields = output.split("\0").filter(Boolean);
   const paths: string[] = [];
-  for (let index = 0; index < fields.length; ) {
+  for (let index = 0; index < fields.length;) {
     const pathCount = nameStatusPathCount(fields[index]);
     paths.push(...fields.slice(index + 1, index + 1 + pathCount).map(normalizeRepositoryPath));
     index += pathCount + 1;

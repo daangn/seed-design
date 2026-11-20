@@ -27,8 +27,7 @@ const withItemStateProps = createWithStateProps([useNavigationMenuItemContext]);
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface NavigationMenuProviderProps
-  extends MenuVariantProps,
-    NavigationMenuPrimitive.ProviderProps {}
+  extends MenuVariantProps, NavigationMenuPrimitive.ProviderProps {}
 
 export const NavigationMenuProvider = (props: NavigationMenuProviderProps) => {
   const [variantProps, otherProps] = menu.splitVariantProps(props);
@@ -87,8 +86,7 @@ export const NavigationMenuContent = withContext<HTMLDivElement, NavigationMenuC
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface NavigationMenuScrollAreaProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const NavigationMenuScrollArea = withContext<HTMLDivElement, NavigationMenuScrollAreaProps>(
   withStateProps(Primitive.div),
@@ -116,8 +114,7 @@ export const NavigationMenuGroupLabel = withContext<HTMLDivElement, NavigationMe
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface NavigationMenuItemProps
-  extends MenuItemVariantProps,
-    NavigationMenuPrimitive.ItemProps {}
+  extends MenuItemVariantProps, NavigationMenuPrimitive.ItemProps {}
 
 export const NavigationMenuItem = withContentScale(
   React.forwardRef<HTMLButtonElement, NavigationMenuItemProps>(
@@ -144,8 +141,7 @@ NavigationMenuItem.displayName = "NavigationMenuItem";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface NavigationMenuItemBodyProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const NavigationMenuItemBody = withItemContext<HTMLDivElement, NavigationMenuItemBodyProps>(
   withItemStateProps(Primitive.div),
@@ -155,8 +151,7 @@ export const NavigationMenuItemBody = withItemContext<HTMLDivElement, Navigation
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface NavigationMenuItemLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const NavigationMenuItemLabel = withItemContext<
   HTMLSpanElement,
@@ -166,8 +161,7 @@ export const NavigationMenuItemLabel = withItemContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface NavigationMenuItemDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const NavigationMenuItemDescription = withItemContext<
   HTMLSpanElement,

@@ -20,8 +20,7 @@ const {
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface RadioGroupFieldRootProps
-  extends FieldVariantProps,
-    RadioGroupPrimitive.RootProps {}
+  extends FieldVariantProps, RadioGroupPrimitive.RootProps {}
 
 export interface RadioGroupFieldRootPrimitiveProps extends RadioGroupPrimitive.RootProps {}
 
@@ -33,8 +32,7 @@ export const RadioGroupFieldRoot = Object.assign(
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface RadioGroupFieldHeaderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const RadioGroupFieldHeader = withContext<HTMLDivElement, RadioGroupFieldHeaderProps>(
   Primitive.div,
@@ -42,8 +40,7 @@ export const RadioGroupFieldHeader = withContext<HTMLDivElement, RadioGroupField
 );
 
 export interface RadioGroupFieldLabelProps
-  extends FieldLabelVariantProps,
-    RadioGroupPrimitive.LabelProps {}
+  extends FieldLabelVariantProps, RadioGroupPrimitive.LabelProps {}
 
 export const RadioGroupFieldLabel = withLabelProvider<HTMLDivElement, RadioGroupFieldLabelProps>(
   RadioGroupPrimitive.Label,
@@ -51,8 +48,7 @@ export const RadioGroupFieldLabel = withLabelProvider<HTMLDivElement, RadioGroup
 );
 
 export interface RadioGroupFieldIndicatorTextProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const RadioGroupFieldIndicatorText = withLabelContext<
   HTMLSpanElement,
@@ -92,8 +88,7 @@ RadioGroupFieldRequiredIndicator.displayName = "RadioGroupFieldRequiredIndicator
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface RadioGroupFieldFooterProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const RadioGroupFieldFooter = withContext<HTMLDivElement, RadioGroupFieldFooterProps>(
   Primitive.div,

@@ -246,7 +246,8 @@ MenuTrigger.displayName = "MenuTrigger";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface MenuPositionerProps
-  extends StyledViewProps,
+  extends
+    StyledViewProps,
     Pick<OverlayViewProps, "container" | "overlayLevel" | "overlayViewProps"> {}
 
 /**

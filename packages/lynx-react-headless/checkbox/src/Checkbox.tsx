@@ -6,8 +6,7 @@ import { CheckboxProvider, useCheckboxContext } from "./useCheckboxContext.js";
 type ViewProps = IntrinsicElements["view"];
 
 export interface CheckboxRootProps
-  extends UseCheckboxProps,
-    Omit<ViewProps, keyof UseCheckboxProps> {}
+  extends UseCheckboxProps, Omit<ViewProps, keyof UseCheckboxProps> {}
 
 /**
  * 스타일 없이 Checkbox의 선택 상태·press·접근성을 연결하는 native `<view>`입니다.

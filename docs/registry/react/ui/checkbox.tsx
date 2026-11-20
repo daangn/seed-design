@@ -16,8 +16,7 @@ import {
 } from "@seed-design/css/recipes/checkbox-group";
 
 export interface CheckboxGroupProps
-  extends Omit<SeedFieldset.RootProps, "asChild">,
-    CheckboxGroupVariantProps {
+  extends Omit<SeedFieldset.RootProps, "asChild">, CheckboxGroupVariantProps {
   label?: React.ReactNode;
   /**
    * @default "medium"

@@ -31,9 +31,7 @@ const withStateProps = createWithStateProps([useFieldButtonContext]);
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface FieldButtonRootProps
-  extends FieldVariantProps,
-    InputButtonVariantProps,
-    FieldButton.RootProps {}
+  extends FieldVariantProps, InputButtonVariantProps, FieldButton.RootProps {}
 
 export const FieldButtonRoot = forwardRef<HTMLDivElement, FieldButtonRootProps>(
   ({ className, ...props }, ref) => {
@@ -60,8 +58,7 @@ FieldButtonRoot.displayName = "FieldButtonRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface FieldButtonHeaderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonHeader = withFieldContext<HTMLDivElement, FieldButtonHeaderProps>(
   withStateProps(Primitive.div),
@@ -69,9 +66,7 @@ export const FieldButtonHeader = withFieldContext<HTMLDivElement, FieldButtonHea
 );
 
 export interface FieldButtonLabelProps
-  extends PrimitiveProps,
-    FieldLabelVariantProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, FieldLabelVariantProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonLabel = withLabelProvider<HTMLDivElement, FieldButtonLabelProps>(
   withStateProps(Primitive.div),
@@ -79,8 +74,7 @@ export const FieldButtonLabel = withLabelProvider<HTMLDivElement, FieldButtonLab
 );
 
 export interface FieldButtonIndicatorTextProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const FieldButtonIndicatorText = withLabelContext<
   HTMLSpanElement,
@@ -127,8 +121,7 @@ export const FieldButtonPrefixIcon = withContext<SVGSVGElement, FieldButtonPrefi
 );
 
 export interface FieldButtonPrefixTextProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const FieldButtonPrefixText = React.forwardRef<HTMLSpanElement, FieldButtonPrefixTextProps>(
   ({ className, ...props }, ref) => {
@@ -156,8 +149,7 @@ export const FieldButtonSuffixIcon = withContext<SVGSVGElement, FieldButtonSuffi
 );
 
 export interface FieldButtonSuffixTextProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const FieldButtonSuffixText = React.forwardRef<HTMLSpanElement, FieldButtonSuffixTextProps>(
   ({ className, ...props }, ref) => {
@@ -180,8 +172,7 @@ FieldButtonSuffixText.displayName = "FieldButtonSuffixText";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface FieldButtonFooterProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonFooter = withFieldContext<HTMLDivElement, FieldButtonFooterProps>(
   withStateProps(Primitive.div),
@@ -216,9 +207,7 @@ export const FieldButtonButton = withContext<HTMLButtonElement, FieldButtonButto
 );
 
 export interface FieldButtonControlProps
-  extends InputButtonVariantProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends InputButtonVariantProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonControl = withProvider<HTMLDivElement, FieldButtonControlProps>(
   withStateProps(Primitive.div),
@@ -235,8 +224,7 @@ export const FieldButtonClearButton = withScaleFeedback(
 );
 
 export interface FieldButtonValueProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonValue = React.forwardRef<HTMLDivElement, FieldButtonValueProps>(
   ({ className, ...props }, ref) => {
@@ -257,8 +245,7 @@ export const FieldButtonValue = React.forwardRef<HTMLDivElement, FieldButtonValu
 FieldButtonValue.displayName = "FieldButtonValue";
 
 export interface FieldButtonPlaceholderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonPlaceholder = React.forwardRef<HTMLDivElement, FieldButtonPlaceholderProps>(
   ({ className, ...props }, ref) => {

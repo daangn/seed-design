@@ -8,8 +8,7 @@ import { useCollapsibleTrigger, type UseCollapsibleTriggerProps } from "./useCol
 type ViewProps = IntrinsicElements["view"];
 
 export interface CollapsibleRootProps
-  extends UseCollapsibleProps,
-    Omit<ViewProps, keyof UseCollapsibleProps> {}
+  extends UseCollapsibleProps, Omit<ViewProps, keyof UseCollapsibleProps> {}
 
 /**
  * 스타일 없이 열림 상태와 내용 높이 측정을 하위 요소에 제공하는 native `<view>`입니다.
@@ -30,8 +29,7 @@ export const CollapsibleRoot = React.forwardRef<unknown, CollapsibleRootProps>((
 CollapsibleRoot.displayName = "CollapsibleRoot";
 
 export interface CollapsibleTriggerProps
-  extends UseCollapsibleTriggerProps,
-    Omit<ViewProps, keyof UseCollapsibleTriggerProps> {}
+  extends UseCollapsibleTriggerProps, Omit<ViewProps, keyof UseCollapsibleTriggerProps> {}
 
 /**
  * tap으로 열림 상태를 전환하는 native `<view>`입니다. press와 펼침 접근성 값을 연결합니다.

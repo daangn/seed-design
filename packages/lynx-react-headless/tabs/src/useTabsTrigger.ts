@@ -6,17 +6,16 @@ import { getTabsLayoutWidth } from "./Tabs.utils.js";
 type NativeViewProps = IntrinsicElements["view"];
 type LayoutChangeHandler = NonNullable<NativeViewProps["bindlayoutchange"]>;
 
-export interface UseTabsTriggerProps
-  extends Pick<
-    NativeViewProps,
-    | "children"
-    | "bindtap"
-    | "main-thread:bindtap"
-    | "main-thread:bindtouchstart"
-    | "main-thread:bindtouchend"
-    | "main-thread:bindtouchcancel"
-    | "accessibility-label"
-  > {
+export interface UseTabsTriggerProps extends Pick<
+  NativeViewProps,
+  | "children"
+  | "bindtap"
+  | "main-thread:bindtap"
+  | "main-thread:bindtouchstart"
+  | "main-thread:bindtouchend"
+  | "main-thread:bindtouchcancel"
+  | "accessibility-label"
+> {
   value: string;
   disabled?: boolean;
 }

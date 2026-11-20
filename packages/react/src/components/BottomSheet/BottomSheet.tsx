@@ -17,8 +17,7 @@ const closeButtonTracker = createRenderTrackingContext("BottomSheetCloseButton")
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface BottomSheetRootProps
-  extends BottomSheetVariantProps,
-    Omit<Drawer.RootProps, "direction"> {}
+  extends BottomSheetVariantProps, Omit<Drawer.RootProps, "direction"> {}
 
 export function BottomSheetRoot(props: BottomSheetRootProps) {
   const [variantProps, otherProps] = bottomSheet.splitVariantProps({
@@ -114,7 +113,8 @@ export const BottomSheetDescription = withContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface BottomSheetBodyProps
-  extends PrimitiveProps,
+  extends
+    PrimitiveProps,
     Pick<
       StyleProps,
       "paddingX" | "height" | "maxHeight" | "minHeight" | "justifyContent" | "alignItems"
@@ -129,8 +129,7 @@ export const BottomSheetBody = withContext<HTMLDivElement, BottomSheetBodyProps>
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface BottomSheetFooterProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const BottomSheetFooter = withContext<HTMLDivElement, BottomSheetFooterProps>(
   Primitive.div,

@@ -69,15 +69,14 @@ it("verifies the checked-out SHA at both Pages URLs without a registry file", as
   );
 });
 
-it.each([
-  options.deploymentUrl,
-  `${options.deploymentUrl}/`,
-  "https://FIXED.EXAMPLE.pages.dev",
-])("rejects deployment and alias URLs sharing an origin before fetching", async (aliasUrl) => {
-  const { fetcher, origins } = fixture();
-  await expect(verifyArchivePreview({ ...options, aliasUrl }, fetcher)).rejects.toThrow();
-  expect(origins).toEqual([]);
-});
+it.each([options.deploymentUrl, `${options.deploymentUrl}/`, "https://FIXED.EXAMPLE.pages.dev"])(
+  "rejects deployment and alias URLs sharing an origin before fetching",
+  async (aliasUrl) => {
+    const { fetcher, origins } = fixture();
+    await expect(verifyArchivePreview({ ...options, aliasUrl }, fetcher)).rejects.toThrow();
+    expect(origins).toEqual([]);
+  },
+);
 
 it("rejects an alias still serving a different source commit", async () => {
   const { fetcher, manifests } = fixture(options.aliasUrl);
@@ -91,54 +90,52 @@ it("rejects an alias still serving a different source commit", async () => {
   expect(manifests).toEqual({ [options.deploymentUrl]: 1, [options.aliasUrl]: 6 });
 });
 
-it.each([
-  options.deploymentUrl,
-  options.aliasUrl,
-])("waits for the reviewed SHA to reach either Pages origin", async (staleOrigin) => {
-  const { fetcher, manifests } = fixture(staleOrigin, 2);
-  const delays: number[] = [];
-  await verifyArchivePreview(options, fetcher, async (milliseconds) => {
-    delays.push(milliseconds);
-  });
-  expect(delays).toEqual([10_000, 10_000]);
-  expect(manifests).toEqual({
-    [options.deploymentUrl]: staleOrigin === options.deploymentUrl ? 3 : 1,
-    [options.aliasUrl]: staleOrigin === options.aliasUrl ? 3 : 1,
-  });
-});
-
-it.each([
-  "dirty",
-  "http",
-  "canonical",
-  "network",
-])("does not retry other verification failures: %s", async (failure) => {
-  const { fetcher, manifests } = fixture();
-  const failingFetcher = (async (input: URL | RequestInfo, init?: RequestInit) => {
-    const url = new URL(input instanceof Request ? input.url : input.toString());
-    if (failure === "network") throw new Error("network failure");
-    if (failure === "http") return new Response("failure", { status: 500 });
-    if (failure === "dirty" && url.pathname.endsWith("/archive.json"))
-      return Response.json({
-        platform: "react",
-        version: "v1.1",
-        prefix: "/react/v1.1",
-        sourceSha: options.sourceSha,
-        sourceDirty: true,
-      });
-    if (failure === "canonical" && url.pathname === "/react/v1.1/")
-      return new Response("<html></html>");
-    return fetcher(input, init);
-  }) as typeof fetch;
-  const delays: number[] = [];
-  await expect(
-    verifyArchivePreview(options, failingFetcher, async (milliseconds) => {
+it.each([options.deploymentUrl, options.aliasUrl])(
+  "waits for the reviewed SHA to reach either Pages origin",
+  async (staleOrigin) => {
+    const { fetcher, manifests } = fixture(staleOrigin, 2);
+    const delays: number[] = [];
+    await verifyArchivePreview(options, fetcher, async (milliseconds) => {
       delays.push(milliseconds);
-    }),
-  ).rejects.toThrow();
-  expect(delays).toEqual([]);
-  expect(manifests[options.aliasUrl]).toBeUndefined();
-});
+    });
+    expect(delays).toEqual([10_000, 10_000]);
+    expect(manifests).toEqual({
+      [options.deploymentUrl]: staleOrigin === options.deploymentUrl ? 3 : 1,
+      [options.aliasUrl]: staleOrigin === options.aliasUrl ? 3 : 1,
+    });
+  },
+);
+
+it.each(["dirty", "http", "canonical", "network"])(
+  "does not retry other verification failures: %s",
+  async (failure) => {
+    const { fetcher, manifests } = fixture();
+    const failingFetcher = (async (input: URL | RequestInfo, init?: RequestInit) => {
+      const url = new URL(input instanceof Request ? input.url : input.toString());
+      if (failure === "network") throw new Error("network failure");
+      if (failure === "http") return new Response("failure", { status: 500 });
+      if (failure === "dirty" && url.pathname.endsWith("/archive.json"))
+        return Response.json({
+          platform: "react",
+          version: "v1.1",
+          prefix: "/react/v1.1",
+          sourceSha: options.sourceSha,
+          sourceDirty: true,
+        });
+      if (failure === "canonical" && url.pathname === "/react/v1.1/")
+        return new Response("<html></html>");
+      return fetcher(input, init);
+    }) as typeof fetch;
+    const delays: number[] = [];
+    await expect(
+      verifyArchivePreview(options, failingFetcher, async (milliseconds) => {
+        delays.push(milliseconds);
+      }),
+    ).rejects.toThrow();
+    expect(delays).toEqual([]);
+    expect(manifests[options.aliasUrl]).toBeUndefined();
+  },
+);
 
 it.each([
   { ...options, deploymentUrl: undefined },

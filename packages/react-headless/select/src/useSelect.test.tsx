@@ -1202,25 +1202,23 @@ function expectNoHighlight(trigger: HTMLElement) {
 }
 
 describe("useSelect keyboard open & highlight seeding", () => {
-  it.each([
-    "{ArrowDown}",
-    "{ArrowUp}",
-    "{Enter}",
-    " ",
-  ])("opens on %s from the closed trigger and seeds the first enabled option", async (key) => {
-    const user = userEvent.setup();
-    const { getByRole } = render(<SelectWithDisabledItem />);
-    await waitForPositioning();
+  it.each(["{ArrowDown}", "{ArrowUp}", "{Enter}", " "])(
+    "opens on %s from the closed trigger and seeds the first enabled option",
+    async (key) => {
+      const user = userEvent.setup();
+      const { getByRole } = render(<SelectWithDisabledItem />);
+      await waitForPositioning();
 
-    const trigger = getByRole("combobox");
-    act(() => trigger.focus());
-    await user.keyboard(key);
-    await waitForPositioning();
+      const trigger = getByRole("combobox");
+      act(() => trigger.focus());
+      await user.keyboard(key);
+      await waitForPositioning();
 
-    expect(trigger).toHaveAttribute("aria-expanded", "true");
-    const highlighted = expectSingleHighlight(trigger);
-    expect(highlighted).toHaveAttribute("data-value", "apple");
-  });
+      expect(trigger).toHaveAttribute("aria-expanded", "true");
+      const highlighted = expectSingleHighlight(trigger);
+      expect(highlighted).toHaveAttribute("data-value", "apple");
+    },
+  );
 
   it("seeds the selected option on keyboard open", async () => {
     const user = userEvent.setup();
@@ -2567,16 +2565,19 @@ describe("useSelect positioning", () => {
     ["right", "left center"],
     ["right-end", "left bottom"],
     ["left-start", "right top"],
-  ] as const)("derives --seed-select-transform-origin from the resolved placement (%s)", async (placement, expected) => {
-    const user = userEvent.setup();
-    const { getByRole } = render(<BasicSelect placement={placement} />);
-    await waitForPositioning();
+  ] as const)(
+    "derives --seed-select-transform-origin from the resolved placement (%s)",
+    async (placement, expected) => {
+      const user = userEvent.setup();
+      const { getByRole } = render(<BasicSelect placement={placement} />);
+      await waitForPositioning();
 
-    await openWithClick(user, getByRole("combobox"));
-    expect(getByRole("listbox").style.getPropertyValue("--seed-select-transform-origin")).toBe(
-      expected,
-    );
-  });
+      await openWithClick(user, getByRole("combobox"));
+      expect(getByRole("listbox").style.getPropertyValue("--seed-select-transform-origin")).toBe(
+        expected,
+      );
+    },
+  );
 
   it("renders the listbox into a custom container", async () => {
     const user = userEvent.setup();

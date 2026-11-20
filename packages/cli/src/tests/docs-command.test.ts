@@ -158,25 +158,26 @@ describe("docs command", () => {
       "- snippet: https://raw.githubusercontent.com/daangn/seed-design/refs/heads/dev/docs/registry/lynx/ui/checkbox.tsx",
     );
   });
-  it.each([
-    "v1.0",
-    "v1.1",
-    "v1.2",
-    "v2",
-  ])("uses %s archive docs, LLM and source links", async (version) => {
-    requests.length = 0;
-    const sourceUrl = `${baseUrl}/react/${version}`;
-    const result = await runDocsCommand(["react", "checkbox"], sourceUrl);
-    expect(result.exitCode).toBe(0);
-    expect(result.stdout).toContain(`- docs: ${sourceUrl}/components/checkbox`);
-    expect(result.stdout).toContain(`- llms.txt: ${sourceUrl}/llms/react/components/checkbox.txt`);
-    expect(result.stdout).toContain(
-      `/refs/heads/react/${version}/docs/registry/react/ui/checkbox.tsx`,
-    );
-    expect(result.stdout).not.toContain(`/react/${version}/react/components`);
-    const raw = await runDocsCommand(["react", "checkbox", "--raw"], sourceUrl);
-    expect(raw.exitCode).toBe(0);
-    expect(raw.stdout.trim()).toBe("# Archived Checkbox");
-    expect(requests).toContain(`/react/${version}/llms/react/components/checkbox.txt`);
-  }, 15000);
+  it.each(["v1.0", "v1.1", "v1.2", "v2"])(
+    "uses %s archive docs, LLM and source links",
+    async (version) => {
+      requests.length = 0;
+      const sourceUrl = `${baseUrl}/react/${version}`;
+      const result = await runDocsCommand(["react", "checkbox"], sourceUrl);
+      expect(result.exitCode).toBe(0);
+      expect(result.stdout).toContain(`- docs: ${sourceUrl}/components/checkbox`);
+      expect(result.stdout).toContain(
+        `- llms.txt: ${sourceUrl}/llms/react/components/checkbox.txt`,
+      );
+      expect(result.stdout).toContain(
+        `/refs/heads/react/${version}/docs/registry/react/ui/checkbox.tsx`,
+      );
+      expect(result.stdout).not.toContain(`/react/${version}/react/components`);
+      const raw = await runDocsCommand(["react", "checkbox", "--raw"], sourceUrl);
+      expect(raw.exitCode).toBe(0);
+      expect(raw.stdout.trim()).toBe("# Archived Checkbox");
+      expect(requests).toContain(`/react/${version}/llms/react/components/checkbox.txt`);
+    },
+    15000,
+  );
 });

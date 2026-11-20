@@ -1,4 +1,1 @@
-export {
-  type PortalProps,
-  Portal,
-} from "./Portal";
+export { type PortalProps, Portal } from "./Portal";

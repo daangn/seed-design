@@ -6,8 +6,7 @@ import { ActionButtonProvider } from "./useActionButtonContext.js";
 type ViewProps = IntrinsicElements["view"];
 
 export interface ActionButtonRootProps
-  extends UseActionButtonProps,
-    Omit<ViewProps, keyof UseActionButtonProps> {}
+  extends UseActionButtonProps, Omit<ViewProps, keyof UseActionButtonProps> {}
 
 /**
  * 스타일 없이 ActionButton의 tap·눌림 상태·접근성을 연결하는 native `<view>`입니다.

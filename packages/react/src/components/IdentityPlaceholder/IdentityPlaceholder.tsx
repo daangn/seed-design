@@ -11,9 +11,7 @@ const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
   createSlotRecipeContext(identityPlaceholder);
 
 export interface IdentityPlaceholderRootProps
-  extends IdentityPlaceholderVariantProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends IdentityPlaceholderVariantProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const IdentityPlaceholderRoot = React.forwardRef<
   HTMLDivElement,

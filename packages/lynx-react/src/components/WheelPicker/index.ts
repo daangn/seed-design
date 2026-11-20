@@ -1,8 +1,4 @@
-export {
-  WheelPickerRoot,
-  WheelPickerColumn,
-  WheelPickerItemLabel,
-} from "./WheelPicker";
+export { WheelPickerRoot, WheelPickerColumn, WheelPickerItemLabel } from "./WheelPicker";
 export type {
   WheelPickerRootProps,
   WheelPickerColumnProps,

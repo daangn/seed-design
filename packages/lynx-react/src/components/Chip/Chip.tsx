@@ -46,8 +46,7 @@ const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(chip);
 type ChipPublicVariantProps = Omit<ChipVariantProps, "selected" | "pressed" | "glass">;
 
 interface ChipRootViewProps
-  extends Omit<ChipVariantProps, "glass">,
-    Omit<LynxHostProps<"view">, keyof ChipVariantProps> {
+  extends Omit<ChipVariantProps, "glass">, Omit<LynxHostProps<"view">, keyof ChipVariantProps> {
   liquidGlass: ActiveLiquidGlass | null;
 }
 
@@ -133,7 +132,8 @@ ChipRootView.displayName = "ChipRootView";
  * - `asChild`
  */
 export interface ChipButtonProps
-  extends ChipPublicVariantProps,
+  extends
+    ChipPublicVariantProps,
     LiquidGlassProps,
     Omit<LynxHostProps<"view">, keyof ChipPublicVariantProps> {
   disabled?: boolean;
@@ -221,7 +221,8 @@ ChipButton.displayName = "ChipButton";
  * - `indeterminate`: chip recipe에 일부 선택 외형이 없음
  */
 export interface ChipToggleProps
-  extends ChipButtonProps,
+  extends
+    ChipButtonProps,
     Pick<UseCheckboxProps, "checked" | "defaultChecked" | "onCheckedChange"> {}
 
 export const ChipToggle = React.forwardRef<unknown, ChipToggleProps>((props, ref) => {
@@ -317,7 +318,8 @@ ChipToggle.displayName = "ChipToggle";
  * - `invalid`: chip recipe에 오류 외형이 없음
  */
 export interface ChipRadioRootProps
-  extends Omit<UseRadioGroupProps, "invalid">,
+  extends
+    Omit<UseRadioGroupProps, "invalid">,
     Omit<LynxHostProps<"view">, keyof UseRadioGroupProps> {}
 
 export const ChipRadioRoot = React.forwardRef<unknown, ChipRadioRootProps>((props, ref) => {

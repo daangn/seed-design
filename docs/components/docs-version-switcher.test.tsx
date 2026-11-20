@@ -47,18 +47,21 @@ describe("DocsVersionSwitcher", () => {
   it.each([
     ["react", ["latest (v3)", "v2", "v1.2", "v1.1", "v1.0"]],
     ["lynx", ["latest (v1)", "v0"]],
-  ] as const)("shows the ordered %s versions and marks only latest as current", async (platform, expected) => {
-    const open = spyOn(window, "open").mockImplementation(() => null);
-    render(<DocsVersionSwitcher platform={platform} />);
-    fireEvent.click(screen.getByRole("button", { name: expected[0] }));
-    const items = await screen.findAllByRole("menuitem");
-    expect(items.map((item) => item.textContent)).toEqual([...expected]);
-    expect(items.filter((item) => item.getAttribute("aria-current") === "true")).toEqual([
-      items[0],
-    ]);
-    fireEvent.click(items[0]!);
-    expect(open).not.toHaveBeenCalled();
-  });
+  ] as const)(
+    "shows the ordered %s versions and marks only latest as current",
+    async (platform, expected) => {
+      const open = spyOn(window, "open").mockImplementation(() => null);
+      render(<DocsVersionSwitcher platform={platform} />);
+      fireEvent.click(screen.getByRole("button", { name: expected[0] }));
+      const items = await screen.findAllByRole("menuitem");
+      expect(items.map((item) => item.textContent)).toEqual([...expected]);
+      expect(items.filter((item) => item.getAttribute("aria-current") === "true")).toEqual([
+        items[0],
+      ]);
+      fireEvent.click(items[0]!);
+      expect(open).not.toHaveBeenCalled();
+    },
+  );
 
   it.each([
     ["react", "latest (v3)", "v2", "https://seed-design.io/react/v2"],

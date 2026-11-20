@@ -177,8 +177,7 @@ ImageFrameBadge.displayName = "ImageFrameBadge";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ImageFrameIconProps
-  extends ImageFrameIconVariantProps,
-    Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
+  extends ImageFrameIconVariantProps, Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
   svg: React.ReactNode;
 }
 
@@ -197,8 +196,7 @@ ImageFrameIcon.displayName = "ImageFrameIcon";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ImageFrameIndicatorProps
-  extends ImageFrameIndicatorVariantProps,
-    React.HTMLAttributes<HTMLSpanElement> {
+  extends ImageFrameIndicatorVariantProps, React.HTMLAttributes<HTMLSpanElement> {
   children: React.ReactNode;
 }
 
@@ -278,8 +276,10 @@ const HeartLineSvg = (props: React.SVGAttributes<SVGSVGElement>) => (
   </svg>
 );
 
-export interface ImageFrameReactionButtonProps
-  extends Omit<TogglePrimitive.RootProps, "children"> {}
+export interface ImageFrameReactionButtonProps extends Omit<
+  TogglePrimitive.RootProps,
+  "children"
+> {}
 
 const ReactionButtonIcon = () => {
   const { pressed, stateProps } = useToggleContext();

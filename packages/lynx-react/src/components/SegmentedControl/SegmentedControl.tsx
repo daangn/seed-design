@@ -32,7 +32,8 @@ import { mergeProps } from "../../utils/merge-props";
  * - raw DOM change event: 선택 변경은 onValueChange로 노출
  */
 export interface SegmentedControlRootProps
-  extends Pick<UseSegmentedControlProps, "value" | "defaultValue" | "disabled" | "onValueChange">,
+  extends
+    Pick<UseSegmentedControlProps, "value" | "defaultValue" | "disabled" | "onValueChange">,
     LynxHostProps<"view"> {}
 
 export const SegmentedControlRoot = React.forwardRef<unknown, SegmentedControlRootProps>(

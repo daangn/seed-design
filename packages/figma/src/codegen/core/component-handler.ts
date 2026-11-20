@@ -2,8 +2,8 @@ import type { NormalizedInstanceNode, NormalizedSceneNode } from "@/normalizer";
 import type { ElementNode } from "./jsx";
 
 export interface ComponentHandler<
-  T extends
-    NormalizedInstanceNode["componentProperties"] = NormalizedInstanceNode["componentProperties"],
+  T extends NormalizedInstanceNode["componentProperties"] =
+    NormalizedInstanceNode["componentProperties"],
 > {
   key: string;
   transform: (

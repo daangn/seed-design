@@ -8,10 +8,7 @@ import {
 } from "fumadocs-typescript";
 import { typeTableCacheCompatibilityHash } from "./cache-compatibility";
 
-export {
-  collectTypeDependencyFiles,
-  typeTableCacheCompatibilityHash,
-} from "./cache-compatibility";
+export { collectTypeDependencyFiles, typeTableCacheCompatibilityHash } from "./cache-compatibility";
 
 const DOCS_DIRECTORY =
   basename(process.cwd()) === "docs" ? process.cwd() : resolve(process.cwd(), "docs");

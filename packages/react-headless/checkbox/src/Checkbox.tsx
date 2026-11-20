@@ -9,9 +9,7 @@ import { CheckboxProvider, useCheckboxContext } from "./useCheckboxContext";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 
 export interface CheckboxRootProps
-  extends UseCheckboxProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLLabelElement> {}
+  extends UseCheckboxProps, PrimitiveProps, React.HTMLAttributes<HTMLLabelElement> {}
 
 export const CheckboxRoot = forwardRef<HTMLLabelElement, CheckboxRootProps>((props, ref) => {
   const {
@@ -45,8 +43,7 @@ export const CheckboxRoot = forwardRef<HTMLLabelElement, CheckboxRootProps>((pro
 CheckboxRoot.displayName = "CheckboxRoot";
 
 export interface CheckboxControlProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const CheckboxControl = forwardRef<HTMLDivElement, CheckboxControlProps>((props, ref) => {
   const { controlProps } = useCheckboxContext();
@@ -56,8 +53,7 @@ export const CheckboxControl = forwardRef<HTMLDivElement, CheckboxControlProps>(
 CheckboxControl.displayName = "CheckboxControl";
 
 export interface CheckboxHiddenInputProps
-  extends PrimitiveProps,
-    React.InputHTMLAttributes<HTMLInputElement> {}
+  extends PrimitiveProps, React.InputHTMLAttributes<HTMLInputElement> {}
 
 export const CheckboxHiddenInput = forwardRef<HTMLInputElement, CheckboxHiddenInputProps>(
   (props, ref) => {

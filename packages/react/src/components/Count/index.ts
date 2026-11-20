@@ -1,4 +1,1 @@
-export {
-  Count,
-  type CountProps,
-} from "./Count";
+export { Count, type CountProps } from "./Count";

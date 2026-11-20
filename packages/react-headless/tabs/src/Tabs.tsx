@@ -20,7 +20,8 @@ import { TabsTriggerProvider } from "./useTabsTriggerContext";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface TabsRootProps
-  extends UseTabsProps,
+  extends
+    UseTabsProps,
     UseRenderStrategyProps,
     PrimitiveProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue"> {}
@@ -68,9 +69,7 @@ TabsList.displayName = "TabsList";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface TabsTriggerProps
-  extends UseTabsTriggerProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
+  extends UseTabsTriggerProps, PrimitiveProps, React.HTMLAttributes<HTMLButtonElement> {}
 
 export const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>((props, ref) => {
   const { value, disabled, ...otherProps } = props;
@@ -90,9 +89,7 @@ TabsTrigger.displayName = "TabsTrigger";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface TabsContentProps
-  extends PrimitiveProps,
-    UseTabsContentProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, UseTabsContentProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>((props, ref) => {
   const { value, children, ...otherProps } = props;
@@ -137,9 +134,7 @@ export const TabsIndicator = forwardRef<HTMLDivElement, TabsIndicatorProps>((pro
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface TabsCarouselProps
-  extends PrimitiveProps,
-    UseTabsCarouselProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, UseTabsCarouselProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const TabsCarousel = forwardRef<HTMLDivElement, TabsCarouselProps>((props, ref) => {
   const {
@@ -178,8 +173,7 @@ TabsCarousel.displayName = "TabsCarousel";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface TabsCarouselCameraProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const TabsCarouselCamera = forwardRef<HTMLDivElement, TabsCarouselCameraProps>(
   (props, ref) => {

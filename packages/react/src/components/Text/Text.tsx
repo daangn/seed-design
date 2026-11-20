@@ -46,8 +46,7 @@ function handleLineHeight(lineHeight: string | undefined) {
 }
 
 export interface TextProps
-  extends Omit<TextVariantProps, "maxLines">,
-    React.HTMLAttributes<HTMLSpanElement> {
+  extends Omit<TextVariantProps, "maxLines">, React.HTMLAttributes<HTMLSpanElement> {
   /**
    * The element to render as
    * @default "span"

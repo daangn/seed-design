@@ -67,8 +67,7 @@ export const AppBarRight = React.forwardRef<unknown, AppBarRightProps>((props, r
 AppBarRight.displayName = "AppBarRight";
 
 export interface AppBarIconButtonProps
-  extends UseAppBarIconButtonProps,
-    Omit<ViewProps, keyof UseAppBarIconButtonProps> {}
+  extends UseAppBarIconButtonProps, Omit<ViewProps, keyof UseAppBarIconButtonProps> {}
 
 export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>((props, ref) => {
   const {

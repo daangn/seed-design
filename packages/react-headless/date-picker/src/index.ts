@@ -6,12 +6,7 @@ export {
   rangeDayCountAtLeast,
   rangeDayCountAtMost,
 } from "./constraints";
-export {
-  compareDates,
-  dateKey,
-  DEFAULT_DATE_CELL_HEIGHT,
-  isSameDate,
-} from "./date";
+export { compareDates, dateKey, DEFAULT_DATE_CELL_HEIGHT, isSameDate } from "./date";
 export {
   type DatePickerActions,
   type DatePickerAriaLabels,

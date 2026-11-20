@@ -99,7 +99,8 @@ const MenuSheetItemPositionContext = React.createContext({ isLast: true });
 export type MenuSheetRootRef = BottomSheetRootRef;
 
 export interface MenuSheetRootProps
-  extends Omit<HeadlessBottomSheetRootProps, "side" | "snapPoints" | "skipAnimation">,
+  extends
+    Omit<HeadlessBottomSheetRootProps, "side" | "snapPoints" | "skipAnimation">,
     Omit<MenuSheetVariantProps, "closeButtonPressed"> {}
 
 /**
@@ -207,8 +208,7 @@ export function MenuSheetBackdrop(props: MenuSheetBackdropProps) {
 MenuSheetBackdrop.displayName = "MenuSheetBackdrop";
 
 export interface MenuSheetContentProps
-  extends HeadlessBottomSheetContentProps,
-    LynxAccessibilityProps {
+  extends HeadlessBottomSheetContentProps, LynxAccessibilityProps {
   labelAlign?: MenuSheetLabelAlign;
 }
 
@@ -404,8 +404,7 @@ export const MenuSheetFooter = createViewSlot("footer");
 MenuSheetFooter.displayName = "MenuSheetFooter";
 
 export interface MenuSheetCloseButtonProps
-  extends Omit<LynxHostProps<"view">, keyof LynxPressableProps>,
-    LynxPressableProps {}
+  extends Omit<LynxHostProps<"view">, keyof LynxPressableProps>, LynxPressableProps {}
 
 export const MenuSheetCloseButton: LynxForwardRefComponent<unknown, MenuSheetCloseButtonProps> =
   forwardRef<unknown, MenuSheetCloseButtonProps>((props, ref) => {
@@ -455,8 +454,7 @@ MenuSheetCloseButton.displayName = "MenuSheetCloseButton";
 export type MenuSheetItemTone = NonNullable<MenuSheetItemVariantProps["tone"]>;
 
 export interface MenuSheetItemProps
-  extends Omit<LynxHostProps<"view">, keyof LynxPressableProps>,
-    LynxPressableProps {
+  extends Omit<LynxHostProps<"view">, keyof LynxPressableProps>, LynxPressableProps {
   tone?: MenuSheetItemTone;
   labelAlign?: MenuSheetLabelAlign;
 }

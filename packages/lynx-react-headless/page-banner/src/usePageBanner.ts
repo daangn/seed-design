@@ -18,9 +18,7 @@ type MainThreadTouchProps = Pick<
 >;
 
 export interface UsePageBannerProps
-  extends UseDismissibleProps,
-    PageBannerAccessibilityProps,
-    MainThreadTouchProps {
+  extends UseDismissibleProps, PageBannerAccessibilityProps, MainThreadTouchProps {
   /**
    * 지정하면 Root가 탭할 수 있는 상태가 되어 눌림 상태와 `button` 접근성 기본값을 연결합니다.
    */

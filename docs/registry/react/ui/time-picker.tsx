@@ -47,7 +47,8 @@ const columnClassNames = {
 };
 
 export interface TimePickerProps
-  extends UseTimePickerProps,
+  extends
+    UseTimePickerProps,
     Omit<
       WheelPickerProps,
       | keyof UseTimePickerProps

@@ -80,7 +80,8 @@ function useSwitchmarkControlContext(consumer: string): SwitchmarkControlContext
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SwitchRootProps
-  extends Omit<SwitchVariantProps, "disabled">,
+  extends
+    Omit<SwitchVariantProps, "disabled">,
     Omit<SwitchmarkVariantProps, "size" | "checked" | "disabled">,
     Pick<UseSwitchProps, "checked" | "defaultChecked" | "disabled" | "onCheckedChange">,
     LynxHostProps<"view"> {}
@@ -167,8 +168,7 @@ SwitchRoot.displayName = "SwitchRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SwitchControlProps
-  extends Pick<SwitchmarkVariantProps, "tone" | "size">,
-    LynxHostProps<"view"> {}
+  extends Pick<SwitchmarkVariantProps, "tone" | "size">, LynxHostProps<"view"> {}
 
 export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((props, ref) => {
   const [variantProps, restProps] = switchmark.splitVariantProps(props);

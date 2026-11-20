@@ -3,8 +3,10 @@ import { Primitive } from "@seed-design/react-primitive";
 import { forwardRef } from "react";
 import { usePendingButtonContext } from "./usePendingButton";
 
-export interface LoadingIndicatorProps
-  extends Omit<React.HTMLAttributes<HTMLSpanElement>, "color"> {
+export interface LoadingIndicatorProps extends Omit<
+  React.HTMLAttributes<HTMLSpanElement>,
+  "color"
+> {
   indicator: React.ReactNode;
 }
 

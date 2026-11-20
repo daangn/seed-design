@@ -8,8 +8,10 @@ import {
   type PrefixIconProps,
 } from "@seed-design/lynx-react";
 
-export interface PageBannerProps
-  extends Omit<SeedPageBanner.RootProps, "children" | "open" | "defaultOpen" | "onDismiss"> {
+export interface PageBannerProps extends Omit<
+  SeedPageBanner.RootProps,
+  "children" | "open" | "defaultOpen" | "onDismiss"
+> {
   prefixIcon?: PrefixIconProps["icon"];
   title?: React.ReactNode;
   description: React.ReactNode;
@@ -41,8 +43,10 @@ export interface PageBannerButtonProps extends SeedPageBanner.ButtonProps {}
 
 export const PageBannerButton = SeedPageBanner.Button;
 
-export interface ActionablePageBannerProps
-  extends Omit<SeedPageBanner.RootProps, "children" | "open" | "defaultOpen" | "onDismiss"> {
+export interface ActionablePageBannerProps extends Omit<
+  SeedPageBanner.RootProps,
+  "children" | "open" | "defaultOpen" | "onDismiss"
+> {
   prefixIcon?: PrefixIconProps["icon"];
   title?: React.ReactNode;
   description: React.ReactNode;

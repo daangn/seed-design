@@ -6,7 +6,7 @@
   "workers_dev": true,
   "observability": {
     "enabled": true,
-    "logs": { "invocation_logs": false }
+    "logs": { "invocation_logs": false },
   },
   "env": {
     "preview": {
@@ -14,22 +14,22 @@
       "vars": { "ROOTAGE_ENVIRONMENT": "preview" },
       "version_metadata": { "binding": "CF_VERSION_METADATA" },
       "r2_buckets": [
-        { "binding": "ROOTAGE_BUCKET", "bucket_name": "seed-design-rootage-artifacts-preview" }
+        { "binding": "ROOTAGE_BUCKET", "bucket_name": "seed-design-rootage-artifacts-preview" },
       ],
       "analytics_engine_datasets": [
-        { "binding": "ROOTAGE_ANALYTICS", "dataset": "seed_design_rootage_requests_preview" }
-      ]
+        { "binding": "ROOTAGE_ANALYTICS", "dataset": "seed_design_rootage_requests_preview" },
+      ],
     },
     "production": {
       "name": "seed-design-rootage",
       "vars": { "ROOTAGE_ENVIRONMENT": "production" },
       "version_metadata": { "binding": "CF_VERSION_METADATA" },
       "r2_buckets": [
-        { "binding": "ROOTAGE_BUCKET", "bucket_name": "seed-design-rootage-artifacts" }
+        { "binding": "ROOTAGE_BUCKET", "bucket_name": "seed-design-rootage-artifacts" },
       ],
       "analytics_engine_datasets": [
-        { "binding": "ROOTAGE_ANALYTICS", "dataset": "seed_design_rootage_requests" }
-      ]
-    }
-  }
+        { "binding": "ROOTAGE_ANALYTICS", "dataset": "seed_design_rootage_requests" },
+      ],
+    },
+  },
 }

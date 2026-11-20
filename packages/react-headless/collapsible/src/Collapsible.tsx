@@ -10,7 +10,8 @@ import { useCollapsible } from "./useCollapsible";
 import { CollapsibleProvider, useCollapsibleContext } from "./useCollapsibleContext";
 
 export interface CollapsibleRootProps
-  extends UseCollapsibleProps,
+  extends
+    UseCollapsibleProps,
     PrimitiveProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue"> {}
 
@@ -33,8 +34,7 @@ export const CollapsibleRoot = forwardRef<HTMLDivElement, CollapsibleRootProps>(
 CollapsibleRoot.displayName = "CollapsibleRoot";
 
 export interface CollapsibleTriggerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLButtonElement> {}
 
 export const CollapsibleTrigger = forwardRef<HTMLButtonElement, CollapsibleTriggerProps>(
   (props, ref) => {
@@ -51,8 +51,7 @@ export const CollapsibleTrigger = forwardRef<HTMLButtonElement, CollapsibleTrigg
 CollapsibleTrigger.displayName = "CollapsibleTrigger";
 
 export interface CollapsibleContentProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const CollapsibleContent = forwardRef<HTMLDivElement, CollapsibleContentProps>(
   (props, ref) => {

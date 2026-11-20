@@ -14,7 +14,8 @@ type ItemAccessibilityProps = Pick<
 >;
 
 export interface UseRadioGroupItemProps
-  extends ItemAccessibilityProps,
+  extends
+    ItemAccessibilityProps,
     Pick<
       ViewProps,
       "main-thread:bindtouchstart" | "main-thread:bindtouchend" | "main-thread:bindtouchcancel"

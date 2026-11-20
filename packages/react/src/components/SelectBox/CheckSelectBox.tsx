@@ -42,9 +42,7 @@ const FooterContext = createContext<{
   footerVisibility: Exclude<NonNullable<CheckSelectBoxRootProps["footerVisibility"]>, "always">;
 } | null>(null);
 export interface CheckSelectBoxGroupProps
-  extends SelectBoxGroupVariantProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {
+  extends SelectBoxGroupVariantProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {
   /**
    * Number of columns in the grid layout. When bigger than 1, child `CheckSelectBoxRoot` will have a default layout of "vertical".
    * @default 1
@@ -107,8 +105,7 @@ function FooterVisibilityProvider({
 }
 
 export interface CheckSelectBoxRootProps
-  extends SelectBoxVariantProps,
-    CheckboxPrimitive.RootProps {
+  extends SelectBoxVariantProps, CheckboxPrimitive.RootProps {
   /**
    * Controls when the footer is visible.
    * @default "when-selected"
@@ -161,8 +158,7 @@ export const CheckSelectBoxRoot = forwardRef<HTMLLabelElement, CheckSelectBoxRoo
 );
 
 export interface CheckSelectBoxTriggerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const CheckSelectBoxTrigger = withContext<HTMLDivElement, CheckSelectBoxTriggerProps>(
   withStateProps(Primitive.div),
@@ -170,8 +166,7 @@ export const CheckSelectBoxTrigger = withContext<HTMLDivElement, CheckSelectBoxT
 );
 
 export interface CheckSelectBoxContentProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const CheckSelectBoxContent = withContext<HTMLDivElement, CheckSelectBoxContentProps>(
   withStateProps(Primitive.div),
@@ -179,8 +174,7 @@ export const CheckSelectBoxContent = withContext<HTMLDivElement, CheckSelectBoxC
 );
 
 export interface CheckSelectBoxBodyProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const CheckSelectBoxBody = withContext<HTMLDivElement, CheckSelectBoxBodyProps>(
   withStateProps(Primitive.div),
@@ -188,8 +182,7 @@ export const CheckSelectBoxBody = withContext<HTMLDivElement, CheckSelectBoxBody
 );
 
 export interface CheckSelectBoxLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const CheckSelectBoxLabel = withContext<HTMLDivElement, CheckSelectBoxLabelProps>(
   withStateProps(Primitive.div),
@@ -197,8 +190,7 @@ export const CheckSelectBoxLabel = withContext<HTMLDivElement, CheckSelectBoxLab
 );
 
 export interface CheckSelectBoxDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const CheckSelectBoxDescription = withContext<
   HTMLDivElement,
@@ -210,8 +202,7 @@ const { withProvider: withCheckmarkProvider, withContext: withCheckmarkContext }
 const withCheckmarkStateProps = createWithStateProps([useCheckboxContext]);
 
 export interface CheckSelectBoxCheckmarkControlProps
-  extends SelectBoxCheckmarkVariantProps,
-    CheckboxPrimitive.ControlProps {}
+  extends SelectBoxCheckmarkVariantProps, CheckboxPrimitive.ControlProps {}
 
 export const CheckSelectBoxCheckmarkControl = withCheckmarkProvider<
   HTMLDivElement,
@@ -244,8 +235,7 @@ export const CheckSelectBoxHiddenInput = forwardRef<
 CheckSelectBoxHiddenInput.displayName = "CheckSelectBoxHiddenInput";
 
 export interface CheckSelectBoxFooterProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const CheckSelectBoxFooter = forwardRef<HTMLDivElement, CheckSelectBoxFooterProps>(
   ({ className, children, ...props }, ref) => {

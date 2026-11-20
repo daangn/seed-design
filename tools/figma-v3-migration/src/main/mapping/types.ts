@@ -111,10 +111,12 @@ export type InferredComponentProperties<T extends ComponentMetadata> = {
 export type NewComponentProperties<
   ComponentName extends ExtractComponentName<AllNewComponents[keyof AllNewComponents]>,
 > = Partial<{
-  [K in keyof ExtractComponentByName<
-    AllNewComponents[keyof AllNewComponents],
-    ComponentName
-  >["componentPropertyDefinitions"]]: ExtractComponentByName<
+  [
+    K in keyof ExtractComponentByName<
+      AllNewComponents[keyof AllNewComponents],
+      ComponentName
+    >["componentPropertyDefinitions"]
+  ]: ExtractComponentByName<
     AllNewComponents[keyof AllNewComponents],
     ComponentName
   >["componentPropertyDefinitions"][K] extends {

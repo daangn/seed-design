@@ -7,18 +7,17 @@ import { useSelectContext } from "./useSelectContext.js";
 type ViewProps = IntrinsicElements["view"];
 type TapHandler = NonNullable<ViewProps["bindtap"]>;
 
-export interface UseSelectTriggerProps
-  extends Pick<
-    ViewProps,
-    | "bindtap"
-    | "main-thread:bindtap"
-    | "main-thread:bindtouchstart"
-    | "main-thread:bindtouchend"
-    | "main-thread:bindtouchcancel"
-    | "accessibility-element"
-    | "accessibility-label"
-    | "accessibility-traits"
-  > {
+export interface UseSelectTriggerProps extends Pick<
+  ViewProps,
+  | "bindtap"
+  | "main-thread:bindtap"
+  | "main-thread:bindtouchstart"
+  | "main-thread:bindtouchend"
+  | "main-thread:bindtouchcancel"
+  | "accessibility-element"
+  | "accessibility-label"
+  | "accessibility-traits"
+> {
   /** Trigger native node를 함께 받을 ref입니다. */
   ref?: ForwardedRef<unknown>;
 }

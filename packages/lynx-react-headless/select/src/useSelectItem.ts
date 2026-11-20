@@ -14,19 +14,18 @@ import { useSelectItemsContext } from "./useSelectContext.js";
 type ViewProps = IntrinsicElements["view"];
 type TapHandler = NonNullable<ViewProps["bindtap"]>;
 
-export interface UseSelectItemProps
-  extends Pick<
-    ViewProps,
-    | "bindtap"
-    | "main-thread:bindtap"
-    | "main-thread:bindtouchstart"
-    | "main-thread:bindtouchend"
-    | "main-thread:bindtouchcancel"
-    | "accessibility-element"
-    | "accessibility-label"
-    | "accessibility-traits"
-    | "accessibility-value"
-  > {
+export interface UseSelectItemProps extends Pick<
+  ViewProps,
+  | "bindtap"
+  | "main-thread:bindtap"
+  | "main-thread:bindtouchstart"
+  | "main-thread:bindtouchend"
+  | "main-thread:bindtouchcancel"
+  | "accessibility-element"
+  | "accessibility-label"
+  | "accessibility-traits"
+  | "accessibility-value"
+> {
   value: string;
 
   /** 항목 행에 표시할 label입니다. Trigger에는 `textValue`를 표시합니다. */

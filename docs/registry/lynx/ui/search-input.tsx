@@ -2,8 +2,10 @@ import IconXmarkCircleFill from "@karrotmarket/lynx-monochrome-icon/IconXmarkCir
 import { forwardRef, type ComponentRef } from "@lynx-js/react";
 import { Icon, SearchInput as SeedSearchInput } from "@seed-design/lynx-react";
 
-export interface SearchInputProps
-  extends Omit<SeedSearchInput.RootProps, "children" | "accessibility-label"> {
+export interface SearchInputProps extends Omit<
+  SeedSearchInput.RootProps,
+  "children" | "accessibility-label"
+> {
   placeholder?: string;
 
   /**

@@ -45,8 +45,7 @@ export const SnackbarRoot = forwardRef<HTMLDivElement, SnackbarRootProps>((props
 });
 
 export interface SnackbarCloseButtonProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const SnackbarCloseButton = forwardRef<HTMLButtonElement, SnackbarCloseButtonProps>(
   (props, ref) => {
@@ -56,8 +55,7 @@ export const SnackbarCloseButton = forwardRef<HTMLButtonElement, SnackbarCloseBu
 );
 
 export interface SnackbarActionButtonProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const SnackbarActionButton = forwardRef<HTMLButtonElement, SnackbarActionButtonProps>(
   (props, ref) => {

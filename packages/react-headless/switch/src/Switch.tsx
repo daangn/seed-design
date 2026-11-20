@@ -8,9 +8,7 @@ import { useSwitch, type UseSwitchProps } from "./useSwitch";
 import { SwitchProvider, useSwitchContext } from "./useSwitchContext";
 
 export interface SwitchRootProps
-  extends UseSwitchProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLLabelElement> {}
+  extends UseSwitchProps, PrimitiveProps, React.HTMLAttributes<HTMLLabelElement> {}
 
 export const SwitchRoot = forwardRef<HTMLLabelElement, SwitchRootProps>((props, ref) => {
   const { checked, defaultChecked, disabled, invalid, onCheckedChange, required, ...otherProps } =
@@ -53,8 +51,7 @@ export const SwitchThumb = forwardRef<HTMLDivElement, SwitchThumbProps>((props, 
 SwitchThumb.displayName = "SwitchThumb";
 
 export interface SwitchHiddenInputProps
-  extends PrimitiveProps,
-    React.InputHTMLAttributes<HTMLInputElement> {}
+  extends PrimitiveProps, React.InputHTMLAttributes<HTMLInputElement> {}
 
 export const SwitchHiddenInput = forwardRef<HTMLInputElement, SwitchHiddenInputProps>(
   (props, ref) => {

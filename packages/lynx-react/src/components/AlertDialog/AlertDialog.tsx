@@ -59,8 +59,7 @@ const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(alertDialo
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AlertDialogRootProps
-  extends AlertDialogVariantProps,
-    Omit<HeadlessDialogRootProps, keyof AlertDialogVariantProps> {}
+  extends AlertDialogVariantProps, Omit<HeadlessDialogRootProps, keyof AlertDialogVariantProps> {}
 
 /**
  * @platform Lynx — `@seed-design/lynx-react-dialog` 위에 alert dialog recipe를 조립한다.
@@ -89,8 +88,7 @@ AlertDialogRoot.displayName = "AlertDialogRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AlertDialogTriggerProps
-  extends HeadlessDialogTriggerProps,
-    Pick<LynxAccessibilityProps, "accessibility-label"> {}
+  extends HeadlessDialogTriggerProps, Pick<LynxAccessibilityProps, "accessibility-label"> {}
 
 /** @platform Lynx — `asChild` and refs are unsupported. */
 export const AlertDialogTrigger = forwardRef<never, AlertDialogTriggerProps>((props, _ref) => {
@@ -205,8 +203,7 @@ AlertDialogBackdrop.displayName = "AlertDialogBackdrop";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AlertDialogContentProps
-  extends HeadlessDialogContentProps,
-    LynxAccessibilityProps {}
+  extends HeadlessDialogContentProps, LynxAccessibilityProps {}
 
 /**
  * @platform Lynx — refs are unsupported. Accessibility props are applied to the content view
@@ -248,8 +245,7 @@ AlertDialogContent.displayName = "AlertDialogContent";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AlertDialogHeaderProps
-  extends StyleProps,
-    Omit<LynxHostProps<"view">, keyof StyleProps> {}
+  extends StyleProps, Omit<LynxHostProps<"view">, keyof StyleProps> {}
 
 export const AlertDialogHeader: LynxForwardRefComponent<unknown, AlertDialogHeaderProps> =
   forwardRef<unknown, AlertDialogHeaderProps>((props, ref) => {
@@ -273,8 +269,7 @@ export const AlertDialogHeader: LynxForwardRefComponent<unknown, AlertDialogHead
 AlertDialogHeader.displayName = "AlertDialogHeader";
 
 export interface AlertDialogTitleProps
-  extends StyleProps,
-    Omit<LynxHostProps<"text">, keyof StyleProps> {
+  extends StyleProps, Omit<LynxHostProps<"text">, keyof StyleProps> {
   /**
    * @defaultValue true
    */
@@ -299,8 +294,7 @@ export const AlertDialogTitle: LynxForwardRefComponent<unknown, AlertDialogTitle
 AlertDialogTitle.displayName = "AlertDialogTitle";
 
 export interface AlertDialogDescriptionProps
-  extends StyleProps,
-    Omit<LynxHostProps<"text">, keyof StyleProps> {}
+  extends StyleProps, Omit<LynxHostProps<"text">, keyof StyleProps> {}
 
 export const AlertDialogDescription: LynxForwardRefComponent<unknown, AlertDialogDescriptionProps> =
   forwardRef<unknown, AlertDialogDescriptionProps>((props, ref) => {
@@ -318,8 +312,7 @@ export const AlertDialogDescription: LynxForwardRefComponent<unknown, AlertDialo
 AlertDialogDescription.displayName = "AlertDialogDescription";
 
 export interface AlertDialogFooterProps
-  extends StyleProps,
-    Omit<LynxHostProps<"view">, keyof StyleProps> {}
+  extends StyleProps, Omit<LynxHostProps<"view">, keyof StyleProps> {}
 
 export const AlertDialogFooter: LynxForwardRefComponent<unknown, AlertDialogFooterProps> =
   forwardRef<unknown, AlertDialogFooterProps>((props, ref) => {

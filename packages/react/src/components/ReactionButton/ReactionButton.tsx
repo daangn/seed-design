@@ -14,9 +14,7 @@ import {
 } from "../LoadingIndicator/usePendingButton";
 
 export interface ReactionButtonProps
-  extends ReactionButtonVariantProps,
-    UsePendingButtonProps,
-    TogglePrimitive.RootProps {}
+  extends ReactionButtonVariantProps, UsePendingButtonProps, TogglePrimitive.RootProps {}
 
 export const ReactionButton = React.forwardRef<HTMLButtonElement, ReactionButtonProps>(
   ({ size = "small", loading = false, className, ...otherProps }, ref) => {

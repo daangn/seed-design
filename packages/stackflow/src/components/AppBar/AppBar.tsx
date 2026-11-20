@@ -24,9 +24,7 @@ const {
 export const AppBarPropsProvider = PropsProvider;
 
 export interface AppBarProps
-  extends AppBarVariantProps,
-    AppBarPrimitive.RootProps,
-    BoxBackgroundProps {}
+  extends AppBarVariantProps, AppBarPrimitive.RootProps, BoxBackgroundProps {}
 
 export const AppBarRoot = forwardRef<HTMLDivElement, AppBarProps>((props, ref) => {
   const { style: boxStyle, restProps: propsWithoutBoxProps } = useBoxBackgroundProps(props);
@@ -97,8 +95,7 @@ export const AppBarTitle = withMainContext<HTMLSpanElement, AppBarTitleProps>(
 );
 
 export interface AppBarSubtitleProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const AppBarSubtitle = withMainContext<HTMLSpanElement, AppBarSubtitleProps>(
   Primitive.span,
@@ -106,8 +103,7 @@ export const AppBarSubtitle = withMainContext<HTMLSpanElement, AppBarSubtitlePro
 );
 
 export interface AppBarIconButtonProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const AppBarIconButton = forwardRef<HTMLButtonElement, AppBarIconButtonProps>(
   ({ children, className, ...otherProps }, ref) => {
@@ -131,8 +127,7 @@ export const AppBarIconButton = forwardRef<HTMLButtonElement, AppBarIconButtonPr
 AppBarIconButton.displayName = "IconButton";
 
 export interface AppBarTextButtonProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const AppBarTextButton = forwardRef<HTMLButtonElement, AppBarTextButtonProps>(
   ({ asChild, children, className, ...otherProps }, ref) => {

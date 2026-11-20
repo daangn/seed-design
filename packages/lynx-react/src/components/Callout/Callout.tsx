@@ -27,7 +27,8 @@ const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(callout);
  * - 웹 focus ring은 지원하지 않습니다.
  */
 export interface CalloutRootProps
-  extends Omit<CalloutVariantProps, "pressed" | "interactive">,
+  extends
+    Omit<CalloutVariantProps, "pressed" | "interactive">,
     Pick<UseCalloutProps, "defaultOpen" | "open" | "onDismiss">,
     Omit<
       LynxHostProps<"view">,
@@ -195,8 +196,7 @@ CalloutLink.displayName = "CalloutLink";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface CalloutCloseButtonProps
-  extends Omit<LynxHostProps<"view">, "bindtap">,
-    Pick<UseCalloutCloseButtonProps, "bindtap"> {}
+  extends Omit<LynxHostProps<"view">, "bindtap">, Pick<UseCalloutCloseButtonProps, "bindtap"> {}
 
 export const CalloutCloseButton = React.forwardRef<unknown, CalloutCloseButtonProps>(
   (props, ref) => {

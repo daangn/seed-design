@@ -254,7 +254,8 @@ function ActionButtonLoadingIndicator({ size }: { size: ActionButtonVariantProps
  * ```
  */
 export interface ActionButtonProps
-  extends Omit<ActionButtonVariantProps, "pressed" | "disabled" | "loading">,
+  extends
+    Omit<ActionButtonVariantProps, "pressed" | "disabled" | "loading">,
     Pick<UseActionButtonProps, "disabled" | "loading">,
     Pick<StyleProps, "flexGrow">,
     Pick<MarginBleedStyleProps, "bleed" | "bleedX" | "bleedY">,

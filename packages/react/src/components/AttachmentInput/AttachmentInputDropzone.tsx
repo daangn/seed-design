@@ -7,8 +7,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { withContext } from "./AttachmentInput";
 
 export interface AttachmentInputDropzoneProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AttachmentInputDropzone = withContext<HTMLDivElement, AttachmentInputDropzoneProps>(
   FileUploadPrimitive.Dropzone,
@@ -16,8 +15,7 @@ export const AttachmentInputDropzone = withContext<HTMLDivElement, AttachmentInp
 );
 
 export interface AttachmentInputDropzoneLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AttachmentInputDropzoneLabel = withContext<
   HTMLDivElement,

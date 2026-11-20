@@ -20,9 +20,7 @@ const withStateProps = createWithStateProps([useSwitchContext]);
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SwitchRootProps
-  extends SwitchVariantProps,
-    Omit<SwitchmarkVariantProps, "size">,
-    SwitchPrimitive.RootProps {}
+  extends SwitchVariantProps, Omit<SwitchmarkVariantProps, "size">, SwitchPrimitive.RootProps {}
 
 export interface SwitchRootPrimitiveProps extends SwitchPrimitive.RootProps {}
 

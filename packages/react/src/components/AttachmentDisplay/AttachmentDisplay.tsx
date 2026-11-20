@@ -32,8 +32,7 @@ const withStateProps = createWithStateProps([useAttachmentDisplayContext]);
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentDisplayRootProps
-  extends FieldVariantProps,
-    AttachmentDisplayPrimitive.RootProps {}
+  extends FieldVariantProps, AttachmentDisplayPrimitive.RootProps {}
 
 export const AttachmentDisplayRoot = withFieldProvider<HTMLDivElement, AttachmentDisplayRootProps>(
   AttachmentDisplayPrimitive.Root,
@@ -43,8 +42,7 @@ export const AttachmentDisplayRoot = withFieldProvider<HTMLDivElement, Attachmen
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentDisplayHeaderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AttachmentDisplayHeader = withFieldContext<
   HTMLDivElement,
@@ -52,9 +50,7 @@ export const AttachmentDisplayHeader = withFieldContext<
 >(withStateProps(Primitive.div), "header");
 
 export interface AttachmentDisplayLabelProps
-  extends PrimitiveProps,
-    FieldLabelVariantProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, FieldLabelVariantProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AttachmentDisplayLabel = withLabelProvider<
   HTMLDivElement,
@@ -62,8 +58,7 @@ export const AttachmentDisplayLabel = withLabelProvider<
 >(withStateProps(Primitive.div), "root");
 
 export interface AttachmentDisplayIndicatorTextProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const AttachmentDisplayIndicatorText = withLabelContext<
   HTMLSpanElement,
@@ -103,9 +98,7 @@ AttachmentDisplayRequiredIndicator.displayName = "AttachmentDisplayRequiredIndic
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentDisplayControlProps
-  extends AttachmentInputVariantProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends AttachmentInputVariantProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AttachmentDisplayControl = withAttachmentInputProvider<
   HTMLDivElement,
@@ -113,8 +106,7 @@ export const AttachmentDisplayControl = withAttachmentInputProvider<
 >(withStateProps(Primitive.div), "root");
 
 export interface AttachmentDisplayContainerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AttachmentDisplayContainer = withAttachmentInputContext<
   HTMLDivElement,
@@ -122,8 +114,7 @@ export const AttachmentDisplayContainer = withAttachmentInputContext<
 >(withStateProps(Primitive.div), "container");
 
 export interface AttachmentDisplayItemGroupProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLUListElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLUListElement> {}
 
 export const AttachmentDisplayItemGroup = withAttachmentInputContext<
   HTMLUListElement,
@@ -133,8 +124,7 @@ export const AttachmentDisplayItemGroup = withAttachmentInputContext<
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface AttachmentDisplayFooterProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AttachmentDisplayFooter = withFieldContext<
   HTMLDivElement,

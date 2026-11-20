@@ -121,17 +121,17 @@ describe("Sortable.Item accessibility actions", () => {
     expect(actionsOf("a")).toEqual(["앞으로 이동"]);
   });
 
-  it.each([
-    { disabled: true },
-    { readOnly: true },
-  ])("hides move actions and ignores stale ones when %o", (state) => {
-    const onReorder = vi.fn();
-    render(<List {...state} onReorder={onReorder} />);
+  it.each([{ disabled: true }, { readOnly: true }])(
+    "hides move actions and ignores stale ones when %o",
+    (state) => {
+      const onReorder = vi.fn();
+      render(<List {...state} onReorder={onReorder} />);
 
-    expect(actionsOf("b")).toBeNull();
-    fireNamed(itemNode("b"), "accessibilityaction", { detail: { name: "앞으로 이동" } });
-    expect(onReorder).not.toHaveBeenCalled();
-  });
+      expect(actionsOf("b")).toBeNull();
+      fireNamed(itemNode("b"), "accessibilityaction", { detail: { name: "앞으로 이동" } });
+      expect(onReorder).not.toHaveBeenCalled();
+    },
+  );
 
   it("uses caller actions while composing the caller and move handlers", () => {
     const onReorder = vi.fn();

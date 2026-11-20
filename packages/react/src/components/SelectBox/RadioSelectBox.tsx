@@ -41,9 +41,7 @@ const FooterContext = createContext<{
 } | null>(null);
 
 export interface RadioSelectBoxGroupProps
-  extends SelectBoxGroupVariantProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {
+  extends SelectBoxGroupVariantProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {
   /**
    * Number of columns in the grid layout. When bigger than 1, child `RadioSelectBoxItem` will have a default layout of "vertical".
    * @default 1
@@ -106,8 +104,7 @@ function FooterVisibilityProvider({
 }
 
 export interface RadioSelectBoxItemProps
-  extends SelectBoxVariantProps,
-    RadioGroupPrimitive.ItemProps {
+  extends SelectBoxVariantProps, RadioGroupPrimitive.ItemProps {
   /**
    * Controls when the footer is visible.
    * @default "when-selected"
@@ -160,8 +157,7 @@ export const RadioSelectBoxItem = forwardRef<HTMLLabelElement, RadioSelectBoxIte
 );
 
 export interface RadioSelectBoxTriggerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const RadioSelectBoxTrigger = withContext<HTMLDivElement, RadioSelectBoxTriggerProps>(
   withStateProps(Primitive.div),
@@ -169,8 +165,7 @@ export const RadioSelectBoxTrigger = withContext<HTMLDivElement, RadioSelectBoxT
 );
 
 export interface RadioSelectBoxContentProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const RadioSelectBoxContent = withContext<HTMLDivElement, RadioSelectBoxContentProps>(
   withStateProps(Primitive.div),
@@ -178,8 +173,7 @@ export const RadioSelectBoxContent = withContext<HTMLDivElement, RadioSelectBoxC
 );
 
 export interface RadioSelectBoxBodyProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const RadioSelectBoxBody = withContext<HTMLDivElement, RadioSelectBoxBodyProps>(
   withStateProps(Primitive.div),
@@ -187,8 +181,7 @@ export const RadioSelectBoxBody = withContext<HTMLDivElement, RadioSelectBoxBody
 );
 
 export interface RadioSelectBoxLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const RadioSelectBoxLabel = withContext<HTMLDivElement, RadioSelectBoxLabelProps>(
   withStateProps(Primitive.div),
@@ -196,8 +189,7 @@ export const RadioSelectBoxLabel = withContext<HTMLDivElement, RadioSelectBoxLab
 );
 
 export interface RadioSelectBoxDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const RadioSelectBoxDescription = withContext<
   HTMLDivElement,
@@ -227,8 +219,7 @@ export const RadioSelectBoxHiddenInput = forwardRef<
 RadioSelectBoxHiddenInput.displayName = "RadioSelectBoxHiddenInput";
 
 export interface RadioSelectBoxFooterProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const RadioSelectBoxFooter = forwardRef<HTMLDivElement, RadioSelectBoxFooterProps>(
   ({ className, children, ...props }, ref) => {

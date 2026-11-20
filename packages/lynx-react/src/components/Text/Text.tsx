@@ -25,8 +25,7 @@ function getTypographyStyle(textStyle: TextStyle | undefined) {
 }
 
 export interface TextProps
-  extends TextStyleProps,
-    Omit<LynxHostProps<"text">, keyof TextStyleProps> {
+  extends TextStyleProps, Omit<LynxHostProps<"text">, keyof TextStyleProps> {
   /**
    * The maximum number of lines to display. If the text overflows, it will be truncated with an ellipsis.
    */

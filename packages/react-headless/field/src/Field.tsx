@@ -9,9 +9,7 @@ import { useField, type UseFieldProps } from "./useField";
 import { FieldProvider, useFieldContext } from "./useFieldContext";
 
 export interface FieldRootProps
-  extends UseFieldProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends UseFieldProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldRoot = forwardRef<HTMLDivElement, FieldRootProps>((props, ref) => {
   const { readOnly, disabled, invalid, required, name, ...otherProps } = props;
@@ -43,8 +41,7 @@ export const FieldLabel = forwardRef<HTMLLabelElement, FieldLabelProps>((props, 
 FieldLabel.displayName = "FieldLabel";
 
 export interface FieldDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const FieldDescription = forwardRef<HTMLSpanElement, FieldDescriptionProps>((props, ref) => {
   const { refs, descriptionProps } = useFieldContext();
@@ -55,8 +52,7 @@ export const FieldDescription = forwardRef<HTMLSpanElement, FieldDescriptionProp
 FieldDescription.displayName = "FieldDescription";
 
 export interface FieldErrorMessageProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldErrorMessage = forwardRef<HTMLDivElement, FieldErrorMessageProps>(
   (props, ref) => {

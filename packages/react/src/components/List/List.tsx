@@ -21,11 +21,10 @@ const withStateProps = createWithStateProps([
   { useContext: useSwitchContext, strict: false },
 ]);
 
-export interface ListRootProps
-  extends Omit<
-    VStackProps,
-    "bleed" | "bleedX" | "bleedY" | "bleedTop" | "bleedRight" | "bleedBottom" | "bleedLeft"
-  > {
+export interface ListRootProps extends Omit<
+  VStackProps,
+  "bleed" | "bleedX" | "bleedY" | "bleedTop" | "bleedRight" | "bleedBottom" | "bleedLeft"
+> {
   itemBorderRadius?: StyleProps["borderRadius"];
 }
 
@@ -48,7 +47,8 @@ export const ListRoot = forwardRef<HTMLUListElement, ListRootProps>(
 );
 
 export interface ListItemProps
-  extends PrimitiveProps,
+  extends
+    PrimitiveProps,
     Pick<StyleProps, "alignItems">,
     React.HTMLAttributes<HTMLLIElement>,
     ListItemVariantProps {}
@@ -59,9 +59,7 @@ export const ListItem = withProvider<HTMLLIElement, ListItemProps>(
 );
 
 export interface ListCheckItemProps
-  extends ListItemVariantProps,
-    Pick<StyleProps, "alignItems">,
-    CheckboxPrimitive.RootProps {}
+  extends ListItemVariantProps, Pick<StyleProps, "alignItems">, CheckboxPrimitive.RootProps {}
 
 export const ListCheckItem = withProvider<HTMLLabelElement, ListCheckItemProps>(
   withStyleProps(CheckboxPrimitive.Root),
@@ -74,9 +72,7 @@ export interface ListRadioRootProps extends RadioGroupPrimitive.RootProps {}
 export const ListRadioRoot = RadioGroupPrimitive.Root;
 
 export interface ListRadioItemProps
-  extends ListItemVariantProps,
-    Pick<StyleProps, "alignItems">,
-    RadioGroupPrimitive.ItemProps {}
+  extends ListItemVariantProps, Pick<StyleProps, "alignItems">, RadioGroupPrimitive.ItemProps {}
 
 export const ListRadioItem = withProvider<HTMLLabelElement, ListRadioItemProps>(
   withStyleProps(RadioGroupPrimitive.Item),
@@ -85,9 +81,7 @@ export const ListRadioItem = withProvider<HTMLLabelElement, ListRadioItemProps>(
 ListRadioItem.displayName = "List.RadioItem";
 
 export interface ListSwitchItemProps
-  extends ListItemVariantProps,
-    Pick<StyleProps, "alignItems">,
-    SwitchPrimitive.RootProps {}
+  extends ListItemVariantProps, Pick<StyleProps, "alignItems">, SwitchPrimitive.RootProps {}
 
 export const ListSwitchItem = withProvider<HTMLLabelElement, ListSwitchItemProps>(
   withStyleProps(SwitchPrimitive.Root),
@@ -96,7 +90,8 @@ export const ListSwitchItem = withProvider<HTMLLabelElement, ListSwitchItemProps
 ListSwitchItem.displayName = "List.SwitchItem";
 
 export interface ListContentProps
-  extends PrimitiveProps,
+  extends
+    PrimitiveProps,
     Pick<StyleProps, "gap" | "pr" | "paddingRight">,
     React.HTMLAttributes<HTMLDivElement> {}
 
@@ -106,7 +101,8 @@ export const ListContent = withContext<HTMLDivElement, ListContentProps>(
 );
 
 export interface ListPrefixProps
-  extends PrimitiveProps,
+  extends
+    PrimitiveProps,
     Pick<StyleProps, "pr" | "paddingRight">,
     React.HTMLAttributes<HTMLDivElement> {}
 
@@ -116,7 +112,8 @@ export const ListPrefix = withContext<HTMLDivElement, ListPrefixProps>(
 );
 
 export interface ListSuffixProps
-  extends PrimitiveProps,
+  extends
+    PrimitiveProps,
     Pick<StyleProps, "gap" | "position">,
     React.HTMLAttributes<HTMLDivElement> {}
 

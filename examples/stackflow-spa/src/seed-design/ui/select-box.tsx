@@ -18,8 +18,7 @@ import { Radiomark, type RadiomarkProps } from "./radio-group";
 import * as React from "react";
 
 export interface RadioSelectBoxRootProps
-  extends Omit<SeedRadioGroupField.RootProps, "asChild">,
-    SelectBoxGroupVariantProps {
+  extends Omit<SeedRadioGroupField.RootProps, "asChild">, SelectBoxGroupVariantProps {
   label?: React.ReactNode;
   /**
    * @default "medium"
@@ -116,8 +115,10 @@ export const RadioSelectBoxRoot = React.forwardRef<HTMLDivElement, RadioSelectBo
 );
 RadioSelectBoxRoot.displayName = "RadioSelectBoxRoot";
 
-export interface RadioSelectBoxItemProps
-  extends Omit<SeedRadioSelectBox.ItemProps, "children" | "asChild"> {
+export interface RadioSelectBoxItemProps extends Omit<
+  SeedRadioSelectBox.ItemProps,
+  "children" | "asChild"
+> {
   label: React.ReactNode;
   description?: React.ReactNode;
 
@@ -164,8 +165,7 @@ export const RadioSelectBoxRadiomark = React.forwardRef<
 RadioSelectBoxRadiomark.displayName = "RadioSelectBoxRadiomark";
 
 export interface CheckSelectBoxGroupProps
-  extends Omit<SeedFieldset.RootProps, "asChild">,
-    SelectBoxGroupVariantProps {
+  extends Omit<SeedFieldset.RootProps, "asChild">, SelectBoxGroupVariantProps {
   label?: React.ReactNode;
   /**
    * @default "medium"
@@ -253,8 +253,10 @@ export const CheckSelectBoxGroup = React.forwardRef<HTMLDivElement, CheckSelectB
   },
 );
 
-export interface CheckSelectBoxProps
-  extends Omit<SeedCheckSelectBox.RootProps, "children" | "asChild"> {
+export interface CheckSelectBoxProps extends Omit<
+  SeedCheckSelectBox.RootProps,
+  "children" | "asChild"
+> {
   label: React.ReactNode;
   description?: React.ReactNode;
 
@@ -293,8 +295,10 @@ export const CheckSelectBox = React.forwardRef<HTMLInputElement, CheckSelectBoxP
 );
 CheckSelectBox.displayName = "CheckSelectBox";
 
-export interface CheckSelectBoxCheckmarkProps
-  extends Omit<SeedCheckSelectBox.CheckmarkControlProps, "children" | "asChild"> {}
+export interface CheckSelectBoxCheckmarkProps extends Omit<
+  SeedCheckSelectBox.CheckmarkControlProps,
+  "children" | "asChild"
+> {}
 
 export const CheckSelectBoxCheckmark = React.forwardRef<
   HTMLDivElement,

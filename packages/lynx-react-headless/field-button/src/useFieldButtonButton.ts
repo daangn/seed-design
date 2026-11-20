@@ -15,8 +15,7 @@ type MainThreadTouchProps = Pick<
 >;
 
 export interface UseFieldButtonPressableProps
-  extends PressableAccessibilityProps,
-    MainThreadTouchProps {
+  extends PressableAccessibilityProps, MainThreadTouchProps {
   /** 사용자 tap handler입니다. Root가 `disabled`·`readOnly`이면 실행되지 않습니다. */
   bindtap?: ViewProps["bindtap"];
   /** Root가 `disabled`·`readOnly`가 아닐 때만 native props에 포함됩니다. */

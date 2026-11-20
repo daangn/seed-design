@@ -14,9 +14,7 @@ import {
 } from "../LoadingIndicator/usePendingButton";
 
 export interface ToggleButtonProps
-  extends ToggleButtonVariantProps,
-    UsePendingButtonProps,
-    TogglePrimitive.RootProps {}
+  extends ToggleButtonVariantProps, UsePendingButtonProps, TogglePrimitive.RootProps {}
 
 export const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(
   ({ variant = "brandSolid", size = "small", loading = false, className, ...otherProps }, ref) => {

@@ -17,9 +17,7 @@ const { withContext, PropsProvider } = createRecipeContext(notificationBadge);
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface NotificationBadgeProps
-  extends NotificationBadgeVariantProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends NotificationBadgeVariantProps, PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const NotificationBadge = withContext<HTMLSpanElement, NotificationBadgeProps>(
   Primitive.span,
@@ -28,7 +26,8 @@ export const NotificationBadge = withContext<HTMLSpanElement, NotificationBadgeP
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface NotificationBadgePositionerProps
-  extends NotificationBadgePositionerVariantProps,
+  extends
+    NotificationBadgePositionerVariantProps,
     PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 

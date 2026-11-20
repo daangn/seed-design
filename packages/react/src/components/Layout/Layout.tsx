@@ -7,9 +7,7 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 const { withProvider, withContext } = createSlotRecipeContext(layout);
 
 export interface LayoutRootProps
-  extends LayoutVariantProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+  extends LayoutVariantProps, PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const LayoutRoot = withProvider<HTMLDivElement, LayoutRootProps>(Primitive.div, "root");
 

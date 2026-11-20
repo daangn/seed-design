@@ -207,7 +207,8 @@ ListButtonItem.displayName = "ListButtonItem";
 // suffix의 Checkbox.Control 등은 이 Provider에서 상태를 읽는다.
 
 export interface ListCheckboxItemProps
-  extends PublicListItemVariantProps,
+  extends
+    PublicListItemVariantProps,
     Pick<
       UseCheckboxProps,
       "checked" | "defaultChecked" | "onCheckedChange" | "indeterminate" | "disabled"
@@ -261,7 +262,8 @@ ListCheckboxItem.displayName = "ListCheckboxItem";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ListRadioItemProps
-  extends PublicListItemVariantProps,
+  extends
+    PublicListItemVariantProps,
     Pick<UseRadioGroupItemProps, "value" | "disabled">,
     LynxHostProps<"view"> {}
 
@@ -306,7 +308,8 @@ ListRadioItem.displayName = "ListRadioItem";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface ListSwitchItemProps
-  extends PublicListItemVariantProps,
+  extends
+    PublicListItemVariantProps,
     Pick<UseSwitchProps, "checked" | "defaultChecked" | "onCheckedChange" | "disabled">,
     LynxHostProps<"view"> {}
 

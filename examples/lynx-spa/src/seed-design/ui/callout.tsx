@@ -8,8 +8,10 @@ import {
   type PrefixIconProps,
 } from "@seed-design/lynx-react";
 
-export interface CalloutProps
-  extends Omit<SeedCallout.RootProps, "children" | "open" | "defaultOpen" | "onDismiss"> {
+export interface CalloutProps extends Omit<
+  SeedCallout.RootProps,
+  "children" | "open" | "defaultOpen" | "onDismiss"
+> {
   prefixIcon?: PrefixIconProps["icon"];
   title?: React.ReactNode;
   description: React.ReactNode;
@@ -35,8 +37,10 @@ export const Callout = React.forwardRef<unknown, CalloutProps>(
 );
 Callout.displayName = "Callout";
 
-export interface ActionableCalloutProps
-  extends Omit<SeedCallout.RootProps, "children" | "open" | "defaultOpen" | "onDismiss"> {
+export interface ActionableCalloutProps extends Omit<
+  SeedCallout.RootProps,
+  "children" | "open" | "defaultOpen" | "onDismiss"
+> {
   prefixIcon?: PrefixIconProps["icon"];
   title?: React.ReactNode;
   description: React.ReactNode;

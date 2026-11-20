@@ -7,18 +7,17 @@ import { useMenuContext } from "./useMenuContext.js";
 type ViewProps = IntrinsicElements["view"];
 type TapHandler = NonNullable<ViewProps["bindtap"]>;
 
-export interface UseMenuItemProps
-  extends Pick<
-    ViewProps,
-    | "bindtap"
-    | "main-thread:bindtap"
-    | "main-thread:bindtouchstart"
-    | "main-thread:bindtouchend"
-    | "main-thread:bindtouchcancel"
-    | "accessibility-element"
-    | "accessibility-label"
-    | "accessibility-traits"
-  > {
+export interface UseMenuItemProps extends Pick<
+  ViewProps,
+  | "bindtap"
+  | "main-thread:bindtap"
+  | "main-thread:bindtouchstart"
+  | "main-thread:bindtouchend"
+  | "main-thread:bindtouchcancel"
+  | "accessibility-element"
+  | "accessibility-label"
+  | "accessibility-traits"
+> {
   /** `true`이거나 Root가 `disabled`이면 탭해도 `bindtap`을 호출하지 않고 메뉴를 닫지 않습니다. */
   disabled?: boolean;
 }

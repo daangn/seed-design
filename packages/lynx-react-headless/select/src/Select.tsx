@@ -124,8 +124,7 @@ SelectRoot.displayName = "SelectRoot";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SelectTriggerProps
-  extends Omit<UseSelectTriggerProps, "ref">,
-    Omit<ViewProps, keyof UseSelectTriggerProps> {}
+  extends Omit<UseSelectTriggerProps, "ref">, Omit<ViewProps, keyof UseSelectTriggerProps> {}
 
 /**
  * 탭하면 목록을 열고 닫는 native `<view>`입니다. 위치 계산의 기준 요소입니다. `useSelectTrigger`를 사용합니다.
@@ -233,7 +232,8 @@ SelectPlaceholder.displayName = "SelectPlaceholder";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SelectPositionerProps
-  extends StyledViewProps,
+  extends
+    StyledViewProps,
     Pick<OverlayViewProps, "container" | "overlayLevel" | "overlayViewProps"> {}
 
 /**
@@ -713,10 +713,10 @@ export const SelectContent = React.forwardRef<unknown, SelectContentProps>((prop
 
   const enableScroll = Boolean(
     position &&
-      intrinsicSize &&
-      intrinsicSize.epoch === openEpoch &&
-      intrinsicSize.config === measurementConfigRef.current &&
-      intrinsicSize.height > position.height,
+    intrinsicSize &&
+    intrinsicSize.epoch === openEpoch &&
+    intrinsicSize.config === measurementConfigRef.current &&
+    intrinsicSize.height > position.height,
   );
   const viewportHeight = position?.height;
   const scrollAreaBinding = React.useMemo<SelectScrollAreaBinding>(
@@ -853,8 +853,7 @@ SelectGroupLabel.displayName = "SelectGroupLabel";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SelectItemProps
-  extends Omit<UseSelectItemProps, "ref">,
-    Omit<ViewProps, keyof UseSelectItemProps> {}
+  extends Omit<UseSelectItemProps, "ref">, Omit<ViewProps, keyof UseSelectItemProps> {}
 
 /**
  * 선택 항목 native `<view>`입니다. `useSelectItem`으로 등록·선택·접근성을 연결합니다. 하위 요소는

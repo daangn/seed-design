@@ -11,11 +11,7 @@ export {
   type AccordionContentProps,
 } from "./Accordion";
 
-export {
-  useAccordion,
-  type UseAccordionProps,
-  type UseAccordionReturn,
-} from "./useAccordion";
+export { useAccordion, type UseAccordionProps, type UseAccordionReturn } from "./useAccordion";
 
 export {
   useAccordionItem,

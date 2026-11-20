@@ -85,8 +85,7 @@ export const CalloutRoot = React.forwardRef<unknown, CalloutRootProps>((props, r
 CalloutRoot.displayName = "CalloutRoot";
 
 export interface CalloutCloseButtonProps
-  extends UseCalloutCloseButtonProps,
-    Omit<ViewProps, keyof UseCalloutCloseButtonProps> {}
+  extends UseCalloutCloseButtonProps, Omit<ViewProps, keyof UseCalloutCloseButtonProps> {}
 
 /**
  * 스타일 없이 Callout을 닫는 native `<view>`입니다. 사용자 `bindtap`을 실행한 뒤 `dismiss`를 호출합니다.

@@ -28,9 +28,7 @@ function useBadgeSlotContext() {
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface BadgeRootProps
-  extends BadgeVariantProps,
-    PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+  extends BadgeVariantProps, PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
 
 export const BadgeRoot = React.forwardRef<HTMLSpanElement, BadgeRootProps>(
   ({ className, ...props }, ref) => {
@@ -76,8 +74,7 @@ BadgeLabel.displayName = "Badge.Label";
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface BadgeActionProps
-  extends PrimitiveProps,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+  extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const BadgeAction = React.forwardRef<HTMLButtonElement, BadgeActionProps>(
   ({ className, ...props }, ref) => {

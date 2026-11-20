@@ -134,14 +134,14 @@ export const QuantityPickerRoot = React.forwardRef<HTMLDivElement, QuantityPicke
 QuantityPickerRoot.displayName = "QuantityPickerRoot";
 
 interface QuantityPickerButtonProps
-  extends PrimitiveProps,
-    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "disabled" | "type"> {
+  extends PrimitiveProps, Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "disabled" | "type"> {
   icon?: React.ReactNode;
   loadingIndicator?: React.ReactNode;
 }
 
 export interface QuantityPickerDecrementButtonProps
-  extends Omit<QuantityPickerPrimitive.DecrementButtonProps, "children">,
+  extends
+    Omit<QuantityPickerPrimitive.DecrementButtonProps, "children">,
     QuantityPickerButtonProps {
   removeIcon?: React.ReactNode;
 }
@@ -202,7 +202,8 @@ export const QuantityPickerValueDisplay = withStateProps(
 QuantityPickerValueDisplay.displayName = "QuantityPickerValueDisplay";
 
 export interface QuantityPickerIncrementButtonProps
-  extends Omit<QuantityPickerPrimitive.IncrementButtonProps, "children">,
+  extends
+    Omit<QuantityPickerPrimitive.IncrementButtonProps, "children">,
     QuantityPickerButtonProps {}
 
 export const QuantityPickerIncrementButton = React.forwardRef<

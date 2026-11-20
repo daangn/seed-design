@@ -24,9 +24,6 @@ export {
   type UseSnackbarContext,
   type CreateSnackbarOptions,
 } from "@seed-design/react-snackbar";
-export {
-  useSnackbarAdapter,
-  type UseSnackbarAdapterReturn,
-} from "./useSnackbarAdapter";
+export { useSnackbarAdapter, type UseSnackbarAdapterReturn } from "./useSnackbarAdapter";
 
 export * as Snackbar from "./Snackbar.namespace";
