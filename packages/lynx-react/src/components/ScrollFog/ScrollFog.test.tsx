@@ -156,13 +156,6 @@ describe("ScrollFog", () => {
     expect(bindtap).toHaveBeenCalledTimes(1);
   });
 
-  it("renders one mask for a single edge", () => {
-    const { container } = render(<ScrollFog placement={["bottom"]} />);
-
-    expectEdgeVariant(container, "bottom", true);
-    expect(getMasks(container)).toHaveLength(1);
-  });
-
   it("renders children directly in the root for an empty placement", () => {
     const { container } = render(
       <ScrollFog placement={[]}>

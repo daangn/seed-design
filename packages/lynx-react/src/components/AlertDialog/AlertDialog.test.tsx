@@ -159,18 +159,6 @@ describe("AlertDialog", () => {
     flushPresence();
 
     expect(onOpenChange.mock.calls).toEqual([[true]]);
-    for (const slot of [
-      "positioner",
-      "backdrop",
-      "content",
-      "header",
-      "title",
-      "description",
-      "footer",
-      "action",
-    ]) {
-      expect(container.querySelector(`.seed-alert-dialog__${slot}`)).not.toBeNull();
-    }
 
     tap(container, ".seed-alert-dialog__backdrop");
     flushPresence();

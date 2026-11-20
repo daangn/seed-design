@@ -1,7 +1,13 @@
 import "@testing-library/jest-dom";
-import { fireEvent, render } from "@lynx-js/react/testing-library";
-import { describe, expect, it, vi } from "vitest";
-import { AttachmentInputRoot, AttachmentInputContainer } from "./AttachmentInput";
+import type * as React from "@lynx-js/react";
+import { render, renderHook } from "@lynx-js/react/testing-library";
+import { describe, expect, it } from "vitest";
+import { Field } from "../Field";
+import {
+  AttachmentInputRoot,
+  AttachmentInputContainer,
+  useAttachmentInput,
+} from "./AttachmentInput";
 
 describe("AttachmentInputRoot", () => {
   it("passes the safe-area extension to the scroll content without forwarding the prop to native", () => {
@@ -32,26 +38,43 @@ describe("AttachmentInputRoot", () => {
       "seed-attachment-input__containerContent--extendSafeAreaX_true",
     );
   });
+});
 
-  it("keeps caller native props and events on the attachment host", () => {
-    const bindtap = vi.fn();
+describe("AttachmentInput Field state fallback", () => {
+  it("inherits omitted states from the enclosing Field", () => {
     const { container } = render(
-      <AttachmentInputRoot
-        accessibility-label="Upload attachments"
-        data-foo="attachment-host"
-        flatten={true}
-        bindtap={bindtap}
-      >
-        <text>Choose attachments</text>
-      </AttachmentInputRoot>,
+      <Field.Root disabled required invalid>
+        <AttachmentInputRoot />
+      </Field.Root>,
     );
-    const root = container.firstElementChild as HTMLElement;
+    const root = container.querySelector(".seed-attachment-input__root");
 
-    expect(root).toHaveAttribute("accessibility-label", "Upload attachments");
-    expect(root).toHaveAttribute("data-foo", "attachment-host");
-    expect(root).toHaveAttribute("flatten", "true");
-    expect(root.querySelector("text")?.textContent).toBe("Choose attachments");
-    fireEvent.tap(root);
-    expect(bindtap).toHaveBeenCalledTimes(1);
+    expect(root).toHaveAttribute("data-disabled", "true");
+    expect(root).toHaveAttribute("data-required", "true");
+    expect(root).toHaveAttribute("data-invalid", "true");
+  });
+
+  it("prefers explicit states over the enclosing Field", () => {
+    const { container } = render(
+      <Field.Root disabled required invalid>
+        <AttachmentInputRoot disabled={false} required={false} invalid={false} />
+      </Field.Root>,
+    );
+    const root = container.querySelector(".seed-attachment-input__root");
+
+    expect(root).toHaveAttribute("data-disabled", "false");
+    expect(root).toHaveAttribute("data-required", "false");
+    expect(root).toHaveAttribute("data-invalid", "false");
+  });
+
+  it("applies the same fallback in useAttachmentInput", () => {
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <Field.Root readOnly invalid>
+        {children}
+      </Field.Root>
+    );
+    const { result } = renderHook(() => useAttachmentInput({ invalid: false }), { wrapper });
+
+    expect(result.current).toMatchObject({ readOnly: true, invalid: false, disabled: false });
   });
 });

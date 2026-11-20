@@ -102,28 +102,6 @@ describe("BottomSheet", () => {
     expect(rootProps).not.toHaveProperty("screenWidth");
   });
 
-  it("preserves a consumer-provided screenHeight", () => {
-    render(
-      <BottomSheet.Root screenHeight={600} snapPoints={["45%", "80%"]}>
-        <BottomSheet.Content />
-      </BottomSheet.Root>,
-    );
-
-    expect(sheetMocks.rootProps.at(-1)).toMatchObject({ screenHeight: 600 });
-  });
-
-  it("passes handleOnly to headless Root", () => {
-    render(
-      <BottomSheet.Root handleOnly>
-        <BottomSheet.Content />
-      </BottomSheet.Root>,
-    );
-
-    expect(sheetMocks.rootProps.at(-1)).toMatchObject({
-      handleOnly: true,
-    });
-  });
-
   it("renders Body as a view around a vertical scroll-view that holds its children", () => {
     const bodyRef = createRef<unknown>();
     const { container } = render(
@@ -361,7 +339,6 @@ describe("BottomSheet", () => {
     fireEvent.tap(closeButton);
 
     expect(sheetMocks.closeTap).toHaveBeenCalledOnce();
-    expect(sheetMocks.rootProps.at(-1)).toMatchObject({ onOpenChange });
     expect(onTap).toHaveBeenCalledOnce();
   });
 

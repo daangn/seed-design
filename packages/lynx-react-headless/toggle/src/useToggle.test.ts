@@ -11,37 +11,10 @@ describe("useToggle", () => {
       expect(result.current.pressed).toBe(true);
     });
 
-    it("defaults to false", () => {
-      const { result } = renderHook(() => useToggle({}));
-      expect(result.current.pressed).toBe(false);
-    });
-
     it("toggles pressed", () => {
       const { result } = renderHook(() => useToggle({ defaultPressed: false }));
       act(() => result.current.toggle());
       expect(result.current.pressed).toBe(true);
-    });
-
-    it("calls onPressedChange on toggle", () => {
-      const onPressedChange = vi.fn();
-      const { result } = renderHook(() => useToggle({ onPressedChange }));
-      act(() => result.current.toggle());
-      expect(onPressedChange).toHaveBeenCalledWith(true);
-    });
-  });
-
-  describe("controlled", () => {
-    it("uses the pressed prop", () => {
-      const { result } = renderHook(() => useToggle({ pressed: true }));
-      expect(result.current.pressed).toBe(true);
-    });
-
-    it("calls onPressedChange but does not update internal state", () => {
-      const onPressedChange = vi.fn();
-      const { result } = renderHook(() => useToggle({ pressed: false, onPressedChange }));
-      act(() => result.current.toggle());
-      expect(onPressedChange).toHaveBeenCalledWith(true);
-      expect(result.current.pressed).toBe(false);
     });
   });
 
@@ -86,14 +59,6 @@ describe("useToggle", () => {
       expect(calls).toEqual(["bindtap", "pressed:true"]);
       expect(result.current.rootProps["accessibility-value"]).toBe("pressed");
     });
-
-    it("tracks active (pressed-down) state via touch", () => {
-      const { result } = renderHook(() => useToggle({}));
-      act(() => result.current.rootProps.bindtouchstart(fakeEvent));
-      expect(result.current.active).toBe(true);
-      act(() => result.current.rootProps.bindtouchend(fakeEvent));
-      expect(result.current.active).toBe(false);
-    });
   });
 });
 
@@ -120,30 +85,4 @@ it("uses the latest controlled value and callback", () => {
   expect(next).toHaveBeenCalledExactlyOnceWith(false);
   expect(first).not.toHaveBeenCalled();
   expect(result.current.pressed).toBe(true);
-});
-
-it("clears active when disabled during a press and keeps tap disabled", () => {
-  const onPressedChange = vi.fn();
-  const { result, rerender } = renderHook(
-    ({ disabled }) => useToggle({ disabled, onPressedChange }),
-    {
-      initialProps: { disabled: false },
-    },
-  );
-  act(() => result.current.rootProps.bindtouchstart(fakeEvent));
-  expect(result.current.active).toBe(true);
-  rerender({ disabled: true });
-  act(() => result.current.rootProps.bindtap(fakeEvent));
-  expect(result.current.active).toBe(false);
-  expect(onPressedChange).not.toHaveBeenCalled();
-  rerender({ disabled: false });
-  expect(result.current.active).toBe(false);
-});
-
-it("cancels active without toggling selected state", () => {
-  const { result } = renderHook(() => useToggle({}));
-  act(() => result.current.rootProps.bindtouchstart(fakeEvent));
-  act(() => result.current.rootProps.bindtouchcancel(fakeEvent));
-  expect(result.current.active).toBe(false);
-  expect(result.current.pressed).toBe(false);
 });

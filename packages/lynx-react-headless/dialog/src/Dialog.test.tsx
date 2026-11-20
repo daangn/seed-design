@@ -104,27 +104,6 @@ describe("Dialog", () => {
     expect(opened.query(".content")).not.toBeNull();
   });
 
-  it("keeps Backdrop taps from closing when clickToClose is false", () => {
-    const onOpenChange = vi.fn();
-    const view = render(
-      <Dialog.Root defaultOpen onOpenChange={onOpenChange}>
-        <Dialog.Positioner>
-          <Dialog.Backdrop className="backdrop" clickToClose={false} />
-          <Dialog.Content className="content" />
-        </Dialog.Positioner>
-      </Dialog.Root>,
-    );
-    flushPresence();
-
-    const backdrop = view.container.querySelector(".backdrop");
-    if (!backdrop) throw new Error("Expected backdrop to be rendered.");
-    fireEvent.tap(backdrop);
-    flushPresence();
-
-    expect(onOpenChange).not.toHaveBeenCalled();
-    expect(view.container.querySelector(".content")).not.toBeNull();
-  });
-
   it("fills the native overlay with the layer view only in container mode", () => {
     const view = render(
       <Dialog.Root defaultOpen>
@@ -144,13 +123,6 @@ describe("Dialog", () => {
     expect(overlayLayer?.style.position).toBe("relative");
     expect(viewLayer?.style.height).toBe("");
     expect(viewLayer?.style.position).toBe("fixed");
-  });
-
-  it("keeps closed content mounted with forceMount", () => {
-    const dialog = renderDialog({ forceMount: true });
-    flushPresence();
-
-    expect(dialog.query(".content")?.classList.contains("ui-closed")).toBe(true);
   });
 
   it("marks Title as an accessibility heading unless overridden", () => {

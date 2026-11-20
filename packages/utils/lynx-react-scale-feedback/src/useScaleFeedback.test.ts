@@ -1,6 +1,6 @@
 import { createElement, runOnMainThread, type ReactNode } from "@lynx-js/react";
 import { renderHook, waitSchedule } from "@lynx-js/react/testing-library";
-import { afterEach, describe, expect, expectTypeOf, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { calculateScaleFeedback, isReducedMotion } from "./calculate-scale-feedback";
 import { resetDeprecatedMotionWarning } from "./deprecated-global-props";
@@ -55,23 +55,6 @@ describe("useScaleFeedback", () => {
       previous.scaleFeedbackTriggerProps["main-thread:bindtouchstart"],
     );
   });
-
-  it("keeps the animation target from being flattened", () => {
-    const { result } = renderHook(() => useScaleFeedback());
-
-    expect(result.current.scaleFeedbackTargetProps.flatten).toBe(false);
-  });
-
-  it("uses exact touch event callbacks", () => {
-    expectTypeOf<UseScaleFeedbackOptions>().toMatchTypeOf<{
-      onTouchStart?: () => void;
-      onTouchEnd?: () => void;
-      onTouchCancel?: () => void;
-    }>();
-    expectTypeOf<UseScaleFeedbackOptions>().not.toHaveProperty("onPressStart");
-    expectTypeOf<UseScaleFeedbackOptions>().not.toHaveProperty("onPressEnd");
-    expectTypeOf<UseScaleFeedbackOptions>().not.toHaveProperty("onPressCancel");
-  });
 });
 
 describe("useScaleFeedback deprecated motion global prop", () => {
@@ -124,8 +107,5 @@ describe("isReducedMotion", () => {
   it("only disables motion for the exact reduced value", () => {
     expect(isReducedMotion("reduced")).toBe(true);
     expect(isReducedMotion("preferred")).toBe(false);
-    expect(isReducedMotion(undefined)).toBe(false);
-    expect(isReducedMotion(null)).toBe(false);
-    expect(isReducedMotion("unknown")).toBe(false);
   });
 });

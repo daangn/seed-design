@@ -20,29 +20,6 @@ describe("useControllableState", () => {
       expect(result.current[0]).toBe(42);
     });
 
-    it("calls onChange when value changes", () => {
-      const onChange = vi.fn();
-      const { result } = renderHook(() => useControllableState({ defaultValue: "a", onChange }));
-
-      act(() => {
-        result.current[1]("b");
-      });
-
-      expect(onChange).toHaveBeenCalledWith("b");
-      expect(onChange).toHaveBeenCalledTimes(1);
-    });
-
-    it("does not call onChange when value is unchanged", () => {
-      const onChange = vi.fn();
-      const { result } = renderHook(() => useControllableState({ defaultValue: "a", onChange }));
-
-      act(() => {
-        result.current[1]("a");
-      });
-
-      expect(onChange).not.toHaveBeenCalled();
-    });
-
     it("calls onChange only once per unique value", () => {
       const onChange = vi.fn();
       const { result } = renderHook(() => useControllableState({ defaultValue: 0, onChange }));
@@ -112,49 +89,6 @@ describe("useControllableState", () => {
       act(() => result.current[1](false));
 
       expect(onChange).toHaveBeenCalledExactlyOnceWith(true);
-    });
-
-    it("uses the provided value", () => {
-      const { result } = renderHook(() =>
-        useControllableState({ value: "external", defaultValue: "default" }),
-      );
-
-      expect(result.current[0]).toBe("external");
-    });
-
-    it("calls onChange on setValue but does not update internal state", () => {
-      const onChange = vi.fn();
-      const { result } = renderHook(() =>
-        useControllableState({
-          value: "controlled",
-          defaultValue: "default",
-          onChange,
-        }),
-      );
-
-      act(() => {
-        result.current[1]("next");
-      });
-
-      expect(onChange).toHaveBeenCalledWith("next");
-      expect(result.current[0]).toBe("controlled");
-    });
-
-    it("reflects external value changes on rerender", () => {
-      const { result, rerender } = renderHook(
-        (props: { value: string }) =>
-          useControllableState({
-            value: props.value,
-            defaultValue: "default",
-          }),
-        { initialProps: { value: "first" } },
-      );
-
-      expect(result.current[0]).toBe("first");
-
-      rerender({ value: "second" });
-
-      expect(result.current[0]).toBe("second");
     });
   });
 

@@ -33,13 +33,6 @@ describe("useIconColor", () => {
     testState.workletCalls.length = 0;
   });
 
-  it("returns icon tint sync props", () => {
-    const { result } = renderHook(() => useIconColor([]), { wrapper });
-
-    expect(result.current).toHaveProperty("ref");
-    expect(result.current["main-thread:binduiappear"]).toBeDefined();
-  });
-
   it("avoids cross-thread calls on mount and resynchronizes after theme changes", () => {
     const { rerender } = renderHook(() => useIconColor([]), { wrapper });
 

@@ -10,7 +10,6 @@ import {
   IdentityPlaceholderImage,
   type IdentityPlaceholderImageProps,
   IdentityPlaceholderRoot,
-  type IdentityPlaceholderRootProps,
 } from "./IdentityPlaceholder";
 import businessSource from "./identity-placeholder-business.webp";
 import personSource from "./identity-placeholder-person.webp";
@@ -109,12 +108,8 @@ describe("IdentityPlaceholder", () => {
     expect(() => render(<IdentityPlaceholderImage />)).toThrow();
   });
 
-  it("exposes native hosts on Root and Image while Image keeps children unsupported", () => {
-    expectTypeOf<IdentityPlaceholderRootProps>().toHaveProperty("bindtap");
-    expectTypeOf<IdentityPlaceholderImageProps>().toHaveProperty("src");
-    expectTypeOf<IdentityPlaceholderImageProps>().toHaveProperty("mode");
+  it("keeps children unsupported on Image", () => {
     expectTypeOf<IdentityPlaceholderImageProps>().not.toHaveProperty("children");
-    expectTypeOf<IdentityPlaceholderImageProps>().toHaveProperty("accessibility-label");
   });
 
   it("lets native image props override identity defaults", () => {

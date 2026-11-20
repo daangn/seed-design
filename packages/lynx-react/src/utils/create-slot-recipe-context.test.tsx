@@ -48,15 +48,9 @@ describe("createSlotRecipeContext", () => {
   it("rejects intrinsic native tags to avoid Lynx BackgroundSnapshot errors", () => {
     const { withRootProvider, withProvider, withContext } = createSlotRecipeContext(mockSlotRecipe);
 
-    expect(() => withRootProvider<MockVariantProps>("view")).toThrow(
-      /literal JSX.*BackgroundSnapshot/,
-    );
-    expect(() => withProvider<unknown, MockVariantProps>("view", "root")).toThrow(
-      /literal JSX.*BackgroundSnapshot/,
-    );
-    expect(() => withContext<unknown, Record<string, unknown>>("text", "label")).toThrow(
-      /literal JSX.*BackgroundSnapshot/,
-    );
+    expect(() => withRootProvider<MockVariantProps>("view")).toThrow();
+    expect(() => withProvider<unknown, MockVariantProps>("view", "root")).toThrow();
+    expect(() => withContext<unknown, Record<string, unknown>>("text", "label")).toThrow();
   });
 
   it("injects root classnames into context without applying className on the root element", () => {

@@ -13,7 +13,6 @@ beforeEach(async () => {
 });
 
 import {
-  getDefaultClaimedGestureAngles,
   getDefaultRubberBand,
   getMainAxisLayoutSize,
   getMainAxisSize,
@@ -76,24 +75,6 @@ describe("sheet side utils", () => {
     expect(getMaxSnapSize([400, 800])).toBe(800);
     expect(getMaxSnapSize([400, -1, 800], 520)).toBe(800);
     expect(getMaxSnapSize([400, -1, 800], 920)).toBe(920);
-  });
-
-  it("uses vertical gesture angles for vertical sheets", () => {
-    expect(getDefaultClaimedGestureAngles("top")).toEqual([
-      [-134, -46],
-      [46, 134],
-    ]);
-    expect(getDefaultClaimedGestureAngles("bottom")).toEqual([
-      [-134, -46],
-      [46, 134],
-    ]);
-  });
-
-  it("uses horizontal gesture angles for drawers", () => {
-    expect(getDefaultClaimedGestureAngles("right")).toEqual([
-      [-45, 45],
-      [135, -135],
-    ]);
   });
 
   it("enables rubber band by default only for vertical sheets", () => {

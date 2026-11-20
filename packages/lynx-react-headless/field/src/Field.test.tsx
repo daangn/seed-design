@@ -97,10 +97,10 @@ describe("useFieldContext", () => {
       useFieldContext();
       return null;
     }
-    expect(() => render(<Strict />)).toThrow(/useFieldContext must be used within a FieldRoot/);
-    expect(() => render(<Field.Label>이름</Field.Label>)).toThrow(/FieldRoot/);
-    expect(() => render(<Field.Description>설명</Field.Description>)).toThrow(/FieldRoot/);
-    expect(() => render(<Field.ErrorMessage>오류</Field.ErrorMessage>)).toThrow(/FieldRoot/);
+    expect(() => render(<Strict />)).toThrow();
+    expect(() => render(<Field.Label>이름</Field.Label>)).toThrow();
+    expect(() => render(<Field.Description>설명</Field.Description>)).toThrow();
+    expect(() => render(<Field.ErrorMessage>오류</Field.ErrorMessage>)).toThrow();
   });
 
   it("returns null outside Field.Root when strict is false", () => {

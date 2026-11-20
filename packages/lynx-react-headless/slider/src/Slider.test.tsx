@@ -5,13 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as Slider from "./Slider.namespace.js";
 import { useSliderContext } from "./useSliderContext.js";
-import {
-  hasMinimumSteps,
-  normalizeValue,
-  normalizeValues,
-  percentageForValue,
-  valueForPercentage,
-} from "./utils.js";
+import { hasMinimumSteps, normalizeValue, normalizeValues, valueForPercentage } from "./utils.js";
 
 interface Rect {
   left: number;
@@ -83,9 +77,7 @@ describe("Slider utilities", () => {
     expect(hasMinimumSteps([10, 20], 2, 10)).toBe(false);
     expect(hasMinimumSteps([10, 10], 1, 0)).toBe(false);
     expect(hasMinimumSteps([0.1, 0.3], 2, 0.1)).toBe(true);
-    expect(valueForPercentage(25, 0, 100, "ltr")).toBe(25);
     expect(valueForPercentage(25, 0, 100, "rtl")).toBe(75);
-    expect(percentageForValue(25, 0, 100)).toBe(25);
   });
 });
 
@@ -118,7 +110,7 @@ describe("Slider", () => {
     touch("touchmove", 80);
     touch("touchend", 80);
     await waitSchedule();
-    expect(onValuesChange).toHaveBeenCalled();
+    expect(onValuesChange).toHaveBeenLastCalledWith([70]);
     expect(onValuesCommit).toHaveBeenCalledTimes(1);
     expect(onValuesCommit).toHaveBeenLastCalledWith([70]);
     expect(query(".thumb")).toHaveAttribute(

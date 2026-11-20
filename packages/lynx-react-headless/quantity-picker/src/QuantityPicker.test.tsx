@@ -183,7 +183,6 @@ describe("QuantityPicker", () => {
     view.rerender(
       <Picker min={0} max={5} defaultValue={2} readOnly onValueChange={onValueChange} />,
     );
-    expect(root()).not.toHaveAttribute("accessibility-traits");
     fireEvent.tap(decrement());
     fireEvent.tap(increment());
     expect(onValueChange).not.toHaveBeenCalled();

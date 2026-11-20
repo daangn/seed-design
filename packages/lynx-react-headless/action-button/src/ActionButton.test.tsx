@@ -19,6 +19,12 @@ function State() {
   return <text>{`pressed=${pressed} loading=${loading} disabled=${disabled}`}</text>;
 }
 
+function expectRefOn(ref: unknown, element: Element | null) {
+  // Lynx ref는 native node 대신 RefProxy이고, 붙은 요소에 `react-ref-<refAttr>` 속성을 남긴다.
+  const { refAttr } = ref as { refAttr: number[] };
+  expect(element).toHaveAttribute(`react-ref-${refAttr.join("-")}`);
+}
+
 describe("ActionButton.Root", () => {
   it("clears pressed on tap, touchend and touchcancel and calls the consumer tap once", () => {
     const tap = vi.fn();
@@ -141,7 +147,7 @@ describe("ActionButton.Root", () => {
       />,
     );
 
-    expect(nativeRef).toBeTruthy();
+    expectRefOn(nativeRef, button());
     expect(button()).toHaveAttribute("flatten", "false");
     expect(button()).toHaveAttribute("accessibility-element", "true");
     expect(button()).toHaveAttribute("accessibility-traits", "button");

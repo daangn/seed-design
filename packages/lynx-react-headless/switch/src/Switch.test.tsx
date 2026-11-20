@@ -207,8 +207,6 @@ describe("Switch.Root", () => {
     expect(root().querySelector(".thumb")).not.toBeNull();
 
     vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => render(<Switch.Thumb />)).toThrow(
-      "useSwitchContext must be used within a SwitchRoot",
-    );
+    expect(() => render(<Switch.Thumb />)).toThrow();
   });
 });

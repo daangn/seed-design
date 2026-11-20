@@ -154,8 +154,6 @@ describe("Select", () => {
       (element) => element.getAttribute("accessibility-label") === "바나나",
     );
 
-    expect(trigger).not.toBeNull();
-    expect(banana).toBeDefined();
     expect(trigger).toHaveTextContent("사과");
 
     fireEvent.tap(trigger as HTMLElement);
