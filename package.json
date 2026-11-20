@@ -23,7 +23,8 @@
     "extract-api-surface": "bun tools/extract-api-surface/src/cli.ts",
     "release": "bun qvism:generate && bun packages:build && bun changeset publish",
     "version": "changeset version && bun install --no-immutable && bun rootage:build && bun install --no-immutable && bun --filter @seed-design/rootage-artifacts rootage:generate && bun tools/rootage-cdn/src/version-change-policy.ts",
-    "format:all": "bun biome format --fix",
+    "format:all": "vp fmt",
+    "prepare": "vp config --no-agent",
     "test:all": "bun test:unit && bun test:lynx-react",
     "test:unit": "bun test --path-ignore-patterns='**/lynx-react*/**'",
     "test:lynx-react": "bun run --filter '@seed-design/lynx-react*' typecheck && bun run --filter '@seed-design/lynx-react*' test",
@@ -65,7 +66,6 @@
     "docs:images:og:validate": "bun --filter @seed-design/docs images:og:validate"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.11",
     "@changesets/cli": "^3.0.3",
     "@figma/rest-api-spec": "^0.47.0",
     "@happy-dom/global-registrator": "^21.0.0",
@@ -84,6 +84,7 @@
     "publint": "^0.3.12",
     "typescript": "^6.0.3",
     "ultra-runner": "^3.10.5",
+    "vite-plus": "^1.7.0",
     "watchlist": "^0.3.1",
     "wrangler": "^4.13.0",
     "yaml": "^2.8.2"

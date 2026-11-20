@@ -88,7 +88,7 @@ const ActivityIacvtExperiment: StaticActivityComponentType<"ActivityIacvtExperim
         </AppBarRight>
       </AppBar>
       <AppScreenContent>
-        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: throwaway experiment CSS, no user input */}
+        {/* oxlint-disable-next-line react/no-danger -- throwaway experiment CSS, no user input */}
         <style dangerouslySetInnerHTML={{ __html: PROBE_CSS }} />
         <Box p="x4" bg="palette.gray25">
           <Box

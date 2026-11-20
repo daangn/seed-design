@@ -3,7 +3,7 @@ import { SEED_DOCS_BASE_URL, ROOTAGE_ENDPOINTS } from "./constants.js";
 import { SECTIONS, type SectionId } from "./config.js";
 import type { DocInfo } from "./types.js";
 
-// biome-ignore lint/suspicious/noExplicitAny: cache stores various types
+// oxlint-disable-next-line typescript/no-explicit-any -- cache stores various types
 const cache = new LRUCache<string, any>({
   max: 100,
   ttl: 5 * 60 * 1000,

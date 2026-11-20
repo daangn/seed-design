@@ -17,7 +17,7 @@ export function bindComponentHandler<T extends NormalizedInstanceNode["component
   return unbound(deps);
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: handlers have different component property types
+// oxlint-disable-next-line typescript/no-explicit-any -- handlers have different component property types
 export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> = [
   ...Object.values(archivedHandlers),
   ...Object.values(currentHandlers),

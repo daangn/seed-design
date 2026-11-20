@@ -134,7 +134,7 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
 
     // referenced from React Spectrum
     const inputRef = useRef<HTMLTextAreaElement>(null);
-    // biome-ignore lint/correctness/useExhaustiveDependencies: intended
+    // oxlint-disable-next-line react/exhaustive-deps -- intended
     const onHeightChange = useCallback(() => {
       if (!inputRef.current) return;
       if (otherProps.style?.height) return;

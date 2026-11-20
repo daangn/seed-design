@@ -21,12 +21,12 @@ export function ChangelogEntryItem({
         if (block.type === "code") {
           return (
             <SeedCodeBlock
-              // biome-ignore lint/suspicious/noArrayIndexKey: parsed content blocks are stable within a changelog entry
+              // oxlint-disable-next-line react/no-array-index-key -- parsed content blocks are stable within a changelog entry
               key={i}
               className="!my-0 min-w-0 max-w-full"
             >
               {block.html ? (
-                // biome-ignore lint/security/noDangerouslySetInnerHtml: Shiki HTML highlighted at build time from repository CHANGELOG files
+                // oxlint-disable-next-line react/no-danger -- Shiki HTML highlighted at build time from repository CHANGELOG files
                 <div className="contents" dangerouslySetInnerHTML={{ __html: block.html }} />
               ) : (
                 <pre className="min-w-full w-max">
@@ -38,10 +38,10 @@ export function ChangelogEntryItem({
         }
         return (
           <div
-            // biome-ignore lint/suspicious/noArrayIndexKey: parsed content blocks are stable within a changelog entry
+            // oxlint-disable-next-line react/no-array-index-key -- parsed content blocks are stable within a changelog entry
             key={i}
             className={PROSE_CLASS}
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: changelog markdown is sanitized server-side before rendering
+            // oxlint-disable-next-line react/no-danger -- changelog markdown is sanitized server-side before rendering
             dangerouslySetInnerHTML={{ __html: block.html }}
           />
         );

@@ -200,7 +200,7 @@ const ActivityScaleFeedback: StaticActivityComponentType<"ActivityScaleFeedback"
               </Stage>
               <Stage>
                 <SeedCallout.Root asChild>
-                  {/* biome-ignore lint/a11y/useValidAnchor: the anchor exists to exercise the recipe's `:is(button, a)` press gate, so it must not navigate */}
+                  {/* oxlint-disable-next-line jsx-a11y/anchor-is-valid -- the anchor exists to exercise the recipe's `:is(button, a)` press gate, so it must not navigate */}
                   <a href="#scale-feedback" onClick={(event) => event.preventDefault()}>
                     <SeedCallout.Content>
                       <SeedCallout.Title>asChild anchor</SeedCallout.Title>

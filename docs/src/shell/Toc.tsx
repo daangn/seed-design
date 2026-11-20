@@ -32,7 +32,7 @@ function itemPadding(depth: number): number {
 function renderTitle(title: TocTitle): ReactNode {
   if (typeof title === "string") return title;
   return title.map((segment, index) =>
-    // biome-ignore lint/suspicious/noArrayIndexKey: 조각 순서는 바뀌지 않는다.
+    // oxlint-disable-next-line react/no-array-index-key -- 조각 순서는 바뀌지 않는다.
     typeof segment === "string" ? segment : <InlineCode key={index}>{segment.code}</InlineCode>,
   );
 }

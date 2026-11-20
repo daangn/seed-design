@@ -315,7 +315,7 @@ const SegmentedTextInputSegmentControl = React.forwardRef<
               accessibility-elements-hidden={true}
             >
               {Array.from({ length }, (_, i) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: 점은 자리 순서 외에 구분할 값이 없다.
+                // oxlint-disable-next-line react/no-array-index-key -- 점은 자리 순서 외에 구분할 값이 없다.
                 <React.Fragment key={i}>
                   {focused && !api.readOnly && i === value.length ? (
                     <view className={classes.caret} />
@@ -432,7 +432,7 @@ export const SegmentedTextInputDots = React.forwardRef<NodesRef, SegmentedTextIn
       >
         {Array.from({ length: count }, (_, i) => (
           <view
-            // biome-ignore lint/suspicious/noArrayIndexKey: 점은 자리 순서 외에 구분할 값이 없다.
+            // oxlint-disable-next-line react/no-array-index-key -- 점은 자리 순서 외에 구분할 값이 없다.
             key={i}
             className={clsx(classes.dot, tone === "placeholder" && classes.placeholderDot)}
           />

@@ -40,7 +40,7 @@ git diff HEAD --name-only -z |
 루트 `AGENTS.md`「경계」의 사용자 확인 목록 가운데 파일로 드러나는 것이다.
 
 - `package.json` 의존성 변경 → `bun.lock`도 함께 바뀌었는지 본다. 그대로이거나 손으로 고친 흔적이 있으면 `bun add`·`bun install`로 다시 맞추도록 안내한다.
-- `tsconfig*.json`, `biome.json`, `.github/workflows/` 변경 → 사용자 확인 여부를 보고한다.
+- `tsconfig*.json`, 루트 `vite.config.ts`, `.github/workflows/` 변경 → 사용자 확인 여부를 보고한다.
 
 ## Figma 플러그인 빌드
 

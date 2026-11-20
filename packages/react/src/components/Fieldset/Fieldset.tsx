@@ -57,7 +57,6 @@ export const FieldsetRequiredIndicator = forwardRef<SVGSVGElement, FieldsetRequi
     return (
       <InternalIcon
         svg={
-          // biome-ignore lint/a11y/noSvgWithoutTitle: InternalIcon is aria-hidden
           <svg
             viewBox="0 0 6 6"
             fill="none"

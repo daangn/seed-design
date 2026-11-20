@@ -25,11 +25,11 @@ export function RevealText({ as: Tag = "p", text, className }: RevealTextProps) 
       {lines.map((line, li) => {
         const words = line.split(" ");
         return (
-          // biome-ignore lint/suspicious/noArrayIndexKey: lines come from a static split and never reorder.
+          // oxlint-disable-next-line react/no-array-index-key -- lines come from a static split and never reorder.
           <Fragment key={li}>
             <span className="block">
               {words.map((word, wi) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: words come from a static split and never reorder.
+                // oxlint-disable-next-line react/no-array-index-key -- words come from a static split and never reorder.
                 <Fragment key={wi}>
                   <span className="inline-block overflow-hidden align-bottom">
                     <span data-reveal-word className="inline-block will-change-transform">

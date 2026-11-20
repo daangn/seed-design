@@ -6,7 +6,7 @@ Rspeedy 기반 Lynx SPA 예제 앱이다. Lynx native 기본 장면 검증에 �
 
 - 변경 후 → `bun --filter lynx-spa typecheck`와 `bun --filter lynx-spa build`
 - 개발 서버 → `bun lynx:dev`, 빌드 결과 미리보기 → `bun --filter lynx-spa preview`, Rspeedy 설정 확인 → 이 디렉터리에서 `bunx rspeedy inspect`
-- 패키지의 `check`·`format` script는 이 앱 전체를 다시 쓴다 → 실행하지 말고 변경한 파일만 `bun biome format --write <파일>`로 맞춘다.
+- 패키지의 `check`·`format` script는 이 앱 전체를 다시 쓴다 → 실행하지 말고 변경한 파일만 `bun vp fmt <파일>`로 맞춘다.
 
 ## 규칙
 

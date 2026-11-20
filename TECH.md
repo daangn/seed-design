@@ -4,7 +4,7 @@
 
 ## TypeScript
 
-- 새 코드에 `any`, `as unknown`을 쓰지 않는다. Biome은 `noExplicitAny`를 정보 수준으로만 보고하므로 직접 지킨다. 기존 예외는 무관한 변경에서 일괄 정리하지 않는다.
+- 새 코드에 `any`, `as unknown`을 쓰지 않는다. Oxlint는 `typescript/no-explicit-any`를 경고 수준으로만 보고하므로 직접 지킨다. 기존 예외는 무관한 변경에서 일괄 정리하지 않는다.
 - 타입 import에는 `type` 키워드를 쓴다.
 - 정적 import가 기본이다. lazy loading, plugin 경계, 런타임 선택이 필요할 때만 동적 import를 쓴다.
 - 주석은 코드만으로 알 수 없는 워크어라운드·외부 제약에만 한국어로 남긴다. 변경 이유와 배경은 PR 본문에 쓴다.

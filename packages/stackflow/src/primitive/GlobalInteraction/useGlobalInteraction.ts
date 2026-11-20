@@ -349,7 +349,7 @@ export function useGlobalInteraction() {
   // layer became the top while still pinned at -30%.
   const topActivityId = stack?.activities.find((activity) => activity.isTop)?.id;
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: topActivityId is a trigger, not a value read here — clearTopActivityStyles re-queries the DOM
+  // oxlint-disable-next-line react/exhaustive-deps -- topActivityId is a trigger, not a value read here — clearTopActivityStyles re-queries the DOM
   useLayoutEffect(() => {
     if (stack?.globalTransitionState !== "idle") return;
     const stackEl = stackRef.current;

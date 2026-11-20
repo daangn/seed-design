@@ -49,14 +49,14 @@
 사용자에게 먼저 확인할 작업:
 
 - 새 패키지나 외부 의존성 추가
-- `tsconfig`, `biome.json`, `.github/workflows/` 변경
+- `tsconfig`, 루트 `vite.config.ts`, `.github/workflows/` 변경
 - 데이터 삭제, Git 복원·브랜치 전환, 외부 서비스 쓰기, publish, merge
 - 요청받지 않은 commit, push, PR 생성·갱신. 단, [학습 기록 관리 규칙](.agents/learnings/AGENTS.md)에 따른 학습 항목 커밋은 확인 없이 한다.
 
 그 밖의 읽기·로컬 수정·테스트·생성은 묻지 않고 진행한다. 확인이 필요한 작업도 준비와 로컬 검증은 먼저 끝낸다.
 
 - 패키지 매니저는 `bun`만 쓴다. 의존성은 `bun add`로 바꾸고 `bun.lock`은 손으로 고치지 않는다.
-- 포맷은 변경한 파일만 `bun biome format --write <파일>`로 맞춘다.
+- 포맷은 변경한 파일만 `bun vp fmt <파일>`로 맞춘다.
 - `.env`, API key, secret은 읽거나 커밋하지 않는다.
 - 이 저장소는 공개 저장소다. 앱 scheme·bundle ID, 사내망 주소, 기기 식별 정보(시리얼, 사설 IP, 시뮬레이터 이름)는 학습 기록·Skill·커밋 메시지에 쓰지 않는다 → 「앱 deep link」「LAN 주소」「iOS 시뮬레이터」처럼 일반화한다.
 - 사용자 요청이 Skill 지침보다 우선한다. Skill 지침 때문에 멈추거나 방향을 바꾸면 근거가 된 `SKILL.md` 경로와 문장을 사용자에게 밝힌다.

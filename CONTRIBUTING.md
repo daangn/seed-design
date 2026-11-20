@@ -36,7 +36,7 @@ bun packages:build
 | 문서 사이트 | `bun docs:dev` |
 | Storybook | `bun storybook` |
 | 전체 테스트 | `bun test:all` |
-| 포맷 정리 | `bun biome format --fix` |
+| 포맷 정리 | `bun vp fmt` |
 
 경로별 테스트 명령어는 [AGENTS.md](./AGENTS.md)의 「검증」에 정리돼 있습니다.
 

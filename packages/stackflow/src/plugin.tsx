@@ -10,7 +10,7 @@ export const seedPlugin =
   (
     options:
       | SeedPluginOptions
-      // biome-ignore lint/suspicious/noExplicitAny: matches upstream @stackflow/react's `initialContext: any`
+      // oxlint-disable-next-line typescript/no-explicit-any -- matches upstream @stackflow/react's `initialContext: any`
       | ((args: { initialContext?: any }) => SeedPluginOptions),
   ): StackflowReactPlugin =>
   () => ({

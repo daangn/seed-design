@@ -38,7 +38,7 @@ export const TagGroupRoot = forwardRef<HTMLSpanElement, TagGroupRootProps>(
             // thus .filter(React.isValidElement) is too strict here
             .filter(Boolean)
             .map((child, index) => (
-              // biome-ignore lint/suspicious/noArrayIndexKey: those fragments won't change order
+              // oxlint-disable-next-line react/no-array-index-key -- those fragments won't change order
               <Fragment key={index}>
                 {index > 0 && (
                   <Primitive.span aria-hidden className={classNames.separator}>

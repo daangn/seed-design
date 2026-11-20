@@ -6,7 +6,7 @@
 # Consumers that can ask git directly do so instead of repeating these paths:
 #   - .claude/hooks/generated-files-guard.ts    git check-attr
 #   - .claude/agents/*, skills/*                git check-attr
-# .coderabbit.yaml and biome.json cannot read gitattributes, so they repeat the
+# .coderabbit.yaml and vite.config.ts cannot read gitattributes, so they repeat the
 # list by hand; update them alongside this file.
 #
 # The css packages are listed per subtree because they also hold hand-written

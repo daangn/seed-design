@@ -303,9 +303,9 @@ function Checkbox(props: {
   });
 
   return (
-    // biome-ignore lint/a11y/useSemanticElements: test
     <button
       type="button"
+      // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- test
       role="checkbox"
       aria-checked={checked}
       onKeyDown={(e) => void (e.key === "Enter" && e.preventDefault())}

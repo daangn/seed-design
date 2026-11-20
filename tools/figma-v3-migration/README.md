@@ -43,7 +43,7 @@ yarn build
 - `yarn watch:ui`: UI 컴포넌트만 watch 모드
 - `yarn watch:main`: 메인 스크립트만 watch 모드
 - `yarn dev`: `yarn watch`와 동일
-- `yarn lint`: Biome를 사용하여 코드 린트 
+- `yarn lint`: Vite+(`vp check`)를 사용하여 코드 린트
 
 ## TODO
 

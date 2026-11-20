@@ -230,7 +230,7 @@ function extractCommitRefs(block: string): string[] {
   let dependencyMatch: RegExpExecArray | null;
   DEPENDENCY_COMMIT_REGEX.lastIndex = 0;
 
-  // biome-ignore lint/suspicious/noAssignInExpressions: 커밋 ref 추출에 사용
+  // oxlint-disable-next-line eslint/no-cond-assign -- 커밋 ref 추출에 사용
   while ((dependencyMatch = DEPENDENCY_COMMIT_REGEX.exec(block)) !== null) {
     refs.add(dependencyMatch[1]);
   }
@@ -372,7 +372,7 @@ function extractRelatedPackages(block: string): ChangelogPackage[] {
 
   RELATED_PACKAGE_REGEX.lastIndex = 0;
 
-  // biome-ignore lint/suspicious/noAssignInExpressions: 패키지 의존성 추출에 사용
+  // oxlint-disable-next-line eslint/no-cond-assign -- 패키지 의존성 추출에 사용
   while ((match = RELATED_PACKAGE_REGEX.exec(block)) !== null) {
     packages.push({
       name: match[1],

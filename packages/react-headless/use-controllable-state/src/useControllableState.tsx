@@ -6,7 +6,7 @@ import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
 
 // Prevent bundlers from trying to optimize the import
 const useInsertionEffect: typeof useLayoutEffect =
-  // biome-ignore lint/suspicious/noExplicitAny: React internal API access
+  // oxlint-disable-next-line typescript/no-explicit-any -- React internal API access
   (React as any)[" useInsertionEffect ".trim().toString()] || useLayoutEffect;
 
 export type ChangeHandler<T, M = undefined> = (state: T, details?: M) => void;
@@ -36,10 +36,10 @@ export function useControllableState<T, M = undefined>({
   const value = isControlled ? prop : uncontrolledProp;
 
   if (process.env.NODE_ENV !== "production") {
-    // biome-ignore lint/correctness/useHookAtTopLevel: OK to disable conditionally calling hooks here because they will always run consistently in the same environment. Bundlers should be able to remove the code block entirely in production.
+    // oxlint-disable-next-line react/rules-of-hooks -- OK to disable conditionally calling hooks here because they will always run consistently in the same environment. Bundlers should be able to remove the code block entirely in production.
     const isControlledRef = React.useRef(prop !== undefined);
 
-    // biome-ignore lint/correctness/useHookAtTopLevel: same
+    // oxlint-disable-next-line react/rules-of-hooks -- same
     React.useEffect(() => {
       const wasControlled = isControlledRef.current;
       if (wasControlled !== isControlled) {
@@ -100,7 +100,7 @@ function useUncontrolledState<T, M = undefined>({
   return [value, setValue, onChangeRef, detailsRef];
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: type guard utility
+// oxlint-disable-next-line typescript/no-explicit-any -- type guard utility
 function isFunction(value: unknown): value is (...args: any[]) => any {
   return typeof value === "function";
 }

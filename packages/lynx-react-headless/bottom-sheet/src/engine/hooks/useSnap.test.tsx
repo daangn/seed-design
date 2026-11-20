@@ -105,7 +105,7 @@ const motion: TestMotion = {
     targets.push(target);
     value.stop();
     return {
-      // biome-ignore lint/suspicious/noThenProperty: mini animate의 thenable 계약을 재현한다.
+      // oxlint-disable-next-line unicorn/no-thenable -- mini animate의 thenable 계약을 재현한다.
       then: (callback) => {
         pending.set(value, callback);
       },

@@ -4,7 +4,7 @@ import { useAppScreenContext } from "../AppScreen";
 import { useElementOffset } from "../private/useElementOffset";
 import { appBarAnatomy } from "./anatomy";
 
-// biome-ignore lint/suspicious/noEmptyInterface: intentionally empty for future extension
+// oxlint-disable-next-line typescript/no-empty-interface -- intentionally empty for future extension
 export interface UseAppBarProps {}
 
 export type UseAppBarReturn = ReturnType<typeof useAppBar>;

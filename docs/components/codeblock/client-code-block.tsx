@@ -44,7 +44,7 @@ export function SeedClientCodeBlock({ code, lang, title, className }: SeedClient
         <Pre>
           <code>
             {code.split("\n").map((line, index) => (
-              // biome-ignore lint/suspicious/noArrayIndexKey: static placeholder lines before highlight resolves
+              // oxlint-disable-next-line react/no-array-index-key -- static placeholder lines before highlight resolves
               <span className="line" key={index}>
                 {line}
               </span>

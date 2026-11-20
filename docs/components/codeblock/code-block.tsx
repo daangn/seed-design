@@ -36,7 +36,7 @@ export function SeedCodeBlock({ title, icon, className, children }: SeedCodeBloc
               typeof icon === "string" ? (
                 <span
                   className="flex size-x4 shrink-0 items-center text-fg-neutral-muted [&_svg]:size-full"
-                  // biome-ignore lint/security/noDangerouslySetInnerHtml: fumadocs passes the code icon as an SVG string
+                  // oxlint-disable-next-line react/no-danger -- fumadocs passes the code icon as an SVG string
                   dangerouslySetInnerHTML={{ __html: icon }}
                 />
               ) : (
@@ -55,10 +55,10 @@ export function SeedCodeBlock({ title, icon, className, children }: SeedCodeBloc
       ) : (
         <CopyButton className="absolute top-2 right-2 z-[1] rounded-r1 bg-bg-layer-default shadow-s1" />
       )}
-      {/* biome-ignore lint/a11y/useSemanticElements: the scrollable code viewport must follow the Fumadocs keyboard region contract. */}
       <div
+        // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- the scrollable code viewport must follow the Fumadocs keyboard region contract.
         role="region"
-        // biome-ignore lint/a11y/noNoninteractiveTabindex: keyboard users need to focus and scroll overflowing code.
+        // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- keyboard users need to focus and scroll overflowing code.
         tabIndex={0}
         aria-label={typeof title === "string" ? title : undefined}
         className={codeViewportClassName}

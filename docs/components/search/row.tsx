@@ -29,7 +29,7 @@ export function Breadcrumbs({ trail }: { trail: ReactNode[] }) {
   return (
     <span className="mb-0.5 flex flex-wrap items-center text-xs text-fg-neutral-subtle">
       {trail.map((crumb, index) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: crumbs are positional, and the trail is rebuilt whenever the row changes
+        // oxlint-disable-next-line react/no-array-index-key -- crumbs are positional, and the trail is rebuilt whenever the row changes
         <Fragment key={index}>
           {index > 0 ? <IconChevronRightSmallLine className="size-3 shrink-0" /> : null}
           {crumb}
