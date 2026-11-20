@@ -8,7 +8,7 @@ description: Lynx에서 Tailwind CSS v4를 사용하기 위한 PostCSS 설정과
 기존 v3 프로젝트는 [Tailwind CSS 3](/lynx/getting-started/styling/tailwind-css-3) 설정을 유지할 수 있습니다.
 
 Tailwind CSS v4는 `@seed-design/tailwind4-theme`와 `@tailwindcss/postcss`로 사용할 수 있습니다.
-다음은 기본 SEED 유틸리티의 색상, 타이포그래피, 간격, 모서리, 상태별 클래스 교체와 루트 테마 전환을 확인한 구성입니다.
+다음은 기본 SEED 유틸리티의 색상, 타이포그래피, 간격, 모서리, 상태별 클래스 교체, 루트 테마 전환, 하위 영역 테마 오버라이드를 확인한 구성입니다.
 Tailwind v4 전체 기능이나 모든 Lynx Engine에서의 호환성을 의미하지 않습니다.
 
 ## 요구사항과 설치
@@ -84,7 +84,6 @@ Tailwind는 옵션과 관계없이 `@layer properties` 블록을 출력합니다
 - 이 구성은 `@lynx-js/tailwind-preset`을 사용하지 않습니다. Rsbuild의 v4 지원만으로 Lynx CSS 호환성이 보장되지는 않습니다.
 - `var(--spacing)`이나 `bg-(--color-red-500)`처럼 Tailwind 테마 변수를 CSS나 arbitrary value에서 직접 참조하면, Tailwind가 그 변수를 다시 `:root, :host` 규칙으로 출력하고 Lynx는 이를 제거합니다. SEED 토큰은 `var(--seed-*)`로 참조하세요.
 - theme과 utilities를 layer 없이 불러오므로 cascade layer 우선순위가 없습니다. 선택자 우선순위와 선언 순서가 적용됩니다. SEED recipe와 utility를 함께 쓰면 결과를 다시 확인하세요. 다른 CSS의 `@layer` 블록도 Lynx에서 제거됩니다.
-- 루트 `<page>`의 SEED 테마를 사용하세요. 하위 영역 테마 덮어쓰기는 이 구성에서 기기로 확인하지 않았습니다. [테마 가이드](/lynx/getting-started/styling/theming#tailwind-css와-함께-사용하기)를 참고하세요.
 - `@property`, `@supports`, 웹 전용 선택자, 단위와 CSS 함수 등 다른 Tailwind 출력은 Lynx에서 지원하지 않을 수 있습니다. shadow, ring, gradient, transform 등의 추가 유틸리티는 사용할 때 대상 Engine에서 확인하세요.
 - 빌드 성공만으로 화면 호환성을 판단하지 마세요. 실제 host에서 색상·글자·간격·상태 변경과 기기 테마 전환을 확인하세요.
 
