@@ -28,14 +28,6 @@ async function assertNonEmpty(path: string) {
   }
 }
 
-async function assertWebBundleUsesWebUnits(path: string, id: string) {
-  const bundle = await readFile(path, "utf8");
-  const spUnit = bundle.match(/\b(?:\d+(?:\.\d+)?|\.\d+)sp\b/);
-  if (spUnit) {
-    throw new Error(`${id}의 web bundle에 Lynx 전용 단위가 포함되어 있습니다: ${spUnit[0]}`);
-  }
-}
-
 export async function createManifestFromBundles(
   entries: LynxExampleEntry[],
   directory = STAGING_DIRECTORY,
@@ -70,7 +62,6 @@ export async function createManifestFromBundles(
       }
       const bundlePath = resolve(directory, matches[platform][0]);
       await assertNonEmpty(bundlePath);
-      if (platform === "web") await assertWebBundleUsesWebUnits(bundlePath, entry.id);
     }
 
     const bundle = {

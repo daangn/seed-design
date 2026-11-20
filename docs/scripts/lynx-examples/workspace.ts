@@ -6,7 +6,6 @@ const REQUIRED_FILES = ["lib/index.js", "lib/index.d.ts"];
 
 export async function verifyLynxWorkspace() {
   const expected = {
-    "@seed-design/css": resolve(REPOSITORY_DIRECTORY, "packages/css"),
     "@seed-design/lynx-react": resolve(REPOSITORY_DIRECTORY, "packages/lynx-react"),
     "@seed-design/lynx-css": resolve(REPOSITORY_DIRECTORY, "packages/lynx-css"),
   };

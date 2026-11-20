@@ -25,7 +25,7 @@
 
 ## Lynx 산출물 key
 
-`prepare`의 `hashFiles` 목록은 예제의 실제 import 그래프에서 정했다. entry 원천(`docs/examples/lynx`), 예제가 `@/components/ui/*`로 부르는 `docs/registry/lynx`, `scripts/lynx-examples/modules.ts`가 부르는 `docs/playground/lynx`, Lynx 패키지 원천(`lynx-react`·headless·`lynx-css`·`utils/lynx-react-scale-feedback`·`rsbuild-plugin-lynx-icon`), web 환경 alias 대상 `packages/css/base.css`, headless가 extends하는 `tsconfig.lynx.json`, lockfile이 내용을 기록하지 않는 `patches/`, Rsbuild build dependency(`package.json`·`tsconfig*.json`·`bunfig.toml`), 외부 의존성 전체(`bun.lock`, `.bun-version`)다. 예제가 새 workspace 패키지·설정 파일을 부르게 되면 이 목록에 더한다. 빠뜨리면 그 입력만 바뀐 push가 이전 번들을 복원해 배포한다.
+`prepare`의 `hashFiles` 목록은 예제의 실제 import 그래프에서 정했다. entry 원천(`docs/examples/lynx`), 예제가 `@/components/ui/*`로 부르는 `docs/registry/lynx`, `scripts/lynx-examples/modules.ts`가 부르는 `docs/playground/lynx`, Lynx 패키지 원천(`lynx-react`·headless·`lynx-css`·`utils/lynx-react-scale-feedback`·`rsbuild-plugin-lynx-icon`), headless가 extends하는 `tsconfig.lynx.json`, lockfile이 내용을 기록하지 않는 `patches/`, Rsbuild build dependency(`package.json`·`tsconfig*.json`·`bunfig.toml`), 외부 의존성 전체(`bun.lock`, `.bun-version`)다. 예제가 새 workspace 패키지·설정 파일을 부르게 되면 이 목록에 더한다. 빠뜨리면 그 입력만 바뀐 push가 이전 번들을 복원해 배포한다.
 
 ## 탈출구
 

@@ -1,0 +1,63 @@
+diff --git a/dist/client/mainthread/elementAPIs/createElementAPI.js b/dist/client/mainthread/elementAPIs/createElementAPI.js
+index 75643a4743b2b86464310ac281d9496e825045bd..9deb90275d88402ea37211c8c6c3b5e335f67c1f 100644
+--- a/dist/client/mainthread/elementAPIs/createElementAPI.js
++++ b/dist/client/mainthread/elementAPIs/createElementAPI.js
+@@ -5,6 +5,8 @@ import { __SwapElement, __AppendElement, __ElementIsEqual, __FirstElement, __Get
+ import { createElementEventListenerAPIs } from './createElementEventListenerAPIs.js';
+ import { requestIdleCallbackImpl } from '../utils/requestIdleCallback.js';
+ const { MainThreadWasmContext, add_inline_style_raw_string_key, set_inline_styles_number_key, set_inline_styles_in_str, set_inline_styles_in_key_value_vec, } = wasmInstance;
++// seed-design patch: browsers drop Lynx `sp` declarations, so resolve them against `--sp-unit` the way web-core does for `ppx`; strings and `url()` stay as written.
++const transformSpUnit = (value) => value.replace(/(url\([^)]*\)|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|(?<![\w.#-])([+-]?(?:\d+(?:\.\d+)?|\.\d+))sp(?![\w.-])/gi, (_, preserved, num) => preserved ?? `calc(${num} * var(--sp-unit, 1px))`);
+ function dispatchLynxViewLoadEvent(host) {
+     host.dispatchEvent(new CustomEvent('load', {
+         detail: {
+@@ -153,7 +155,7 @@ export function createElementAPI(rootDom, mtsBinding, config_enable_css_selector
+         __AddInlineStyle: (element, key, value) => {
+             let valStr = null;
+             if (value != null) {
+-                valStr = value.toString();
++                valStr = transformSpUnit(value.toString());
+             }
+             if (typeof key === 'number') {
+                 return set_inline_styles_number_key(element, key, valStr);
+@@ -168,8 +170,9 @@ export function createElementAPI(rootDom, mtsBinding, config_enable_css_selector
+             }
+             else {
+                 if (typeof value === 'string') {
+-                    if (!set_inline_styles_in_str(element, value, transform_vw, transform_vh, transform_rem)) {
+-                        element.setAttribute('style', value);
++                    const transformed = transformSpUnit(value);
++                    if (!set_inline_styles_in_str(element, transformed, transform_vw, transform_vh, transform_rem)) {
++                        element.setAttribute('style', transformed);
+                     }
+                 }
+                 else if (!value) {
+@@ -179,7 +182,7 @@ export function createElementAPI(rootDom, mtsBinding, config_enable_css_selector
+                     const vec = [];
+                     for (const [k, v] of Object.entries(value)) {
+                         if (v != null) {
+-                            vec.push(k, v.toString());
++                            vec.push(k, transformSpUnit(v.toString()));
+                         }
+                     }
+                     set_inline_styles_in_key_value_vec(element, vec, transform_vw, transform_vh, transform_rem);
+diff --git a/dist/encode_prod/index.js b/dist/encode_prod/index.js
+index a032cac9e4230bff94a9c5ba09b8b6b87d209d64..d65b154534878151511a652b32ba1f443064f7d8 100644
+--- a/dist/encode_prod/index.js
++++ b/dist/encode_prod/index.js
+@@ -1,4 +1,6 @@
+ import * as __rspack_external__lynx_js_css_serializer_6869b431 from "@lynx-js/css-serializer";
++// seed-design patch: browsers drop Lynx `sp` declarations, so resolve them against `--sp-unit` the way web-core does for `ppx`; strings and `url()` stay as written.
++const transformSpUnit = (value) => value.replace(/(url\([^)]*\)|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|(?<![\w.#-])([+-]?(?:\d+(?:\.\d+)?|\.\d+))sp(?![\w.-])/gi, (_, preserved, num) => preserved ?? `calc(${num} * var(--sp-unit, 1px))`);
+ var __webpack_modules__ = {};
+ var __webpack_module_cache__ = {};
+ function __webpack_require__(moduleId) {
+@@ -142,7 +144,7 @@ __webpack_require__.add({
+             push_declaration(property_name, value) {
+                 const ptr0 = passStringToWasm0(property_name, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+                 const len0 = WASM_VECTOR_LEN;
+-                const ptr1 = passStringToWasm0(value, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
++                const ptr1 = passStringToWasm0(transformSpUnit(value), wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+                 const len1 = WASM_VECTOR_LEN;
+                 wasm.rule_push_declaration(this.__wbg_ptr, ptr0, len0, ptr1, len1);
+             }
