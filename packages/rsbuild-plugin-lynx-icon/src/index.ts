@@ -1,4 +1,7 @@
+import { createRequire } from "node:module";
 import type { RsbuildPlugin } from "@rsbuild/core";
+
+const require = createRequire(import.meta.url);
 
 /**
  * Options for selecting and converting Lynx icon SVG assets to WebP data URLs.
