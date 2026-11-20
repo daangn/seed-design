@@ -24,6 +24,7 @@ import {
 } from "@lynx-js/react";
 import {
   alertDialog,
+  alertDialogSeedTagSpec,
   type AlertDialogVariantProps,
 } from "@seed-design/lynx-css/recipes/alert-dialog";
 import clsx from "clsx";
@@ -32,6 +33,7 @@ import type { LynxAccessibilityProps, LynxHostProps, LynxViewRef } from "../../t
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import {
   AccessibilityElementScope,
   getAccessibleText,
@@ -233,7 +235,10 @@ export const AlertDialogContent = forwardRef<never, AlertDialogContentProps>((pr
       style={style}
       delayed={delayed}
       transition={transition}
-      dialogContentProps={{ ...accessibilityProps, ...dialogContentProps }}
+      dialogContentProps={mergeProps(
+        { "lynx-test-tag": seedTag(alertDialogSeedTagSpec) },
+        { ...accessibilityProps, ...dialogContentProps },
+      )}
     >
       <scroll-view className={classNames.scrollArea} scroll-orientation="vertical">
         <view className={classNames.scrollContent}>{children}</view>

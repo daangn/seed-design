@@ -2,14 +2,17 @@ import * as React from "@lynx-js/react";
 import type { NodesRef } from "@lynx-js/types";
 import {
   attachmentInput,
+  attachmentInputSeedTagSpec,
   type AttachmentInputVariantProps,
 } from "@seed-design/lynx-css/recipes/attachment-input";
 import {
   attachmentInputItem,
+  attachmentInputItemSeedTagSpec,
   type AttachmentInputItemVariantProps,
 } from "@seed-design/lynx-css/recipes/attachment-input-item";
 import {
   attachmentInputTrigger,
+  attachmentInputTriggerSeedTagSpec,
   type AttachmentInputTriggerVariantProps,
 } from "@seed-design/lynx-css/recipes/attachment-input-trigger";
 import { useFieldContext } from "@seed-design/lynx-react-field";
@@ -35,6 +38,7 @@ import {
 import type { LynxHostProps, LynxIconElementProps, LynxPressableProps } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { useSafeAreaStyle } from "../../hooks/useSafeAreaStyle";
@@ -142,7 +146,10 @@ export const AttachmentInputRoot = React.forwardRef<NodesRef, AttachmentInputRoo
           onSelectFiles={onSelectFiles}
           onSelectError={onSelectError}
           {...fieldState}
-          {...nativeProps}
+          {...mergeProps(
+            { "lynx-test-tag": seedTag(attachmentInputSeedTagSpec, variantProps) },
+            nativeProps,
+          )}
           style={{ ...safeAreaStyle, ...style }}
           className={clsx(classes.root, className)}
         >
@@ -236,6 +243,7 @@ export const AttachmentInputTrigger = React.forwardRef<NodesRef, AttachmentInput
         <view
           {...mergeProps(
             forwardedRef ? { ref: forwardedRef } : {},
+            { "lynx-test-tag": seedTag(attachmentInputTriggerSeedTagSpec, variantProps) },
             triggerProps,
             scaleFeedbackTriggerProps,
             nativeProps,
@@ -336,6 +344,7 @@ export const AttachmentInputItem = React.forwardRef<NodesRef, AttachmentInputIte
             <view
               {...mergeProps(
                 forwardedRef ? { ref: forwardedRef } : {},
+                { "lynx-test-tag": seedTag(attachmentInputItemSeedTagSpec, { type }) },
                 root.stateProps,
                 nativeProps,
               )}

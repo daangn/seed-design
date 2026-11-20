@@ -50,6 +50,14 @@ function getRoot() {
 }
 
 describe("ContentPlaceholder", () => {
+  it("tags the root", () => {
+    render(<ContentPlaceholderRoot />);
+    expect(getRoot().querySelector(".seed-content-placeholder__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:ContentPlaceholder",
+    );
+  });
+
   it("forwards accessibility semantics without hiding custom content", () => {
     render(
       <ContentPlaceholderRoot accessibility-element accessibility-label="등록된 사진 없음">

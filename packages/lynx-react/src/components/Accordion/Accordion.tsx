@@ -20,7 +20,11 @@ import {
   useCollapsibleTrigger,
   type UseCollapsibleTriggerProps,
 } from "@seed-design/lynx-react-collapsible";
-import { accordion, type AccordionVariantProps } from "@seed-design/lynx-css/recipes/accordion";
+import {
+  accordion,
+  accordionSeedTagSpec,
+  type AccordionVariantProps,
+} from "@seed-design/lynx-css/recipes/accordion";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxIconElementProps, LynxTextRef, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
@@ -28,6 +32,7 @@ import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context"
 import { InternalIcon } from "../Icon/Icon";
 import { useShallowMemo } from "../../utils/use-shallow-memo";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import {
   AccessibilityElementScope,
   getAccessibleText,
@@ -98,7 +103,11 @@ export const AccordionRoot = React.forwardRef<unknown, AccordionRootProps>((prop
   return (
     <AccordionProvider value={contextValue}>
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...mergeProps(
+          ref ? { ref: ref as LynxViewRef } : {},
+          { "lynx-test-tag": seedTag(accordionSeedTagSpec, variantProps) },
+          nativeProps,
+        )}
         className={clsx(classes.root, className)}
       >
         {items.map((item, index) => (

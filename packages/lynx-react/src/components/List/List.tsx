@@ -1,9 +1,17 @@
 import * as React from "@lynx-js/react";
 import clsx from "clsx";
 
-import { list } from "@seed-design/lynx-css/recipes/list";
-import { listHeader, type ListHeaderVariantProps } from "@seed-design/lynx-css/recipes/list-header";
-import { listItem, type ListItemVariantProps } from "@seed-design/lynx-css/recipes/list-item";
+import { list, listSeedTagSpec } from "@seed-design/lynx-css/recipes/list";
+import {
+  listHeader,
+  listHeaderSeedTagSpec,
+  type ListHeaderVariantProps,
+} from "@seed-design/lynx-css/recipes/list-header";
+import {
+  listItem,
+  listItemSeedTagSpec,
+  type ListItemVariantProps,
+} from "@seed-design/lynx-css/recipes/list-item";
 import {
   CheckboxProvider,
   useCheckbox,
@@ -19,6 +27,7 @@ import { SwitchProvider, useSwitch, type UseSwitchProps } from "@seed-design/lyn
 import { ScaleFeedbackContentContext } from "../../contexts";
 import { useScaleFeedback, type ScaleFeedbackTargetProps } from "../../hooks/useScaleFeedback";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { usePressTap } from "../../hooks/usePressTap";
 import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
@@ -48,7 +57,7 @@ export const ListRoot = React.forwardRef<unknown, ListRootProps>((props, ref) =>
     <view
       {...(ref ? { ref: ref as LynxViewRef } : {})}
       accessibility-element={false}
-      {...nativeProps}
+      {...mergeProps({ "lynx-test-tag": seedTag(listSeedTagSpec) }, nativeProps)}
       className={clsx(list(), className)}
       style={style}
     >
@@ -124,6 +133,7 @@ const ListItemSurface = React.forwardRef<unknown, ListItemSurfaceProps>((props, 
               flatten: accessibilityElement ? false : undefined,
               "accessibility-element": accessibilityElement,
               "accessibility-label": label,
+              "lynx-test-tag": seedTag(listItemSeedTagSpec),
             },
             ref ? { ref: ref as LynxViewRef } : {},
             nativeProps,
@@ -475,7 +485,10 @@ export const ListHeader = React.forwardRef<unknown, ListHeaderProps>((props, ref
   return (
     <text
       {...(ref ? { ref: ref as LynxTextRef } : {})}
-      {...nativeProps}
+      {...mergeProps(
+        { "lynx-test-tag": seedTag(listHeaderSeedTagSpec, variantProps) },
+        nativeProps,
+      )}
       className={clsx(listHeader(variantProps), className)}
       style={style}
     >

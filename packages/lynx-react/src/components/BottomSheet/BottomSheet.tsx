@@ -1,8 +1,12 @@
 import {
   bottomSheet,
+  bottomSheetSeedTagSpec,
   type BottomSheetVariantProps,
 } from "@seed-design/lynx-css/recipes/bottom-sheet";
-import { bottomSheetHandle } from "@seed-design/lynx-css/recipes/bottom-sheet-handle";
+import {
+  bottomSheetHandle,
+  bottomSheetHandleSeedTagSpec,
+} from "@seed-design/lynx-css/recipes/bottom-sheet-handle";
 import { bottomSheet as bottomSheetVars } from "@seed-design/lynx-css/vars/component";
 import {
   BottomSheetBackdrop as HeadlessBottomSheetBackdrop,
@@ -40,6 +44,7 @@ import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { IconSlotProvider } from "../Icon/Icon";
 import { getSheetLayerLength } from "../private/SheetLayer";
 import { useSheetScrollGestureProps } from "../private/SheetScrollGesture";
@@ -50,7 +55,10 @@ type LynxForwardRefComponent<T, P> = ForwardRefExoticComponent<
 >;
 type SheetTransition = NonNullable<HeadlessBottomSheetContentProps["snapAnimation"]>;
 
-const { ClassNamesProvider, useClassNames, withContext } = createSlotRecipeContext(bottomSheet);
+const { ClassNamesProvider, useClassNames, withContext, PropsProvider, useProps } =
+  createSlotRecipeContext(bottomSheet);
+
+const closeButtonSeedTagSpec = { name: "BottomSheetCloseButton", axes: [], defaults: {} };
 
 /** Root가 제목 여백을 정할 수 있도록 CloseButton이 렌더링 여부를 알린다. */
 const CloseButtonRenderedContext = createContext<((rendered: boolean) => void) | null>(null);
@@ -120,23 +128,29 @@ export const BottomSheetRoot: LynxForwardRefComponent<BottomSheetRootRef, Bottom
       // variantProps 객체는 매 렌더 새로 생성되므로 개별 variant 값으로 의존성을 고정한다.
       [headerAlign, skipAnimation, closeButtonRendered],
     );
+    const contentVariantProps = useMemo(
+      () => ({ headerAlign, closeButton: closeButtonRendered }),
+      [headerAlign, closeButtonRendered],
+    );
     const fitsContent = (rootProps.snapPoints ?? ["fit"]).some(
       (point) => String(point).trim() === "fit",
     );
 
     return (
       <ClassNamesProvider value={classNames}>
-        <CloseButtonRenderedContext.Provider value={setCloseButtonRendered}>
-          <FitsContentContext.Provider value={fitsContent}>
-            <HeadlessBottomSheetRoot
-              {...(ref ? { ref } : {})}
-              {...rootProps}
-              skipAnimation={skipAnimation === true}
-            >
-              {children}
-            </HeadlessBottomSheetRoot>
-          </FitsContentContext.Provider>
-        </CloseButtonRenderedContext.Provider>
+        <PropsProvider value={contentVariantProps}>
+          <CloseButtonRenderedContext.Provider value={setCloseButtonRendered}>
+            <FitsContentContext.Provider value={fitsContent}>
+              <HeadlessBottomSheetRoot
+                {...(ref ? { ref } : {})}
+                {...rootProps}
+                skipAnimation={skipAnimation === true}
+              >
+                {children}
+              </HeadlessBottomSheetRoot>
+            </FitsContentContext.Provider>
+          </CloseButtonRenderedContext.Provider>
+        </PropsProvider>
       </ClassNamesProvider>
     );
   });
@@ -230,6 +244,8 @@ export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetCon
       ...restProps
     } = props;
     const classNames = useClassNames();
+    // The spec's defaults are keyed by Rootage axis, so the recipe's `headerAlign` default is restated here.
+    const { headerAlign = "left", closeButton } = useProps() ?? {};
     const { skipAnimation, layerSize } = useBottomSheetContext();
     const fitsContent = useContext(FitsContentContext);
     const { safeAreaInsetTop, safeAreaInsetRight, safeAreaInsetBottom, safeAreaInsetLeft } =
@@ -237,7 +253,16 @@ export const BottomSheetContent: LynxForwardRefComponent<unknown, BottomSheetCon
 
     return (
       <HeadlessBottomSheetContent
-        {...mergeProps(ref ? { ref } : {}, restProps)}
+        {...mergeProps(
+          ref ? { ref } : {},
+          {
+            "lynx-test-tag": seedTag(bottomSheetSeedTagSpec, {
+              headerAlignment: headerAlign,
+              closeButton,
+            }),
+          },
+          restProps,
+        )}
         className={clsx(classNames.content, className)}
         // `SheetContent` pins its outer view with an inline `left: 0` and the layer's width, which a
         // recipe class cannot outrank. Releasing `left` lets the positioner's
@@ -296,7 +321,10 @@ export function BottomSheetHandle(props: BottomSheetHandleProps): ReactElement {
   const classNames = bottomSheetHandle();
 
   return (
-    <HeadlessBottomSheetHandle className={classNames.touchArea} {...rest}>
+    <HeadlessBottomSheetHandle
+      className={classNames.touchArea}
+      {...mergeProps({ "lynx-test-tag": seedTag(bottomSheetHandleSeedTagSpec) }, rest)}
+    >
       <view className={clsx(classNames.root, className)} style={style as never}>
         {children}
       </view>
@@ -459,6 +487,7 @@ export const BottomSheetCloseButton: LynxForwardRefComponent<unknown, BottomShee
             closeButtonProps,
             scaleFeedbackTriggerProps,
             scaleFeedbackTargetProps,
+            { "lynx-test-tag": seedTag(closeButtonSeedTagSpec) },
             nativeProps,
             ref ? ({ ref: ref as LynxViewRef } as Record<string, unknown>) : {},
           )}

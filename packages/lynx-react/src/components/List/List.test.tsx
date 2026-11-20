@@ -381,4 +381,62 @@ describe("List", () => {
       }
     }
   });
+
+  it("tags the root, header, and every item kind with their Rootage components", () => {
+    render(
+      <List.Root>
+        <ListHeader>목록</ListHeader>
+        <List.Item className="static-item">
+          <List.Title>제목</List.Title>
+        </List.Item>
+        <List.ButtonItem className="button-item">
+          <List.Title>버튼</List.Title>
+        </List.ButtonItem>
+        <List.CheckboxItem className="checkbox-item">
+          <List.Title>체크</List.Title>
+        </List.CheckboxItem>
+      </List.Root>,
+    );
+
+    expect(getRenderedRoot().querySelector(".seed-list")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:List",
+    );
+    expect(getRenderedRoot().querySelector(".seed-list-header")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:ListHeader;variant=mediumWeak",
+    );
+    for (const item of ["static-item", "button-item", "checkbox-item"]) {
+      expect(getListItem(item)).toHaveAttribute("lynx-test-tag", "seed:ListItem");
+    }
+  });
+
+  it("tags a passed header variant and lets consumer tags win", () => {
+    render(
+      <List.Root lynx-test-tag="settings-list">
+        <ListHeader variant="boldSolid" lynx-test-tag="settings-header">
+          목록
+        </ListHeader>
+        <List.Item className="static-item" lynx-test-tag="settings-row">
+          <List.Title>제목</List.Title>
+        </List.Item>
+      </List.Root>,
+    );
+
+    expect(getRenderedRoot().querySelector(".seed-list")).toHaveAttribute(
+      "lynx-test-tag",
+      "settings-list",
+    );
+    expect(getRenderedRoot().querySelector(".seed-list-header")).toHaveAttribute(
+      "lynx-test-tag",
+      "settings-header",
+    );
+    expect(getListItem("static-item")).toHaveAttribute("lynx-test-tag", "settings-row");
+
+    render(<ListHeader variant="boldSolid">목록</ListHeader>);
+    expect(getRenderedRoot().querySelector(".seed-list-header")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:ListHeader;variant=boldSolid",
+    );
+  });
 });

@@ -81,4 +81,17 @@ describe("ContextualFloatingButton", () => {
     expect(onTap).not.toHaveBeenCalled();
     expect(root).toHaveAttribute("accessibility-traits", "disabled");
   });
+
+  it("tags the root with the drawn variant axes and lets a consumer tag win", () => {
+    const { rerender } = render(<ContextualFloatingButton>저장하기</ContextualFloatingButton>);
+    expect(getContextualFloatingButtonRoot()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:ContextualFloatingButton;variant=solid;layout=withText",
+    );
+
+    rerender(
+      <ContextualFloatingButton lynx-test-tag="save-draft">저장하기</ContextualFloatingButton>,
+    );
+    expect(getContextualFloatingButtonRoot()).toHaveAttribute("lynx-test-tag", "save-draft");
+  });
 });

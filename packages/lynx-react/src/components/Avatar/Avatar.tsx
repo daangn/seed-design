@@ -1,7 +1,12 @@
 import * as React from "@lynx-js/react";
-import { avatar, type AvatarVariantProps } from "@seed-design/lynx-css/recipes/avatar";
+import {
+  avatar,
+  avatarSeedTagSpec,
+  type AvatarVariantProps,
+} from "@seed-design/lynx-css/recipes/avatar";
 import {
   avatarStack,
+  avatarStackSeedTagSpec,
   type AvatarStackVariantProps,
 } from "@seed-design/lynx-css/recipes/avatar-stack";
 import { Image, useImageContext, type ImageLoadingStatus } from "@seed-design/lynx-react-image";
@@ -10,6 +15,7 @@ import { toArray } from "../../utils/children";
 import type { LynxViewProps, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 
 const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
   createSlotRecipeContext(avatar);
@@ -28,7 +34,10 @@ export const AvatarRoot = React.forwardRef<unknown, AvatarRootProps>((props, ref
         <Image.Root
           onLoadingStatusChange={onLoadingStatusChange}
           {...(ref ? { ref: ref as LynxViewRef } : {})}
-          {...nativeProps}
+          {...mergeProps(
+            { "lynx-test-tag": seedTag(avatarSeedTagSpec, variantProps) },
+            nativeProps,
+          )}
           className={clsx(classes.root, className)}
         >
           {children}
@@ -114,7 +123,10 @@ export const AvatarStack = React.forwardRef<unknown, AvatarStackProps>((props, r
     <PropsProvider value={value}>
       <view
         {...(ref ? { ref: ref as LynxViewRef } : {})}
-        {...nativeProps}
+        {...mergeProps(
+          { "lynx-test-tag": seedTag(avatarStackSeedTagSpec, variantProps) },
+          nativeProps,
+        )}
         className={clsx(classes.root, className)}
       >
         {toArray(children).map((child, index) => (

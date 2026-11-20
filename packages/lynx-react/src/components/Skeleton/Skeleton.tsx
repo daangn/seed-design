@@ -1,10 +1,15 @@
-import { skeleton, type SkeletonVariantProps } from "@seed-design/lynx-css/recipes/skeleton";
+import {
+  skeleton,
+  skeletonSeedTagSpec,
+  type SkeletonVariantProps,
+} from "@seed-design/lynx-css/recipes/skeleton";
 import { vars, type LineHeight } from "@seed-design/lynx-css/vars";
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
 
 import type { LynxHostProps, LynxViewRef } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
 
 /**
@@ -47,7 +52,10 @@ export const Skeleton = React.forwardRef<unknown, SkeletonProps>((props, ref) =>
   return (
     <view
       {...mergeProps(
-        { "accessibility-elements-hidden": true },
+        {
+          "accessibility-elements-hidden": true,
+          "lynx-test-tag": seedTag(skeletonSeedTagSpec, variantProps),
+        },
         ref ? { ref: ref as LynxViewRef } : {},
         nativeProps,
       )}

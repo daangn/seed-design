@@ -261,4 +261,39 @@ describe("PageBanner", () => {
     expect(onDismiss).toHaveBeenCalledTimes(1);
     expect(getPageBannerRoot()).toBeInTheDocument();
   });
+
+  it("tags the root with tone and variant but not interaction states", () => {
+    render(
+      <PageBanner.Root>
+        <PageBanner.Content>
+          <PageBanner.Description>Body</PageBanner.Description>
+        </PageBanner.Content>
+      </PageBanner.Root>,
+    );
+    expect(getPageBannerRoot()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:PageBanner;tone=neutral;variant=weak",
+    );
+
+    render(
+      <PageBanner.Root tone="critical" variant="solid" extendSafeAreaX bindtap={() => {}}>
+        <PageBanner.Content>
+          <PageBanner.Description>Body</PageBanner.Description>
+        </PageBanner.Content>
+      </PageBanner.Root>,
+    );
+    expect(getPageBannerRoot()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:PageBanner;tone=critical;variant=solid",
+    );
+
+    render(
+      <PageBanner.Root lynx-test-tag="notice-banner">
+        <PageBanner.Content>
+          <PageBanner.Description>Body</PageBanner.Description>
+        </PageBanner.Content>
+      </PageBanner.Root>,
+    );
+    expect(getPageBannerRoot()).toHaveAttribute("lynx-test-tag", "notice-banner");
+  });
 });

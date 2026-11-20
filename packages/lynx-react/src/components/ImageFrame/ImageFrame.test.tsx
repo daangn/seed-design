@@ -282,6 +282,31 @@ describe("ImageFrame", () => {
     expect(styleProperty(floater, "--seed-image-frame-offset-x")).toBe("0px");
     expect(styleProperty(floater, "--seed-image-frame-offset-y")).toBe("0px");
   });
+
+  it("tags the frame with its stroke axis and the indicator as its own component", () => {
+    render(
+      <ImageFrame src="" alt="">
+        <ImageFrameIndicator>1/3</ImageFrameIndicator>
+      </ImageFrame>,
+    );
+    expect(query(".seed-image-frame__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:ImageFrame;stroke=false",
+    );
+    expect(query(".seed-image-frame-indicator__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:ImageFrameIndicator",
+    );
+
+    render(<ImageFrame src="" alt="" stroke />);
+    expect(query(".seed-image-frame__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:ImageFrame;stroke=true",
+    );
+
+    render(<ImageFrame src="" alt="" lynx-test-tag="listing-photo" />);
+    expect(query(".seed-image-frame__root")).toHaveAttribute("lynx-test-tag", "listing-photo");
+  });
 });
 
 describe("ImageFrameReactionButton", () => {
@@ -344,5 +369,19 @@ describe("ImageFrameReactionButton", () => {
     expect(onChange).toHaveBeenLastCalledWith(false);
     expect(onTap).toHaveBeenCalledTimes(2);
     expect(button).toHaveAttribute("accessibility-value", "not pressed");
+  });
+
+  it("tags the root and lets a consumer lynx-test-tag win", () => {
+    render(<ImageFrameReactionButton />);
+    expect(query(".seed-image-frame-reaction-button__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:ImageFrameReactionButton",
+    );
+
+    render(<ImageFrameReactionButton lynx-test-tag="listing-like" />);
+    expect(query(".seed-image-frame-reaction-button__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "listing-like",
+    );
   });
 });

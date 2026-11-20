@@ -2,11 +2,11 @@ import * as React from "@lynx-js/react";
 import { isValidElement, type ReactElement } from "@lynx-js/react";
 import clsx from "clsx";
 
-import { radio } from "@seed-design/lynx-css/recipes/radio";
+import { radio, radioSeedTagSpec } from "@seed-design/lynx-css/recipes/radio";
 import type { RadioVariantProps } from "@seed-design/lynx-css/recipes/radio";
-import { radiomark } from "@seed-design/lynx-css/recipes/radiomark";
+import { radiomark, radiomarkSeedTagSpec } from "@seed-design/lynx-css/recipes/radiomark";
 import type { RadiomarkVariantProps } from "@seed-design/lynx-css/recipes/radiomark";
-import { radioGroup } from "@seed-design/lynx-css/recipes/radio-group";
+import { radioGroup, radioGroupSeedTagSpec } from "@seed-design/lynx-css/recipes/radio-group";
 import {
   RadioGroupItemControl as HeadlessRadioGroupItemControl,
   RadioGroupItemProvider,
@@ -23,6 +23,7 @@ import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-
 import { InternalIcon } from "../Icon/Icon";
 import { useShallowMemo } from "../../utils/use-shallow-memo";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import {
   AccessibilityElementScope,
   getAccessibleText,
@@ -99,7 +100,7 @@ export const RadioGroupRoot = React.forwardRef<unknown, RadioGroupRootProps>((pr
   return (
     <view
       {...mergeProps(
-        { "accessibility-element": false },
+        { "accessibility-element": false, "lynx-test-tag": seedTag(radioGroupSeedTagSpec) },
         ref ? { ref: ref as LynxViewRef } : {},
         nativeProps,
       )}
@@ -170,6 +171,7 @@ export const RadioGroupItem = React.forwardRef<unknown, RadioGroupItemProps>((pr
       <view
         {...mergeProps(
           ref ? { ref: ref as LynxViewRef } : {},
+          { "lynx-test-tag": seedTag(radioSeedTagSpec, radioVariantProps) },
           scaleFeedbackTriggerProps,
           itemProps,
           { "accessibility-label": accessibilityLabel },
@@ -218,6 +220,7 @@ export const RadioGroupItemControl = React.forwardRef<unknown, RadioGroupItemCon
         <HeadlessRadioGroupItemControl
           {...mergeProps(
             !hasScaledContent ? { flatten: false } : {},
+            { "lynx-test-tag": seedTag(radiomarkSeedTagSpec, radiomarkVariantProps) },
             ref ? { ref: ref as LynxViewRef } : {},
             !hasScaledContent ? (styledContext?.scaleFeedbackTargetProps ?? {}) : {},
             nativeProps,

@@ -468,4 +468,38 @@ describe("Tabs", () => {
     expect(indicator()).toHaveClass("seed-tabs__indicator--indicatorMeasured_false");
     expect(indicator()).not.toHaveStyle({ display: "none" });
   });
+
+  it("tags the root as a Rootage tablist and each trigger as a Rootage tab", () => {
+    const { container } = render(<BasicTabs defaultValue="one" />);
+    expect(container.querySelector(".seed-tabs__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Tablist;layout=fill;size=small",
+    );
+    expect(container.querySelector(".seed-tabs__trigger")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Tab;size=small",
+    );
+  });
+
+  it("maps triggerLayout to the Rootage tablist layout and lets a consumer tag win", () => {
+    function Subject({ tag }: { tag?: string }) {
+      return (
+        <Tabs.Root defaultValue="one" triggerLayout="hug" size="medium" lynx-test-tag={tag}>
+          <Tabs.List>
+            <Tabs.Trigger value="one">첫 번째</Tabs.Trigger>
+          </Tabs.List>
+        </Tabs.Root>
+      );
+    }
+    const { container, rerender } = render(<Subject />);
+    const root = () => container.querySelector(".seed-tabs__root");
+    expect(root()).toHaveAttribute("lynx-test-tag", "seed:Tablist;layout=hug;size=medium");
+    expect(container.querySelector(".seed-tabs__trigger")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Tab;size=medium",
+    );
+
+    rerender(<Subject tag="feed-tabs" />);
+    expect(root()).toHaveAttribute("lynx-test-tag", "feed-tabs");
+  });
 });

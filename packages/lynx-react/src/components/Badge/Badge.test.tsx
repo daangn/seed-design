@@ -253,4 +253,38 @@ describe("Badge", () => {
     await waitSchedule();
     expect(report).toHaveBeenCalledTimes(1);
   });
+
+  it("tags the root with the drawn Rootage variant axes", () => {
+    render(
+      <Badge.Root>
+        <Badge.Label>거래중</Badge.Label>
+      </Badge.Root>,
+    );
+    expect(getRenderedRoot().querySelector(".seed-badge__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Badge;size=medium;variant=solid;tone=neutral",
+    );
+  });
+
+  it("tags passed variants and lets a consumer lynx-test-tag win", () => {
+    render(
+      <Badge.Root tone="brand" variant="outline" size="large">
+        <Badge.Label>추천</Badge.Label>
+      </Badge.Root>,
+    );
+    expect(getRenderedRoot().querySelector(".seed-badge__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Badge;size=large;variant=outline;tone=brand",
+    );
+
+    render(
+      <Badge.Root lynx-test-tag="listing-status">
+        <Badge.Label>거래중</Badge.Label>
+      </Badge.Root>,
+    );
+    expect(getRenderedRoot().querySelector(".seed-badge__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "listing-status",
+    );
+  });
 });

@@ -2,6 +2,7 @@ import * as React from "@lynx-js/react";
 import type { NodesRef } from "@lynx-js/types";
 import {
   wheelPicker,
+  wheelPickerSeedTagSpec,
   type WheelPickerVariantProps,
 } from "@seed-design/lynx-css/recipes/wheel-picker";
 import { wheelPicker as vars } from "@seed-design/lynx-css/vars/component";
@@ -12,6 +13,8 @@ import type { LynxHostProps } from "../../types";
 import { useInsideAccessibilityElement } from "../../utils/accessibility";
 import { toArray } from "../../utils/children";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
+import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { ScrollFog, type ScrollFogProps } from "../ScrollFog/ScrollFog";
 
 const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
@@ -121,7 +124,10 @@ export const WheelPickerRoot = React.forwardRef<NodesRef, WheelPickerRootProps>(
       <PropsProvider value={variantProps}>
         <WheelPickerContext.Provider value={context}>
           <view
-            {...nativeProps}
+            {...mergeProps(
+              { "lynx-test-tag": seedTag(wheelPickerSeedTagSpec, { size }) },
+              nativeProps,
+            )}
             {...(ref ? { ref } : {})}
             className={clsx(classNames.root, className)}
             style={rootStyle}

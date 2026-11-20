@@ -307,4 +307,12 @@ describe("WheelPicker", () => {
     expect(onValueChange).not.toHaveBeenCalled();
     expect(onIndexChange).not.toHaveBeenCalled();
   });
+
+  it("tags the root with the drawn Rootage variant axes", async () => {
+    await renderPicker();
+    expect(get(".seed-wheel-picker__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:WheelPicker;size=medium",
+    );
+  });
 });

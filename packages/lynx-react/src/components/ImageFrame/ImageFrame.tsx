@@ -1,9 +1,15 @@
 import * as React from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
-import { imageFrame } from "@seed-design/lynx-css/recipes/image-frame";
+import { imageFrame, imageFrameSeedTagSpec } from "@seed-design/lynx-css/recipes/image-frame";
 import { imageFrameIcon } from "@seed-design/lynx-css/recipes/image-frame-icon";
-import { imageFrameIndicator } from "@seed-design/lynx-css/recipes/image-frame-indicator";
-import { imageFrameReactionButton } from "@seed-design/lynx-css/recipes/image-frame-reaction-button";
+import {
+  imageFrameIndicator,
+  imageFrameIndicatorSeedTagSpec,
+} from "@seed-design/lynx-css/recipes/image-frame-indicator";
+import {
+  imageFrameReactionButton,
+  imageFrameReactionButtonSeedTagSpec,
+} from "@seed-design/lynx-css/recipes/image-frame-reaction-button";
 import { Image, useImageContext, type UseImageProps } from "@seed-design/lynx-react-image";
 import { Toggle, useToggleContext, type UseToggleProps } from "@seed-design/lynx-react-toggle";
 import clsx from "clsx";
@@ -17,6 +23,7 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import {
   handleDimension,
   useStyleProps,
@@ -95,7 +102,11 @@ export const ImageFrame: React.ForwardRefExoticComponent<
   return (
     <Image.Root
       onLoadingStatusChange={onLoadingStatusChange}
-      {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+      {...mergeProps(
+        ref ? { ref: ref as LynxViewRef } : {},
+        { "lynx-test-tag": seedTag(imageFrameSeedTagSpec, variantProps) },
+        nativeProps,
+      )}
       className={clsx(classNames.root, className)}
       style={frameStyle}
     >
@@ -203,7 +214,11 @@ export const ImageFrameIndicator = React.forwardRef<unknown, ImageFrameIndicator
     const classNames = imageFrameIndicator();
     return (
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, props)}
+        {...mergeProps(
+          ref ? { ref: ref as LynxViewRef } : {},
+          { "lynx-test-tag": seedTag(imageFrameIndicatorSeedTagSpec) },
+          props,
+        )}
         className={clsx(classNames.root, className)}
       >
         <text className={classNames.label}>{children}</text>
@@ -243,6 +258,7 @@ export const ImageFrameReactionButton = React.forwardRef<unknown, ImageFrameReac
         <Toggle.Root
           {...mergeProps(
             ref ? { ref: ref as LynxViewRef } : {},
+            { "lynx-test-tag": seedTag(imageFrameReactionButtonSeedTagSpec) },
             scaleFeedbackTargetProps,
             scaleFeedbackTriggerProps,
             nativeProps,

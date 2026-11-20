@@ -3,14 +3,17 @@ import { isValidElement } from "@lynx-js/react";
 import type { NodesRef } from "@lynx-js/types";
 import {
   attachmentInput,
+  attachmentInputSeedTagSpec,
   type AttachmentInputVariantProps,
 } from "@seed-design/lynx-css/recipes/attachment-input";
 import {
   attachmentInputItem,
+  attachmentInputItemSeedTagSpec,
   type AttachmentInputItemVariantProps,
 } from "@seed-design/lynx-css/recipes/attachment-input-item";
 import {
   attachmentInputTrigger,
+  attachmentInputTriggerSeedTagSpec,
   type AttachmentInputTriggerVariantProps,
 } from "@seed-design/lynx-css/recipes/attachment-input-trigger";
 import { fieldLabel, type FieldLabelVariantProps } from "@seed-design/lynx-css/recipes/field-label";
@@ -34,6 +37,7 @@ import {
 import type { LynxHostProps, LynxIconElementProps, LynxPressableProps } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { usePressTap } from "../../hooks/usePressTap";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { useSafeAreaStyle } from "../../hooks/useSafeAreaStyle";
@@ -81,7 +85,10 @@ export const AttachmentDisplayRoot = React.forwardRef<NodesRef, AttachmentDispla
         <SafeAreaExtendedContext.Provider value={variantProps.extendSafeAreaX ?? false}>
           <HeadlessAttachmentDisplayRoot
             ref={ref}
-            {...rootProps}
+            {...mergeProps(
+              { "lynx-test-tag": seedTag(attachmentInputSeedTagSpec, variantProps) },
+              rootProps,
+            )}
             style={{ ...safeAreaStyle, ...style }}
             className={clsx(classes.root, className)}
           >
@@ -327,7 +334,10 @@ export const AttachmentDisplayTrigger = React.forwardRef<NodesRef, AttachmentDis
       <TriggerClassNamesProvider value={classes}>
         <view
           {...mergeProps(
-            { flatten: false },
+            {
+              flatten: false,
+              "lynx-test-tag": seedTag(attachmentInputTriggerSeedTagSpec, variantProps),
+            },
             context.stateProps,
             triggerProps,
             scaleFeedbackTriggerProps,
@@ -427,7 +437,12 @@ export const AttachmentDisplayItem = React.forwardRef<NodesRef, AttachmentDispla
       <AttachmentDisplayItemProvider value={item}>
         <ItemClassNamesProvider value={classes}>
           <view
-            {...mergeProps(ref ? { ref } : {}, root.stateProps, nativeProps)}
+            {...mergeProps(
+              ref ? { ref } : {},
+              { "lynx-test-tag": seedTag(attachmentInputItemSeedTagSpec, { type: "image" }) },
+              root.stateProps,
+              nativeProps,
+            )}
             className={clsx(classes.root, className)}
           >
             {children}

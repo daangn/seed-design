@@ -1,6 +1,10 @@
 import * as React from "@lynx-js/react";
 import type { IntrinsicElements, NodesRef } from "@lynx-js/types";
-import { textInput, type TextInputVariantProps } from "@seed-design/lynx-css/recipes/text-input";
+import {
+  textInput,
+  textInputSeedTagSpec,
+  type TextInputVariantProps,
+} from "@seed-design/lynx-css/recipes/text-input";
 import { textInput as textInputVars } from "@seed-design/lynx-css/vars/component";
 import {
   TextFieldProvider,
@@ -15,6 +19,7 @@ import type { LynxHostProps, LynxStyledElementProps, LynxTextRef } from "../../t
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 
 type LynxSystemInfo = { platform?: string };
 
@@ -100,7 +105,11 @@ export const TextFieldRoot = React.forwardRef<NodesRef, TextFieldRootProps>(
       <TextFieldProvider value={api}>
         <ClassNamesProvider value={classes}>
           <view
-            {...mergeProps({ ref: mergedRef }, api.rootProps, nativeProps)}
+            {...mergeProps(
+              { ref: mergedRef, "lynx-test-tag": seedTag(textInputSeedTagSpec, variantProps) },
+              api.rootProps,
+              nativeProps,
+            )}
             className={clsx(classes.root, className)}
           >
             <view className={classes.baseStroke} accessibility-elements-hidden={true} />

@@ -233,4 +233,12 @@ describe("Accordion", () => {
     );
     expect(items[1].querySelector(".seed-accordion__divider")).toBeNull();
   });
+
+  it("tags the root with the drawn Rootage variant axes", () => {
+    render(<TestAccordion />);
+    expect(getRenderedRoot().querySelector(".seed-accordion__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Accordion;variant=inline;size=medium",
+    );
+  });
 });

@@ -1,3 +1,4 @@
+import type { ViewProps } from "@lynx-js/types";
 import type { ReactNode } from "@lynx-js/react";
 
 import { fireEvent, render } from "@lynx-js/react/testing-library";
@@ -39,11 +40,19 @@ vi.mock("@lynx-js/lynx-ui-dialog", () => {
   const DialogPart = (props: Record<string, unknown>) => (
     <view className={props["className"] as string}>{props["children"] as ReactNode}</view>
   );
+  const DialogContent = (props: Record<string, unknown>) => (
+    <view
+      {...(props["dialogContentProps"] as Record<string, unknown>)}
+      className={props["className"] as string}
+    >
+      {props["children"] as ReactNode}
+    </view>
+  );
 
   return {
     DialogBackdrop: DialogPart,
     DialogClose: DialogButton,
-    DialogContent: DialogPart,
+    DialogContent,
     DialogRoot,
     DialogTrigger: DialogButton,
     DialogView,
@@ -179,6 +188,37 @@ describe("Dialog", () => {
     expect(body?.hasAttribute("scroll-y")).toBe(true);
     expect(body?.style.maxHeight).toBe("120px");
     expect(body?.style.paddingLeft).toBe("16px");
+  });
+
+  it("tags the content view with the Root size and lets dialogContentProps win", () => {
+    const userTagProps = { "lynx-test-tag": "report-dialog" } as ViewProps;
+    const { container, rerender } = render(
+      <Dialog.Root open>
+        <Dialog.Positioner>
+          <Dialog.Content />
+        </Dialog.Positioner>
+      </Dialog.Root>,
+    );
+    const getContent = () => container.querySelector(".seed-dialog__content");
+    expect(getContent()?.getAttribute("lynx-test-tag")).toBe("seed:Dialog;size=medium");
+
+    rerender(
+      <Dialog.Root open size="large">
+        <Dialog.Positioner>
+          <Dialog.Content />
+        </Dialog.Positioner>
+      </Dialog.Root>,
+    );
+    expect(getContent()?.getAttribute("lynx-test-tag")).toBe("seed:Dialog;size=large");
+
+    rerender(
+      <Dialog.Root open>
+        <Dialog.Positioner>
+          <Dialog.Content dialogContentProps={userTagProps} />
+        </Dialog.Positioner>
+      </Dialog.Root>,
+    );
+    expect(getContent()?.getAttribute("lynx-test-tag")).toBe("report-dialog");
   });
 
   it("lets native Body props override scrolling defaults and computed style", () => {
