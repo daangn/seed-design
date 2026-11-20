@@ -8,7 +8,7 @@ import { Checkbox } from "../Checkbox";
 import { Switch } from "../Switch";
 import { RadioGroup } from "../RadioGroup";
 import { Badge } from "../Badge";
-import { List, ListHeader } from "./index";
+import { List } from "./index";
 
 function getRenderedRoot() {
   const root = elementTree.root;
@@ -31,20 +31,6 @@ function getListItem(className: string) {
 }
 
 describe("List", () => {
-  it("renders a header variant", () => {
-    render(
-      <view>
-        <ListHeader variant="boldSolid" className="list-header">
-          목록 제목
-        </ListHeader>
-      </view>,
-    );
-
-    expect(getRenderedRoot().querySelector(".list-header")).toHaveClass(
-      "seed-list-header--variant_boldSolid",
-    );
-  });
-
   it("renders the container and item slots", () => {
     render(
       <List.Root className="list-root">

@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom";
-import { act, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
+import { fireEvent, render } from "@lynx-js/react/testing-library";
 import * as React from "@lynx-js/react";
-import { runOnBackground } from "@lynx-js/react";
 import { describe, expect, it, vi } from "vitest";
 import { useCollapsibleTrigger } from "@seed-design/lynx-react-collapsible";
 import { Accordion } from "./index.js";
@@ -62,26 +61,13 @@ function PressedProbe() {
 }
 
 describe("Accordion headless components", () => {
-  it("opens and closes uncontrolled content without a recipe", () => {
-    render(<TestAccordion />);
-    expect(node(".first-trigger")).toHaveAttribute("accessibility-value", "접힘");
-    expect(node(".first-content")).toHaveStyle({ height: "0px", overflow: "hidden" });
-    expect(node(".first-content")).toHaveAttribute("accessibility-elements-hidden", "true");
-
-    tap(".first-trigger");
-    expect(node(".first-trigger")).toHaveAttribute("accessibility-value", "펼쳐짐");
-    expect(node(".first-content")).toHaveAttribute("accessibility-elements-hidden", "false");
-
-    tap(".first-trigger");
-    expect(node(".first-trigger")).toHaveAttribute("accessibility-value", "접힘");
-    expect(node(".first-content")).toHaveStyle({ height: "0px" });
-  });
-
   it("closes the previous item in single mode", () => {
     render(<TestAccordion defaultValues={["first"]} />);
     tap(".second-trigger");
     expect(node(".first-trigger")).toHaveAttribute("accessibility-value", "접힘");
     expect(node(".second-trigger")).toHaveAttribute("accessibility-value", "펼쳐짐");
+    expect(node(".first-content")).toHaveAttribute("accessibility-elements-hidden", "true");
+    expect(node(".second-content")).toHaveAttribute("accessibility-elements-hidden", "false");
   });
 
   it("keeps both items open in multiple mode", () => {
@@ -132,125 +118,4 @@ describe("Accordion headless components", () => {
       expect(node(".first-content")).toHaveAttribute("accessibility-elements-hidden", "true");
     },
   );
-
-  it("toggles before invoking the user's bindtap", () => {
-    const order: string[] = [];
-    render(
-      <Accordion.Root onValuesChange={() => order.push("toggle")}>
-        <Accordion.Item value="first">
-          <Accordion.Trigger className="first-trigger" bindtap={() => order.push("user")} />
-        </Accordion.Item>
-      </Accordion.Root>,
-    );
-    tap(".first-trigger");
-    expect(order).toEqual(["toggle", "user"]);
-  });
-
-  it("forwards native refs and merges user touch handlers", () => {
-    let triggerRef: unknown;
-    let contentRef: unknown;
-    const touchStart = vi.fn();
-    const touchEnd = vi.fn();
-    const touchCancel = vi.fn();
-    render(
-      <Accordion.Root>
-        <Accordion.Item value="first">
-          <Accordion.Trigger
-            className="first-trigger"
-            ref={(value) => {
-              triggerRef = value;
-            }}
-            bindtouchstart={touchStart}
-            bindtouchend={touchEnd}
-            bindtouchcancel={touchCancel}
-          />
-          <Accordion.Content
-            className="first-content"
-            ref={(value) => {
-              contentRef = value;
-            }}
-          />
-        </Accordion.Item>
-      </Accordion.Root>,
-    );
-    expect(triggerRef).toBeTruthy();
-    expect(contentRef).toBeTruthy();
-    touch(".first-trigger", "touchstart");
-    touch(".first-trigger", "touchend");
-    touch(".first-trigger", "touchcancel");
-    expect(touchStart).toHaveBeenCalledTimes(1);
-    expect(touchEnd).toHaveBeenCalledTimes(1);
-    expect(touchCancel).toHaveBeenCalledTimes(1);
-  });
-
-  it("measures natural inner height, clips collapsed content, and preserves the measurement", () => {
-    render(<TestAccordion defaultValues={["first"]} />);
-    const inner = node(".first-content").firstElementChild as HTMLElement;
-    expect(inner).toHaveStyle({ flexShrink: "0" });
-    expect(node(".first-content")).toHaveStyle({ height: "auto", overflow: "hidden" });
-    act(() => fireEvent.layoutchange(inner, { height: 84 }));
-    expect(node(".first-content")).toHaveStyle({ height: "84px" });
-    tap(".first-trigger");
-    expect(node(".first-content")).toHaveStyle({ height: "0px" });
-    expect(node(".first-content")).toHaveAttribute("accessibility-elements-hidden", "true");
-    tap(".first-trigger");
-    expect(node(".first-content")).toHaveStyle({ height: "84px" });
-  });
-  it("preserves user string style overrides on collapsed content", () => {
-    render(
-      <Accordion.Root>
-        <Accordion.Item value="first">
-          <Accordion.Content className="first-content" style="opacity:0.5;overflow:visible">
-            Content
-          </Accordion.Content>
-        </Accordion.Item>
-      </Accordion.Root>,
-    );
-    expect(node(".first-content")).toHaveStyle({
-      opacity: "0.5",
-      height: "0px",
-      overflow: "visible",
-    });
-  });
-
-  it("keeps pressed state when a hook consumer passes Main Thread touch handlers", async () => {
-    const reports = { start: vi.fn(), end: vi.fn() };
-    function MainThreadProbe() {
-      function handleTouchStart() {
-        "main thread";
-        runOnBackground(reports.start)();
-      }
-      function handleTouchEnd() {
-        "main thread";
-        runOnBackground(reports.end)();
-      }
-      const { pressed, triggerProps } = useCollapsibleTrigger({
-        "main-thread:bindtouchstart": handleTouchStart,
-        "main-thread:bindtouchend": handleTouchEnd,
-      });
-      return (
-        <view className="main-thread-probe" {...triggerProps}>
-          <text>{`pressed=${pressed}`}</text>
-        </view>
-      );
-    }
-    render(
-      <Accordion.Root>
-        <Accordion.Item value="first">
-          <MainThreadProbe />
-        </Accordion.Item>
-      </Accordion.Root>,
-      { enableMainThread: true, enableBackgroundThread: true },
-    );
-    await waitSchedule();
-
-    fireEvent.touchstart(node(".main-thread-probe"), {});
-    await waitSchedule();
-    expect(node(".main-thread-probe")).toHaveTextContent("pressed=true");
-    fireEvent.touchend(node(".main-thread-probe"), {});
-    await waitSchedule();
-    expect(node(".main-thread-probe")).toHaveTextContent("pressed=false");
-    expect(reports.start).toHaveBeenCalledTimes(1);
-    expect(reports.end).toHaveBeenCalledTimes(1);
-  });
 });

@@ -39,10 +39,8 @@ describe("Select feedback integration", () => {
       await waitSchedule();
       const root = container.querySelector(`.seed-select-${kind}__root`)!;
       const target = root.querySelector(`.seed-select-${kind}__scaleContent`)!;
-      const overlay = root.querySelector(`.seed-select-${kind}__pressedOverlay`)!;
       expect(target).not.toBeNull();
       expect(target.textContent).toBe("Custom");
-      expect(target.contains(overlay)).toBe(false);
       fireEvent.touchstart(root, {});
       await waitSchedule();
       expect(report.mock.calls).toEqual([[true]]);

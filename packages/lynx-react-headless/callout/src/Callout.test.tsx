@@ -23,6 +23,12 @@ function Pressed() {
   return <text>{`pressed=${pressed}`}</text>;
 }
 
+function expectRefOn(ref: unknown, element: Element | null) {
+  // Lynx ref는 native node 대신 RefProxy이고, 붙은 요소에 `react-ref-<refAttr>` 속성을 남긴다.
+  const { refAttr } = ref as { refAttr: number[] };
+  expect(element).toHaveAttribute(`react-ref-${refAttr.join("-")}`);
+}
+
 describe("Callout.Root", () => {
   it("hides after an uncontrolled dismiss and ignores later dismiss calls", () => {
     const onDismiss = vi.fn();
@@ -178,7 +184,7 @@ describe("Callout.CloseButton", () => {
       </Callout.Root>,
     );
 
-    expect(nativeRef).toBeTruthy();
+    expectRefOn(nativeRef, get(".close"));
     expect(get(".close")).toHaveAttribute("accessibility-element", "true");
     expect(get(".close")).toHaveAttribute("accessibility-traits", "button");
     expect(get(".close")).toHaveAttribute("accessibility-label", "닫기");

@@ -349,6 +349,42 @@ describe("LoopScroll", () => {
     expect(onActiveIndexChange).not.toHaveBeenCalled();
   });
 
+  it("끄는 중에 disabled가 켜지면 직전에 정착한 항목으로 돌아가고 선택을 바꾸지 않는다", async () => {
+    const onIndexChange = vi.fn();
+    const { rerender } = await renderWheel({ defaultIndex: 3, onIndexChange });
+
+    touch("touchstart", 100, 300);
+    for (const y of [290, 250, 210]) {
+      advance(16);
+      touch("touchmove", 100, y);
+    }
+    expect(centeredPosition()).toBeCloseTo(3 + 90 / ITEM_SIZE);
+
+    rerender(<Wheel defaultIndex={3} onIndexChange={onIndexChange} disabled />);
+    await runFrames();
+    expect(centeredPosition()).toBe(3);
+
+    advance(16);
+    touch("touchend", 100, 210);
+    await runFrames();
+    expect(centeredPosition()).toBe(3);
+    expect(onIndexChange).not.toHaveBeenCalled();
+  });
+
+  it("관성으로 움직이는 중에 disabled가 켜지면 직전에 정착한 항목으로 돌아간다", async () => {
+    const onIndexChange = vi.fn();
+    const { rerender } = await renderWheel({ defaultIndex: 3, onIndexChange });
+
+    flick(200, 60);
+    await runFrames(2);
+    expect(centeredPosition()).not.toBe(3);
+
+    rerender(<Wheel defaultIndex={3} onIndexChange={onIndexChange} disabled />);
+    await runFrames();
+    expect(centeredPosition()).toBe(3);
+    expect(onIndexChange).not.toHaveBeenCalled();
+  });
+
   it("끌지 않고 항목을 눌렀다 놓으면 그 항목으로 이동해 선택하고, 복제 항목은 보이는 방향으로 이동한다", async () => {
     const onIndexChange = vi.fn();
     const onActiveIndexChange = vi.fn();

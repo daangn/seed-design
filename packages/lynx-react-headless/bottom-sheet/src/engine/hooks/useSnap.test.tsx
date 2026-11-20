@@ -456,6 +456,90 @@ describe("sheet touch cancellation", () => {
   );
 });
 
+describe("sheet drag end", () => {
+  // snapPoints [300], screenHeight 800 → 기본 dismissThreshold 0.15에서 닫힘 기준선은 300 - 120 = 180이다.
+  function finish(target: number) {
+    return runOnMainThread((value: number) => {
+      "main thread";
+      (globalThis as TestGlobals).__sheetTestMotion.finish(value);
+    })(target);
+  }
+
+  async function renderEnteredSheet(props: { enableDragToClose?: boolean } = {}) {
+    const onClose = vi.fn();
+    const { container } = render(
+      <SheetRoot defaultShow snapPoints={[300]} screenHeight={800} onClose={onClose} {...props}>
+        <SheetContent className="sheet-outer" />
+      </SheetRoot>,
+      { enableMainThread: true, enableBackgroundThread: true },
+    );
+    await waitSchedule();
+    const position = [...pending.keys()][0];
+    if (!position) throw new Error("Expected the sheet to start entering");
+    await finish(300);
+    await waitSchedule();
+    const target = container.querySelector(".sheet-outer");
+    if (!target) throw new Error("Expected the drag target to mount");
+    targets.length = 0;
+    return {
+      position,
+      onClose,
+      drag(points: { x?: number; y: number }[], velocity = 0) {
+        fireEvent.touchstart(target, { detail: { x: 0, y: 0 } });
+        for (const { x = 0, y } of points) fireEvent.touchmove(target, { detail: { x, y } });
+        position.updateVelocity(velocity);
+        fireEvent.touchend(target, { detail: { x: 0, y: 0 } });
+      },
+    };
+  }
+
+  it("closes when released past the dismiss threshold", async () => {
+    const sheet = await renderEnteredSheet();
+    sheet.drag([{ y: 130 }]);
+    await waitSchedule();
+    expect(sheet.position.get()).toBe(170);
+    expect(targets).toEqual([0]);
+    await finish(0);
+    await waitSchedule();
+    expect(sheet.onClose).toHaveBeenCalledOnce();
+  });
+
+  it("snaps back when released before the dismiss threshold", async () => {
+    const sheet = await renderEnteredSheet();
+    sheet.drag([{ y: 100 }]);
+    await waitSchedule();
+    expect(targets).toEqual([300]);
+  });
+
+  it("closes on a fast downward fling that has not reached the threshold", async () => {
+    const sheet = await renderEnteredSheet();
+    // 감속 2000에서 속도 1500의 이동 거리는 562.5라 닫힘 위치에 가장 가깝다.
+    sheet.drag([{ y: 50 }], -1500);
+    await waitSchedule();
+    expect(targets).toEqual([0]);
+  });
+
+  it("keeps the sheet open past the threshold when enableDragToClose is false", async () => {
+    const sheet = await renderEnteredSheet({ enableDragToClose: false });
+    sheet.drag([{ y: 130 }], -1500);
+    await waitSchedule();
+    // 최소 snap 아래로는 러버밴드로만 움직이고, fling도 닫힘을 후보로 두지 않는다.
+    expect(sheet.position.get()).toBeGreaterThan(170);
+    expect(targets).toEqual([300]);
+  });
+
+  it("ignores a gesture that starts along the cross axis", async () => {
+    const sheet = await renderEnteredSheet();
+    sheet.drag([
+      { x: 30, y: 0 },
+      { x: 30, y: 130 },
+    ]);
+    await waitSchedule();
+    expect(sheet.position.get()).toBe(300);
+    expect(targets).toEqual([]);
+  });
+});
+
 describe("sheet layer measurement", () => {
   function renderSheet(props: { screenHeight?: number; side?: "bottom" | "right" } = {}) {
     const { container } = render(

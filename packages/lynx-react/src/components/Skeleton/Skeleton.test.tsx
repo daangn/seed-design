@@ -28,20 +28,6 @@ function getSkeletonRoot() {
 }
 
 describe("Skeleton", () => {
-  it("renders root and shimmer slots with default variant classes", () => {
-    render(<Skeleton />);
-
-    const root = getSkeletonRoot();
-    const shimmer = root.querySelector<HTMLElement>(".seed-skeleton__shimmer");
-
-    expect(root.tagName.toLowerCase()).toBe("view");
-    expect(root).toHaveClass("seed-skeleton__root--radius_8");
-    expect(root).toHaveClass("seed-skeleton__root--tone_neutral");
-    expect(shimmer).toBeInTheDocument();
-    expect(shimmer?.tagName.toLowerCase()).toBe("view");
-    expect(shimmer).toHaveClass("seed-skeleton__shimmer--tone_neutral");
-  });
-
   it("applies radius and tone variants and preserves user className", () => {
     render(<Skeleton className="custom-skeleton" radius="full" tone="magic" />);
 

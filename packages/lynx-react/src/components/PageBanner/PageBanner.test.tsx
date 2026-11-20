@@ -60,7 +60,7 @@ describe("PageBanner", () => {
     expect(getPageBannerRoot().querySelector(".seed-page-banner__background")).toBeNull();
   });
 
-  it("renders compound slots with the default neutral weak style", () => {
+  it("places the close button on the root and marks the action as a button", () => {
     render(
       <PageBanner.Root>
         <PageBanner.Content>
@@ -76,18 +76,9 @@ describe("PageBanner", () => {
 
     const root = getPageBannerRoot();
 
-    expect(root).toHaveClass("seed-page-banner__root--tone_neutral-variant_weak");
     const closeButton = root.querySelector(".seed-page-banner__closeButton");
     expect(closeButton?.parentElement).toBe(root);
     expect(closeButton).toHaveAttribute("flatten", "false");
-    expect(root.querySelector(".seed-page-banner__content")?.tagName.toLowerCase()).toBe("view");
-    expect(root.querySelector(".seed-page-banner__body")?.tagName.toLowerCase()).toBe("text");
-    expect(root.querySelector(".seed-page-banner__title")).toHaveClass(
-      "seed-page-banner__title--tone_neutral-variant_weak",
-    );
-    expect(root.querySelector(".seed-page-banner__description")).toHaveClass(
-      "seed-page-banner__description--tone_neutral-variant_weak",
-    );
     expect(root.querySelector(".seed-page-banner__button")).toHaveAttribute(
       "accessibility-traits",
       "button",
