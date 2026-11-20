@@ -143,7 +143,7 @@ describe("ProgressCircle MT 진행률", () => {
     for (const animation of nativeAnimations) {
       expect(animation.options).toEqual({
         duration: 1200,
-        iterations: Infinity,
+        iterations: Number.POSITIVE_INFINITY,
         easing: "linear",
       });
       expect(animation.keyframes).toHaveLength(121);

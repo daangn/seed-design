@@ -478,7 +478,7 @@ function IndeterminateRange({
     stopAnimations();
     const options = {
       duration: INDETERMINATE_DURATION,
-      iterations: Infinity,
+      iterations: Number.POSITIVE_INFINITY,
       easing: "linear",
     };
     const targets = [

@@ -389,7 +389,7 @@ function processThemeColor(
   >,
 ) {
   // 이미 처리한 경로는 건너뛰기
-  const pathIdentifier = path.node.loc?.start.line + ":" + path.node.loc?.start.column;
+  const pathIdentifier = `${path.node.loc?.start.line}:${path.node.loc?.start.column}`;
   if (processedPaths.has(pathIdentifier)) {
     return;
   }
