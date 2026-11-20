@@ -209,4 +209,24 @@ describe("FieldButton", () => {
   it("throws when a slot is rendered outside FieldButton.Root", () => {
     expect(() => render(<FieldButton.Value>값</FieldButton.Value>)).toThrow();
   });
+
+  it("tags the root as the Rootage InputButton without states", () => {
+    render(<FieldButton.Root />);
+    expect(getRenderedRoot().querySelector(".seed-field-button__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:InputButton;size=large",
+    );
+
+    render(<FieldButton.Root size="medium" invalid disabled />);
+    expect(getRenderedRoot().querySelector(".seed-field-button__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:InputButton;size=medium",
+    );
+
+    render(<FieldButton.Root lynx-test-tag="region-picker" />);
+    expect(getRenderedRoot().querySelector(".seed-field-button__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "region-picker",
+    );
+  });
 });

@@ -2,6 +2,7 @@ import * as React from "@lynx-js/react";
 import type { NodesRef } from "@lynx-js/types";
 import {
   segmentedTextInput,
+  segmentedTextInputSeedTagSpec,
   type SegmentedTextInputVariantProps,
 } from "@seed-design/lynx-css/recipes/segmented-text-input";
 import {
@@ -16,6 +17,7 @@ import clsx from "clsx";
 import type { LynxHostProps } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(segmentedTextInput);
 
@@ -77,7 +79,13 @@ export const SegmentedTextInputRoot = React.forwardRef<NodesRef, SegmentedTextIn
       <SegmentedTextInputProvider value={api}>
         <ClassNamesProvider value={classes}>
           <view
-            {...mergeProps({ ref: mergedRef }, nativeProps)}
+            {...mergeProps(
+              {
+                ref: mergedRef,
+                "lynx-test-tag": seedTag(segmentedTextInputSeedTagSpec, variantProps),
+              },
+              nativeProps,
+            )}
             className={clsx(classes.root, className)}
           >
             <view className={classes.baseStroke} accessibility-elements-hidden={true} />

@@ -1,8 +1,12 @@
 import * as React from "@lynx-js/react";
 import clsx from "clsx";
 
-import { menu, type MenuVariantProps } from "@seed-design/lynx-css/recipes/menu";
-import { menuItem, type MenuItemVariantProps } from "@seed-design/lynx-css/recipes/menu-item";
+import { menu, menuSeedTagSpec, type MenuVariantProps } from "@seed-design/lynx-css/recipes/menu";
+import {
+  menuItem,
+  menuItemSeedTagSpec,
+  type MenuItemVariantProps,
+} from "@seed-design/lynx-css/recipes/menu-item";
 import type { Placement as MenuPlacement } from "@seed-design/lynx-react-floating";
 import {
   MenuAnchor as MenuAnchorPrimitive,
@@ -24,6 +28,7 @@ import {
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { useViewport } from "../../hooks/useViewport";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import type { LynxHostProps, LynxTextRef, LynxViewProps, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
 import { IconSlotProvider, PrefixIcon, SuffixIcon } from "../Icon/Icon";
@@ -243,7 +248,7 @@ export interface MenuContentProps extends LynxHostProps<"view"> {}
  */
 export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, ref) => {
   const { className, ...contentProps } = props;
-  const { classes } = useMenuStyle("MenuContent");
+  const { classes, size } = useMenuStyle("MenuContent");
   const { open, finishClose } = useMenuContext();
   const handleTransitionEnd = React.useCallback<NativeTransitionHandler>(
     (event) => {
@@ -255,7 +260,14 @@ export const MenuContent = React.forwardRef<unknown, MenuContentProps>((props, r
 
   return (
     <MenuContentPrimitive
-      {...mergeProps({ bindtransitionend: handleTransitionEnd }, contentProps, ref ? { ref } : {})}
+      {...mergeProps(
+        {
+          bindtransitionend: handleTransitionEnd,
+          "lynx-test-tag": seedTag(menuSeedTagSpec, { size }),
+        },
+        contentProps,
+        ref ? { ref } : {},
+      )}
       className={clsx(classes.content, className)}
     />
   );
@@ -391,7 +403,12 @@ export const MenuItem = React.forwardRef<unknown, MenuItemProps>((props, ref) =>
         <view
           {...(ref ? { ref: ref as LynxViewRef } : {})}
           className={clsx(classes.root, className)}
-          {...mergeProps({ flatten: false }, scaleFeedbackTriggerProps, rootProps, nativeProps)}
+          {...mergeProps(
+            { flatten: false, "lynx-test-tag": seedTag(menuItemSeedTagSpec, { size, tone }) },
+            scaleFeedbackTriggerProps,
+            rootProps,
+            nativeProps,
+          )}
         >
           <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
           <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>

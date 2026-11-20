@@ -1,7 +1,14 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
-import { MenuRoot, MenuItem, MenuItemLabel, MenuTrigger } from "../Menu";
+import {
+  MenuContent,
+  MenuItem,
+  MenuItemLabel,
+  MenuPositioner,
+  MenuRoot,
+  MenuTrigger,
+} from "../Menu";
 import { ActionButton } from "../../ActionButton";
 
 describe("Menu item feedback", () => {
@@ -69,5 +76,47 @@ describe("Menu item feedback", () => {
     );
     fireEvent.tap((getByText("Choose") as HTMLElement).parentElement!.parentElement!);
     expect(onTap).toHaveBeenCalledTimes(1);
+  });
+
+  it("tags the menu surface and items with the size they draw", () => {
+    const { container, rerender } = render(
+      <MenuRoot defaultOpen>
+        <MenuPositioner>
+          <MenuContent>
+            <MenuItem>
+              <MenuItemLabel>Edit</MenuItemLabel>
+            </MenuItem>
+          </MenuContent>
+        </MenuPositioner>
+      </MenuRoot>,
+    );
+    expect(container.querySelector(".seed-menu__content")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Menu;size=medium",
+    );
+    expect(container.querySelector(".seed-menu-item__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:MenuItem;size=medium;tone=neutral",
+    );
+
+    rerender(
+      <MenuRoot defaultOpen size="small">
+        <MenuPositioner>
+          <MenuContent lynx-test-tag="listing-menu">
+            <MenuItem tone="critical" disabled>
+              <MenuItemLabel>Delete</MenuItemLabel>
+            </MenuItem>
+          </MenuContent>
+        </MenuPositioner>
+      </MenuRoot>,
+    );
+    expect(container.querySelector(".seed-menu__content")).toHaveAttribute(
+      "lynx-test-tag",
+      "listing-menu",
+    );
+    expect(container.querySelector(".seed-menu-item__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:MenuItem;size=small;tone=critical",
+    );
   });
 });

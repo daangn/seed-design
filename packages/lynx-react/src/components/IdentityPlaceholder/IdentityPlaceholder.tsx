@@ -1,5 +1,6 @@
 import {
   identityPlaceholder,
+  identityPlaceholderSeedTagSpec,
   type IdentityPlaceholderVariantProps,
 } from "@seed-design/lynx-css/recipes/identity-placeholder";
 import type { NodesRef } from "@lynx-js/types";
@@ -9,6 +10,7 @@ import * as React from "@lynx-js/react";
 import type { LynxHostProps, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import businessSource from "./identity-placeholder-business.webp";
 import personSource from "./identity-placeholder-person.webp";
 
@@ -43,7 +45,11 @@ export const IdentityPlaceholderRoot = React.forwardRef<unknown, IdentityPlaceho
       <ClassNamesProvider value={classNames}>
         <PropsProvider value={variantProps}>
           <view
-            {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+            {...mergeProps(
+              ref ? { ref: ref as LynxViewRef } : {},
+              { "lynx-test-tag": seedTag(identityPlaceholderSeedTagSpec, variantProps) },
+              nativeProps,
+            )}
             className={clsx(classNames.root, className)}
             style={style}
           >

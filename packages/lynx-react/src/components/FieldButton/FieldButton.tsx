@@ -2,6 +2,7 @@ import * as React from "@lynx-js/react";
 import type { NodesRef } from "@lynx-js/types";
 import {
   fieldButton,
+  fieldButtonSeedTagSpec,
   type FieldButtonVariantProps,
 } from "@seed-design/lynx-css/recipes/field-button";
 import {
@@ -17,6 +18,7 @@ import clsx from "clsx";
 
 import { useScaleFeedback, type ScaleFeedbackTriggerProps } from "../../hooks/useScaleFeedback";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { toArray } from "../../utils/children";
 import type { LynxHostProps, LynxPressableProps, LynxTextRef, LynxViewRef } from "../../types";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
@@ -88,7 +90,10 @@ export const FieldButtonRoot = React.forwardRef<NodesRef, FieldButtonRootProps>(
         <view
           {...(forwardedRef ? { ref: forwardedRef } : {})}
           className={clsx(classes.root, className)}
-          {...nativeProps}
+          {...mergeProps(
+            { "lynx-test-tag": seedTag(fieldButtonSeedTagSpec, variantProps) },
+            nativeProps,
+          )}
         >
           {buttonChildren.length > 0 ? (
             <>

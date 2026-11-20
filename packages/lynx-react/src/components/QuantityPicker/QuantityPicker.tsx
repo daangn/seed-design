@@ -1,5 +1,6 @@
 import {
   quantityPicker,
+  quantityPickerSeedTagSpec,
   type QuantityPickerSlotName,
   type QuantityPickerVariantProps,
 } from "@seed-design/lynx-css/recipes/quantity-picker";
@@ -21,6 +22,7 @@ import type { LynxIconElementProps, LynxHostProps, LynxViewRef } from "../../typ
 import { useInsideAccessibilityElement } from "../../utils/accessibility";
 import { useShallowMemo } from "../../utils/use-shallow-memo";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { InternalIcon } from "../Icon/Icon";
 
 export type {
@@ -217,7 +219,12 @@ export const QuantityPickerRoot = React.forwardRef<unknown, QuantityPickerRootPr
     return (
       <QuantityPickerProvider value={contextValue}>
         <view
-          {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, api.rootProps, nativeProps)}
+          {...mergeProps(
+            ref ? { ref: ref as LynxViewRef } : {},
+            { "lynx-test-tag": seedTag(quantityPickerSeedTagSpec, { size }) },
+            api.rootProps,
+            nativeProps,
+          )}
           className={clsx(classes.root, className)}
         >
           {[

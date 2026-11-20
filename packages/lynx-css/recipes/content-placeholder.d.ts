@@ -19,3 +19,11 @@ export declare const contentPlaceholder: ((
     props: T,
   ) => [ContentPlaceholderVariantProps, Omit<T, keyof ContentPlaceholderVariantProps>];
 }
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export declare const contentPlaceholderSeedTagSpec: {
+  readonly name: "ContentPlaceholder";
+  readonly axes: readonly ["type"];
+  readonly defaults: {};
+};

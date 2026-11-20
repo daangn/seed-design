@@ -49,6 +49,31 @@ describe("Chip", () => {
     expect(label).toHaveAttribute("accessibility-elements-hidden", "true");
     expect(label).toHaveTextContent("버튼 칩");
     expect(label).toHaveClass("seed-chip__label--size_large");
+    expect(root).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Chip;variant=outlineStrong;size=large;layout=withText",
+    );
+  });
+
+  it("tags toggle and radio chips without selection state, letting a consumer tag win", () => {
+    const { rerender } = render(
+      <Chip.Toggle defaultChecked>
+        <Chip.Label>토글 칩</Chip.Label>
+      </Chip.Toggle>,
+    );
+    expect(getChipRoot()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Chip;variant=solid;size=medium;layout=withText",
+    );
+
+    rerender(
+      <Chip.RadioRoot defaultValue="first">
+        <Chip.RadioItem value="first" lynx-test-tag="sort-recent">
+          <Chip.Label>최신순</Chip.Label>
+        </Chip.RadioItem>
+      </Chip.RadioRoot>,
+    );
+    expect(getChipRoot()).toHaveAttribute("lynx-test-tag", "sort-recent");
   });
 
   it("toggles uncontrolled checked state after the consumer tap handler", () => {

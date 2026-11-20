@@ -96,3 +96,11 @@ export function selectTrigger(props) {
 Object.assign(selectTrigger, { splitVariantProps: (props) => splitVariantProps(props, selectTriggerVariantMap) });
 
 // @recipe(seed): select-trigger
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export const selectTriggerSeedTagSpec = {
+  name: "SelectTrigger",
+  axes: ["size"],
+  defaults: { size: "large" },
+};

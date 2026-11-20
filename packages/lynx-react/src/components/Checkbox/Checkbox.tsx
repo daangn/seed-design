@@ -2,11 +2,14 @@ import * as React from "@lynx-js/react";
 import { isValidElement, type ReactElement } from "@lynx-js/react";
 import clsx from "clsx";
 
-import { checkbox } from "@seed-design/lynx-css/recipes/checkbox";
+import { checkbox, checkboxSeedTagSpec } from "@seed-design/lynx-css/recipes/checkbox";
 import type { CheckboxVariantProps } from "@seed-design/lynx-css/recipes/checkbox";
-import { checkmark } from "@seed-design/lynx-css/recipes/checkmark";
+import { checkmark, checkmarkSeedTagSpec } from "@seed-design/lynx-css/recipes/checkmark";
 import type { CheckmarkVariantProps } from "@seed-design/lynx-css/recipes/checkmark";
-import { checkboxGroup } from "@seed-design/lynx-css/recipes/checkbox-group";
+import {
+  checkboxGroup,
+  checkboxGroupSeedTagSpec,
+} from "@seed-design/lynx-css/recipes/checkbox-group";
 import {
   CheckboxProvider,
   CheckboxControl as HeadlessCheckboxControl,
@@ -29,6 +32,7 @@ import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-
 import { InternalIcon } from "../Icon/Icon";
 import { useShallowMemo } from "../../utils/use-shallow-memo";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 
 /**
  * @platform Lynx
@@ -159,7 +163,11 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
           ref ? { ref: ref as LynxViewRef } : {},
           scaleFeedbackTriggerProps,
           rootProps,
-          { flatten: false, "accessibility-label": resolvedAccessibilityLabel },
+          {
+            flatten: false,
+            "accessibility-label": resolvedAccessibilityLabel,
+            "lynx-test-tag": seedTag(checkboxSeedTagSpec, checkboxVariantProps),
+          },
           nativeProps,
         )}
         className={clsx(rootClassName, className)}
@@ -215,6 +223,7 @@ export const CheckboxControl = React.forwardRef<unknown, CheckboxControlProps>((
       <HeadlessCheckboxControl
         {...mergeProps(
           ref ? { ref: ref as LynxViewRef } : {},
+          { "lynx-test-tag": seedTag(checkmarkSeedTagSpec, checkmarkVariantProps) },
           !hasScaledContent ? (styledContext?.scaleFeedbackTargetProps ?? {}) : {},
           nativeProps,
         )}
@@ -321,7 +330,10 @@ export const CheckboxGroup = React.forwardRef<unknown, CheckboxGroupProps>((prop
   return (
     <view
       {...mergeProps(
-        { "accessibility-element": false },
+        {
+          "accessibility-element": false,
+          "lynx-test-tag": seedTag(checkboxGroupSeedTagSpec),
+        },
         ref ? { ref: ref as LynxViewRef } : {},
         nativeProps,
       )}

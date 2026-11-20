@@ -348,6 +348,43 @@ describe("MenuSheet", () => {
     expect(sheetMocks.closeTap).not.toHaveBeenCalled();
   });
 
+  it("tags the sheet panel, items with resolved tone and labelAlign, and the close button", () => {
+    const { container } = render(
+      <MenuSheet.Root>
+        <MenuSheet.Content labelAlign="center">
+          <MenuSheet.List>
+            <MenuSheet.Group>
+              <MenuSheet.Item tone="critical">
+                <MenuSheet.ItemLabel>Delete</MenuSheet.ItemLabel>
+              </MenuSheet.Item>
+              <MenuSheet.Item lynx-test-tag="report-item">
+                <MenuSheet.ItemLabel>Report</MenuSheet.ItemLabel>
+              </MenuSheet.Item>
+            </MenuSheet.Group>
+          </MenuSheet.List>
+          <MenuSheet.CloseButton>Close</MenuSheet.CloseButton>
+        </MenuSheet.Content>
+      </MenuSheet.Root>,
+    );
+
+    expect(sheetMocks.contentProps.at(-1)?.["lynx-test-tag"]).toBe("seed:MenuSheet");
+    const items = container.querySelectorAll(".seed-menu-sheet-item__root");
+    expect(items[0]?.getAttribute("lynx-test-tag")).toBe(
+      "seed:MenuSheetItem;tone=critical;labelAlign=center",
+    );
+    expect(items[1]?.getAttribute("lynx-test-tag")).toBe("report-item");
+    expect(
+      container.querySelector(".seed-menu-sheet__closeButton")?.getAttribute("lynx-test-tag"),
+    ).toBe("seed:MenuSheetCloseButton");
+
+    render(
+      <MenuSheet.Root>
+        <MenuSheet.Content lynx-test-tag="share-sheet" />
+      </MenuSheet.Root>,
+    );
+    expect(sheetMocks.contentProps.at(-1)?.["lynx-test-tag"]).toBe("share-sheet");
+  });
+
   it("forwards skipAnimation and leaves default transitions to headless Content", () => {
     const { getByText } = render(
       <MenuSheet.Root skipAnimation>

@@ -9,7 +9,10 @@ import {
 } from "@lynx-js/react";
 import type { MainThread } from "@lynx-js/types";
 import clsx from "clsx";
-import { progressCircle } from "@seed-design/lynx-css/recipes/progress-circle";
+import {
+  progressCircle,
+  progressCircleSeedTagSpec,
+} from "@seed-design/lynx-css/recipes/progress-circle";
 import type {
   ProgressCircleSlotName,
   ProgressCircleVariantProps,
@@ -24,6 +27,7 @@ import {
 } from "@seed-design/lynx-react-progress";
 import type { LynxHostProps, LynxViewRef } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -226,7 +230,18 @@ export const ProgressCircleRoot = forwardRef<unknown, ProgressCircleRootProps>((
   return (
     <ProgressCircleProvider value={contextValue}>
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, api.rootProps, nativeProps)}
+        {...mergeProps(
+          ref ? { ref: ref as LynxViewRef } : {},
+          {
+            "lynx-test-tag": seedTag(progressCircleSeedTagSpec, {
+              size,
+              tone,
+              indeterminate: api.indeterminate,
+            }),
+          },
+          api.rootProps,
+          nativeProps,
+        )}
         className={clsx(classes.root, className)}
         style={{ width: `${numSize}px`, height: `${numSize}px`, ...style }}
       >

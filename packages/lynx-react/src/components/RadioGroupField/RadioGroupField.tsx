@@ -1,6 +1,10 @@
 import * as React from "@lynx-js/react";
-import { field } from "@seed-design/lynx-css/recipes/field";
-import { fieldLabel, type FieldLabelVariantProps } from "@seed-design/lynx-css/recipes/field-label";
+import { field, fieldSeedTagSpec } from "@seed-design/lynx-css/recipes/field";
+import {
+  fieldLabel,
+  fieldLabelSeedTagSpec,
+  type FieldLabelVariantProps,
+} from "@seed-design/lynx-css/recipes/field-label";
 import {
   RadioGroupDescription as HeadlessRadioGroupDescription,
   RadioGroupErrorMessage as HeadlessRadioGroupErrorMessage,
@@ -13,6 +17,7 @@ import clsx from "clsx";
 import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 
 const { ClassNamesProvider: FieldClassNamesProvider, useClassNames: useFieldClassNames } =
   createSlotRecipeContext(field);
@@ -44,7 +49,7 @@ export const RadioGroupFieldRoot = React.forwardRef<unknown, RadioGroupFieldRoot
       <HeadlessRadioGroupRoot
         {...(ref ? { ref } : {})}
         invalid={invalid}
-        {...otherProps}
+        {...mergeProps({ "lynx-test-tag": seedTag(fieldSeedTagSpec) }, otherProps)}
         className={clsx(classes.root, className)}
       >
         <FieldClassNamesProvider value={classes}>{children}</FieldClassNamesProvider>
@@ -89,7 +94,10 @@ export const RadioGroupFieldLabel = React.forwardRef<unknown, RadioGroupFieldLab
       <FieldLabelClassNamesProvider value={classes}>
         <HeadlessRadioGroupLabel
           {...(ref ? { ref } : {})}
-          {...nativeProps}
+          {...mergeProps(
+            { "lynx-test-tag": seedTag(fieldLabelSeedTagSpec, variantProps) },
+            nativeProps,
+          )}
           className={clsx(classes.root, className)}
         >
           {children}

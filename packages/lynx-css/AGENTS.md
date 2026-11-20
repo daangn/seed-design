@@ -19,3 +19,9 @@ Lynx용 CSS 변수·Recipe를 배포하는 `@seed-design/lynx-css` 패키지다.
 
 - `recipes/chip.*`·`recipes/floating-action-button.*` 끝의 `glassTint`는 `bun qvism:generate`의 마지막 단계인 `scripts/generate-glass-tint.mjs`가 qvism 출력 뒤에 붙인다. `vars/component/`의 `root.color`와 Rootage color 토큰으로 만든다. Lynx `glass-tint-color`가 CSS 변수를 읽지 못해 variant·state별 색을 테마마다 hex로 풀어 둔다.
 - Liquid Glass를 그리는 컴포넌트를 추가할 때 → 스크립트의 `components`에 Recipe 파일 이름과 component vars를 추가하고 `bun qvism:generate`를 실행한다. state를 고르는 코드는 `packages/lynx-react`의 컴포넌트가 Recipe와 같은 규칙으로 쓴다.
+
+### 생성물: Recipe의 SeedTagSpec
+
+- 모든 qvism Recipe의 `recipes/*.{mjs,d.ts}` 끝 `<jsName>SeedTagSpec`은 `bun qvism:generate`의 마지막 단계인 `scripts/generate-seed-tag.mjs`가 붙인다. Rootage component id의 PascalCase 이름, Rootage `schema.variants` 축 순서, 그 축에 대한 `@seed-design/lynx-qvism-preset` Recipe의 `defaultVariants`를 담는다. `packages/lynx-react`의 `seedTag`가 이 값으로 `lynx-test-tag`를 만든다.
+- Recipe 이름이 Rootage id와 다르면 → 스크립트의 `rootageIdByRecipeName`에 추가한다. Rootage spec이 없는 Recipe는 축 없이 이름만 둔다.
+- `recipes/progress-circle.{mjs,d.ts}`는 qvism 대상이 아니다 → Rootage `progress-circle`이나 Recipe 기본값이 바뀌면 `progressCircleSeedTagSpec`을 직접 고친다.

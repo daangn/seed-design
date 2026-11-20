@@ -3,7 +3,12 @@ import { fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it } from "vitest";
 
 import { ActionButton } from "../ActionButton";
-import { HelpBubbleRoot, HelpBubbleTrigger } from "./HelpBubble";
+import {
+  HelpBubbleContent,
+  HelpBubblePositioner,
+  HelpBubbleRoot,
+  HelpBubbleTrigger,
+} from "./HelpBubble";
 
 describe("HelpBubble trigger", () => {
   it("owns the accessible name and expanded state instead of exposing its nested button twice", () => {
@@ -41,5 +46,31 @@ describe("HelpBubble trigger", () => {
       "도움말",
     );
     expect(container.querySelector("#help-trigger")).toHaveAttribute("flatten", "true");
+  });
+
+  it("tags the bubble content surface and lets a consumer tag win", () => {
+    const { container, rerender } = render(
+      <HelpBubbleRoot defaultOpen>
+        <HelpBubblePositioner>
+          <HelpBubbleContent />
+        </HelpBubblePositioner>
+      </HelpBubbleRoot>,
+    );
+    expect(container.querySelector(".seed-help-bubble__content")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:HelpBubble",
+    );
+
+    rerender(
+      <HelpBubbleRoot defaultOpen>
+        <HelpBubblePositioner>
+          <HelpBubbleContent lynx-test-tag="price-help" />
+        </HelpBubblePositioner>
+      </HelpBubbleRoot>,
+    );
+    expect(container.querySelector(".seed-help-bubble__content")).toHaveAttribute(
+      "lynx-test-tag",
+      "price-help",
+    );
   });
 });

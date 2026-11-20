@@ -97,4 +97,22 @@ describe("Slider", () => {
       "button",
     );
   });
+
+  it("tags the root and each tick with their Rootage specs", () => {
+    const { container } = render(
+      <Slider.Root defaultValues={[40]}>
+        <Slider.Control>
+          <Slider.Tick value={50} />
+        </Slider.Control>
+      </Slider.Root>,
+    );
+    expect(container.querySelector(".seed-slider__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Slider",
+    );
+    expect(container.querySelector(".seed-slider-tick")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:SliderTick;weight=thin",
+    );
+  });
 });

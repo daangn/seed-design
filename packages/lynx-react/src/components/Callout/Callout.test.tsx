@@ -185,4 +185,9 @@ describe("Callout", () => {
     expect(onTap).toHaveBeenCalledTimes(1);
     expect(onDismiss).toHaveBeenCalledTimes(1);
   });
+
+  it("tags the root with the drawn tone", () => {
+    render(<Callout.Root />);
+    expect(getCalloutRoot()).toHaveAttribute("lynx-test-tag", "seed:Callout;tone=neutral");
+  });
 });

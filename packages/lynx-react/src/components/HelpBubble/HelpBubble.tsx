@@ -1,4 +1,8 @@
-import { helpBubble, type HelpBubbleVariantProps } from "@seed-design/lynx-css/recipes/help-bubble";
+import {
+  helpBubble,
+  helpBubbleSeedTagSpec,
+  type HelpBubbleVariantProps,
+} from "@seed-design/lynx-css/recipes/help-bubble";
 import * as React from "@lynx-js/react";
 import {
   PopoverAnchor,
@@ -19,6 +23,7 @@ import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxTextRef, LynxViewProps, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
 import {
   AccessibilityElementScope,
@@ -220,7 +225,7 @@ export const HelpBubbleContent = React.forwardRef<unknown, HelpBubbleContentProp
     <view className={classNames.motion} bindtransitionend={handleTransitionEnd}>
       <PopoverContent
         {...(ref ? { ref } : {})}
-        {...nativeProps}
+        {...mergeProps({ "lynx-test-tag": seedTag(helpBubbleSeedTagSpec) }, nativeProps)}
         className={clsx(classNames.content, className)}
         style={style}
       >

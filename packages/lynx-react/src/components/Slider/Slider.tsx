@@ -8,8 +8,12 @@ import {
   type UseSliderContext,
   type UseSliderProps,
 } from "@seed-design/lynx-react-slider";
-import { slider } from "@seed-design/lynx-css/recipes/slider";
-import { sliderTick, type SliderTickVariantProps } from "@seed-design/lynx-css/recipes/slider-tick";
+import { slider, sliderSeedTagSpec } from "@seed-design/lynx-css/recipes/slider";
+import {
+  sliderTick,
+  sliderTickSeedTagSpec,
+  type SliderTickVariantProps,
+} from "@seed-design/lynx-css/recipes/slider-tick";
 import {
   sliderMarker,
   type SliderMarkerVariantProps,
@@ -17,6 +21,7 @@ import {
 
 import type { LynxHostProps } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 
 export type SliderValues = number[];
 
@@ -149,9 +154,13 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
   return (
     <SliderProvider value={contextValue}>
       <view
-        {...mergeProps(api.rootProps, nativeProps, forwardedRef ? { ref: forwardedRef } : {}, {
-          ref: api.refs.root,
-        })}
+        {...mergeProps(
+          { "lynx-test-tag": seedTag(sliderSeedTagSpec) },
+          api.rootProps,
+          nativeProps,
+          forwardedRef ? { ref: forwardedRef } : {},
+          { ref: api.refs.root },
+        )}
         className={clsx(classes.root, className)}
         style={style}
       >
@@ -248,7 +257,12 @@ export const SliderTick = React.forwardRef<NodesRef, SliderTickProps>((props, re
   const context = useStyledSliderContext("Slider.Tick");
   return (
     <view
-      {...mergeProps(ref ? { ref } : {}, context.getTickProps(value), nativeProps)}
+      {...mergeProps(
+        ref ? { ref } : {},
+        { "lynx-test-tag": seedTag(sliderTickSeedTagSpec, variantProps) },
+        context.getTickProps(value),
+        nativeProps,
+      )}
       className={clsx(sliderTick(variantProps), className)}
     >
       {children}

@@ -211,6 +211,44 @@ describe("Select", () => {
     }
   });
 
+  it("tags the root, trigger, and items with the resolved Rootage size", () => {
+    render(<TestSelect />);
+    const root = getRenderedRoot();
+    expect(root.querySelector(".select-trigger")?.parentElement).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Select;size=large",
+    );
+    expect(root.querySelector(".select-trigger")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:SelectTrigger;size=large",
+    );
+    expect(root.querySelector(".seed-select-item__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:SelectItem;size=large",
+    );
+
+    render(
+      <Select.Root size="medium" defaultOpen>
+        <Select.Trigger className="medium-trigger" accessibility-label="과일" />
+        <Select.Positioner>
+          <Select.Content>
+            <Select.ScrollArea>
+              <Select.Item className="medium-item" value="apple" label="사과" />
+            </Select.ScrollArea>
+          </Select.Content>
+        </Select.Positioner>
+      </Select.Root>,
+    );
+    expect(getRenderedRoot().querySelector(".medium-trigger")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:SelectTrigger;size=medium",
+    );
+    expect(getRenderedRoot().querySelector(".medium-item")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:SelectItem;size=medium",
+    );
+  });
+
   it("positions content after a public ref patch resolves deferred geometry", async () => {
     installRootSelectorQuery();
     const pendingGeometry = deferred<GeometryRect>();

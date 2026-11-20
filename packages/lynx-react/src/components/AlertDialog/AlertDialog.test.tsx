@@ -1,3 +1,4 @@
+import type { ViewProps } from "@lynx-js/types";
 import { act, fireEvent, render } from "@lynx-js/react/testing-library";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -262,6 +263,33 @@ describe("AlertDialog", () => {
     tap(container, ".seed-alert-dialog__content");
 
     expect(contentTap).toHaveBeenCalledTimes(1);
+  });
+
+  it("tags the content view and lets dialogContentProps win", () => {
+    const userTagProps = { "lynx-test-tag": "delete-confirm" } as ViewProps;
+    const { container } = render(
+      <AlertDialog.Root defaultOpen>
+        <AlertDialog.Positioner>
+          <AlertDialog.Content />
+        </AlertDialog.Positioner>
+      </AlertDialog.Root>,
+    );
+    flushPresence();
+    expect(
+      container.querySelector(".seed-alert-dialog__content")?.getAttribute("lynx-test-tag"),
+    ).toBe("seed:AlertDialog");
+
+    const { container: overridden } = render(
+      <AlertDialog.Root defaultOpen>
+        <AlertDialog.Positioner>
+          <AlertDialog.Content dialogContentProps={userTagProps} />
+        </AlertDialog.Positioner>
+      </AlertDialog.Root>,
+    );
+    flushPresence();
+    expect(
+      overridden.querySelector(".seed-alert-dialog__content")?.getAttribute("lynx-test-tag"),
+    ).toBe("delete-confirm");
   });
 
   it("pads the positioner by the side insets and the larger block inset on both sides", () => {

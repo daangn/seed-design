@@ -100,4 +100,12 @@ describe("Skeleton", () => {
 
     expect(getSkeletonRoot()).toHaveAttribute("accessibility-elements-hidden", "false");
   });
+
+  it("tags the root with the drawn Rootage variant axes", () => {
+    render(<Skeleton />);
+    expect(getSkeletonRoot()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Skeleton;radius=8;tone=neutral",
+    );
+  });
 });

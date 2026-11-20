@@ -33,6 +33,7 @@ describe("Count", () => {
     expect(count).toHaveClass("seed-count", "custom-count");
     expect(count).toHaveStyle({ marginLeft: "2px" });
     expect(count?.textContent).toBe("12");
+    expect(count).toHaveAttribute("lynx-test-tag", "seed:Count");
     expect(countRef.current).not.toBeNull();
   });
 

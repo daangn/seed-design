@@ -230,4 +230,12 @@ describe("ReactionButton", () => {
     expect(count?.textContent).toBe("4");
     expect(count).not.toHaveClass("seed-reaction-button__count");
   });
+
+  it("tags the root with the drawn Rootage variant axes", () => {
+    render(<ReactionButton>좋아요</ReactionButton>);
+    expect(getReactionButtonRoot()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:ReactionButton;size=small",
+    );
+  });
 });

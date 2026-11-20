@@ -3,8 +3,11 @@ import * as React from "@lynx-js/react";
 import { isValidElement } from "@lynx-js/react";
 
 import type { LynxHostProps, LynxTextRef } from "../../types";
+import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 
 const countMarker = Symbol.for("@seed-design/lynx-react/count");
+const countSeedTagSpec = { name: "Count", axes: [], defaults: {} };
 
 interface CountComponent {
   [countMarker]?: true;
@@ -25,7 +28,7 @@ export const Count = React.forwardRef<unknown, CountProps>((props, ref) => {
   return (
     <text
       {...(ref ? { ref: ref as LynxTextRef } : {})}
-      {...nativeProps}
+      {...mergeProps({ "lynx-test-tag": seedTag(countSeedTagSpec) }, nativeProps)}
       className={clsx("seed-count", className)}
     >
       {children}

@@ -1,6 +1,9 @@
-import { menuSheet } from "@seed-design/lynx-css/recipes/menu-sheet";
+import { menuSheet, menuSheetSeedTagSpec } from "@seed-design/lynx-css/recipes/menu-sheet";
 import type { MenuSheetVariantProps } from "@seed-design/lynx-css/recipes/menu-sheet";
-import { menuSheetItem } from "@seed-design/lynx-css/recipes/menu-sheet-item";
+import {
+  menuSheetItem,
+  menuSheetItemSeedTagSpec,
+} from "@seed-design/lynx-css/recipes/menu-sheet-item";
 import type { MenuSheetItemVariantProps } from "@seed-design/lynx-css/recipes/menu-sheet-item";
 import { menuSheet as menuSheetVars } from "@seed-design/lynx-css/vars/component";
 import {
@@ -26,6 +29,7 @@ import clsx from "clsx";
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { usePressTap } from "../../hooks/usePressTap";
 import { OverlaySafeAreaProvider } from "@seed-design/lynx-react-use-safe-area";
 import { useSafeArea } from "../../hooks/useSafeArea";
@@ -85,6 +89,8 @@ interface MenuSheetItemClassNames {
 }
 
 const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(menuSheet);
+
+const closeButtonSeedTagSpec = { name: "MenuSheetCloseButton", axes: [], defaults: {} };
 // Keep this concrete: Lynx drops the entire calc when this token remains a var() reference.
 const CONTENT_PADDING_BOTTOM = "16px";
 
@@ -236,8 +242,11 @@ export const MenuSheetContent: LynxForwardRefComponent<unknown, MenuSheetContent
   return (
     <ContentLabelAlignContext.Provider value={labelAlign}>
       <HeadlessBottomSheetContent
-        {...(ref ? { ref } : {})}
-        {...contentProps}
+        {...mergeProps(
+          ref ? { ref } : {},
+          { "lynx-test-tag": seedTag(menuSheetSeedTagSpec) },
+          contentProps,
+        )}
         className={clsx(classNames.content, className)}
         // `SheetContent` pins its outer view with an inline `left: 0` and the layer's width. Releasing
         // `left` lets the positioner center the sheet; Lynx ignores the positioner's padding when
@@ -441,6 +450,7 @@ export const MenuSheetCloseButton: LynxForwardRefComponent<unknown, MenuSheetClo
           scaleFeedbackTriggerProps,
           scaleFeedbackTargetProps,
           pressHandlers,
+          { "lynx-test-tag": seedTag(closeButtonSeedTagSpec) },
           nativeProps,
           ref ? { ref: ref as LynxViewRef } : {},
         )}
@@ -528,6 +538,12 @@ export const MenuSheetItem: LynxForwardRefComponent<unknown, MenuSheetItemProps>
             },
             scaleFeedbackTriggerProps,
             pressHandlers,
+            {
+              "lynx-test-tag": seedTag(menuSheetItemSeedTagSpec, {
+                tone,
+                labelAlign: resolvedLabelAlign,
+              }),
+            },
             nativeProps,
             ref ? { ref: ref as LynxViewRef } : {},
           )}

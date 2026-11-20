@@ -49,3 +49,11 @@ export function mannerTempBadge(props) {
 Object.assign(mannerTempBadge, { splitVariantProps: (props) => splitVariantProps(props, mannerTempBadgeVariantMap) });
 
 // @recipe(seed): manner-temp-badge
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export const mannerTempBadgeSeedTagSpec = {
+  name: "MannerTempBadge",
+  axes: ["level"],
+  defaults: { level: "l1" },
+};

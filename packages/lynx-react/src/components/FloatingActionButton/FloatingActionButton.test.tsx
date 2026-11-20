@@ -215,4 +215,35 @@ describe("FloatingActionButton Liquid Glass", () => {
     expect(root()).toHaveAttribute("glass-tint-color", "#ff9e65");
     expect(root()).toHaveAttribute("ios-user-interface-style", "dark");
   });
+
+  it("tags the view and glass roots with the extended axis and lets a consumer tag win", () => {
+    const { container, rerender } = render(
+      <FloatingActionButtonRoot disabled>
+        <FloatingActionButtonLabel>글쓰기</FloatingActionButtonLabel>
+      </FloatingActionButtonRoot>,
+    );
+    expect(getFloatingActionButtonRoot(container)).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:FloatingActionButton;extended=true",
+    );
+
+    rerender(
+      <SeedProvider supportsLiquidGlass glassEffect>
+        <FloatingActionButtonRoot extended={false}>
+          <FloatingActionButtonLabel>글쓰기</FloatingActionButtonLabel>
+        </FloatingActionButtonRoot>
+      </SeedProvider>,
+    );
+    expect(getFloatingActionButtonRoot(container)).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:FloatingActionButton;extended=false",
+    );
+
+    rerender(
+      <FloatingActionButtonRoot lynx-test-tag="compose-fab">
+        <FloatingActionButtonLabel>글쓰기</FloatingActionButtonLabel>
+      </FloatingActionButtonRoot>,
+    );
+    expect(getFloatingActionButtonRoot(container)).toHaveAttribute("lynx-test-tag", "compose-fab");
+  });
 });

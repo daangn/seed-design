@@ -1,4 +1,8 @@
-import { pageBanner, type PageBannerVariantProps } from "@seed-design/lynx-css/recipes/page-banner";
+import {
+  pageBanner,
+  pageBannerSeedTagSpec,
+  type PageBannerVariantProps,
+} from "@seed-design/lynx-css/recipes/page-banner";
 import {
   getIndependentActionProps,
   PageBannerProvider,
@@ -18,6 +22,7 @@ import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context"
 import { IconSlotProvider } from "../Icon/Icon";
 import { toArray } from "../../utils/children";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 
 const { ClassNamesProvider, PropsProvider, useClassNames, useProps } =
   createSlotRecipeContext(pageBanner);
@@ -120,6 +125,7 @@ export const PageBannerRoot = React.forwardRef<unknown, PageBannerRootProps>((pr
           <IconSlotProvider value={iconSlotContextValue}>
             <view
               {...mergeProps(
+                { "lynx-test-tag": seedTag(pageBannerSeedTagSpec, variantProps) },
                 rootProps,
                 interactive ? scaleFeedbackTriggerProps : {},
                 nativeProps,

@@ -1,9 +1,9 @@
 import * as React from "@lynx-js/react";
 import clsx from "clsx";
 
-import { switchStyle } from "@seed-design/lynx-css/recipes/switch";
+import { switchSeedTagSpec, switchStyle } from "@seed-design/lynx-css/recipes/switch";
 import type { SwitchVariantProps } from "@seed-design/lynx-css/recipes/switch";
-import { switchmark } from "@seed-design/lynx-css/recipes/switchmark";
+import { switchmark, switchmarkSeedTagSpec } from "@seed-design/lynx-css/recipes/switchmark";
 import type { SwitchmarkVariantProps } from "@seed-design/lynx-css/recipes/switchmark";
 import {
   SwitchControl as HeadlessSwitchControl,
@@ -20,6 +20,7 @@ import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { useScaleFeedback, type ScaleFeedbackTargetProps } from "../../hooks/useScaleFeedback";
 import { useShallowMemo } from "../../utils/use-shallow-memo";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { ScaleFeedbackContentContext } from "../../contexts";
 import {
   AccessibilityElementScope,
@@ -146,6 +147,7 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
       <view
         {...mergeProps(
           ref ? { ref: ref as LynxViewRef } : {},
+          { "lynx-test-tag": seedTag(switchSeedTagSpec, switchVariantProps) },
           scaleFeedbackTriggerProps,
           rootProps,
           { "accessibility-label": resolvedAccessibilityLabel },
@@ -192,7 +194,10 @@ export const SwitchControl = React.forwardRef<unknown, SwitchControlProps>((prop
     >
       <HeadlessSwitchControl
         {...mergeProps(
-          { flatten: false },
+          {
+            flatten: false,
+            "lynx-test-tag": seedTag(switchmarkSeedTagSpec, switchmarkVariantProps),
+          },
           ref ? { ref: ref as LynxViewRef } : {},
           !hasScaledContent ? (styledContext?.scaleFeedbackTargetProps ?? {}) : {},
           nativeProps,

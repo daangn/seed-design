@@ -22,3 +22,11 @@ export declare const mannerTempBadge: ((
     props: T,
   ) => [MannerTempBadgeVariantProps, Omit<T, keyof MannerTempBadgeVariantProps>];
 }
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export declare const mannerTempBadgeSeedTagSpec: {
+  readonly name: "MannerTempBadge";
+  readonly axes: readonly ["level"];
+  readonly defaults: { readonly level: "l1" };
+};

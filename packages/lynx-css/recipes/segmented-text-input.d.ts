@@ -38,3 +38,11 @@ export declare const segmentedTextInput: ((
     props: T,
   ) => [SegmentedTextInputVariantProps, Omit<T, keyof SegmentedTextInputVariantProps>];
 }
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export declare const segmentedTextInputSeedTagSpec: {
+  readonly name: "SegmentedTextInput";
+  readonly axes: readonly ["size"];
+  readonly defaults: { readonly size: "large" };
+};

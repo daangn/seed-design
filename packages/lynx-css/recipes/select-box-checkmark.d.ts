@@ -30,3 +30,11 @@ export declare const selectBoxCheckmark: ((
     props: T,
   ) => [SelectBoxCheckmarkVariantProps, Omit<T, keyof SelectBoxCheckmarkVariantProps>];
 }
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export declare const selectBoxCheckmarkSeedTagSpec: {
+  readonly name: "SelectBoxCheckmark";
+  readonly axes: readonly [];
+  readonly defaults: {};
+};
