@@ -532,9 +532,10 @@ export const commands = {
   breakpoints: defineCommand({
     args: "<dir>",
     describe: "Generate breakpoint values and media queries from the viewport-width collection",
-    builder: (yargs) => yargs.positional("dir", dirPositional),
-    handler: async ({ dir }) => {
+    builder: (yargs) => yargs.positional("dir", dirPositional).option("config", configOption),
+    handler: async ({ dir, config }) => {
       console.log("Start");
+      await loadConfig(config);
       await writeBreakpoints(dir);
       console.log("Done");
     },

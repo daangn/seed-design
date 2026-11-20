@@ -113,7 +113,7 @@ export default {
 - `token-css.generator`: `token.css`를 만드는 생성기 함수입니다. 타입은 `@seed-design/rootage-core/generator`의 `GeneratorFunction`이고, CLI는 받은 함수를 그대로 호출합니다. 없으면 core의 기본 CSS 생성기를 씁니다.
 - `token-css.ts`: `true`면 `token.css`와 함께, 같은 CSS를 문자열로 export하는 `tokens.ts`를 같은 디렉터리에 씁니다. CSS 파일을 import할 수 없는 JS 모듈(예: qvism preset의 `Theme.tokens`)에서 씁니다.
 - `component-spec.filter`: 아티팩트 루트 기준 경로(`path`)와 스펙(`spec`)을 받아 생성할 컴포넌트 스펙을 고릅니다.
-- `json-schema`, `json-ts`, `validate`는 설정에서 읽는 옵션이 없습니다.
+- `json-schema`, `json-ts`, `breakpoints`, `validate`는 설정에서 읽는 옵션이 없습니다.
 
 **사용 예시:**
 ```bash
