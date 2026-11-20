@@ -44,13 +44,7 @@ export default defineConfig(async () => {
       },
     },
     environments: {
-      web: {
-        resolve: {
-          alias: {
-            "@seed-design/lynx-css/base.css": "@seed-design/css/base.css",
-          },
-        },
-      },
+      web: {},
       lynx: {},
     },
     splitChunks: false as const,
