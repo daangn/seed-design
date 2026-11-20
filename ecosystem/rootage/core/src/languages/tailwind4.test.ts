@@ -180,6 +180,58 @@ describe("getTailwind4CompleteThemeCode", () => {
     });
   });
 
+  describe("Core namespace aliases", () => {
+    test("should alias dimension, font-size and timing-function tokens into Tailwind core namespaces", () => {
+      const tokens = [
+        factory.createDimensionTokenDeclaration(
+          "dimension",
+          factory.createTokenLit("$dimension.spacing-x.global-gutter"),
+          [
+            {
+              kind: "DimensionTokenValueDeclaration",
+              mode: "default",
+              value: factory.createDimensionLit(16, "px"),
+            },
+          ],
+        ),
+        factory.createDimensionTokenDeclaration(
+          "dimension",
+          factory.createTokenLit("$font-size.t5"),
+          [
+            {
+              kind: "DimensionTokenValueDeclaration",
+              mode: "default",
+              value: factory.createDimensionLit(16, "px"),
+            },
+          ],
+        ),
+        factory.createCubicBezierTokenDeclaration(
+          "cubicBezier",
+          factory.createTokenLit("$timing-function.enter"),
+          [
+            {
+              kind: "CubicBezierTokenValueDeclaration",
+              mode: "default",
+              value: factory.createCubicBezierLit([0, 0, 0.2, 1]),
+            },
+          ],
+        ),
+      ];
+
+      const result = getTailwind4CompleteThemeCode(tokens, [], {
+        prefix: "custom",
+        sourcePrefix: "seed",
+      });
+
+      expect(result).toContain(
+        "--spacing-spacing-x-global-gutter: var(--custom-dimension-spacing-x-global-gutter);",
+      );
+      expect(result).toContain("--text-t5: var(--custom-font-size-t5);");
+      expect(result).toContain("--ease-enter: var(--custom-timing-function-enter);");
+      expect(result).not.toContain("@utility p-*");
+    });
+  });
+
   describe("Breakpoints", () => {
     test("should reset the default breakpoints and declare every breakpoint but the base in px", () => {
       const result = getTailwind4CompleteThemeCode([], [], {

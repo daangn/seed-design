@@ -21,6 +21,14 @@ interface ThemeGenerationOptions {
   breakpoints?: Breakpoint[];
 }
 
+// Tailwind v4 core utilities read these namespaces, so aliasing SEED tokens into them lets
+// `top-x2`, `-m-x2`, `text-t5`, `ease-enter` etc. work like the Tailwind 3 plugin's theme.extend.
+const coreNamespaceAliases = {
+  dimension: "spacing",
+  "font-size": "text",
+  "timing-function": "ease",
+};
+
 const gradientDirections = {
   t: "to top",
   tr: "to top right",
@@ -110,6 +118,15 @@ class TokenProcessor {
 
     // 모든 변수를 포함
     this.themeDeclarations.push(`  ${newName}: var(${originalName});`);
+
+    const tokenPath = `${groupStr}${keyStr}`;
+    for (const [group, namespace] of Object.entries(coreNamespaceAliases)) {
+      if (tokenPath.startsWith(`${group}-`)) {
+        this.themeDeclarations.push(
+          `  --${namespace}-${tokenPath.slice(group.length + 1)}: var(${newName});`,
+        );
+      }
+    }
 
     // 특별 처리: gradient 토큰
     if (groupStr === "gradient") {
@@ -245,28 +262,14 @@ ${styleLines.join("\n")}
     });
   }
 
+  // Tailwind core emits logical shorthands (padding-inline, margin-block, ...) for these,
+  // which Lynx does not support, so keep emitting the physical longhands alongside.
   generateDimensionUtilities(): void {
     const dimensionUtilities = {
-      "size-*": { width: "--dimension-*", height: "--dimension-*" },
-      "w-*": { width: "--dimension-*" },
-      "h-*": { height: "--dimension-*" },
-      "p-*": { padding: "--dimension-*" },
-      "pt-*": { paddingTop: "--dimension-*" },
-      "pb-*": { paddingBottom: "--dimension-*" },
-      "pl-*": { paddingLeft: "--dimension-*" },
-      "pr-*": { paddingRight: "--dimension-*" },
       "px-*": { paddingLeft: "--dimension-*", paddingRight: "--dimension-*" },
       "py-*": { paddingTop: "--dimension-*", paddingBottom: "--dimension-*" },
-      "m-*": { margin: "--dimension-*" },
-      "mt-*": { marginTop: "--dimension-*" },
-      "mb-*": { marginBottom: "--dimension-*" },
-      "ml-*": { marginLeft: "--dimension-*" },
-      "mr-*": { marginRight: "--dimension-*" },
       "mx-*": { marginLeft: "--dimension-*", marginRight: "--dimension-*" },
       "my-*": { marginTop: "--dimension-*", marginBottom: "--dimension-*" },
-      "gap-*": { gap: "--dimension-*" },
-      "gap-x-*": { columnGap: "--dimension-*" },
-      "gap-y-*": { rowGap: "--dimension-*" },
     };
 
     Object.entries(dimensionUtilities).forEach(([name, props]) => {

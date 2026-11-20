@@ -78,7 +78,14 @@ Lynx의 전체 설정과 제한사항은 [Lynx Tailwind 가이드](https://seed-
 // 간격 유틸리티
 <div className="flex gap-x3">아이템 간격 설정</div>
 <div className="grid gap-y-x2 gap-x-x4">그리드 간격 설정</div>
+
+// 위치 유틸리티
+<div className="absolute top-x2 right-x2">모서리에서 띄운 요소</div>
+<div className="absolute inset-x4">사방에서 띄운 요소</div>
+<div className="-mt-x2">음수 마진</div>
 ```
+
+dimension 토큰은 Tailwind의 `--spacing-*`로도 제공되므로 `inset-*`, `ms-*`, `min-w-*`, `space-x-*`, `translate-x-*`처럼 spacing 값을 받는 Tailwind 유틸리티에 쓸 수 있습니다. 같은 방식으로 글꼴 크기는 `text-t5`, 타이밍 함수는 `ease-enter`로 쓸 수 있습니다.
 
 ### 테두리 반경
 ```jsx
