@@ -255,6 +255,8 @@ ${styleLines.join("\n")}
       "pb-*": { paddingBottom: "--dimension-*" },
       "pl-*": { paddingLeft: "--dimension-*" },
       "pr-*": { paddingRight: "--dimension-*" },
+      "ps-*": { paddingInlineStart: "--dimension-*" },
+      "pe-*": { paddingInlineEnd: "--dimension-*" },
       "px-*": { paddingLeft: "--dimension-*", paddingRight: "--dimension-*" },
       "py-*": { paddingTop: "--dimension-*", paddingBottom: "--dimension-*" },
       "m-*": { margin: "--dimension-*" },
@@ -262,6 +264,8 @@ ${styleLines.join("\n")}
       "mb-*": { marginBottom: "--dimension-*" },
       "ml-*": { marginLeft: "--dimension-*" },
       "mr-*": { marginRight: "--dimension-*" },
+      "ms-*": { marginInlineStart: "--dimension-*" },
+      "me-*": { marginInlineEnd: "--dimension-*" },
       "mx-*": { marginLeft: "--dimension-*", marginRight: "--dimension-*" },
       "my-*": { marginTop: "--dimension-*", marginBottom: "--dimension-*" },
       "gap-*": { gap: "--dimension-*" },
@@ -274,6 +278,10 @@ ${styleLines.join("\n")}
       "right-*": { right: "--dimension-*" },
       "bottom-*": { bottom: "--dimension-*" },
       "left-*": { left: "--dimension-*" },
+      "start-*": { insetInlineStart: "--dimension-*" },
+      "end-*": { insetInlineEnd: "--dimension-*" },
+      "inset-s-*": { insetInlineStart: "--dimension-*" },
+      "inset-e-*": { insetInlineEnd: "--dimension-*" },
     };
 
     // Tailwind's own `-` prefix convention: `-mt-x2`, `-right-x2`.
@@ -283,6 +291,8 @@ ${styleLines.join("\n")}
       "mb-*",
       "ml-*",
       "mr-*",
+      "ms-*",
+      "me-*",
       "mx-*",
       "my-*",
       "inset-*",
@@ -292,6 +302,10 @@ ${styleLines.join("\n")}
       "right-*",
       "bottom-*",
       "left-*",
+      "start-*",
+      "end-*",
+      "inset-s-*",
+      "inset-e-*",
     ]);
 
     Object.entries(dimensionUtilities).forEach(([name, props]) => {

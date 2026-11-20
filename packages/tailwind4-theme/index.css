@@ -970,6 +970,14 @@
   padding-right: --value(--dimension-*);
 }
 
+@utility ps-* {
+  padding-inline-start: --value(--dimension-*);
+}
+
+@utility pe-* {
+  padding-inline-end: --value(--dimension-*);
+}
+
 @utility px-* {
   padding-left: --value(--dimension-*);
   padding-right: --value(--dimension-*);
@@ -1018,6 +1026,22 @@
 
 @utility -mr-* {
   margin-right: calc(--value(--dimension-*) * -1);
+}
+
+@utility ms-* {
+  margin-inline-start: --value(--dimension-*);
+}
+
+@utility -ms-* {
+  margin-inline-start: calc(--value(--dimension-*) * -1);
+}
+
+@utility me-* {
+  margin-inline-end: --value(--dimension-*);
+}
+
+@utility -me-* {
+  margin-inline-end: calc(--value(--dimension-*) * -1);
 }
 
 @utility mx-* {
@@ -1110,6 +1134,38 @@
 
 @utility -left-* {
   left: calc(--value(--dimension-*) * -1);
+}
+
+@utility start-* {
+  inset-inline-start: --value(--dimension-*);
+}
+
+@utility -start-* {
+  inset-inline-start: calc(--value(--dimension-*) * -1);
+}
+
+@utility end-* {
+  inset-inline-end: --value(--dimension-*);
+}
+
+@utility -end-* {
+  inset-inline-end: calc(--value(--dimension-*) * -1);
+}
+
+@utility inset-s-* {
+  inset-inline-start: --value(--dimension-*);
+}
+
+@utility -inset-s-* {
+  inset-inline-start: calc(--value(--dimension-*) * -1);
+}
+
+@utility inset-e-* {
+  inset-inline-end: --value(--dimension-*);
+}
+
+@utility -inset-e-* {
+  inset-inline-end: calc(--value(--dimension-*) * -1);
 }
 
 @utility radius-* {
