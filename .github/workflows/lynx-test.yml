@@ -24,8 +24,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # lockfile: 개발 버전. 0.117.0: Lynx 패키지가 선언한 @lynx-js/react peer 하한.
-        lynx-react: [lockfile, 0.117.0]
+        # lockfile: 개발 버전.
+        # 0.126.2: Preact 11로 올라가 commit·effect cleanup 동작이 바뀐 경계이자 현재 사용자 baseline.
+        # 0.117.0: Lynx 패키지가 선언한 @lynx-js/react peer 하한.
+        lynx-react: [lockfile, 0.126.2, 0.117.0]
 
     name: test (@lynx-js/react ${{ matrix.lynx-react }})
 

@@ -1,0 +1,10 @@
+diff --git a/testing-library/dist/env/vitest.js b/testing-library/dist/env/vitest.js
+index 11b5ee8..00ebb69 100644
+--- a/testing-library/dist/env/vitest.js
++++ b/testing-library/dist/env/vitest.js
+@@ -1,4 +1,4 @@
+-import { builtinEnvironments } from "vitest/environments";
++import { builtinEnvironments } from "vitest/runtime";
+ import { installLynxTestingEnv, uninstallLynxTestingEnv } from "./index.js";
+ const env = {
+     name: 'lynxTestingEnv',
