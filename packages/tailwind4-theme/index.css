@@ -984,20 +984,40 @@
   margin: --value(--dimension-*);
 }
 
+@utility -m-* {
+  margin: calc(--value(--dimension-*) * -1);
+}
+
 @utility mt-* {
   margin-top: --value(--dimension-*);
+}
+
+@utility -mt-* {
+  margin-top: calc(--value(--dimension-*) * -1);
 }
 
 @utility mb-* {
   margin-bottom: --value(--dimension-*);
 }
 
+@utility -mb-* {
+  margin-bottom: calc(--value(--dimension-*) * -1);
+}
+
 @utility ml-* {
   margin-left: --value(--dimension-*);
 }
 
+@utility -ml-* {
+  margin-left: calc(--value(--dimension-*) * -1);
+}
+
 @utility mr-* {
   margin-right: --value(--dimension-*);
+}
+
+@utility -mr-* {
+  margin-right: calc(--value(--dimension-*) * -1);
 }
 
 @utility mx-* {
@@ -1005,9 +1025,19 @@
   margin-right: --value(--dimension-*);
 }
 
+@utility -mx-* {
+  margin-left: calc(--value(--dimension-*) * -1);
+  margin-right: calc(--value(--dimension-*) * -1);
+}
+
 @utility my-* {
   margin-top: --value(--dimension-*);
   margin-bottom: --value(--dimension-*);
+}
+
+@utility -my-* {
+  margin-top: calc(--value(--dimension-*) * -1);
+  margin-bottom: calc(--value(--dimension-*) * -1);
 }
 
 @utility gap-* {

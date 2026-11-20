@@ -267,33 +267,40 @@ ${styleLines.join("\n")}
       "gap-*": { gap: "--dimension-*" },
       "gap-x-*": { columnGap: "--dimension-*" },
       "gap-y-*": { rowGap: "--dimension-*" },
+      "inset-*": { inset: "--dimension-*" },
+      "inset-x-*": { left: "--dimension-*", right: "--dimension-*" },
+      "inset-y-*": { top: "--dimension-*", bottom: "--dimension-*" },
+      "top-*": { top: "--dimension-*" },
+      "right-*": { right: "--dimension-*" },
+      "bottom-*": { bottom: "--dimension-*" },
+      "left-*": { left: "--dimension-*" },
     };
 
-    const insetUtilities = {
-      "inset-*": ["inset"],
-      "inset-x-*": ["left", "right"],
-      "inset-y-*": ["top", "bottom"],
-      "top-*": ["top"],
-      "right-*": ["right"],
-      "bottom-*": ["bottom"],
-      "left-*": ["left"],
-    };
+    // Tailwind's own `-` prefix convention: `-mt-x2`, `-right-x2`.
+    const negatableUtilities = new Set([
+      "m-*",
+      "mt-*",
+      "mb-*",
+      "ml-*",
+      "mr-*",
+      "mx-*",
+      "my-*",
+      "inset-*",
+      "inset-x-*",
+      "inset-y-*",
+      "top-*",
+      "right-*",
+      "bottom-*",
+      "left-*",
+    ]);
 
     Object.entries(dimensionUtilities).forEach(([name, props]) => {
       this.utilityDeclarations.push(this.createUtilityDeclaration(name, props));
-    });
-
-    // Negative variants (`-right-x2`) follow Tailwind's own `-` prefix convention.
-    Object.entries(insetUtilities).forEach(([name, properties]) => {
-      const value = "--value(--dimension-*)";
-      this.utilityDeclarations.push(
-        `@utility ${name} {
-${properties.map((property) => `  ${property}: ${value};`).join("\n")}
-}`,
-        `@utility -${name} {
-${properties.map((property) => `  ${property}: calc(${value} * -1);`).join("\n")}
-}`,
-      );
+      if (negatableUtilities.has(name)) {
+        this.utilityDeclarations.push(
+          this.createUtilityDeclaration(`-${name}`, props, { negative: true }),
+        );
+      }
     });
   }
 
@@ -325,11 +332,16 @@ ${properties.map((property) => `  ${property}: calc(${value} * -1);`).join("\n")
     }
   }
 
-  private createUtilityDeclaration(name: string, props: Record<string, string>): string {
+  private createUtilityDeclaration(
+    name: string,
+    props: Record<string, string>,
+    { negative = false } = {},
+  ): string {
     const styleLines = Object.entries(props).map(([prop, value]) => {
       const cssProperty = kebabCase(prop);
       if (value.startsWith("--")) {
-        return `  ${cssProperty}: --value(${value});`;
+        const resolved = `--value(${value})`;
+        return `  ${cssProperty}: ${negative ? `calc(${resolved} * -1)` : resolved};`;
       }
       return `  ${cssProperty}: ${value};`;
     });
