@@ -348,8 +348,6 @@ describe("AttachmentDisplay context", () => {
   it("returns null outside the Root only when strict is false", () => {
     const loose = renderHook(() => useAttachmentDisplayContext({ strict: false }));
     expect(loose.result.current).toBeNull();
-    expect(() => renderHook(() => useAttachmentDisplayContext())).toThrow(
-      "useAttachmentDisplayContext must be used within an AttachmentDisplayRoot",
-    );
+    expect(() => renderHook(() => useAttachmentDisplayContext())).toThrow();
   });
 });

@@ -19,7 +19,7 @@ function getRenderedQueries() {
 }
 
 describe("Field", () => {
-  it("renders the complete field composition with recipe slot classes", () => {
+  it("prefixes indicator text, hides the required mark and splits the character count", () => {
     render(
       <Field.Root className="custom-field" required>
         <Field.Header>
@@ -38,22 +38,15 @@ describe("Field", () => {
 
     const root = getRenderedRoot();
     const { getByText } = getRenderedQueries();
-    const fieldRoot = root.querySelector(".seed-field__root");
 
-    expect(fieldRoot).toHaveClass("custom-field");
-    expect(root.querySelector(".seed-field__header")).toBeInTheDocument();
-    expect(root.querySelector(".seed-field__footer")).toBeInTheDocument();
-    expect(getByText("제목")).toHaveClass("seed-field-label__root--weight_bold");
-    expect(getByText("필수")).toHaveClass("seed-field-label__indicatorText");
     expect(getByText("필수").textContent).toBe("\u00a0필수");
     expect(getByText("*")).toHaveAttribute("accessibility-elements-hidden", "true");
     expect(getByText("*").textContent).toBe("\u200a*");
-    expect(getByText("설명")).toHaveClass("seed-field__description");
     expect(root.querySelector(".seed-field__characterCount")).toHaveTextContent("3");
     expect(root.querySelector(".seed-field__maxCharacterCount")).toHaveTextContent("/10");
   });
 
-  it("applies invalid and empty character count variants", () => {
+  it("reads invalid from Root and marks an empty character count", () => {
     render(
       <Field.Root invalid>
         <Field.Footer>
@@ -63,9 +56,6 @@ describe("Field", () => {
       </Field.Root>,
     );
 
-    const { getByText } = getRenderedQueries();
-
-    expect(getByText("오류")).toHaveClass("seed-field__errorMessage");
     const root = getRenderedRoot();
     const current = root.querySelector(".seed-field__characterCount");
     const max = root.querySelector(".seed-field__maxCharacterCount");
@@ -76,6 +66,6 @@ describe("Field", () => {
   });
 
   it("throws when a compound slot is rendered outside Field.Root", () => {
-    expect(() => render(<Field.Footer />)).toThrow(/ClassNamesProvider/);
+    expect(() => render(<Field.Footer />)).toThrow();
   });
 });

@@ -33,32 +33,12 @@ function ItemState() {
 }
 
 describe("RadioGroup", () => {
-  it("keeps the group label visible while items own their accessibility", () => {
-    render(
-      <RadioGroup.Root className="root" accessibility-label="과일">
-        <RadioGroup.Label className="label">과일</RadioGroup.Label>
-        <RadioGroup.Item className="item-apple" value="apple" accessibility-label="사과" />
-      </RadioGroup.Root>,
-    );
-
-    expect(elementTree.root?.querySelector(".root")).toHaveAttribute(
-      "accessibility-element",
-      "false",
-    );
-    expect(elementTree.root?.querySelector(".root")).toHaveAttribute("accessibility-label", "과일");
-    expect(elementTree.root?.querySelector(".label")).not.toHaveAttribute(
-      "accessibility-elements-hidden",
-      "true",
-    );
-    expect(item("apple")).toHaveAttribute("accessibility-label", "사과");
-    expect(item("apple")).toHaveAttribute("flatten", "false");
-  });
-
   it("selects one uncontrolled item after the consumer tap handler and never deselects", () => {
     const calls: string[] = [];
     render(
       <RadioGroup.Root
         className="root"
+        accessibility-label="과일"
         defaultValue="apple"
         onValueChange={(value) => calls.push(`change:${value}`)}
       >
@@ -79,6 +59,7 @@ describe("RadioGroup", () => {
 
     expect(root).toHaveAttribute("accessibility-element", "false");
     expect(root).toHaveAttribute("accessibility-role-description", "radiogroup");
+    expect(root).toHaveAttribute("accessibility-label", "과일");
     expect(item("apple")).toHaveAttribute("accessibility-element", "true");
     expect(item("apple")).toHaveAttribute("flatten", "false");
     expect(item("apple")).toHaveAttribute("accessibility-role-description", "radio");

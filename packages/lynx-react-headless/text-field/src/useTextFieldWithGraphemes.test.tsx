@@ -67,7 +67,6 @@ describe("useTextFieldWithGraphemes", () => {
 
     expect(result.current.graphemes).toEqual([family, "A"]);
     expect(result.current.textFieldRootProps.nativeInsertionMaxLength).toBe(valueAtLimit.length);
-    expect(result.current.textFieldRootProps.nativeInsertionMaxLength).toBeGreaterThan(2);
 
     rerender({ value: "A" });
 

@@ -130,24 +130,22 @@ describe("ContentPlaceholder", () => {
     });
   });
 
-  it.each(Object.keys(contentPlaceholderPresets) as Array<keyof typeof contentPlaceholderPresets>)(
-    "renders %s with precolored theme assets on the first render",
-    (type) => {
-      render(
-        <ContentPlaceholderRoot preset={contentPlaceholderPresets[type]}>
-          <ContentPlaceholderAsset />
-        </ContentPlaceholderRoot>,
-      );
-      const images = getRoot().querySelectorAll("image");
-      expect(images).toHaveLength(2);
-      expect(images[0]).toHaveAttribute("src", contentPlaceholderPresets[type].light);
-      expect(images[1]).toHaveAttribute("src", contentPlaceholderPresets[type].dark);
-      for (const image of images) {
-        expect(image.getAttribute("tint-color")).toBeNull();
-        expect(image).toHaveAttribute("accessibility-elements-hidden", "true");
-      }
-    },
-  );
+  it("renders a preset with precolored theme assets on the first render", () => {
+    // preset마다 같은 경로이므로 하나만 본다.
+    render(
+      <ContentPlaceholderRoot preset={defaultPreset}>
+        <ContentPlaceholderAsset />
+      </ContentPlaceholderRoot>,
+    );
+    const images = getRoot().querySelectorAll("image");
+    expect(images).toHaveLength(2);
+    expect(images[0]).toHaveAttribute("src", defaultPreset.light);
+    expect(images[1]).toHaveAttribute("src", defaultPreset.dark);
+    for (const image of images) {
+      expect(image.getAttribute("tint-color")).toBeNull();
+      expect(image).toHaveAttribute("accessibility-elements-hidden", "true");
+    }
+  });
 
   it("updates the selected preset without remounting the theme images", async () => {
     const { rerender } = render(

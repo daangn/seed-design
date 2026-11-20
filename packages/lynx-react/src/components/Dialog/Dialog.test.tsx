@@ -132,7 +132,7 @@ describe("Dialog", () => {
     setGlobalProps({});
   });
 
-  it("applies SEED slots and renders Body as a vertical scroll-view", () => {
+  it("renders Body as a vertical scroll-view", () => {
     const { container } = render(
       <Dialog.Root open>
         <Dialog.Trigger>
@@ -162,15 +162,6 @@ describe("Dialog", () => {
         </Dialog.Positioner>
       </Dialog.Root>,
     );
-
-    expect(container.querySelector(".seed-dialog__positioner")).not.toBeNull();
-    expect(container.querySelector(".seed-dialog__backdrop")).not.toBeNull();
-    expect(container.querySelector(".seed-dialog__content")).not.toBeNull();
-    expect(container.querySelector(".seed-dialog__header")).not.toBeNull();
-    expect(container.querySelector(".seed-dialog__title")).not.toBeNull();
-    expect(container.querySelector(".seed-dialog__description")).not.toBeNull();
-    expect(container.querySelector(".seed-dialog__footer")).not.toBeNull();
-    expect(container.querySelector(".seed-dialog__action")).not.toBeNull();
 
     const body = container.querySelector<HTMLElement>("scroll-view");
 

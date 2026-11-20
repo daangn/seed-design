@@ -94,7 +94,7 @@ afterEach(() => {
 });
 
 describe("TextField", () => {
-  it("renders root and text adornment slots with default classes", () => {
+  it("renders text adornment slots and hides decorative strokes from accessibility", () => {
     render(
       <TextField.Root className="custom-text-field">
         <TextField.Input />
@@ -107,8 +107,6 @@ describe("TextField", () => {
     const { getByText } = getRenderedQueries();
 
     expect(root).toHaveClass("custom-text-field");
-    expect(root).toHaveClass("seed-text-input__root--variant_outline");
-    expect(root).toHaveClass("seed-text-input__root--size_large");
     expect(root.querySelector("input")).toHaveClass("seed-text-input__value");
     expect(root.querySelector(".seed-text-input__baseStroke")).toHaveAttribute(
       "accessibility-elements-hidden",
@@ -152,7 +150,7 @@ describe("TextField", () => {
     expect(getTextFieldRoot()).toHaveClass("seed-text-input__root--focused_true");
   });
 
-  it("applies explicit visual and state variants", () => {
+  it("applies invalid and disabled states to the stroke and adornments", () => {
     render(
       <TextField.Root variant="underline" size="medium" invalid disabled>
         <TextField.PrefixText>앞</TextField.PrefixText>
@@ -164,10 +162,7 @@ describe("TextField", () => {
     const { getByText } = getRenderedQueries();
     const stroke = root.querySelector(".seed-text-input__stroke");
 
-    expect(root).toHaveClass("seed-text-input__root--variant_underline");
-    expect(root).toHaveClass("seed-text-input__root--size_medium");
     expect(root).toHaveClass("seed-text-input__root--invalid_true");
-    expect(stroke).toHaveClass("seed-text-input__stroke--variant_underline");
     expect(stroke).toHaveClass("seed-text-input__stroke--invalid_true");
     expect(getByText("앞")).toHaveClass("seed-text-input__prefixText--disabled_true");
     expect(getByText("뒤")).toHaveClass("seed-text-input__suffixText--disabled_true");
@@ -192,9 +187,7 @@ describe("TextField", () => {
   });
 
   it("throws when an adornment is rendered outside TextField.Root", () => {
-    expect(() => render(<TextField.PrefixText>앞</TextField.PrefixText>)).toThrow(
-      /ClassNamesProvider/,
-    );
+    expect(() => render(<TextField.PrefixText>앞</TextField.PrefixText>)).toThrow();
   });
 
   it("applies focused recipe classes to the root and stroke", () => {

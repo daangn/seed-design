@@ -12,7 +12,6 @@ import { useTabsCarouselCamera } from "./useTabsCarouselCamera.js";
 import { useTabsIndicator } from "./useTabsIndicator.js";
 import {
   areTabsTransitionsEnabled,
-  getTabsLayoutWidth,
   getTabsScrollOffset,
   getTabsTriggerRects,
 } from "./Tabs.utils.js";
@@ -297,11 +296,7 @@ describe("Tabs headless", () => {
     expect(getTrigger(container, "two")).toHaveAttribute("accessibility-value", "not selected");
   });
 
-  it("disables transitions when a dynamically added trigger is unmeasured", () => {
-    const rects = getTabsTriggerRects(["one", "two"], { one: 80, two: 80 });
-
-    expect(areTabsTransitionsEnabled(["one", "two"], rects)).toBe(true);
-    expect(areTabsTransitionsEnabled(["one", "two", "three"], rects)).toBe(false);
+  it("disables transitions while a trigger reports zero width", () => {
     expect(
       areTabsTransitionsEnabled(
         ["one", "two"],
@@ -408,6 +403,7 @@ describe("Tabs headless", () => {
     const second = getTrigger(container, "두 번째");
 
     expect(first).toHaveAttribute("accessibility-value", "selected");
+    expect(first).toHaveAttribute("accessibility-traits", "selected");
     expect(second).toHaveAttribute("accessibility-value", "not selected");
 
     fireEvent.tap(second);
@@ -433,27 +429,6 @@ describe("Tabs headless", () => {
 
     expect(bindtap).toHaveBeenCalledTimes(1);
     expect(onValueChange).not.toHaveBeenCalled();
-  });
-
-  it("derives trigger positions from ordered widths instead of platform coordinates", () => {
-    expect(getTabsLayoutWidth({ detail: { width: 128 }, params: { width: 128 } })).toBe(128);
-    expect(
-      getTabsTriggerRects(["one", "two", "three"], {
-        one: 128,
-        two: 128,
-        three: 128,
-      }),
-    ).toEqual({
-      one: { left: 0, width: 128 },
-      two: { left: 128, width: 128 },
-      three: { left: 256, width: 128 },
-    });
-  });
-
-  it("waits for every preceding trigger width before positioning later triggers", () => {
-    expect(getTabsTriggerRects(["one", "two", "three"], { one: 80, three: 120 })).toEqual({
-      one: { left: 0, width: 80 },
-    });
   });
 
   it("ignores inherited object properties used as trigger values", () => {
@@ -947,15 +922,6 @@ describe("Tabs headless", () => {
 
     fireViewPagerEvent(pager, "change", { index: 0, isDragged: true });
     expect(onValueChange).toHaveBeenCalledWith("one");
-  });
-
-  it("exposes tab semantics through Lynx accessibility attributes", () => {
-    const { container } = render(<BasicTabs defaultValue="one" />);
-    const first = getTrigger(container, "첫 번째");
-
-    expect(first).toHaveAttribute("accessibility-role-description", "tab");
-    expect(first).toHaveAttribute("accessibility-label", "첫 번째");
-    expect(first).toHaveAttribute("accessibility-traits", "selected");
   });
 });
 

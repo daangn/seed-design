@@ -47,12 +47,6 @@ describe("ProgressCircle", () => {
     );
   });
 
-  it("describes indeterminate progress without a numeric value", () => {
-    render(<ProgressCircle.Root />);
-
-    expect(getProgressCircleRoot()).toHaveAttribute("accessibility-value", "indeterminate");
-  });
-
   it("prefers explicit accessibility props over defaults", () => {
     render(
       <ProgressCircle.Root

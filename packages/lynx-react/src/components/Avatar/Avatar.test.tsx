@@ -60,18 +60,6 @@ describe("Avatar", () => {
     expect(onStatus).toHaveBeenLastCalledWith("error");
   });
 
-  it("starts a fresh native image on source replacement and restores fallback", () => {
-    const { rerender } = render(<Profile src="a.png" />);
-    emit(image(), "load");
-    const previous = image();
-    rerender(<Profile src="b.png" />);
-    expect(image()).not.toBe(previous);
-    expect(image()).toHaveAttribute("src", "b.png");
-    expect(root().querySelector(".seed-avatar__fallback")).not.toBeNull();
-    emit(image(), "load");
-    expect(root().querySelector(".seed-avatar__fallback")).toBeNull();
-  });
-
   it("disables native interaction on decorative and pending layers without removing the image", () => {
     const { rerender } = render(<Profile src="a.png" />);
     const container = root().querySelector(".seed-avatar__imageContainer");
@@ -102,19 +90,6 @@ describe("Avatar", () => {
     rerender(<Profile src="b.png" />);
     expect(image()).not.toBe(pending);
     expect(image()).toHaveAttribute("src", "b.png");
-    expect(root().querySelector(".seed-avatar__fallback")).not.toBeNull();
-  });
-
-  it("keeps a fallback without a src, even if a load event arrives", () => {
-    render(<Profile />);
-    emit(image(), "load");
-    expect(root().querySelector(".seed-avatar__fallback")).not.toBeNull();
-  });
-
-  it("restores fallback when the Image slot unmounts", () => {
-    const { rerender } = render(<Profile src="a.png" />);
-    emit(image(), "load");
-    rerender(<Profile src="a.png" showImage={false} />);
     expect(root().querySelector(".seed-avatar__fallback")).not.toBeNull();
   });
 

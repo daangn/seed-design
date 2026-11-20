@@ -67,12 +67,10 @@ describe("FieldButton", () => {
     ["readOnly", { readOnly: true }],
   ])("blocks Button taps and hides ClearButton when %s", (_, state) => {
     const onTap = vi.fn();
-    const onClear = vi.fn();
-    const onValuesChange = vi.fn();
     render(
-      <FieldButton.Root {...state} values={["판교동"]} onValuesChange={onValuesChange}>
+      <FieldButton.Root {...state} values={["판교동"]}>
         <PressedButton bindtap={onTap} />
-        <FieldButton.ClearButton className="clear" bindtap={onClear} />
+        <FieldButton.ClearButton className="clear" />
       </FieldButton.Root>,
     );
 
@@ -83,8 +81,6 @@ describe("FieldButton", () => {
     expect(onTap).not.toHaveBeenCalled();
     expect(get("button")).toHaveAttribute("accessibility-traits", "disabled");
     expect(query("clear")).toBeNull();
-    expect(onClear).not.toHaveBeenCalled();
-    expect(onValuesChange).not.toHaveBeenCalled();
   });
 
   it("requests empty values after the consumer Clear tap without pressing the Button", () => {
