@@ -61,3 +61,11 @@ export function appBarMain(props) {
 Object.assign(appBarMain, { splitVariantProps: (props) => splitVariantProps(props, appBarMainVariantMap) });
 
 // @recipe(seed): app-bar-main
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export const appBarMainSeedTagSpec = {
+  name: "AppBarMain",
+  axes: [],
+  defaults: {},
+};

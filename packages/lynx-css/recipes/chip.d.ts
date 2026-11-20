@@ -71,3 +71,11 @@ export declare const glassTint: {
     selectedPressed: GlassTint;
   };
 };
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export declare const chipSeedTagSpec: {
+  readonly name: "Chip";
+  readonly axes: readonly ["variant", "size", "layout"];
+  readonly defaults: { readonly variant: "solid"; readonly size: "medium"; readonly layout: "withText" };
+};

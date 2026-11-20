@@ -28,3 +28,9 @@ export declare const progressCircle: ((
     props: T,
   ) => [ProgressCircleVariantProps, Omit<T, keyof ProgressCircleVariantProps>];
 };
+
+export declare const progressCircleSeedTagSpec: {
+  readonly name: "ProgressCircle";
+  readonly axes: readonly ["size", "indeterminate", "tone"];
+  readonly defaults: { readonly size: "40"; readonly tone: "neutral" };
+};
