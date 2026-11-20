@@ -26,7 +26,7 @@ type Selectors = {
  * point a custom prefix at variables nothing defines and silently fall back.
  */
 const createSeedDeclaration =
-  (prefix: string) =>
+  () =>
   ({
     decl,
     mode,
@@ -69,7 +69,7 @@ const createSeedDeclaration =
       // Build CSS variable names for scaling
       const tokenType = isFontSize ? "font-size" : "line-height";
       const multiplierVar = "var(--seed-font-size-multiplier, 1)";
-      const staticTokenVar = `var(--${prefix}-${tokenType}-${tokenKey}-static)`;
+      const staticTokenVar = `var(${tokenName({ ...decl.token, key: `${tokenKey}-static` })})`;
       const limitMinVar = `var(--seed-${tokenType}-limit-min, 1)`;
       const limitMaxVar = `var(--seed-${tokenType}-limit-max, 1)`;
 
@@ -86,10 +86,8 @@ const createSeedDeclaration =
  * Generates CSS with SEED-specific font scaling and theme configuration
  */
 const generateSeedCss: GeneratorFunction = (ast, options) => {
-  // `||`, not `??`: an empty prefix would break the `--${prefix}-...` static references below.
-  const prefix = options.prefix || "seed";
   const seedOptions = {
-    prefix,
+    prefix: options.prefix,
     banner: `:root, [data-seed-color-mode="system"] {
   color-scheme: light dark;
 }
@@ -130,7 +128,7 @@ const generateSeedCss: GeneratorFunction = (ast, options) => {
         reduced: "@media (prefers-reduced-motion: reduce)",
       },
     } satisfies Selectors,
-    customDeclaration: createSeedDeclaration(prefix), // Pass prefix to declaration factory
+    customDeclaration: createSeedDeclaration(),
   };
 
   return css.getTokenCss(ast, seedOptions);
