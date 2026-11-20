@@ -23,6 +23,11 @@ export interface MainThreadProgress {
   onChange?: (value: number) => void;
 }
 
+/** 방향 판정 전 손가락이 움직여야 하는 거리(px)입니다. 첫 몇 px의 흔들림으로 가로 스와이프를 가져가지 않습니다. */
+const DIRECTION_SLOP = 10;
+
+type ContactDecision = "pending" | "accepted" | "rejected";
+
 export interface UsePullToRefreshProps {
   /** 새로고침 준비 기준(px). @default 88 */
   threshold?: number;
@@ -97,7 +102,11 @@ export function usePullToRefresh(props: UsePullToRefreshProps): UsePullToRefresh
   const indicatorSize = useMainThreadRef(0);
   const prevented = useMainThreadRef(false);
   const scrollTop = useMainThreadRef(0);
-  const contact = useMainThreadRef({ x: 0, y: 0, first: true, accepted: false });
+  const contact = useMainThreadRef<{ x: number; y: number; decision: ContactDecision }>({
+    x: 0,
+    y: 0,
+    decision: "rejected",
+  });
   const visual = useMainThreadRef({ displacement: 0, frame: 0, from: 0, target: 0, start: 0 });
   const mainThreadProgress = useMainThreadRef<MainThreadProgress>({ value: 0 });
   const currentConfig = {
@@ -211,14 +220,14 @@ export function usePullToRefresh(props: UsePullToRefreshProps): UsePullToRefresh
 
   function releaseContact() {
     "main thread";
-    contact.current.accepted = false;
+    contact.current.decision = "rejected";
   }
 
   /** 수락한 당김 중 native 스크롤이 경계를 벗어났으면 false를 반환합니다. */
   function trackScroll(event: ScrollEvent): boolean {
     "main thread";
     const nextScrollTop = event.detail.scrollTop;
-    if (contact.current.accepted && nextScrollTop > 0) {
+    if (contact.current.decision === "accepted" && nextScrollTop > 0) {
       scrollTop.current = 0;
       return false;
     }
@@ -252,26 +261,28 @@ export function usePullToRefresh(props: UsePullToRefreshProps): UsePullToRefresh
     contact.current = {
       x: event.params.clientX,
       y: event.params.clientY,
-      first: true,
-      accepted: false,
+      decision: "pending",
     };
     beginPull(engine.current, event.params.clientY);
   });
   gesture.onUpdate((event, manager) => {
     "main thread";
     const touch = contact.current;
-    if (touch.first) {
-      touch.first = false;
-      touch.accepted =
+    if (touch.decision === "pending") {
+      const dx = event.params.clientX - touch.x;
+      const dy = event.params.clientY - touch.y;
+      if (Math.hypot(dx, dy) < DIRECTION_SLOP) return;
+      const accepted =
         !config.current.disabled &&
         !prevented.current &&
         engine.current.state === "idle" &&
         scrollTop.current <= 0 &&
-        event.params.clientY > touch.y &&
-        Math.abs(event.params.clientY - touch.y) > Math.abs(event.params.clientX - touch.x);
-      manager.interceptGesture(touch.accepted);
+        dy > 0 &&
+        Math.abs(dy) > Math.abs(dx);
+      touch.decision = accepted ? "accepted" : "rejected";
+      manager.interceptGesture(accepted);
     }
-    if (!touch.accepted) return;
+    if (touch.decision !== "accepted") return;
     stopAnimation();
     const previous = engine.current.state;
     const effects = movePull(

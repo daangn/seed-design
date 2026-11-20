@@ -415,6 +415,21 @@ describe("PullToRefresh MT", () => {
     expect(get(".state")).toHaveTextContent("pulling");
   });
 
+  it("slop 안에서 아래로 흔들린 뒤 가로로 꺾인 이동은 당기지 않고 native 중재를 해제한다", async () => {
+    await mount();
+    consume.mockClear();
+    gesture("onBegin", 100, 100);
+    gesture("onUpdate", 105, 100);
+    expect(consume).not.toHaveBeenCalled();
+    gesture("onUpdate", 108, 70);
+    expect(consume).toHaveBeenLastCalledWith(null, expect.any(Number), {
+      consume: false,
+      inner: false,
+    });
+    gesture("onUpdate", 200, 70);
+    expect(displacement()).toBe(0);
+  });
+
   it("위 이동·가로 이동·스크롤 중·보호 contact는 native 중재를 해제한다", async () => {
     await mount();
     for (const [y, x] of [
