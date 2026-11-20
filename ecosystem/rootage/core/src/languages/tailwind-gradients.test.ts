@@ -112,7 +112,7 @@ function backgrounds(css: string): Map<string, string> {
     );
   return result;
 }
-async function compile3(source: string, classes: string[], options?: { breakpoints: boolean }) {
+async function compile3(source: string, classes: string[]) {
   const seed = new Function(
     "plugin",
     new Bun.Transpiler({ loader: "ts" })
@@ -125,7 +125,7 @@ async function compile3(source: string, classes: string[], options?: { breakpoin
       tailwind3({
         content: [{ raw: classes.join(" ") }],
         corePlugins: { preflight: false },
-        plugins: [options ? seed(options) : seed],
+        plugins: [seed],
       }),
     ]).process("@tailwind components; @tailwind utilities;", { from: undefined })
   ).css as string;
@@ -211,16 +211,8 @@ for (const version of [3, 4] as const) {
       "bg-gradient-fade-mask-to-invalid",
       "bg-fade-mask-to-[45deg]",
     ];
-    // README examples use the opt-in breakpoints.
-    const output =
-      version === 3
-        ? await compile3(read(`packages/${pkg}/src/index.ts`), [...classes, ...absent], {
-            breakpoints: true,
-          })
-        : await compile4(
-            `${read(`packages/${pkg}/index.css`)}\n${read(`packages/${pkg}/breakpoints.css`)}`,
-            [...classes, ...absent],
-          );
+    const source = read(`packages/${pkg}/${version === 3 ? "src/index.ts" : "index.css"}`);
+    const output = await (version === 3 ? compile3 : compile4)(source, [...classes, ...absent]);
     const selectors = new Set<string>();
     postcss
       .parse(output)

@@ -1,4 +1,9 @@
 @theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1280px;
+  --breakpoint-xl: 1440px;
   --color-palette-gray-00: var(--seed-color-palette-gray-00);
   --color-palette-gray-100: var(--seed-color-palette-gray-100);
   --color-palette-gray-200: var(--seed-color-palette-gray-200);
