@@ -1,11 +1,8 @@
 import { pageBannerCloseButton as closeButtonVars, pageBanner as vars } from "../vars/component";
-import { t5 } from "../vars/font-size";
 import { r1 } from "../vars/radius";
 import { defineSlotRecipe } from "../utils/define";
 
 const closeButtonNegativeMargin = `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5)`;
-// The 1rem spec size borrows the 16sp font-size token: Lynx converts rem to sp only in tokens, and a literal sp breaks the docs web preview, which swaps in web tokens.
-const prefixIconSize = t5;
 const buttonBleedAmount = `(${vars.base.enabled.button.targetHeight} - ${vars.base.enabled.button.lineHeight}) * 0.5`;
 
 const pageBanner = defineSlotRecipe({
@@ -118,9 +115,9 @@ const pageBanner = defineSlotRecipe({
     },
     prefixIcon: {
       flexShrink: 0,
-      width: prefixIconSize,
-      height: prefixIconSize,
-      marginTop: `calc((${vars.base.enabled.title.lineHeight} - ${prefixIconSize}) * 0.5)`,
+      width: vars.base.enabled.prefixIcon.size,
+      height: vars.base.enabled.prefixIcon.size,
+      marginTop: `calc((${vars.base.enabled.title.lineHeight} - ${vars.base.enabled.prefixIcon.size}) * 0.5)`,
       marginRight: vars.base.enabled.prefixIcon.marginRight,
     },
     suffixIcon: {
