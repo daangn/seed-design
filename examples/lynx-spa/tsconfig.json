@@ -12,7 +12,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "noEmit": true,
-    "types": ["@lynx-js/rspeedy/client", "bun"],
+    "types": ["@rsbuild/core/types", "bun"],
     "paths": {
       "@/components/ui/*": ["../../docs/registry/lynx/ui/*"]
     }
