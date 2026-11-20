@@ -232,6 +232,39 @@ describe("getTailwind4CompleteThemeCode", () => {
     });
   });
 
+  describe("Inline theme", () => {
+    test("should emit color tokens in @theme inline and dimension tokens in @theme", () => {
+      const tokens = [
+        factory.createColorTokenDeclaration("color", factory.createTokenLit("$color.fg.brand"), [
+          {
+            kind: "ColorTokenValueDeclaration",
+            mode: "theme-light",
+            value: factory.createColorHexLit("#FF6600"),
+          },
+        ]),
+        factory.createDimensionTokenDeclaration(
+          "dimension",
+          factory.createTokenLit("$dimension.x2"),
+          [
+            {
+              kind: "DimensionTokenValueDeclaration",
+              mode: "default",
+              value: factory.createDimensionLit(8, "px"),
+            },
+          ],
+        ),
+      ];
+
+      const result = getTailwind4CompleteThemeCode(tokens, [], { sourcePrefix: "seed" });
+      const [theme, inlineTheme] = result.split("@theme inline {");
+
+      expect(inlineTheme).toContain("--color-fg-brand: var(--seed-color-fg-brand);");
+      expect(theme).not.toContain("--color-fg-brand");
+      expect(theme).toContain("--dimension-x2: var(--seed-dimension-x2);");
+      expect(inlineTheme).not.toContain("--dimension-x2");
+    });
+  });
+
   describe("Breakpoints", () => {
     test("should reset the default breakpoints and declare every breakpoint but the base in px", () => {
       const result = getTailwind4CompleteThemeCode([], [], {

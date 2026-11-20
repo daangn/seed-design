@@ -29,6 +29,11 @@ const coreNamespaceAliases = {
   "timing-function": "ease",
 };
 
+// Token groups whose values change with the color mode. They go to `@theme inline` so utilities
+// read `var(--seed-*)` on the element itself and follow a subtree's color mode override,
+// instead of reading a `:root` alias that was already resolved against the root theme.
+const modeDependentGroups = new Set(["color", "shadow", "gradient"]);
+
 const gradientDirections = {
   t: "to top",
   tr: "to top right",
@@ -85,6 +90,7 @@ class TypographyStyleManager {
 // 토큰 처리 클래스
 class TokenProcessor {
   private themeDeclarations: string[] = [];
+  private inlineThemeDeclarations: string[] = [];
   private typographyManager = new TypographyStyleManager();
   private gradientStops: Record<string, string> = {};
   private gradientDirections: Record<string, string> = {};
@@ -117,7 +123,10 @@ class TokenProcessor {
     const newName = `--${newPrefix}${groupStr}${keyStr}`;
 
     // 모든 변수를 포함
-    this.themeDeclarations.push(`  ${newName}: var(${originalName});`);
+    const declarations = modeDependentGroups.has(tokenGroup[0] ?? "")
+      ? this.inlineThemeDeclarations
+      : this.themeDeclarations;
+    declarations.push(`  ${newName}: var(${originalName});`);
 
     const tokenPath = `${groupStr}${keyStr}`;
     for (const [group, namespace] of Object.entries(coreNamespaceAliases)) {
@@ -203,6 +212,10 @@ class TokenProcessor {
 
   getThemeDeclarations(): string[] {
     return this.themeDeclarations;
+  }
+
+  getInlineThemeDeclarations(): string[] {
+    return this.inlineThemeDeclarations;
   }
 
   getTypographyManager(): TypographyStyleManager {
@@ -475,12 +488,7 @@ export function getTailwind4CompleteThemeCode(
     ? getBreakpointDeclarations(options.breakpoints)
     : [];
 
-  const allThemeDeclarations = [
-    ...breakpointDeclarations,
-    ...themeDeclarations,
-    ...colorDeclarations,
-    ...gradientDirectionDeclarations,
-  ];
+  const allThemeDeclarations = [...breakpointDeclarations, ...themeDeclarations];
 
   // Inline the shared direction values so generated utilities need no runtime
   // direction variables. Gradient stops still resolve on the styled element.
@@ -488,12 +496,19 @@ export function getTailwind4CompleteThemeCode(
     ([direction, value]) => `  --gradient-direction-to-${direction}: ${value};`,
   );
 
+  const inlineThemeDeclarations = [
+    ...tokenProcessor.getInlineThemeDeclarations(),
+    ...colorDeclarations,
+    ...gradientDirectionDeclarations,
+    ...directionDeclarations,
+  ];
+
   return `${options.banner ?? ""}@theme {
 ${allThemeDeclarations.join("\n")}
 }
 
 @theme inline {
-${directionDeclarations.join("\n")}
+${inlineThemeDeclarations.join("\n")}
 }
 
 ${utilityDeclarations.join("\n\n")}`;
