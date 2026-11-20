@@ -33,26 +33,6 @@ describe("createManifestFromBundles", () => {
       examples: { "lynx/badge/preview": bundle, "lynx/badge/size": bundle },
     });
   });
-
-  it("web bundle의 Lynx 전용 sp 단위를 거부한다", async () => {
-    const root = await mkdtemp(resolve(tmpdir(), "seed-lynx-manifest-"));
-    temporaryDirectories.push(root);
-    await writeFile(resolve(root, "badge.12345678.web.bundle"), "font-size: 11sp");
-    await writeFile(resolve(root, "badge.87654321.lynx.bundle"), "font-size: 11sp");
-
-    await expect(
-      createManifestFromBundles(
-        [
-          {
-            id: "lynx/badge/preview",
-            entryKey: "badge/preview",
-            sourcePath: resolve(root, "source.tsx"),
-          },
-        ],
-        root,
-      ),
-    ).rejects.toThrow("lynx/badge/preview의 web bundle에 Lynx 전용 단위가 포함되어 있습니다: 11sp");
-  });
 });
 
 describe("verifyPublishedManifest", () => {

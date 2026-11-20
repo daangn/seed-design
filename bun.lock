@@ -2617,6 +2617,7 @@
   "patchedDependencies": {
     "@figma/rest-api-spec@0.47.0": "patches/@figma%2Frest-api-spec@0.47.0.patch",
     "@lynx-js/react@0.129.1": "patches/@lynx-js%2Freact@0.129.1.patch",
+    "@lynx-js/web-core@0.26.7": "patches/@lynx-js%2Fweb-core@0.26.7.patch",
   },
   "overrides": {
     "esbuild": "0.28.2",
