@@ -39,7 +39,7 @@ concurrency:
 jobs:
   workflow-tests:
     if: github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 10
     permissions:
       contents: read
@@ -58,7 +58,7 @@ jobs:
       - run: bun test scripts/kapture-workflows.test.ts
   context:
     if: github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 10
     env:
       npm_config_ignore_scripts: "true"
@@ -94,7 +94,7 @@ jobs:
   build-base:
     needs: context
     if: needs.context.outputs.integration-mode == 'compare'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 30
     permissions:
       contents: read
@@ -165,7 +165,7 @@ jobs:
   build-head:
     needs: context
     if: needs.context.outputs.integration-mode == 'compare' || needs.context.outputs.integration-mode == 'initial-adoption'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 30
     outputs:
       artifact-id: ${{ steps.artifact.outputs.artifact-id }}
@@ -208,7 +208,7 @@ jobs:
   setup-capture:
     needs: [context, build-head]
     if: needs.context.outputs.integration-mode == 'initial-adoption'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 45
     env:
       npm_config_registry: https://registry.npmjs.org/
@@ -259,7 +259,7 @@ jobs:
       - context
       - build-base
       - build-head
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 45
     permissions:
       contents: read
