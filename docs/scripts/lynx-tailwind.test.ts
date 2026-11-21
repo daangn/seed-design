@@ -9,65 +9,61 @@ const guide = readFileSync(
   resolve(import.meta.dir, "../content/lynx/getting-started/styling/tailwind-css-4.mdx"),
   "utf8",
 );
-const configs = [...guide.matchAll(/```js title="postcss.config.js"\n([\s\S]*?)```/g)];
-const configSource = configs[0]?.[1];
-if (!configSource) throw new Error("Tailwind v4 PostCSS example is missing");
+const codeBlock = (title: string, lang: string) => {
+  const fence = "```";
+  const block = guide.match(
+    new RegExp(`${fence}${lang} title="${title}"\\n([\\s\\S]*?)${fence}`),
+  )?.[1];
+  if (!block) throw new Error(`Tailwind v4 ${title} example is missing`);
+  return block;
+};
 const config = new Function(
   "tailwindcss",
-  configSource
+  codeBlock("postcss.config.js", "js")
     .replace('import tailwindcss from "@tailwindcss/postcss";', "")
     .replace("export default", "return"),
 )(tailwindcss);
-const compatibility = config.plugins[1];
-const transform = async (css: string) =>
-  (await postcss([compatibility]).process(css, { from: undefined })).css;
+// Replace directory scanning with fixed candidates so the result does not depend on the checkout.
+const globalCss = codeBlock("src/styles/global.css", "css")
+  .replace(
+    '@import "tailwindcss/utilities.css";',
+    '@import "tailwindcss/utilities.css" source(none);',
+  )
+  .replace('@source "../";', '@source inline("bg-bg-brand-solid rounded-r2 p-x2 t5-regular");');
 
-describe("documented Lynx Tailwind compatibility", () => {
-  test.each([":root, :host", ":host,:root", ":host ,\n :root"])(
-    "preserves theme variables for %s",
-    async (selector) => {
-      const css = await transform(`${selector} { --color-fg: var(--seed-color-fg); }`);
-      const rule = postcss.parse(css).first as postcss.Rule;
-      expect(rule.selector).toBe(":root");
-      expect(rule.nodes[0]).toMatchObject({ prop: "--color-fg", value: "var(--seed-color-fg)" });
-    },
-  );
-
-  test("does not rewrite unrelated or functional selectors", async () => {
-    const input =
-      ":host(.dark), :root { color: red } :is(:root, :host) { color: blue } .other, :root, :host { color: green }";
-    expect(await transform(input)).toBe(input);
-  });
-
-  test("unwraps nested layers while preserving source order and declarations", async () => {
-    const css = await transform(`
-      @layer theme, utilities;
-      .recipe { color: red !important; }
-      @layer theme { :root, :host { --color-fg: black; } }
-      @layer utilities { @layer nested { .text-fg { color: var(--color-fg); } } }
-      .override { color: blue; }
-    `);
+describe("documented Lynx Tailwind setup", () => {
+  test("emits CSS that the Lynx template encoder keeps", async () => {
+    const { css } = await postcss(config.plugins).process(globalCss, {
+      from: resolve(import.meta.dir, "global.css"),
+    });
     const root = postcss.parse(css);
-    const selectors: string[] = [];
-    root.walkAtRules("layer", () => {
-      throw new Error("layer remains");
+    // Lynx drops rules combined with :host and everything inside @layer.
+    expect(css).not.toContain(":host");
+    const layers: string[] = [];
+    root.walkAtRules("layer", (rule) => {
+      layers.push(rule.params);
     });
-    root.walkRules((rule) => {
-      selectors.push(rule.selector);
-    });
-    expect(selectors).toEqual([".recipe", ":root", ".text-fg", ".override"]);
-    expect((root.first as postcss.Rule).first).toMatchObject({ important: true });
-  });
+    // Only the @property fallback layer may remain; Lynx can drop it without losing utilities.
+    expect(layers.filter((name) => name !== "properties")).toEqual([]);
 
-  test("runs after real Tailwind theme and utility generation", async () => {
-    const input =
-      '@theme { --color-check: var(--seed-color-fg-neutral); } @tailwind utilities; @source inline("text-check");';
-    const result = await postcss(config.plugins).process(input, { from: undefined });
-    expect(result.css).toContain("--color-check: var(--seed-color-fg-neutral)");
-    expect(result.css).toContain(".text-check");
-    expect(result.css).toContain("color: var(--color-check)");
-    expect(result.css).not.toContain(":host");
-    expect(result.css).not.toContain("@layer");
+    const declarations = (selector: string) => {
+      const found: Record<string, string> = {};
+      root.walkRules(selector, (rule) => {
+        if (rule.parent?.type !== "root") return;
+        rule.walkDecls((decl) => {
+          found[decl.prop] = decl.value;
+        });
+      });
+      return found;
+    };
+    expect(declarations(".bg-bg-brand-solid")).toEqual({
+      "background-color": "var(--seed-color-bg-brand-solid)",
+    });
+    expect(declarations(".rounded-r2")).toEqual({ "border-radius": "var(--seed-radius-r2)" });
+    expect(declarations(".p-x2")).toEqual({ padding: "var(--seed-dimension-x2)" });
+    expect(declarations(".t5-regular")).toMatchObject({
+      "font-size": "var(--seed-font-size-t5)",
+    });
   });
 });
 

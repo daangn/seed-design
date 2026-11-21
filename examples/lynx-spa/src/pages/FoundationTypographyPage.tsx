@@ -37,7 +37,10 @@ function FontWeightRow({ name, weightVar }: { name: string; weightVar: string })
       <text className="t1-regular text-fg-neutral-subtle">
         {name} → {weightVar}
       </text>
-      <text className="text-t5 leading-t5 text-fg-neutral" style={`font-weight: ${weightVar};`}>
+      <text
+        className="text-size-t5 leading-t5 text-fg-neutral"
+        style={`font-weight: ${weightVar};`}
+      >
         다람쥐 헌 쳇바퀴에 타고파 The quick brown fox
       </text>
     </view>

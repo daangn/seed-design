@@ -1,7 +1,10 @@
 @import "@seed-design/lynx-css/base.css";
 
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/theme.css" theme(inline);
+@import "@seed-design/tailwind4-theme" theme(inline);
+@import "tailwindcss/utilities.css";
+
+@source "../";
 
 page {
   background-color: var(--seed-color-bg-layer-default);
