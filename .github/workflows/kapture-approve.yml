@@ -16,7 +16,7 @@ jobs:
       cancel-in-progress: false
       queue: max
     if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/kapture approve ') && contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     permissions:
       actions: read
