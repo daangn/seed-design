@@ -52,7 +52,7 @@
     "@types/node": "^25.0.0",
     "dotenv": "^17.2.3",
     "esbuild": "^0.28.0",
-    "type-fest": "^5.0.0",
+    "type-fest": "^6.0.0",
     "typescript": "^7.0.2"
   },
   "publishConfig": {
