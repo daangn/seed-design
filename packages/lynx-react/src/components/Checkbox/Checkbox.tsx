@@ -126,13 +126,8 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
   });
-  // The styled checkbox uses :active for color and Main Thread scale feedback.
-  const {
-    bindtouchstart: _pressStart,
-    bindtouchend: _pressEnd,
-    bindtouchcancel: _pressCancel,
-    ...rootProps
-  } = api.rootProps;
+  // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
   const accessibilityElement =
     nativeProps["accessibility-element"] ?? rootProps["accessibility-element"];
   if (
@@ -143,7 +138,12 @@ export const CheckboxRoot = React.forwardRef<unknown, CheckboxRootProps>((props,
   ) {
     console.warn("CheckboxRoot: `accessibility-label` is required when children have no text.");
   }
-  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({ disabled });
+  const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
+    disabled,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
+  });
 
   const rootClassName = checkbox({ ...checkboxVariantProps, disabled }).root;
 

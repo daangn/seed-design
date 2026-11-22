@@ -115,13 +115,8 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
     bindtap,
     "main-thread:bindtap": mainThreadBindtap,
   });
-  // Main Thread scale feedback does not need the headless pressed state.
-  const {
-    bindtouchstart: _pressStart,
-    bindtouchend: _pressEnd,
-    bindtouchcancel: _pressCancel,
-    ...rootProps
-  } = api.rootProps;
+  // Scale Feedback owns the Main Thread touch handlers and forwards press state to Background.
+  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
   const accessibilityElement =
     nativeProps["accessibility-element"] ?? rootProps["accessibility-element"];
   if (
@@ -134,6 +129,9 @@ export const SwitchRoot = React.forwardRef<unknown, SwitchRootProps>((props, ref
   }
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled,
+    onTouchStart: bindtouchstart,
+    onTouchEnd: bindtouchend,
+    onTouchCancel: bindtouchcancel,
   });
 
   const rootClassName = switchStyle({ ...switchVariantProps, disabled }).root;
