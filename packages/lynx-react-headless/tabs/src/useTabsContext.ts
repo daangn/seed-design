@@ -1,10 +1,11 @@
 import {
   createContext,
   createElement,
+  memo,
   useContext,
   useMemo,
+  type Provider,
   type ProviderProps,
-  type ReactElement,
 } from "@lynx-js/react";
 import type { UseTabsReturn } from "./useTabs.js";
 
@@ -24,20 +25,18 @@ type TriggerContextValue = Pick<
 
 const TriggerContext = createContext<TriggerContextValue | null>(null);
 
-export function TabsProvider({
+export const TabsProvider: Provider<UseTabsContext | null> = memo(function TabsProvider({
   value,
   children,
-}: ProviderProps<UseTabsContext | null>): ReactElement {
+}: ProviderProps<UseTabsContext | null>) {
   return createElement(
     TabsContext.Provider,
     { value },
-    value
-      ? createElement(TabsTriggerStateProvider, { value }, children)
-      : createElement(TriggerContext.Provider, { value: null }, children),
+    createElement(TabsTriggerStateProvider, { value }, children),
   );
-}
+});
 
-function TabsTriggerStateProvider({ value, children }: ProviderProps<UseTabsContext>) {
+function TabsTriggerStateProvider({ value, children }: ProviderProps<UseTabsContext | null>) {
   const {
     value: selectedValue,
     visualValue,
@@ -45,25 +44,27 @@ function TabsTriggerStateProvider({ value, children }: ProviderProps<UseTabsCont
     updateTriggerDisabled,
     updateTriggerWidth,
     selectValue,
-  } = value;
-  const trigger = useMemo<TriggerContextValue>(
-    () => ({
+  } = value ?? {};
+  const trigger = useMemo<TriggerContextValue | null>(() => {
+    if (!registerTrigger || !updateTriggerDisabled || !updateTriggerWidth || !selectValue) {
+      return null;
+    }
+    return {
       value: selectedValue,
       visualValue,
       registerTrigger,
       updateTriggerDisabled,
       updateTriggerWidth,
       selectValue,
-    }),
-    [
-      selectedValue,
-      visualValue,
-      registerTrigger,
-      updateTriggerDisabled,
-      updateTriggerWidth,
-      selectValue,
-    ],
-  );
+    };
+  }, [
+    selectedValue,
+    visualValue,
+    registerTrigger,
+    updateTriggerDisabled,
+    updateTriggerWidth,
+    selectValue,
+  ]);
   return createElement(TriggerContext.Provider, { value: trigger }, children);
 }
 

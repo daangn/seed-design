@@ -1,8 +1,14 @@
 import "@testing-library/jest-dom";
-import { useState } from "@lynx-js/react";
+import { useEffect, useState } from "@lynx-js/react";
 import { act, fireEvent, render } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
-import { SegmentedControl, useSegmentedControlContext, useSegmentedControlItem } from "./index.js";
+import {
+  SegmentedControl,
+  SegmentedControlProvider,
+  useSegmentedControl,
+  useSegmentedControlContext,
+  useSegmentedControlItem,
+} from "./index.js";
 
 function item(value: string) {
   const node = elementTree.root?.querySelector<HTMLElement>(`.item-${value}`);
@@ -164,4 +170,27 @@ it("does not rerender existing items for registry-only changes", () => {
     register("second");
   });
   expect(rendered).not.toHaveBeenCalled();
+});
+
+it("keeps children mounted when the public SegmentedControlProvider receives a value", () => {
+  const mount = vi.fn();
+  function Child() {
+    useEffect(() => {
+      mount();
+    }, []);
+    return null;
+  }
+
+  function Example({ enabled }: { enabled: boolean }) {
+    const api = useSegmentedControl({ defaultValue: "first" });
+    return (
+      <SegmentedControlProvider value={enabled ? api : null}>
+        <Child />
+      </SegmentedControlProvider>
+    );
+  }
+
+  const { rerender } = render(<Example enabled={false} />);
+  rerender(<Example enabled />);
+  expect(mount).toHaveBeenCalledTimes(1);
 });

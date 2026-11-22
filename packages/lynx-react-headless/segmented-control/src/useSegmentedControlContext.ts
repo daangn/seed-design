@@ -1,10 +1,11 @@
 import {
   createContext,
   createElement,
+  memo,
   useContext,
   useMemo,
+  type Provider,
   type ProviderProps,
-  type ReactElement,
 } from "@lynx-js/react";
 import type { UseSegmentedControlReturn } from "./useSegmentedControl.js";
 
@@ -19,25 +20,28 @@ type ItemDependencies = Pick<
 
 const ItemDependenciesContext = createContext<ItemDependencies | null>(null);
 
-export function SegmentedControlProvider({
+export const SegmentedControlProvider: Provider<UseSegmentedControlContext | null> = memo(
+  function SegmentedControlProvider({
+    value,
+    children,
+  }: ProviderProps<UseSegmentedControlContext | null>) {
+    return createElement(
+      SegmentedControlContext.Provider,
+      { value },
+      createElement(ItemDependenciesProvider, { value }, children),
+    );
+  },
+);
+
+function ItemDependenciesProvider({
   value,
   children,
-}: ProviderProps<UseSegmentedControlContext | null>): ReactElement {
-  return createElement(
-    SegmentedControlContext.Provider,
-    { value },
-    value
-      ? createElement(ItemDependenciesProvider, { value }, children)
-      : createElement(ItemDependenciesContext.Provider, { value: null }, children),
-  );
-}
-
-function ItemDependenciesProvider({ value, children }: ProviderProps<UseSegmentedControlContext>) {
-  const { value: selected, disabled, registerItem, setValue } = value;
-  const dependencies = useMemo(
-    () => ({ value: selected, disabled, registerItem, setValue }),
-    [selected, disabled, registerItem, setValue],
-  );
+}: ProviderProps<UseSegmentedControlContext | null>) {
+  const { value: selected, disabled, registerItem, setValue } = value ?? {};
+  const dependencies = useMemo<ItemDependencies | null>(() => {
+    if (disabled === undefined || !registerItem || !setValue) return null;
+    return { value: selected, disabled, registerItem, setValue };
+  }, [selected, disabled, registerItem, setValue]);
   return createElement(ItemDependenciesContext.Provider, { value: dependencies }, children);
 }
 
