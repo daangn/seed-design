@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { usePressTap, type UsePressTapReturn } from "@seed-design/lynx-react-use-press-tap";
-import { useSegmentedControlContext } from "./useSegmentedControlContext.js";
+import { useSegmentedControlItemDependencies } from "./useSegmentedControlContext.js";
 
 type ViewProps = IntrinsicElements["view"];
 type TapEvent = Parameters<NonNullable<ViewProps["bindtap"]>>[0];
@@ -75,7 +75,7 @@ export function useSegmentedControlItem(
     "accessibility-role-description": accessibilityRoleDescription = "radio",
     "accessibility-traits": accessibilityTraits,
   } = props;
-  const root = useSegmentedControlContext();
+  const root = useSegmentedControlItemDependencies();
   const disabled = root.disabled || itemDisabled;
   const checked = root.value === value;
   const { registerItem, setValue } = root;

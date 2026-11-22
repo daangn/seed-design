@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
-import { act, fireEvent, render } from "@lynx-js/react/testing-library";
+import { act, fireEvent, render, renderHook } from "@lynx-js/react/testing-library";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { AppBar, useAppBarContext } from "./index.js";
+import { AppBar, useAppBar, useAppBarContext } from "./index.js";
 
 interface TestLynxGlobal {
   lynx?: { __globalProps?: { safeAreaInsetTop?: number } };
@@ -32,6 +32,21 @@ function Probe() {
 }
 
 describe("AppBar headless", () => {
+  it("does not render when the narrower slot changes, but remembers its width", () => {
+    const renders = vi.fn();
+    const { result } = renderHook(() => {
+      renders();
+      return useAppBar();
+    });
+    act(() => result.current.setLeftWidth(80));
+    renders.mockClear();
+    act(() => result.current.setRightWidth(40));
+    expect(renders).not.toHaveBeenCalled();
+    expect(result.current.centeredTitlePaddingX).toBe("80px");
+    act(() => result.current.setLeftWidth(20));
+    expect(result.current.centeredTitlePaddingX).toBe("40px");
+  });
+
   afterEach(() => {
     setSafeAreaInsetTop(undefined);
   });

@@ -65,13 +65,15 @@ export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((pr
     "main-thread:bindtap": mainThreadBindtap,
   });
   const selected = api.pressed;
-  // Press color comes from the recipe's `:active` selector; touch handlers only drive Scale Feedback.
-  const { bindtouchstart, bindtouchend, bindtouchcancel, ...rootProps } = api.rootProps;
+  // Press color and scale are handled on the Main Thread.
+  const {
+    bindtouchstart: _pressStart,
+    bindtouchend: _pressEnd,
+    bindtouchcancel: _pressCancel,
+    ...rootProps
+  } = api.rootProps;
   const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
     disabled: api.disabled,
-    onTouchStart: bindtouchstart,
-    onTouchEnd: bindtouchend,
-    onTouchCancel: bindtouchcancel,
   });
   const classNames = reactionButton({ ...variantProps, selected, disabled, loading });
   const iconSlotContextValue = useMemo(

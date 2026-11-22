@@ -90,6 +90,19 @@ interface StyledSliderContextValue extends UseSliderContext {
   classes: SliderClassNames;
 }
 
+type SliderDecorationContextValue = Pick<
+  UseSliderContext,
+  "disabled" | "dir" | "isDragging" | "getTickProps" | "getMarkerProps"
+> & { controlClassName: string };
+
+const SliderDecorationContext = React.createContext<SliderDecorationContextValue | null>(null);
+
+function useSliderDecorationContext(consumer: string): SliderDecorationContextValue {
+  const context = React.useContext(SliderDecorationContext);
+  if (!context) throw new Error(`<${consumer}/> must be rendered inside <Slider.Root/>.`);
+  return context;
+}
+
 function isStyledSliderContext(context: UseSliderContext): context is StyledSliderContextValue {
   return "classes" in context;
 }
@@ -143,18 +156,26 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
     () => ({ ...api, classes }),
     [api, classes],
   );
+  const { disabled, dir, isDragging, getTickProps, getMarkerProps } = api;
+  const controlClassName = classes.control;
+  const decorationContext = React.useMemo(
+    () => ({ disabled, dir, isDragging, getTickProps, getMarkerProps, controlClassName }),
+    [disabled, dir, isDragging, getTickProps, getMarkerProps, controlClassName],
+  );
 
   return (
     <SliderProvider value={contextValue}>
-      <view
-        {...mergeProps(api.rootProps, nativeProps, forwardedRef ? { ref: forwardedRef } : {}, {
-          ref: api.refs.root,
-        })}
-        className={clsx(classes.root, className)}
-        style={style}
-      >
-        {children}
-      </view>
+      <SliderDecorationContext.Provider value={decorationContext}>
+        <view
+          {...mergeProps(api.rootProps, nativeProps, forwardedRef ? { ref: forwardedRef } : {}, {
+            ref: api.refs.root,
+          })}
+          className={clsx(classes.root, className)}
+          style={style}
+        >
+          {children}
+        </view>
+      </SliderDecorationContext.Provider>
     </SliderProvider>
   );
 });
@@ -162,11 +183,11 @@ SliderRoot.displayName = "SliderRoot";
 
 export const SliderControl = React.forwardRef<NodesRef, SliderControlProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const context = useStyledSliderContext("Slider.Control");
+  const context = useSliderDecorationContext("Slider.Control");
   return (
     <view
       {...mergeProps(ref ? { ref } : {}, nativeProps)}
-      className={clsx(context.classes.control, className)}
+      className={clsx(context.controlClassName, className)}
     >
       {children}
     </view>
@@ -176,7 +197,7 @@ SliderControl.displayName = "SliderControl";
 
 export const SliderTrack = React.forwardRef<NodesRef, SliderTrackProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const context = useStyledSliderContext("Slider.Track");
+  const context = useSliderDecorationContext("Slider.Track");
   return (
     <view
       {...mergeProps(ref ? { ref } : {}, nativeProps)}
@@ -243,7 +264,7 @@ SliderThumb.displayName = "SliderThumb";
 export const SliderTick = React.forwardRef<NodesRef, SliderTickProps>((props, ref) => {
   const [variantProps, restProps] = sliderTick.splitVariantProps(props);
   const { children, className, value, ...nativeProps } = restProps;
-  const context = useStyledSliderContext("Slider.Tick");
+  const context = useSliderDecorationContext("Slider.Tick");
   return (
     <view
       {...mergeProps(ref ? { ref } : {}, context.getTickProps(value), nativeProps)}
@@ -257,7 +278,7 @@ SliderTick.displayName = "SliderTick";
 
 export const SliderMarkers = React.forwardRef<NodesRef, SliderMarkersProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const context = useStyledSliderContext("Slider.Markers");
+  const context = useSliderDecorationContext("Slider.Markers");
   return (
     <view
       {...mergeProps(ref ? { ref } : {}, nativeProps)}
@@ -272,7 +293,7 @@ SliderMarkers.displayName = "SliderMarkers";
 export const SliderMarker = React.forwardRef<NodesRef, SliderMarkerProps>((props, ref) => {
   const [variantProps, restProps] = sliderMarker.splitVariantProps(props);
   const { children, className, value, ...nativeProps } = restProps;
-  const context = useStyledSliderContext("Slider.Marker");
+  const context = useSliderDecorationContext("Slider.Marker");
   const markerProps = mergeProps(ref ? { ref } : {}, context.getMarkerProps(value), nativeProps);
   const markerClassName = clsx(
     sliderMarker({ ...variantProps, dir: context.dir, disabled: context.disabled }),

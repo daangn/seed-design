@@ -1,12 +1,56 @@
-import { createContext, useContext, type Provider } from "@lynx-js/react";
+import {
+  createContext,
+  createElement,
+  memo,
+  useContext,
+  useMemo,
+  type Provider,
+  type ProviderProps,
+} from "@lynx-js/react";
 import type { UseSegmentedControlReturn } from "./useSegmentedControl.js";
 
 export interface UseSegmentedControlContext extends UseSegmentedControlReturn {}
 
 const SegmentedControlContext = createContext<UseSegmentedControlContext | null>(null);
 
-export const SegmentedControlProvider: Provider<UseSegmentedControlContext | null> =
-  SegmentedControlContext.Provider;
+type ItemDependencies = Pick<
+  UseSegmentedControlContext,
+  "value" | "disabled" | "registerItem" | "setValue"
+>;
+
+const ItemDependenciesContext = createContext<ItemDependencies | null>(null);
+
+export const SegmentedControlProvider: Provider<UseSegmentedControlContext | null> = memo(
+  function SegmentedControlProvider({
+    value,
+    children,
+  }: ProviderProps<UseSegmentedControlContext | null>) {
+    return createElement(
+      SegmentedControlContext.Provider,
+      { value },
+      createElement(ItemDependenciesProvider, { value }, children),
+    );
+  },
+);
+
+function ItemDependenciesProvider({
+  value,
+  children,
+}: ProviderProps<UseSegmentedControlContext | null>) {
+  const { value: selected, disabled, registerItem, setValue } = value ?? {};
+  const dependencies = useMemo<ItemDependencies | null>(() => {
+    if (disabled === undefined || !registerItem || !setValue) return null;
+    return { value: selected, disabled, registerItem, setValue };
+  }, [selected, disabled, registerItem, setValue]);
+  return createElement(ItemDependenciesContext.Provider, { value: dependencies }, children);
+}
+
+export function useSegmentedControlItemDependencies(): ItemDependencies {
+  const context = useContext(ItemDependenciesContext);
+  if (!context)
+    throw new Error("useSegmentedControlContext must be used within a SegmentedControlRoot");
+  return context;
+}
 
 /**
  * `SegmentedControlRoot`가 내려준 `useSegmentedControl` 결과를 하위 요소에서 읽습니다.

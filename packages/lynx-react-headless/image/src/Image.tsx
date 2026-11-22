@@ -1,7 +1,7 @@
 import * as React from "@lynx-js/react";
 import type { IntrinsicElements } from "@lynx-js/types";
 import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
-import { useImage, type ImageLoadingStatus, type UseImageProps } from "./useImage.js";
+import { useImageRequest, type ImageLoadingStatus, type UseImageProps } from "./useImage.js";
 
 type ViewProps = IntrinsicElements["view"];
 type ImageProps = IntrinsicElements["image"];
@@ -11,6 +11,7 @@ interface ImageContextValue {
   setLoadingStatus: (status: ImageLoadingStatus) => void;
 }
 const ImageContext = React.createContext<ImageContextValue | null>(null);
+const ImageStatusContext = React.createContext<ImageContextValue["setLoadingStatus"] | null>(null);
 
 export function useImageContext(): ImageContextValue {
   const context = React.useContext(ImageContext);
@@ -39,9 +40,11 @@ export const ImageRoot = React.forwardRef<unknown, ImageRootProps>((props, ref) 
   );
   return (
     <ImageContext.Provider value={context}>
-      <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps}>
-        {children}
-      </view>
+      <ImageStatusContext.Provider value={setLoadingStatus}>
+        <view {...(ref ? { ref: ref as ViewProps["ref"] } : {})} {...nativeProps}>
+          {children}
+        </view>
+      </ImageStatusContext.Provider>
     </ImageContext.Provider>
   );
 });
@@ -69,21 +72,49 @@ const ImageRequest = React.forwardRef<unknown, ImageContentProps>((props, ref) =
 });
 ImageRequest.displayName = "ImageRequest";
 export const ImageContent = React.forwardRef<unknown, ImageContentProps>((props, ref) => {
-  const { setLoadingStatus } = useImageContext();
-  const api = useImage({ src: props.src, onLoadingStatusChange: setLoadingStatus });
-  React.useEffect(() => () => setLoadingStatus("error"), [setLoadingStatus]);
+  const setLoadingStatus = React.useContext(ImageStatusContext);
+  if (!setLoadingStatus) throw new Error("Image slots must be rendered inside Image.Root.");
+  const { request, activeRequest } = useImageRequest(props.src);
+  const status = React.useMemo<{ current: ImageLoadingStatus }>(
+    () => ({ current: request.src ? "loading" : "error" }),
+    [request],
+  );
+  const mounted = React.useRef(true);
+  React.useEffect(() => {
+    "background only";
+    mounted.current = true;
+    return () => {
+      "background only";
+      mounted.current = false;
+      setLoadingStatus("error");
+    };
+  }, [setLoadingStatus]);
+  React.useEffect(() => {
+    "background only";
+    if (activeRequest.current !== request) return;
+    if (status.current === (request.src ? "loading" : "error")) setLoadingStatus(status.current);
+  }, [activeRequest, request, status, setLoadingStatus]);
+  const updateStatus = (next: ImageLoadingStatus) => {
+    "background only";
+    if (!mounted.current || activeRequest.current !== request || !request.src) return;
+    if (status.current === next) return;
+    status.current = next;
+    setLoadingStatus(next);
+  };
   return (
     <ImageRequest
       key={props.src}
       {...props}
       {...(ref ? { ref } : {})}
       bindload={(event) => {
+        "background only";
         props.bindload?.(event);
-        api.handleLoad();
+        updateStatus("loaded");
       }}
       binderror={(event) => {
+        "background only";
         props.binderror?.(event);
-        api.handleError();
+        updateStatus("error");
       }}
     />
   );

@@ -490,9 +490,9 @@ export const AttachmentInputItemActionButton = React.forwardRef<
     const classes = itemRecipe.useClassNames();
     const {
       pressed: _pressed,
-      bindtouchstart,
-      bindtouchend,
-      bindtouchcancel,
+      bindtouchstart: _pressStart,
+      bindtouchend: _pressEnd,
+      bindtouchcancel: _pressCancel,
       ...pressHandlers
     } = usePressTap({
       disabled: context.disabled || context.readOnly,
@@ -501,9 +501,6 @@ export const AttachmentInputItemActionButton = React.forwardRef<
     });
     const { scaleFeedbackTriggerProps, scaleFeedbackTargetProps } = useScaleFeedback({
       disabled: context.disabled || context.readOnly,
-      onTouchStart: bindtouchstart,
-      onTouchEnd: bindtouchend,
-      onTouchCancel: bindtouchcancel,
     });
     const actionChildren = toArray(children).map((child: React.ReactNode) => {
       if (typeof child === "string" || typeof child === "number") {

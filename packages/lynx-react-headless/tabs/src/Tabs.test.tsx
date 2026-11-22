@@ -4,7 +4,9 @@ import { act, createEvent, fireEvent, render } from "@lynx-js/react/testing-libr
 import { describe, expect, it, vi } from "vitest";
 
 import * as Tabs from "./Tabs.namespace.js";
-import { useTabsContext } from "./useTabsContext.js";
+import { useTabs } from "./useTabs.js";
+import { TabsProvider, useTabsContext } from "./useTabsContext.js";
+import { useTabsTrigger } from "./useTabsTrigger.js";
 import { useTabsTriggerContext } from "./useTabsTriggerContext.js";
 import { useTabsCarouselCamera } from "./useTabsCarouselCamera.js";
 import { useTabsIndicator } from "./useTabsIndicator.js";
@@ -955,4 +957,57 @@ describe("Tabs headless", () => {
     expect(first).toHaveAttribute("accessibility-label", "첫 번째");
     expect(first).toHaveAttribute("accessibility-traits", "selected");
   });
+});
+
+it("does not rerender headless triggers as their geometry is measured", () => {
+  const triggerRenders = vi.fn();
+  let updateWidth: ((value: string, width: number) => void) | undefined;
+  function GeometryObserver() {
+    updateWidth = useTabsContext().updateTriggerWidth;
+    return null;
+  }
+  function Trigger({ value }: { value: string }) {
+    const api = useTabsTrigger({ value });
+    triggerRenders(value);
+    return <view {...api.triggerProps} />;
+  }
+
+  render(
+    <Tabs.Root defaultValue="one">
+      <GeometryObserver />
+      <Trigger value="one" />
+      <Trigger value="two" />
+    </Tabs.Root>,
+  );
+  triggerRenders.mockClear();
+
+  if (!updateWidth) throw new Error("Expected the tabs geometry observer.");
+  const update = updateWidth;
+  act(() => update("two", 100));
+  act(() => update("one", 80));
+
+  expect(triggerRenders).not.toHaveBeenCalled();
+});
+
+it("keeps children mounted when the public TabsProvider receives a value", () => {
+  const mount = vi.fn();
+  function Child() {
+    React.useEffect(() => {
+      mount();
+    }, []);
+    return null;
+  }
+
+  function Example({ enabled }: { enabled: boolean }) {
+    const api = useTabs({ defaultValue: "one" });
+    return (
+      <TabsProvider value={enabled ? api : null}>
+        <Child />
+      </TabsProvider>
+    );
+  }
+
+  const { rerender } = render(<Example enabled={false} />);
+  rerender(<Example enabled />);
+  expect(mount).toHaveBeenCalledTimes(1);
 });
