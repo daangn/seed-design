@@ -43,8 +43,11 @@ export async function fetchSectionOverview(section: SectionId): Promise<string> 
 }
 
 export async function fetchSectionFull(section: SectionId): Promise<string> {
-  const config = SECTIONS[section];
-  return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${config.fullPath}`);
+  const { fullPath } = SECTIONS[section];
+  if (!fullPath) {
+    throw new Error(`Section '${section}' has no combined document. Use list_docs and get_doc.`);
+  }
+  return fetchWithCache<string>(`${SEED_DOCS_BASE_URL}${fullPath}`);
 }
 
 function escapeRegExp(str: string): string {

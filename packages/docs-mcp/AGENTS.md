@@ -6,6 +6,7 @@
 
 - `bun --filter @seed-design/docs-mcp typecheck`
 - `bun --filter @seed-design/docs-mcp lint`
+- `src/config.ts`를 바꿨으면 `bun test docs/src/content/docs-mcp-sections.test.ts`로 문서 사이트의 섹션·경로와 비교한다.
 
 ## 규칙
 

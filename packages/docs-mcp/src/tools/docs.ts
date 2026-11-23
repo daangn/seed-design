@@ -4,6 +4,9 @@ import { SECTIONS, SECTION_IDS, isValidSection, type SectionId } from "../config
 import { fetchDocsList, fetchDoc, fetchSectionFull } from "../fetch.js";
 
 const sectionEnum = z.enum(SECTION_IDS as [SectionId, ...SectionId[]]);
+const sectionDescription = `Documentation section: ${SECTION_IDS.join(", ")}`;
+const fullDocsSectionIds = SECTION_IDS.filter((id) => SECTIONS[id].fullPath);
+const fullDocsSectionEnum = z.enum(fullDocsSectionIds as [SectionId, ...SectionId[]]);
 
 export function registerListDocsTool(server: McpServer): void {
   server.registerTool(
@@ -13,14 +16,12 @@ export function registerListDocsTool(server: McpServer): void {
         "List available documents in a SEED Design documentation section. " +
         "Use discover_seed_docs first to see all available sections and categories.",
       inputSchema: z.object({
-        section: sectionEnum.describe(
-          "Documentation section: react, docs, breeze, ai-integration, or lynx",
-        ),
+        section: sectionEnum.describe(sectionDescription),
         category: z
           .string()
           .optional()
           .describe(
-            "Optional category filter (e.g., 'components', 'foundation', 'getting-started')",
+            "Optional category filter (e.g., 'components' in react, 'color' in foundations)",
           ),
       }),
     },
@@ -89,13 +90,11 @@ export function registerGetDocTool(server: McpServer): void {
         "Get the content of a specific SEED Design document. " +
         "Use list_docs first to see available documents and their paths.",
       inputSchema: z.object({
-        section: sectionEnum.describe(
-          "Documentation section: react, docs, breeze, ai-integration, or lynx",
-        ),
+        section: sectionEnum.describe(sectionDescription),
         path: z
           .string()
           .describe(
-            "Document path (e.g., 'components/button', 'getting-started/installation', 'figma-mcp')",
+            "Document path (e.g., 'action-button' in components, 'components/button' in react, 'figma-mcp' in ai-integration)",
           ),
       }),
     },
@@ -139,10 +138,11 @@ export function registerGetFullDocsTool(server: McpServer): void {
     {
       description:
         "Get all documents from a section combined into a single text. " +
-        "Useful for comprehensive analysis or when you need complete context.",
+        "Useful for comprehensive analysis or when you need complete context. " +
+        `Available for ${fullDocsSectionIds.join(", ")}. For other sections, use list_docs and get_doc.`,
       inputSchema: z.object({
-        section: sectionEnum.describe(
-          "Documentation section: react, docs, breeze, ai-integration, or lynx",
+        section: fullDocsSectionEnum.describe(
+          `Documentation section: ${fullDocsSectionIds.join(", ")}`,
         ),
       }),
     },

@@ -2,7 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { archivePaths } from "../lib/docs-archive";
 
-const sections = ["ai-integration", "breeze", "docs", "lynx", "react"] as const;
+export const sections = ["ai-integration", "breeze", "docs", "lynx", "react"] as const;
 
 interface FullTextEntry {
   pagePath: string;

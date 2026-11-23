@@ -75,9 +75,9 @@ await initializeTools(server);
 
 ### Documentation
 
-- `list_docs` - List available documents in a section (react, docs, breeze, ai-integration, lynx) with optional category filter
+- `list_docs` - List available documents in a section (see [Documentation Sections](#documentation-sections)) with optional category filter
 - `get_doc` - Get the content of a specific document by section and path
-- `get_full_docs` - Get all documents from a section combined into a single text
+- `get_full_docs` - Get all documents from a section combined into a single text (`react`, `docs`, `breeze`, `ai-integration`, `lynx`)
 
 ### Rootage (Design Tokens & Component Specs)
 
@@ -93,13 +93,17 @@ await initializeTools(server);
 
 ## Documentation Sections
 
-| Section          | Description                                                          |
-| ---------------- | -------------------------------------------------------------------- |
-| `react`          | React component library, API references, usage examples              |
-| `docs`           | Component design guidelines, Foundation (color, typography, spacing) |
-| `breeze`         | Ready-to-use utility UI components                                   |
-| `ai-integration` | MCP, llms.txt integration guides                                     |
-| `lynx`           | Lynx framework                                                       |
+| Section          | Description                                                                  |
+| ---------------- | ---------------------------------------------------------------------------- |
+| `foundations`    | Design foundations such as color, typography, and spacing                    |
+| `components`     | Component design specs and usage guidelines (anatomy, properties, guidelines) |
+| `patterns`       | Design patterns and guidelines                                               |
+| `react`          | React component library, API references, usage examples                      |
+| `docs`           | Design references such as migration guides                                   |
+| `breeze`         | Ready-to-use utility UI components                                           |
+| `ai-integration` | MCP, llms.txt integration guides                                             |
+| `lynx`           | Lynx framework                                                               |
+| `updates`        | SEED updates and release notes                                               |
 
 ## Example Usage
 
@@ -107,13 +111,16 @@ await initializeTools(server);
 // 1. Discover available sections
 discover_seed_docs()
 
-// 2. List React components
+// 2. Get component design guidelines
+get_doc({ section: "components", path: "action-button" })
+
+// 3. List React components
 list_docs({ section: "react", category: "components" })
 
-// 3. Get specific component documentation
+// 4. Get specific component documentation
 get_doc({ section: "react", path: "components/button" })
 
-// 4. Get AI integration guide
+// 5. Get AI integration guide
 get_doc({ section: "ai-integration", path: "figma-mcp" })
 ```
 
