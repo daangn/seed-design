@@ -77,17 +77,12 @@ async function selectSecond(count: number) {
 
 describe("ChipTabs commits", () => {
   // mount, 첫 trigger 폭 반영, 측정 완료, transition 켜기마다 Root가 다시 렌더된다. ChipTabs는 Indicator가 없어
-  // 첫 mount 외에는 빈 commit이다. Preact 10에서는 context 구독으로 다시 렌더되는 Trigger마다 commit이 따로 생긴다.
-  it.fails("does not scale mount commits with the trigger count", async () => {
+  // 첫 mount 외에는 빈 commit이다.
+  it("does not scale mount commits with the trigger count", async () => {
     const few = await mountAndUnmount(8);
     const many = await mountAndUnmount(24);
     expect(many.total).toBe(few.total);
     expect(few).toMatchObject({ total: 9, nonEmpty: 1 });
-  });
-
-  it("currently scales mount commits with the trigger count", async () => {
-    expect(await mountAndUnmount(8)).toMatchObject({ total: 41, nonEmpty: 1 });
-    expect(await mountAndUnmount(24)).toMatchObject({ total: 105, nonEmpty: 1 });
   });
 
   it("does not commit when the trigger widths are reported again", async () => {

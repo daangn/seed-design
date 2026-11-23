@@ -93,7 +93,7 @@ interface StyledSliderContextValue extends UseSliderContext {
 type SliderDecorationContextValue = Pick<
   UseSliderContext,
   "disabled" | "dir" | "isDragging" | "getTickProps" | "getMarkerProps"
-> & { controlClassName: string };
+>;
 
 const SliderDecorationContext = React.createContext<SliderDecorationContextValue | null>(null);
 
@@ -157,10 +157,9 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
     [api, classes],
   );
   const { disabled, dir, isDragging, getTickProps, getMarkerProps } = api;
-  const controlClassName = classes.control;
   const decorationContext = React.useMemo(
-    () => ({ disabled, dir, isDragging, getTickProps, getMarkerProps, controlClassName }),
-    [disabled, dir, isDragging, getTickProps, getMarkerProps, controlClassName],
+    () => ({ disabled, dir, isDragging, getTickProps, getMarkerProps }),
+    [disabled, dir, isDragging, getTickProps, getMarkerProps],
   );
 
   return (
@@ -181,13 +180,15 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
 });
 SliderRoot.displayName = "SliderRoot";
 
+// Control·Track은 값이 바뀔 때 다시 렌더되어야 하는 Range·Thumb·ValueIndicator를 감싸므로 전체 context를 구독한다.
+// SliderDecorationContext만 구독하면 Preact가 이 아래를 건너뛰고 그 consumer를 각자 따로 commit한다.
 export const SliderControl = React.forwardRef<NodesRef, SliderControlProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const context = useSliderDecorationContext("Slider.Control");
+  const context = useStyledSliderContext("Slider.Control");
   return (
     <view
       {...mergeProps(ref ? { ref } : {}, nativeProps)}
-      className={clsx(context.controlClassName, className)}
+      className={clsx(context.classes.control, className)}
     >
       {children}
     </view>
@@ -197,7 +198,7 @@ SliderControl.displayName = "SliderControl";
 
 export const SliderTrack = React.forwardRef<NodesRef, SliderTrackProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
-  const context = useSliderDecorationContext("Slider.Track");
+  const context = useStyledSliderContext("Slider.Track");
   return (
     <view
       {...mergeProps(ref ? { ref } : {}, nativeProps)}

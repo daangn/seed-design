@@ -4,6 +4,7 @@ import {
   Tabs as HeadlessTabs,
   TabsProvider,
   useTabs,
+  useTabsContext,
   useTabsTrigger,
   useTabsIndicator,
   useTabsContent,
@@ -126,6 +127,9 @@ export interface TabsListProps extends LynxHostProps<"scroll-view"> {
 export const TabsList = React.forwardRef<unknown, TabsListProps>((props, ref) => {
   const { children, className, ...nativeProps } = props;
   const { classNames, viewportInsets } = useTabsStyleContext();
+  // 값이 그대로인 TabsStyleContext만 구독하면 Preact가 이 아래를 건너뛰어, TabsContext를 구독하는 headless List가
+  // TabsRoot와 다른 commit으로 다시 렌더된다.
+  useTabsContext();
   return (
     <HeadlessTabs.List
       {...nativeProps}

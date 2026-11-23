@@ -88,8 +88,8 @@ describe("Tabs commits", () => {
   });
 
   it("currently scales mount commits with the trigger count", async () => {
-    expect(await mountAndUnmount(8)).toMatchObject({ total: 45, nonEmpty: 13 });
-    expect(await mountAndUnmount(24)).toMatchObject({ total: 109, nonEmpty: 29 });
+    expect(await mountAndUnmount(8)).toMatchObject({ total: 21, nonEmpty: 13 });
+    expect(await mountAndUnmount(24)).toMatchObject({ total: 37, nonEmpty: 29 });
   });
 
   it("does not commit when the trigger widths are reported again", async () => {
