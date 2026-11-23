@@ -15,7 +15,7 @@
     "vitest": ">=3.0.0"
   },
   "devDependencies": {
-    "@lynx-js/react": "^0.129.0",
+    "@lynx-js/react": "^0.125.0",
     "vitest": "^5.0.0"
   }
 }

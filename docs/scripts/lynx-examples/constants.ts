@@ -22,13 +22,13 @@ export const BUILD_DATA_MANIFEST_PATH = resolve(
 );
 
 export const LYNX_TOOL_VERSIONS = {
-  rspeedy: "0.16.4",
-  reactRsbuildPlugin: "0.18.3",
-  configRsbuildPlugin: "0.2.2",
-  react: "0.123.3",
+  rspeedy: "0.18.1",
+  reactRsbuildPlugin: "0.20.4",
+  configRsbuildPlugin: "0.2.5",
+  react: "0.125.0",
   types: "4.1.0",
-  webCore: "0.24.0",
-  webElements: "0.12.7",
+  webCore: "0.26.7",
+  webElements: "0.12.17",
   lynxCore: "0.1.4",
-  cssSerializer: "0.1.7",
+  cssSerializer: "0.1.9",
 } as const;

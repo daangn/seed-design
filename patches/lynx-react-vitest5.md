@@ -1,6 +1,6 @@
 # ReactLynx 테스트 환경 vitest 5 임시 패치
 
-대상은 개발 버전 `@lynx-js/react@0.129.1`과 peer 하한 `@lynx-js/react@0.117.0`이다.
+대상은 개발 버전 `@lynx-js/react@0.125.0`과 peer 하한 `@lynx-js/react@0.117.0`이다.
 개발 버전 패치는 루트 `package.json`과 `bun.lock`의 `patchedDependencies`로 등록하며,
 `bun install`할 때 적용된다.
 0.117.0 패치는 등록하지 않는다. `.github/workflows/lynx-test.yml`의 peer 하한 matrix가
