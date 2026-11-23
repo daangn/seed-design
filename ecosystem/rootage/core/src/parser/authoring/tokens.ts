@@ -11,6 +11,7 @@ import type {
   TokenLit,
   TokensDocument,
 } from "../ast";
+import { getTokenType } from "../token-type";
 import * as factory from "../factory";
 import type * as Document from "./types";
 import { isTokenRef } from "./is-token-ref";
@@ -35,11 +36,11 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
       mode,
       value: isTokenRef(val) ? factory.createTokenLit(val) : parseValue(val),
     }));
-    const baseKind =
-      modeValues.find(({ value }) => value.kind !== "TokenLit")?.value.kind ?? "TokenLit";
+    const literalKinds = modeValues.flatMap(({ value }) =>
+      value.kind === "TokenLit" ? [] : [value.kind],
+    );
+    const baseKind = getTokenType(tokenRef, literalKinds) ?? "TokenLit";
 
-    // Depending on `baseType`, pick the appropriate TokenDeclaration kind.
-    // TODO: We should try to resolve TokenLit types from references.
     switch (baseKind) {
       case "ColorHexLit":
         out.push(

@@ -1,3 +1,4 @@
+import { getTokenType } from "./token-type";
 import { isHapticValue } from "./haptic";
 import type {
   ColorHexLit,
@@ -721,7 +722,13 @@ export function createTokenDeclaration(
   description?: string,
   excludeFromExchange?: boolean,
 ): TokenDeclaration {
-  switch (values[0]!.kind) {
+  const kind = getTokenType(
+    token.identifier,
+    values.map((value) => value.kind),
+  );
+  switch (kind) {
+    case undefined:
+      throw new Error(`Token "${token.identifier}" has no mode values`);
     case "ColorTokenValueDeclaration":
       return createColorTokenDeclaration(
         collection,

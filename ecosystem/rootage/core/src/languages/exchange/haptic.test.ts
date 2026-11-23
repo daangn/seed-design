@@ -90,6 +90,21 @@ test.each([
   expect(() => Exchange.fromString(json)).toThrow();
 });
 
+test("rejects modes mixing haptic and numeric values before generating an artifact", () => {
+  const model = (night: unknown) =>
+    JSON.stringify({
+      ...document,
+      data: {
+        collection: "global",
+        tokens: { "$haptic.invalid": { values: { day: primitive, night } } },
+      },
+    });
+  expect(() => Authoring.fromString(model(10))).toThrow("different value types across modes");
+  expect(() => Exchange.fromString(model({ type: "number", value: 10 }))).toThrow(
+    "different value types across modes",
+  );
+});
+
 test("haptic declarations and aliases stay out of style outputs", () => {
   const tokens = getTokenDeclarations(ctx);
   const tokenCollections = getTokenCollectionDeclarations(ctx);
