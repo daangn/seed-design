@@ -34,8 +34,8 @@ async function loadAfterMount() {
 }
 
 describe("Avatar commits", () => {
-  // mount commit 뒤에 useImage effect가 Image.Root에 loading 상태를 알리며 빈 commit을 보낸다
-  // (lynx-react-headless/image/src/useImage.ts notifyStatus → Image.tsx ImageRoot setStatus).
+  // mount commit 뒤에 Image.Content가 mount effect에서 Image.Root에 loading 상태를 알리며 빈 commit을 보낸다
+  // (lynx-react-headless/image/src/Image.tsx ImageContent setLoadingStatus → ImageRoot setStatus).
   it("commits a fixed number of times on mount", async () => {
     const { commits } = await mount();
     expect(commits).toMatchObject(
@@ -49,19 +49,18 @@ describe("Avatar commits", () => {
     expect(commits).toMatchObject({ total: 1, nonEmpty: 0 });
   });
 
-  // ImageFrame과 같이 Image.Content의 useImage state가 먼저 바뀌어 commit하고, effect가 Image.Root state로 옮긴 뒤에야
-  // Avatar.Image의 pending className과 fallback을 바꾼다(lynx-react-headless/image/src/useImage.ts
-  // updateStatus·notifyStatus → Image.tsx ImageRoot).
-  it("currently sends empty commits for an image load", async () => {
-    expect(await loadAfterMount()).toMatchObject(
-      usesPreact10 ? { total: 4, nonEmpty: 2 } : { total: 3, nonEmpty: 2 },
-    );
-  });
-
-  it.fails("commits an image load without empty patches", async () => {
+  // Preact 10에서는 load로 다시 렌더되는 컴포넌트마다 commit이 따로 생겨 빈 commit이 남는다.
+  (usesPreact10 ? it.fails : it)("commits an image load without empty patches", async () => {
     const commits = await loadAfterMount();
     expect(commits.nonEmpty).toBe(commits.total);
   });
+
+  (usesPreact10 ? it : it.skip)(
+    "currently sends empty commits for an image load on Preact 10",
+    async () => {
+      expect(await loadAfterMount()).toMatchObject({ total: 3, nonEmpty: 2 });
+    },
+  );
 
   it("does not commit when the image load is reported again", async () => {
     const { view } = await mount();
