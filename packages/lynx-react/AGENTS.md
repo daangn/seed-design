@@ -71,7 +71,7 @@ Menu·Select·HelpBubble처럼 화면 위에 뜨는 레이어의 host 규칙이�
   - 대표 상호작용 1회(선택·토글·열기): 횟수를 고정한다.
 - `bytes`(`payload.data` 길이 합)는 절대값으로 고정하지 않는다. 항목 수를 바꿔 재는 상호작용에서 patch 크기가 항목 수에 비례하지 않는다는 상대 비교에만 쓴다 → `Tabs.commits.test.tsx`.
 - 지금 불변식을 만족하지 못하면 목표 불변식을 `it.fails`로 쓰고, 같은 시나리오의 현재 값을 일반 `it`(`currently …`)으로 바로 옆에 고정한다 → 값이 더 나빠지면 `it`이 깨지고, 최적화하면 둘 다 깨져 알린다. 원인 위치는 주석에 남기고 수치는 단언과 겹치므로 쓰지 않는다. 측정 코드는 파일 안의 작은 함수로 공유한다.
-- 기댓값은 peer 하한 `@lynx-js/react` 0.117.0에서 잰 값 하나로 고정한다. 0.126부터 Preact 11로 올라가 commit 수가 달라지므로 `createLynxVitestConfig`가 0.126 이상에서 commit 테스트를 제외한다 → 개발 버전(lockfile)의 `bun test:lynx-react`는 commit 테스트를 돌리지 않는다. 값을 재려면 `.github/workflows/lynx-test.yml`의 0.117.0 matrix 단계처럼 루트 `package.json`에 `overrides`·`patchedDependencies`를 넣고 `bun install`·`bun utils:build && bun lynx-headless:build` 뒤 실행하고, 끝나면 `package.json`·`bun.lock`을 되돌려 `bun install --frozen-lockfile`한다.
+- 기댓값은 개발 버전(lockfile의 `@lynx-js/react` 0.125.x)에서 잰 값 하나로 고정하고 버전별로 나누지 않는다. `createLynxVitestConfig`가 다른 버전에서는 commit 테스트를 제외한다 → peer 하한 matrix(0.117.0)는 commit 테스트를 돌리지 않는다. 개발 버전을 바꾸면 `packages/lynx-vitest-config/src/index.mjs`의 기준 버전을 함께 바꾸고 기댓값을 다시 잰다. 값은 lockfile 설치 그대로 `bun utils:build && bun lynx-headless:build` 뒤 `bun test:lynx-react`로 잰다.
 - 같은 이벤트 key에 Main Thread handler가 있으면 테스트 런타임이 Background handler를 부르지 않는다 → `Tabs.commits.test.tsx`처럼 `useScaleFeedback`의 `main-thread:bindlayoutchange`를 mock에서 뺀다.
 
 ### 웹과의 차이 문서화

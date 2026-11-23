@@ -65,7 +65,7 @@
       "groupSlug": "lynx-stack"
     },
     {
-      "description": "Lynx commit 테스트 기댓값은 Preact 10 계열(@lynx-js/react 0.125 이하)에서 고정한다. 0.126부터 Preact 11이라 개발 버전을 0.125.x에 둔다.",
+      "description": "Lynx commit 테스트 기댓값은 개발 버전(@lynx-js/react 0.125.x)에서 잰 값으로 고정한다. 0.126부터 Preact 11이라 commit 수가 달라지므로 개발 버전을 0.125.x에 둔다.",
       "matchPackageNames": ["@lynx-js/react"],
       "allowedVersions": "<0.126.0"
     },

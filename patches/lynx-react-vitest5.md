@@ -13,6 +13,8 @@ vitest 5는 이 export 경로를 없애고 같은 값을 `vitest/runtime`에서 
 
 확인은 `bun test:lynx-react`로 한다.
 `@lynx-js/react` 개발 버전을 올리면 `patchedDependencies` 키와 패치를 새 버전에 맞춰 다시 만든다.
+commit 테스트(`*.commits.test.tsx`)는 개발 버전에서 잰 값으로 고정되어 있고 다른 버전에서는 실행되지 않으므로,
+`packages/lynx-vitest-config/src/index.mjs`의 기준 버전도 함께 바꾸고 기댓값을 다시 잰다.
 peer 하한을 바꾸면 workflow matrix 값과 하한 버전 패치를 함께 바꾼다.
 bun은 대상 버전이 없으면 경고만 내고 설치를 계속하므로 install 성공만으로 적용 여부를 판단하지 않는다.
 업스트림이 vitest 5를 지원하면 이 패치를 제거한다.

@@ -46,15 +46,8 @@ describe("FieldButton commits", () => {
     expect(commits).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
-  // 같은 props로 rerender할 때마다 ClearButton 요소의 spread(useScaleFeedback worklet·합성
-  // `main-thread:ref`)와 아이콘의 `main-thread:binduiappear` worklet을 새 실행 id로 다시 보낸다(FieldButton.tsx
-  // FieldButtonClearButton, hooks/useIconColor.ts). 원인은 확인하지 못했다.
-  it.fails("sends only empty commits when rerendered with the same props", async () => {
+  it("sends only empty commits when rerendered with the same props", async () => {
     expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 0 });
-  });
-
-  it("currently sends a patch when rerendered with the same props", async () => {
-    expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
   it("commits clearing the value", async () => {

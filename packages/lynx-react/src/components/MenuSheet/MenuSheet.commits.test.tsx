@@ -84,15 +84,8 @@ describe("MenuSheet commits", () => {
     expect(commits).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
-  // 같은 props로 rerender할 때마다 List scroll-view의
-  // `main-thread:bindscroll`·`bindtouchstart`·`bindtouchmove` worklet을 새 실행 id로 다시
-  // 보낸다(components/private/SheetScrollGesture.ts). 원인은 확인하지 못했다.
-  it.fails("sends only empty commits when rerendered with the same props", async () => {
+  it("sends only empty commits when rerendered with the same props", async () => {
     expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 0 });
-  });
-
-  it("currently sends a patch when rerendered with the same props", async () => {
-    expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
   it.each([2, 8])("commits pressing and releasing one of %i items", async (count) => {

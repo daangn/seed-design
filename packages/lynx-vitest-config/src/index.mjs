@@ -3,12 +3,14 @@ import path from "node:path";
 
 import { configDefaults, defineConfig, mergeConfig } from "vitest/config";
 
-// commit 수는 peer 하한(0.117)에서 잰 값으로 고정한다. 0.126부터 Preact 11로 올라가 commit 수가 달라지므로
-// 그 이상에서는 commit 테스트를 돌리지 않는다. 테스트를 실행하는 패키지(cwd)에 설치된 버전을 읽는다.
+// commit 수는 개발 버전에서 잰 값으로 고정하고, 다른 버전(peer 하한 matrix 포함)에서는 commit 테스트를 돌리지 않는다.
+// 저장소의 개발 버전(루트 `renovate.json`이 `<0.126.0`으로 묶는다)을 바꾸면 이 값도 함께 바꾸고 기댓값을 다시 잰다.
+const COMMIT_TESTS_LYNX_REACT_MINOR = "0.125";
+
+// 테스트를 실행하는 패키지(cwd)에 설치된 버전을 읽는다.
 function runsCommitTests() {
   const { version } = createRequire(path.resolve("package.json"))("@lynx-js/react/package.json");
-  const [major, minor] = version.split(".").map(Number);
-  return major === 0 && minor < 126;
+  return version.startsWith(`${COMMIT_TESTS_LYNX_REACT_MINOR}.`);
 }
 
 // peer 하한(0.117)에는 testing-library/plugins export가 없어 deprecated된 vitest-config를 쓴다.

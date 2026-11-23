@@ -94,15 +94,8 @@ describe("WheelPicker commits", () => {
     expect(commits).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
-  // 같은 props로 rerender할 때마다 LoopScroll 항목마다 `main-thread:bindtouchstart` worklet을 새 실행
-  // id로 다시 보낸다 (lynx-react-headless/loop-scroll/src/LoopScroll.tsx LoopScrollTrackItem의
-  // handleTouchStart). useCallback으로 고정한 handler라 handler 재생성 때문은 아니며, 원인은 확인하지 못했다.
-  it.fails("sends only empty commits when rerendered with the same props", async () => {
+  it("sends only empty commits when rerendered with the same props", async () => {
     expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 0 });
-  });
-
-  it("currently sends a patch when rerendered with the same props", async () => {
-    expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
   it.each([4, 16] as const)("commits tapping a visible item among %i options", async (count) => {
