@@ -18,5 +18,6 @@ export interface CommitCount {
 /**
  * `action`을 실행하고 commit이 더 생기지 않을 때까지 기다리며 그 사이의 commit을 센다.
  * dual-thread render(`enableMainThread`·`enableBackgroundThread`)에서 쓴다.
+ * `SEED_LYNX_COMMITS_REPORT_DIR`가 있으면 측정값을 그 디렉터리에 테스트 파일별 NDJSON으로 남긴다(`bun lynx:commits`).
  */
 export function measureCommits(action: () => unknown): Promise<CommitCount>;

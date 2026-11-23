@@ -48,6 +48,7 @@
 경로별 테스트 명령은 루트 `AGENTS.md`「검증」, 생성 명령은 「생성」이 원천이다. 수정 경로의 `AGENTS.md`에 더 좁은 명령이 있으면 그것을 쓴다. 여기에는 그 밖의 검사만 둔다.
 
 1. 동작을 바꿨다 → 수정한 패키지의 기존 집중 테스트를 실행한다.
+   - Lynx 컴포넌트·headless 동작을 바꿨다 → `bun lynx:commits`로 commit 수 회귀를 기준 브랜치와 비교한다. 결과 판정은 `packages/lynx-react/AGENTS.md`「commit 테스트」를 따른다.
 2. Rootage·Recipe 원천을 바꿨다 → 「생성」의 해당 명령을 실행하고 예상한 산출물만 바뀌었는지 `git diff`로 본다.
 3. 공개 패키지 코드를 바꿨다 → `bun packages:build`
 4. Registry·공개 예제를 바꿨다 → `bun --filter @seed-design/docs typecheck`와 `bun docs:test`를 모두 실행한다(`bun docs:test`는 docs web 타입 검사를 포함하지 않는다). Registry를 바꿨으면 「생성」의 `docs/registry/` 명령도 생략하지 않는다.

@@ -1,3 +1,8 @@
+import { appendFileSync, mkdirSync } from "node:fs";
+import path from "node:path";
+
+import { expect } from "vitest";
+
 const MAX_SETTLE_ROUNDS = 20;
 
 // testing-library의 waitSchedule과 같은 대기. @lynx-js/react를 import하면 테스트 패키지와 다른 인스턴스가 될 수 있다.
@@ -11,6 +16,22 @@ function isNonEmpty(payload) {
   return (
     patchList.some((patch) => patch.snapshotPatch?.length > 0) ||
     delayedRunOnMainThreadData?.length > 0
+  );
+}
+
+const reportDir = process.env.SEED_LYNX_COMMITS_REPORT_DIR;
+const callsByTest = new Map();
+
+// `bun lynx:commits`가 기준·현재 소스의 측정값을 비교할 때 읽는다. 뒤의 단언이 실패해도 남도록 반환 전에 동기로 쓴다.
+function record(counts) {
+  const { testPath, currentTestName } = expect.getState();
+  const file = path.relative(process.cwd(), testPath);
+  const index = callsByTest.get(`${file}\0${currentTestName}`) ?? 0;
+  callsByTest.set(`${file}\0${currentTestName}`, index + 1);
+  mkdirSync(reportDir, { recursive: true });
+  appendFileSync(
+    path.join(reportDir, `${file.replaceAll(path.sep, "__")}.ndjson`),
+    `${JSON.stringify({ file, test: currentTestName, index, ...counts })}\n`,
   );
 }
 
@@ -36,9 +57,11 @@ export async function measureCommits(action) {
   } finally {
     app.callLepusMethod = original;
   }
-  return {
+  const counts = {
     total: commits.length,
     nonEmpty: commits.filter(isNonEmpty).length,
     bytes: commits.reduce((sum, payload) => sum + payload.data.length, 0),
   };
+  if (reportDir) record(counts);
+  return counts;
 }
