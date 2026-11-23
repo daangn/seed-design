@@ -13,6 +13,8 @@ Rspeedy 기반 Lynx SPA 예제 앱이다. Lynx native 기본 장면 검증에 �
 - Lynx intrinsic element(`<view>`, `<text>` 등)는 런타임 변수로 치환하지 않고 리터럴 JSX로 쓴다.
 - `VariantTable`(`src/components/variant-table.tsx`)의 아이콘 색상·타이밍을 고칠 때만 `docs/content/lynx/hooks/use-icon-color.mdx`의 근거를 확인한다. 근거 없이 timer 재시도나 색상 token 예외를 넣지 않는다 → 근거가 없으면 원인을 보고한다.
 - Lynx·Rspeedy 동작이 불확실하면 그 부분의 공식 문서만 확인한다.
+- `package.json`의 `rspeedy` 실행은 `bunx --bun`을 유지한다. `@seed-design/rsbuild-plugin-lynx-icon`의 ESM lib가 `require.resolve`를 써서 Node 런타임에서는 config 로드가 `require is not defined`로 멈춘다.
+- Tailwind CSS 4 설정(`postcss.config.js`, `src/styles/global.css`)은 `docs/content/lynx/getting-started/styling/tailwind-css-4.mdx`와 같게 유지한다. `@seed-design/tailwind4-theme`은 글자 크기를 `text-size-*`로 제공하고 `top`·`right`·`bottom`·`left`에는 SEED dimension을 연결하지 않는다 → `right-[var(--seed-dimension-x2)]`처럼 arbitrary value를 쓴다.
 - `lynx.config.ts`의 `enableCSSInlineVariables: true`를 끄지 않는다. SEED 컴포넌트가 inline으로 넘기는 변수(예: `--slider-thumb-left`)와, lynx-css Recipe가 class 안에서 다른 변수를 담는 사용자 정의 속성(예: `--seed-checkmark-pressed-color: var(...)`)이 이 플래그가 켜져 있을 때만 해석된다.
 - `lynx.config.ts`의 asset prefix는 `ASSET_PREFIX`이고, 없으면 dev는 `PORTLESS_URL`(portless 도메인), build는 `/`다. host가 이 주소에 접근하지 못하면 main bundle만 열리고 lazy 예제가 로드되지 않는다 → 기기에서 접근 가능한 절대 origin을 준다(예: `portless run --name ette sh -c 'ASSET_PREFIX="http://<LAN 주소>:$PORT/" exec bun run dev'`, iOS 시뮬레이터는 `http://127.0.0.1:$PORT/`). prefix는 `main.lynx.bundle`에 문자열로 들어가므로 전후 bundle을 byte로 비교할 때는 두 build에 같은 `ASSET_PREFIX`를 쓰거나 비교 전에 prefix를 같은 값으로 치환한다.
 
@@ -22,8 +24,8 @@ Rspeedy 기반 Lynx SPA 예제 앱이다. Lynx native 기본 장면 검증에 �
 
 `dev`·`build`가 먼저 실행하는 `docs/scripts/lynx-examples/prepare-workspace.ts`는 `ultra -r --build --filter @seed-design/lynx-react build`로 `@seed-design/lynx-react`만 빌드한다. filter에 `+`가 없어 headless 등 의존 workspace lib와 config가 쓰는 plugin lib는 빌드하지 않는다.
 
-1. 새 worktree에서 처음 띄우기 전에 `bun lynx-headless:build`, `bun --filter @seed-design/rsbuild-plugin-lynx-icon build`, `bun --filter @seed-design/tailwind3-plugin build`를 실행한다. 루트 `lynx:generate`는 icon plugin을 빌드하지 않는다.
-2. icon plugin lib가 없으면 `lynx.config.ts` 로드에서 `ERR_MODULE_NOT_FOUND`로 멈춘다. tailwind plugin lib가 없으면 dev 서버는 bundle URL을 출력한 채 떠 있지만 lynx-css recipe CSS가 postcss-loader에서 실패하고, 기기에는 빈 화면만 보인다 → 기기 화면을 판정하기 전에 서버 로그의 `ready built in`과 `Module build failed` 여부를 확인한다. plugin을 빌드한 뒤에는 서버를 다시 시작한다.
+1. 새 worktree에서 처음 띄우기 전에 `bun lynx-headless:build`와 `bun --filter @seed-design/rsbuild-plugin-lynx-icon build`를 실행한다. 루트 `lynx:generate`는 icon plugin을 빌드하지 않는다.
+2. icon plugin lib가 없으면 `lynx.config.ts` 로드에서 `ERR_MODULE_NOT_FOUND`로 멈춘다. CSS 컴파일이 실패해도 dev 서버는 bundle URL을 출력한 채 떠 있고 기기에는 빈 화면만 보인다 → 기기 화면을 판정하기 전에 서버 로그의 `ready built in`과 `Module build failed` 여부를 확인한다.
 3. `ultra -r --build`가 `No changes. Skipping build...`로 넘어간 패키지의 lib를 소비하는 build가 해석 실패나 TS2307로 멈추면 같은 filter에 `--rebuild`를 더해 다시 빌드한다. Ultra cache는 산출물이 있는지 검사하지 않는다.
 4. 서버 실행 중 컴포넌트를 고친 뒤의 lib 갱신은 [Lynx 검증 런북 1절](../../skills/seed-verify-lynx-component/references/verification.md#1-사전-점검과-서버-소유권)을 따른다.
 
