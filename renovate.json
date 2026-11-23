@@ -63,6 +63,21 @@
       "matchSourceUrls": ["https://github.com/lynx-family/lynx-stack"],
       "groupName": "lynx-stack",
       "groupSlug": "lynx-stack"
+    },
+    {
+      "description": "Lynx commit 테스트 기댓값은 Preact 10 계열(@lynx-js/react 0.125 이하)에서 고정한다. 0.126부터 Preact 11이라 개발 버전을 0.125.x에 둔다.",
+      "matchPackageNames": ["@lynx-js/react"],
+      "allowedVersions": "<0.126.0"
+    },
+    {
+      "description": "@lynx-js/react 0.125를 peer로 허용하는 마지막 React 플러그인은 0.20.x다. 0.21부터 peer가 ^0.128이다.",
+      "matchPackageNames": ["@lynx-js/react-rsbuild-plugin"],
+      "allowedVersions": "<0.21.0"
+    },
+    {
+      "description": "React 플러그인 0.20.4와 같은 @lynx-js/rsbuild-plugin 0.1.4·template-webpack-plugin 0.16.3을 쓰는 마지막 Rspeedy는 0.18.1이다. 0.18.2부터 이 내부 plugin이 두 벌로 설치된다.",
+      "matchPackageNames": ["@lynx-js/rspeedy"],
+      "allowedVersions": "<0.18.2"
     }
   ]
 }
