@@ -1,7 +1,8 @@
 // Copyright 2026 The Lynx Authors. All rights reserved.
 // Licensed under the Apache License Version 2.0 that can be found in the
 // LICENSE file in the root directory of this source tree.
-// Modified by SEED Design: keep backdrop progress continuous across layout changes.
+// Modified by SEED Design: keep backdrop progress continuous across layout changes and restore
+// the sheet position after background style updates.
 import { runOnBackground, runOnMainThread, useMainThreadRef, useMemo } from "@lynx-js/react";
 import type { MainThreadRef } from "@lynx-js/react";
 
@@ -234,24 +235,34 @@ export function useSnap({
     }
   }
 
-  useMotionValueRefEvent(yRef, "change", (v) => {
+  function applySheetTransformMT(v: number) {
     "main thread";
     const el = sheetMTRef.current;
-    if (el) {
-      const offsets = getResolvedSnapOffsets();
-      const maxSnap = offsets.length > 0 ? Math.max(...offsets) : 0;
-      const opened = Math.max(sheetSizeMTRef.current, maxSnap);
-      const transformValue =
-        isHorizontalSide(resolvedSide) && !allowOverDrag ? Math.min(v, opened) : v;
-      el.setStyleProperties({
-        transform: getSheetTransform(resolvedSide, transformValue),
-        transition: "none",
-      });
-      if (sheetProgress?.current) {
-        sheetProgress.current.set(getSheetProgress(v, progressMappingMTRef.current));
-      }
+    if (!el) return false;
+    const offsets = getResolvedSnapOffsets();
+    const maxSnap = offsets.length > 0 ? Math.max(...offsets) : 0;
+    const opened = Math.max(sheetSizeMTRef.current, maxSnap);
+    const transformValue =
+      isHorizontalSide(resolvedSide) && !allowOverDrag ? Math.min(v, opened) : v;
+    el.setStyleProperties({
+      transform: getSheetTransform(resolvedSide, transformValue),
+      transition: "none",
+    });
+    return true;
+  }
+
+  useMotionValueRefEvent(yRef, "change", (v) => {
+    "main thread";
+    if (applySheetTransformMT(v) && sheetProgress?.current) {
+      sheetProgress.current.set(getSheetProgress(v, progressMappingMTRef.current));
     }
   });
+
+  /** background가 시트 view의 인라인 style을 다시 쓴 뒤 현재 위치를 되살린다. */
+  function restoreSheetTransformMT() {
+    "main thread";
+    if (yRef.current) applySheetTransformMT(yRef.current.get());
+  }
 
   function onSnapChangeMT(index: number, value: number) {
     "main thread";
@@ -441,6 +452,7 @@ export function useSnap({
     getResolvedSnapOffsets,
     getResolvedSnapPointValues,
     handleSheetLayoutChangeMT,
+    restoreSheetTransformMT,
     resolvePendingSnapMT: controller.resolvePendingSnapMT,
     presenceStateMTRef: controller.presenceStateMTRef,
     onDragStartMT: controller.onDragStartMT,

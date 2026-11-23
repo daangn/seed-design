@@ -2,7 +2,8 @@ import type { ReactElement } from "@lynx-js/react";
 // Copyright 2026 The Lynx Authors. All rights reserved.
 // Licensed under the Apache License Version 2.0 that can be found in the
 // LICENSE file in the root directory of this source tree.
-// Modified by SEED Design: adapt style typing and finish canceled drags.
+// Modified by SEED Design: adapt style typing, finish canceled drags, and keep the position across
+// layer-size style updates.
 
 import { runOnMainThread, useEffect, useMemo, useRef } from "@lynx-js/react";
 
@@ -104,6 +105,7 @@ export function SheetContent(props: SheetContentProps): ReactElement {
     getResolvedSnapOffsets,
     getResolvedSnapPointValues,
     handleSheetLayoutChangeMT,
+    restoreSheetTransformMT,
     resolvePendingSnapMT,
     setContentMTRef,
     maxSnapSize,
@@ -213,6 +215,15 @@ export function SheetContent(props: SheetContentProps): ReactElement {
   const scaledLayerWidth = layerSize.width === undefined ? "150vw" : `${layerSize.width * 1.5}px`;
   const scaledLayerHeight =
     layerSize.height === undefined ? "150vh" : `${layerSize.height * 1.5}px`;
+
+  // 바깥 view의 인라인 style이 바뀌면 Lynx는 기존 인라인 style을 모두 지우고 다시 쓴다.
+  // main thread가 적용한 위치가 `translate(0px, 0px)`로 돌아가지 않도록 commit 뒤에 다시 적용한다.
+  const restoreSheetTransform = useMemoizedFn(() => {
+    runOnMainThread(restoreSheetTransformMT)();
+  });
+  useEffect(() => {
+    restoreSheetTransform();
+  }, [layerWidth, layerHeight, scaledLayerWidth, scaledLayerHeight, style, restoreSheetTransform]);
 
   const horizontalContent = (
     <view
