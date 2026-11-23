@@ -7,6 +7,7 @@ import {
   readFileSync,
   renameSync,
   rmSync,
+  writeFileSync,
 } from "node:fs";
 import { rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -24,6 +25,9 @@ const BUILD_COMMANDS = [
   ["bun", "lynx-headless:build"],
 ];
 const TEST_COMMAND = ["bun", "run", "test", "commits.test"];
+// commit 수는 peer 하한에서 고정한다. `.github/workflows/lynx-test.yml` matrix의 peer 하한 값과 맞춘다.
+const LYNX_REACT_VERSION = "0.117.0";
+const LYNX_REACT_PATCH = `patches/@lynx-js%2Freact@${LYNX_REACT_VERSION}.patch`;
 
 const { values } = parseArgs({
   options: { base: { type: "string" }, all: { type: "boolean", default: false } },
@@ -40,6 +44,7 @@ const cacheDir = path.join(
   createHash("sha256").update(repoRoot).digest("hex").slice(0, 12),
 );
 const baseRoot = path.join(cacheDir, "base");
+const headRoot = path.join(cacheDir, "head");
 
 interface Result {
   exitCode: number;
@@ -99,6 +104,32 @@ function readMeasurements(reportDir: string): Measurement[] {
   );
 }
 
+// workflow의 peer 하한 matrix 단계와 같이 모든 workspace의 @lynx-js/react를 바꾸고 vitest 5 패치를 등록한다.
+async function installPinnedLynxReact(label: "base" | "head", root: string) {
+  cpSync(path.join(repoRoot, LYNX_REACT_PATCH), path.join(root, LYNX_REACT_PATCH));
+  const manifestPath = path.join(root, "package.json");
+  const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+  manifest.overrides = { ...manifest.overrides, "@lynx-js/react": LYNX_REACT_VERSION };
+  manifest.patchedDependencies = {
+    ...manifest.patchedDependencies,
+    [`@lynx-js/react@${LYNX_REACT_VERSION}`]: LYNX_REACT_PATCH,
+  };
+  writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+  await runOrThrow(label, ["bun", "install"], root);
+  log(`${label}: 소스 준비·@lynx-js/react ${LYNX_REACT_VERSION} 설치 완료`);
+}
+
+// 사용자 워킹 트리의 설치를 바꾸지 않도록 추적·미추적(ignore 제외) 파일을 복사해 잰다.
+async function prepareHead() {
+  const listPath = path.join(cacheDir, "head-files");
+  const files = (await $`git ls-files -co --exclude-standard`.cwd(repoRoot).text())
+    .split("\n")
+    .filter((file) => file && existsSync(path.join(repoRoot, file)));
+  writeFileSync(listPath, `${files.join("\n")}\n`);
+  await $`tar -cf - -T ${listPath} | tar -xf - -C ${headRoot}`.cwd(repoRoot).quiet();
+  await installPinnedLynxReact("head", headRoot);
+}
+
 async function prepareBase() {
   await $`git archive ${baseSha} | tar -x -C ${baseRoot}`.cwd(repoRoot).quiet();
   // 측정 도구와 시나리오는 현재 워킹 트리 것을 쓴다. 이번 작업에서 쓴 시나리오도 기준 소스에서 잰다.
@@ -114,24 +145,26 @@ async function prepareBase() {
   for (const file of new Bun.Glob(COMMITS_TEST_GLOB).scanSync({ cwd: repoRoot })) {
     cpSync(path.join(repoRoot, file), path.join(baseRoot, file));
   }
-  await runOrThrow("base", ["bun", "install", "--frozen-lockfile"], baseRoot);
-  log("base: 소스 준비·설치 완료");
+  await installPinnedLynxReact("base", baseRoot);
 }
 
 // 지난 실행의 node_modules를 지우는 데 10초 넘게 걸려 옆으로 옮기고 측정과 동시에 지운다.
 const staleName = `${path.basename(cacheDir)}.stale-`;
 if (existsSync(cacheDir)) renameSync(cacheDir, `${cacheDir}.stale-${process.pid}`);
 mkdirSync(baseRoot, { recursive: true });
+mkdirSync(headRoot, { recursive: true });
 const cleanup = Promise.all(
   readdirSync(path.dirname(cacheDir))
     .filter((name) => name.startsWith(staleName))
     .map((name) => rm(path.join(path.dirname(cacheDir), name), { recursive: true, force: true })),
 );
-log(`기준 ${baseRef} (${baseSha.slice(0, 9)})와 현재 워킹 트리를 측정한다`);
+log(
+  `기준 ${baseRef} (${baseSha.slice(0, 9)})와 현재 워킹 트리를 @lynx-js/react ${LYNX_REACT_VERSION}에서 측정한다`,
+);
 
 const [base, head] = await Promise.all([
   prepareBase().then(() => measure("base", baseRoot)),
-  measure("head", repoRoot),
+  prepareHead().then(() => measure("head", headRoot)),
 ]);
 
 const changedFiles = [

@@ -73,7 +73,7 @@ Menu·Select·HelpBubble처럼 화면 위에 뜨는 레이어의 host 규칙이�
 - `bytes`(`payload.data` 길이 합)는 절대값으로 고정하지 않는다. 항목 수를 바꿔 재는 상호작용에서 patch 크기가 항목 수에 비례하지 않는다는 상대 비교에만 쓴다 → `Tabs.commits.test.tsx`.
 - 지금 불변식을 만족하지 못하면 목표 불변식을 `it.fails`로 쓰고, 같은 시나리오의 현재 값을 일반 `it`(`currently …`)으로 바로 옆에 고정한다 → 값이 더 나빠지면 `it`이 깨지고, 최적화하면 둘 다 깨져 알린다. 원인 위치는 주석에 남기고 수치는 단언과 겹치므로 쓰지 않는다. 측정 코드는 파일 안의 작은 함수로 공유한다.
 - 기댓값은 개발 버전(lockfile의 `@lynx-js/react` 0.125.x)에서 잰 값 하나로 고정하고 버전별로 나누지 않는다. `createLynxVitestConfig`가 다른 버전에서는 commit 테스트를 제외한다 → peer 하한 matrix(0.117.0)는 commit 테스트를 돌리지 않는다. 개발 버전을 바꾸면 `packages/lynx-vitest-config/src/index.mjs`의 기준 버전을 함께 바꾸고 기댓값을 다시 잰다. 값은 lockfile 설치 그대로 `bun utils:build && bun lynx-headless:build` 뒤 `bun test:lynx-react`로 잰다.
-- `bun lynx:commits`는 워킹 트리의 commit 테스트를 기준(기본 `origin/dev`와의 merge-base)과 현재 소스에서 각각 실행해 측정값을 비교한다. 회귀가 있거나 현재 테스트가 실패하면 exit 1이다.
+- `bun lynx:commits`는 워킹 트리의 commit 테스트를 기준(기본 `origin/dev`와의 merge-base)과 현재 소스에서 각각 실행해 측정값을 비교한다. 두 소스를 임시 복사본에 두고 matrix와 같은 방법으로 0.117.0을 설치하므로 워킹 트리의 설치는 바뀌지 않는다. 회귀가 있거나 현재 테스트가 실패하면 exit 1이다.
   - `회귀` → 이번 변경에서 늘었다. 고치거나 원인을 밝힌다. `변화 없음` → 기준에도 같은 값이라 이번 변경의 회귀가 아니다.
   - `기준 측정 없음` → 시나리오가 기준 소스에 없는 API를 쓰거나 기준에서 앞 단언이 실패해 그 측정까지 가지 못했다. 비교할 수 없으니 현재 값만 본다.
   - 스택 브랜치는 `--base <부모 브랜치>`로 부모 대비 변화를 본다.
