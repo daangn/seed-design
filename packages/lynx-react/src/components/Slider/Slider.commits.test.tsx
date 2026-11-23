@@ -34,11 +34,25 @@ async function mount() {
   return { view, commits };
 }
 
+async function dragFrame() {
+  const { view } = await mount();
+  const root = view.container.querySelector(".seed-slider__root");
+  const thumb = view.container.querySelector(".seed-slider__thumb");
+  if (!root || !thumb) throw new Error("Missing slider");
+  fireEvent.touchstart(root, { eventType: "catchEvent", touches: [{ pageX: 30 }] });
+  await waitSchedule();
+  const commits = await measureCommits(() =>
+    fireEvent.touchmove(root, { eventType: "catchEvent", touches: [{ pageX: 60 }] }),
+  );
+  expect(thumb.getAttribute("accessibility-value")).toBe("minimum 0, maximum 100, current 50");
+  return commits;
+}
+
 describe("Slider commits", () => {
   // mount 뒤 root·thumb 측정 결과로 track 폭을 한 번 반영한다(lynx-react-headless/slider/src/useSlider.ts).
   it("commits the track measurement on mount", async () => {
     const { commits } = await mount();
-    expect(commits).toMatchObject({ total: 8, nonEmpty: 2 });
+    expect(commits).toMatchObject({ total: 6, nonEmpty: 2 });
   });
 
   it("does not commit when the root width is reported again", async () => {
@@ -61,16 +75,6 @@ describe("Slider commits", () => {
   });
 
   it("commits one drag frame", async () => {
-    const { view } = await mount();
-    const root = view.container.querySelector(".seed-slider__root");
-    const thumb = view.container.querySelector(".seed-slider__thumb");
-    if (!root || !thumb) throw new Error("Missing slider");
-    fireEvent.touchstart(root, { eventType: "catchEvent", touches: [{ pageX: 30 }] });
-    await waitSchedule();
-    const commits = await measureCommits(() =>
-      fireEvent.touchmove(root, { eventType: "catchEvent", touches: [{ pageX: 60 }] }),
-    );
-    expect(thumb.getAttribute("accessibility-value")).toBe("minimum 0, maximum 100, current 50");
-    expect(commits).toMatchObject({ total: 7, nonEmpty: 4 });
+    expect(await dragFrame()).toMatchObject({ total: 5, nonEmpty: 4 });
   });
 });

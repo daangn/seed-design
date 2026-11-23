@@ -51,18 +51,18 @@ describe("RadioGroup commits", () => {
     expect(commits).toMatchObject({ total: 1, nonEmpty: 0 });
   });
 
-  // 선택 commit이 항목 수에 비례한다. 같은 vnode를 다시 렌더링하지 않고 건너뛰어, context를 구독한 Item마다
-  // commit이 따로 생기는 것으로 보인다(lynx-react-headless/radio-group/src/RadioGroup.tsx RadioGroupRoot의 Provider →
-  // RadioGroup.tsx RadioGroupItem).
+  // RadioSelectBox와 같이 선택 때 Item마다 commit이 하나씩 생긴다. headless Root(RadioGroupField.Root)와 Item 사이에
+  // 컴포넌트(RadioGroup.Root)가 있어 SelectBox.commits.test.tsx와 같은 원인으로 보인다
+  // (lynx-react-headless/radio-group/src/RadioGroup.tsx RadioGroupRoot의 Provider → RadioGroup.tsx RadioGroupItem).
+  it("currently scales selection commits with the item count", async () => {
+    expect(await selectSecond(2)).toMatchObject({ total: 9, nonEmpty: 6 });
+    expect(await selectSecond(8)).toMatchObject({ total: 15, nonEmpty: 6 });
+  });
+
   it.fails("commits a selection without scaling with the item count", async () => {
     const few = await selectSecond(2);
     const many = await selectSecond(8);
     expect(many.total).toBe(few.total);
     expect(few).toMatchObject({ total: 1, nonEmpty: 1 });
-  });
-
-  it("currently scales selection commits with the item count", async () => {
-    expect(await selectSecond(2)).toMatchObject({ total: 10, nonEmpty: 6 });
-    expect(await selectSecond(8)).toMatchObject({ total: 16, nonEmpty: 6 });
   });
 });

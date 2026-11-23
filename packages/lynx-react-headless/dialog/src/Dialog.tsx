@@ -97,23 +97,19 @@ export interface DialogRootProps extends Omit<
  */
 export function DialogRoot(props: DialogRootProps): React.ReactElement {
   const { open, defaultOpen, onOpenChange, skipAnimation = false, children, ...rootProps } = props;
+  const context = React.useMemo(() => ({ skipAnimation }), [skipAnimation]);
 
   return (
-    <LynxDialogRoot
-      {...rootProps}
-      show={open}
-      defaultShow={defaultOpen}
-      onShowChange={onOpenChange}
-    >
-      {(status) => (
-        // lynx-ui DialogRoot는 열림 상태가 바뀔 때마다 렌더링되고, 하위 lynx-ui 부품은 그 context를 구독한다.
-        // 그 사이에 감싼 부품이 있으면 Preact가 같은 element인 부품에서 내려가기를 멈춰, 구독한 lynx-ui
-        // 부품이 각자 따로 렌더링·commit된다. 렌더링마다 새 값을 내려 감싼 부품도 같은 commit에서 렌더링한다.
-        <DialogProvider value={{ skipAnimation }}>
-          {typeof children === "function" ? children(status) : children}
-        </DialogProvider>
-      )}
-    </LynxDialogRoot>
+    <DialogProvider value={context}>
+      <LynxDialogRoot
+        {...rootProps}
+        show={open}
+        defaultShow={defaultOpen}
+        onShowChange={onOpenChange}
+      >
+        {children}
+      </LynxDialogRoot>
+    </DialogProvider>
   );
 }
 DialogRoot.displayName = "DialogRoot";

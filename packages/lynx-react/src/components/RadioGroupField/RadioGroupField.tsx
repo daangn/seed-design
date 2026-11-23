@@ -39,19 +39,15 @@ export const RadioGroupFieldRoot = React.forwardRef<unknown, RadioGroupFieldRoot
     const { children, className, invalid = false, ...otherProps } = props;
     const classes = field({ invalid });
 
-    // headless Root가 children을 바로 렌더링해야 선택이 바뀔 때 하위 Item이 Root의 렌더링 안에서 함께 다시 렌더링된다.
-    // Root 안에 Provider를 두면 선택 때 다시 렌더링되지 않는 Provider에서 렌더링이 멈춘다.
     return (
-      <FieldClassNamesProvider value={classes}>
-        <HeadlessRadioGroupRoot
-          {...(ref ? { ref } : {})}
-          invalid={invalid}
-          {...otherProps}
-          className={clsx(classes.root, className)}
-        >
-          {children}
-        </HeadlessRadioGroupRoot>
-      </FieldClassNamesProvider>
+      <HeadlessRadioGroupRoot
+        {...(ref ? { ref } : {})}
+        invalid={invalid}
+        {...otherProps}
+        className={clsx(classes.root, className)}
+      >
+        <FieldClassNamesProvider value={classes}>{children}</FieldClassNamesProvider>
+      </HeadlessRadioGroupRoot>
     );
   },
 );

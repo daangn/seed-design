@@ -67,18 +67,18 @@ describe("SegmentedTextInput commits", () => {
     expect(commits).toMatchObject({ total: 1, nonEmpty: 0 });
   });
 
-  // 입력 commit이 Segment 수에 비례하는 것으로 보인다. 같은 vnode를 다시 렌더링하지 않고 건너뛰어, Root의 값
-  // context를 구독한 Segment마다 commit이 따로 생긴다(lynx-react-headless/segmented-text-input/src/SegmentedTextInput.tsx
-  // SegmentedTextInputProvider의 api → SegmentedTextInput.tsx SegmentedTextInputInputSegment).
+  // 한 Segment에 입력해도 Root의 값 context가 바뀌어 모든 Segment가 다시 렌더되고, Segment마다 commit이 하나씩 생긴다
+  // (lynx-react-headless/segmented-text-input/src/SegmentedTextInput.tsx
+  // SegmentedTextInputProvider의 api). context 구독으로 다시 렌더되는 Segment마다 ReactLynx가 commit을 따로 보내는 것으로
+  // 보인다.
+  it("currently scales typing commits with the segment count", async () => {
+    expect(await type(2)).toMatchObject({ total: 3, nonEmpty: 1 });
+    expect(await type(6)).toMatchObject({ total: 7, nonEmpty: 1 });
+  });
+
   it.fails("does not scale typing commits with the segment count", async () => {
     const few = await type(2);
     const many = await type(6);
     expect(many.total).toBe(few.total);
-    expect(few).toMatchObject({ total: 1, nonEmpty: 1 });
-  });
-
-  it("currently scales typing commits with the segment count", async () => {
-    expect(await type(2)).toMatchObject({ total: 3, nonEmpty: 1 });
-    expect(await type(6)).toMatchObject({ total: 7, nonEmpty: 1 });
   });
 });
