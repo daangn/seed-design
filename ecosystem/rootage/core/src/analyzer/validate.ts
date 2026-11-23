@@ -7,13 +7,16 @@ interface ValidationResult {
   message: string;
 }
 
+type ValueType = PropertySchemaDeclaration["type"] | "haptic";
+
 // this might live in ast.ts later but not sure: *Lit["kind"] already shows its type
-const LITERAL_KIND_TO_TYPE: Record<ValueLit["kind"], PropertySchemaDeclaration["type"]> = {
+const LITERAL_KIND_TO_TYPE: Record<ValueLit["kind"], ValueType> = {
   ColorHexLit: "color",
   DimensionLit: "dimension",
   NumberLit: "number",
   EnumLit: "enum",
   DurationLit: "duration",
+  HapticLit: "haptic",
   CubicBezierLit: "cubicBezier",
   ShadowLit: "shadow",
   GradientLit: "gradient",
@@ -21,13 +24,14 @@ const LITERAL_KIND_TO_TYPE: Record<ValueLit["kind"], PropertySchemaDeclaration["
 
 // this might live in ast.ts later but not sure: *PropertyDeclaration["kind"] already shows its type
 const TOKEN_DECL_KIND_TO_TYPE: Omit<
-  Record<TokenDeclaration["kind"], PropertySchemaDeclaration["type"]>,
+  Record<TokenDeclaration["kind"], ValueType>,
   "UnresolvedTokenDeclaration"
 > = {
   ColorTokenDeclaration: "color",
   DimensionTokenDeclaration: "dimension",
   NumberTokenDeclaration: "number",
   DurationTokenDeclaration: "duration",
+  HapticTokenDeclaration: "haptic",
   CubicBezierTokenDeclaration: "cubicBezier",
   ShadowTokenDeclaration: "shadow",
   GradientTokenDeclaration: "gradient",
@@ -78,7 +82,7 @@ export function validate(ctx: RootageCtx): ValidationResult {
   const tokenNames = tokens.map((binding) => binding.token.identifier);
   const tokenNameSet = new Set(tokenNames);
 
-  const tokenTypeMap = new Map<string, PropertySchemaDeclaration["type"]>();
+  const tokenTypeMap = new Map<string, ValueType>();
   for (const tokenBinding of tokens) {
     // when tokens like $color.fg.brand is used, just skip
     // TODO: we might resolve -> validate OR resolve in validate but not sure if they're appropriate

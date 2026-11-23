@@ -1,3 +1,5 @@
+import type { HapticValue } from "./haptic";
+
 export type TokenRef = `$${string}`;
 
 // Literal
@@ -30,6 +32,11 @@ export interface NumberLit {
 export interface EnumLit {
   kind: "EnumLit";
   value: string;
+}
+
+export interface HapticLit {
+  kind: "HapticLit";
+  value: HapticValue;
 }
 
 export interface CubicBezierLit {
@@ -69,6 +76,7 @@ export type ValueLit =
   | NumberLit
   | EnumLit
   | CubicBezierLit
+  | HapticLit
   | ShadowLit
   | GradientLit;
 
@@ -161,10 +169,25 @@ export interface CubicBezierTokenDeclaration {
   excludeFromExchange?: boolean;
 }
 
+export interface HapticTokenDeclaration {
+  kind: "HapticTokenDeclaration";
+  collection: string;
+  token: TokenLit;
+  values: HapticTokenValueDeclaration[];
+  description?: string;
+  excludeFromExchange?: boolean;
+}
+
 export interface CubicBezierTokenValueDeclaration {
   kind: "CubicBezierTokenValueDeclaration";
   mode: string;
   value: CubicBezierLit | TokenLit;
+}
+
+export interface HapticTokenValueDeclaration {
+  kind: "HapticTokenValueDeclaration";
+  mode: string;
+  value: HapticLit | TokenLit;
 }
 
 export interface ShadowTokenDeclaration {
@@ -220,6 +243,7 @@ export type TokenDeclaration =
   | NumberTokenDeclaration
   | DurationTokenDeclaration
   | CubicBezierTokenDeclaration
+  | HapticTokenDeclaration
   | ShadowTokenDeclaration
   | GradientTokenDeclaration
   | UnresolvedTokenDeclaration;
@@ -415,6 +439,7 @@ export type Node =
   | NumberLit
   | EnumLit
   | CubicBezierLit
+  | HapticLit
   | ShadowLayerLit
   | ShadowLit
   | GradientStopLit
@@ -431,7 +456,9 @@ export type Node =
   | DurationTokenDeclaration
   | DurationTokenValueDeclaration
   | CubicBezierTokenDeclaration
+  | HapticTokenDeclaration
   | CubicBezierTokenValueDeclaration
+  | HapticTokenValueDeclaration
   | ShadowTokenDeclaration
   | ShadowTokenValueDeclaration
   | GradientTokenDeclaration

@@ -1,5 +1,6 @@
 import type {
   ColorHexLit,
+  HapticLit,
   CubicBezierLit,
   DimensionLit,
   DurationLit,
@@ -34,7 +35,8 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
       mode,
       value: isTokenRef(val) ? factory.createTokenLit(val) : parseValue(val),
     }));
-    const baseKind = modeValues.find(({ value }) => !isTokenRef(value))?.value.kind ?? "TokenLit";
+    const baseKind =
+      modeValues.find(({ value }) => value.kind !== "TokenLit")?.value.kind ?? "TokenLit";
 
     // Depending on `baseType`, pick the appropriate TokenDeclaration kind.
     // TODO: We should try to resolve TokenLit types from references.
@@ -101,6 +103,19 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
                 mode,
                 value as CubicBezierLit | TokenLit,
               ),
+            ),
+            tokenData.description,
+            tokenData.excludeFromExchange,
+          ),
+        );
+        break;
+      case "HapticLit":
+        out.push(
+          factory.createHapticTokenDeclaration(
+            collectionName,
+            factory.createTokenLit(tokenRef),
+            modeValues.map(({ mode, value }) =>
+              factory.createHapticTokenValueDeclaration(mode, value as HapticLit | TokenLit),
             ),
             tokenData.description,
             tokenData.excludeFromExchange,

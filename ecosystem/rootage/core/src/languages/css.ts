@@ -72,6 +72,10 @@ function stringifyValueLit(expr: ValueLit, tokenReference?: (token: TokenLit) =>
     return expr.value;
   }
 
+  if (expr.kind === "HapticLit") {
+    return JSON.stringify(expr.value);
+  }
+
   if (expr.kind === "CubicBezierLit") {
     return stringifyCubicBezierLit(expr);
   }
@@ -130,6 +134,7 @@ export function createStringifier(
       throw new Error("Enum values cannot be emitted as CSS");
     }
 
+    if (value.kind === "HapticLit") throw new Error("Haptic values cannot be emitted as CSS");
     return stringifyValueLit(value, tokenReference);
   }
 
@@ -214,7 +219,9 @@ export function getTokenCss(
   const { tokens, tokenCollections } = ast;
 
   const rules = tokenCollections.flatMap((collection) => {
-    const inCollection = tokens.filter((token) => token.collection === collection.name);
+    const inCollection = tokens.filter(
+      (token) => token.collection === collection.name && token.kind !== "HapticTokenDeclaration",
+    );
     if (inCollection.length === 0) return [];
     return collection.modes.flatMap(({ id: mode }) => {
       const selector = options.selectors[collection.name]?.[mode];

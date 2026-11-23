@@ -198,7 +198,11 @@ function parseGradient(expr: unknown): AST.GradientLit | null {
  * `kind: ComponentSpec` does not need it: its slot schema names the type of every
  * property, so it goes through `parseValueAs` instead.
  */
-export function parseValue(input: Document.Value): AST.ValueLit {
+export function parseValue(input: Document.TokenValue): AST.ValueLit {
+  if (typeof input === "object" && input !== null && input.type === "haptic") {
+    return factory.createHapticLit(input.value);
+  }
+
   const result =
     parseColor(input) ||
     parseDimension(input) ||
@@ -244,7 +248,7 @@ export function parseValueAs(
   type: AST.PropertySchemaDeclaration["type"],
   input: Document.PropertyValue,
   context: string,
-): AST.ValueLit {
+): Exclude<AST.ValueLit, AST.HapticLit> {
   const result = PARSE_BY_TYPE[type](input);
 
   if (!result) {

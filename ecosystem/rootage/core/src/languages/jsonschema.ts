@@ -40,6 +40,7 @@ function getReadableValue(value: TokenDeclaration["values"][number]["value"]): s
 
 export function getJsonSchema(tokens: TokenDeclaration[]): string {
   const tokenAnnotations = tokens
+    .filter((token) => token.kind !== "HapticTokenDeclaration")
     .sort((a, b) => {
       const titleA = stringifyTokenExpression(a.token);
       const titleB = stringifyTokenExpression(b.token);

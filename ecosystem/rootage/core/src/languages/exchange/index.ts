@@ -31,11 +31,13 @@ export function getTokenCollectionsModel(
 
 export function getTokensModel(ast: AST.TokensDocument): Exchange.TokensModel {
   const collection = ast.data.length ? ast.data[0]!.collection : "";
-  const tokens: Record<string, { values: Record<string, Exchange.Value>; description?: string }> =
-    {};
+  const tokens: Record<
+    string,
+    { values: Record<string, Exchange.TokenValue>; description?: string }
+  > = {};
 
-  function buildValues(decl: AST.TokenDeclaration): Record<string, Exchange.Value> {
-    const valueMap: Record<string, Exchange.Value> = {};
+  function buildValues(decl: AST.TokenDeclaration): Record<string, Exchange.TokenValue> {
+    const valueMap: Record<string, Exchange.TokenValue> = {};
     switch (decl.kind) {
       case "ColorTokenDeclaration":
         for (const { mode, value } of decl.values) {
@@ -80,6 +82,14 @@ export function getTokensModel(ast: AST.TokensDocument): Exchange.TokensModel {
           valueMap[mode] = {
             type: "cubicBezier",
             value: value.kind === "CubicBezierLit" ? value.value : value.identifier,
+          };
+        }
+        break;
+      case "HapticTokenDeclaration":
+        for (const { mode, value } of decl.values) {
+          valueMap[mode] = {
+            type: "haptic",
+            value: value.kind === "HapticLit" ? value.value : value.identifier,
           };
         }
         break;

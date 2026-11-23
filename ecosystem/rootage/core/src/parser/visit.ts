@@ -13,6 +13,7 @@ export function visitEachChild<T extends Node>(node: T, fn: (node: Node) => Node
     case "EnumLit":
     case "DurationLit":
     case "CubicBezierLit":
+    case "HapticLit":
     case "ShadowLayerLit":
     case "GradientStopLit":
     case "TokenLit":
@@ -47,6 +48,7 @@ export function visitEachChild<T extends Node>(node: T, fn: (node: Node) => Node
     case "NumberTokenDeclaration":
     case "DurationTokenDeclaration":
     case "CubicBezierTokenDeclaration":
+    case "HapticTokenDeclaration":
     case "ShadowTokenDeclaration":
     case "GradientTokenDeclaration":
     case "UnresolvedTokenDeclaration":
@@ -59,6 +61,7 @@ export function visitEachChild<T extends Node>(node: T, fn: (node: Node) => Node
     case "NumberTokenValueDeclaration":
     case "DurationTokenValueDeclaration":
     case "CubicBezierTokenValueDeclaration":
+    case "HapticTokenValueDeclaration":
     case "ShadowTokenValueDeclaration":
     case "GradientTokenValueDeclaration":
     case "UnresolvedTokenValueDeclaration":

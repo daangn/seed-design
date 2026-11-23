@@ -547,6 +547,10 @@ data:
 - **Gradient**
   - `{ type: "gradient", value: [{ color, position }] }` 형태로 `type` 을 명시해야 합니다.
   - position은 [0, 1] 범위의 실수입니다.
+- **Haptic** (전역 토큰)
+  - 프리미티브는 질감과 세기를 조합합니다. 예를 들어 `$haptic.primitive.sharp-strong`은 `{ type: haptic, value: { sharpness: 0.90, intensity: 1.00 } }`입니다. 두 값의 범위는 0에서 1까지입니다.
+  - 시스템 피드백은 `{ type: haptic, value: { system: success } }`처럼 작성합니다. `select`, `lightFeedback`, `success`, `error`를 지원합니다.
+  - 네이티브 클라이언트는 Rootage의 `haptic.json`에서 값을 읽습니다.
 - **Reference**
   - `$`로 시작하는 토큰 이름, 예: `$token-name`
 

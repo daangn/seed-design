@@ -1,3 +1,5 @@
+import type { HapticValue } from "../haptic";
+
 export type TokenRef = `$${string}`;
 
 export type ColorLit = `#${string}`;
@@ -33,6 +35,10 @@ export type Duration = {
 export type Enum = {
   type: "enum";
   value: string;
+};
+export type Haptic = {
+  type: "haptic";
+  value: HapticValue | TokenRef;
 };
 export type CubicBezier = {
   type: "cubicBezier";
@@ -135,12 +141,14 @@ export interface TokensModel {
   data: TokensData;
 }
 
+export type TokenValue = Value | Haptic;
+
 export interface TokensData {
   collection: string;
   tokens: {
     [tokenName: TokenRef]: {
       values: {
-        [mode: string]: Value;
+        [mode: string]: TokenValue;
       };
       description?: string;
     };

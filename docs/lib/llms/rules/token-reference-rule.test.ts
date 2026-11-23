@@ -138,6 +138,7 @@ describe("formatTokenValue", () => {
       { type: "color", value: "$fixture-alpha.solid.one" },
       "$fixture-alpha.solid.one",
     ],
+    ["a haptic preset", { type: "haptic", value: { system: "success" } }, '{"system":"success"}'],
     ["an enum", { type: "enum", value: "bold" }, "bold"],
   ];
 

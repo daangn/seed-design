@@ -1,3 +1,4 @@
+import { isHapticValue } from "./haptic";
 import type {
   ColorHexLit,
   DimensionLit,
@@ -5,6 +6,7 @@ import type {
   NumberLit,
   EnumLit,
   CubicBezierLit,
+  HapticLit,
   ShadowLayerLit,
   ShadowLit,
   GradientStopLit,
@@ -30,6 +32,7 @@ import type {
   NumberTokenDeclaration,
   DurationTokenDeclaration,
   CubicBezierTokenDeclaration,
+  HapticTokenDeclaration,
   ShadowTokenDeclaration,
   GradientTokenDeclaration,
   TokenDeclaration,
@@ -45,6 +48,7 @@ import type {
   NumberTokenValueDeclaration,
   DurationTokenValueDeclaration,
   CubicBezierTokenValueDeclaration,
+  HapticTokenValueDeclaration,
   ShadowTokenValueDeclaration,
   GradientTokenValueDeclaration,
   UnresolvedTokenValueDeclaration,
@@ -120,6 +124,15 @@ export function createCubicBezierLit(
     kind: "CubicBezierLit",
     value,
   };
+}
+
+export function createHapticLit(value: unknown): HapticLit {
+  if (!isHapticValue(value)) {
+    throw new Error(
+      "Expected sharpness and intensity in [0, 1], or a supported haptic system preset",
+    );
+  }
+  return { kind: "HapticLit", value };
 }
 
 /**
@@ -612,6 +625,23 @@ export function createCubicBezierTokenDeclaration(
   };
 }
 
+export function createHapticTokenDeclaration(
+  collection: string,
+  token: TokenLit,
+  values: HapticTokenValueDeclaration[],
+  description?: string,
+  excludeFromExchange?: boolean,
+): HapticTokenDeclaration {
+  return {
+    kind: "HapticTokenDeclaration",
+    collection,
+    token,
+    values,
+    description,
+    excludeFromExchange,
+  };
+}
+
 /**
  * ShadowTokenDeclaration factory
  */
@@ -684,6 +714,7 @@ export function createTokenDeclaration(
     | NumberTokenValueDeclaration[]
     | DurationTokenValueDeclaration[]
     | CubicBezierTokenValueDeclaration[]
+    | HapticTokenValueDeclaration[]
     | ShadowTokenValueDeclaration[]
     | GradientTokenValueDeclaration[]
     | UnresolvedTokenValueDeclaration[],
@@ -728,6 +759,14 @@ export function createTokenDeclaration(
         collection,
         token,
         values as CubicBezierTokenValueDeclaration[],
+        description,
+        excludeFromExchange,
+      );
+    case "HapticTokenValueDeclaration":
+      return createHapticTokenDeclaration(
+        collection,
+        token,
+        values as HapticTokenValueDeclaration[],
         description,
         excludeFromExchange,
       );
@@ -827,6 +866,17 @@ export function createCubicBezierTokenValueDeclaration(
 ): CubicBezierTokenValueDeclaration {
   return {
     kind: "CubicBezierTokenValueDeclaration",
+    mode,
+    value,
+  };
+}
+
+export function createHapticTokenValueDeclaration(
+  mode: string,
+  value: HapticLit | TokenLit,
+): HapticTokenValueDeclaration {
+  return {
+    kind: "HapticTokenValueDeclaration",
     mode,
     value,
   };

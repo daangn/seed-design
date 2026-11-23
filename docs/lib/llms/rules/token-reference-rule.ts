@@ -11,6 +11,7 @@ import duration from "@seed-design/rootage-artifacts/duration";
 import fontSize from "@seed-design/rootage-artifacts/font-size";
 import fontWeight from "@seed-design/rootage-artifacts/font-weight";
 import gradient from "@seed-design/rootage-artifacts/gradient";
+import haptic from "@seed-design/rootage-artifacts/haptic";
 import lineHeight from "@seed-design/rootage-artifacts/line-height";
 import radius from "@seed-design/rootage-artifacts/radius";
 import scale from "@seed-design/rootage-artifacts/scale";
@@ -122,7 +123,7 @@ function getRegexFromNode(node: MdxJsxFlowElement): RegExp | null {
   토큰 값을 사람이 읽을 수 있는 문자열로 변환합니다.
 */
 export type ArtifactValue =
-  | Exclude<Exchange.Value, Exchange.Gradient | Exchange.Shadow>
+  | Exclude<Exchange.TokenValue, Exchange.Gradient | Exchange.Shadow>
   | { type: "gradient"; value: readonly Exchange.GradientStop[] | Exchange.TokenRef }
   | { type: "shadow"; value: readonly Exchange.ShadowLayer[] | Exchange.TokenRef };
 
@@ -157,6 +158,9 @@ export function formatTokenValue(entry: ArtifactValue): string {
       )
       .with({ type: P.union("shadow", "gradient"), value: P.array() }, ({ value }) =>
         JSON.stringify(value),
+      )
+      .with({ type: "haptic" }, ({ value }) =>
+        typeof value === "string" ? value : JSON.stringify(value),
       )
       // 남은 건 전부 문자열 그대로 출력한다 — TokenRef, ColorLit, enum 값.
       .with({ value: P.string }, ({ value }) => value)
@@ -273,6 +277,7 @@ export const tokenReferenceRule = createTokenReferenceRule([
   fontSize,
   fontWeight,
   gradient,
+  haptic,
   lineHeight,
   radius,
   scale,

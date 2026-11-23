@@ -1,6 +1,7 @@
 import type {
   EnumLit,
   ColorHexLit,
+  HapticLit,
   CubicBezierLit,
   DimensionLit,
   DurationLit,
@@ -27,13 +28,14 @@ import { isTokenRef } from "./is-token-ref";
  * we call the specialized parse function based on value.type.
  */
 export function parseValue(
-  v: Document.Value | string,
+  v: Document.TokenValue | string,
 ):
   | ColorHexLit
   | DimensionLit
   | DurationLit
   | NumberLit
   | EnumLit
+  | HapticLit
   | CubicBezierLit
   | ShadowLit
   | GradientLit
@@ -55,6 +57,10 @@ export function parseValue(
       return parseDurationValue(v);
     case "enum":
       return parseEnumValue(v);
+    case "haptic":
+      return isTokenRef(v.value)
+        ? factory.createTokenLit(v.value)
+        : factory.createHapticLit(v.value);
     case "cubicBezier":
       return parseCubicBezierValue(v);
     case "shadow":

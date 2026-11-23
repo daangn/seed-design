@@ -130,6 +130,8 @@ export function transformResolvedType<T extends AST.Node | AST.Node[]>(
             return factory.createDurationTokenValueDeclaration(valueDecl.mode, valueDecl.value);
           case "CubicBezierLit":
             return factory.createCubicBezierTokenValueDeclaration(valueDecl.mode, valueDecl.value);
+          case "HapticLit":
+            return factory.createHapticTokenValueDeclaration(valueDecl.mode, valueDecl.value);
           case "ShadowLit":
             return factory.createShadowTokenValueDeclaration(valueDecl.mode, valueDecl.value);
           case "GradientLit":

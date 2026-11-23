@@ -90,6 +90,7 @@ class TokenProcessor {
 
   processTokens(tokens: ASTTokenDeclaration[]): void {
     for (const token of tokens) {
+      if (token.kind === "HapticTokenDeclaration") continue;
       const tokenGroup = token.token.group;
       if (tokenGroup.length === 0) continue;
 

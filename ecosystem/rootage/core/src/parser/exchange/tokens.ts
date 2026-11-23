@@ -1,5 +1,6 @@
 import type {
   ColorHexLit,
+  HapticLit,
   CubicBezierLit,
   DimensionLit,
   DurationLit,
@@ -103,6 +104,18 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
                 mode,
                 value as CubicBezierLit | TokenLit,
               ),
+            ),
+            tokenData.description,
+          ),
+        );
+        break;
+      case "haptic":
+        out.push(
+          factory.createHapticTokenDeclaration(
+            collectionName,
+            factory.createTokenLit(tokenRef),
+            modeValues.map(({ mode, value }) =>
+              factory.createHapticTokenValueDeclaration(mode, value as HapticLit | TokenLit),
             ),
             tokenData.description,
           ),

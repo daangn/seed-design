@@ -1,9 +1,15 @@
+import type { HapticValue } from "../haptic";
+
 export type TokenRef = `$${string}`;
 
 export type Color = `#${string}`;
 export type Dimension = `${number}px` | `${number}rem`;
 export type Number = number;
 export type Duration = `${number}${"ms" | "s"}`;
+export type Haptic = {
+  type: "haptic";
+  value: HapticValue;
+};
 export type CubicBezier = {
   type: "cubicBezier";
   value: readonly [number, number, number, number];
@@ -72,12 +78,14 @@ export interface TokensModel {
   data: TokensData;
 }
 
+export type TokenValue = Value | Haptic;
+
 export interface TokensData {
   collection: string;
   tokens: {
     [tokenName: TokenRef]: {
       values: {
-        [mode: string]: Value;
+        [mode: string]: TokenValue;
       };
       description?: string;
       excludeFromExchange?: boolean;

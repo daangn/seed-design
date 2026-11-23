@@ -304,7 +304,8 @@ export function createStringifier(
     ];
   }
 
-  function getTokenGroups(decls: TokenDeclaration[]): TokenGroup[] {
+  function getTokenGroups(tokens: TokenDeclaration[]): TokenGroup[] {
+    const decls = tokens.filter((token) => token.kind !== "HapticTokenDeclaration");
     const groups: Record<string, TokenDeclaration[]> = {};
 
     // Initialize all groups (including parent groups)

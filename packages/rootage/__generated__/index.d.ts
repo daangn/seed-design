@@ -342,6 +342,9 @@ declare const artifact: {
       "path": "/gradient.json";
     },
     {
+      "path": "/haptic.json";
+    },
+    {
       "path": "/line-height.json";
     },
     {

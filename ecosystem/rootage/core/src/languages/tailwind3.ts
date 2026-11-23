@@ -67,6 +67,7 @@ function processFoundationTokens(
   };
 
   for (const token of foundationTokens) {
+    if (token.kind === "HapticTokenDeclaration") continue;
     const tokenGroup = token.token.group;
     if (tokenGroup.length === 0) continue;
 
