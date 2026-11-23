@@ -145,7 +145,7 @@ jobs:
         run: |
           # 게시 대상 선택 로직은 PR이 바꿀 수 없도록 신뢰된 control SHA의 스크립트를 쓰고, manifest와 diff는 PR checkout에서 읽는다.
           SELECT_SCRIPT="$RUNNER_TEMP/list-snapshot-packages.ts"
-          git fetch --no-tags --depth=1 origin "$SNAPSHOT_CONTROL_SHA"
+          git fetch --no-tags origin "$SNAPSHOT_CONTROL_SHA"
           git show "$SNAPSHOT_CONTROL_SHA:.github/scripts/list-snapshot-packages.ts" > "$SELECT_SCRIPT"
           SNAPSHOT_PACKAGE_LIST="$(bun "$SELECT_SCRIPT" "$SNAPSHOT_BASE_SHA" "$SNAPSHOT_SOURCE_SHA")"
           if [ -z "$SNAPSHOT_PACKAGE_LIST" ]; then
