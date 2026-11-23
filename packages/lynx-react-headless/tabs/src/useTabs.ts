@@ -119,7 +119,7 @@ export function useTabs({
       items.findIndex((item) => item.value === value),
     );
     const complete = items.every(
-      // biome-ignore lint/suspicious/noPrototypeBuiltins: Object.hasOwn is unavailable in supported Lynx runtimes.
+      // oxlint-disable-next-line eslint/no-prototype-builtins, eslint/prefer-object-has-own -- Object.hasOwn is unavailable in supported Lynx runtimes.
       (item) => Object.prototype.hasOwnProperty.call(widths, item.value),
     );
     setTriggerWidths((current) => {
