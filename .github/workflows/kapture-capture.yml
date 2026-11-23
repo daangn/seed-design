@@ -222,7 +222,7 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends fonts-noto-cjk=1:20230817+repack1-3
+          sudo apt-get install --yes --no-install-recommends fonts-noto-cjk=1:20240730+repack1-1build1
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           artifact-ids: ${{ needs.build-head.outputs.artifact-id }}
@@ -282,7 +282,7 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends fonts-noto-cjk=1:20230817+repack1-3
+          sudo apt-get install --yes --no-install-recommends fonts-noto-cjk=1:20240730+repack1-1build1
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           artifact-ids: ${{ needs.build-base.outputs.artifact-id }}
