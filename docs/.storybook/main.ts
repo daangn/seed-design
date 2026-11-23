@@ -33,6 +33,7 @@ export default defineMain({
   viteFinal: (config) => ({
     ...config,
     resolve: { ...config.resolve, tsconfigPaths: true },
+    build: { ...config.build, copyPublicDir: false },
   }),
 });
 
