@@ -53,15 +53,15 @@ async function loadAfterMount() {
 }
 
 describe("ImageFrame commits", () => {
-  // useImage effect가 Image.Root에 loading 상태를 알릴 때 ImageFrame마다 빈 commit이 하나씩 생기고
-  // (lynx-react-headless/image/src/useImage.ts notifyStatus → Image.tsx ImageRoot setStatus), load도 이미지마다 따로 commit한다.
-  // 목표는 mount 1회와 load 반영 1회다.
+  // Image.Content가 mount effect에서 Image.Root에 loading 상태를 알릴 때 ImageFrame마다 빈 commit이 하나씩 생긴다
+  // (lynx-react-headless/image/src/Image.tsx ImageContent setLoadingStatus → ImageRoot setStatus). load는 기기처럼 이미지마다
+  // 따로 오므로 Background Thread에서 fallback을 지우는 한 이미지마다 commit한다. 목표는 mount 1회와 load 반영 1회다.
   it("currently scales mount and load commits with the image count", async () => {
     expect(await mountAndLoad(1)).toMatchObject(
-      usesPreact10 ? { total: 8, nonEmpty: 3 } : { total: 4, nonEmpty: 2 },
+      usesPreact10 ? { total: 7, nonEmpty: 3 } : { total: 3, nonEmpty: 2 },
     );
     expect(await mountAndLoad(4)).toMatchObject(
-      usesPreact10 ? { total: 29, nonEmpty: 9 } : { total: 13, nonEmpty: 5 },
+      usesPreact10 ? { total: 25, nonEmpty: 9 } : { total: 9, nonEmpty: 5 },
     );
   });
 
@@ -78,18 +78,18 @@ describe("ImageFrame commits", () => {
     expect(commits).toMatchObject({ total: 1, nonEmpty: 0 });
   });
 
-  // Image.Content의 useImage state가 먼저 바뀌어 빈 commit을 보내고, effect가 Image.Root state로 옮긴 뒤에야 fallback을 지운다
-  // (lynx-react-headless/image/src/useImage.ts updateStatus·notifyStatus → Image.tsx ImageRoot).
-  it("currently sends empty commits for an image load", async () => {
-    expect(await loadAfterMount()).toMatchObject(
-      usesPreact10 ? { total: 4, nonEmpty: 2 } : { total: 2, nonEmpty: 1 },
-    );
-  });
-
-  it.fails("commits an image load without empty patches", async () => {
+  // Preact 10에서는 load로 다시 렌더되는 컴포넌트마다 commit이 따로 생겨 빈 commit이 남는다.
+  (usesPreact10 ? it.fails : it)("commits an image load without empty patches", async () => {
     const commits = await loadAfterMount();
     expect(commits.nonEmpty).toBe(commits.total);
   });
+
+  (usesPreact10 ? it : it.skip)(
+    "currently sends empty commits for an image load on Preact 10",
+    async () => {
+      expect(await loadAfterMount()).toMatchObject({ total: 3, nonEmpty: 2 });
+    },
+  );
 
   it("does not commit when the image load is reported again", async () => {
     const { view } = await mount(1);

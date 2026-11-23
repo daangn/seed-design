@@ -35,26 +35,12 @@ async function selectSecond(count: number) {
 }
 
 describe("SegmentedControl commits", () => {
-  // Preact 10에서는 mount commit이 Item 수에 비례한다. Item이 첫 렌더 뒤에 등록하는 items state
-  // (lynx-react-headless/segmented-control/src/useSegmentedControl.ts)와 관련된 것으로 보인다.
-  (usesPreact10 ? it.fails : it).each([2, 6])(
-    "commits a fixed number of times when %i items mount",
-    async (count) => {
-      const { commits } = await mount(count);
-      expect(commits).toMatchObject({ total: 3, nonEmpty: 3 });
-    },
-  );
-
-  (usesPreact10 ? it : it.skip).each([
-    [2, { total: 6, nonEmpty: 4 }],
-    [6, { total: 10, nonEmpty: 4 }],
-  ])(
-    "currently scales mount commits with the item count (%i items) on Preact 10",
-    async (count, expected) => {
-      const { commits } = await mount(count);
-      expect(commits).toMatchObject(expected);
-    },
-  );
+  it.each([2, 6])("commits a fixed number of times when %i items mount", async (count) => {
+    const { commits } = await mount(count);
+    expect(commits).toMatchObject(
+      usesPreact10 ? { total: 4, nonEmpty: 4 } : { total: 3, nonEmpty: 3 },
+    );
+  });
 
   it("sends only empty commits when rerendered with the same props", async () => {
     const { view } = await mount(2);

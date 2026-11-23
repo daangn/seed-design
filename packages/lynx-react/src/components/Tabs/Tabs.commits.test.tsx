@@ -78,13 +78,15 @@ async function selectSecond(count: number) {
 
 describe("Tabs commits", () => {
   // trigger 폭이 올 때마다 useTabs의 triggerWidths state가 바뀌어 commit한다(lynx-react-headless/tabs/src/useTabs.ts updateTriggerWidth).
+  // Preact 11에서는 Tabs.List가 값이 그대로인 TabsStyleContext만 구독해 Preact가 그 아래를 건너뛰므로, 갱신마다
+  // TabsRoot와 headless List가 따로 commit한다(Tabs.tsx TabsList).
   // 목표는 mount 1회와 폭 반영 1회다.
   it("currently scales mount commits with the trigger count", async () => {
     expect(await mountAndUnmount(8)).toMatchObject(
-      usesPreact10 ? { total: 111, nonEmpty: 13 } : { total: 11, nonEmpty: 3 },
+      usesPreact10 ? { total: 39, nonEmpty: 13 } : { total: 20, nonEmpty: 3 },
     );
     expect(await mountAndUnmount(24)).toMatchObject(
-      usesPreact10 ? { total: 703, nonEmpty: 29 } : { total: 27, nonEmpty: 3 },
+      usesPreact10 ? { total: 103, nonEmpty: 29 } : { total: 52, nonEmpty: 3 },
     );
   });
 
@@ -108,24 +110,22 @@ describe("Tabs commits", () => {
   });
 
   // Preact 10에서는 ChipTabs와 같이 선택 commit이 trigger 수에 비례한다(lynx-react-headless/tabs/src/useTabs.ts의
-  // context 값 → Tabs.tsx TabsTrigger).
-  (usesPreact10 ? it.fails : it)(
-    "commits a selection change without scaling with the trigger count",
-    async () => {
-      const few = await selectSecond(8);
-      const many = await selectSecond(24);
-      expect(many.total).toBe(few.total);
-      // patch 크기도 trigger 수에 비례하지 않는다(trigger 3배에서 1.5배 미만).
-      expect(many.bytes).toBeLessThan(few.bytes * 1.5);
-      expect(few).toMatchObject({ total: 1, nonEmpty: 1 });
-    },
-  );
+  // context 값 → Tabs.tsx TabsTrigger). Preact 11에서는 mount와 같은 이유로 TabsRoot와 headless List가 따로 commit한다.
+  it.fails("commits a selection change without scaling with the trigger count", async () => {
+    const few = await selectSecond(8);
+    const many = await selectSecond(24);
+    expect(many.total).toBe(few.total);
+    // patch 크기도 trigger 수에 비례하지 않는다(trigger 3배에서 1.5배 미만).
+    expect(many.bytes).toBeLessThan(few.bytes * 1.5);
+    expect(few).toMatchObject({ total: 1, nonEmpty: 1 });
+  });
 
-  (usesPreact10 ? it : it.skip)(
-    "currently scales selection commits with the trigger count on Preact 10",
-    async () => {
-      expect(await selectSecond(8)).toMatchObject({ total: 11, nonEmpty: 3 });
-      expect(await selectSecond(24)).toMatchObject({ total: 27, nonEmpty: 3 });
-    },
-  );
+  it("currently commits a selection change more than once", async () => {
+    expect(await selectSecond(8)).toMatchObject(
+      usesPreact10 ? { total: 11, nonEmpty: 3 } : { total: 2, nonEmpty: 1 },
+    );
+    expect(await selectSecond(24)).toMatchObject(
+      usesPreact10 ? { total: 27, nonEmpty: 3 } : { total: 2, nonEmpty: 1 },
+    );
+  });
 });

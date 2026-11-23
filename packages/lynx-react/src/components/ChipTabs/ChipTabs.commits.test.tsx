@@ -80,12 +80,8 @@ describe("ChipTabs commits", () => {
   // (lynx-react-headless/tabs/src/useTabs.ts updateTriggerWidth). ChipTabs는 Indicator가 없어 대부분 빈
   // commit이다. 목표는 mount 1회다.
   it("currently scales mount commits with the trigger count", async () => {
-    expect(await mountAndUnmount(8)).toMatchObject(
-      usesPreact10 ? { total: 101, nonEmpty: 1 } : { total: 21, nonEmpty: 1 },
-    );
-    expect(await mountAndUnmount(24)).toMatchObject(
-      usesPreact10 ? { total: 677, nonEmpty: 1 } : { total: 53, nonEmpty: 1 },
-    );
+    expect(await mountAndUnmount(8)).toMatchObject({ total: 21, nonEmpty: 1 });
+    expect(await mountAndUnmount(24)).toMatchObject({ total: 53, nonEmpty: 1 });
   });
 
   it.fails("does not scale mount commits with the trigger count", async () => {
