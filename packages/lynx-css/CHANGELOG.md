@@ -1,5 +1,12 @@
 # @seed-design/lynx-css
 
+## 1.4.1
+
+### Patch Changes
+
+- aaf8f19: Lynx 컴포넌트 vars의 rem 값이 시스템 폰트 스케일을 따르지 않던 문제를 sp로 바꿔 수정합니다. `vars/component/field`의 `indicatorIcon`·`indicatorText`와 `vars/component/page-banner`의 `prefixIcon`이 해당합니다.
+- f7a604f: Lynx PageBanner `prefixIcon`이 폰트 크기 토큰 대신 스펙 값(16sp)을 직접 씁니다. 표시 결과는 같습니다.
+
 ## 1.4.0
 
 ### Minor Changes
