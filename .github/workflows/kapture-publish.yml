@@ -22,7 +22,7 @@ env:
 jobs:
   publish:
     if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.head_repository.full_name == github.repository
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 20
     permissions:
       actions: read
@@ -109,7 +109,7 @@ jobs:
   finalize:
     needs: publish
     if: always() && github.event.action == 'completed' && github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.head_repository.full_name == github.repository
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     permissions:
       actions: read
