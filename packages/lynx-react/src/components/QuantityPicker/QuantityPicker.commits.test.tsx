@@ -1,5 +1,5 @@
 import { fireEvent, render } from "@lynx-js/react/testing-library";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { describe, expect, it } from "vitest";
 
 import * as QuantityPicker from "./QuantityPicker.namespace";
@@ -38,8 +38,6 @@ describe("QuantityPicker commits", () => {
     const increment = view.container.querySelector('[accessibility-label="늘리기"]');
     if (!increment) throw new Error("Missing increment button");
     const commits = await measureCommits(() => fireEvent.tap(increment));
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 4, nonEmpty: 1 } : { total: 1, nonEmpty: 1 },
-    );
+    expect(commits).toMatchObject({ total: 4, nonEmpty: 1 });
   });
 });

@@ -1,5 +1,5 @@
 import { fireEvent, render } from "@lynx-js/react/testing-library";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { describe, expect, it } from "vitest";
 
 import type { FileEntry } from "@seed-design/lynx-react-file-upload";
@@ -79,8 +79,6 @@ describe("AttachmentInput commits", () => {
     if (!remove) throw new Error("Missing remove button");
     const commits = await measureCommits(() => fireEvent.tap(remove));
     expect(view.container.querySelectorAll("[accessibility-label='삭제']")).toHaveLength(count - 1);
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 4, nonEmpty: 2 } : { total: 3, nonEmpty: 2 },
-    );
+    expect(commits).toMatchObject({ total: 4, nonEmpty: 2 });
   });
 });

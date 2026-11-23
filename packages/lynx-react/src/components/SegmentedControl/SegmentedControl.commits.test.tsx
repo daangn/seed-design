@@ -1,5 +1,5 @@
 import { fireEvent, render } from "@lynx-js/react/testing-library";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { describe, expect, it } from "vitest";
 
 import * as SegmentedControl from "./SegmentedControl.namespace";
@@ -37,9 +37,7 @@ async function selectSecond(count: number) {
 describe("SegmentedControl commits", () => {
   it.each([2, 6])("commits a fixed number of times when %i items mount", async (count) => {
     const { commits } = await mount(count);
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 4, nonEmpty: 4 } : { total: 3, nonEmpty: 3 },
-    );
+    expect(commits).toMatchObject({ total: 4, nonEmpty: 4 });
   });
 
   it("sends only empty commits when rerendered with the same props", async () => {
@@ -48,25 +46,19 @@ describe("SegmentedControl commits", () => {
     expect(commits).toMatchObject({ total: 1, nonEmpty: 0 });
   });
 
-  // Preact 10에서는 선택 commit이 Item 수에 비례한다. context 구독으로 다시 렌더되는 Item마다 commit이 따로 생기는 것으로 보인다
+  // 선택 commit이 Item 수에 비례한다. context 구독으로 다시 렌더되는 Item마다 commit이 따로 생기는 것으로 보인다
   // (lynx-react-headless/segmented-control/src/useSegmentedControl.ts의 context 값).
-  (usesPreact10 ? it.fails : it)(
-    "commits a selection without scaling with the item count",
-    async () => {
-      const few = await selectSecond(2);
-      const many = await selectSecond(6);
-      expect(many.total).toBe(few.total);
-      // patch 크기도 Item 수에 비례하지 않는다(Item 3배에서 1.5배 미만).
-      expect(many.bytes).toBeLessThan(few.bytes * 1.5);
-      expect(few).toMatchObject({ total: 1, nonEmpty: 1 });
-    },
-  );
+  it.fails("commits a selection without scaling with the item count", async () => {
+    const few = await selectSecond(2);
+    const many = await selectSecond(6);
+    expect(many.total).toBe(few.total);
+    // patch 크기도 Item 수에 비례하지 않는다(Item 3배에서 1.5배 미만).
+    expect(many.bytes).toBeLessThan(few.bytes * 1.5);
+    expect(few).toMatchObject({ total: 1, nonEmpty: 1 });
+  });
 
-  (usesPreact10 ? it : it.skip)(
-    "currently scales selection commits with the item count on Preact 10",
-    async () => {
-      expect(await selectSecond(2)).toMatchObject({ total: 4, nonEmpty: 3 });
-      expect(await selectSecond(6)).toMatchObject({ total: 8, nonEmpty: 3 });
-    },
-  );
+  it("currently scales selection commits with the item count", async () => {
+    expect(await selectSecond(2)).toMatchObject({ total: 4, nonEmpty: 3 });
+    expect(await selectSecond(6)).toMatchObject({ total: 8, nonEmpty: 3 });
+  });
 });

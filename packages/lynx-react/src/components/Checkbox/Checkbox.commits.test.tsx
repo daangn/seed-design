@@ -1,5 +1,5 @@
 import { fireEvent, render } from "@lynx-js/react/testing-library";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { describe, expect, it } from "vitest";
 
 import * as Checkbox from "./Checkbox.namespace";
@@ -41,8 +41,6 @@ describe("Checkbox commits", () => {
     const root = view.container.querySelector(".seed-checkbox__root");
     if (!root) throw new Error("Missing checkbox");
     const commits = await measureCommits(() => fireEvent.tap(root));
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 3, nonEmpty: 2 } : { total: 1, nonEmpty: 1 },
-    );
+    expect(commits).toMatchObject({ total: 3, nonEmpty: 2 });
   });
 });

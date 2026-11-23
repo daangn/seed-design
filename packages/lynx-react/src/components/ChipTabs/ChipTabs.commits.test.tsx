@@ -1,5 +1,5 @@
 import { createEvent, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { describe, expect, it, vi } from "vitest";
 
 import * as ChipTabs from "./ChipTabs.namespace";
@@ -103,23 +103,17 @@ describe("ChipTabs commits", () => {
     expect(commits).toMatchObject({ total: 1, nonEmpty: 0 });
   });
 
-  // Preact 10에서는 선택 commit이 trigger 수에 비례한다. context 구독으로 다시 렌더되는 Trigger마다 commit이 따로 생기는 것으로 보인다
+  // 선택 commit이 trigger 수에 비례한다. context 구독으로 다시 렌더되는 Trigger마다 commit이 따로 생기는 것으로 보인다
   // (lynx-react-headless/tabs/src/useTabs.ts의 context 값 → ChipTabs.tsx ChipTabsTrigger).
-  (usesPreact10 ? it.fails : it)(
-    "commits a selection change without scaling with the trigger count",
-    async () => {
-      const few = await selectSecond(8);
-      const many = await selectSecond(24);
-      expect(many.total).toBe(few.total);
-      expect(few).toMatchObject({ total: 2, nonEmpty: 1 });
-    },
-  );
+  it.fails("commits a selection change without scaling with the trigger count", async () => {
+    const few = await selectSecond(8);
+    const many = await selectSecond(24);
+    expect(many.total).toBe(few.total);
+    expect(few).toMatchObject({ total: 2, nonEmpty: 1 });
+  });
 
-  (usesPreact10 ? it : it.skip)(
-    "currently scales selection commits with the trigger count on Preact 10",
-    async () => {
-      expect(await selectSecond(8)).toMatchObject({ total: 10, nonEmpty: 2 });
-      expect(await selectSecond(24)).toMatchObject({ total: 26, nonEmpty: 2 });
-    },
-  );
+  it("currently scales selection commits with the trigger count", async () => {
+    expect(await selectSecond(8)).toMatchObject({ total: 10, nonEmpty: 2 });
+    expect(await selectSecond(24)).toMatchObject({ total: 26, nonEmpty: 2 });
+  });
 });

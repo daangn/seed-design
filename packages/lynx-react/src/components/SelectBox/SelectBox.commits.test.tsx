@@ -1,6 +1,6 @@
 import { createEvent, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
 import { RadioGroup as HeadlessRadioGroup } from "@seed-design/lynx-react-radio-group";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { describe, expect, it } from "vitest";
 
 import * as CheckSelectBox from "./CheckSelectBox.namespace";
@@ -98,9 +98,7 @@ describe("CheckSelectBox commits", () => {
     const { trigger, surface } = getSecondItem(view.container);
     const commits = await measureCommits(() => fireEvent.tap(trigger));
     expect(surface.getAttribute("accessibility-value")).toBe("checked");
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 4, nonEmpty: 4 } : { total: 1, nonEmpty: 1 },
-    );
+    expect(commits).toMatchObject({ total: 4, nonEmpty: 4 });
   });
 });
 
@@ -130,12 +128,8 @@ describe("RadioSelectBox commits", () => {
   // 렌더되는 Item마다 ReactLynx가 commit을 따로 보내는 것으로 보인다
   // (lynx-react-headless/radio-group/src/RadioGroup.tsx RadioGroupRoot의 Provider → SelectBox.tsx RadioSelectBoxItem).
   it("currently scales selection commits with the item count", async () => {
-    expect(await selectSecondRadio(2)).toMatchObject(
-      usesPreact10 ? { total: 7, nonEmpty: 6 } : { total: 3, nonEmpty: 2 },
-    );
-    expect(await selectSecondRadio(8)).toMatchObject(
-      usesPreact10 ? { total: 13, nonEmpty: 6 } : { total: 9, nonEmpty: 2 },
-    );
+    expect(await selectSecondRadio(2)).toMatchObject({ total: 7, nonEmpty: 6 });
+    expect(await selectSecondRadio(8)).toMatchObject({ total: 13, nonEmpty: 6 });
   });
 
   it.fails("does not scale selection commits with the item count", async () => {

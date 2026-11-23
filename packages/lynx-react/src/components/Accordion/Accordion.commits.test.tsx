@@ -1,5 +1,5 @@
 import { createEvent, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { describe, expect, it } from "vitest";
 
 import * as Accordion from "./Accordion.namespace";
@@ -71,8 +71,6 @@ describe("Accordion commits", () => {
     if (!trigger) throw new Error("Missing trigger");
     const commits = await measureCommits(() => fireEvent.tap(trigger));
     expect(trigger.getAttribute("accessibility-value")).toBe("펼쳐짐");
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 8, nonEmpty: 6 } : { total: 1, nonEmpty: 1 },
-    );
+    expect(commits).toMatchObject({ total: 8, nonEmpty: 6 });
   });
 });

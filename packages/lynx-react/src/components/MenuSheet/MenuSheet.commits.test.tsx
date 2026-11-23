@@ -1,5 +1,5 @@
 import { createEvent, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { describe, expect, it, vi } from "vitest";
 
 // 실제 sheet 엔진은 테스트 환경의 preact에 없는 `createPortal`을 import해 불러올 수 없다.
@@ -84,22 +84,16 @@ describe("MenuSheet commits", () => {
     expect(commits).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
-  // Preact 10에서는 같은 props로 rerender할 때마다 List scroll-view의
+  // 같은 props로 rerender할 때마다 List scroll-view의
   // `main-thread:bindscroll`·`bindtouchstart`·`bindtouchmove` worklet을 새 실행 id로 다시
   // 보낸다(components/private/SheetScrollGesture.ts). 원인은 확인하지 못했다.
-  (usesPreact10 ? it.fails : it)(
-    "sends only empty commits when rerendered with the same props",
-    async () => {
-      expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 0 });
-    },
-  );
+  it.fails("sends only empty commits when rerendered with the same props", async () => {
+    expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 0 });
+  });
 
-  (usesPreact10 ? it : it.skip)(
-    "currently sends a patch when rerendered with the same props on Preact 10",
-    async () => {
-      expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 1 });
-    },
-  );
+  it("currently sends a patch when rerendered with the same props", async () => {
+    expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 1 });
+  });
 
   it.each([2, 8])("commits pressing and releasing one of %i items", async (count) => {
     const { view } = await mount(count);
@@ -110,8 +104,6 @@ describe("MenuSheet commits", () => {
       await waitSchedule();
       fireTouch(item, "touchend");
     });
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 6, nonEmpty: 6 } : { total: 2, nonEmpty: 2 },
-    );
+    expect(commits).toMatchObject({ total: 6, nonEmpty: 6 });
   });
 });

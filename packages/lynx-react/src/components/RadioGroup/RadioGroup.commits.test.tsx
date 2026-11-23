@@ -1,5 +1,5 @@
 import { fireEvent, render } from "@lynx-js/react/testing-library";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { describe, expect, it } from "vitest";
 
 import { RadioGroupField } from "../RadioGroupField";
@@ -55,12 +55,8 @@ describe("RadioGroup commits", () => {
   // 컴포넌트(RadioGroup.Root)가 있어 SelectBox.commits.test.tsx와 같은 원인으로 보인다
   // (lynx-react-headless/radio-group/src/RadioGroup.tsx RadioGroupRoot의 Provider → RadioGroup.tsx RadioGroupItem).
   it("currently scales selection commits with the item count", async () => {
-    expect(await selectSecond(2)).toMatchObject(
-      usesPreact10 ? { total: 9, nonEmpty: 6 } : { total: 3, nonEmpty: 2 },
-    );
-    expect(await selectSecond(8)).toMatchObject(
-      usesPreact10 ? { total: 15, nonEmpty: 6 } : { total: 9, nonEmpty: 2 },
-    );
+    expect(await selectSecond(2)).toMatchObject({ total: 9, nonEmpty: 6 });
+    expect(await selectSecond(8)).toMatchObject({ total: 15, nonEmpty: 6 });
   });
 
   it.fails("commits a selection without scaling with the item count", async () => {
