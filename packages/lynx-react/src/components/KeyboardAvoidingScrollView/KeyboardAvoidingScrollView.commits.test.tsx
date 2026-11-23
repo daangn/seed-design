@@ -1,5 +1,5 @@
 import { createEvent, fireEvent, render } from "@lynx-js/react/testing-library";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { describe, expect, it } from "vitest";
 
 import * as KeyboardAvoidingScrollView from "./KeyboardAvoidingScrollView.namespace";
@@ -28,9 +28,7 @@ describe("KeyboardAvoidingScrollView commits", () => {
   // Footer가 등록되면 엔진의 첫 평가가 footerPlaced를 켜 Footer를 보이게 한다.
   it("commits the footer placement on mount", async () => {
     const { commits } = await mount();
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 4, nonEmpty: 2 } : { total: 2, nonEmpty: 2 },
-    );
+    expect(commits).toMatchObject({ total: 4, nonEmpty: 2 });
   });
 
   it("does not commit when the viewport layout is reported again", async () => {

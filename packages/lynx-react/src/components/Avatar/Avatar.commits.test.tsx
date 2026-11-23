@@ -1,5 +1,5 @@
 import { fireEvent, render } from "@lynx-js/react/testing-library";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { describe, expect, it } from "vitest";
 
 import * as Avatar from "./Avatar.namespace";
@@ -38,9 +38,7 @@ describe("Avatar commits", () => {
   // (lynx-react-headless/image/src/Image.tsx ImageContent setLoadingStatus → ImageRoot setStatus).
   it("commits a fixed number of times on mount", async () => {
     const { commits } = await mount();
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 4, nonEmpty: 1 } : { total: 3, nonEmpty: 1 },
-    );
+    expect(commits).toMatchObject({ total: 4, nonEmpty: 1 });
   });
 
   it("sends only empty commits when rerendered with the same props", async () => {
@@ -49,18 +47,15 @@ describe("Avatar commits", () => {
     expect(commits).toMatchObject({ total: 1, nonEmpty: 0 });
   });
 
-  // Preact 10에서는 load로 다시 렌더되는 컴포넌트마다 commit이 따로 생겨 빈 commit이 남는다.
-  (usesPreact10 ? it.fails : it)("commits an image load without empty patches", async () => {
+  // load로 다시 렌더되는 컴포넌트마다 commit이 따로 생겨 빈 commit이 남는다.
+  it.fails("commits an image load without empty patches", async () => {
     const commits = await loadAfterMount();
     expect(commits.nonEmpty).toBe(commits.total);
   });
 
-  (usesPreact10 ? it : it.skip)(
-    "currently sends empty commits for an image load on Preact 10",
-    async () => {
-      expect(await loadAfterMount()).toMatchObject({ total: 3, nonEmpty: 2 });
-    },
-  );
+  it("currently sends empty commits for an image load", async () => {
+    expect(await loadAfterMount()).toMatchObject({ total: 3, nonEmpty: 2 });
+  });
 
   it("does not commit when the image load is reported again", async () => {
     const { view } = await mount();

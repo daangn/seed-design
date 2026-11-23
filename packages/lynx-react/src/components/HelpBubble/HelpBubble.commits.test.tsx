@@ -1,7 +1,7 @@
 import type * as LynxUiCommon from "@lynx-js/lynx-ui-common";
 import { createEvent, fireEvent, render } from "@lynx-js/react/testing-library";
 import type * as Floating from "@seed-design/lynx-react-floating";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as HelpBubble from "./HelpBubble.namespace";
@@ -102,9 +102,7 @@ describe("HelpBubble commits", () => {
   // Trigger layoutchange마다 requestPositionUpdate가 positionRevision state를 올려 다시 렌더하고 위치를 다시 잰다
   // (lynx-react-headless/popover/src/usePopover.ts requestPositionUpdate). 측정값이 같아도 빈 commit이 남는다.
   it("currently sends empty commits when the open trigger layout is reported again", async () => {
-    expect(await reportOpenTriggerLayoutAgain()).toMatchObject(
-      usesPreact10 ? { total: 6, nonEmpty: 0 } : { total: 4, nonEmpty: 0 },
-    );
+    expect(await reportOpenTriggerLayoutAgain()).toMatchObject({ total: 6, nonEmpty: 0 });
   });
 
   it.fails("does not commit when the open trigger layout is reported again", async () => {
@@ -116,8 +114,6 @@ describe("HelpBubble commits", () => {
     const commits = await measureCommits(() => fireEvent.tap(getTrigger(view.container)));
     expect(getTrigger(view.container).getAttribute("accessibility-value")).toBe("expanded");
     expect(view.container.querySelector("[class*='positioned_true']")).not.toBeNull();
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 23, nonEmpty: 10 } : { total: 12, nonEmpty: 3 },
-    );
+    expect(commits).toMatchObject({ total: 23, nonEmpty: 10 });
   });
 });

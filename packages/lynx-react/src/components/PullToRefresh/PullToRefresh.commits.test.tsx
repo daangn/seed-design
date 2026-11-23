@@ -1,5 +1,5 @@
 import { render } from "@lynx-js/react/testing-library";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { describe, expect, it } from "vitest";
 
 import * as PullToRefresh from "./PullToRefresh.namespace";
@@ -33,22 +33,16 @@ describe("PullToRefresh commits", () => {
     expect(commits).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
-  // Preact 10에서는 같은 props로 rerender할 때마다 Root의 `main-thread:capture-bindtouchstart`, Indicator의
+  // 같은 props로 rerender할 때마다 Root의 `main-thread:capture-bindtouchstart`, Indicator의
   // `main-thread:bindlayoutchange`, Content의 `main-thread:gesture` worklet을 새 실행 id로 다시 보낸다.
   // usePullToRefresh가 렌더마다 handler를 새로 만들어 context useMemo가 깨지는 것과 관련된 것으로 보인다
   // (lynx-react-headless/pull-to-refresh/src/usePullToRefresh.ts의 context useMemo deps).
   //
-  (usesPreact10 ? it.fails : it)(
-    "sends only empty commits when rerendered with the same props",
-    async () => {
-      expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 0 });
-    },
-  );
+  it.fails("sends only empty commits when rerendered with the same props", async () => {
+    expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 0 });
+  });
 
-  (usesPreact10 ? it : it.skip)(
-    "currently sends a patch when rerendered with the same props on Preact 10",
-    async () => {
-      expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 1 });
-    },
-  );
+  it("currently sends a patch when rerendered with the same props", async () => {
+    expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 1 });
+  });
 });

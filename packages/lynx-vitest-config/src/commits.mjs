@@ -1,13 +1,4 @@
-import { createRequire } from "node:module";
-import path from "node:path";
-
 const MAX_SETTLE_ROUNDS = 20;
-
-// 테스트를 실행하는 패키지(cwd)에 설치된 버전을 읽는다.
-const { version } = createRequire(path.resolve("package.json"))("@lynx-js/react/package.json");
-const [major, minor] = version.split(".").map(Number);
-
-export const usesPreact10 = major === 0 && minor < 126;
 
 // testing-library의 waitSchedule과 같은 대기. @lynx-js/react를 import하면 테스트 패키지와 다른 인스턴스가 될 수 있다.
 function waitSchedule() {

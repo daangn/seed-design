@@ -1,6 +1,6 @@
 import { act, createEvent, fireEvent, render } from "@lynx-js/react/testing-library";
 import type { NodesRef } from "@lynx-js/types";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as SearchInput from "./SearchInput.namespace";
@@ -58,9 +58,7 @@ describe("SearchInput commits", () => {
     // fireEvent는 `<input>`처럼 HTML 이름과 같은 Lynx 요소를 받지 않아 직접 dispatch한다.
     const commits = await measureCommits(() => act(() => void input.dispatchEvent(event)));
     expect(view.container.querySelector(".seed-search-input__clearButton")).not.toBeNull();
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 3, nonEmpty: 1 } : { total: 1, nonEmpty: 1 },
-    );
+    expect(commits).toMatchObject({ total: 3, nonEmpty: 1 });
   });
 
   it("commits clearing", async () => {
@@ -69,8 +67,6 @@ describe("SearchInput commits", () => {
     if (!clearButton) throw new Error("Missing clear button");
     const commits = await measureCommits(() => fireEvent.tap(clearButton));
     expect(view.container.querySelector(".seed-search-input__clearButton")).toBeNull();
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 3, nonEmpty: 1 } : { total: 1, nonEmpty: 1 },
-    );
+    expect(commits).toMatchObject({ total: 3, nonEmpty: 1 });
   });
 });

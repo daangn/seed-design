@@ -1,7 +1,7 @@
 import { createEvent, fireEvent, render } from "@lynx-js/react/testing-library";
 import type * as LynxUiCommon from "@lynx-js/lynx-ui-common";
 import type * as Floating from "@seed-design/lynx-react-floating";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { describe, expect, it, vi } from "vitest";
 
 import * as Select from "./Select.namespace";
@@ -57,9 +57,7 @@ async function mount(count: number) {
 describe("Select commits", () => {
   it.each([4, 16])("commits a fixed number of times when %i items mount", async (count) => {
     const { commits } = await mount(count);
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 7, nonEmpty: 2 } : { total: 5, nonEmpty: 2 },
-    );
+    expect(commits).toMatchObject({ total: 7, nonEmpty: 2 });
   });
 
   it("sends only empty commits when rerendered with the same props", async () => {
@@ -74,9 +72,7 @@ describe("Select commits", () => {
     if (!trigger) throw new Error("Missing trigger");
     const commits = await measureCommits(() => fireEvent.tap(trigger));
     expect(trigger.getAttribute("accessibility-value")).toBe("expanded");
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 11, nonEmpty: 6 } : { total: 4, nonEmpty: 2 },
-    );
+    expect(commits).toMatchObject({ total: 11, nonEmpty: 6 });
   });
 
   it("does not commit when the open list layout is reported again", async () => {
@@ -109,8 +105,6 @@ describe("Select commits", () => {
     const commits = await measureCommits(() => fireEvent.tap(item));
     expect(trigger.getAttribute("accessibility-value")).toBe("collapsed");
     expect(trigger.textContent).toContain("item-1");
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 18, nonEmpty: 8 } : { total: 3, nonEmpty: 2 },
-    );
+    expect(commits).toMatchObject({ total: 18, nonEmpty: 8 });
   });
 });

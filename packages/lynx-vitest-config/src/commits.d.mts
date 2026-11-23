@@ -16,12 +16,6 @@ export interface CommitCount {
 }
 
 /**
- * 설치된 `@lynx-js/react`가 0.126 미만(Preact 10)인지 나타낸다.
- * 0.126부터 Preact 11로 올라가 commit 수가 달라지므로 기댓값을 이 값으로 나눈다.
- */
-export const usesPreact10: boolean;
-
-/**
  * `action`을 실행하고 commit이 더 생기지 않을 때까지 기다리며 그 사이의 commit을 센다.
  * dual-thread render(`enableMainThread`·`enableBackgroundThread`)에서 쓴다.
  */

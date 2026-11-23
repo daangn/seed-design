@@ -1,6 +1,6 @@
 import { act, createEvent, render } from "@lynx-js/react/testing-library";
 import type { NodesRef } from "@lynx-js/types";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as Field from "../Field/Field.namespace";
@@ -68,8 +68,6 @@ describe("TextField commits", () => {
     const commits = await measureCommits(() => act(() => void input.dispatchEvent(event)));
     expect(onValueChange).toHaveBeenLastCalledWith("가");
     // 비제어 값 state만 바뀌고 화면에 드러나는 값이 없어 빈 commit 하나다.
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 2, nonEmpty: 0 } : { total: 1, nonEmpty: 0 },
-    );
+    expect(commits).toMatchObject({ total: 2, nonEmpty: 0 });
   });
 });

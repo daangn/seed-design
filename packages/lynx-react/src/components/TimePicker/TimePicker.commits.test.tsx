@@ -1,6 +1,6 @@
 import type * as React from "@lynx-js/react";
 import { createEvent, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as WheelPicker from "../WheelPicker/WheelPicker.namespace";
@@ -107,23 +107,17 @@ describe("TimePicker commits", () => {
     expect(commits).toMatchObject({ total: 1, nonEmpty: 1 });
   });
 
-  // WheelPicker와 같이 Preact 10에서는 같은 props로 rerender할 때마다 LoopScroll 항목마다
+  // WheelPicker와 같이 같은 props로 rerender할 때마다 LoopScroll 항목마다
   // `main-thread:bindtouchstart` worklet을 새 실행 id로 다시
   // 보낸다(lynx-react-headless/loop-scroll/src/LoopScroll.tsx LoopScrollTrackItem의 handleTouchStart).
   // 원인은 확인하지 못했다.
-  (usesPreact10 ? it.fails : it)(
-    "sends only empty commits when rerendered with the same props",
-    async () => {
-      expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 0 });
-    },
-  );
+  it.fails("sends only empty commits when rerendered with the same props", async () => {
+    expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 0 });
+  });
 
-  (usesPreact10 ? it : it.skip)(
-    "currently sends a patch when rerendered with the same props on Preact 10",
-    async () => {
-      expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 1 });
-    },
-  );
+  it("currently sends a patch when rerendered with the same props", async () => {
+    expect(await rerenderWithSameProps()).toMatchObject({ total: 1, nonEmpty: 1 });
+  });
 
   it("commits tapping a visible hour", async () => {
     const { view } = await mount();
@@ -139,8 +133,6 @@ describe("TimePicker commits", () => {
       await runFrames();
     });
     expect(column.getAttribute("accessibility-value")).not.toBe(before);
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 5, nonEmpty: 3 } : { total: 3, nonEmpty: 3 },
-    );
+    expect(commits).toMatchObject({ total: 5, nonEmpty: 3 });
   });
 });

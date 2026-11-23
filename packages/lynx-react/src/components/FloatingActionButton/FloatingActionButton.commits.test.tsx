@@ -1,5 +1,5 @@
 import { createEvent, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { describe, expect, it } from "vitest";
 
 import * as FloatingActionButton from "./FloatingActionButton.namespace";
@@ -40,9 +40,7 @@ async function mount() {
 describe("FloatingActionButton commits", () => {
   it("commits the label width on mount", async () => {
     const { commits } = await mount();
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 3, nonEmpty: 3 } : { total: 2, nonEmpty: 2 },
-    );
+    expect(commits).toMatchObject({ total: 3, nonEmpty: 3 });
   });
 
   it("does not commit when the label width is reported again", async () => {
@@ -66,8 +64,6 @@ describe("FloatingActionButton commits", () => {
       await waitSchedule();
       fireEvent.touchend(root, {});
     });
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 4, nonEmpty: 4 } : { total: 2, nonEmpty: 2 },
-    );
+    expect(commits).toMatchObject({ total: 4, nonEmpty: 4 });
   });
 });

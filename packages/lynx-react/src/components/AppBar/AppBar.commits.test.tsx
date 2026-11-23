@@ -1,5 +1,5 @@
 import { createEvent, fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
-import { measureCommits, usesPreact10 } from "@seed-design/lynx-vitest-config/commits";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { describe, expect, it } from "vitest";
 
 import * as AppBar from "./AppBar.namespace";
@@ -50,9 +50,7 @@ async function mount() {
 describe("AppBar commits", () => {
   it("commits the side widths on mount", async () => {
     const { commits } = await mount();
-    expect(commits).toMatchObject(
-      usesPreact10 ? { total: 9, nonEmpty: 5 } : { total: 3, nonEmpty: 3 },
-    );
+    expect(commits).toMatchObject({ total: 9, nonEmpty: 5 });
   });
 
   it("does not commit when the side widths are reported again", async () => {
