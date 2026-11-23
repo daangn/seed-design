@@ -516,6 +516,40 @@ describe("sheet layer measurement", () => {
     expect(targets).toEqual([300]);
   });
 
+  it("keeps an opened fit sheet in place when the measured layer re-renders its style", async () => {
+    const { container } = render(
+      <SheetRoot defaultShow>
+        <SheetView className="sheet-layer">
+          <SheetContent className="sheet-outer" innerClassName="sheet-inner" />
+        </SheetView>
+      </SheetRoot>,
+      { enableMainThread: true, enableBackgroundThread: true },
+    );
+    await waitSchedule();
+    const layer = container.querySelector(".sheet-layer");
+    const outer = container.querySelector(".sheet-outer") as HTMLElement | null;
+    const inner = container.querySelector(".sheet-inner");
+    if (!layer || !outer || !inner) throw new Error("Expected the sheet to mount");
+    const [heightProbe, widthProbe] = Array.from(layer.children);
+    if (!heightProbe || !widthProbe) throw new Error("Expected the layer probes to mount");
+
+    // skipAnimation 시트처럼 내용 layout으로 먼저 열린 뒤 레이어 측정값이 도착한다.
+    fireEvent.layoutchange(inner, { detail: { width: 757, height: 300 } });
+    await runOnMainThread(() => {
+      "main thread";
+      (globalThis as TestGlobals).__sheetTestMotion.finish(300);
+    })();
+    await waitSchedule();
+    expect(outer.style.transform).toBe("translate(0px, -300px)");
+
+    fireEvent.layoutchange(heightProbe, { detail: { width: 0, height: 844 } });
+    fireEvent.layoutchange(widthProbe, { detail: { width: 757, height: 0 } });
+    await waitSchedule();
+    expect(outer.style.height).toBe("1266px");
+    // 인라인 style 갱신은 기존 인라인 style을 모두 지우므로, main thread가 적용한 위치를 다시 적용해야 한다.
+    expect(outer.style.transform).toBe("translate(0px, -300px)");
+  });
+
   it("keeps the last size when a hidden layer reports zero", async () => {
     const { outer, measure } = renderSheet();
     measure(757, 844);
