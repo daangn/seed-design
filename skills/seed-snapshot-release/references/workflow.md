@@ -149,6 +149,7 @@ exit "${WATCH_EXIT:-0}"
 
 workflow 동작:
 
+- `.github/scripts/list-snapshot-packages.ts`가 PR diff(`base...source`)에서 파일이 바뀐 `packages/` 아래 공개 패키지와, 그 패키지에 `dependencies`·`peerDependencies`·`optionalDependencies`로 의존하는 공개 패키지만 게시한다. 바뀐 공개 패키지가 없으면 패키지 snapshot을 생략한다는 결과 댓글을 단다.
 - package publish(`release` job)가 성공해야 결과 댓글이 달린다. publish가 실패하면 결과 댓글은 없고 trigger 댓글에 `-1` reaction이 붙는다.
 - Rootage가 바뀐 PR은 Rootage CDN snapshot도 게시한다. 이 단계만 실패하면 결과 댓글에 "Rootage CDN 게시에 실패" 문구가 들어가고 실행은 실패로 끝난다. 같은 SHA에서 `/snapshot`을 다시 실행할 수 있다.
 - 전체 성공이면 trigger 댓글에 `rocket` reaction이 붙는다.
