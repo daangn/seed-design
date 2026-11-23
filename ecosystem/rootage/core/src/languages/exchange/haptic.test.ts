@@ -118,5 +118,5 @@ test("haptic declarations and aliases stay out of style outputs", () => {
   expect(tailwind4.getTailwind4CompleteThemeCode(tokens, [])).toBe(
     tailwind4.getTailwind4CompleteThemeCode([], []),
   );
-  expect(jsonschema.getJsonSchema(tokens)).toBe(jsonschema.getJsonSchema([]));
+  expect(JSON.parse(jsonschema.getJsonSchema(tokens)).definitions.tokenRef.anyOf).toEqual([false]);
 });

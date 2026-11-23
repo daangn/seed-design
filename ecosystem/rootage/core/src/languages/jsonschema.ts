@@ -384,17 +384,19 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
       "tokenRef": {
         "type": "string",
         "anyOf": [
-          ${tokenAnnotations
-            .map(
-              (annotations) =>
-                `{ ${[
-                  `"const": "${annotations.title}"`,
-                  ...Object.keys(annotations).map(
-                    (key) => `"${key}": "${annotations[key as keyof typeof annotations]}"`,
-                  ),
-                ].join(", ")} }`,
-            )
-            .join(",\n          ")}
+          ${
+            tokenAnnotations
+              .map(
+                (annotations) =>
+                  `{ ${[
+                    `"const": "${annotations.title}"`,
+                    ...Object.keys(annotations).map(
+                      (key) => `"${key}": "${annotations[key as keyof typeof annotations]}"`,
+                    ),
+                  ].join(", ")} }`,
+              )
+              .join(",\n          ") || "false"
+          }
         ]
       }
     }

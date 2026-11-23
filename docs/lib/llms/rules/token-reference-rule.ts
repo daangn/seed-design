@@ -179,15 +179,18 @@ export function generateMarkdownTable(
   const prefix = `$${groups.join(".")}.`;
   const filtered = Object.entries(tokens).filter(([id]) => id.startsWith(prefix));
 
-  if (filtered.length === 0) return "";
+  return tokenTable(filtered);
+}
 
-  // 첫 번째 토큰에서 theme(column) 이름 결정
-  const themeNames = Object.keys(filtered[0][1].values);
+type TokenRow = [id: string, entry: { values: Record<string, ArtifactValue> }];
 
+function tokenTable(entries: TokenRow[]): string {
+  if (entries.length === 0) return "";
+  const themeNames = [...new Set(entries.flatMap(([, entry]) => Object.keys(entry.values)))];
   const headers = ["Token", ...themeNames];
   const separator = headers.map(() => "---");
 
-  const rows = filtered.map(([id, entry]) => {
+  const rows = entries.map(([id, entry]) => {
     const values = themeNames.map((theme) => {
       const val = entry.values[theme];
       return val ? formatTokenValue(val) : "";
@@ -214,34 +217,16 @@ export function createTokenReferenceRule(
       const groups = getGroupsFromNode(node);
 
       if (regex) {
-        const matched: { id: string; entry: { values: Record<string, ArtifactValue> } }[] = [];
+        const matched: TokenRow[] = [];
         for (const data of tokenData) {
           for (const [id, entry] of Object.entries(data.data.tokens)) {
             regex.lastIndex = 0;
-            if (regex.test(id)) matched.push({ id, entry });
+            if (regex.test(id)) matched.push([id, entry]);
           }
         }
 
-        if (matched.length === 0) return [node];
-
-        const themeNames = Object.keys(matched[0].entry.values);
-        const headers = ["Token", ...themeNames];
-        const separator = headers.map(() => "---");
-        const rows = matched.map(({ id, entry }) => {
-          const values = themeNames.map((theme) => {
-            const val = entry.values[theme];
-            return val ? formatTokenValue(val) : "";
-          });
-          return [id, ...values];
-        });
-
-        const tableMarkdown = [
-          markdownRow(headers),
-          markdownRow(separator),
-          ...rows.map(markdownRow),
-        ].join("\n");
-
-        return [{ type: "html", value: tableMarkdown }];
+        const table = tokenTable(matched);
+        return table ? [{ type: "html", value: table }] : [node];
       }
 
       if (groups.length === 0) {
