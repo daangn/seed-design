@@ -8,6 +8,7 @@ on:
       - "packages/css/**"
       - "packages/lynx-react/**"
       - "packages/lynx-css/**"
+      - "packages/docs-mcp/**"
       - ".github/workflows/docs-test.yml"
       - ".github/workflows/deploy-docs-archive-worker.yml"
       - ".github/workflows/deploy-seed-design-docs-alpha-pages.yml"
