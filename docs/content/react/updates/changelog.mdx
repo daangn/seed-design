@@ -3,6 +3,18 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2026.11.23
+
+`--native-safe-area-inset-*`가 정의된 환경에서 `--seed-safe-area-*`가 `env(safe-area-inset-*)`보다 그 값을 우선해 사용합니다.
+
+- `--native-safe-area-inset-*`가 정의되어 있지 않으면 이전처럼 `env(safe-area-inset-*)`를 사용합니다.
+- `--seed-safe-area-*`를 직접 지정한 값은 이전처럼 가장 우선합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.0.12](https://npmjs.com/package/@seed-design/css/v/1.0.12)
+
+---
+
 ## 2026.11.18
 
 펼친 iPhone Duo 등에서 웹뷰가 글자를 자동으로 키우지 않도록 `html`에 `text-size-adjust: 100%`를 적용합니다.
