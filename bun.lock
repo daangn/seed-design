@@ -497,7 +497,7 @@
     },
     "packages/docs-mcp": {
       "name": "@seed-design/docs-mcp",
-      "version": "0.7.0",
+      "version": "0.7.1",
       "bin": {
         "seed-docs-mcp": "./dist/stdio.js",
       },
