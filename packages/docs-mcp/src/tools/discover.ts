@@ -40,6 +40,7 @@ export function registerDiscoverSeedDocsTool(server: McpServer): void {
           listDocs: "Use list_docs with section (and optional category) to get document list",
           getDoc: "Use get_doc with section and path to get document content",
           examples: [
+            'get_doc({ section: "components", path: "action-button" })',
             'list_docs({ section: "react", category: "components" })',
             'get_doc({ section: "react", path: "components/button" })',
             'get_doc({ section: "ai-integration", path: "figma-mcp" })',

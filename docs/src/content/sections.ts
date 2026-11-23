@@ -4,7 +4,7 @@
  * 여기서 파생하는 것: content collection(`src/content.config.ts`), fumadocs collection 설정
  * (`astro.config.ts`), 문서 route의 getStaticPaths(`src/pages/[...slug].astro`), llms route,
  * 검색 태그, 섹션 라벨. 섹션을 추가·삭제할 때 이 파일만 고친다
- * (+ `packages/docs-mcp/src/config.ts`는 기존 규칙대로 별도).
+ * (+ `packages/docs-mcp/src/config.ts`도 함께 고친다. `docs-mcp-sections.test.ts`가 둘을 비교한다).
  *
  * `astro.config.ts`가 Vite alias 없이 import하므로 이 파일은 상대 경로 import만 쓴다.
  */
