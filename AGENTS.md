@@ -20,7 +20,7 @@
 - `packages/rootage/`, `ecosystem/rootage/` → `bun rootage:test`
 - `docs/` → `bun docs:test`
 - `tools/extract-api-surface/` → `bun --filter @seed-design/extract-api-surface test && bun --filter @seed-design/extract-api-surface typecheck`
-- `.github/scripts/build-api-surface-diff-comment.ts`, `.github/scripts/list-public-packages.ts` → `bun test ./.github/scripts/build-api-surface-diff-comment.test.ts ./.github/scripts/list-public-packages.test.ts`
+- `.github/scripts/build-api-surface-diff-comment.ts`, `.github/scripts/list-public-packages.ts`, `.github/scripts/list-snapshot-packages.ts` → `bun test ./.github/scripts/build-api-surface-diff-comment.test.ts ./.github/scripts/list-public-packages.test.ts ./.github/scripts/list-snapshot-packages.test.ts`
 - 그 밖에 테스트가 있는 경로 → `bun test <경로>`. 예: `bun test packages/cli`, `bun test ecosystem/qvism`
 - 여러 패키지에 걸친 변경을 마칠 때 → `bun test:all`
 

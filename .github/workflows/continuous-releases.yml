@@ -133,17 +133,28 @@ jobs:
           bun qvism:generate
 
       - name: Build packages
-        run: bun packages:build
+        run: |
+          bun packages:build
+          bun lynx-headless:build
 
-      - name: Publish package snapshots
-        run: >-
-          bunx pkg-pr-new@0.0.87 publish
-          './packages/*'
-          './packages/react-headless/*'
-          './packages/utils/*'
-          --compact
-          --comment=off
-          --json output.json
+      - name: Publish changed package snapshots
+        env:
+          SNAPSHOT_BASE_SHA: ${{ needs.resolve.outputs.base-sha }}
+          SNAPSHOT_SOURCE_SHA: ${{ needs.resolve.outputs.source-sha }}
+          SNAPSHOT_CONTROL_SHA: ${{ needs.resolve.outputs.control-sha }}
+        run: |
+          # 게시 대상 선택 로직은 PR이 바꿀 수 없도록 신뢰된 control SHA의 스크립트를 쓰고, manifest와 diff는 PR checkout에서 읽는다.
+          SELECT_SCRIPT="$RUNNER_TEMP/list-snapshot-packages.ts"
+          git fetch --no-tags origin "$SNAPSHOT_CONTROL_SHA"
+          git show "$SNAPSHOT_CONTROL_SHA:.github/scripts/list-snapshot-packages.ts" > "$SELECT_SCRIPT"
+          SNAPSHOT_PACKAGE_LIST="$(bun "$SELECT_SCRIPT" "$SNAPSHOT_BASE_SHA" "$SNAPSHOT_SOURCE_SHA")"
+          if [ -z "$SNAPSHOT_PACKAGE_LIST" ]; then
+            echo '{"packages":[]}' > output.json
+            exit 0
+          fi
+          mapfile -t SNAPSHOT_PACKAGES <<< "$SNAPSHOT_PACKAGE_LIST"
+          printf 'Publishing %s\n' "${SNAPSHOT_PACKAGES[@]}"
+          bunx pkg-pr-new@0.0.87 publish "${SNAPSHOT_PACKAGES[@]/#/./}" --compact --comment=off --json output.json
 
       - name: Select the exact Rootage snapshot package
         id: rootage-package
@@ -253,7 +264,7 @@ jobs:
             };
             const packages = output.packages
               .map((item) => `\`${item.name}\`: \`${item.url}\``)
-              .join('\n');
+              .join('\n') || 'PR에서 바뀐 공개 패키지가 없어 패키지 snapshot은 생략했어요.';
             let rootage = 'Rootage 변경이 없어 CDN snapshot은 생략했어요.';
             if (process.env.ROOTAGE_CHANGED === 'true') {
               rootage = process.env.ROOTAGE_PUBLISH_RESULT === 'success'
