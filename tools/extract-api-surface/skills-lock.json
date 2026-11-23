@@ -5,8 +5,8 @@
       "source": "@optique/core",
       "sourceType": "node_modules",
       "skillPath": "skills/optique/SKILL.md",
-      "version": "1.3.6",
-      "computedHash": "2f405a7bbdd48b0148d4cfbaa1bac4d14025a4560c0cd6b58123a2be725c24cc"
+      "version": "1.4.0",
+      "computedHash": "2b1af7c5fedf03038c2d396fe673a037bf5fe0a3b0aa0f58ff568638e1a15bae"
     }
   }
 }
