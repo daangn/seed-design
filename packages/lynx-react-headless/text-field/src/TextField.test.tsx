@@ -187,33 +187,44 @@ describe("TextField", () => {
       "nothing",
       "resize",
     ],
-  ] as const)("%s", (_, showSoftInput, inputMode, textareaMode, expectedShow, expectedInputMode, expectedTextareaMode) => {
-    const { rerender } = render(
-      <TextField.Root className="test-text-field">
-        <TextField.Input
-          show-soft-input-on-focus={showSoftInput}
-          android-set-soft-input-mode={inputMode}
-        />
-      </TextField.Root>,
-    );
+  ] as const)(
+    "%s",
+    (
+      _,
+      showSoftInput,
+      inputMode,
+      textareaMode,
+      expectedShow,
+      expectedInputMode,
+      expectedTextareaMode,
+    ) => {
+      const { rerender } = render(
+        <TextField.Root className="test-text-field">
+          <TextField.Input
+            show-soft-input-on-focus={showSoftInput}
+            android-set-soft-input-mode={inputMode}
+          />
+        </TextField.Root>,
+      );
 
-    const input = getRenderedRoot().querySelector("input");
-    expect(input).toHaveAttribute("show-soft-input-on-focus", expectedShow);
-    expect(input).toHaveAttribute("android-set-soft-input-mode", expectedInputMode);
+      const input = getRenderedRoot().querySelector("input");
+      expect(input).toHaveAttribute("show-soft-input-on-focus", expectedShow);
+      expect(input).toHaveAttribute("android-set-soft-input-mode", expectedInputMode);
 
-    rerender(
-      <TextField.Root className="test-text-field">
-        <TextField.Textarea
-          show-soft-input-on-focus={showSoftInput}
-          android-set-soft-input-mode={textareaMode}
-        />
-      </TextField.Root>,
-    );
+      rerender(
+        <TextField.Root className="test-text-field">
+          <TextField.Textarea
+            show-soft-input-on-focus={showSoftInput}
+            android-set-soft-input-mode={textareaMode}
+          />
+        </TextField.Root>,
+      );
 
-    const textarea = getRenderedRoot().querySelector("textarea");
-    expect(textarea).toHaveAttribute("show-soft-input-on-focus", expectedShow);
-    expect(textarea).toHaveAttribute("android-set-soft-input-mode", expectedTextareaMode);
-  });
+      const textarea = getRenderedRoot().querySelector("textarea");
+      expect(textarea).toHaveAttribute("show-soft-input-on-focus", expectedShow);
+      expect(textarea).toHaveAttribute("android-set-soft-input-mode", expectedTextareaMode);
+    },
+  );
 
   describe("Root tap", () => {
     const focusCalls = () => nativeInvokeCalls.filter((call) => call.method === "focus");

@@ -72,20 +72,20 @@ describe("ScaleFeedback", () => {
     expect(ref.current).toBeNull();
   });
 
-  it.each([
-    "touchend",
-    "touchcancel",
-  ] as const)("scales down on touchstart and back on %s", async (finish) => {
-    const { target } = await renderTarget();
+  it.each(["touchend", "touchcancel"] as const)(
+    "scales down on touchstart and back on %s",
+    async (finish) => {
+      const { target } = await renderTarget();
 
-    fireEvent.touchstart(target, {});
-    await waitSchedule();
-    expect(lastScale()).toBe("scale(0.95)");
+      fireEvent.touchstart(target, {});
+      await waitSchedule();
+      expect(lastScale()).toBe("scale(0.95)");
 
-    fireEvent[finish](target, {});
-    await waitSchedule();
-    expect(lastScale()).toBe("scale(1)");
-  });
+      fireEvent[finish](target, {});
+      await waitSchedule();
+      expect(lastScale()).toBe("scale(1)");
+    },
+  );
 
   it.each([
     { name: "disabled", props: { disabled: true } },
