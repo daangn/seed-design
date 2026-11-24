@@ -3,6 +3,9 @@ import { r1 } from "../vars/radius";
 import { defineSlotRecipe } from "../utils/define";
 
 const closeButtonNegativeMargin = `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5)`;
+// Centers a box of `size` on the body's first line.
+const firstLineMarginTop = (size: string) =>
+  `calc((${vars.base.enabled.title.lineHeight} - ${size}) * 0.5)`;
 const buttonBleedAmount = `(${vars.base.enabled.button.targetHeight} - ${vars.base.enabled.button.lineHeight}) * 0.5`;
 
 const pageBanner = defineSlotRecipe({
@@ -99,10 +102,9 @@ const pageBanner = defineSlotRecipe({
       flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",
-      alignSelf: "center",
       width: closeButtonVars.base.enabled.root.size,
       height: closeButtonVars.base.enabled.root.size,
-      marginTop: closeButtonNegativeMargin,
+      marginTop: firstLineMarginTop(closeButtonVars.base.enabled.root.size),
       marginRight: closeButtonNegativeMargin,
       marginBottom: closeButtonNegativeMargin,
       marginLeft: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5 + ${closeButtonVars.base.enabled.root.marginLeft})`,
@@ -117,14 +119,14 @@ const pageBanner = defineSlotRecipe({
       flexShrink: 0,
       width: vars.base.enabled.prefixIcon.size,
       height: vars.base.enabled.prefixIcon.size,
-      marginTop: `calc((${vars.base.enabled.title.lineHeight} - ${vars.base.enabled.prefixIcon.size}) * 0.5)`,
+      marginTop: firstLineMarginTop(vars.base.enabled.prefixIcon.size),
       marginRight: vars.base.enabled.prefixIcon.marginRight,
     },
     suffixIcon: {
       flexShrink: 0,
-      alignSelf: "center",
       width: vars.base.enabled.suffixIcon.size,
       height: vars.base.enabled.suffixIcon.size,
+      marginTop: firstLineMarginTop(vars.base.enabled.suffixIcon.size),
       marginLeft: vars.base.enabled.suffixIcon.marginLeft,
     },
     closeButtonIcon: {

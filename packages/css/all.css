@@ -7678,12 +7678,12 @@ html {
   width: 100%;
   padding-inline: var(--seed-dimension-x4);
   padding-block: var(--seed-dimension-x2_5);
-  --seed-prefix-icon-size: clamp(calc(16px * var(--seed-font-size-limit-min)), calc(1rem * var(--seed-font-size-multiplier, 1) * var(--seed-static-font-scale, 1)), calc(16px * var(--seed-font-size-limit-max)));
+  --seed-prefix-icon-size: var(--seed-dimension-x4);
   --seed-prefix-icon-margin-right: var(--seed-dimension-x2);
-  --seed-prefix-icon-margin-top: calc((clamp(calc(19px * var(--seed-line-height-limit-min)), calc(1.1875rem * var(--seed-font-size-multiplier, 1) * var(--seed-static-font-scale, 1)), calc(19px * var(--seed-line-height-limit-max))) - clamp(calc(16px * var(--seed-font-size-limit-min)), calc(1rem * var(--seed-font-size-multiplier, 1) * var(--seed-static-font-scale, 1)), calc(16px * var(--seed-font-size-limit-max)))) * .5);
+  --seed-prefix-icon-margin-top: calc((var(--seed-line-height-t4) * var(--seed-static-font-scale, 1) - var(--seed-dimension-x4)) * .5);
   --seed-suffix-icon-size: var(--seed-dimension-x4);
   --seed-suffix-icon-margin-left: var(--seed-dimension-x2);
-  --seed-suffix-icon-align-self: center;
+  --seed-suffix-icon-margin-top: calc((var(--seed-line-height-t4) * var(--seed-static-font-scale, 1) - var(--seed-dimension-x4)) * .5);
   border: none;
   align-items: flex-start;
   display: flex;
@@ -7773,7 +7773,9 @@ html {
   height: var(--seed-dimension-x10);
   margin: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
   margin-left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5 + var(--seed-dimension-x2));
+  margin-top: calc((var(--seed-line-height-t4) * var(--seed-static-font-scale, 1) - var(--seed-dimension-x10)) * .5);
   --seed-suffix-icon-margin-left: initial;
+  --seed-suffix-icon-margin-top: initial;
   background-color: var(--seed-color-bg-transparent);
   cursor: pointer;
   border-radius: var(--seed-radius-r2);
@@ -7782,7 +7784,6 @@ html {
   flex-grow: 0;
   flex-shrink: 0;
   justify-content: center;
-  align-self: center;
   align-items: center;
   padding: 0;
   display: flex;

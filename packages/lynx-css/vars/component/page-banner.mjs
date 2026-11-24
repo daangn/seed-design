@@ -6,7 +6,7 @@ export const vars = {
         "paddingY": "var(--seed-dimension-x2_5)"
       },
       "prefixIcon": {
-        "size": "16sp",
+        "size": "var(--seed-dimension-x4)",
         "marginRight": "var(--seed-dimension-x2)"
       },
       "content": {
