@@ -160,7 +160,8 @@ if (base.measurements.length === 0) {
     [
       `기준 ${baseRef} (${baseSha.slice(0, 9)})에서 측정값이 하나도 나오지 않았다. 기준에 설치된 @lynx-js/react는 ${version}이다.`,
       "commit 테스트는 packages/lynx-vitest-config/src/index.mjs가 정한 개발 버전에서만 실행된다.",
-      "기준이 그 개발 버전을 쓰기 전 커밋이면 개발 버전을 설치하는 브랜치를 `--base <branch>`로 넘긴다.",
+      "기준은 `--base` 브랜치의 tip이 아니라 HEAD와의 merge-base다. 그 merge-base가 개발 버전을 설치해야 한다.",
+      "그런 공통 조상이 없으면 개발 버전을 설치하는 커밋 위로 rebase한 뒤 다시 실행한다.",
       `기준 테스트 출력:\n${base.output}`,
     ].join("\n"),
   );
