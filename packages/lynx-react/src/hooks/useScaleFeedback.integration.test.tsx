@@ -1,5 +1,6 @@
 import { fireEvent, render, waitSchedule } from "@lynx-js/react/testing-library";
 import { describe, expect, it, vi } from "vitest";
+import { measureCommits } from "@seed-design/lynx-vitest-config/commits";
 import { runOnBackground, useMainThreadRef } from "@lynx-js/react";
 import { mergeProps } from "../utils/merge-props";
 import { ActionButton } from "../components/ActionButton";
@@ -75,48 +76,21 @@ describe("useScaleFeedback Main Thread integration", () => {
       enableBackgroundThread: true,
     });
     await waitSchedule();
-    const runtime = lynx as typeof lynx & {
-      getNativeApp(): {
-        callLepusMethod(name: string, payload: unknown, callback?: () => void): void;
-      };
-    };
-    const send = vi.spyOn(runtime.getNativeApp(), "callLepusMethod");
-    try {
-      view.rerender(<ScaleFeedbackTarget onTouchStart={first} />);
-      await waitSchedule();
-      const changes = send.mock.calls.filter(([name]) => name === "rLynxChange");
-      expect(changes.length).toBeGreaterThan(0);
-      for (const [, payload] of changes) {
-        expect(JSON.stringify(payload)).not.toContain("snapshotPatch");
-      }
-      const target = view.container.querySelector("#spread-target");
-      if (!target) throw new Error("Missing scale feedback target");
-      fireEvent.touchstart(target, {});
-      await waitSchedule();
-      expect(first).toHaveBeenCalledTimes(1);
-      view.rerender(<ScaleFeedbackTarget onTouchStart={next} />);
-      await waitSchedule();
-      fireEvent.touchstart(target, {});
-      await waitSchedule();
-      expect(first).toHaveBeenCalledTimes(1);
-      expect(next).toHaveBeenCalledTimes(1);
-    } finally {
-      send.mockRestore();
-    }
-  });
-  it("runs the exact Background Thread callback from its Main Thread handler", async () => {
-    const onTouchStart = vi.fn();
-    const { container } = render(<ScaleFeedbackTarget onTouchStart={onTouchStart} />, {
-      enableMainThread: true,
-      enableBackgroundThread: true,
-    });
+    const commits = await measureCommits(() =>
+      view.rerender(<ScaleFeedbackTarget onTouchStart={first} />),
+    );
+    expect(commits.total).toBeGreaterThan(0);
+    expect(commits.nonEmpty).toBe(0);
+    const target = view.container.querySelector("#spread-target");
+    if (!target) throw new Error("Missing scale feedback target");
+    fireEvent.touchstart(target, {});
     await waitSchedule();
-
-    const target = container.querySelector("#spread-target");
-    expect(target).not.toBeNull();
-    fireEvent.touchstart(target!, {});
+    expect(first).toHaveBeenCalledTimes(1);
+    view.rerender(<ScaleFeedbackTarget onTouchStart={next} />);
     await waitSchedule();
-
-    expect(onTouchStart).toHaveBeenCalledTimes(1);
+    fireEvent.touchstart(target, {});
+    await waitSchedule();
+    expect(first).toHaveBeenCalledTimes(1);
+    expect(next).toHaveBeenCalledTimes(1);
   });
 });

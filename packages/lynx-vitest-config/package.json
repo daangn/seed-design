@@ -4,14 +4,18 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.mjs"
+    ".": "./src/index.mjs",
+    "./commits": {
+      "types": "./src/commits.d.mts",
+      "default": "./src/commits.mjs"
+    }
   },
   "peerDependencies": {
     "@lynx-js/react": ">=0.117.0",
     "vitest": ">=3.0.0"
   },
   "devDependencies": {
-    "@lynx-js/react": "^0.129.0",
+    "@lynx-js/react": "^0.125.0",
     "vitest": "^5.0.0"
   }
 }

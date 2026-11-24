@@ -107,7 +107,7 @@ package public export → SPA example import → lynx/<component>/<scenario> →
 
 1. lynx-spa는 `@seed-design/lynx-react`를 `lib/`로 소비한다. 전후 빌드마다 먼저 `bun --filter @seed-design/lynx-react build`(고친 headless 패키지가 있으면 그 패키지도)를 실행하고 `lib/`에 바뀐 코드가 들어갔는지 확인한다.
 2. `DEBUG=rspeedy bun --filter lynx-spa build`는 `examples/lynx-spa/dist/.rspeedy/main/`에 `main-thread.js`와 `background.*.js`를 남긴다. 변경 전 파일을 복사해 두고, 두 파일을 `tr ';{}' '\n\n\n'`로 나눈 뒤 diff한다.
-3. lynx-spa page가 import하지 않고 문서 예제에서만 쓰는 컴포넌트는 `dist/.rspeedy/lazy-bundle/______docs_examples_lynx_<component>_<example>.tsx/`에 들어간다. `grep -l -a 'seed-<component>__' -r dist/.rspeedy`로 대상 bundle을 먼저 찾는다. main bundle의 차이가 hash·debugmetadata뿐이라고 "변경 없음"으로 판정하지 않는다.
+3. lynx-spa page가 import하지 않고 문서 예제에서만 쓰는 컴포넌트는 `examples/lynx-spa/dist/.rspeedy/lazy-bundle/______docs_examples_lynx_<component>_<example>.tsx/`에 들어간다. 저장소 루트에서 `grep -l -a 'seed-<component>__' -r examples/lynx-spa/dist/.rspeedy`로 대상 bundle을 먼저 찾는다. main bundle의 차이가 hash·debugmetadata뿐이라고 "변경 없음"으로 판정하지 않는다.
 
 ## 5. 시각·시간축 증거
 

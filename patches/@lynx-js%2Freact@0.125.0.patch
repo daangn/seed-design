@@ -1,5 +1,5 @@
 diff --git a/testing-library/dist/env/vitest.js b/testing-library/dist/env/vitest.js
-index 11b5ee8..00ebb69 100644
+index 11b5ee8fdea71ed93c40da4553e68059c69efc57..00ebb6939e2a64963c5fd7b2216d20c32b48420c 100644
 --- a/testing-library/dist/env/vitest.js
 +++ b/testing-library/dist/env/vitest.js
 @@ -1,4 +1,4 @@

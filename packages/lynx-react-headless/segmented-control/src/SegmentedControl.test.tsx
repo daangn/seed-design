@@ -27,6 +27,11 @@ function Geometry() {
   );
 }
 
+function styleVariable(element: HTMLElement, name: `--${string}`) {
+  // Lynx 테스트 환경은 CSS 변수를 style[key]에 넣는다.
+  return (element.style as unknown as Record<string, string>)[name];
+}
+
 function geometry() {
   return elementTree.root?.querySelector(".geometry")?.textContent;
 }
@@ -142,6 +147,39 @@ describe("SegmentedControl", () => {
 
     rerender(<Parent values={["new"]} value="old" />);
     expect(geometry()).toBe("value=old items=new count=1 index=-1");
+  });
+
+  it("exposes the segment count and selected index as Root style variables", () => {
+    render(
+      <SegmentedControl.Root className="root" defaultValue="b">
+        <SegmentedControl.Item className="item-a" value="a" />
+        <SegmentedControl.Item className="item-b" value="b" />
+        <SegmentedControl.Item className="item-c" value="c" />
+      </SegmentedControl.Root>,
+    );
+    const root = elementTree.root?.querySelector<HTMLElement>(".root");
+    if (!root) throw new Error("Missing root");
+
+    expect(styleVariable(root, "--segment-count")).toBe("3");
+    expect(styleVariable(root, "--segment-index")).toBe("1");
+
+    tap("c");
+    expect(styleVariable(root, "--segment-index")).toBe("2");
+  });
+
+  it("falls back to the first segment without a selection and keeps the user style", () => {
+    render(
+      <SegmentedControl.Root className="root" style={{ opacity: 0.5 }}>
+        <SegmentedControl.Item className="item-a" value="a" />
+        <SegmentedControl.Item className="item-b" value="b" />
+      </SegmentedControl.Root>,
+    );
+    const root = elementTree.root?.querySelector<HTMLElement>(".root");
+    if (!root) throw new Error("Missing root");
+
+    expect(styleVariable(root, "--segment-count")).toBe("2");
+    expect(styleVariable(root, "--segment-index")).toBe("0");
+    expect(root).toHaveStyle({ opacity: "0.5" });
   });
 });
 it("does not rerender existing items for registry-only changes", () => {

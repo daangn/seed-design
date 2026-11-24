@@ -150,14 +150,12 @@ function TestSelect({
   positionerProps,
   contentProps,
   scrollAreaRef,
-  extraItems = 0,
 }: {
   calls?: string[];
   rootProps?: Select.RootProps;
   positionerProps?: Select.PositionerProps;
   contentProps?: Select.ContentProps;
   scrollAreaRef?: (node: unknown) => void;
-  extraItems?: number;
 }) {
   return (
     <Select.Root
@@ -193,9 +191,6 @@ function TestSelect({
                 textValue="체리 열매"
                 bindtap={() => calls.push("item:cherry")}
               />
-              {Array.from({ length: extraItems }, (_, index) => (
-                <Select.Item key={index} value={`extra-${index}`} label={`추가 ${index}`} />
-              ))}
             </Select.Group>
           </Select.ScrollArea>
         </Select.Content>

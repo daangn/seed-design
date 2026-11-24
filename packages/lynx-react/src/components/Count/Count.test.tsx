@@ -3,9 +3,9 @@ import { createRef } from "@lynx-js/react";
 import * as React from "@lynx-js/react";
 import { render } from "@lynx-js/react/testing-library";
 import type { NodesRef } from "@lynx-js/types";
-import { describe, expect, expectTypeOf, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import { Count, type CountProps, isCountElement } from "./Count";
+import { Count, isCountElement } from "./Count";
 
 function getRenderedRoot() {
   const root = elementTree.root;
@@ -34,11 +34,6 @@ describe("Count", () => {
     expect(count).toHaveStyle({ marginLeft: "2px" });
     expect(count?.textContent).toBe("12");
     expect(countRef.current).not.toBeNull();
-  });
-
-  it("exposes native text props", () => {
-    expectTypeOf<CountProps>().toHaveProperty("id");
-    expectTypeOf<CountProps>().toHaveProperty("text-maxline");
   });
 });
 

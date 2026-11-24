@@ -70,11 +70,10 @@ describe("Float", () => {
   });
 
   it("requires placement and excludes the web-only polymorphic prop", () => {
+    // 타입 검사만 한다.
     // @ts-expect-error placement is required, just as in React.
-    const missingPlacement = <Float />;
+    void (<Float />);
     // @ts-expect-error Lynx Float always renders a native view.
-    const polymorphic = <Float placement="top-start" as="div" />;
-    expect(missingPlacement).toBeDefined();
-    expect(polymorphic).toBeDefined();
+    void (<Float placement="top-start" as="div" />);
   });
 });

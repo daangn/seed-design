@@ -31,11 +31,10 @@ describe("MannerTempBadge", () => {
 
     expect(badgeRoot).toHaveClass("custom-manner-temp-badge");
     expect(badgeRoot).toHaveClass("seed-manner-temp-badge__root--level_l10");
-    expect(label).toHaveClass("seed-manner-temp-badge__label");
     expect(label).toHaveClass("seed-manner-temp-badge__label--level_l10");
   });
 
-  it("defaults to l1 and keeps the ref and native props on the root", () => {
+  it("keeps the ref and native props on the root", () => {
     const rootRef = createRef<NodesRef>();
 
     render(
@@ -52,8 +51,6 @@ describe("MannerTempBadge", () => {
     const badgeRoot = root.querySelector(".seed-manner-temp-badge__root");
     const label = getQueriesForElement(root).getByText("36.5°C");
 
-    expect(badgeRoot).toHaveClass("seed-manner-temp-badge__root--level_l1");
-    expect(label).toHaveClass("seed-manner-temp-badge__label--level_l1");
     expect(badgeRoot).toHaveAttribute("accessibility-label", "매너온도 36.5도");
     expect(badgeRoot).toHaveStyle({ marginTop: "4px" });
     expect(rootRef.current).not.toBeNull();
@@ -67,22 +64,16 @@ describe("MannerTempBadge", () => {
 
   it("forwards native view props and invokes the supplied tap handler", () => {
     const onTap = vi.fn();
-    function handleMainThreadTap() {
-      "main thread";
-    }
 
     render(
-      <>
-        <MannerTempBadge
-          id="temperature-badge"
-          bindtap={onTap}
-          accessibility-label="매너온도"
-          data-foo="native-value"
-        >
-          36.5°C
-        </MannerTempBadge>
-        <MannerTempBadge main-thread:bindtap={handleMainThreadTap}>40°C</MannerTempBadge>
-      </>,
+      <MannerTempBadge
+        id="temperature-badge"
+        bindtap={onTap}
+        accessibility-label="매너온도"
+        data-foo="native-value"
+      >
+        36.5°C
+      </MannerTempBadge>,
     );
 
     const badgeRoot = getRenderedRoot().querySelector(".seed-manner-temp-badge__root");

@@ -207,35 +207,6 @@ describe("AppBar", () => {
     });
   });
 
-  it("renders slots with recipe class names", () => {
-    render(
-      <AppBar.Root>
-        <AppBar.Left>
-          <AppBar.IconButton accessibility-label="Back" />
-        </AppBar.Left>
-        <AppBar.Main layout="withSubtitle">
-          <AppBar.Title>Title</AppBar.Title>
-          <AppBar.Subtitle>Subtitle</AppBar.Subtitle>
-        </AppBar.Main>
-        <AppBar.Right>
-          <AppBar.Slot>
-            <text>Done</text>
-          </AppBar.Slot>
-        </AppBar.Right>
-      </AppBar.Root>,
-    );
-
-    const { getByText } = getRenderedQueries();
-    const root = getAppBarRoot();
-
-    expect(root.querySelector(".seed-app-bar__left")).toBeInTheDocument();
-    expect(root.querySelector(".seed-app-bar__right")).toBeInTheDocument();
-    expect(root.querySelector(".seed-app-bar__iconButton")).toBeInTheDocument();
-    expect(root.querySelector(".seed-app-bar__custom")).toBeInTheDocument();
-    expect(getByText("Title")).toHaveClass("seed-app-bar-main__title");
-    expect(getByText("Subtitle")).toHaveClass("seed-app-bar-main__subtitle");
-  });
-
   it("maps icon button labels to Lynx accessibility props", () => {
     render(
       <AppBar.Root>

@@ -46,7 +46,10 @@ function fireInput(ref: { current: NodesRef | null }, value: string) {
   });
 }
 
-function renderSegments(lengths: number[], { masked = [] as number[] } = {}) {
+function renderSegments(
+  lengths: number[],
+  { masked = [] as number[], autoComplete }: { masked?: number[]; autoComplete?: string } = {},
+) {
   const onValueChange = vi.fn();
   const refs = lengths.map(() => createRef<NodesRef>());
   render(
@@ -58,6 +61,7 @@ function renderSegments(lengths: number[], { masked = [] as number[] } = {}) {
           accessibility-label={`segment ${i + 1}`}
           length={length}
           masked={masked.includes(i)}
+          autoComplete={autoComplete}
         />
       ))}
     </SegmentedTextInput.Root>,
@@ -164,5 +168,48 @@ describe("SegmentedTextInput", () => {
 
     rerender(tree(false));
     expect(focusedStates.at(-1)).toBe(false);
+  });
+
+  it("reverts typing past the segment length", () => {
+    const { refs, onValueChange } = renderSegments([2, 2]);
+
+    fireInput(refs[0]!, "1");
+    fireInput(refs[0]!, "12");
+    fireInput(refs[0]!, "123");
+
+    expect(onValueChange.mock.calls).toEqual([[["1", ""]], [["12", ""]]]);
+  });
+
+  it("drops non-digit characters from numeric segments", () => {
+    const { refs, onValueChange } = renderSegments([2, 2]);
+
+    fireInput(refs[0]!, "a");
+    expect(onValueChange).not.toHaveBeenCalled();
+
+    fireInput(refs[0]!, "3");
+    expect(onValueChange).toHaveBeenLastCalledWith(["3", ""]);
+  });
+
+  it("normalizes a pasted birth date to the segment length", async () => {
+    const { refs, onValueChange } = renderSegments([6, 1], { autoComplete: "bday" });
+
+    fireInput(refs[0]!, "1990. 1. 2.");
+    await Promise.resolve();
+
+    expect(onValueChange).toHaveBeenLastCalledWith(["900102", ""]);
+  });
+
+  it("keeps the caret at the end of a masked segment", () => {
+    const { refs, calls } = renderSegments([4], { masked: [0] });
+
+    fireInput(refs[0]!, "1");
+    fireNativeEvent(refs[0]!, "selection", { selectionStart: 0, selectionEnd: 0 });
+
+    expect(calls[0]).toContainEqual(
+      expect.objectContaining({
+        method: "setSelectionRange",
+        params: { selectionStart: 1, selectionEnd: 1 },
+      }),
+    );
   });
 });

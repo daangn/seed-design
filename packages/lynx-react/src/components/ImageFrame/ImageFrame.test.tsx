@@ -115,9 +115,9 @@ describe("ImageFrame", () => {
     expect(query(".seed-image-frame__root").style.marginRight).toBe("calc(-12px)");
     expect(query(".seed-image-frame__root")).not.toHaveAttribute("bleedX");
 
+    // 타입 검사만 한다.
     // @ts-expect-error margin and bleed props both resolve to margin-*.
-    const invalid = <ImageFrame src="photo.png" alt="Photo" m="x2" bleed="12px" />;
-    expect(invalid).toBeDefined();
+    void (<ImageFrame src="photo.png" alt="Photo" m="x2" bleed="12px" />);
   });
   it("hides decorative icons by default and accepts explicit accessibility semantics", () => {
     const { rerender } = render(<ImageFrameIcon svg={<TestIcon />} />);

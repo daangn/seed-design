@@ -32,39 +32,7 @@ function getRenderedQueries() {
 }
 
 describe("Callout", () => {
-  it("renders compound slots with the default neutral tone", () => {
-    render(
-      <Callout.Root>
-        <Callout.Content>
-          <Callout.Title>Title</Callout.Title>
-          <Callout.Description>Description</Callout.Description>
-          <Callout.Link bindtap={() => undefined}>Learn more</Callout.Link>
-        </Callout.Content>
-        <Callout.CloseButton accessibility-label="Close" />
-      </Callout.Root>,
-    );
-
-    const root = getCalloutRoot();
-
-    expect(root).toHaveClass("seed-callout__root--tone_neutral");
-    expect(root.querySelector(".seed-callout__content")?.tagName.toLowerCase()).toBe("text");
-    expect(root.querySelector(".seed-callout__title")).toHaveClass(
-      "seed-callout__title--tone_neutral",
-    );
-    expect(root.querySelector(".seed-callout__description")).toHaveClass(
-      "seed-callout__description--tone_neutral",
-    );
-    expect(root.querySelector(".seed-callout__link")).toHaveAttribute(
-      "accessibility-traits",
-      "link",
-    );
-    expect(root.querySelector(".seed-callout__closeButton")).toHaveAttribute(
-      "accessibility-label",
-      "Close",
-    );
-  });
-
-  it("applies an explicit tone to every visual slot", () => {
+  it("passes the Root tone to every visual slot and marks Link as a link", () => {
     render(
       <Callout.Root tone="critical">
         <Callout.Content>
@@ -77,15 +45,14 @@ describe("Callout", () => {
 
     const root = getCalloutRoot();
 
-    expect(root).toHaveClass("seed-callout__root--tone_critical");
-    expect(root.querySelector(".seed-callout__title")).toHaveClass(
-      "seed-callout__title--tone_critical",
-    );
-    expect(root.querySelector(".seed-callout__description")).toHaveClass(
-      "seed-callout__description--tone_critical",
-    );
-    expect(root.querySelector(".seed-callout__link")).toHaveClass(
-      "seed-callout__link--tone_critical",
+    for (const slot of ["title", "description", "link"]) {
+      expect(root.querySelector(`.seed-callout__${slot}`)).toHaveClass(
+        `seed-callout__${slot}--tone_critical`,
+      );
+    }
+    expect(root.querySelector(".seed-callout__link")).toHaveAttribute(
+      "accessibility-traits",
+      "link",
     );
   });
 

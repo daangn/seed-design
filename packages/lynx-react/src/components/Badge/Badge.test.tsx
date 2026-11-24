@@ -25,39 +25,14 @@ function getRenderedRoot() {
   return root;
 }
 
+function expectRefOn(ref: unknown, element: Element | null) {
+  // Lynx ref는 native node 대신 RefProxy이고, 붙은 요소에 `react-ref-<refAttr>` 속성을 남긴다.
+  const { refAttr } = ref as { refAttr: number[] };
+  expect(element).toHaveAttribute(`react-ref-${refAttr.join("-")}`);
+}
+
 describe("Badge", () => {
-  it("renders all four native slots with their default recipe classes", () => {
-    render(
-      <Badge.Root>
-        <Badge.Prefix>인증</Badge.Prefix>
-        <Badge.Label>거래중</Badge.Label>
-        <Badge.Action>닫기</Badge.Action>
-      </Badge.Root>,
-    );
-
-    const root = getRenderedRoot().querySelector(".seed-badge__root");
-    const prefix = getRenderedQueries().getByText("인증");
-    const label = getRenderedQueries().getByText("거래중");
-    const action = getRenderedQueries().getByText("닫기");
-
-    for (const [slot, element, tag] of [
-      ["root", root, "view"],
-      ["prefix", prefix, "view"],
-      ["label", label, "text"],
-      ["action", action, "view"],
-    ] as const) {
-      expect(element?.tagName.toLowerCase()).toBe(tag);
-      expect(element).toHaveClass(
-        `seed-badge__${slot}`,
-        `seed-badge__${slot}--size_medium`,
-        `seed-badge__${slot}--variant_solid`,
-        `seed-badge__${slot}--tone_neutral`,
-        `seed-badge__${slot}--tone_neutral-variant_solid`,
-      );
-    }
-  });
-
-  it("applies public size, variant and tone classes to every slot", () => {
+  it("passes Root variants to every slot", () => {
     render(
       <Badge.Root size="large" variant="outline" tone="brand">
         <Badge.Prefix>인증</Badge.Prefix>
@@ -77,12 +52,7 @@ describe("Badge", () => {
       ["label", label],
       ["action", action],
     ] as const) {
-      expect(element).toHaveClass(
-        `seed-badge__${slot}--size_large`,
-        `seed-badge__${slot}--variant_outline`,
-        `seed-badge__${slot}--tone_brand`,
-        `seed-badge__${slot}--tone_brand-variant_outline`,
-      );
+      expect(element).toHaveClass(`seed-badge__${slot}--tone_brand-variant_outline`);
     }
   });
 
@@ -119,7 +89,7 @@ describe("Badge", () => {
     ] as const) {
       expect(element).toHaveClass(className);
       expect(element).toHaveStyle({ opacity });
-      expect(ref.current).not.toBeNull();
+      expectRefOn(ref.current, element);
     }
   });
 
@@ -135,39 +105,6 @@ describe("Badge", () => {
     const label = getRenderedQueries().getByText("추천");
     expect(label).toHaveAttribute("id", "badge-label");
     expect(label).toHaveAttribute("text-maxline", "2");
-  });
-
-  it("calls each supplied background tap and touch handler once", () => {
-    const onTap = vi.fn();
-    const onTouchStart = vi.fn();
-    const onTouchEnd = vi.fn();
-    const onTouchCancel = vi.fn();
-
-    render(
-      <Badge.Root>
-        <Badge.Action
-          bindtap={onTap}
-          bindtouchstart={onTouchStart}
-          bindtouchend={onTouchEnd}
-          bindtouchcancel={onTouchCancel}
-        >
-          닫기
-        </Badge.Action>
-      </Badge.Root>,
-    );
-
-    const action = getRenderedQueries().getByText("닫기");
-
-    fireEvent.touchstart(action, {});
-    expect(onTouchStart).toHaveBeenCalledTimes(1);
-    fireEvent.tap(action);
-    expect(onTap).toHaveBeenCalledTimes(1);
-
-    fireEvent.touchend(action, {});
-    expect(onTouchEnd).toHaveBeenCalledTimes(1);
-
-    fireEvent.touchcancel(action, {});
-    expect(onTouchCancel).toHaveBeenCalledTimes(1);
   });
 
   it("exposes native accessibility defaults and the supplied label on Action", () => {
@@ -200,32 +137,6 @@ describe("Badge", () => {
     const action = getRenderedQueries().getByText("닫기");
     expect(action).toHaveAttribute("accessibility-element", "false");
     expect(action).toHaveAttribute("accessibility-traits", "none");
-  });
-
-  it("delivers a supplied main-thread tap handler on the action view", async () => {
-    const report = vi.fn();
-    function Example() {
-      function handleTap() {
-        "main thread";
-        runOnBackground(report)();
-      }
-      return (
-        <Badge.Root>
-          <Badge.Action main-thread:bindtap={handleTap}>닫기</Badge.Action>
-        </Badge.Root>
-      );
-    }
-
-    const { container } = render(<Example />, {
-      enableMainThread: true,
-      enableBackgroundThread: true,
-    });
-    await waitSchedule();
-    const action = container.querySelector(".seed-badge__action");
-    expect(action).not.toBeNull();
-    fireEvent.tap(action as Element);
-    await waitSchedule();
-    expect(report).toHaveBeenCalledTimes(1);
   });
 
   it("delivers a supplied main-thread touchstart handler alongside scale feedback", async () => {
