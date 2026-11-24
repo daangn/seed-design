@@ -386,7 +386,6 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
     open,
     mounted,
     openEpoch,
-    positionRevision,
     isOpenRef,
     openEpochRef,
     positionRevisionRef,
@@ -598,7 +597,7 @@ export const PopoverContent = React.forwardRef<unknown, PopoverContentProps>((pr
       measurementVersionRef.current += 1;
       if (frame !== undefined) cancelAnimationFrame(frame);
     };
-  }, [isOpenRef, open, openEpoch, positionRevision, measurePosition]);
+  }, [isOpenRef, open, openEpoch, measurePosition]);
   React.useEffect(() => {
     "background only";
     if (open) {
