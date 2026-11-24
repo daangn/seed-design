@@ -9,6 +9,7 @@ export declare const vars: {
         "colorDuration": "var(--seed-duration-color-transition)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
       },
+      /** Page Banner의 title과 description 첫 줄 세로 가운데에 맞춥니다. 이 컴포넌트의 root가 아니라 icon의 중심이 기준입니다. */
       "icon": {
         "size": "var(--seed-dimension-x4)"
       }
@@ -24,6 +25,7 @@ export declare const vars: {
    */
   "toneNeutralVariantWeak": {
     "enabled": {
+      /** Page Banner의 title과 description 첫 줄 세로 가운데에 맞춥니다. 이 컴포넌트의 root가 아니라 icon의 중심이 기준입니다. */
       "icon": {
         "color": "var(--seed-color-fg-neutral)"
       }
@@ -34,6 +36,7 @@ export declare const vars: {
    */
   "toneNeutralVariantSolid": {
     "enabled": {
+      /** Page Banner의 title과 description 첫 줄 세로 가운데에 맞춥니다. 이 컴포넌트의 root가 아니라 icon의 중심이 기준입니다. */
       "icon": {
         "color": "var(--seed-color-fg-on-neutral-solid)"
       }
@@ -44,6 +47,7 @@ export declare const vars: {
    */
   "tonePositiveVariantWeak": {
     "enabled": {
+      /** Page Banner의 title과 description 첫 줄 세로 가운데에 맞춥니다. 이 컴포넌트의 root가 아니라 icon의 중심이 기준입니다. */
       "icon": {
         "color": "var(--seed-color-fg-positive-contrast)"
       }
@@ -54,6 +58,7 @@ export declare const vars: {
    */
   "tonePositiveVariantSolid": {
     "enabled": {
+      /** Page Banner의 title과 description 첫 줄 세로 가운데에 맞춥니다. 이 컴포넌트의 root가 아니라 icon의 중심이 기준입니다. */
       "icon": {
         "color": "var(--seed-color-fg-on-positive-solid)"
       }
@@ -64,6 +69,7 @@ export declare const vars: {
    */
   "toneInformativeVariantWeak": {
     "enabled": {
+      /** Page Banner의 title과 description 첫 줄 세로 가운데에 맞춥니다. 이 컴포넌트의 root가 아니라 icon의 중심이 기준입니다. */
       "icon": {
         "color": "var(--seed-color-fg-informative-contrast)"
       }
@@ -74,6 +80,7 @@ export declare const vars: {
    */
   "toneInformativeVariantSolid": {
     "enabled": {
+      /** Page Banner의 title과 description 첫 줄 세로 가운데에 맞춥니다. 이 컴포넌트의 root가 아니라 icon의 중심이 기준입니다. */
       "icon": {
         "color": "var(--seed-color-fg-on-informative-solid)"
       }
@@ -84,6 +91,7 @@ export declare const vars: {
    */
   "toneWarningVariantWeak": {
     "enabled": {
+      /** Page Banner의 title과 description 첫 줄 세로 가운데에 맞춥니다. 이 컴포넌트의 root가 아니라 icon의 중심이 기준입니다. */
       "icon": {
         "color": "var(--seed-color-fg-warning-contrast)"
       }
@@ -94,6 +102,7 @@ export declare const vars: {
    */
   "toneWarningVariantSolid": {
     "enabled": {
+      /** Page Banner의 title과 description 첫 줄 세로 가운데에 맞춥니다. 이 컴포넌트의 root가 아니라 icon의 중심이 기준입니다. */
       "icon": {
         "color": "var(--seed-color-fg-on-warning-solid)"
       }
@@ -104,6 +113,7 @@ export declare const vars: {
    */
   "toneCriticalVariantWeak": {
     "enabled": {
+      /** Page Banner의 title과 description 첫 줄 세로 가운데에 맞춥니다. 이 컴포넌트의 root가 아니라 icon의 중심이 기준입니다. */
       "icon": {
         "color": "var(--seed-color-fg-critical-contrast)"
       }
@@ -114,6 +124,7 @@ export declare const vars: {
    */
   "toneCriticalVariantSolid": {
     "enabled": {
+      /** Page Banner의 title과 description 첫 줄 세로 가운데에 맞춥니다. 이 컴포넌트의 root가 아니라 icon의 중심이 기준입니다. */
       "icon": {
         "color": "var(--seed-color-fg-on-critical-solid)"
       }
@@ -125,6 +136,7 @@ export declare const vars: {
    */
   "toneMagicVariantWeak": {
     "enabled": {
+      /** Page Banner의 title과 description 첫 줄 세로 가운데에 맞춥니다. 이 컴포넌트의 root가 아니라 icon의 중심이 기준입니다. */
       "icon": {
         "color": "var(--seed-color-fg-neutral)"
       }

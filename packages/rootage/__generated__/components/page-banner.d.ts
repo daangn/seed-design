@@ -44,7 +44,7 @@ declare const artifact: {
               "type": "color";
             };
           };
-          "description": "아이콘은 Fill 타입 사용을 권장합니다.";
+          "description": "아이콘은 Fill 타입 사용을 권장합니다. root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다.";
         };
         "content": {
           "properties": {
@@ -52,6 +52,7 @@ declare const artifact: {
               "type": "dimension";
             };
           };
+          "description": "title, description과 button을 감싸는 컨테이너입니다. button은 title과 description 오른쪽에 놓이고, 한 줄에 들어가지 않으면 그 아래 줄로 내려갑니다.";
         };
         "title": {
           "properties": {
@@ -68,6 +69,7 @@ declare const artifact: {
               "type": "color";
             };
           };
+          "description": "description과 줄을 나누지 않고 이어서 표시합니다.";
         };
         "description": {
           "properties": {
@@ -123,6 +125,7 @@ declare const artifact: {
               "type": "color";
             };
           };
+          "description": "root가 클릭 영역인 Actionable Page Banner에서 사용합니다. prefixIcon과 같이 root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다.";
         };
       };
       "variants": {
