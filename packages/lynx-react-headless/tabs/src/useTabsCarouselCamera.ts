@@ -105,9 +105,15 @@ export function useTabsCarouselCamera({
 
       // ReactLynx의 MT style setter는 custom property를 지원하지 않으므로 실제 CSS 속성을 갱신한다.
       // host에 따라 inline 값의 var()·calc()를 해석하지 않으므로 px 값만 쓰고 inset은 recipe가 맡는다.
+      // pager가 페이지 사이에 있으면 매 frame 위치가 바뀌어 recipe transition이 frame마다 다시 시작되고,
+      // 느리게 출발하는 easing 때문에 Indicator가 거의 따라오지 못한다. 그동안만 transition을 끄고,
+      // 페이지에 닿으면 inline 값을 지워(`undefined`) recipe transition으로 돌아간다.
+      // background commit이 inline style을 통째로 바꾸므로 매 frame 다시 쓴다.
+      const transitionDuration = position === Math.round(position) ? undefined : "0s";
       indicatorRef.current?.setStyleProperties({
         transform: `translateX(${x}px)`,
         width: `${width}px`,
+        "transition-duration": transitionDuration as string,
       });
     },
     [indicatorRects, indicatorRef],

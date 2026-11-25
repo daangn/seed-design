@@ -113,6 +113,7 @@ describe("Tabs headless main-thread indicator", () => {
       expect(addInlineStyle.mock.calls).toEqual([
         [indicator, "transform", "translateX(40px)"],
         [indicator, "width", "90px"],
+        [indicator, "transition-duration", "0s"],
       ]);
       expect(getProbeState(container, "indicator-style")).toEqual({
         style: firstStyle,
@@ -128,6 +129,7 @@ describe("Tabs headless main-thread indicator", () => {
       expect(addInlineStyle.mock.calls).toEqual([
         [indicator, "transform", secondStyle.transform],
         [indicator, "width", secondStyle.width],
+        [indicator, "transition-duration", undefined],
       ]);
       fireBindEvent(pager, "change", { index: 1, isDragged: true });
       await waitSchedule();
