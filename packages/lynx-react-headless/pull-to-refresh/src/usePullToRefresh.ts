@@ -102,10 +102,17 @@ export function usePullToRefresh(props: UsePullToRefreshProps): UsePullToRefresh
   const indicatorSize = useMainThreadRef(0);
   const prevented = useMainThreadRef(false);
   const scrollTop = useMainThreadRef(0);
-  const contact = useMainThreadRef<{ x: number; y: number; decision: ContactDecision }>({
+  /** `touching`은 같은 터치에서 native gesture가 다시 begin했는지 가리기 위해 touchstart마다 끕니다. */
+  const contact = useMainThreadRef<{
+    x: number;
+    y: number;
+    decision: ContactDecision;
+    touching: boolean;
+  }>({
     x: 0,
     y: 0,
     decision: "rejected",
+    touching: false,
   });
   const visual = useMainThreadRef({ displacement: 0, frame: 0, from: 0, target: 0, start: 0 });
   const mainThreadProgress = useMainThreadRef<MainThreadProgress>({ value: 0 });
@@ -216,11 +223,13 @@ export function usePullToRefresh(props: UsePullToRefreshProps): UsePullToRefresh
   function resetContact() {
     "main thread";
     prevented.current = false;
+    contact.current.touching = false;
   }
 
+  /** 판정 전에 끝난 contact는 같은 터치의 다음 begin에서 판정을 이어가도록 pending으로 둡니다. */
   function releaseContact() {
     "main thread";
-    contact.current.decision = "rejected";
+    if (contact.current.decision === "accepted") contact.current.decision = "rejected";
   }
 
   /** 수락한 당김 중 native 스크롤이 경계를 벗어났으면 false를 반환합니다. */
@@ -258,12 +267,16 @@ export function usePullToRefresh(props: UsePullToRefreshProps): UsePullToRefresh
 
   gesture.onBegin((event) => {
     "main thread";
-    contact.current = {
-      x: event.params.clientX,
-      y: event.params.clientY,
-      decision: "pending",
-    };
-    beginPull(engine.current, event.params.clientY);
+    // 터치 중에 끝난 NativeGesture는 다음 touchmove에서 다시 begin합니다(iOS에서 관찰). 같은 터치면 처음 contact를 이어갑니다.
+    if (event.params.type !== "touchmove" || !contact.current.touching) {
+      contact.current = {
+        x: event.params.clientX,
+        y: event.params.clientY,
+        decision: "pending",
+        touching: true,
+      };
+    }
+    beginPull(engine.current, contact.current.y);
   });
   gesture.onUpdate((event, manager) => {
     "main thread";

@@ -120,13 +120,13 @@ function registerGesture() {
   const callbacks = new Map(
     element.gesture.config.callbacks.map(({ name, callback }) => [name, callback]),
   );
-  return (name: string, y: number, x = 100) => {
+  return (name: string, y: number, x = 100, type?: string) => {
     const callback = callbacks.get(name);
     if (!callback) throw new Error(name);
     lynxTestingEnv.switchToMainThread();
     try {
       runWorkletCtx(callback, [
-        { params: { clientY: y, clientX: x }, currentTarget: { element: null } },
+        { params: { clientY: y, clientX: x, type }, currentTarget: { element: null } },
         { __ConsumeGesture: consume },
       ]);
     } finally {
@@ -134,8 +134,8 @@ function registerGesture() {
     }
   };
 }
-function gesture(name: string, y: number, x = 100) {
-  registerGesture()(name, y, x);
+function gesture(name: string, y: number, x = 100, type?: string) {
+  registerGesture()(name, y, x, type);
 }
 function touch(selector: string, name: string, eventType: string) {
   const target = get(selector);
@@ -428,6 +428,46 @@ describe("PullToRefresh MT", () => {
     });
     gesture("onUpdate", 200, 70);
     expect(displacement()).toBe(0);
+  });
+
+  it("같은 터치에서 native gesture가 다시 begin해도 당김을 다시 시작하지 않는다", async () => {
+    const onPtrPullStart = vi.fn();
+    const onPtrPullEnd = vi.fn();
+    await mount({ onPtrPullStart, onPtrPullEnd });
+    touch(".root", "touchstart", "capture-bind");
+    gesture("onBegin", 100, 100, "touchstart");
+    gesture("onUpdate", 120);
+    gesture("onEnd", 120);
+    // 터치 중에 끝난 NativeGesture는 touchmove에서 다시 begin합니다.
+    gesture("onBegin", 125, 100, "touchmove");
+    gesture("onUpdate", 125);
+    gesture("onUpdate", 160);
+    gesture("onEnd", 160);
+    await flush();
+    expect(onPtrPullStart).toHaveBeenCalledTimes(1);
+    expect(onPtrPullEnd).toHaveBeenCalledTimes(1);
+
+    // 새 터치는 begin 종류와 관계없이 새 contact로 판정합니다.
+    touch(".root", "touchstart", "capture-bind");
+    gesture("onBegin", 200, 100, "touchmove");
+    gesture("onUpdate", 230);
+    await flush();
+    expect(onPtrPullStart).toHaveBeenCalledTimes(2);
+  });
+
+  it("slop 안에서 끝난 native gesture가 다시 begin하면 터치 시작점에서 판정을 이어간다", async () => {
+    const onPtrPullStart = vi.fn();
+    await mount({ onPtrPullStart });
+    touch(".root", "touchstart", "capture-bind");
+    gesture("onBegin", 100, 100, "touchstart");
+    gesture("onUpdate", 105);
+    gesture("onEnd", 105);
+    gesture("onBegin", 108, 100, "touchmove");
+    gesture("onUpdate", 108);
+    expect(onPtrPullStart).not.toHaveBeenCalled();
+    gesture("onUpdate", 130);
+    await flush();
+    expect(onPtrPullStart).toHaveBeenCalledTimes(1);
   });
 
   it("위 이동·가로 이동·스크롤 중·보호 contact는 native 중재를 해제한다", async () => {
