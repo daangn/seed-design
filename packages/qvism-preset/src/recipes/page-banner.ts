@@ -16,10 +16,6 @@ import {
 import { vars as tokens } from "../vars";
 
 const closeButtonNegativeMargin = `(${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5`;
-// Android WebView's textZoom multiplies the rendered line-height but not margins, so the offset multiplies it back in.
-// TODO: use `1lh` here once browser support allows.
-const firstLineMarginTop = (size: string) =>
-  `calc((${vars.base.enabled.title.lineHeight} * var(--seed-static-font-scale, 1) - ${size}) * 0.5)`;
 const buttonBleedAmount = `(${vars.base.enabled.button.targetHeight} - ${vars.base.enabled.button.lineHeight}) * 0.5`;
 
 const pageBanner = defineSlotRecipe({
@@ -46,12 +42,14 @@ const pageBanner = defineSlotRecipe({
       ...prefixIcon({
         size: vars.base.enabled.prefixIcon.size,
         marginRight: vars.base.enabled.prefixIcon.marginRight,
-        marginTop: firstLineMarginTop(vars.base.enabled.prefixIcon.size),
+        // Android WebView's textZoom multiplies the rendered line-height but not margins, so the offset multiplies it back in.
+        // TODO: use `1lh` here once browser support allows.
+        marginTop: `calc((${vars.base.enabled.title.lineHeight} * var(--seed-static-font-scale, 1) - ${vars.base.enabled.prefixIcon.size}) * 0.5)`,
       }),
       ...suffixIcon({
         size: vars.base.enabled.suffixIcon.size,
         marginLeft: vars.base.enabled.suffixIcon.marginLeft,
-        marginTop: firstLineMarginTop(vars.base.enabled.suffixIcon.size),
+        marginTop: `calc((${vars.base.enabled.title.lineHeight} * var(--seed-static-font-scale, 1) - ${vars.base.enabled.suffixIcon.size}) * 0.5)`,
       }),
 
       [pseudo(":is(button)")]: {
@@ -137,7 +135,7 @@ const pageBanner = defineSlotRecipe({
       // The gap and first-line offset move to the button, so the icon it wraps must drop the
       // ones the root publishes — otherwise each is spent twice.
       marginLeft: `calc(${closeButtonNegativeMargin} + ${closeButtonVars.base.enabled.root.marginLeft})`,
-      marginTop: firstLineMarginTop(closeButtonVars.base.enabled.root.size),
+      marginTop: `calc((${vars.base.enabled.title.lineHeight} * var(--seed-static-font-scale, 1) - ${closeButtonVars.base.enabled.root.size}) * 0.5)`,
       "--seed-suffix-icon-margin-left": "initial",
       "--seed-suffix-icon-margin-top": "initial",
 
