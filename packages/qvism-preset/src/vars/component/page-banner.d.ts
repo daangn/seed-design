@@ -5,14 +5,16 @@ export declare const vars: {
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x2_5)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "prefixIcon": {
-        "size": "1rem",
+        "size": "var(--seed-dimension-x4)",
         "marginRight": "var(--seed-dimension-x2)"
       },
+      /** title, description과 button을 감싸는 컨테이너입니다. button은 title과 description 오른쪽에 놓이고, 한 줄에 들어가지 않으면 그 아래 줄로 내려갑니다. */
       "content": {
         "gap": "var(--seed-dimension-x1_5)"
       },
+      /** description과 줄을 나누지 않고 이어서 표시합니다. */
       "title": {
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)",
@@ -29,6 +31,7 @@ export declare const vars: {
         "lineHeight": "var(--seed-line-height-t3)",
         "fontWeight": "var(--seed-font-weight-bold)"
       },
+      /** root가 클릭 영역인 Actionable Page Banner에서 사용합니다. prefixIcon과 같이 root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "suffixIcon": {
         "size": "var(--seed-dimension-x4)",
         "marginLeft": "var(--seed-dimension-x2)"
@@ -43,10 +46,11 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** description과 줄을 나누지 않고 이어서 표시합니다. */
       "title": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -56,6 +60,7 @@ export declare const vars: {
       "button": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** root가 클릭 영역인 Actionable Page Banner에서 사용합니다. prefixIcon과 같이 root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       }
@@ -74,10 +79,11 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-neutral-solid)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-on-neutral-solid)"
       },
+      /** description과 줄을 나누지 않고 이어서 표시합니다. */
       "title": {
         "color": "var(--seed-color-fg-on-neutral-solid)"
       },
@@ -87,6 +93,7 @@ export declare const vars: {
       "button": {
         "color": "var(--seed-color-fg-on-neutral-solid)"
       },
+      /** root가 클릭 영역인 Actionable Page Banner에서 사용합니다. prefixIcon과 같이 root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-on-neutral-solid)"
       }
@@ -105,10 +112,11 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-positive-weak)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-positive-contrast)"
       },
+      /** description과 줄을 나누지 않고 이어서 표시합니다. */
       "title": {
         "color": "var(--seed-color-fg-positive-contrast)"
       },
@@ -118,6 +126,7 @@ export declare const vars: {
       "button": {
         "color": "var(--seed-color-fg-positive-contrast)"
       },
+      /** root가 클릭 영역인 Actionable Page Banner에서 사용합니다. prefixIcon과 같이 root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-positive-contrast)"
       }
@@ -136,10 +145,11 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-positive-solid)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-on-positive-solid)"
       },
+      /** description과 줄을 나누지 않고 이어서 표시합니다. */
       "title": {
         "color": "var(--seed-color-fg-on-positive-solid)"
       },
@@ -149,6 +159,7 @@ export declare const vars: {
       "button": {
         "color": "var(--seed-color-fg-on-positive-solid)"
       },
+      /** root가 클릭 영역인 Actionable Page Banner에서 사용합니다. prefixIcon과 같이 root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-on-positive-solid)"
       }
@@ -167,10 +178,11 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-informative-weak)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-informative-contrast)"
       },
+      /** description과 줄을 나누지 않고 이어서 표시합니다. */
       "title": {
         "color": "var(--seed-color-fg-informative-contrast)"
       },
@@ -180,6 +192,7 @@ export declare const vars: {
       "button": {
         "color": "var(--seed-color-fg-informative-contrast)"
       },
+      /** root가 클릭 영역인 Actionable Page Banner에서 사용합니다. prefixIcon과 같이 root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-informative-contrast)"
       }
@@ -198,10 +211,11 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-informative-solid)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-on-informative-solid)"
       },
+      /** description과 줄을 나누지 않고 이어서 표시합니다. */
       "title": {
         "color": "var(--seed-color-fg-on-informative-solid)"
       },
@@ -211,6 +225,7 @@ export declare const vars: {
       "button": {
         "color": "var(--seed-color-fg-on-informative-solid)"
       },
+      /** root가 클릭 영역인 Actionable Page Banner에서 사용합니다. prefixIcon과 같이 root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-on-informative-solid)"
       }
@@ -229,10 +244,11 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-warning-weak)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-warning-contrast)"
       },
+      /** description과 줄을 나누지 않고 이어서 표시합니다. */
       "title": {
         "color": "var(--seed-color-fg-warning-contrast)"
       },
@@ -242,6 +258,7 @@ export declare const vars: {
       "button": {
         "color": "var(--seed-color-fg-warning-contrast)"
       },
+      /** root가 클릭 영역인 Actionable Page Banner에서 사용합니다. prefixIcon과 같이 root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-warning-contrast)"
       }
@@ -260,10 +277,11 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-warning-solid)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-on-warning-solid)"
       },
+      /** description과 줄을 나누지 않고 이어서 표시합니다. */
       "title": {
         "color": "var(--seed-color-fg-on-warning-solid)"
       },
@@ -273,6 +291,7 @@ export declare const vars: {
       "button": {
         "color": "var(--seed-color-fg-on-warning-solid)"
       },
+      /** root가 클릭 영역인 Actionable Page Banner에서 사용합니다. prefixIcon과 같이 root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-on-warning-solid)"
       }
@@ -291,10 +310,11 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-critical-weak)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-critical-contrast)"
       },
+      /** description과 줄을 나누지 않고 이어서 표시합니다. */
       "title": {
         "color": "var(--seed-color-fg-critical-contrast)"
       },
@@ -304,6 +324,7 @@ export declare const vars: {
       "button": {
         "color": "var(--seed-color-fg-critical-contrast)"
       },
+      /** root가 클릭 영역인 Actionable Page Banner에서 사용합니다. prefixIcon과 같이 root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-critical-contrast)"
       }
@@ -322,10 +343,11 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-critical-solid)"
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-on-critical-solid)"
       },
+      /** description과 줄을 나누지 않고 이어서 표시합니다. */
       "title": {
         "color": "var(--seed-color-fg-on-critical-solid)"
       },
@@ -335,6 +357,7 @@ export declare const vars: {
       "button": {
         "color": "var(--seed-color-fg-on-critical-solid)"
       },
+      /** root가 클릭 영역인 Actionable Page Banner에서 사용합니다. prefixIcon과 같이 root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-on-critical-solid)"
       }
@@ -356,10 +379,11 @@ export declare const vars: {
           "serialized": "var(--seed-gradient-glow-magic)"
         }
       },
-      /** 아이콘은 Fill 타입 사용을 권장합니다. 텍스트 첫 줄과 정렬을 유지하기 위해 폰트 스케일링에 반응합니다. */
+      /** 아이콘은 Fill 타입 사용을 권장합니다. root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "prefixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** description과 줄을 나누지 않고 이어서 표시합니다. */
       "title": {
         "color": "var(--seed-color-fg-neutral)"
       },
@@ -369,6 +393,7 @@ export declare const vars: {
       "button": {
         "color": "var(--seed-color-fg-neutral)"
       },
+      /** root가 클릭 영역인 Actionable Page Banner에서 사용합니다. prefixIcon과 같이 root의 세로 가운데가 아니라 title과 description 첫 줄의 세로 가운데에 맞춥니다. */
       "suffixIcon": {
         "color": "var(--seed-color-fg-neutral)"
       }

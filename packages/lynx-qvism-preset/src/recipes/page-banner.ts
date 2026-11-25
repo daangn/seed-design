@@ -99,10 +99,9 @@ const pageBanner = defineSlotRecipe({
       flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",
-      alignSelf: "center",
       width: closeButtonVars.base.enabled.root.size,
       height: closeButtonVars.base.enabled.root.size,
-      marginTop: closeButtonNegativeMargin,
+      marginTop: `calc((${vars.base.enabled.title.lineHeight} - ${closeButtonVars.base.enabled.root.size}) * 0.5)`,
       marginRight: closeButtonNegativeMargin,
       marginBottom: closeButtonNegativeMargin,
       marginLeft: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.icon.size}) * -0.5 + ${closeButtonVars.base.enabled.root.marginLeft})`,
@@ -122,9 +121,9 @@ const pageBanner = defineSlotRecipe({
     },
     suffixIcon: {
       flexShrink: 0,
-      alignSelf: "center",
       width: vars.base.enabled.suffixIcon.size,
       height: vars.base.enabled.suffixIcon.size,
+      marginTop: `calc((${vars.base.enabled.title.lineHeight} - ${vars.base.enabled.suffixIcon.size}) * 0.5)`,
       marginLeft: vars.base.enabled.suffixIcon.marginLeft,
     },
     closeButtonIcon: {

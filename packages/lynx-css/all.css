@@ -5397,7 +5397,7 @@ text {
 .seed-page-banner__closeButton {
   width: var(--seed-dimension-x10);
   height: var(--seed-dimension-x10);
-  margin-top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
+  margin-top: calc((var(--seed-line-height-t4) - var(--seed-dimension-x10)) * .5);
   margin-right: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
   margin-bottom: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5);
   margin-left: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * -.5 + var(--seed-dimension-x2));
@@ -5408,7 +5408,6 @@ text {
   flex-grow: 0;
   flex-shrink: 0;
   justify-content: center;
-  align-self: center;
   align-items: center;
   display: flex;
 }
@@ -5418,9 +5417,9 @@ text {
 }
 
 .seed-page-banner__prefixIcon {
-  width: 16sp;
-  height: 16sp;
-  margin-top: calc((var(--seed-line-height-t4) - 16sp) * .5);
+  width: var(--seed-dimension-x4);
+  height: var(--seed-dimension-x4);
+  margin-top: calc((var(--seed-line-height-t4) - var(--seed-dimension-x4)) * .5);
   margin-right: var(--seed-dimension-x2);
   flex-shrink: 0;
 }
@@ -5428,9 +5427,9 @@ text {
 .seed-page-banner__suffixIcon {
   width: var(--seed-dimension-x4);
   height: var(--seed-dimension-x4);
+  margin-top: calc((var(--seed-line-height-t4) - var(--seed-dimension-x4)) * .5);
   margin-left: var(--seed-dimension-x2);
   flex-shrink: 0;
-  align-self: center;
 }
 
 .seed-page-banner__closeButtonIcon {
