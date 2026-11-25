@@ -34,6 +34,13 @@
       "enabled": false
     },
     {
+      "description": "CLI의 JS 변환(transform-jsx.ts)은 recast로 Babel AST를 출력한다. recast/ast-types가 Babel 8 AST를 지원하지 않아 Babel major 업데이트를 막는다.",
+      "matchPackageNames": ["@babel/**"],
+      "matchFileNames": ["packages/cli/package.json"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
       "matchPackageNames": ["@manypkg/get-packages"],
       "enabled": false
     },
