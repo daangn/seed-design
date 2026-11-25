@@ -27,9 +27,9 @@
   },
   "dependencies": {
     "@antfu/ni": "^30.0.0",
-    "@babel/core": "^7.26.10",
-    "@babel/parser": "^7.27.0",
-    "@babel/plugin-transform-typescript": "^7.27.0",
+    "@babel/core": "^8.0.0",
+    "@babel/parser": "^8.0.0",
+    "@babel/plugin-transform-typescript": "^8.0.0",
     "@clack/prompts": "^1.0.0",
     "@npmcli/disparity-colors": "^3.0.1",
     "cac": "^7.0.0",
