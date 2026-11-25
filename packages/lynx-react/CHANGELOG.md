@@ -1,5 +1,18 @@
 # @seed-design/lynx-react
 
+## 1.4.3
+
+### Patch Changes
+
+- 989f038: `HelpBubble`·headless Popover가 열린 동안 기준 요소의 layout이 다시 보고될 때마다 다시 렌더링해 빈 Main Thread commit을 보내던 문제를 수정합니다. 이제 다시 렌더링하지 않고 다음 frame 측정에서 위치를 갱신합니다. `@lynx-js/react` 0.125.0에서 열린 HelpBubble의 Trigger layout이 같은 값으로 다시 보고될 때 commit이 6회에서 0회로, 열고 위치를 잡을 때까지의 commit이 23회에서 17회로 줄어듭니다. 이에 따라 `usePopover`의 `positionRevision`은 항상 `0`이며 사용 중단됩니다. 측정 요청 횟수는 `positionRevisionRef`로 읽습니다.
+- 989f038: Tabs·ChipTabs가 처음 표시될 때 trigger마다 폭 측정을 따로 반영해 trigger 수만큼 Main Thread commit을 보내던 문제를 수정합니다. 모든 trigger가 측정되기 전에는 선택·표시 중인 trigger까지의 폭이 바뀔 때만 `triggerRects`에 반영하고, 측정이 끝나면 남은 폭을 한 번에 반영합니다. 측정이 끝난 뒤의 폭 변경은 이전처럼 바로 반영합니다. `@lynx-js/react` 0.125.0에서 trigger 8개인 Tabs의 mount commit이 39회에서 21회로, ChipTabs는 21회에서 9회로 줄어듭니다.
+- Updated dependencies [989f038]
+- Updated dependencies [989f038]
+- Updated dependencies [5565008]
+  - @seed-design/lynx-react-popover@1.1.1
+  - @seed-design/lynx-react-tabs@1.1.4
+  - @seed-design/lynx-css@1.4.2
+
 ## 1.4.2
 
 ### Patch Changes
