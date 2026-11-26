@@ -13,11 +13,12 @@ import {
   FileUploadItemName,
   FileUploadItemSize,
   FileUploadItemRemoveButton,
+  FileUploadItemImage,
   FileUploadContext,
   type FileUploadRootProps,
 } from "./FileUpload";
 import { FileUploadItemProvider } from "./useFileUploadContext";
-import { useFileUploadItem } from "./useFileUpload";
+import { useFileUploadItem, type UseFileUploadItemOptions } from "./useFileUpload";
 import type { FileEntry, FileStatusDetails } from "./types";
 
 function setUp(jsx: ReactElement) {
@@ -1993,6 +1994,62 @@ describe("useFileUpload", () => {
       await waitFor(() => {
         expect(onFileAccept).not.toHaveBeenCalled();
       });
+    });
+  });
+
+  describe("image preview", () => {
+    const imageEntry: FileEntry = {
+      id: "photo",
+      file: createMockFile("photo.png", 16, "image/png"),
+      status: "success",
+    };
+
+    function PreviewItem({
+      fileEntry,
+      options,
+    }: {
+      fileEntry: FileEntry;
+      options?: UseFileUploadItemOptions;
+    }) {
+      const api = useFileUploadItem(fileEntry, options);
+
+      return (
+        <FileUploadItemProvider value={api}>
+          <FileUploadItemImage data-testid="preview" />
+        </FileUploadItemProvider>
+      );
+    }
+
+    function renderPreview(accept: string, options?: UseFileUploadItemOptions) {
+      return setUp(
+        <FileUploadRoot accept={accept} defaultAcceptedFileEntries={[imageEntry]}>
+          <PreviewItem fileEntry={imageEntry} options={options} />
+        </FileUploadRoot>,
+      );
+    }
+
+    it("creates a preview only for an image-only accept when the option is omitted", async () => {
+      const { findByTestId } = renderPreview("image/*");
+
+      expect(await findByTestId("preview")).toHaveAttribute("alt", "photo.png");
+    });
+
+    it("skips the preview for a mixed accept when the option is omitted", () => {
+      const { queryByTestId } = renderPreview("image/*,video/*");
+
+      expect(queryByTestId("preview")).toBeNull();
+    });
+
+    it("creates a preview regardless of acceptType when imagePreview is true", async () => {
+      const { findByTestId } = renderPreview("image/*,video/*", { imagePreview: true });
+
+      expect((await findByTestId("preview")).getAttribute("src")).toStartWith("blob:");
+    });
+
+    it("skips the preview for an image-only accept when imagePreview is false", () => {
+      const { queryByTestId } = renderPreview("image/*", { imagePreview: false });
+
+      expect(queryByTestId("preview")).toBeNull();
     });
   });
 });

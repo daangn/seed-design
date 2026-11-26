@@ -34,6 +34,7 @@ export {
   useFileUploadItem,
   type UseFileUploadProps,
   type UseFileUploadReturn,
+  type UseFileUploadItemOptions,
   type UseFileUploadItemReturn,
 } from "./useFileUpload";
 
