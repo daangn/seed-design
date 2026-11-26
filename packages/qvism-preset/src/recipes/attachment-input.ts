@@ -476,6 +476,8 @@ const attachmentInputItem = defineSlotRecipe({
           paddingInline: itemVars.typeImage.enabled.badge.paddingX,
 
           backgroundColor: itemVars.typeImage.enabled.badge.color,
+          WebkitBackdropFilter: `blur(${itemVars.typeImage.enabled.badge.backdropBlur})`,
+          backdropFilter: `blur(${itemVars.typeImage.enabled.badge.backdropBlur})`,
           borderRadius: `0 0 ${itemVars.typeImage.enabled.badge.cornerRadius} ${itemVars.typeImage.enabled.badge.cornerRadius}`,
         },
         badgeLabel: {

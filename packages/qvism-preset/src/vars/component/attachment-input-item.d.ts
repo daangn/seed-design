@@ -80,7 +80,9 @@ export declare const vars: {
         "color": "var(--seed-color-bg-overlay)",
         "height": "var(--seed-dimension-x6)",
         "cornerRadius": "var(--seed-radius-r3)",
-        "paddingX": "var(--seed-dimension-x1)"
+        "paddingX": "var(--seed-dimension-x1)",
+        /** 백드롭 블러의 Gaussian 표준편차입니다. CSS `blur()`와 같은 기준이며, Figma Background blur 값의 절반에 해당합니다. */
+        "backdropBlur": "2px"
       },
       "badgeLabel": {
         "color": "var(--seed-color-palette-static-white)",
