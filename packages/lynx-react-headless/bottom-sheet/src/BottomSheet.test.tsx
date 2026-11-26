@@ -1,12 +1,17 @@
 import "@testing-library/jest-dom";
 import * as React from "@lynx-js/react";
-import { fireEvent, render } from "@lynx-js/react/testing-library";
+import { act, fireEvent, render, waitFor } from "@lynx-js/react/testing-library";
 import type { SheetRootRef } from "./engine";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const sheetMocks = vi.hoisted(() => {
   // lynx-ui-sheet의 SheetRoot처럼 열림 값이 바뀔 때만 `onShowChange`를 호출하고, 비제어면 상태를 바꾼다.
-  const engine = { change: (_open: boolean) => {} };
+  const engine = {
+    change: (_open: boolean) => {},
+    // 엔진의 presence 결과(`onOpen` 호출, 닫힌 뒤 레이어 unmount)를 테스트가 직접 만든다.
+    entered: () => {},
+    setMounted: (_mounted: boolean) => {},
+  };
   const calls: string[] = [];
   return {
     contentProps: [] as Array<Record<string, unknown>>,
@@ -30,8 +35,9 @@ const sheetMocks = vi.hoisted(() => {
 });
 
 vi.mock("./engine", async () => {
-  const { forwardRef, useImperativeHandle, useRef, useState } =
+  const { createContext, forwardRef, useContext, useImperativeHandle, useRef, useState } =
     await vi.importActual<typeof React>("@lynx-js/react");
+  const MockSheetContext = createContext({ layerSize: {}, mounted: false });
 
   const SheetRoot = forwardRef<
     unknown,
@@ -40,10 +46,14 @@ vi.mock("./engine", async () => {
       show?: boolean;
       defaultShow?: boolean;
       onShowChange?: (open: boolean) => void;
+      onOpen?: () => void;
     }
   >((props, ref) => {
-    const { show, defaultShow = false, onShowChange } = props;
+    const { show, defaultShow = false, onShowChange, onOpen } = props;
     const [uncontrolledShow, setUncontrolledShow] = useState(defaultShow);
+    const [mounted, setMounted] = useState(show ?? defaultShow);
+    sheetMocks.engine.entered = () => onOpen?.();
+    sheetMocks.engine.setMounted = setMounted;
     const actualShow = useRef(false);
     actualShow.current = show ?? uncontrolledShow;
     sheetMocks.engine.change = (next) => {
@@ -55,7 +65,11 @@ vi.mock("./engine", async () => {
       }
     };
     useImperativeHandle(ref, () => sheetMocks.rootRef);
-    return <>{props.children}</>;
+    return (
+      <MockSheetContext.Provider value={{ layerSize: {}, mounted }}>
+        {props.children}
+      </MockSheetContext.Provider>
+    );
   });
   const SheetContent = (props: Record<string, unknown>) => {
     sheetMocks.contentProps.push(props);
@@ -83,7 +97,7 @@ vi.mock("./engine", async () => {
     },
     SheetBackdrop,
     SheetHandle: passthrough,
-    useSheetContext: () => ({ layerSize: {} }),
+    useSheetContext: () => useContext(MockSheetContext),
   };
 });
 
@@ -279,6 +293,38 @@ describe("BottomSheet", () => {
       "onOpenChange:true:trigger",
       "onOpenChange:false:closeButton",
     ]);
+  });
+
+  it("reports the end of the open animation with the engine's onOpen", () => {
+    const onAnimationEnd = vi.fn();
+    const onOpen = vi.fn();
+    render(<BottomSheet.Root defaultOpen onAnimationEnd={onAnimationEnd} onOpen={onOpen} />);
+
+    act(() => sheetMocks.engine.entered());
+
+    expect(onOpen).toHaveBeenCalledTimes(1);
+    expect(onAnimationEnd.mock.calls).toEqual([[true]]);
+  });
+
+  it("reports the end of the close animation only after the layer unmount reaches the main thread", async () => {
+    const onAnimationEnd = vi.fn();
+    render(<BottomSheet.Root defaultOpen onAnimationEnd={onAnimationEnd} />);
+
+    act(() => sheetMocks.engine.setMounted(false));
+
+    expect(onAnimationEnd).not.toHaveBeenCalled();
+    await waitFor(() => expect(onAnimationEnd.mock.calls).toEqual([[false]]));
+  });
+
+  it("does not report a close that the sheet reopened from before the layer removal settled", async () => {
+    const onAnimationEnd = vi.fn();
+    render(<BottomSheet.Root defaultOpen onAnimationEnd={onAnimationEnd} />);
+
+    act(() => sheetMocks.engine.setMounted(false));
+    act(() => sheetMocks.engine.setMounted(true));
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(onAnimationEnd).not.toHaveBeenCalled();
   });
 
   it("leaves Content transitions to the engine unless Root skips animation", () => {
