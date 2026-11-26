@@ -244,4 +244,35 @@ describe("ActionButton", () => {
       );
     }).toThrow();
   });
+
+  it("tags the root with the drawn Rootage variant axes", () => {
+    render(<ActionButton>Submit</ActionButton>);
+    expect(getActionButtonRoot()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:ActionButton;variant=brandSolid;size=medium;layout=withText",
+    );
+  });
+
+  it("tags passed variants without writing states", () => {
+    render(
+      <ActionButton variant="neutralWeak" size="small" disabled loading>
+        Submit
+      </ActionButton>,
+    );
+    expect(getActionButtonRoot()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:ActionButton;variant=neutralWeak;size=small;layout=withText",
+    );
+  });
+
+  it("lets a consumer lynx-test-tag win and keeps the default for undefined", () => {
+    render(<ActionButton lynx-test-tag="checkout-submit">Submit</ActionButton>);
+    expect(getActionButtonRoot()).toHaveAttribute("lynx-test-tag", "checkout-submit");
+
+    render(<ActionButton lynx-test-tag={undefined}>Submit</ActionButton>);
+    expect(getActionButtonRoot()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:ActionButton;variant=brandSolid;size=medium;layout=withText",
+    );
+  });
 });

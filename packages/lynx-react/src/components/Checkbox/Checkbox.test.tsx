@@ -62,6 +62,16 @@ function renderIndicator(
   );
 }
 
+function getCheckboxControl() {
+  const control = getCheckboxRoot().querySelector<HTMLElement>(".seed-checkmark__root");
+
+  if (!control) {
+    throw new Error("Expected Checkbox control to exist.");
+  }
+
+  return control;
+}
+
 describe("Checkbox", () => {
   afterEach(() => vi.restoreAllMocks());
 
@@ -208,5 +218,54 @@ describe("Checkbox", () => {
     ],
   ])("renders no Indicator icon when %o has no icon", (state, icons) => {
     expect(renderIndicator(state, icons)).toEqual([]);
+  });
+
+  it("tags the group, root, and checkmark control with their drawn variants", () => {
+    const { container, rerender } = render(
+      <Checkbox.Group>
+        <Checkbox.Root accessibility-label="알림">
+          <Checkbox.Control />
+        </Checkbox.Root>
+      </Checkbox.Group>,
+    );
+    expect(container.querySelector(".seed-checkbox-group__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:CheckboxGroup",
+    );
+    expect(getCheckboxRoot()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Checkbox;weight=regular;size=medium",
+    );
+    expect(getCheckboxControl()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Checkmark;variant=square;tone=brand;size=medium",
+    );
+
+    rerender(
+      <Checkbox.Root
+        size="large"
+        weight="bold"
+        variant="ghost"
+        tone="neutral"
+        checked
+        accessibility-label="알림"
+      >
+        <Checkbox.Control lynx-test-tag="notify-mark" />
+      </Checkbox.Root>,
+    );
+    expect(getCheckboxRoot()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Checkbox;weight=bold;size=large",
+    );
+    expect(getCheckboxControl()).toHaveAttribute("lynx-test-tag", "notify-mark");
+    rerender(
+      <Checkbox.Root size="large" variant="ghost" tone="neutral" accessibility-label="알림">
+        <Checkbox.Control />
+      </Checkbox.Root>,
+    );
+    expect(getCheckboxControl()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Checkmark;variant=ghost;tone=neutral;size=large",
+    );
   });
 });

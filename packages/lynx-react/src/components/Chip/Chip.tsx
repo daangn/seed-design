@@ -3,6 +3,7 @@ import clsx from "clsx";
 
 import {
   chip,
+  chipSeedTagSpec,
   glassTint as chipGlassTint,
   type ChipVariantProps,
 } from "@seed-design/lynx-css/recipes/chip";
@@ -32,6 +33,7 @@ import {
   type SuffixIconProps,
 } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { capitalize } from "../../utils/resolve-recipe-token";
 import {
   LiquidGlassView,
@@ -63,6 +65,7 @@ const ChipRootView = React.forwardRef<unknown, ChipRootViewProps>((props, ref) =
   const variantProps = withGlassVariants(splitVariantProps, liquidGlass);
   const classes = chip(variantProps);
   const { children, className, ...nativeProps } = otherProps;
+  const seedTagProps = { "lynx-test-tag": seedTag(chipSeedTagSpec, variantProps) };
   const iconSlotContextValue = React.useMemo(
     () => ({
       classNames: {
@@ -98,7 +101,7 @@ const ChipRootView = React.forwardRef<unknown, ChipRootViewProps>((props, ref) =
         <IconRequired enabled={variantProps.layout === "iconOnly"}>
           {liquidGlass ? (
             <LiquidGlassView
-              {...mergeProps(ref ? { ref } : {}, nativeProps)}
+              {...mergeProps(ref ? { ref } : {}, seedTagProps, nativeProps)}
               glass={liquidGlass}
               disabled={variantProps.disabled ?? false}
               tint={getChipGlassTint(variantProps)}
@@ -108,7 +111,7 @@ const ChipRootView = React.forwardRef<unknown, ChipRootViewProps>((props, ref) =
             </LiquidGlassView>
           ) : (
             <view
-              {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+              {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, seedTagProps, nativeProps)}
               className={clsx(classes.root, className)}
             >
               {children}

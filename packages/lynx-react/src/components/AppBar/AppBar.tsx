@@ -1,4 +1,8 @@
-import { appBar, type AppBarVariantProps } from "@seed-design/lynx-css/recipes/app-bar";
+import {
+  appBar,
+  appBarSeedTagSpec,
+  type AppBarVariantProps,
+} from "@seed-design/lynx-css/recipes/app-bar";
 import {
   appBarMain,
   type AppBarMainVariantProps,
@@ -23,11 +27,16 @@ import { Icon } from "../Icon";
 import { IconSlotProvider } from "../Icon/Icon";
 import { getMainLayoutStyle, useStyledAppBar, useStyledAppBarContext } from "./useStyledAppBar";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { getAccessibleText } from "../../utils/accessibility";
 
 type AppBarClassNames = ReturnType<typeof appBar>;
 type AppBarMainClassNames = ReturnType<typeof appBarMain>;
+
+const ROOTAGE_THEME = { cupertino: "ios", android: "android" } as const;
+const iconButtonSeedTagSpec = { name: "TopNavigationIconButton", axes: [], defaults: {} };
+const textButtonSeedTagSpec = { name: "TopNavigationTextButton", axes: [], defaults: {} };
 
 const { ClassNamesProvider: AppBarClassNamesProvider, useClassNames: useAppBarRecipeClassNames } =
   createSlotRecipeContext(appBar);
@@ -133,6 +142,12 @@ export const AppBarRoot = React.forwardRef<unknown, AppBarRootProps>((props, ref
                 "--centered-title-padding-x": contextValue.centeredTitlePaddingX,
                 ...rootLayoutStyle,
               } as LynxViewProps["style"],
+            },
+            {
+              "lynx-test-tag": seedTag(appBarSeedTagSpec, {
+                ...resolvedVariantProps,
+                theme: ROOTAGE_THEME[resolvedVariantProps.theme ?? "cupertino"],
+              }),
             },
             nativeProps,
             ref ? { ref: ref as LynxViewRef } : {},
@@ -290,6 +305,7 @@ export const AppBarIconButton = React.forwardRef<unknown, AppBarIconButtonProps>
         iconButtonProps,
         scaleFeedbackTriggerProps,
         scaleFeedbackTargetProps,
+        { "lynx-test-tag": seedTag(iconButtonSeedTagSpec) },
         nativeProps,
         ref ? { ref: ref as LynxViewRef } : {},
       )}
@@ -358,6 +374,7 @@ export const AppBarTextButton = React.forwardRef<unknown, AppBarTextButtonProps>
         },
         scaleFeedbackTriggerProps,
         scaleFeedbackTargetProps,
+        { "lynx-test-tag": seedTag(textButtonSeedTagSpec) },
         disabled ? omitTapHandlers(nativeProps) : nativeProps,
         ref ? { ref: ref as LynxViewRef } : {},
       )}

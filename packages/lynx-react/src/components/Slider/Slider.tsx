@@ -8,8 +8,12 @@ import {
   type UseSliderContext,
   type UseSliderProps,
 } from "@seed-design/lynx-react-slider";
-import { slider } from "@seed-design/lynx-css/recipes/slider";
-import { sliderTick, type SliderTickVariantProps } from "@seed-design/lynx-css/recipes/slider-tick";
+import { slider, sliderSeedTagSpec } from "@seed-design/lynx-css/recipes/slider";
+import {
+  sliderTick,
+  sliderTickSeedTagSpec,
+  type SliderTickVariantProps,
+} from "@seed-design/lynx-css/recipes/slider-tick";
 import {
   sliderMarker,
   type SliderMarkerVariantProps,
@@ -17,6 +21,7 @@ import {
 
 import type { LynxHostProps } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 
 export type SliderValues = number[];
 
@@ -159,7 +164,14 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
   const { disabled, dir, isDragging, getTickProps, getMarkerProps } = api;
   const controlClassName = classes.control;
   const decorationContext = React.useMemo(
-    () => ({ disabled, dir, isDragging, getTickProps, getMarkerProps, controlClassName }),
+    () => ({
+      disabled,
+      dir,
+      isDragging,
+      getTickProps,
+      getMarkerProps,
+      controlClassName,
+    }),
     [disabled, dir, isDragging, getTickProps, getMarkerProps, controlClassName],
   );
 
@@ -167,9 +179,13 @@ export const SliderRoot = React.forwardRef<NodesRef, SliderRootProps>((props, fo
     <SliderProvider value={contextValue}>
       <SliderDecorationContext.Provider value={decorationContext}>
         <view
-          {...mergeProps(api.rootProps, nativeProps, forwardedRef ? { ref: forwardedRef } : {}, {
-            ref: api.refs.root,
-          })}
+          {...mergeProps(
+            { "lynx-test-tag": seedTag(sliderSeedTagSpec) },
+            api.rootProps,
+            nativeProps,
+            forwardedRef ? { ref: forwardedRef } : {},
+            { ref: api.refs.root },
+          )}
           className={clsx(classes.root, className)}
           style={style}
         >
@@ -267,7 +283,12 @@ export const SliderTick = React.forwardRef<NodesRef, SliderTickProps>((props, re
   const context = useSliderDecorationContext("Slider.Tick");
   return (
     <view
-      {...mergeProps(ref ? { ref } : {}, context.getTickProps(value), nativeProps)}
+      {...mergeProps(
+        ref ? { ref } : {},
+        { "lynx-test-tag": seedTag(sliderTickSeedTagSpec, variantProps) },
+        context.getTickProps(value),
+        nativeProps,
+      )}
       className={clsx(sliderTick(variantProps), className)}
     >
       {children}
@@ -296,7 +317,11 @@ export const SliderMarker = React.forwardRef<NodesRef, SliderMarkerProps>((props
   const context = useSliderDecorationContext("Slider.Marker");
   const markerProps = mergeProps(ref ? { ref } : {}, context.getMarkerProps(value), nativeProps);
   const markerClassName = clsx(
-    sliderMarker({ ...variantProps, dir: context.dir, disabled: context.disabled }),
+    sliderMarker({
+      ...variantProps,
+      dir: context.dir,
+      disabled: context.disabled,
+    }),
     className,
   );
   // Lynx는 `<view>` 바로 아래 문자열을 그리지 않고, 앱의 `text` 전역 색상이 상속을 덮을 수 있다.
@@ -342,7 +367,9 @@ export const SliderValueIndicatorRoot = React.forwardRef<NodesRef, SliderValueIn
         accessibility-elements-hidden={true}
       >
         <view
-          {...mergeProps(rootProps, nativeProps, ref ? { ref } : {}, { ref: rootRef })}
+          {...mergeProps(rootProps, nativeProps, ref ? { ref } : {}, {
+            ref: rootRef,
+          })}
           className={clsx(classes.valueIndicatorRoot, className)}
           style={style}
         >

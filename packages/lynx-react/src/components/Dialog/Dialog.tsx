@@ -22,13 +22,18 @@ import {
   type ReactElement,
   type RefAttributes,
 } from "@lynx-js/react";
-import { dialog, type DialogVariantProps } from "@seed-design/lynx-css/recipes/dialog";
+import {
+  dialog,
+  dialogSeedTagSpec,
+  type DialogVariantProps,
+} from "@seed-design/lynx-css/recipes/dialog";
 import clsx from "clsx";
 
 import type { LynxAccessibilityProps, LynxHostProps, LynxViewRef } from "../../types";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import {
   AccessibilityElementScope,
   getAccessibleText,
@@ -44,7 +49,8 @@ type LynxForwardRefComponent<T, Props> = ForwardRefExoticComponent<
   PropsWithoutRef<Props> & RefAttributes<T>
 >;
 
-const { ClassNamesProvider, useClassNames } = createSlotRecipeContext(dialog);
+const { ClassNamesProvider, useClassNames, PropsProvider, useProps } =
+  createSlotRecipeContext(dialog);
 
 // SEED recipe animates the `ui-entering`/`ui-open`/`ui-closed` classes, so parts opt into
 // lynx-ui transition classes by default. Root `skipAnimation` turns them off in the headless parts.
@@ -70,12 +76,15 @@ export const DialogRoot = forwardRef<never, DialogRootProps>((props, _ref) => {
   const { size, skipAnimation } = variantProps;
   // variantProps is a new object on every render, so memoize on the variant values.
   const classNames = useMemo(() => dialog({ size, skipAnimation }), [size, skipAnimation]);
+  const contentVariantProps = useMemo(() => ({ size }), [size]);
 
   return (
     <ClassNamesProvider value={classNames}>
-      <HeadlessDialogRoot {...rootProps} skipAnimation={skipAnimation === true}>
-        {children}
-      </HeadlessDialogRoot>
+      <PropsProvider value={contentVariantProps}>
+        <HeadlessDialogRoot {...rootProps} skipAnimation={skipAnimation === true}>
+          {children}
+        </HeadlessDialogRoot>
+      </PropsProvider>
     </ClassNamesProvider>
   );
 }) as DialogComponent<DialogRootProps>;
@@ -202,14 +211,19 @@ export interface DialogContentProps extends HeadlessDialogContentProps {}
  * are reserved for the dialog; other native props and callbacks are forwarded.
  */
 export const DialogContent = forwardRef<never, DialogContentProps>((props, _ref) => {
-  const { className, transition = true, ...contentProps } = props;
+  const { className, transition = true, dialogContentProps, ...contentProps } = props;
   const classNames = useClassNames();
+  const variantProps = useProps();
 
   return (
     <HeadlessDialogContent
       {...contentProps}
       className={clsx(classNames.content, className)}
       transition={transition}
+      dialogContentProps={mergeProps(
+        { "lynx-test-tag": seedTag(dialogSeedTagSpec, variantProps ?? {}) },
+        dialogContentProps ?? {},
+      )}
     />
   );
 }) as DialogComponent<DialogContentProps>;

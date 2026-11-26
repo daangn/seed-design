@@ -88,3 +88,11 @@ export function switchmark(props) {
 Object.assign(switchmark, { splitVariantProps: (props) => splitVariantProps(props, switchmarkVariantMap) });
 
 // @recipe(seed): switchmark
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export const switchmarkSeedTagSpec = {
+  name: "Switchmark",
+  axes: ["tone", "size"],
+  defaults: { tone: "brand", size: "32" },
+};

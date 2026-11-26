@@ -1,4 +1,8 @@
-import { mannerTemp, type MannerTempVariantProps } from "@seed-design/lynx-css/recipes/manner-temp";
+import {
+  mannerTemp,
+  mannerTempSeedTagSpec,
+  type MannerTempVariantProps,
+} from "@seed-design/lynx-css/recipes/manner-temp";
 import type { NodesRef } from "@lynx-js/types";
 import clsx from "clsx";
 import * as React from "@lynx-js/react";
@@ -7,6 +11,7 @@ import { isValidElement } from "@lynx-js/react";
 import type { LynxHostProps, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 
 type MannerTempLevel = NonNullable<MannerTempVariantProps["level"]>;
 
@@ -84,7 +89,11 @@ export const MannerTemp = React.forwardRef<unknown, MannerTempProps>((props, ref
   return (
     <MannerTempLevelContext.Provider value={level}>
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...mergeProps(
+          ref ? { ref: ref as LynxViewRef } : {},
+          { "lynx-test-tag": seedTag(mannerTempSeedTagSpec, variantProps) },
+          nativeProps,
+        )}
         className={clsx(classes.root, className)}
       >
         <text className={classes.label}>{labelChildren}</text>

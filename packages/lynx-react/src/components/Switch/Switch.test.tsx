@@ -140,4 +140,32 @@ describe("Switch", () => {
     expect(onCheckedChange).not.toHaveBeenCalled();
     expect(root).toHaveAttribute("accessibility-value", "checked");
   });
+
+  it("tags the root and the switchmark control with their Rootage specs", () => {
+    const { container, rerender } = render(
+      <Switch.Root checked accessibility-label="알림">
+        <Switch.Control>
+          <Switch.Thumb />
+        </Switch.Control>
+      </Switch.Root>,
+    );
+    expect(getSwitchRoot(container)).toHaveAttribute("lynx-test-tag", "seed:Switch;size=32");
+    expect(container.querySelector(".seed-switchmark__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Switchmark;tone=brand;size=32",
+    );
+
+    rerender(
+      <Switch.Root size="24" tone="neutral" accessibility-label="알림">
+        <Switch.Control size="24">
+          <Switch.Thumb />
+        </Switch.Control>
+      </Switch.Root>,
+    );
+    expect(getSwitchRoot(container)).toHaveAttribute("lynx-test-tag", "seed:Switch;size=24");
+    expect(container.querySelector(".seed-switchmark__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Switchmark;tone=neutral;size=24",
+    );
+  });
 });

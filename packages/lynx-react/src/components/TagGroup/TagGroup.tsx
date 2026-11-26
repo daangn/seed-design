@@ -1,8 +1,13 @@
 import * as React from "@lynx-js/react";
 import clsx from "clsx";
-import { tagGroup, type TagGroupVariantProps } from "@seed-design/lynx-css/recipes/tag-group";
+import {
+  tagGroup,
+  tagGroupSeedTagSpec,
+  type TagGroupVariantProps,
+} from "@seed-design/lynx-css/recipes/tag-group";
 import {
   tagGroupItem,
+  tagGroupItemSeedTagSpec,
   type TagGroupItemVariantProps,
 } from "@seed-design/lynx-css/recipes/tag-group-item";
 
@@ -12,6 +17,7 @@ import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context"
 import { splitMultipleVariantsProps } from "../../utils/split-multiple-variants-props";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 
 const { PropsProvider, useProps, ClassNamesProvider, useClassNames } =
   createSlotRecipeContext(tagGroupItem);
@@ -48,7 +54,11 @@ export const TagGroupRoot = React.forwardRef<unknown, TagGroupRootProps>((props,
   return (
     <PropsProvider value={tagGroupItemVariantProps}>
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...mergeProps(
+          ref ? { ref: ref as LynxViewRef } : {},
+          { "lynx-test-tag": seedTag(tagGroupSeedTagSpec, tagGroupVariantProps) },
+          nativeProps,
+        )}
         className={clsx(classes.root, className)}
       >
         {visibleChildren.map((child, index) => {
@@ -88,14 +98,19 @@ export interface TagGroupItemProps
 export const TagGroupItem = React.forwardRef<unknown, TagGroupItemProps>((props, ref) => {
   const parentVariantProps = useProps();
   const [localVariantProps, otherProps] = tagGroupItem.splitVariantProps(props);
-  const classes = tagGroupItem({ ...parentVariantProps, ...localVariantProps });
+  const itemVariantProps = { ...parentVariantProps, ...localVariantProps };
+  const classes = tagGroupItem(itemVariantProps);
   const { style, restProps } = useStyleProps(otherProps);
   const { children, className, ...nativeProps } = restProps;
 
   return (
     <ClassNamesProvider value={classes}>
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...mergeProps(
+          ref ? { ref: ref as LynxViewRef } : {},
+          { "lynx-test-tag": seedTag(tagGroupItemSeedTagSpec, itemVariantProps) },
+          nativeProps,
+        )}
         className={clsx(classes.root, className)}
         style={style}
       >

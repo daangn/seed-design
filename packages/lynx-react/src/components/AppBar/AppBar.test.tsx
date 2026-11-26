@@ -149,6 +149,44 @@ describe("AppBar", () => {
     expect(getAppBarRoot()).not.toHaveClass("seed-app-bar__root--theme_android");
   });
 
+  it("tags the root as TopNavigation with Rootage theme values", () => {
+    stubPlatform("iOS");
+    render(<AppBar.Root />);
+    expect(getAppBarRoot()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:TopNavigation;theme=ios;tone=layer",
+    );
+
+    render(<AppBar.Root theme="android" tone="transparent" />);
+    expect(getAppBarRoot()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:TopNavigation;theme=android;tone=transparent",
+    );
+
+    render(<AppBar.Root lynx-test-tag="home-app-bar" />);
+    expect(getAppBarRoot()).toHaveAttribute("lynx-test-tag", "home-app-bar");
+  });
+
+  it("tags icon and text buttons as their Rootage components and lets a consumer tag win", () => {
+    render(
+      <AppBar.Root>
+        <AppBar.Right>
+          <AppBar.IconButton accessibility-label="Share" />
+          <AppBar.TextButton lynx-test-tag="done-button">완료</AppBar.TextButton>
+        </AppBar.Right>
+      </AppBar.Root>,
+    );
+
+    expect(getAppBarRoot().querySelector(".seed-app-bar__iconButton")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:TopNavigationIconButton",
+    );
+    expect(getAppBarRoot().querySelector(".seed-app-bar__textButton")).toHaveAttribute(
+      "lynx-test-tag",
+      "done-button",
+    );
+  });
+
   it("applies safe area from useSafeArea to the root layout", () => {
     setGlobalProps({ safeAreaInsetTop: 47 });
 

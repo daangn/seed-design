@@ -25,3 +25,11 @@ export declare const notificationBadge: ((
     props: T,
   ) => [NotificationBadgeVariantProps, Omit<T, keyof NotificationBadgeVariantProps>];
 }
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export declare const notificationBadgeSeedTagSpec: {
+  readonly name: "NotificationBadge";
+  readonly axes: readonly ["size"];
+  readonly defaults: { readonly size: "large" };
+};

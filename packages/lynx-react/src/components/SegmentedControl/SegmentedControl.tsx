@@ -1,4 +1,7 @@
-import { segmentedControl } from "@seed-design/lynx-css/recipes/segmented-control";
+import {
+  segmentedControl,
+  segmentedControlSeedTagSpec,
+} from "@seed-design/lynx-css/recipes/segmented-control";
 import * as React from "@lynx-js/react";
 import clsx from "clsx";
 import {
@@ -19,6 +22,9 @@ import {
 } from "../../utils/accessibility";
 import { HStack } from "../Stack";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
+
+const segmentedControlItemSeedTagSpec = { name: "SegmentedControlItem", axes: [], defaults: {} };
 
 /**
  * @platform Lynx
@@ -64,6 +70,7 @@ export const SegmentedControlRoot = React.forwardRef<unknown, SegmentedControlRo
       <SegmentedControlProvider value={api}>
         <view
           {...mergeProps(
+            { "lynx-test-tag": seedTag(segmentedControlSeedTagSpec) },
             api.rootProps,
             nativeProps,
             ref ? { ref: ref as LynxViewRef } : {},
@@ -146,7 +153,7 @@ export const SegmentedControlItem = React.forwardRef<unknown, SegmentedControlIt
     return (
       <view
         {...mergeProps(
-          { flatten: false },
+          { flatten: false, "lynx-test-tag": seedTag(segmentedControlItemSeedTagSpec) },
           itemProps,
           ref ? { ref: ref as LynxViewRef } : {},
           scaleFeedbackTriggerProps,

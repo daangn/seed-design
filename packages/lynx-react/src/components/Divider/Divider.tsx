@@ -4,6 +4,9 @@ import type { LynxHostProps } from "../../types";
 import type { StyleProps } from "../../utils/styled";
 import { Box } from "../Box";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
+
+const dividerSeedTagSpec = { name: "Divider", axes: [], defaults: {} };
 
 export interface DividerProps extends Omit<LynxHostProps<"view">, "children" | "color"> {
   /**
@@ -53,7 +56,11 @@ export const Divider = React.forwardRef<unknown, DividerProps>((props, ref) => {
     <Box
       key={`${orientation}-${inset}`}
       {...mergeProps(
-        { "accessibility-element": true, "accessibility-role-description": "separator" },
+        {
+          "accessibility-element": true,
+          "accessibility-role-description": "separator",
+          "lynx-test-tag": seedTag(dividerSeedTagSpec),
+        },
         ref ? { ref } : {},
         nativeProps,
       )}

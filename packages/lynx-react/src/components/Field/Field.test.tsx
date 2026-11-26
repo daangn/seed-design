@@ -68,4 +68,31 @@ describe("Field", () => {
   it("throws when a compound slot is rendered outside Field.Root", () => {
     expect(() => render(<Field.Footer />)).toThrow();
   });
+
+  it("tags the root and the label with their Rootage components", () => {
+    render(
+      <Field.Root>
+        <Field.Label>제목</Field.Label>
+        <Field.Label weight="bold">강조</Field.Label>
+      </Field.Root>,
+    );
+
+    const { getByText } = getRenderedQueries();
+
+    expect(getRenderedRoot().querySelector(".seed-field__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Field",
+    );
+    expect(getByText("제목")).toHaveAttribute("lynx-test-tag", "seed:FieldLabel;weight=medium");
+    expect(getByText("강조")).toHaveAttribute("lynx-test-tag", "seed:FieldLabel;weight=bold");
+  });
+
+  it("lets a consumer lynx-test-tag win on the root", () => {
+    render(<Field.Root lynx-test-tag="profile-name" />);
+
+    expect(getRenderedRoot().querySelector(".seed-field__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "profile-name",
+    );
+  });
 });

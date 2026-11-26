@@ -3,10 +3,41 @@ import { render } from "@lynx-js/react/testing-library";
 import type { CSSProperties } from "@lynx-js/types";
 import { describe, expect, it } from "vitest";
 import {
+  AttachmentDisplay,
   AttachmentDisplayRoot,
   AttachmentDisplayControl,
   AttachmentDisplayContainer,
 } from "./AttachmentDisplay";
+
+describe("AttachmentDisplay lynx-test-tag", () => {
+  it("tags the root, trigger, and image items, letting a consumer tag win", () => {
+    const entry = { id: "test", status: "success" as const };
+    const { container, rerender } = render(
+      <AttachmentDisplay.Root defaultEntries={[entry]}>
+        <AttachmentDisplay.Trigger />
+        <AttachmentDisplay.Item entry={entry} />
+      </AttachmentDisplay.Root>,
+    );
+    expect(container.querySelector(".seed-attachment-input__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:AttachmentInput",
+    );
+    expect(container.querySelector(".seed-attachment-input-trigger__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:AttachmentInputTrigger",
+    );
+    expect(container.querySelector(".seed-attachment-input-item__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:AttachmentInputItem;type=image",
+    );
+
+    rerender(<AttachmentDisplayRoot lynx-test-tag="review-photos" />);
+    expect(container.querySelector(".seed-attachment-input__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "review-photos",
+    );
+  });
+});
 
 describe("AttachmentDisplay safe-area extension", () => {
   it("inherits Root safe-area overrides through Control while allowing explicit Control styles", () => {

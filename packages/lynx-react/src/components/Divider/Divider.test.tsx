@@ -29,6 +29,7 @@ describe("Divider", () => {
     expect(divider).toHaveClass("custom-divider");
     expect(divider).toHaveAttribute("accessibility-element", "true");
     expect(divider).toHaveAttribute("accessibility-role-description", "separator");
+    expect(divider).toHaveAttribute("lynx-test-tag", "seed:Divider");
     expectStyle(divider.style, {
       width: "100%",
       "border-color": "var(--seed-color-stroke-neutral-muted)",

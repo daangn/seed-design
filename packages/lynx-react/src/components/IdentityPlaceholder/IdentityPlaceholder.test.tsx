@@ -123,4 +123,19 @@ describe("IdentityPlaceholder", () => {
     expect(image).toHaveAttribute("src", "custom.webp");
     expect(image).toHaveAttribute("mode", "aspectFill");
   });
+
+  it("tags the root and lets a consumer lynx-test-tag win", () => {
+    render(
+      <IdentityPlaceholderRoot identity="business">
+        <IdentityPlaceholderImage />
+      </IdentityPlaceholderRoot>,
+    );
+    expect(getPlaceholder().placeholderRoot).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:IdentityPlaceholder",
+    );
+
+    render(<IdentityPlaceholderRoot lynx-test-tag="seller-avatar" />);
+    expect(getPlaceholder().placeholderRoot).toHaveAttribute("lynx-test-tag", "seller-avatar");
+  });
 });

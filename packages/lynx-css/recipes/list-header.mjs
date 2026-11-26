@@ -27,3 +27,11 @@ export function listHeader(props) {
 Object.assign(listHeader, { splitVariantProps: (props) => splitVariantProps(props, listHeaderVariantMap) });
 
 // @recipe(seed): list-header
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export const listHeaderSeedTagSpec = {
+  name: "ListHeader",
+  axes: ["variant"],
+  defaults: { variant: "mediumWeak" },
+};

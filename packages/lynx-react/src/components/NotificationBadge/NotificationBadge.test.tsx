@@ -42,4 +42,30 @@ describe("NotificationBadge", () => {
     expect(badge).toHaveClass("seed-notification-badge__root--size_large");
     expect(badge).not.toHaveClass("seed-notification-badge__root--size_small");
   });
+
+  it("tags the badge with the size it draws, including the positioner's size", () => {
+    render(<NotificationBadge>3</NotificationBadge>);
+    expect(elementTree.root?.querySelector(".seed-notification-badge__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:NotificationBadge;size=large",
+    );
+
+    render(
+      <view>
+        <NotificationBadgePositioner attach="text" size="small">
+          <NotificationBadge />
+        </NotificationBadgePositioner>
+      </view>,
+    );
+    expect(elementTree.root?.querySelector(".seed-notification-badge__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:NotificationBadge;size=small",
+    );
+
+    render(<NotificationBadge lynx-test-tag="chat-unread">3</NotificationBadge>);
+    expect(elementTree.root?.querySelector(".seed-notification-badge__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "chat-unread",
+    );
+  });
 });

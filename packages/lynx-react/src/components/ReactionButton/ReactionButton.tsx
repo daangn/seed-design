@@ -1,4 +1,7 @@
-import { reactionButton } from "@seed-design/lynx-css/recipes/reaction-button";
+import {
+  reactionButton,
+  reactionButtonSeedTagSpec,
+} from "@seed-design/lynx-css/recipes/reaction-button";
 import type { ReactionButtonVariantProps } from "@seed-design/lynx-css/recipes/reaction-button";
 import { useToggle } from "@seed-design/lynx-react-toggle";
 import clsx from "clsx";
@@ -7,6 +10,7 @@ import { cloneElement, useMemo } from "@lynx-js/react";
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import type { LynxHostProps, LynxPressableProps, LynxViewRef } from "../../types";
 import { toArray } from "../../utils/children";
 import { isCountElement, type CountProps } from "../Count/Count";
@@ -106,7 +110,7 @@ export const ReactionButton = React.forwardRef<unknown, ReactionButtonProps>((pr
     <IconSlotProvider value={iconSlotContextValue}>
       <view
         {...mergeProps(
-          { flatten: false },
+          { flatten: false, "lynx-test-tag": seedTag(reactionButtonSeedTagSpec, variantProps) },
           ref ? { ref: ref as LynxViewRef } : {},
           scaleFeedbackTargetProps,
           scaleFeedbackTriggerProps,

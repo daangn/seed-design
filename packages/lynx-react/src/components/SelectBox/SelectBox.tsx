@@ -1,12 +1,20 @@
 import * as React from "@lynx-js/react";
 import clsx from "clsx";
 
-import { selectBox, type SelectBoxVariantProps } from "@seed-design/lynx-css/recipes/select-box";
+import {
+  selectBox,
+  selectBoxSeedTagSpec,
+  type SelectBoxVariantProps,
+} from "@seed-design/lynx-css/recipes/select-box";
 import {
   selectBoxCheckmark,
+  selectBoxCheckmarkSeedTagSpec,
   type SelectBoxCheckmarkVariantProps,
 } from "@seed-design/lynx-css/recipes/select-box-checkmark";
-import { selectBoxGroup } from "@seed-design/lynx-css/recipes/select-box-group";
+import {
+  selectBoxGroup,
+  selectBoxGroupSeedTagSpec,
+} from "@seed-design/lynx-css/recipes/select-box-group";
 import {
   CheckboxProvider,
   useCheckbox,
@@ -30,6 +38,7 @@ import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { IconSlotProvider, InternalIcon, type InternalIconProps } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import {
   AccessibilityElementScope,
   getAccessibleText,
@@ -154,7 +163,7 @@ function renderSelectBoxSurface(options: SelectBoxSurfaceOptions) {
             <view
               {...mergeProps(
                 accessibilityProps,
-                { flatten: false },
+                { flatten: false, "lynx-test-tag": seedTag(selectBoxSeedTagSpec, variantProps) },
                 nativeProps,
                 ref ? { ref: ref as LynxViewRef } : {},
               )}
@@ -198,7 +207,7 @@ const SelectBoxGroup = React.forwardRef<unknown, SelectBoxGroupProps>((props, re
     <SelectBoxLayoutContext.Provider value={{ layout }}>
       <view
         {...mergeProps(
-          { "accessibility-element": false },
+          { "accessibility-element": false, "lynx-test-tag": seedTag(selectBoxGroupSeedTagSpec) },
           ref ? { ref: ref as LynxViewRef } : {},
           nativeProps,
         )}
@@ -591,7 +600,10 @@ export const CheckSelectBoxCheckmarkControl = React.forwardRef<
     <SelectBoxCheckmarkContext.Provider value={{ iconClassName: classes.icon, variantProps }}>
       <view
         {...mergeProps(
-          { "accessibility-elements-hidden": true },
+          {
+            "accessibility-elements-hidden": true,
+            "lynx-test-tag": seedTag(selectBoxCheckmarkSeedTagSpec),
+          },
           nativeProps,
           ref ? { ref: ref as LynxViewRef } : {},
         )}

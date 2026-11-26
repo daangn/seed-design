@@ -3,6 +3,7 @@ import clsx from "clsx";
 
 import {
   floatingActionButton,
+  floatingActionButtonSeedTagSpec,
   glassTint as floatingActionButtonGlassTint,
   type FloatingActionButtonVariantProps,
 } from "@seed-design/lynx-css/recipes/floating-action-button";
@@ -20,6 +21,7 @@ import type {
 } from "../../types";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import {
   LiquidGlassView,
   useLiquidGlass,
@@ -66,6 +68,7 @@ const FloatingActionButtonRootView = React.forwardRef<unknown, FloatingActionBut
             <LiquidGlassView
               {...mergeProps(
                 { style: { "--fab-label-width": `${labelWidth ?? 0}px` } as LynxStyle },
+                { "lynx-test-tag": seedTag(floatingActionButtonSeedTagSpec, variantProps) },
                 ref ? { ref } : {},
                 nativeProps,
                 { style },
@@ -86,6 +89,7 @@ const FloatingActionButtonRootView = React.forwardRef<unknown, FloatingActionBut
               {...mergeProps(
                 {
                   style: { "--fab-label-width": `${labelWidth ?? 0}px` } as LynxViewProps["style"],
+                  "lynx-test-tag": seedTag(floatingActionButtonSeedTagSpec, variantProps),
                 },
                 ref ? { ref: ref as LynxViewRef } : {},
                 nativeProps,

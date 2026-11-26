@@ -101,4 +101,21 @@ describe("ProgressCircle", () => {
 
     expect(range?.style.clipPath).toMatch(/^path\("M 20 20 L 20 -1 A 21 21/);
   });
+
+  it("tags size, indeterminate derived from value, and tone", () => {
+    render(<ProgressCircle.Root />);
+    expect(getProgressCircleRoot()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:ProgressCircle;size=40;indeterminate=true;tone=neutral",
+    );
+
+    render(<ProgressCircle.Root size="24" tone="brand" value={40} />);
+    expect(getProgressCircleRoot()).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:ProgressCircle;size=24;indeterminate=false;tone=brand",
+    );
+
+    render(<ProgressCircle.Root lynx-test-tag="upload-progress" />);
+    expect(getProgressCircleRoot()).toHaveAttribute("lynx-test-tag", "upload-progress");
+  });
 });

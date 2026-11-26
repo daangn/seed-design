@@ -39,3 +39,10 @@ Object.assign(progressCircle, {
 });
 
 // @recipe(seed): progress-circle
+
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export const progressCircleSeedTagSpec = {
+  name: "ProgressCircle",
+  axes: ["size", "indeterminate", "tone"],
+  defaults: { size: "40", tone: "neutral" },
+};

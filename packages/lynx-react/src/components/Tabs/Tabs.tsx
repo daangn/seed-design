@@ -1,4 +1,9 @@
-import { tabs, type TabsSlotName, type TabsVariantProps } from "@seed-design/lynx-css/recipes/tabs";
+import {
+  tabs,
+  tabsSeedTagSpec,
+  type TabsSlotName,
+  type TabsVariantProps,
+} from "@seed-design/lynx-css/recipes/tabs";
 import * as React from "@lynx-js/react";
 import {
   Tabs as HeadlessTabs,
@@ -20,8 +25,20 @@ import {
   useLabelTextAccessibilityProps,
 } from "../../utils/accessibility";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { useShallowMemo } from "../../utils/use-shallow-memo";
 import { Box } from "../Box";
+
+// Rootage tablist names the recipe's `triggerLayout` axis `layout`.
+const tablistSeedTagSpec = {
+  ...tabsSeedTagSpec,
+  defaults: { ...tabsSeedTagSpec.defaults, layout: "fill" },
+};
+const tabSeedTagSpec = {
+  name: "Tab",
+  axes: ["size"],
+  defaults: { size: "small" },
+};
 type TabsRecipeState = Pick<
   TabsVariantProps,
   "selected" | "disabled" | "inCarousel" | "transitionEnabled" | "indicatorMeasured"
@@ -34,6 +51,7 @@ interface TabsStyleContextValue {
   getClassNames: (state?: TabsRecipeState) => TabsClassNames;
   transitionsEnabled: boolean;
   viewportInsets: HeadlessTabsListProps["viewportInsets"];
+  tabSeedTag: string;
 }
 
 const TabsStyleContext = React.createContext<TabsStyleContextValue | null>(null);
@@ -99,15 +117,31 @@ export const TabsRoot = React.forwardRef<unknown, TabsRootProps>((props, ref) =>
     () => getClassNames({ transitionEnabled: transitionsEnabled }),
     [getClassNames, transitionsEnabled],
   );
+  const tabSeedTag = seedTag(tabSeedTagSpec, { size: variantProps.size });
   const styleContext = React.useMemo(
-    () => ({ classNames, getClassNames, transitionsEnabled, viewportInsets }),
-    [classNames, getClassNames, transitionsEnabled, viewportInsets],
+    () => ({
+      classNames,
+      getClassNames,
+      transitionsEnabled,
+      viewportInsets,
+      tabSeedTag,
+    }),
+    [classNames, getClassNames, transitionsEnabled, viewportInsets, tabSeedTag],
   );
   return (
     <TabsProvider value={api}>
       <TabsStyleContext.Provider value={styleContext}>
         <view
-          {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+          {...mergeProps(
+            ref ? { ref: ref as LynxViewRef } : {},
+            {
+              "lynx-test-tag": seedTag(tablistSeedTagSpec, {
+                layout: variantProps.triggerLayout,
+                size: variantProps.size,
+              }),
+            },
+            nativeProps,
+          )}
           className={clsx(classNames.root, className)}
           style={{ ...safeAreaStyle, ...style }}
         >
@@ -192,7 +226,7 @@ export const TabsTrigger = React.forwardRef<unknown, TabsTriggerProps>((props, r
     transitionEnabled: context.transitionsEnabled,
   });
   const triggerProps = mergeProps(
-    { flatten: false },
+    { flatten: false, "lynx-test-tag": context.tabSeedTag },
     api.triggerProps,
     ref ? { ref: ref as LynxViewRef } : {},
     scaleFeedbackTargetProps,
