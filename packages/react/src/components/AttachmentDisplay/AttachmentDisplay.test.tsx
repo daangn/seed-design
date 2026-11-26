@@ -4,6 +4,7 @@ import { describe, expect, it } from "bun:test";
 import { AttachmentDisplayRoot } from "./AttachmentDisplay";
 import {
   AttachmentDisplayItem,
+  AttachmentDisplayItemDurationBadge,
   AttachmentDisplayItemRemoveButton,
   AttachmentDisplayItemReorderHandle,
 } from "./AttachmentDisplayItem";
@@ -32,5 +33,21 @@ describe("AttachmentDisplay", () => {
     expect(item).toHaveAttribute("data-reorderable");
     expect(item).toHaveAttribute("data-dragging");
     expect(handle).not.toContainElement(removeButton);
+  });
+
+  it("renders the duration badge's children inside the label", () => {
+    const { getByRole } = render(
+      <AttachmentDisplayRoot>
+        <AttachmentDisplayItem entry={entry}>
+          <AttachmentDisplayItemDurationBadge role="img" aria-label="재생시간">
+            25:03:05
+          </AttachmentDisplayItemDurationBadge>
+        </AttachmentDisplayItem>
+      </AttachmentDisplayRoot>,
+    );
+
+    expect(getByRole("img", { name: "재생시간" }).outerHTML).toBe(
+      '<div class="seed-attachment-input-item__durationBadge seed-attachment-input-item__durationBadge--type_image" role="img" aria-label="재생시간"><span class="seed-attachment-input-item__durationBadgeLabel seed-attachment-input-item__durationBadgeLabel--type_image">25:03:05</span></div>',
+    );
   });
 });

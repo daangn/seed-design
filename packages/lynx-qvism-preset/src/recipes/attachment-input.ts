@@ -171,6 +171,8 @@ const attachmentInputItem = defineSlotRecipe({
     "size",
     "badge",
     "badgeLabel",
+    "durationBadge",
+    "durationBadgeLabel",
     "backdrop",
     "actionButton",
     "actionIcon",
@@ -321,6 +323,8 @@ const attachmentInputItem = defineSlotRecipe({
     },
     badge: {},
     badgeLabel: {},
+    durationBadge: {},
+    durationBadgeLabel: {},
   },
   variants: {
     type: {
@@ -382,6 +386,27 @@ const attachmentInputItem = defineSlotRecipe({
           lineHeight: itemVars.typeImage.enabled.badgeLabel.lineHeight,
           fontWeight: itemVars.typeImage.enabled.badgeLabel.fontWeight,
           color: itemVars.typeImage.enabled.badgeLabel.color,
+        },
+        durationBadge: {
+          position: "absolute",
+          top: itemVars.typeImage.enabled.durationBadge.offset,
+          left: itemVars.typeImage.enabled.durationBadge.offset,
+          display: "flex",
+          alignItems: "center",
+          paddingTop: itemVars.typeImage.enabled.durationBadge.paddingY,
+          paddingBottom: itemVars.typeImage.enabled.durationBadge.paddingY,
+          paddingLeft: itemVars.typeImage.enabled.durationBadge.paddingX,
+          paddingRight: itemVars.typeImage.enabled.durationBadge.paddingX,
+          backgroundColor: itemVars.typeImage.enabled.durationBadge.color,
+          borderRadius: itemVars.typeImage.enabled.durationBadge.cornerRadius,
+        },
+        durationBadgeLabel: {
+          // Add fontVariantNumeric: "tabular-nums" (as in the web recipe) once Lynx supports font-variant-numeric.
+          whiteSpace: "nowrap",
+          fontSize: itemVars.typeImage.enabled.durationBadgeLabel.fontSize,
+          lineHeight: itemVars.typeImage.enabled.durationBadgeLabel.lineHeight,
+          fontWeight: itemVars.typeImage.enabled.durationBadgeLabel.fontWeight,
+          color: itemVars.typeImage.enabled.durationBadgeLabel.color,
         },
         backdrop: {
           backgroundColor: itemVars.typeImage.enabled.backdrop.color,

@@ -484,6 +484,24 @@ export const AttachmentInputItemBadge = React.forwardRef<NodesRef, AttachmentInp
 );
 AttachmentInputItemBadge.displayName = "AttachmentInputItemBadge";
 
+export interface AttachmentInputItemDurationBadgeProps extends LynxHostProps<"view"> {}
+
+export const AttachmentInputItemDurationBadge = React.forwardRef<
+  NodesRef,
+  AttachmentInputItemDurationBadgeProps
+>(({ children, className, ...nativeProps }, forwardedRef) => {
+  const classes = itemRecipe.useClassNames();
+  return (
+    <view
+      {...mergeProps(forwardedRef ? { ref: forwardedRef } : {}, nativeProps)}
+      className={clsx(classes.durationBadge, className)}
+    >
+      <text className={classes.durationBadgeLabel}>{children}</text>
+    </view>
+  );
+});
+AttachmentInputItemDurationBadge.displayName = "AttachmentInputItemDurationBadge";
+
 export interface AttachmentInputItemActionButtonProps
   extends Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">, LynxPressableProps {}
 
@@ -618,6 +636,7 @@ export const AttachmentInput = {
   ItemThumbnail: AttachmentInputItemThumbnail,
   ItemMetadata: AttachmentInputItemMetadata,
   ItemBadge: AttachmentInputItemBadge,
+  ItemDurationBadge: AttachmentInputItemDurationBadge,
   ItemActionButton: AttachmentInputItemActionButton,
   ItemBackdrop: AttachmentInputItemBackdrop,
   ItemRemoveButton: AttachmentInputItemRemoveButton,

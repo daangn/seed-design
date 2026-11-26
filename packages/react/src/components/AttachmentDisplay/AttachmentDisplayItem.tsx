@@ -189,6 +189,31 @@ AttachmentDisplayItemBadge.displayName = "AttachmentDisplayItemBadge";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+export interface AttachmentDisplayItemDurationBadgeProps
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+
+/**
+ * Shows a video's duration as a pill at the top-left of an item. Screen readers announce
+ * the visible text as-is, so pass `role="img"` with an `aria-label` such as "재생시간 1분 5초".
+ */
+export const AttachmentDisplayItemDurationBadge = React.forwardRef<
+  HTMLDivElement,
+  AttachmentDisplayItemDurationBadgeProps
+>(({ className, children, ...props }, ref) => {
+  const classNames = useClassNames();
+
+  return (
+    // FIXME: `asChild` slots onto the label span below, not this element, so the caller's element
+    // lands inside the badge without its class or ref. Route `children` through `Slottable`.
+    <Primitive.div ref={ref} className={clsx(classNames.durationBadge, className)} {...props}>
+      <Primitive.span className={classNames.durationBadgeLabel}>{children}</Primitive.span>
+    </Primitive.div>
+  );
+});
+AttachmentDisplayItemDurationBadge.displayName = "AttachmentDisplayItemDurationBadge";
+
+////////////////////////////////////////////////////////////////////////////////////
+
 export interface AttachmentDisplayItemActionButtonProps
   extends PrimitiveProps, React.ButtonHTMLAttributes<HTMLButtonElement> {}
 

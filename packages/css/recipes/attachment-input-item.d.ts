@@ -11,7 +11,7 @@ declare type AttachmentInputItemVariantMap = {
 
 export declare type AttachmentInputItemVariantProps = Partial<AttachmentInputItemVariant>;
 
-export declare type AttachmentInputItemSlotName = "root" | "image" | "thumbnail" | "metadata" | "name" | "size" | "badge" | "badgeLabel" | "backdrop" | "actionButton" | "removeButton" | "reorderHandle";
+export declare type AttachmentInputItemSlotName = "root" | "image" | "thumbnail" | "metadata" | "name" | "size" | "badge" | "badgeLabel" | "durationBadge" | "durationBadgeLabel" | "backdrop" | "actionButton" | "removeButton" | "reorderHandle";
 
 export declare const attachmentInputItemVariantMap: AttachmentInputItemVariantMap;
 

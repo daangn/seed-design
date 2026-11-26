@@ -145,6 +145,8 @@ const attachmentInputItem = defineSlotRecipe({
     "size",
     "badge",
     "badgeLabel",
+    "durationBadge",
+    "durationBadgeLabel",
     "backdrop",
     "actionButton",
     "removeButton",
@@ -487,6 +489,31 @@ const attachmentInputItem = defineSlotRecipe({
           lineHeight: itemVars.typeImage.enabled.badgeLabel.lineHeight,
           fontWeight: itemVars.typeImage.enabled.badgeLabel.fontWeight,
           color: itemVars.typeImage.enabled.badgeLabel.color,
+        },
+        durationBadge: {
+          position: "absolute",
+          top: itemVars.typeImage.enabled.durationBadge.offset,
+          left: itemVars.typeImage.enabled.durationBadge.offset,
+
+          display: "flex",
+          alignItems: "center",
+
+          paddingInline: itemVars.typeImage.enabled.durationBadge.paddingX,
+          paddingBlock: itemVars.typeImage.enabled.durationBadge.paddingY,
+
+          backgroundColor: itemVars.typeImage.enabled.durationBadge.color,
+          borderRadius: itemVars.typeImage.enabled.durationBadge.cornerRadius,
+          WebkitBackdropFilter: `blur(${itemVars.typeImage.enabled.durationBadge.backdropBlur})`,
+          backdropFilter: `blur(${itemVars.typeImage.enabled.durationBadge.backdropBlur})`,
+        },
+        durationBadgeLabel: {
+          whiteSpace: "nowrap",
+          fontVariantNumeric: "tabular-nums",
+
+          fontSize: itemVars.typeImage.enabled.durationBadgeLabel.fontSize,
+          lineHeight: itemVars.typeImage.enabled.durationBadgeLabel.lineHeight,
+          fontWeight: itemVars.typeImage.enabled.durationBadgeLabel.fontWeight,
+          color: itemVars.typeImage.enabled.durationBadgeLabel.color,
         },
         backdrop: {
           background: itemVars.typeImage.enabled.backdrop.color,

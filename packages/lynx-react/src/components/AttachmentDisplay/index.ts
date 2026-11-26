@@ -20,6 +20,7 @@ export {
   AttachmentDisplayItemThumbnail,
   AttachmentDisplayItemMetadata,
   AttachmentDisplayItemBadge,
+  AttachmentDisplayItemDurationBadge,
   AttachmentDisplayItemActionButton,
   AttachmentDisplayItemBackdrop,
   AttachmentDisplayItemRemoveButton,
