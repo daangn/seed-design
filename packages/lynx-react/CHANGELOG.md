@@ -1,5 +1,16 @@
 # @seed-design/lynx-react
 
+## 1.4.4
+
+### Patch Changes
+
+- 6c405cc: Lynx `PullToRefresh`를 iOS에서 한 번 당겼는데 `onPtrPullStart`·`onPtrPullEnd`가 여러 번 호출되던 문제를 수정합니다. 터치 도중 native 제스처가 끝났다가 다시 시작돼도 같은 터치 안에서는 당김을 새로 시작하지 않고, 첫 판정을 이어갑니다.
+- ff6b57b: Lynx `Tabs`를 스와이프할 때 Indicator가 손가락을 따라오지 못하고 페이지가 넘어간 뒤에야 이동하던 문제를 수정합니다. 이제 pager가 페이지 사이에 있는 동안에는 Indicator transition을 끄고 스와이프 위치를 바로 반영하며, 페이지에 닿으면 기존 transition으로 돌아갑니다. Trigger를 눌러 이동할 때의 transition은 그대로입니다.
+- Updated dependencies [6c405cc]
+- Updated dependencies [ff6b57b]
+  - @seed-design/lynx-react-pull-to-refresh@1.1.3
+  - @seed-design/lynx-react-tabs@1.1.5
+
 ## 1.4.3
 
 ### Patch Changes
