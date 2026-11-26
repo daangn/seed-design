@@ -5,10 +5,10 @@ import { IconXmarkFill } from "@karrotmarket/react-monochrome-icon";
 import { withVisualTestParameters } from "@/stories/utils/parameters";
 import { SeedThemeDecorator } from "./components/decorator";
 
-// 1x1 pixel PNG (valid image so ItemImage renders without broken icon)
+// A checkerboard, not a flat color: the badge's backdrop blur leaves a flat backdrop unchanged and vanishes from snapshots.
 function createMockImageFile(name: string): File {
   const base64 =
-    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4n+wOAAQOAaoOR2bDAAAAAElFTkSuQmCC";
+    "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAbElEQVR42u3XMQ0AIAxFQRwgASlIQgqSwUCZukC4hLEDN738skYNX+szfLfdFwAAAACAFOCVj57uAQAAAAByACUGAAAAsAeUGAAAAMAeUGIAAAAAe0CJAQAAAOwBJQYAAACwB5QYAAAA4BvABn7HUR7MRpyqAAAAAElFTkSuQmCC";
   const bytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
   return new File([bytes], name, { type: "image/png" });
 }
