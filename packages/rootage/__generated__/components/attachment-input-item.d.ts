@@ -134,6 +134,10 @@ declare const artifact: {
             "paddingX": {
               "type": "dimension";
             };
+            "backdropBlur": {
+              "type": "dimension";
+              "description": "백드롭 블러의 Gaussian 표준편차입니다. CSS `blur()`와 같은 기준이며, Figma Background blur 값의 절반에 해당합니다.";
+            };
           };
         };
         "badgeLabel": {
@@ -413,6 +417,13 @@ declare const artifact: {
                 "paddingX": {
                   "type": "dimension";
                   "value": "$dimension.x1";
+                };
+                "backdropBlur": {
+                  "type": "dimension";
+                  "value": {
+                    "value": 2;
+                    "unit": "px";
+                  };
                 };
               };
               "badgeLabel": {

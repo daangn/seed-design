@@ -84,6 +84,9 @@ data:
             type: dimension
           paddingX:
             type: dimension
+          backdropBlur:
+            type: dimension
+            description: 백드롭 블러의 Gaussian 표준편차입니다. CSS `blur()`와 같은 기준이며, Figma Background blur 값의 절반에 해당합니다.
       badgeLabel:
         properties:
           color:
@@ -161,6 +164,7 @@ data:
           height: $dimension.x6
           cornerRadius: $radius.r3
           paddingX: $dimension.x1
+          backdropBlur: 2px
         badgeLabel:
           color: $color.palette.static-white
           fontSize: $font-size.t2
