@@ -44,7 +44,7 @@
         "@fumadocs/satteri": "^0.8",
         "@gsap/react": "^2.1.2",
         "@karrotmarket/icon-data": "^1.34.0",
-        "@karrotmarket/lynx-monochrome-icon": "1.30.0",
+        "@karrotmarket/lynx-monochrome-icon": "1.31.0",
         "@karrotmarket/react-monochrome-icon": "^1.17.0",
         "@karrotmarket/react-multicolor-icon": "^1.17.0",
         "@lottiefiles/react-lottie-player": "^3.6.0",
@@ -288,7 +288,7 @@
       "version": "1.0.0",
       "dependencies": {
         "@karrotmarket/icon-data": "^1.34.0",
-        "@karrotmarket/lynx-monochrome-icon": "1.30.0",
+        "@karrotmarket/lynx-monochrome-icon": "1.31.0",
         "@karrotmarket/lynx-multicolor-icon": "1.32.0",
         "@lynx-js/react": "0.125.0",
         "@seed-design/lynx-css": "workspace:*",
@@ -3309,13 +3309,13 @@
 
     "@kaptures/storybook": ["@kaptures/storybook@0.15.3", "", { "peerDependencies": { "storybook": "^10.5.6" } }, "sha512-tKy/6y2QO1qPs1gaMlQASsrT9xhgDe+AWmy810WKDs7aGT3ZC+b7pxv08IJaWf3VHpTNtuCYZwljCx8LY9y01w=="],
 
-    "@karrotmarket/assets-monochrome": ["@karrotmarket/assets-monochrome@1.36.0", "", {}, "sha512-X+2ZoJPxGCSWX85sCU5k0fgk3uBZb/v+kQLFk5EB+x3iysC983BLuvSplwz7maN3D5/s1bKTlxKyb2sbg5I5WQ=="],
+    "@karrotmarket/assets-monochrome": ["@karrotmarket/assets-monochrome@1.37.0", "", {}, "sha512-MIci2k4Qrp3Ov/a2b0tdazRh0KfMJKjghEZ5TqxHN8AVpRwkTabq4UVkOI77NRzuKaLbDTyfemddnvtHMtFQJA=="],
 
     "@karrotmarket/assets-multicolor": ["@karrotmarket/assets-multicolor@1.34.0", "", {}, "sha512-Y/kgZiCdK6K9/QKP5UVwlJ2A/S9DGtANAP1TJDOmeXEfXZxDPDM3epo66NYjqp6HyNLl1rGyMu+/2AhINIP7rA=="],
 
     "@karrotmarket/icon-data": ["@karrotmarket/icon-data@1.34.0", "", {}, "sha512-zjtPezoyCcNX5n0FYTtwFgeNsson1M3yLSP5Vy5G0yebzpR1GPFLRvlDPzwB3SjUKzyhR6XIvypYBXSY5QK39w=="],
 
-    "@karrotmarket/lynx-monochrome-icon": ["@karrotmarket/lynx-monochrome-icon@1.30.0", "", { "dependencies": { "@karrotmarket/assets-monochrome": "^1.36.0" }, "peerDependencies": { "@lynx-js/react": "*", "@lynx-js/types": "*" } }, "sha512-EBnz0f8GwhrNSq3OTJIewOcHrEPrGF1C7X0mEGeoOvinwH/IxNglzLzS9uKy/lpfdPYlBfVqvlxwnBn7DoJkRQ=="],
+    "@karrotmarket/lynx-monochrome-icon": ["@karrotmarket/lynx-monochrome-icon@1.31.0", "", { "dependencies": { "@karrotmarket/assets-monochrome": "^1.37.0" }, "peerDependencies": { "@lynx-js/react": "*", "@lynx-js/types": "*" } }, "sha512-VmyFvQYZnLG3Axoqp/JxxdMlgEk39R2R8cMoHcX1zMA6TGd1BfbxBzQcqT+dYwLsn/jXg6swnBqX6iHXZ85tDg=="],
 
     "@karrotmarket/lynx-multicolor-icon": ["@karrotmarket/lynx-multicolor-icon@1.32.0", "", { "dependencies": { "@karrotmarket/assets-multicolor": "^1.34.0" }, "peerDependencies": { "@lynx-js/react": "*", "@lynx-js/types": "*" } }, "sha512-iLCbFudOFLljB2tFBCM1gKnBbjn2jPR/coOlxUG8NNJRdXXZRZ48wUf/1RmXzQR0TV8rjD2rUMuMJTOKy+pP6w=="],
 
