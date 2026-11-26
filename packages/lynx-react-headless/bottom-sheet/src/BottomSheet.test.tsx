@@ -327,6 +327,19 @@ describe("BottomSheet", () => {
     expect(onAnimationEnd).not.toHaveBeenCalled();
   });
 
+  it("reports only the latest close when the sheet reopens and closes again before the first settles", async () => {
+    const onAnimationEnd = vi.fn();
+    render(<BottomSheet.Root defaultOpen onAnimationEnd={onAnimationEnd} />);
+
+    act(() => sheetMocks.engine.setMounted(false));
+    act(() => sheetMocks.engine.setMounted(true));
+    act(() => sheetMocks.engine.setMounted(false));
+    await waitFor(() => expect(onAnimationEnd).toHaveBeenCalled());
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(onAnimationEnd.mock.calls).toEqual([[false]]);
+  });
+
   it("leaves Content transitions to the engine unless Root skips animation", () => {
     render(
       <BottomSheet.Root>

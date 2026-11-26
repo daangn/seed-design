@@ -183,16 +183,18 @@ function BottomSheetContextProvider(props: {
   // 엔진의 `onClose`는 레이어를 unmount하기 전에 오므로 그 시점에 띄운 native UI는 닫히는 overlay에 붙는다.
   // unmount가 commit된 뒤에도 effect는 main thread가 patch를 반영하기 전에 실행될 수 있어, main thread를
   // 한 번 왕복해 레이어 제거가 반영된 뒤 알린다.
-  const wasMountedRef = React.useRef(mounted);
+  const prevMountedRef = React.useRef(mounted);
+  // mount 상태가 바뀔 때마다 늘린다. 왕복하는 동안 다시 열렸으면(다시 닫혔더라도) 이전 닫힘은 알리지 않는다.
+  const generationRef = React.useRef(0);
   React.useEffect(() => {
-    const wasMounted = wasMountedRef.current;
-    wasMountedRef.current = mounted;
-    if (!wasMounted || mounted) return;
+    if (prevMountedRef.current === mounted) return;
+    prevMountedRef.current = mounted;
+    const generation = ++generationRef.current;
+    if (mounted) return;
     void runOnMainThread(() => {
       "main thread";
     })().then(() => {
-      // 왕복하는 동안 다시 열렸으면 닫힘을 알리지 않는다.
-      if (!wasMountedRef.current) onClosed();
+      if (generationRef.current === generation) onClosed();
     });
   }, [mounted, onClosed]);
   const context = React.useMemo<UseBottomSheetContext>(
