@@ -125,7 +125,7 @@ Trigger 외의 방식으로 Bottom Sheet를 열고 닫으려면 `open`과 `onOpe
 
 ### `onAnimationEnd`
 
-`onAnimationEnd`는 열림 애니메이션이 끝나면 `true`, 닫힘 애니메이션이 끝나면 `false`와 함께 호출됩니다. 열림 상태를 바꾼 방법과 관계없이 호출되며, Root ref의 메서드나 `open` prop으로 바꾼 경우도 포함합니다. `false`는 시트 레이어가 화면에서 제거된 뒤에 전달됩니다.
+`onAnimationEnd`는 열림 애니메이션이 끝나면 `true`, 닫힘 애니메이션이 끝나면 `false`와 함께 호출됩니다. 열림 상태를 바꾼 방법과 관계없이 호출되며, Root ref의 메서드나 `open` prop으로 바꾼 경우도 포함합니다. `false`는 시트 레이어가 화면에서 제거된 뒤에 전달됩니다. 단, `forceMount`를 켜면 닫힌 뒤에도 레이어가 남아 있으므로 `false`는 닫힘이 끝났다는 뜻일 뿐 레이어 제거를 보장하지 않습니다.
 
 시트를 닫은 뒤 스낵바처럼 화면 위에 뜨는 native UI를 띄우려면 `onOpenChange` 대신 `onAnimationEnd`에서 호출하세요. `container`로 띄운 시트가 닫히는 중에 호출하면 native UI가 닫히는 overlay에 붙어 함께 사라질 수 있습니다.
 

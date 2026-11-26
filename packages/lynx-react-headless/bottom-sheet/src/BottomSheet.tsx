@@ -60,7 +60,8 @@ export interface BottomSheetRootProps extends Omit<
   /**
    * Called when the sheet finishes opening (`true`) or closing (`false`), whatever changed the open
    * state. `false` comes after the layer is removed from the screen, so UI shown from it (such as a
-   * snackbar) is not covered by or attached to the closing layer.
+   * snackbar) is not covered by or attached to the closing layer. With `forceMount` the layer stays
+   * mounted, so `false` only means the close finished and the layer is still on screen.
    */
   onAnimationEnd?: (open: boolean) => void;
   /**
