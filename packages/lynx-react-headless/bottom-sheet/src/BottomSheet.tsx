@@ -1,4 +1,5 @@
 import * as React from "@lynx-js/react";
+import { runOnMainThread } from "@lynx-js/react";
 import { useMemoizedFn } from "@lynx-js/lynx-ui-common";
 import {
   SheetBackdrop,
@@ -57,6 +58,13 @@ export interface BottomSheetRootProps extends Omit<
    */
   onOpenChange?: (open: boolean, details: BottomSheetOpenChangeDetails) => void;
   /**
+   * Called when the sheet finishes opening (`true`) or closing (`false`), whatever changed the open
+   * state. `false` comes after the layer is removed from the screen, so UI shown from it (such as a
+   * snackbar) is not covered by or attached to the closing layer. With `forceMount` the layer stays
+   * mounted, so `false` only means the close finished and the layer is still on screen.
+   */
+  onAnimationEnd?: (open: boolean) => void;
+  /**
    * Opens from Trigger without animation and ends enter, exit and snap transitions
    * immediately unless Content receives its own transition.
    * @defaultValue false
@@ -77,6 +85,8 @@ export const BottomSheetRoot = React.forwardRef<SheetRootRef, BottomSheetRootPro
       open,
       defaultOpen,
       onOpenChange,
+      onAnimationEnd,
+      onOpen,
       skipAnimation = false,
       children,
       ...sheetProps
@@ -129,6 +139,15 @@ export const BottomSheetRoot = React.forwardRef<SheetRootRef, BottomSheetRootPro
         pendingReasonRef.current = null;
       }
     });
+    const handleOpen = useMemoizedFn(() => {
+      "background only";
+      onOpen?.();
+      onAnimationEnd?.(true);
+    });
+    const handleClosed = useMemoizedFn(() => {
+      "background only";
+      onAnimationEnd?.(false);
+    });
     const context = React.useMemo<Omit<UseBottomSheetContext, "layerSize">>(
       () => ({ rootRef, skipAnimation, setOpen }),
       [rootRef, skipAnimation, setOpen],
@@ -141,21 +160,44 @@ export const BottomSheetRoot = React.forwardRef<SheetRootRef, BottomSheetRootPro
         show={open}
         defaultShow={defaultOpen}
         onShowChange={handleShowChange}
+        onOpen={handleOpen}
       >
-        <BottomSheetContextProvider value={context}>{children}</BottomSheetContextProvider>
+        <BottomSheetContextProvider value={context} onClosed={handleClosed}>
+          {children}
+        </BottomSheetContextProvider>
       </SheetRoot>
     );
   },
 );
 BottomSheetRoot.displayName = "BottomSheetRoot";
 
-/** 엔진이 측정한 레이어 크기를 Root context에 더한다. */
+/**
+ * 엔진이 측정한 레이어 크기를 Root context에 더하고, 닫혀 레이어가 unmount되면 `onClosed`를 부른다.
+ */
 function BottomSheetContextProvider(props: {
   value: Omit<UseBottomSheetContext, "layerSize">;
+  onClosed: () => void;
   children?: React.ReactNode;
 }): React.ReactElement {
-  const { value, children } = props;
-  const { layerSize } = useSheetContext();
+  const { value, onClosed, children } = props;
+  const { layerSize, mounted } = useSheetContext();
+  // 엔진의 `onClose`는 레이어를 unmount하기 전에 오므로 그 시점에 띄운 native UI는 닫히는 overlay에 붙는다.
+  // unmount가 commit된 뒤에도 effect는 main thread가 patch를 반영하기 전에 실행될 수 있어, main thread를
+  // 한 번 왕복해 레이어 제거가 반영된 뒤 알린다.
+  const prevMountedRef = React.useRef(mounted);
+  // mount 상태가 바뀔 때마다 늘린다. 왕복하는 동안 다시 열렸으면(다시 닫혔더라도) 이전 닫힘은 알리지 않는다.
+  const generationRef = React.useRef(0);
+  React.useEffect(() => {
+    if (prevMountedRef.current === mounted) return;
+    prevMountedRef.current = mounted;
+    const generation = ++generationRef.current;
+    if (mounted) return;
+    void runOnMainThread(() => {
+      "main thread";
+    })().then(() => {
+      if (generationRef.current === generation) onClosed();
+    });
+  }, [mounted, onClosed]);
   const context = React.useMemo<UseBottomSheetContext>(
     () => ({ ...value, layerSize }),
     [value, layerSize],
