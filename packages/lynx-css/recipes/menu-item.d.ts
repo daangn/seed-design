@@ -34,3 +34,11 @@ export declare const menuItem: ((
     props: T,
   ) => [MenuItemVariantProps, Omit<T, keyof MenuItemVariantProps>];
 }
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export declare const menuItemSeedTagSpec: {
+  readonly name: "MenuItem";
+  readonly axes: readonly ["size", "tone"];
+  readonly defaults: { readonly size: "medium"; readonly tone: "neutral" };
+};

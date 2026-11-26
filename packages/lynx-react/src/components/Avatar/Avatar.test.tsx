@@ -111,6 +111,25 @@ describe("Avatar", () => {
     expect(items[0]?.className).not.toContain("seed-avatar-stack__overlap");
     expect(items[1]?.className).toContain("seed-avatar-stack__overlap");
     expect(items[2]?.className).toContain("seed-avatar-stack__overlap");
+    expect(root().querySelector(".seed-avatar-stack__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:AvatarStack;size=64",
+    );
+    expect(avatars[0]).toHaveAttribute("lynx-test-tag", "seed:Avatar;size=64");
+    expect(avatars[1]).toHaveAttribute("lynx-test-tag", "seed:Avatar;size=24");
+  });
+
+  it("tags the root with the default size and lets a consumer lynx-test-tag win", () => {
+    const { rerender } = render(<Avatar.Root />);
+    expect(root().querySelector(".seed-avatar__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Avatar;size=48",
+    );
+    rerender(<Avatar.Root lynx-test-tag="seller-avatar" />);
+    expect(root().querySelector(".seed-avatar__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seller-avatar",
+    );
   });
 
   it("keeps independently keyed child arrays in their stack order after updates", () => {

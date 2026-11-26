@@ -61,3 +61,11 @@ export function selectBoxCheckmark(props) {
 Object.assign(selectBoxCheckmark, { splitVariantProps: (props) => splitVariantProps(props, selectBoxCheckmarkVariantMap) });
 
 // @recipe(seed): select-box-checkmark
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export const selectBoxCheckmarkSeedTagSpec = {
+  name: "SelectBoxCheckmark",
+  axes: [],
+  defaults: {},
+};

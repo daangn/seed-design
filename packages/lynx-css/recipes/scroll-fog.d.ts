@@ -34,3 +34,11 @@ export declare const scrollFog: ((
     props: T,
   ) => [ScrollFogVariantProps, Omit<T, keyof ScrollFogVariantProps>];
 }
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export declare const scrollFogSeedTagSpec: {
+  readonly name: "ScrollFog";
+  readonly axes: readonly [];
+  readonly defaults: {};
+};

@@ -1,5 +1,6 @@
 import {
   contentPlaceholder,
+  contentPlaceholderSeedTagSpec,
   type ContentPlaceholderVariantProps,
 } from "@seed-design/lynx-css/recipes/content-placeholder";
 import clsx from "clsx";
@@ -12,6 +13,7 @@ import type {
   LynxViewRef,
 } from "../../types";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { useStyleProps, type StyleProps } from "../../utils/styled";
 
@@ -50,7 +52,10 @@ export const ContentPlaceholderRoot = React.forwardRef<unknown, ContentPlacehold
         <PresetContext.Provider value={{ preset }}>
           <view
             {...(ref ? { ref: ref as LynxViewRef } : {})}
-            {...nativeProps}
+            {...mergeProps(
+              { "lynx-test-tag": seedTag(contentPlaceholderSeedTagSpec, variantProps) },
+              nativeProps,
+            )}
             className={clsx(classNames.root, className)}
             style={style}
           >

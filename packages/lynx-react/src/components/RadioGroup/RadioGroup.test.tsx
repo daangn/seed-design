@@ -161,4 +161,71 @@ describe("RadioGroup", () => {
     expect(overriddenItem).toHaveAttribute("accessibility-traits", "button");
     expect(overriddenItem).toHaveAttribute("accessibility-value", "custom selection");
   });
+
+  it("tags the field, group, items, and radiomarks with the variants they draw", () => {
+    const { container } = render(
+      <RadioGroupField.Root accessibility-label="과일" defaultValue="apple">
+        <RadioGroupField.Label>과일</RadioGroupField.Label>
+        <RadioGroup.Root>
+          <RadioGroup.Item value="apple" accessibility-label="사과" disabled>
+            <RadioGroup.ItemControl />
+          </RadioGroup.Item>
+          <RadioGroup.Item
+            value="banana"
+            accessibility-label="바나나"
+            size="large"
+            weight="bold"
+            tone="neutral"
+          >
+            <RadioGroup.ItemControl />
+          </RadioGroup.Item>
+        </RadioGroup.Root>
+      </RadioGroupField.Root>,
+    );
+    const [apple, banana] = getItems(container);
+
+    expect(container.firstElementChild).toHaveAttribute("lynx-test-tag", "seed:Field");
+    expect(container.querySelector(".seed-field-label__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:FieldLabel;weight=medium",
+    );
+    expect(container.querySelector(".seed-radio-group__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:RadioGroup",
+    );
+    expect(apple).toHaveAttribute("lynx-test-tag", "seed:Radio;weight=regular;size=medium");
+    expect(apple.querySelector(".seed-radiomark__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Radiomark;tone=brand;size=medium",
+    );
+    expect(banana).toHaveAttribute("lynx-test-tag", "seed:Radio;weight=bold;size=large");
+    expect(banana.querySelector(".seed-radiomark__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:Radiomark;tone=neutral;size=large",
+    );
+  });
+
+  it("lets consumer lynx-test-tag values win on every tagged part", () => {
+    const { container } = render(
+      <RadioGroupField.Root accessibility-label="과일" lynx-test-tag="fruit-field">
+        <RadioGroup.Root lynx-test-tag="fruit-group">
+          <RadioGroup.Item value="apple" accessibility-label="사과" lynx-test-tag="fruit-apple">
+            <RadioGroup.ItemControl lynx-test-tag="fruit-apple-mark" />
+          </RadioGroup.Item>
+        </RadioGroup.Root>
+      </RadioGroupField.Root>,
+    );
+    const [apple] = getItems(container);
+
+    expect(container.firstElementChild).toHaveAttribute("lynx-test-tag", "fruit-field");
+    expect(container.querySelector(".seed-radio-group__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "fruit-group",
+    );
+    expect(apple).toHaveAttribute("lynx-test-tag", "fruit-apple");
+    expect(apple.querySelector(".seed-radiomark__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "fruit-apple-mark",
+    );
+  });
 });

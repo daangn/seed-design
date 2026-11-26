@@ -2,12 +2,21 @@ import * as React from "@lynx-js/react";
 import { isValidElement } from "@lynx-js/react";
 import clsx from "clsx";
 
-import { select, type SelectVariantProps } from "@seed-design/lynx-css/recipes/select";
+import {
+  select,
+  selectSeedTagSpec,
+  type SelectVariantProps,
+} from "@seed-design/lynx-css/recipes/select";
 import {
   selectTrigger,
+  selectTriggerSeedTagSpec,
   type SelectTriggerVariantProps,
 } from "@seed-design/lynx-css/recipes/select-trigger";
-import { selectItem, type SelectItemVariantProps } from "@seed-design/lynx-css/recipes/select-item";
+import {
+  selectItem,
+  selectItemSeedTagSpec,
+  type SelectItemVariantProps,
+} from "@seed-design/lynx-css/recipes/select-item";
 import { select as selectVars } from "@seed-design/lynx-css/vars/component";
 import { useFieldContext } from "@seed-design/lynx-react-field";
 import {
@@ -40,6 +49,7 @@ import type {
 } from "../../types";
 import { toArray } from "../../utils/children";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { InternalIcon, type InternalIconProps } from "../Icon/Icon";
 
 export type {
@@ -236,7 +246,7 @@ export const SelectRoot = React.forwardRef<unknown, SelectRootProps>((props, ref
           <view
             {...(ref ? { ref: ref as LynxViewRef } : {})}
             className={className}
-            {...nativeProps}
+            {...mergeProps({ "lynx-test-tag": seedTag(selectSeedTagSpec, { size }) }, nativeProps)}
           >
             {children}
           </view>
@@ -300,7 +310,12 @@ export const SelectTrigger = React.forwardRef<unknown, SelectTriggerProps>((prop
     <view
       ref={trigger.rootRef as LynxViewRef}
       className={clsx(classes.root, className)}
-      {...mergeProps({ flatten: false }, scaleFeedbackTriggerProps, rootProps, nativeProps)}
+      {...mergeProps(
+        { flatten: false, "lynx-test-tag": seedTag(selectTriggerSeedTagSpec, { size }) },
+        scaleFeedbackTriggerProps,
+        rootProps,
+        nativeProps,
+      )}
     >
       <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
       <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>
@@ -600,7 +615,12 @@ export const SelectItem = React.forwardRef<unknown, SelectItemProps>((props, ref
         <view
           ref={api.rootRef as LynxViewRef}
           className={clsx(classes.root, className)}
-          {...mergeProps({ flatten: false }, scaleFeedbackTriggerProps, rootProps, nativeProps)}
+          {...mergeProps(
+            { flatten: false, "lynx-test-tag": seedTag(selectItemSeedTagSpec, { size }) },
+            scaleFeedbackTriggerProps,
+            rootProps,
+            nativeProps,
+          )}
         >
           <view className={classes.pressedOverlay} accessibility-elements-hidden={true} />
           <view className={classes.scaleContent} {...scaleFeedbackTargetProps}>

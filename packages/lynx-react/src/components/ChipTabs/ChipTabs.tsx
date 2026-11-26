@@ -14,7 +14,11 @@ import {
 } from "@seed-design/lynx-react-tabs";
 import clsx from "clsx";
 
-import { chipTabs, type ChipTabsVariantProps } from "@seed-design/lynx-css/recipes/chip-tabs";
+import {
+  chipTabs,
+  chipTabsSeedTagSpec,
+  type ChipTabsVariantProps,
+} from "@seed-design/lynx-css/recipes/chip-tabs";
 
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import { useSafeAreaStyle } from "../../hooks/useSafeAreaStyle";
@@ -27,6 +31,7 @@ import {
 } from "../../utils/accessibility";
 import { createSlotRecipeContext } from "../../utils/create-slot-recipe-context";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { HStack } from "../Stack";
 
 /** chip-tablist `gap` token과 같은 값입니다. Headless가 trigger rect를 계산할 때 사용합니다. */
@@ -95,7 +100,11 @@ export const ChipTabsRoot = React.forwardRef<unknown, ChipTabsRootProps>((props,
       <ViewportInsetsContext.Provider value={viewportInsets}>
         <PropsProvider value={variantProps}>
           <view
-            {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+            {...mergeProps(
+              ref ? { ref: ref as LynxViewRef } : {},
+              { "lynx-test-tag": seedTag(chipTabsSeedTagSpec, variantProps) },
+              nativeProps,
+            )}
             className={clsx(classNames.root, className)}
             style={{ ...safeAreaStyle, ...style }}
           >

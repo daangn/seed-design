@@ -1,12 +1,14 @@
 import * as React from "@lynx-js/react";
 import {
   badge,
+  badgeSeedTagSpec,
   type BadgeSlotName,
   type BadgeVariantProps,
 } from "@seed-design/lynx-css/recipes/badge";
 import clsx from "clsx";
 
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import { useScaleFeedback } from "../../hooks/useScaleFeedback";
 import type { LynxHostProps, LynxTextRef, LynxViewRef } from "../../types";
 
@@ -32,7 +34,11 @@ export const BadgeRoot = React.forwardRef<unknown, BadgeRootProps>((props, ref) 
   return (
     <BadgeClassNamesContext.Provider value={classes}>
       <view
-        {...mergeProps(ref ? { ref: ref as LynxViewRef } : {}, nativeProps)}
+        {...mergeProps(
+          ref ? { ref: ref as LynxViewRef } : {},
+          { "lynx-test-tag": seedTag(badgeSeedTagSpec, variantProps) },
+          nativeProps,
+        )}
         className={clsx(classes.root, className)}
       >
         {children}

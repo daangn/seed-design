@@ -32,6 +32,7 @@
 - 모든 컴포넌트는 `React.forwardRef`와 `displayName`을 쓴다.
 - Recipe는 `@seed-design/lynx-css/recipes/<name>`에서 import하고, Recipe className과 사용자 `className`을 `clsx`로 병합한다. React 레이어에 `style`을 직접 쓰지 않는다 → Recipe로 옮긴다.
 - variant props(`size`, `tone`, `variant` 등)를 손으로 destructuring하거나 타입 캐스트로 분리하지 않는다 → 단일 Recipe는 `recipe.splitVariantProps(props)`, 여러 Recipe는 `src/utils/split-multiple-variants-props.ts`의 `splitMultipleVariantsProps(props, recipes)`, compound Recipe는 `createSlotRecipeContext`가 주는 분리 도구를 쓴다.
+- 컴포넌트 최외곽 native 노드 → `../../utils/seed-tag`의 `seedTag(<recipe>SeedTagSpec, variantProps)`로 `lynx-test-tag`를 넣는다. 사용자 props보다 앞선 `mergeProps` source에 두어 사용자가 넘긴 값이 이기게 한다.
 - compound Recipe의 className·slot 연결 → `../../utils/create-slot-recipe-context`의 `createSlotRecipeContext`. 이 도구는 className·slot 연결만 맡는다.
 - checked, disabled, 계산된 문자열, ref 같은 런타임 상태 → 컴포넌트 파일의 `React.createContext`로 전달한다. context가 없으면 throw해 잘못된 조합을 드러낸다.
 

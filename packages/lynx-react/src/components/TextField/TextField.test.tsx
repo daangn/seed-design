@@ -517,4 +517,16 @@ describe("TextField", () => {
       "seed-text-input__value--disabled_true",
     );
   });
+
+  it("tags the root with the drawn Rootage variant axes", () => {
+    render(
+      <TextField.Root>
+        <TextField.Input />
+      </TextField.Root>,
+    );
+    expect(getRenderedRoot().querySelector(".seed-text-input__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:TextInput;variant=outline;size=large",
+    );
+  });
 });

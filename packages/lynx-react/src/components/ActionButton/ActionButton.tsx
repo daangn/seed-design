@@ -1,4 +1,4 @@
-import { actionButton } from "@seed-design/lynx-css/recipes/action-button";
+import { actionButton, actionButtonSeedTagSpec } from "@seed-design/lynx-css/recipes/action-button";
 import type { ActionButtonVariantProps } from "@seed-design/lynx-css/recipes/action-button";
 import { useActionButton, type UseActionButtonProps } from "@seed-design/lynx-react-action-button";
 import { progressCircleVariantMap } from "@seed-design/lynx-css/recipes/progress-circle";
@@ -27,6 +27,7 @@ import {
 } from "../ProgressCircle";
 import { IconRequired, IconSlotProvider, getIconSlotName } from "../Icon/Icon";
 import { mergeProps } from "../../utils/merge-props";
+import { seedTag } from "../../utils/seed-tag";
 import {
   AccessibilityElementScope,
   getAccessibleText,
@@ -330,6 +331,7 @@ export const ActionButton = React.forwardRef<unknown, ActionButtonProps>((props,
           {
             flatten: false,
             style,
+            "lynx-test-tag": seedTag(actionButtonSeedTagSpec, { ...variantAndRest, layout }),
           },
           ref ? { ref } : {},
           scaleFeedbackTargetProps,

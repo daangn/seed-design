@@ -371,4 +371,39 @@ describe("SelectBox", () => {
     expect(onValueChange).toHaveBeenCalledTimes(1);
     expect(surfaces[2]).toHaveAttribute("accessibility-traits", "disabled");
   });
+
+  it("tags the surface that receives user props, the group, and the checkmark", () => {
+    const { container } = render(
+      <CheckSelectBox.Group columns={2}>
+        <CheckSelectBox.Root accessibility-label="사과">
+          <CheckSelectBox.Trigger>
+            <CheckSelectBox.CheckmarkControl />
+          </CheckSelectBox.Trigger>
+        </CheckSelectBox.Root>
+        <CheckSelectBox.Root accessibility-label="바나나" lynx-test-tag="banana-box" />
+      </CheckSelectBox.Group>,
+    );
+    const [apple, banana] = container.querySelectorAll(".seed-select-box__root");
+
+    expect(container.querySelector(".seed-select-box-group")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:SelectBoxGroup",
+    );
+    expect(apple).toHaveAttribute("lynx-test-tag", "seed:SelectBox;layout=vertical");
+    expect(banana).toHaveAttribute("lynx-test-tag", "banana-box");
+    expect(container.querySelector(".seed-select-box-checkmark__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:SelectBoxCheckmark",
+    );
+
+    render(
+      <HeadlessRadioGroup.Root>
+        <RadioSelectBox.Item value="apple" accessibility-label="사과" />
+      </HeadlessRadioGroup.Root>,
+    );
+    expect(getRenderedRoot().querySelector(".seed-select-box__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:SelectBox;layout=horizontal",
+    );
+  });
 });

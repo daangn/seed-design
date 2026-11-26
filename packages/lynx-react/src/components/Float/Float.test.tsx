@@ -76,4 +76,9 @@ describe("Float", () => {
     // @ts-expect-error Lynx Float always renders a native view.
     void (<Float placement="top-start" as="div" />);
   });
+
+  it("tags the root with the Rootage name", () => {
+    render(<Float placement="top-start" />);
+    expect(query()).toHaveAttribute("lynx-test-tag", "seed:Float");
+  });
 });

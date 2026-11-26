@@ -81,3 +81,11 @@ export function segmentedControl(props) {
 Object.assign(segmentedControl, { splitVariantProps: (props) => splitVariantProps(props, segmentedControlVariantMap) });
 
 // @recipe(seed): segmented-control
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export const segmentedControlSeedTagSpec = {
+  name: "SegmentedControl",
+  axes: [],
+  defaults: {},
+};

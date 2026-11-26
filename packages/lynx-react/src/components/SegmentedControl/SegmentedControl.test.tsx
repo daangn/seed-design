@@ -146,4 +146,16 @@ describe("SegmentedControl", () => {
     expect(onValueChange).not.toHaveBeenCalled();
     expect(disabledItem).toHaveAttribute("accessibility-traits", "disabled");
   });
+
+  it("tags the root and each item with their Rootage names", () => {
+    const { container } = render(<BasicSegmentedControl defaultValue="hot" />);
+    expect(container.querySelector(".seed-segmented-control__root")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:SegmentedControl",
+    );
+    expect(getItem(container, "인기순")).toHaveAttribute(
+      "lynx-test-tag",
+      "seed:SegmentedControlItem",
+    );
+  });
 });

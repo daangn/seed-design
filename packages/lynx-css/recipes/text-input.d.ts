@@ -42,3 +42,11 @@ export declare const textInput: ((
     props: T,
   ) => [TextInputVariantProps, Omit<T, keyof TextInputVariantProps>];
 }
+
+// Generated from Rootage component specs and Lynx recipe defaults by scripts/generate-seed-tag.mjs. Do not edit directly.
+// `lynx-test-tag` spec: Rootage component name, Rootage variant axes in order, and this recipe's defaults for them.
+export declare const textInputSeedTagSpec: {
+  readonly name: "TextInput";
+  readonly axes: readonly ["variant", "size", "type"];
+  readonly defaults: { readonly variant: "outline"; readonly size: "large" };
+};
