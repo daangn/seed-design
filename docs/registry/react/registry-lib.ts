@@ -12,5 +12,9 @@ export const registryLib: Registry = {
       id: "format-bytes",
       snippets: [{ path: "format-bytes.ts" }],
     },
+    {
+      id: "format-duration",
+      snippets: [{ path: "format-duration.ts" }],
+    },
   ],
 };

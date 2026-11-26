@@ -13,6 +13,14 @@
     {
       "snippets": [
         {
+          "path": "format-duration.ts"
+        }
+      ],
+      "id": "format-duration"
+    },
+    {
+      "snippets": [
+        {
           "path": "manner-temp-level.ts"
         }
       ],

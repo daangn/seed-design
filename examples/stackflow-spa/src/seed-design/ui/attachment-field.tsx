@@ -21,12 +21,14 @@ import {
 import { ActionButton } from "./action-button";
 import { ProgressCircle } from "./progress-circle";
 import { formatBytes } from "../lib/format-bytes";
+import { formatDuration, formatDurationLabel } from "../lib/format-duration";
 
 // You may implement your own i18n for these labels
 const LABEL_SELECT_FILE = "파일 선택";
 const LABEL_DROP_FILE = "또는 여기로 드래그해서 업로드";
 const LABEL_RETRY = "재시도";
 const LABEL_REMOVE_FILE = "파일 제거";
+const LABEL_DURATION = "재생시간";
 
 export interface AttachmentFieldProps extends Omit<SeedAttachmentInput.RootProps, "asChild"> {
   label?: React.ReactNode;
@@ -273,3 +275,34 @@ export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInp
   },
 );
 AttachmentInputItem.displayName = "AttachmentInputItem";
+
+export interface AttachmentInputItemDurationBadgeProps extends Omit<
+  SeedAttachmentInput.ItemDurationBadgeProps,
+  "children" | "asChild"
+> {
+  /**
+   * The video's duration in seconds. Shown as `m:ss` below an hour and `h:mm:ss` from an hour
+   * on, and read by screen readers as a phrase such as "재생시간 1분 5초".
+   */
+  seconds: number;
+}
+
+/**
+ * @see https://seed-design.io/react/components/attachment-field
+ */
+export const AttachmentInputItemDurationBadge = React.forwardRef<
+  HTMLDivElement,
+  AttachmentInputItemDurationBadgeProps
+>(({ seconds, ...props }, ref) => {
+  return (
+    <SeedAttachmentInput.ItemDurationBadge
+      ref={ref}
+      role="img"
+      aria-label={`${LABEL_DURATION} ${formatDurationLabel(seconds)}`}
+      {...props}
+    >
+      {formatDuration(seconds)}
+    </SeedAttachmentInput.ItemDurationBadge>
+  );
+});
+AttachmentInputItemDurationBadge.displayName = "AttachmentInputItemDurationBadge";

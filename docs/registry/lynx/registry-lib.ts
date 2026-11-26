@@ -12,5 +12,13 @@ export const registryLib: Registry = {
         },
       ],
     },
+    {
+      id: "format-duration",
+      snippets: [
+        {
+          path: "format-duration.ts",
+        },
+      ],
+    },
   ],
 };

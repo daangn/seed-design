@@ -16,11 +16,13 @@ import {
 import * as React from "react";
 
 import { ProgressCircle } from "./progress-circle";
+import { formatDuration, formatDurationLabel } from "../lib/format-duration";
 
 // You may implement your own i18n for these labels
 const LABEL_SELECT_FILE = "파일 선택";
 const LABEL_RETRY = "재시도";
 const LABEL_REMOVE = "파일 제거";
+const LABEL_DURATION = "재생시간";
 
 export interface AttachmentDisplayFieldProps extends Omit<
   SeedAttachmentDisplay.RootProps,
@@ -203,3 +205,34 @@ export const AttachmentDisplayItem = React.forwardRef<HTMLLIElement, AttachmentD
   },
 );
 AttachmentDisplayItem.displayName = "AttachmentDisplayItem";
+
+export interface AttachmentDisplayItemDurationBadgeProps extends Omit<
+  SeedAttachmentDisplay.ItemDurationBadgeProps,
+  "children" | "asChild"
+> {
+  /**
+   * The video's duration in seconds. Shown as `m:ss` below an hour and `h:mm:ss` from an hour
+   * on, and read by screen readers as a phrase such as "재생시간 1분 5초".
+   */
+  seconds: number;
+}
+
+/**
+ * @see https://seed-design.io/react/components/attachment-display-field
+ */
+export const AttachmentDisplayItemDurationBadge = React.forwardRef<
+  HTMLDivElement,
+  AttachmentDisplayItemDurationBadgeProps
+>(({ seconds, ...props }, ref) => {
+  return (
+    <SeedAttachmentDisplay.ItemDurationBadge
+      ref={ref}
+      role="img"
+      aria-label={`${LABEL_DURATION} ${formatDurationLabel(seconds)}`}
+      {...props}
+    >
+      {formatDuration(seconds)}
+    </SeedAttachmentDisplay.ItemDurationBadge>
+  );
+});
+AttachmentDisplayItemDurationBadge.displayName = "AttachmentDisplayItemDurationBadge";
