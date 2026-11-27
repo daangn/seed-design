@@ -27,3 +27,21 @@ jobs:
         run: |
           echo "::error::minor·major → dev PR은 GitHub UI로 머지할 수 없습니다. PR에 \`/ff-merge\` 코멘트를 남겨 fast-forward로 머지하세요."
           exit 1
+
+  label:
+    name: Label release branch PRs
+    if: >-
+      contains(fromJson('["minor", "major"]'), github.event.pull_request.head.ref) &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    permissions:
+      pull-requests: write
+
+    steps:
+      # .coderabbit.yaml skips auto review for PRs with this label.
+      - name: Add release:train label
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr edit "$PR_URL" --add-label "release:train"
