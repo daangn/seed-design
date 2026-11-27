@@ -11,6 +11,7 @@ import duration from "@seed-design/rootage-artifacts/duration";
 import fontSize from "@seed-design/rootage-artifacts/font-size";
 import fontWeight from "@seed-design/rootage-artifacts/font-weight";
 import gradient from "@seed-design/rootage-artifacts/gradient";
+import haptic from "@seed-design/rootage-artifacts/haptic";
 import lineHeight from "@seed-design/rootage-artifacts/line-height";
 import radius from "@seed-design/rootage-artifacts/radius";
 import scale from "@seed-design/rootage-artifacts/scale";
@@ -158,6 +159,7 @@ export function formatTokenValue(entry: ArtifactValue): string {
       .with({ type: P.union("shadow", "gradient"), value: P.array() }, ({ value }) =>
         JSON.stringify(value),
       )
+      .with({ type: "haptic", value: P.not(P.string) }, ({ value }) => JSON.stringify(value))
       // 남은 건 전부 문자열 그대로 출력한다 — TokenRef, ColorLit, enum 값.
       .with({ value: P.string }, ({ value }) => value)
       .exhaustive()
@@ -273,6 +275,7 @@ export const tokenReferenceRule = createTokenReferenceRule([
   fontSize,
   fontWeight,
   gradient,
+  haptic,
   lineHeight,
   radius,
   scale,

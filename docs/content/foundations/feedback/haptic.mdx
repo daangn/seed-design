@@ -1,0 +1,36 @@
+---
+title: Haptic
+description: 선택, 완료, 오류를 손끝으로 구분할 수 있도록 시스템 프리셋이나 질감과 세기를 조합한 프리미티브를 고릅니다.
+coverImage: /og/foundations/feedback
+---
+
+햅틱은 화면에서 일어난 변화를 손끝으로 알려줍니다. 예를 들어 휠 피커에서는 손가락이 움직이는 동안 계속 울리기보다 **선택값이 한 칸 바뀌는 순간**에 한 번 재생합니다.
+
+## 시스템 프리셋 고르기
+
+선택이나 작업 결과처럼 의미가 정해진 피드백에는 프리셋을 사용합니다.
+
+| 상황 | 토큰 | 재생 시점 |
+| --- | --- | --- |
+| 휠 피커에서 다음 항목을 선택함 | `$haptic.preset.select` | 선택값이 바뀔 때 |
+| 드래그한 카드가 놓을 수 있는 영역에 들어옴 | `$haptic.preset.light-feedback` | 영역의 경계를 처음 넘을 때 |
+| 저장을 완료함 | `$haptic.preset.success` | 저장 성공을 확인하고 완료 상태를 표시할 때 |
+| 저장에 실패함 | `$haptic.preset.error` | 오류 메시지와 다시 시도할 방법을 표시할 때 |
+
+## 프리미티브 고르기
+
+프리미티브는 **질감과 세기의 조합**입니다. `sharpness`는 부드럽거나 또렷하게 느껴지는 정도이고, `intensity`는 진동의 세기입니다. 두 축은 독립적이어서 또렷하면서도 약한 피드백을 만들 수 있습니다.
+
+| | weak · 0.30 | medium · 0.60 | strong · 1.00 |
+| --- | --- | --- | --- |
+| soft · 0.15 | soft-weak | soft-medium | soft-strong |
+| regular · 0.50 | regular-weak | regular-medium | regular-strong |
+| sharp · 0.90 | sharp-weak | sharp-medium | sharp-strong |
+
+예를 들어 화면을 보는 중에 새 소식이 도착했음을 은은하게 알릴 때는 `$haptic.primitive.soft-weak`를 쓸 수 있습니다. 슬라이더에서 중요한 눈금을 지났음을 구분하려면 `sharp-weak`로 질감만 또렷하게 바꿉니다. 허용 범위를 넘겨 드래그한 순간처럼 주의를 줄 때는 `sharp-medium`을 경계에서 한 번 재생하는 식입니다.
+
+## 앱에서 재생하기
+
+Rootage는 [haptic.json](/rootage/haptic.json)에 프리미티브의 두 숫자와 프리셋의 시스템 이름을 제공합니다. 네이티브 앱은 토큰을 읽어 플랫폼의 햅틱 API로 재생합니다. 실제 느낌은 기기에 따라 달라지므로 사용할 기기에서 확인합니다. 햅틱을 끈 사용자도 결과를 알 수 있도록 선택 표시나 오류 메시지를 함께 제공합니다.
+
+<TokenReference groups={["haptic"]} />

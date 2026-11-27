@@ -1,0 +1,152 @@
+declare const artifact: {
+  "kind": "Tokens";
+  "metadata": {
+    "id": "haptic";
+    "name": "Haptic";
+  };
+  "data": {
+    "collection": "global";
+    "tokens": {
+      "$haptic.primitive.soft-weak": {
+        "values": {
+          "default": {
+            "type": "haptic";
+            "value": {
+              "sharpness": 0.15;
+              "intensity": 0.3;
+            };
+          };
+        };
+      };
+      "$haptic.primitive.soft-medium": {
+        "values": {
+          "default": {
+            "type": "haptic";
+            "value": {
+              "sharpness": 0.15;
+              "intensity": 0.6;
+            };
+          };
+        };
+      };
+      "$haptic.primitive.soft-strong": {
+        "values": {
+          "default": {
+            "type": "haptic";
+            "value": {
+              "sharpness": 0.15;
+              "intensity": 1;
+            };
+          };
+        };
+      };
+      "$haptic.primitive.regular-weak": {
+        "values": {
+          "default": {
+            "type": "haptic";
+            "value": {
+              "sharpness": 0.5;
+              "intensity": 0.3;
+            };
+          };
+        };
+      };
+      "$haptic.primitive.regular-medium": {
+        "values": {
+          "default": {
+            "type": "haptic";
+            "value": {
+              "sharpness": 0.5;
+              "intensity": 0.6;
+            };
+          };
+        };
+      };
+      "$haptic.primitive.regular-strong": {
+        "values": {
+          "default": {
+            "type": "haptic";
+            "value": {
+              "sharpness": 0.5;
+              "intensity": 1;
+            };
+          };
+        };
+      };
+      "$haptic.primitive.sharp-weak": {
+        "values": {
+          "default": {
+            "type": "haptic";
+            "value": {
+              "sharpness": 0.9;
+              "intensity": 0.3;
+            };
+          };
+        };
+      };
+      "$haptic.primitive.sharp-medium": {
+        "values": {
+          "default": {
+            "type": "haptic";
+            "value": {
+              "sharpness": 0.9;
+              "intensity": 0.6;
+            };
+          };
+        };
+      };
+      "$haptic.primitive.sharp-strong": {
+        "values": {
+          "default": {
+            "type": "haptic";
+            "value": {
+              "sharpness": 0.9;
+              "intensity": 1;
+            };
+          };
+        };
+      };
+      "$haptic.preset.select": {
+        "values": {
+          "default": {
+            "type": "haptic";
+            "value": {
+              "system": "select";
+            };
+          };
+        };
+      };
+      "$haptic.preset.light-feedback": {
+        "values": {
+          "default": {
+            "type": "haptic";
+            "value": {
+              "system": "lightFeedback";
+            };
+          };
+        };
+      };
+      "$haptic.preset.success": {
+        "values": {
+          "default": {
+            "type": "haptic";
+            "value": {
+              "system": "success";
+            };
+          };
+        };
+      };
+      "$haptic.preset.error": {
+        "values": {
+          "default": {
+            "type": "haptic";
+            "value": {
+              "system": "error";
+            };
+          };
+        };
+      };
+    };
+  };
+};
+export default artifact;

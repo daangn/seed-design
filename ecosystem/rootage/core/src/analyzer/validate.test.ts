@@ -637,4 +637,206 @@ describe("validate", () => {
     expect(result.valid).toEqual(false);
     expect(result.message).toContain('Property "color" expects type "color" but got "dimension"');
   });
+
+  describe("haptic", () => {
+    const globalCollection: SourceFile = {
+      fileName: "collection",
+      ast: Authoring.fromString(dedent`
+      kind: TokenCollections
+      metadata:
+        id: "1"
+        name: collection
+      data:
+        - name: global
+          modes:
+            - id: default
+        - name: color
+          modes:
+            - id: light
+            - id: dark`),
+    };
+
+    const hapticTokens: SourceFile = {
+      fileName: "haptic",
+      ast: Authoring.fromString(dedent`
+      kind: Tokens
+      metadata:
+        id: haptic
+        name: Haptic
+      data:
+        collection: global
+        tokens:
+          $haptic.primitive.sharp-weak:
+            values:
+              default:
+                type: haptic
+                value: { sharpness: 0.9, intensity: 0.3 }
+          $haptic.preset.success:
+            values:
+              default:
+                type: haptic
+                value: { system: success }
+          $haptic.semantic.confirm:
+            values:
+              default: $haptic.preset.success`),
+    };
+
+    const colorTokens: SourceFile = {
+      fileName: "color",
+      ast: Authoring.fromString(dedent`
+      kind: Tokens
+      metadata:
+        id: color
+        name: Color
+      data:
+        collection: color
+        tokens:
+          $color.bg.layer-1:
+            values:
+              light: "#ffffff"
+              dark: "#000000"`),
+    };
+
+    it("should return true for haptic tokens and an alias between them", () => {
+      const result = validate(buildContext([globalCollection, hapticTokens]));
+
+      expect(result.valid).toEqual(true);
+    });
+
+    it("should return false if a haptic token references a token of another type", () => {
+      const files: SourceFile[] = [
+        globalCollection,
+        colorTokens,
+        {
+          fileName: "haptic",
+          ast: Exchange.fromObject({
+            kind: "Tokens",
+            metadata: { id: "haptic", name: "Haptic" },
+            data: {
+              collection: "global",
+              tokens: {
+                "$haptic.semantic.confirm": {
+                  values: { default: { type: "haptic", value: "$color.bg.layer-1" } },
+                },
+              },
+            },
+          }),
+        },
+      ];
+
+      const result = validate(buildContext(files));
+
+      expect(result.valid).toEqual(false);
+      expect(result.message).toContain(
+        'Token "$haptic.semantic.confirm" expects type "haptic" but references "$color.bg.layer-1" of type "color"',
+      );
+    });
+
+    it("should return false if a token of another type references a haptic token", () => {
+      const files: SourceFile[] = [
+        globalCollection,
+        hapticTokens,
+        {
+          fileName: "color",
+          ast: Authoring.fromString(dedent`
+          kind: Tokens
+          metadata:
+            id: color
+            name: Color
+          data:
+            collection: color
+            tokens:
+              $color.bg.layer-1:
+                values:
+                  light: "#ffffff"
+                  dark: $haptic.preset.success`),
+        },
+      ];
+
+      const result = validate(buildContext(files));
+
+      expect(result.valid).toEqual(false);
+      expect(result.message).toContain(
+        'Token "$color.bg.layer-1" expects type "color" but references "$haptic.preset.success" of type "haptic"',
+      );
+    });
+
+    it("should return false if a component spec references a haptic token", () => {
+      const files: SourceFile[] = [
+        globalCollection,
+        hapticTokens,
+        {
+          fileName: "component",
+          ast: Authoring.fromString(dedent`
+          kind: ComponentSpec
+          metadata:
+            id: "3"
+            name: component
+          data:
+            schema:
+              slots:
+                root:
+                  properties:
+                    color:
+                      type: color
+            definitions:
+              base:
+                enabled:
+                  root:
+                    color: $haptic.preset.success`),
+        },
+      ];
+
+      const result = validate(buildContext(files));
+
+      expect(result.valid).toEqual(false);
+      expect(result.message).toContain('Property "color" expects type "color" but got "haptic"');
+    });
+
+    const hapticPropertySpec = (value: string): SourceFile => ({
+      fileName: "component",
+      ast: Authoring.fromString(dedent`
+      kind: ComponentSpec
+      metadata:
+        id: "3"
+        name: component
+      data:
+        schema:
+          slots:
+            root:
+              properties:
+                pressHaptic:
+                  type: haptic
+        definitions:
+          base:
+            pressed:
+              root:
+                pressHaptic: ${value}`),
+    });
+
+    it("should return true if a haptic property holds a haptic literal or token", () => {
+      for (const value of [
+        "{ type: haptic, value: { system: select } }",
+        "$haptic.preset.success",
+        "$haptic.semantic.confirm",
+      ]) {
+        const result = validate(
+          buildContext([globalCollection, hapticTokens, hapticPropertySpec(value)]),
+        );
+
+        expect(result).toEqual({ valid: true, message: "" });
+      }
+    });
+
+    it("should return false if a haptic property references a token of another type", () => {
+      const files = [globalCollection, colorTokens, hapticPropertySpec("$color.bg.layer-1")];
+
+      const result = validate(buildContext(files));
+
+      expect(result.valid).toEqual(false);
+      expect(result.message).toContain(
+        'Property "pressHaptic" expects type "haptic" but got "color"',
+      );
+    });
+  });
 });

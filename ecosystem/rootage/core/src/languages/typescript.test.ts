@@ -1,6 +1,6 @@
 import { describe, expect, it, test } from "bun:test";
 import YAML from "yaml";
-import { Authoring, factory } from "../parser";
+import { Authoring, Exchange, factory } from "../parser";
 import { createStringifier, getExchangeDts, getExchangeMjs, getTokenCssModule } from "./typescript";
 
 /** Creates a gradient value matching the per-mode values returned by resolveTokenValues. */
@@ -326,6 +326,32 @@ describe("getTokenDts", () => {
         },
       ]
     `);
+  });
+});
+
+describe("haptic tokens", () => {
+  const color = factory.createColorTokenDeclaration(
+    "color",
+    factory.createTokenLit("$color.fg.brand"),
+    [factory.createColorTokenValueDeclaration("theme-light", factory.createColorHexLit("#FF6600"))],
+  );
+  const haptic = factory.createHapticTokenDeclaration(
+    "global",
+    factory.createTokenLit("$haptic.preset.success"),
+    [
+      factory.createHapticTokenValueDeclaration(
+        "default",
+        factory.createHapticLit({ system: "success" }),
+      ),
+    ],
+  );
+
+  it("should be left out of esm definitions", () => {
+    expect(getTokenMjs([color, haptic])).toEqual(getTokenMjs([color]));
+  });
+
+  it("should be left out of typescript definitions", () => {
+    expect(getTokenDts([color, haptic])).toEqual(getTokenDts([color]));
   });
 });
 
@@ -768,6 +794,57 @@ data:
 
   // `pressed` disappears entirely: its only property is an enum, which leaves the
   // slot empty, which leaves the state empty.
+  expect(result).toMatchInlineSnapshot(`
+    "export const vars = {
+      "base": {
+        "enabled": {
+          "root": {
+            "color": "#ffffff"
+          }
+        }
+      }
+    }"
+  `);
+});
+
+test("getComponentSpecMjs should omit haptic properties, literal or token, and anything left empty by them", () => {
+  const model = Exchange.parseComponentSpecDocument({
+    kind: "ComponentSpec",
+    metadata: { id: "test", name: "test" },
+    data: {
+      id: "test",
+      name: "test",
+      schema: {
+        slots: {
+          root: { properties: { color: { type: "color" }, pressHaptic: { type: "haptic" } } },
+          icon: { properties: { pressHaptic: { type: "haptic" } } },
+        },
+        variants: {},
+      },
+      definitions: [
+        {
+          variants: {},
+          definitions: [
+            {
+              states: ["enabled"],
+              slots: { root: { color: { type: "color", value: "#ffffff" } } },
+            },
+            {
+              states: ["pressed"],
+              slots: {
+                root: { pressHaptic: { type: "haptic", value: { system: "select" } } },
+                icon: { pressHaptic: { type: "haptic", value: "$haptic.preset.select" } },
+              },
+            },
+          ],
+        },
+      ],
+    },
+  });
+
+  const result = getComponentSpecMjs(model.data);
+
+  // `pressed` disappears entirely: both of its slots hold only haptic properties.
   expect(result).toMatchInlineSnapshot(`
     "export const vars = {
       "base": {

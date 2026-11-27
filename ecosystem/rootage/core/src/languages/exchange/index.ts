@@ -118,6 +118,14 @@ export function getTokensModel(ast: AST.TokensDocument): Exchange.TokensModel {
           };
         }
         break;
+      case "HapticTokenDeclaration":
+        for (const { mode, value } of decl.values) {
+          valueMap[mode] = {
+            type: "haptic",
+            value: value.kind === "HapticLit" ? value.value : value.identifier,
+          };
+        }
+        break;
       case "UnresolvedTokenDeclaration":
         throw new Error(`Cannot convert unresolved token declaration for: ${decl.kind}`);
     }
@@ -208,6 +216,11 @@ export function getComponentSpecModel(ast: AST.ComponentSpecDocument): Exchange.
                   position: stop.position.value,
                 }))
               : prop.value.identifier,
+        };
+      case "HapticPropertyDeclaration":
+        return {
+          type: "haptic",
+          value: prop.value.kind === "HapticLit" ? prop.value.value : prop.value.identifier,
         };
       case "UnresolvedPropertyDeclaration":
         throw new Error(`Unresolved property declaration found: ${prop.property}`);

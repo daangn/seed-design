@@ -10,7 +10,7 @@ import type {
   ValueLit,
   VariantExpression,
 } from "../parser/ast";
-import { createStringifier as createCssStringifier } from "./css";
+import { createStringifier as createCssStringifier, hasCssValue } from "./css";
 
 interface GradientStopVars {
   color: string;
@@ -153,14 +153,12 @@ export function createStringifier(
           const property: Record<string, PropertyValue> = {};
 
           for (const propertyDecl of slotDecl.body) {
-            // An enum records a design decision rather than a value CSS can
-            // consume, so it never becomes a custom property.
-            if (propertyDecl.value.kind === "EnumLit") continue;
+            if (!hasCssValue(propertyDecl)) continue;
 
             property[propertyDecl.property] = stringifyProperty(propertyDecl);
           }
 
-          // A slot holding nothing but enums, or a state left with no slots, would
+          // A slot holding nothing CSS can consume, or a state left with no slots, would
           // publish an empty object where consumers expect values.
           if (Object.keys(property).length === 0) continue;
 
@@ -304,7 +302,8 @@ export function createStringifier(
     ];
   }
 
-  function getTokenGroups(decls: TokenDeclaration[]): TokenGroup[] {
+  function getTokenGroups(allDecls: TokenDeclaration[]): TokenGroup[] {
+    const decls = allDecls.filter(hasCssValue);
     const groups: Record<string, TokenDeclaration[]> = {};
 
     // Initialize all groups (including parent groups)

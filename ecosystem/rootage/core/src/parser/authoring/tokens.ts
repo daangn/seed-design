@@ -4,6 +4,7 @@ import type {
   DimensionLit,
   DurationLit,
   GradientLit,
+  HapticLit,
   NumberLit,
   ShadowLit,
   TokenDeclaration,
@@ -127,6 +128,19 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
             factory.createTokenLit(tokenRef),
             modeValues.map(({ mode, value }) =>
               factory.createGradientTokenValueDeclaration(mode, value as GradientLit | TokenLit),
+            ),
+            tokenData.description,
+            tokenData.excludeFromExchange,
+          ),
+        );
+        break;
+      case "HapticLit":
+        out.push(
+          factory.createHapticTokenDeclaration(
+            collectionName,
+            factory.createTokenLit(tokenRef),
+            modeValues.map(({ mode, value }) =>
+              factory.createHapticTokenValueDeclaration(mode, value as HapticLit | TokenLit),
             ),
             tokenData.description,
             tokenData.excludeFromExchange,

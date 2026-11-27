@@ -83,7 +83,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["color", "dimension", "number", "duration", "enum", "cubicBezier", "shadow", "gradient"]
+          "enum": ["color", "dimension", "number", "duration", "enum", "cubicBezier", "shadow", "gradient", "haptic"]
         },
         "description": {
           "type": "string"
@@ -201,6 +201,9 @@
           "$ref": "#/definitions/gradient"
         },
         {
+          "$ref": "#/definitions/haptic"
+        },
+        {
           "$ref": "#/definitions/tokenRef"
         }
       ]
@@ -307,6 +310,41 @@
             "required": ["color", "position"],
             "additionalProperties": false
           }
+        }
+      },
+      "required": ["type", "value"],
+      "additionalProperties": false
+    },
+    "haptic": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "haptic"
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "sharpness": { "type": "number", "minimum": 0, "maximum": 1 },
+                "intensity": { "type": "number", "minimum": 0, "maximum": 1 }
+              },
+              "required": ["sharpness", "intensity"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "system": {
+                  "type": "string",
+                  "enum": ["select", "lightFeedback", "success", "error"]
+                }
+              },
+              "required": ["system"],
+              "additionalProperties": false
+            }
+          ]
         }
       },
       "required": ["type", "value"],
@@ -603,6 +641,19 @@
         { "const": "$gradient.highlight-magic-pressed", "title": "$gradient.highlight-magic-pressed", "description": "theme-light: 20%: #e14f00, 100%: #ae58bf\ntheme-dark: 20%: #ff9e65, 100%: #e89bee", "markdownDescription": "- theme-light: `20%: #e14f00, 100%: #ae58bf`\n\n- theme-dark: `20%: #ff9e65, 100%: #e89bee`" },
         { "const": "$gradient.shimmer-magic", "title": "$gradient.shimmer-magic", "description": "theme-light: 0%: #fff9f500, 46%: #fff9f5cc, 54%: #fff9f5cc, 100%: #fff9f500\ntheme-dark: 0%: #fff9f500, 46%: #fff9f51a, 54%: #fff9f51a, 100%: #fff9f500", "markdownDescription": "- theme-light: `0%: #fff9f500, 46%: #fff9f5cc, 54%: #fff9f5cc, 100%: #fff9f500`\n\n- theme-dark: `0%: #fff9f500, 46%: #fff9f51a, 54%: #fff9f51a, 100%: #fff9f500`" },
         { "const": "$gradient.shimmer-neutral", "title": "$gradient.shimmer-neutral", "description": "theme-light: 0%: #ffffff00, 46%: #ffffffab, 54%: #ffffffab, 100%: #ffffff00\ntheme-dark: 0%: #ffffff00, 46%: #ffffff1a, 54%: #ffffff1a, 100%: #ffffff00", "markdownDescription": "- theme-light: `0%: #ffffff00, 46%: #ffffffab, 54%: #ffffffab, 100%: #ffffff00`\n\n- theme-dark: `0%: #ffffff00, 46%: #ffffff1a, 54%: #ffffff1a, 100%: #ffffff00`" },
+        { "const": "$haptic.preset.error", "title": "$haptic.preset.error", "description": "default: system: error", "markdownDescription": "- default: `system: error`" },
+        { "const": "$haptic.preset.light-feedback", "title": "$haptic.preset.light-feedback", "description": "default: system: lightFeedback", "markdownDescription": "- default: `system: lightFeedback`" },
+        { "const": "$haptic.preset.select", "title": "$haptic.preset.select", "description": "default: system: select", "markdownDescription": "- default: `system: select`" },
+        { "const": "$haptic.preset.success", "title": "$haptic.preset.success", "description": "default: system: success", "markdownDescription": "- default: `system: success`" },
+        { "const": "$haptic.primitive.regular-medium", "title": "$haptic.primitive.regular-medium", "description": "default: sharpness: 0.5, intensity: 0.6", "markdownDescription": "- default: `sharpness: 0.5, intensity: 0.6`" },
+        { "const": "$haptic.primitive.regular-strong", "title": "$haptic.primitive.regular-strong", "description": "default: sharpness: 0.5, intensity: 1", "markdownDescription": "- default: `sharpness: 0.5, intensity: 1`" },
+        { "const": "$haptic.primitive.regular-weak", "title": "$haptic.primitive.regular-weak", "description": "default: sharpness: 0.5, intensity: 0.3", "markdownDescription": "- default: `sharpness: 0.5, intensity: 0.3`" },
+        { "const": "$haptic.primitive.sharp-medium", "title": "$haptic.primitive.sharp-medium", "description": "default: sharpness: 0.9, intensity: 0.6", "markdownDescription": "- default: `sharpness: 0.9, intensity: 0.6`" },
+        { "const": "$haptic.primitive.sharp-strong", "title": "$haptic.primitive.sharp-strong", "description": "default: sharpness: 0.9, intensity: 1", "markdownDescription": "- default: `sharpness: 0.9, intensity: 1`" },
+        { "const": "$haptic.primitive.sharp-weak", "title": "$haptic.primitive.sharp-weak", "description": "default: sharpness: 0.9, intensity: 0.3", "markdownDescription": "- default: `sharpness: 0.9, intensity: 0.3`" },
+        { "const": "$haptic.primitive.soft-medium", "title": "$haptic.primitive.soft-medium", "description": "default: sharpness: 0.15, intensity: 0.6", "markdownDescription": "- default: `sharpness: 0.15, intensity: 0.6`" },
+        { "const": "$haptic.primitive.soft-strong", "title": "$haptic.primitive.soft-strong", "description": "default: sharpness: 0.15, intensity: 1", "markdownDescription": "- default: `sharpness: 0.15, intensity: 1`" },
+        { "const": "$haptic.primitive.soft-weak", "title": "$haptic.primitive.soft-weak", "description": "default: sharpness: 0.15, intensity: 0.3", "markdownDescription": "- default: `sharpness: 0.15, intensity: 0.3`" },
         { "const": "$line-height.t1", "title": "$line-height.t1", "description": "default: 0.9375rem", "markdownDescription": "- default: `0.9375rem`" },
         { "const": "$line-height.t1-static", "title": "$line-height.t1-static", "description": "default: 15px", "markdownDescription": "- default: `15px`" },
         { "const": "$line-height.t10", "title": "$line-height.t10", "description": "default: 2.1875rem", "markdownDescription": "- default: `2.1875rem`" },

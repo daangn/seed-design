@@ -15,6 +15,7 @@ export function visitEachChild<T extends Node>(node: T, fn: (node: Node) => Node
     case "CubicBezierLit":
     case "ShadowLayerLit":
     case "GradientStopLit":
+    case "HapticLit":
     case "TokenLit":
       return node;
     case "ShadowLit":
@@ -49,6 +50,7 @@ export function visitEachChild<T extends Node>(node: T, fn: (node: Node) => Node
     case "CubicBezierTokenDeclaration":
     case "ShadowTokenDeclaration":
     case "GradientTokenDeclaration":
+    case "HapticTokenDeclaration":
     case "UnresolvedTokenDeclaration":
       return {
         ...node,
@@ -61,6 +63,7 @@ export function visitEachChild<T extends Node>(node: T, fn: (node: Node) => Node
     case "CubicBezierTokenValueDeclaration":
     case "ShadowTokenValueDeclaration":
     case "GradientTokenValueDeclaration":
+    case "HapticTokenValueDeclaration":
     case "UnresolvedTokenValueDeclaration":
       return {
         ...node,
@@ -122,6 +125,7 @@ export function visitEachChild<T extends Node>(node: T, fn: (node: Node) => Node
     case "CubicBezierPropertyDeclaration":
     case "ShadowPropertyDeclaration":
     case "GradientPropertyDeclaration":
+    case "HapticPropertyDeclaration":
     case "UnresolvedPropertyDeclaration":
       return {
         ...node,

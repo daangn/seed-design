@@ -62,6 +62,18 @@ export interface GradientLit {
   stops: GradientStopLit[];
 }
 
+export const HAPTIC_SYSTEM_PRESETS = ["select", "lightFeedback", "success", "error"] as const;
+export type HapticSystemPreset = (typeof HAPTIC_SYSTEM_PRESETS)[number];
+
+/**
+ * A tactile cue: either a primitive whose `sharpness` and `intensity` lie in [0, 1], or a
+ * system preset each platform maps to its own playback.
+ */
+export interface HapticLit {
+  kind: "HapticLit";
+  value: { sharpness: number; intensity: number } | { system: HapticSystemPreset };
+}
+
 export type ValueLit =
   | ColorHexLit
   | DimensionLit
@@ -70,7 +82,8 @@ export type ValueLit =
   | EnumLit
   | CubicBezierLit
   | ShadowLit
-  | GradientLit;
+  | GradientLit
+  | HapticLit;
 
 export interface TokenLit {
   kind: "TokenLit";
@@ -197,6 +210,21 @@ export interface GradientTokenValueDeclaration {
   value: GradientLit | TokenLit;
 }
 
+export interface HapticTokenDeclaration {
+  kind: "HapticTokenDeclaration";
+  collection: string;
+  token: TokenLit;
+  values: HapticTokenValueDeclaration[];
+  description?: string;
+  excludeFromExchange?: boolean;
+}
+
+export interface HapticTokenValueDeclaration {
+  kind: "HapticTokenValueDeclaration";
+  mode: string;
+  value: HapticLit | TokenLit;
+}
+
 // Used when a token references another token but the referenced token is unknown while parsing
 // (e.g. when a token references a token that is defined later in the document or in another document)
 export interface UnresolvedTokenDeclaration {
@@ -222,6 +250,7 @@ export type TokenDeclaration =
   | CubicBezierTokenDeclaration
   | ShadowTokenDeclaration
   | GradientTokenDeclaration
+  | HapticTokenDeclaration
   | UnresolvedTokenDeclaration;
 
 export interface TokensDocument {
@@ -304,6 +333,12 @@ export interface GradientPropertyDeclaration {
   value: GradientLit | TokenLit;
 }
 
+export interface HapticPropertyDeclaration {
+  kind: "HapticPropertyDeclaration";
+  property: string;
+  value: HapticLit | TokenLit;
+}
+
 export interface UnresolvedPropertyDeclaration {
   kind: "UnresolvedPropertyDeclaration";
   property: string;
@@ -319,6 +354,7 @@ export type PropertyDeclaration =
   | CubicBezierPropertyDeclaration
   | ShadowPropertyDeclaration
   | GradientPropertyDeclaration
+  | HapticPropertyDeclaration
   | UnresolvedPropertyDeclaration;
 
 export interface SlotDeclaration {
@@ -363,7 +399,15 @@ export interface SlotSchemaDeclaration {
  */
 export type PropertySchema =
   | {
-      type: "color" | "dimension" | "number" | "duration" | "cubicBezier" | "shadow" | "gradient";
+      type:
+        | "color"
+        | "dimension"
+        | "number"
+        | "duration"
+        | "cubicBezier"
+        | "shadow"
+        | "gradient"
+        | "haptic";
       values?: never;
       description?: string;
     }
@@ -419,6 +463,7 @@ export type Node =
   | ShadowLit
   | GradientStopLit
   | GradientLit
+  | HapticLit
   | TokenLit
   | MetadataDeclaration
   | MetadataFieldDeclaration
@@ -436,6 +481,8 @@ export type Node =
   | ShadowTokenValueDeclaration
   | GradientTokenDeclaration
   | GradientTokenValueDeclaration
+  | HapticTokenDeclaration
+  | HapticTokenValueDeclaration
   | UnresolvedTokenDeclaration
   | UnresolvedTokenValueDeclaration
   | TokensDocument
@@ -450,6 +497,7 @@ export type Node =
   | CubicBezierPropertyDeclaration
   | ShadowPropertyDeclaration
   | GradientPropertyDeclaration
+  | HapticPropertyDeclaration
   | UnresolvedPropertyDeclaration
   | SlotDeclaration
   | StateExpression

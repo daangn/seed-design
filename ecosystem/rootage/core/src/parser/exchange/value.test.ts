@@ -104,4 +104,25 @@ describe("parseValue", () => {
     const result = parseValue(tokenRef);
     expect(result).toEqual(factory.createTokenLit("$colors.primary"));
   });
+
+  it("should parse a haptic primitive value", () => {
+    const hapticValue: Document.Haptic = {
+      type: "haptic",
+      value: { sharpness: 0.9, intensity: 0.3 },
+    };
+    const result = parseValue(hapticValue);
+    expect(result).toEqual(factory.createHapticLit({ sharpness: 0.9, intensity: 0.3 }));
+  });
+
+  it("should parse a haptic system preset value", () => {
+    const hapticValue: Document.Haptic = { type: "haptic", value: { system: "select" } };
+    const result = parseValue(hapticValue);
+    expect(result).toEqual(factory.createHapticLit({ system: "select" }));
+  });
+
+  it("should parse a haptic token reference", () => {
+    const hapticValue: Document.Haptic = { type: "haptic", value: "$haptic.preset.select" };
+    const result = parseValue(hapticValue);
+    expect(result).toEqual(factory.createTokenLit("$haptic.preset.select"));
+  });
 });

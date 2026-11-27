@@ -6,6 +6,7 @@ import type {
   DurationLit,
   GradientLit,
   GradientStopLit,
+  HapticLit,
   NumberLit,
   ShadowLayerLit,
   ShadowLit,
@@ -37,6 +38,7 @@ export function parseValue(
   | CubicBezierLit
   | ShadowLit
   | GradientLit
+  | HapticLit
   | TokenLit {
   if (typeof v === "string") {
     // It's a token reference
@@ -61,6 +63,8 @@ export function parseValue(
       return parseShadowValue(v);
     case "gradient":
       return parseGradientValue(v);
+    case "haptic":
+      return parseHapticValue(v);
   }
 }
 
@@ -177,4 +181,14 @@ export function parseGradientStop(stop: Document.GradientStop): GradientStopLit 
   const colorLit = parseColorValue({ type: "color", value: stop.color });
   const positionLit = parseNumberValue({ type: "number", value: stop.position });
   return factory.createGradientStopLit(colorLit, positionLit as NumberLit);
+}
+
+/* ------------------ Haptic ------------------ */
+
+export function parseHapticValue(hapticVal: Document.Haptic): HapticLit | TokenLit {
+  const h = hapticVal.value;
+  if (isTokenRef(h)) {
+    return factory.createTokenLit(h);
+  }
+  return factory.createHapticLit(h);
 }

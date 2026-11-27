@@ -1,5 +1,5 @@
 import dedent from "dedent";
-import type { TokenDeclaration, TokenLit } from "../parser/ast";
+import { HAPTIC_SYSTEM_PRESETS, type TokenDeclaration, type TokenLit } from "../parser/ast";
 
 function stringifyTokenExpression(token: TokenLit): string {
   return `$${token.group.join(".")}.${token.key}`;
@@ -33,6 +33,10 @@ function getReadableValue(value: TokenDeclaration["values"][number]["value"]): s
             `${offsetX.value}${offsetX.unit} ${offsetY.value}${offsetY.unit} ${blur.value}${blur.unit} ${spread.value}${spread.unit} ${getReadableValue(color)}`,
         )
         .join(" / ");
+    case "HapticLit":
+      return "system" in value.value
+        ? `system: ${value.value.system}`
+        : `sharpness: ${value.value.sharpness}, intensity: ${value.value.intensity}`;
     default:
       return `${value}`;
   }
@@ -146,7 +150,7 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
         "properties": {
           "type": {
             "type": "string",
-            "enum": ["color", "dimension", "number", "duration", "enum", "cubicBezier", "shadow", "gradient"]${"" /* NOTE: this should be kept in sync with PropertySchemaDeclaration["type"] */}
+            "enum": ["color", "dimension", "number", "duration", "enum", "cubicBezier", "shadow", "gradient", "haptic"]${"" /* NOTE: this should be kept in sync with PropertySchemaDeclaration["type"] */}
           },
           "description": {
             "type": "string"
@@ -264,6 +268,9 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
             "$ref": "#/definitions/gradient"
           },
           {
+            "$ref": "#/definitions/haptic"
+          },
+          {
             "$ref": "#/definitions/tokenRef"
           }
         ]
@@ -375,6 +382,41 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
               "required": ["color", "position"],
               "additionalProperties": false
             }
+          }
+        },
+        "required": ["type", "value"],
+        "additionalProperties": false
+      },
+      "haptic": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "haptic"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "sharpness": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "intensity": { "type": "number", "minimum": 0, "maximum": 1 }
+                },
+                "required": ["sharpness", "intensity"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "system": {
+                    "type": "string",
+                    "enum": [${HAPTIC_SYSTEM_PRESETS.map((preset) => `"${preset}"`).join(", ")}]
+                  }
+                },
+                "required": ["system"],
+                "additionalProperties": false
+              }
+            ]
           }
         },
         "required": ["type", "value"],

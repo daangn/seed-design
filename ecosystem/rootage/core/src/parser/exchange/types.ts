@@ -58,7 +58,24 @@ export type Gradient = {
   value: Array<GradientStop> | TokenRef;
 };
 
-export type Value = Color | Dimension | Number | Duration | Enum | CubicBezier | Shadow | Gradient;
+// Copy of `HAPTIC_SYSTEM_PRESETS` in ../ast.ts; format types stay import-free.
+export type HapticSystem = "select" | "lightFeedback" | "success" | "error";
+export type HapticLit = { sharpness: number; intensity: number } | { system: HapticSystem };
+export type Haptic = {
+  type: "haptic";
+  value: HapticLit | TokenRef;
+};
+
+export type Value =
+  | Color
+  | Dimension
+  | Number
+  | Duration
+  | Enum
+  | CubicBezier
+  | Shadow
+  | Gradient
+  | Haptic;
 
 export interface ComponentSpecModel {
   kind: "ComponentSpec";
@@ -92,7 +109,15 @@ export interface ComponentSpecData {
 export type ComponentSpecPropertySchema = Record<
   string,
   | {
-      type: "color" | "dimension" | "number" | "duration" | "cubicBezier" | "shadow" | "gradient";
+      type:
+        | "color"
+        | "dimension"
+        | "number"
+        | "duration"
+        | "cubicBezier"
+        | "shadow"
+        | "gradient"
+        | "haptic";
       values?: never;
       description?: string;
     }

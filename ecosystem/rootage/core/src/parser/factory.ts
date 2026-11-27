@@ -9,6 +9,7 @@ import type {
   ShadowLit,
   GradientStopLit,
   GradientLit,
+  HapticLit,
   TokenLit,
   ColorPropertyDeclaration,
   DimensionPropertyDeclaration,
@@ -18,6 +19,7 @@ import type {
   CubicBezierPropertyDeclaration,
   ShadowPropertyDeclaration,
   GradientPropertyDeclaration,
+  HapticPropertyDeclaration,
   PropertyDeclaration,
   SlotDeclaration,
   StateExpression,
@@ -32,6 +34,7 @@ import type {
   CubicBezierTokenDeclaration,
   ShadowTokenDeclaration,
   GradientTokenDeclaration,
+  HapticTokenDeclaration,
   TokenDeclaration,
   TokenCollectionDeclaration,
   MetadataDeclaration,
@@ -47,6 +50,7 @@ import type {
   CubicBezierTokenValueDeclaration,
   ShadowTokenValueDeclaration,
   GradientTokenValueDeclaration,
+  HapticTokenValueDeclaration,
   UnresolvedTokenValueDeclaration,
   UnresolvedPropertyDeclaration,
   SchemaDeclaration,
@@ -173,6 +177,16 @@ export function createGradientLit(stops: GradientStopLit[]): GradientLit {
   return {
     kind: "GradientLit",
     stops,
+  };
+}
+
+/**
+ * HapticLit factory
+ */
+export function createHapticLit(value: HapticLit["value"]): HapticLit {
+  return {
+    kind: "HapticLit",
+    value,
   };
 }
 
@@ -315,6 +329,20 @@ export function createGradientPropertyDeclaration(
 ): GradientPropertyDeclaration {
   return {
     kind: "GradientPropertyDeclaration",
+    property,
+    value,
+  };
+}
+
+/**
+ * HapticPropertyDeclaration factory
+ */
+export function createHapticPropertyDeclaration(
+  property: string,
+  value: HapticLit | TokenLit,
+): HapticPropertyDeclaration {
+  return {
+    kind: "HapticPropertyDeclaration",
     property,
     value,
   };
@@ -653,6 +681,26 @@ export function createGradientTokenDeclaration(
 }
 
 /**
+ * HapticTokenDeclaration factory
+ */
+export function createHapticTokenDeclaration(
+  collection: string,
+  token: TokenLit,
+  values: HapticTokenValueDeclaration[],
+  description?: string,
+  excludeFromExchange?: boolean,
+): HapticTokenDeclaration {
+  return {
+    kind: "HapticTokenDeclaration",
+    collection,
+    token,
+    values,
+    description,
+    excludeFromExchange,
+  };
+}
+
+/**
  * UnresolvedTokenDeclaration factory
  */
 export function createUnresolvedTokenDeclaration(
@@ -686,6 +734,7 @@ export function createTokenDeclaration(
     | CubicBezierTokenValueDeclaration[]
     | ShadowTokenValueDeclaration[]
     | GradientTokenValueDeclaration[]
+    | HapticTokenValueDeclaration[]
     | UnresolvedTokenValueDeclaration[],
   description?: string,
   excludeFromExchange?: boolean,
@@ -744,6 +793,14 @@ export function createTokenDeclaration(
         collection,
         token,
         values as GradientTokenValueDeclaration[],
+        description,
+        excludeFromExchange,
+      );
+    case "HapticTokenValueDeclaration":
+      return createHapticTokenDeclaration(
+        collection,
+        token,
+        values as HapticTokenValueDeclaration[],
         description,
         excludeFromExchange,
       );
@@ -855,6 +912,20 @@ export function createGradientTokenValueDeclaration(
 ): GradientTokenValueDeclaration {
   return {
     kind: "GradientTokenValueDeclaration",
+    mode,
+    value,
+  };
+}
+
+/**
+ * HapticTokenValueDeclaration factory
+ */
+export function createHapticTokenValueDeclaration(
+  mode: string,
+  value: HapticLit | TokenLit,
+): HapticTokenValueDeclaration {
+  return {
+    kind: "HapticTokenValueDeclaration",
     mode,
     value,
   };

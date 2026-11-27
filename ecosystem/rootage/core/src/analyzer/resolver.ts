@@ -134,6 +134,8 @@ export function transformResolvedType<T extends AST.Node | AST.Node[]>(
             return factory.createShadowTokenValueDeclaration(valueDecl.mode, valueDecl.value);
           case "GradientLit":
             return factory.createGradientTokenValueDeclaration(valueDecl.mode, valueDecl.value);
+          case "HapticLit":
+            return factory.createHapticTokenValueDeclaration(valueDecl.mode, valueDecl.value);
           default:
             throw new Error(`Unexpected resolved token type ${valueDecl.value}`);
         }
@@ -169,6 +171,8 @@ export function transformResolvedType<T extends AST.Node | AST.Node[]>(
           return factory.createShadowPropertyDeclaration(node.property, node.value);
         case "GradientLit":
           return factory.createGradientPropertyDeclaration(node.property, node.value);
+        case "HapticLit":
+          return factory.createHapticPropertyDeclaration(node.property, node.value);
         default:
           throw new Error(`Unexpected resolved token type: ${resolved.value}`);
       }

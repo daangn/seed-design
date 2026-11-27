@@ -139,6 +139,21 @@ describe("formatTokenValue", () => {
       "$fixture-alpha.solid.one",
     ],
     ["an enum", { type: "enum", value: "bold" }, "bold"],
+    [
+      "a haptic primitive as JSON",
+      { type: "haptic", value: { sharpness: 0.9, intensity: 0.3 } },
+      '{"sharpness":0.9,"intensity":0.3}',
+    ],
+    [
+      "a haptic system preset as JSON",
+      { type: "haptic", value: { system: "success" } },
+      '{"system":"success"}',
+    ],
+    [
+      "a haptic token reference",
+      { type: "haptic", value: "$fixture-alpha.cue.one" },
+      "$fixture-alpha.cue.one",
+    ],
   ];
 
   for (const [label, value, expected] of cases) {

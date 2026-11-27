@@ -1,6 +1,7 @@
 import type { ComponentSpecDeclaration, TokenDeclaration, GradientLit } from "../parser/ast";
 import { convertToKebabCase } from "../utils/string";
 import { type Breakpoint, getNonBaseBreakpoints } from "./breakpoints";
+import { hasCssValue } from "./css";
 
 // 토큰 타입별 저장소 인터페이스
 interface TokenCollections {
@@ -67,6 +68,8 @@ function processFoundationTokens(
   };
 
   for (const token of foundationTokens) {
+    if (!hasCssValue(token)) continue;
+
     const tokenGroup = token.token.group;
     if (tokenGroup.length === 0) continue;
 

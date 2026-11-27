@@ -1,4 +1,5 @@
 import type * as AST from "../ast";
+import { HAPTIC_SYSTEM_PRESETS } from "../ast";
 import * as factory from "../factory";
 import type * as Document from "./types";
 
@@ -187,13 +188,53 @@ function parseGradient(expr: unknown): AST.GradientLit | null {
   return null;
 }
 
+function isHapticSystemPreset(expr: unknown): expr is AST.HapticSystemPreset {
+  return HAPTIC_SYSTEM_PRESETS.some((preset) => preset === expr);
+}
+
+function isUnitInterval(expr: unknown): expr is number {
+  return typeof expr === "number" && expr >= 0 && expr <= 1;
+}
+
+function parseHaptic(expr: unknown): AST.HapticLit | null {
+  if (
+    typeof expr === "object" &&
+    expr !== null &&
+    "type" in expr &&
+    "value" in expr &&
+    expr.type === "haptic" &&
+    typeof expr.value === "object" &&
+    expr.value !== null
+  ) {
+    const value = expr.value;
+    // Compared whole so that a stray field, or one shape's field mixed into the other, fails
+    // instead of being dropped.
+    const fields = Object.keys(value).sort().join();
+
+    if (
+      fields === "intensity,sharpness" &&
+      "sharpness" in value &&
+      "intensity" in value &&
+      isUnitInterval(value.sharpness) &&
+      isUnitInterval(value.intensity)
+    ) {
+      return factory.createHapticLit({ sharpness: value.sharpness, intensity: value.intensity });
+    }
+
+    if (fields === "system" && "system" in value && isHapticSystemPreset(value.system)) {
+      return factory.createHapticLit({ system: value.system });
+    }
+  }
+  return null;
+}
+
 /**
  * Shape-sniffing entry point: try every parser and take the first one that matches.
  *
  * Only `kind: Tokens` needs this. A token declares its type nowhere — the value is
  * the sole evidence of what it is — so the shape has to be the discriminator, which
  * is why composite values additionally carry an explicit `type` field to keep the
- * guess honest (see `parseCubicBezier` / `parseShadow` / `parseGradient`).
+ * guess honest (see `parseCubicBezier` / `parseShadow` / `parseGradient` / `parseHaptic`).
  *
  * `kind: ComponentSpec` does not need it: its slot schema names the type of every
  * property, so it goes through `parseValueAs` instead.
@@ -206,7 +247,8 @@ export function parseValue(input: Document.Value): AST.ValueLit {
     parseDuration(input) ||
     parseCubicBezier(input) ||
     parseShadow(input) ||
-    parseGradient(input);
+    parseGradient(input) ||
+    parseHaptic(input);
 
   if (result) {
     if (result.kind === "TokenLit") {
@@ -229,6 +271,7 @@ const PARSE_BY_TYPE = {
   cubicBezier: parseCubicBezier,
   shadow: parseShadow,
   gradient: parseGradient,
+  haptic: parseHaptic,
 } as const satisfies Record<
   AST.PropertySchemaDeclaration["type"],
   (expr: unknown) => AST.ValueLit | AST.TokenLit | null

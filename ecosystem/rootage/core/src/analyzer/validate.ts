@@ -17,6 +17,7 @@ const LITERAL_KIND_TO_TYPE: Record<ValueLit["kind"], PropertySchemaDeclaration["
   CubicBezierLit: "cubicBezier",
   ShadowLit: "shadow",
   GradientLit: "gradient",
+  HapticLit: "haptic",
 };
 
 // this might live in ast.ts later but not sure: *PropertyDeclaration["kind"] already shows its type
@@ -31,6 +32,7 @@ const TOKEN_DECL_KIND_TO_TYPE: Omit<
   CubicBezierTokenDeclaration: "cubicBezier",
   ShadowTokenDeclaration: "shadow",
   GradientTokenDeclaration: "gradient",
+  HapticTokenDeclaration: "haptic",
 };
 
 export function validate(ctx: RootageCtx): ValidationResult {
@@ -95,6 +97,15 @@ export function validate(ctx: RootageCtx): ValidationResult {
           return {
             valid: false,
             message: `Token "${tokenName}" is not defined but used in "${tokenBinding.token.identifier}"`,
+          };
+        }
+
+        const expectedType = tokenTypeMap.get(tokenBinding.token.identifier);
+        const actualType = tokenTypeMap.get(tokenName);
+        if (expectedType && actualType && actualType !== expectedType) {
+          return {
+            valid: false,
+            message: `Token "${tokenBinding.token.identifier}" expects type "${expectedType}" but references "${tokenName}" of type "${actualType}"`,
           };
         }
       }
