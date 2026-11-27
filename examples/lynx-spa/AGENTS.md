@@ -16,7 +16,7 @@ Rspeedy 기반 Lynx SPA 예제 앱이다. Lynx native 기본 장면 검증에 �
 - `package.json`의 `rspeedy` 실행은 `bunx --bun`을 유지한다. `@seed-design/rsbuild-plugin-lynx-icon`의 ESM lib가 `require.resolve`를 써서 Node 런타임에서는 config 로드가 `require is not defined`로 멈춘다.
 - Tailwind CSS 4 설정(`postcss.config.js`, `src/styles/global.css`)은 `docs/content/lynx/getting-started/styling/tailwind-css-4.mdx`와 같게 유지한다. `@seed-design/tailwind4-theme`은 글자 크기를 `text-size-*`로 제공하고 `top`·`right`·`bottom`·`left`에는 SEED dimension을 연결하지 않는다 → `right-[var(--seed-dimension-x2)]`처럼 arbitrary value를 쓴다.
 - `lynx.config.ts`의 `enableCSSInlineVariables: true`를 끄지 않는다. SEED 컴포넌트가 inline으로 넘기는 변수(예: `--slider-thumb-left`)와, lynx-css Recipe가 class 안에서 다른 변수를 담는 사용자 정의 속성(예: `--seed-checkmark-pressed-color: var(...)`)이 이 플래그가 켜져 있을 때만 해석된다.
-- `lynx.config.ts`의 asset prefix는 `ASSET_PREFIX`이고, 없으면 dev는 `PORTLESS_URL`(portless 도메인), build는 `/`다. host가 이 주소에 접근하지 못하면 main bundle만 열리고 lazy 예제가 로드되지 않는다 → 기기에서 접근 가능한 절대 origin을 준다(예: `portless run --name ette sh -c 'ASSET_PREFIX="http://<LAN 주소>:$PORT/" exec bun run dev'`, iOS 시뮬레이터는 `http://127.0.0.1:$PORT/`). prefix는 `main.lynx.bundle`에 문자열로 들어가므로 전후 bundle을 byte로 비교할 때는 두 build에 같은 `ASSET_PREFIX`를 쓰거나 비교 전에 prefix를 같은 값으로 치환한다.
+- `lynx.config.ts`의 asset prefix는 `ASSET_PREFIX`이고, 없으면 dev는 `PORTLESS_URL`, build는 `/`다. host가 이 주소에 접근하지 못하면 main bundle만 열리고 lazy 예제가 로드되지 않는다 → 기기에서 접근 가능한 절대 origin을 준다(예: `http://<LAN 주소>:<port>/`, iOS 시뮬레이터는 `http://127.0.0.1:<port>/`). prefix는 `main.lynx.bundle`에 문자열로 들어가므로 전후 bundle을 byte로 비교할 때는 두 build에 같은 `ASSET_PREFIX`를 쓰거나 비교 전에 prefix를 같은 값으로 치환한다.
 
 ## 작업 절차
 

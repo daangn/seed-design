@@ -21,18 +21,11 @@
 - 서버를 재사용하면 프로세스의 작업 디렉터리와 실행 명령으로 현재 worktree의 `examples/lynx-spa`인지 확인한다.
 - 빌드·생성처럼 파일을 쓰는 검증을 실행할 때만 실행 전후 작업 파일 상태를 비교한다. 새로 생긴 소스·문서 변경이나 예상 밖 생성물은 원인과 경로를 보고한다. 기존 사용자 변경을 덮어쓰거나 되돌려 정리하지 않는다.
 
-host 소유자는 설치된 `portless`가 정확히 `0.15.3`인지 확인한 뒤 `examples/lynx-spa`에서 서버를 띄운다.
+host 소유자는 저장소 루트에서 `bun lynx:dev`로 서버를 띄운다.
 
-```bash
-portless --version
-cd examples/lynx-spa
-portless run --name ette bun run dev
-```
-
-- 버전이 다르면 서버를 띄우지 않고 전역 지침의 `portless@0.15.3` 설치 안내를 전달한다.
 - 개발 서버가 컴파일을 마쳤는지 확인하고, 로그에 찍힌 실제 `main.lynx.bundle` URL을 쓴다. 로그가 없으면 실행 프로세스의 주소와 bundle 응답을 확인한다.
 - 실기기 URL에는 기기에서 접근할 수 있는 LAN 또는 배포 URL을 쓴다. `localhost`·`127.0.0.1`은 호스트 자신만 가리키므로 실기기 검증에 쓰지 않는다. 예외: Android 기기에 `adb reverse tcp:<port> tcp:<port>`로 서버 port를 연결했으면 `127.0.0.1:<port>`를 쓸 수 있다. iOS 시뮬레이터는 호스트의 `127.0.0.1`에 접근한다.
-- lazy 예제가 열리려면 `ASSET_PREFIX`도 같은 조건을 만족해야 한다([`examples/lynx-spa/AGENTS.md`](../../../examples/lynx-spa/AGENTS.md)). host가 portless 도메인을 막으면 session 없는 오류 Card가 남아 [정리 절차](concurrency/session-ownership.md#5-성공실패-모두-정리-후-해제)의 `--confirmed-no-card` 확인이 필요해진다 → open 전에 URL과 `ASSET_PREFIX`를 맞춘다.
+- lazy 예제가 열리려면 `ASSET_PREFIX`도 같은 조건을 만족해야 한다([`examples/lynx-spa/AGENTS.md`](../../../examples/lynx-spa/AGENTS.md)). host가 서버 주소에 접근하지 못하면 session 없는 오류 Card가 남아 [정리 절차](concurrency/session-ownership.md#5-성공실패-모두-정리-후-해제)의 `--confirmed-no-card` 확인이 필요해진다 → open 전에 URL과 `ASSET_PREFIX`를 맞춘다.
 
 서버를 띄운 뒤 컴포넌트 원천을 고쳤으면, 예제 파일은 hot reload되지만 컴포넌트는 서버 시작 때 만든 `lib`로 남는다. 이전 구현과 새 예제가 섞인 화면을 변경 결과로 판정하지 않는다.
 
@@ -160,8 +153,8 @@ docs Lynx watcher(`bun docs:dev`가 띄우는 `dev:lynx-examples`)와 정적 빌
 
 ### 서빙과 소비 경로
 
-1. 서버 소유자가 1절의 `portless` 버전·소유권 조건을 확인한다.
-2. 저장소 루트에서 필요한 하나만 띄운다: 정적 문서는 `portless run --name ette bunx serve docs/out`, 문서 페이지 없이 bundle만 볼 때는 `portless run --name ette bunx serve docs/public`. 기존 `ette` 서버를 강제로 교체하지 않는다. `serve`는 `portless`가 넘긴 `PORT`를 쓰므로 실제 주소는 서버 로그에서 확인한다.
+1. 서버 소유자가 1절의 소유권 조건을 확인한다.
+2. 저장소 루트에서 필요한 하나만 띄운다: 정적 문서는 `bunx serve docs/out`, 문서 페이지 없이 bundle만 볼 때는 `bunx serve docs/public`. 실제 주소는 서버 로그에서 확인한다.
 3. `docs/public/__lynx__/manifest.json`에서 대상 논리 ID의 `examples[id].lynx`·`web` 값을 읽어 URL을 만든다. bundle 이름이나 해시를 추측하지 않는다. 같은 컴포넌트의 예제는 bundle 하나를 공유하므로 native URL에는 `example` query로 논리 ID를 붙인다(예: `…/badge.<hash>.lynx.bundle?example=lynx%2Fbadge%2Fpreview&fullscreen=true`). query가 없거나 host가 전달하지 않으면 예제 목록이 나온다. `/__lynx__/…` 경로를 유지하려면 bundle 서빙 루트는 `docs/public`이어야 한다. 중간 출력인 `docs/.cache/lynx-rspeedy-dev-dist`는 서빙하지 않는다.
 4. 정적 문서는 `docs/out`의 실제 HTML·bundle로 확인한다. `docs/public`의 bundle만 갱신했다고 이전 `docs/out`이 갱신됐다고 가정하지 않는다 → `bun docs:build`를 다시 실행한다. 변경본과 실제 로드한 bundle을 대조하고, native 열기는 3절의 소유권 절차를 따른다.
 5. QR 원문이 직접 접근 가능한 HTTP(S) native bundle URL인지, Explorer 링크가 그 전체 URL을 인코딩한 `lynx://open?url=`인지 확인한다. Web preview는 실제 `LynxComponentExample`에서 확인한다.
