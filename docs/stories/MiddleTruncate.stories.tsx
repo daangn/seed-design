@@ -55,7 +55,11 @@ const CommonStoryTemplate = meta.story({
     children: "",
   },
   render: (args, { component }) => (
-    <VariantTable Component={component!} variantMap={{}} conditionMap={conditionMap} {...args} />
+    // Kapture briefly narrows the viewport while taking a full-page capture. Keep the table at
+    // its 1280px-viewport width so `grow` rows don't re-truncate in the middle of the capture.
+    <div style={{ minWidth: 1248 }}>
+      <VariantTable Component={component!} variantMap={{}} conditionMap={conditionMap} {...args} />
+    </div>
   ),
 });
 
