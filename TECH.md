@@ -28,6 +28,7 @@
 - `bun version`과 `bun release`는 `.github/workflows/release-publish.yml`이 실행한다. 로컬에서는 changeset 작성까지만 한다.
 - PR snapshot 게시·확인은 `seed-snapshot-release` Skill을 따른다. snapshot은 Rootage CDN stable 포인터를 바꾸지 않는다.
 - `minor`·`major` → `dev` PR은 merge 버튼으로 합치지 않는다 → 쓰기 권한자가 `/ff-merge` 댓글을 남기면 `.github/workflows/ff-merge.yml`이 커밋·SHA를 유지한 채 `dev`를 fast-forward한다.
+- `minor`·`major` → `dev` PR은 해당 브랜치에 push될 때 `.github/workflows/open-release-branch-pr.yml`이 연다. `dev`에 없는 커밋이 있고 열린 PR이 없을 때만 열며, 본문의 `@coderabbitai ignore`가 feature PR에서 이미 다룬 CodeRabbit 리뷰를 막는다 → 직접 열 때도 생성 시점 본문에 `@coderabbitai ignore`를 넣는다.
 
 ## Kapture workflow ownership
 

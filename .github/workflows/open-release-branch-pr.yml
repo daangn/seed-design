@@ -1,0 +1,125 @@
+name: Open release branch PR
+
+on:
+  push:
+    branches: [minor, major]
+
+# Per-branch group: a newer pending run replaces an older pending one, so one
+# shared group could drop the pending run of the other branch.
+concurrency:
+  group: open-release-branch-pr-${{ github.ref_name }}
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  open:
+    name: Open minor or major into dev PR
+    if: ${{ !github.event.deleted }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+
+    steps:
+      # A PR opened with GITHUB_TOKEN would not trigger its own pull_request workflows.
+      - name: Create Daangn Bud token
+        id: app-token
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
+        with:
+          client-id: ${{ vars.DAANGN_BUD_CLIENT_ID }}
+          private-key: ${{ secrets.DAANGN_BUD_PRIVATE_KEY }}
+          permission-pull-requests: write
+
+      - name: Open the PR into dev if needed
+        env:
+          # Reads use GITHUB_TOKEN; only the create call switches to the app token.
+          GH_TOKEN: ${{ github.token }}
+          APP_TOKEN: ${{ steps.app-token.outputs.token }}
+          SOURCE_BRANCH: ${{ github.ref_name }}
+          TARGET_BRANCH: dev
+          PUSHED_SHA: ${{ github.event.after }}
+          FORCED: ${{ github.event.forced }}
+        run: |
+          set -euo pipefail
+
+          trigger="\`${SOURCE_BRANCH}\` 푸시"
+          if [[ "$FORCED" == "true" ]]; then
+            trigger="\`${SOURCE_BRANCH}\` 강제 푸시"
+          fi
+          ahead_by="-"
+
+          write_summary() {
+            local status="$1"
+            local detail="$2"
+
+            {
+              echo "# 릴리스 브랜치 PR 확인"
+              echo
+              echo "- 실행 사유: ${trigger}"
+              echo "- 병합 방향: \`${SOURCE_BRANCH}\` → \`${TARGET_BRANCH}\`"
+              echo "- 푸시 커밋: \`${PUSHED_SHA:0:12}\`"
+              echo
+              echo "| \`${TARGET_BRANCH}\`에 없는 커밋 | 결과 | 상세 |"
+              echo "| --- | --- | --- |"
+              echo "| ${ahead_by} | ${status} | ${detail} |"
+            } >> "$GITHUB_STEP_SUMMARY"
+          }
+
+          find_open_pr() {
+            gh api "repos/${GITHUB_REPOSITORY}/pulls?state=open&base=${TARGET_BRANCH}&head=${GITHUB_REPOSITORY_OWNER}:${SOURCE_BRANCH}" \
+              --jq '.[0] | select(. != null) | "[#\(.number)](\(.html_url))"'
+          }
+
+          count_ahead() {
+            gh api "repos/${GITHUB_REPOSITORY}/compare/${TARGET_BRANCH}...${SOURCE_BRANCH}" --jq '.ahead_by'
+          }
+
+          if ! ahead_by="$(count_ahead)"; then
+            ahead_by="-"
+            write_summary "실패" "브랜치 비교를 조회하지 못했습니다. Actions 로그를 확인해 주세요."
+            exit 1
+          fi
+
+          if [[ "$ahead_by" == "0" ]]; then
+            write_summary "건너뜀" "\`${TARGET_BRANCH}\`에 없는 커밋이 없어 PR을 열지 않았습니다."
+            exit 0
+          fi
+
+          if ! existing_pr="$(find_open_pr)"; then
+            write_summary "실패" "열린 PR을 조회하지 못했습니다. Actions 로그를 확인해 주세요."
+            exit 1
+          fi
+
+          if [[ -n "$existing_pr" ]]; then
+            write_summary "건너뜀" "이미 열린 PR이 있습니다: ${existing_pr}"
+            exit 0
+          fi
+
+          body="$(printf '%s\n\n%s\n' \
+            "@coderabbitai ignore" \
+            "\`${SOURCE_BRANCH}\` 푸시로 자동으로 연 PR입니다. 머지 버튼 대신 \`/ff-merge\` 댓글로 머지해 주세요.")"
+
+          if created_pr="$(GH_TOKEN="$APP_TOKEN" gh api --method POST "repos/${GITHUB_REPOSITORY}/pulls" \
+            -f title="${SOURCE_BRANCH} → ${TARGET_BRANCH}" \
+            -f head="${SOURCE_BRANCH}" \
+            -f base="${TARGET_BRANCH}" \
+            -f body="${body}" \
+            --jq '"[#\(.number)](\(.html_url))"')"; then
+            write_summary "PR 생성" "PR을 열었습니다: ${created_pr}"
+            exit 0
+          fi
+
+          # Someone may have opened the PR, or `dev` caught up, between the lookup and the create call.
+          if ahead_by="$(count_ahead)" && [[ "$ahead_by" == "0" ]]; then
+            write_summary "건너뜀" "\`${TARGET_BRANCH}\`에 없는 커밋이 없어 PR을 열지 않았습니다."
+            exit 0
+          fi
+          if existing_pr="$(find_open_pr)" && [[ -n "$existing_pr" ]]; then
+            write_summary "건너뜀" "이미 열린 PR이 있습니다: ${existing_pr}"
+            exit 0
+          fi
+
+          write_summary "실패" "PR을 열지 못했습니다. Actions 로그를 확인해 주세요."
+          exit 1
