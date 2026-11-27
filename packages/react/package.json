@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -48,7 +48,7 @@
     "@seed-design/react-field": "^2.0.1",
     "@seed-design/react-field-button": "^2.0.1",
     "@seed-design/react-fieldset": "^1.0.1",
-    "@seed-design/react-file-upload": "^1.0.3",
+    "@seed-design/react-file-upload": "^1.1.0",
     "@seed-design/react-image": "^1.1.0",
     "@seed-design/react-menu": "^2.0.3",
     "@seed-design/react-middle-truncate": "^1.0.1",
@@ -79,7 +79,7 @@
     "unicode-segmenter": "^0.17.3"
   },
   "peerDependencies": {
-    "@seed-design/css": "^3.4.0",
+    "@seed-design/css": "^3.5.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },

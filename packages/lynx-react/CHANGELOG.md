@@ -1,5 +1,29 @@
 # @seed-design/lynx-react
 
+## 1.5.0
+
+### Minor Changes
+
+- ce54df1: Attachment Field·Attachment Display Field의 항목에 동영상 재생시간을 표시할 수 있습니다.
+  
+  - `npx @seed-design/cli@latest add ui:attachment-field`(또는 `ui:attachment-display-field`)로 Registry 컴포넌트를 다시 설치하면 `AttachmentInputItemDurationBadge`·`AttachmentDisplayItemDurationBadge`를 사용할 수 있습니다.
+  - `seconds`에 재생시간(초)을 넘기면 항목의 왼쪽 위에 `2:05`, `1:02:05` 형식으로 표시하고, 스크린리더에는 "재생시간 1시간 2분 5초" 같은 `accessibility-label`을 제공합니다.
+  - 표시 문구를 직접 정하려면 `AttachmentInput.ItemDurationBadge`·`AttachmentDisplay.ItemDurationBadge`에 children으로 넘깁니다.
+- 8921dae: SEED Lynx 컴포넌트의 최외곽 노드에 컴포넌트 식별용 `lynx-test-tag`(`seed:<Name>;<axis>=<value>`)를 기본으로 넣습니다. 사용처에서 `lynx-test-tag`를 넘기면 그 값이 유지됩니다.
+  
+  - `@seed-design/lynx-css`의 각 Recipe가 Rootage 컴포넌트 이름·variant 축·기본값을 담은 `<name>SeedTagSpec`을 export합니다.
+- 1380147: Bottom Sheet에 열림·닫힘 애니메이션이 끝났을 때 호출되는 `onAnimationEnd`를 추가합니다.
+  
+  - 닫힘(`false`)은 시트 레이어가 화면에서 제거된 뒤에 호출되므로, 시트를 닫은 뒤 띄우는 스낵바 같은 native UI가 닫히는 overlay와 함께 사라지지 않습니다.
+
+### Patch Changes
+
+- Updated dependencies [ce54df1]
+- Updated dependencies [8921dae]
+- Updated dependencies [1380147]
+  - @seed-design/lynx-css@1.5.0
+  - @seed-design/lynx-react-bottom-sheet@1.2.0
+
 ## 1.4.4
 
 ### Patch Changes
