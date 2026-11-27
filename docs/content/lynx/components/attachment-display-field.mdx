@@ -210,7 +210,7 @@ npx @seed-design/cli@latest add ui:attachment-display-field-reorderable
 
 ### Video Duration
 
-`AttachmentDisplayItemDurationBadge`는 동영상의 재생시간을 아이템의 왼쪽 위에 표시합니다. `seconds`에 초 단위 재생시간을 넘기면 1시간 미만은 `2:05`, 1시간 이상은 `1:02:05` 형식으로 표시합니다. 초 미만은 버리고, 24시간을 넘어도 시간 단위로 누적합니다. `AttachmentDisplay.ItemBadge`와 함께 사용할 수 있습니다.
+`AttachmentDisplayItemDurationBadge`는 동영상의 재생시간을 아이템의 왼쪽 위에 표시합니다. `seconds`에 초 단위 재생시간을 넘기면 1시간 미만은 `2:05`, 1시간 이상은 `1:02:05` 형식으로 표시합니다. 초 미만은 버리고, 24시간을 넘어도 시간 단위로 누적합니다.
 
 스크린리더에는 "재생시간 1시간 2분 5초" 같은 문구를 `accessibility-label`로 제공합니다. 다른 문구가 필요하면 `accessibility-label`을 직접 넘기세요. 포맷은 `ui:attachment-display-field`와 함께 설치되는 `lib:format-duration`이 처리합니다.
 

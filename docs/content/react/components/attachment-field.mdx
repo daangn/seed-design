@@ -412,7 +412,7 @@ Snippet이 제공하는 기본 아이템 구성 외에 추가적인 커스터마
 
 ### Video Duration
 
-`AttachmentInputItemDurationBadge`는 동영상의 재생시간을 이미지 아이템의 왼쪽 위에 표시합니다. `seconds`에 초 단위 재생시간을 넘기면 1시간 미만은 `2:05`, 1시간 이상은 `1:02:05` 형식으로 표시합니다. 초 미만은 버리고, 24시간을 넘어도 시간 단위로 누적합니다. `AttachmentInput.ItemBadge`와 함께 사용할 수 있습니다.
+`AttachmentInputItemDurationBadge`는 동영상의 재생시간을 이미지 아이템의 왼쪽 위에 표시합니다. `seconds`에 초 단위 재생시간을 넘기면 1시간 미만은 `2:05`, 1시간 이상은 `1:02:05` 형식으로 표시합니다. 초 미만은 버리고, 24시간을 넘어도 시간 단위로 누적합니다.
 
 스크린리더에는 "재생시간 1시간 2분 5초" 같은 문구를 `aria-label`로 제공합니다. 다른 문구가 필요하면 `aria-label`을 직접 넘기세요. 포맷은 `ui:attachment-field`와 함께 설치되는 `lib:format-duration`이 처리합니다.
 
