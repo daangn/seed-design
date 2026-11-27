@@ -83,10 +83,3 @@ describe("formatDurationLabel", () => {
     expect(formatDurationLabel(seconds)).toBe(expected);
   });
 });
-
-// Uncomment together with `_formatDurationLabelIntl` in format-duration.ts.
-// describe("_formatDurationLabelIntl", () => {
-//   it.each(labelCases)("reads %p seconds as %p", (seconds, expected) => {
-//     expect(_formatDurationLabelIntl(seconds)).toBe(expected);
-//   });
-// });

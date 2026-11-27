@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, spyOn, type Mock } from "bun:test";
-import { _formatDurationLabelIntl, formatDuration, formatDurationLabel } from "./format-duration";
+import { formatDuration, formatDurationLabel } from "./format-duration";
 
 describe("formatDuration", () => {
   it.each([
@@ -81,11 +81,5 @@ const labelCases = [
 describe("formatDurationLabel", () => {
   it.each(labelCases)("reads %p seconds as %p", (seconds, expected) => {
     expect(formatDurationLabel(seconds)).toBe(expected);
-  });
-});
-
-describe("_formatDurationLabelIntl", () => {
-  it.each(labelCases)("reads %p seconds as %p", (seconds, expected) => {
-    expect(_formatDurationLabelIntl(seconds)).toBe(expected);
   });
 });

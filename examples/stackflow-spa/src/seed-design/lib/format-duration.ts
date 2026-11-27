@@ -46,10 +46,10 @@ export function formatDurationLabel(seconds: number): string {
   return label || "0초";
 }
 
-// `Intl.DurationFormat`을 지원하면 이 구현을 쓴다.
-export function _formatDurationLabelIntl(seconds: number): string {
-  const parts = toDurationParts(seconds);
-  if (parts.hours === 0 && parts.minutes === 0 && parts.seconds === 0) return "0초";
-
-  return new Intl.DurationFormat("ko", { style: "long" }).format(parts);
-}
+// `Intl.DurationFormat`을 지원하면 위 `formatDurationLabel`을 주석 처리하고 이 구현의 주석을 푼다.
+// export function formatDurationLabel(seconds: number): string {
+//   const parts = toDurationParts(seconds);
+//   if (parts.hours === 0 && parts.minutes === 0 && parts.seconds === 0) return "0초";
+//
+//   return new Intl.DurationFormat("ko", { style: "long" }).format(parts);
+// }
