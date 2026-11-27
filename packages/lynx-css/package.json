@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/lynx-css",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -62,7 +62,7 @@
   "devDependencies": {
     "@seed-design/lynx-qvism-preset": "0.0.0",
     "@seed-design/qvism-cli": "0.0.0",
-    "@seed-design/rootage-artifacts": "3.4.1",
+    "@seed-design/rootage-artifacts": "3.5.0",
     "@seed-design/rootage-cli": "0.0.0",
     "@seed-design/rootage-core": "0.0.0"
   },

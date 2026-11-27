@@ -1,5 +1,24 @@
 # @seed-design/tailwind4-theme
 
+## 3.3.0
+
+### Minor Changes
+
+- 498dbb4: Tailwind CSS 4에서 dimension 토큰으로 위치를 지정하고, 논리 방향 유틸리티와 음수 값을 쓸 수 있습니다.
+  
+  - `top`·`right`·`bottom`·`left`·`inset`·`inset-x`·`inset-y` 유틸리티를 추가합니다. `right-[var(--seed-dimension-x2)]` 대신 `right-x2`로 씁니다.
+  - 인라인 방향 유틸리티 `ps`·`pe`·`ms`·`me`·`start`·`end`·`inset-s`·`inset-e`를 추가합니다.
+  - 위치와 margin 유틸리티에 음수 값을 씁니다. 예: `-right-x2`, `-mt-x2`, `-ms-x2`
+
+### Patch Changes
+
+- Updated dependencies [5edcc2e]
+- Updated dependencies [ce54df1]
+- Updated dependencies [ce54df1]
+- Updated dependencies [8921dae]
+  - @seed-design/css@3.5.0
+  - @seed-design/lynx-css@1.5.0
+
 ## 3.2.0
 
 ### Minor Changes
