@@ -18,6 +18,9 @@ jobs:
     if: ${{ !github.event.deleted }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
 
     steps:
       # A PR opened with GITHUB_TOKEN would not trigger its own pull_request workflows.
@@ -27,12 +30,13 @@ jobs:
         with:
           client-id: ${{ vars.DAANGN_BUD_CLIENT_ID }}
           private-key: ${{ secrets.DAANGN_BUD_PRIVATE_KEY }}
-          permission-contents: read
           permission-pull-requests: write
 
       - name: Open the PR into dev if needed
         env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          # Reads use GITHUB_TOKEN; only the create call switches to the app token.
+          GH_TOKEN: ${{ github.token }}
+          APP_TOKEN: ${{ steps.app-token.outputs.token }}
           SOURCE_BRANCH: ${{ github.ref_name }}
           TARGET_BRANCH: dev
           PUSHED_SHA: ${{ github.event.after }}
@@ -68,7 +72,11 @@ jobs:
               --jq '.[0] | select(. != null) | "[#\(.number)](\(.html_url))"'
           }
 
-          if ! ahead_by="$(gh api "repos/${GITHUB_REPOSITORY}/compare/${TARGET_BRANCH}...${SOURCE_BRANCH}" --jq '.ahead_by')"; then
+          count_ahead() {
+            gh api "repos/${GITHUB_REPOSITORY}/compare/${TARGET_BRANCH}...${SOURCE_BRANCH}" --jq '.ahead_by'
+          }
+
+          if ! ahead_by="$(count_ahead)"; then
             ahead_by="-"
             write_summary "실패" "브랜치 비교를 조회하지 못했습니다. Actions 로그를 확인해 주세요."
             exit 1
@@ -93,7 +101,7 @@ jobs:
             "@coderabbitai ignore" \
             "\`${SOURCE_BRANCH}\` 푸시로 자동으로 연 PR입니다. 머지 버튼 대신 \`/ff-merge\` 댓글로 머지해 주세요.")"
 
-          if created_pr="$(gh api --method POST "repos/${GITHUB_REPOSITORY}/pulls" \
+          if created_pr="$(GH_TOKEN="$APP_TOKEN" gh api --method POST "repos/${GITHUB_REPOSITORY}/pulls" \
             -f title="${SOURCE_BRANCH} → ${TARGET_BRANCH}" \
             -f head="${SOURCE_BRANCH}" \
             -f base="${TARGET_BRANCH}" \
@@ -103,7 +111,11 @@ jobs:
             exit 0
           fi
 
-          # Someone may have opened the PR by hand between the lookup and the create call.
+          # Someone may have opened the PR, or `dev` caught up, between the lookup and the create call.
+          if ahead_by="$(count_ahead)" && [[ "$ahead_by" == "0" ]]; then
+            write_summary "건너뜀" "\`${TARGET_BRANCH}\`에 없는 커밋이 없어 PR을 열지 않았습니다."
+            exit 0
+          fi
           if existing_pr="$(find_open_pr)" && [[ -n "$existing_pr" ]]; then
             write_summary "건너뜀" "이미 열린 PR이 있습니다: ${existing_pr}"
             exit 0
