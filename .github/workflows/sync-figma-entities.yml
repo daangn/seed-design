@@ -110,7 +110,7 @@ jobs:
             8. If errors remain after the first pass, fix them too
             9. Do NOT change any logic or behavior — only update string literals to match new generated types
           claude_args: |
-            --model claude-sonnet-4-5-20250929
+            --model claude-sonnet-5-5
             --max-turns 20
             --allowedTools "Edit,Read,Glob,Grep,Bash(bunx tsc *),Bash(bun run build),Bash(cat *),Bash(ls *)"
             --json-schema '{"type":"object","properties":{"summary":{"type":"string","description":"1-2 sentence Korean summary of what was changed"},"files_modified":{"type":"array","items":{"type":"string"},"description":"List of files that were modified"},"fix_succeeded":{"type":"boolean","description":"Whether tsc and build pass after fixes"}},"required":["summary","files_modified","fix_succeeded"]}'
