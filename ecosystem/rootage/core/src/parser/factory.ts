@@ -1,5 +1,3 @@
-import { getTokenType } from "./token-type";
-import { isHapticValue } from "./haptic";
 import type {
   ColorHexLit,
   DimensionLit,
@@ -7,11 +5,11 @@ import type {
   NumberLit,
   EnumLit,
   CubicBezierLit,
-  HapticLit,
   ShadowLayerLit,
   ShadowLit,
   GradientStopLit,
   GradientLit,
+  HapticLit,
   TokenLit,
   ColorPropertyDeclaration,
   DimensionPropertyDeclaration,
@@ -21,6 +19,7 @@ import type {
   CubicBezierPropertyDeclaration,
   ShadowPropertyDeclaration,
   GradientPropertyDeclaration,
+  HapticPropertyDeclaration,
   PropertyDeclaration,
   SlotDeclaration,
   StateExpression,
@@ -33,9 +32,9 @@ import type {
   NumberTokenDeclaration,
   DurationTokenDeclaration,
   CubicBezierTokenDeclaration,
-  HapticTokenDeclaration,
   ShadowTokenDeclaration,
   GradientTokenDeclaration,
+  HapticTokenDeclaration,
   TokenDeclaration,
   TokenCollectionDeclaration,
   MetadataDeclaration,
@@ -49,9 +48,9 @@ import type {
   NumberTokenValueDeclaration,
   DurationTokenValueDeclaration,
   CubicBezierTokenValueDeclaration,
-  HapticTokenValueDeclaration,
   ShadowTokenValueDeclaration,
   GradientTokenValueDeclaration,
+  HapticTokenValueDeclaration,
   UnresolvedTokenValueDeclaration,
   UnresolvedPropertyDeclaration,
   SchemaDeclaration,
@@ -127,15 +126,6 @@ export function createCubicBezierLit(
   };
 }
 
-export function createHapticLit(value: unknown): HapticLit {
-  if (!isHapticValue(value)) {
-    throw new Error(
-      "Expected sharpness and intensity in [0, 1], or a supported haptic system preset",
-    );
-  }
-  return { kind: "HapticLit", value };
-}
-
 /**
  * ShadowLayerLit factory
  */
@@ -187,6 +177,16 @@ export function createGradientLit(stops: GradientStopLit[]): GradientLit {
   return {
     kind: "GradientLit",
     stops,
+  };
+}
+
+/**
+ * HapticLit factory
+ */
+export function createHapticLit(value: HapticLit["value"]): HapticLit {
+  return {
+    kind: "HapticLit",
+    value,
   };
 }
 
@@ -329,6 +329,20 @@ export function createGradientPropertyDeclaration(
 ): GradientPropertyDeclaration {
   return {
     kind: "GradientPropertyDeclaration",
+    property,
+    value,
+  };
+}
+
+/**
+ * HapticPropertyDeclaration factory
+ */
+export function createHapticPropertyDeclaration(
+  property: string,
+  value: HapticLit | TokenLit,
+): HapticPropertyDeclaration {
+  return {
+    kind: "HapticPropertyDeclaration",
     property,
     value,
   };
@@ -626,23 +640,6 @@ export function createCubicBezierTokenDeclaration(
   };
 }
 
-export function createHapticTokenDeclaration(
-  collection: string,
-  token: TokenLit,
-  values: HapticTokenValueDeclaration[],
-  description?: string,
-  excludeFromExchange?: boolean,
-): HapticTokenDeclaration {
-  return {
-    kind: "HapticTokenDeclaration",
-    collection,
-    token,
-    values,
-    description,
-    excludeFromExchange,
-  };
-}
-
 /**
  * ShadowTokenDeclaration factory
  */
@@ -684,6 +681,26 @@ export function createGradientTokenDeclaration(
 }
 
 /**
+ * HapticTokenDeclaration factory
+ */
+export function createHapticTokenDeclaration(
+  collection: string,
+  token: TokenLit,
+  values: HapticTokenValueDeclaration[],
+  description?: string,
+  excludeFromExchange?: boolean,
+): HapticTokenDeclaration {
+  return {
+    kind: "HapticTokenDeclaration",
+    collection,
+    token,
+    values,
+    description,
+    excludeFromExchange,
+  };
+}
+
+/**
  * UnresolvedTokenDeclaration factory
  */
 export function createUnresolvedTokenDeclaration(
@@ -715,20 +732,14 @@ export function createTokenDeclaration(
     | NumberTokenValueDeclaration[]
     | DurationTokenValueDeclaration[]
     | CubicBezierTokenValueDeclaration[]
-    | HapticTokenValueDeclaration[]
     | ShadowTokenValueDeclaration[]
     | GradientTokenValueDeclaration[]
+    | HapticTokenValueDeclaration[]
     | UnresolvedTokenValueDeclaration[],
   description?: string,
   excludeFromExchange?: boolean,
 ): TokenDeclaration {
-  const kind = getTokenType(
-    token.identifier,
-    values.map((value) => value.kind),
-  );
-  switch (kind) {
-    case undefined:
-      throw new Error(`Token "${token.identifier}" has no mode values`);
+  switch (values[0]!.kind) {
     case "ColorTokenValueDeclaration":
       return createColorTokenDeclaration(
         collection,
@@ -769,14 +780,6 @@ export function createTokenDeclaration(
         description,
         excludeFromExchange,
       );
-    case "HapticTokenValueDeclaration":
-      return createHapticTokenDeclaration(
-        collection,
-        token,
-        values as HapticTokenValueDeclaration[],
-        description,
-        excludeFromExchange,
-      );
     case "ShadowTokenValueDeclaration":
       return createShadowTokenDeclaration(
         collection,
@@ -790,6 +793,14 @@ export function createTokenDeclaration(
         collection,
         token,
         values as GradientTokenValueDeclaration[],
+        description,
+        excludeFromExchange,
+      );
+    case "HapticTokenValueDeclaration":
+      return createHapticTokenDeclaration(
+        collection,
+        token,
+        values as HapticTokenValueDeclaration[],
         description,
         excludeFromExchange,
       );
@@ -878,17 +889,6 @@ export function createCubicBezierTokenValueDeclaration(
   };
 }
 
-export function createHapticTokenValueDeclaration(
-  mode: string,
-  value: HapticLit | TokenLit,
-): HapticTokenValueDeclaration {
-  return {
-    kind: "HapticTokenValueDeclaration",
-    mode,
-    value,
-  };
-}
-
 /**
  * ShadowTokenValueDeclaration factory
  */
@@ -912,6 +912,20 @@ export function createGradientTokenValueDeclaration(
 ): GradientTokenValueDeclaration {
   return {
     kind: "GradientTokenValueDeclaration",
+    mode,
+    value,
+  };
+}
+
+/**
+ * HapticTokenValueDeclaration factory
+ */
+export function createHapticTokenValueDeclaration(
+  mode: string,
+  value: HapticLit | TokenLit,
+): HapticTokenValueDeclaration {
+  return {
+    kind: "HapticTokenValueDeclaration",
     mode,
     value,
   };

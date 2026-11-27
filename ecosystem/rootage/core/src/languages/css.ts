@@ -1,6 +1,8 @@
 import type {
   CubicBezierLit,
   GradientLit,
+  HapticLit,
+  PropertyDeclaration,
   ShadowLit,
   TokenCollectionDeclaration,
   TokenDeclaration,
@@ -49,6 +51,14 @@ function stringifyGradientLit(
     .join(", ");
 }
 
+function stringifyHapticLit(expr: HapticLit): string {
+  if ("system" in expr.value) {
+    return `system: ${expr.value.system}`;
+  }
+
+  return `sharpness: ${expr.value.sharpness}, intensity: ${expr.value.intensity}`;
+}
+
 function stringifyValueLit(expr: ValueLit, tokenReference?: (token: TokenLit) => string): string {
   if (expr.kind === "ColorHexLit") {
     return expr.value;
@@ -66,14 +76,14 @@ function stringifyValueLit(expr: ValueLit, tokenReference?: (token: TokenLit) =>
     return `${expr.value}`;
   }
 
-  // Enums never reach CSS output — `valueOrToken` rejects them. This branch serves
-  // `staticStringifier`, whose only consumer renders literals as documentation text.
+  // Enums and haptics never reach CSS output — `valueOrToken` rejects them. These branches
+  // serve `staticStringifier`, whose only consumer renders literals as documentation text.
   if (expr.kind === "EnumLit") {
     return expr.value;
   }
 
   if (expr.kind === "HapticLit") {
-    return JSON.stringify(expr.value);
+    return stringifyHapticLit(expr);
   }
 
   if (expr.kind === "CubicBezierLit") {
@@ -94,6 +104,23 @@ function stringifyValueLit(expr: ValueLit, tokenReference?: (token: TokenLit) =>
 export const staticStringifier = {
   value: stringifyValueLit,
 };
+
+/**
+ * Whether a token or component property has a CSS meaning. An enum records a design
+ * decision and a haptic a tactile cue for native clients, so style outputs (custom
+ * properties, `vars`, Tailwind) leave them out. Decided by declaration kind because a
+ * haptic declaration may hold a token reference.
+ */
+export function hasCssValue(decl: TokenDeclaration | PropertyDeclaration): boolean {
+  switch (decl.kind) {
+    case "HapticTokenDeclaration":
+    case "HapticPropertyDeclaration":
+    case "EnumPropertyDeclaration":
+      return false;
+    default:
+      return true;
+  }
+}
 
 export type DeclarationFunction = (params: {
   decl: TokenDeclaration;
@@ -127,14 +154,17 @@ export function createStringifier(
       return tokenReference(value);
     }
 
-    // Callers drop enum properties before emitting declarations (see languages/
-    // typescript.ts), so one arriving here is a caller bug: it would publish a
-    // design decision as a custom property.
+    // Callers drop enum and haptic declarations (see `hasCssValue`) before emitting them,
+    // so one arriving here is a caller bug: it would publish a value with no CSS meaning
+    // as a custom property.
     if (value.kind === "EnumLit") {
       throw new Error("Enum values cannot be emitted as CSS");
     }
 
-    if (value.kind === "HapticLit") throw new Error("Haptic values cannot be emitted as CSS");
+    if (value.kind === "HapticLit") {
+      throw new Error("Haptic values cannot be emitted as CSS");
+    }
+
     return stringifyValueLit(value, tokenReference);
   }
 
@@ -220,7 +250,7 @@ export function getTokenCss(
 
   const rules = tokenCollections.flatMap((collection) => {
     const inCollection = tokens.filter(
-      (token) => token.collection === collection.name && token.kind !== "HapticTokenDeclaration",
+      (token) => token.collection === collection.name && hasCssValue(token),
     );
     if (inCollection.length === 0) return [];
     return collection.modes.flatMap(({ id: mode }) => {

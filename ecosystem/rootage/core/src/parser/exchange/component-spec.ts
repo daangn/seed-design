@@ -21,6 +21,7 @@ import {
   parseDimensionValue,
   parseDurationValue,
   parseGradientValue,
+  parseHapticValue,
   parseNumberValue,
   parseShadowValue,
 } from "./value";
@@ -116,6 +117,9 @@ function parsePropertyDeclaration(property: string, lhValue: Document.Value): Pr
 
     case "gradient":
       return factory.createGradientPropertyDeclaration(property, parseGradientValue(lhValue));
+
+    case "haptic":
+      return factory.createHapticPropertyDeclaration(property, parseHapticValue(lhValue));
   }
 }
 

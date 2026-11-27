@@ -9,6 +9,7 @@ import type {
   TokenDeclaration as ASTTokenDeclaration,
 } from "../parser/ast";
 import { type Breakpoint, getNonBaseBreakpoints } from "./breakpoints";
+import { hasCssValue } from "./css";
 import { convertToKebabCase } from "../utils/string";
 import { kebabCase } from "change-case";
 
@@ -90,7 +91,8 @@ class TokenProcessor {
 
   processTokens(tokens: ASTTokenDeclaration[]): void {
     for (const token of tokens) {
-      if (token.kind === "HapticTokenDeclaration") continue;
+      if (!hasCssValue(token)) continue;
+
       const tokenGroup = token.token.group;
       if (tokenGroup.length === 0) continue;
 

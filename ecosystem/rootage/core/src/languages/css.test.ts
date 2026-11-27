@@ -269,3 +269,45 @@ test("getTokenCss throws when a mode has no selector entry", () => {
     ),
   ).toThrow("Selector for collection motion and mode reduced is not defined");
 });
+
+test("stringifier.value should stringify a haptic primitive as documentation text", () => {
+  const result = value(factory.createHapticLit({ sharpness: 0.9, intensity: 0.3 }));
+
+  expect(result).toEqual("sharpness: 0.9, intensity: 0.3");
+});
+
+test("stringifier.value should stringify a haptic system preset as documentation text", () => {
+  const result = value(factory.createHapticLit({ system: "lightFeedback" }));
+
+  expect(result).toEqual("system: lightFeedback");
+});
+
+test("stringifier.valueOrToken should reject a haptic value", () => {
+  expect(() => valueOrToken(factory.createHapticLit({ system: "success" }))).toThrow();
+});
+
+test("getTokenCss leaves haptic tokens out", () => {
+  const tokenCollections = [
+    factory.createTokenCollectionDeclaration("global", [{ id: "default" }]),
+  ];
+  const dimension = factory.createDimensionTokenDeclaration(
+    "global",
+    factory.createTokenLit("$dimension.s1"),
+    [factory.createDimensionTokenValueDeclaration("default", factory.createDimensionLit(4, "px"))],
+  );
+  const haptic = factory.createHapticTokenDeclaration(
+    "global",
+    factory.createTokenLit("$haptic.preset.success"),
+    [
+      factory.createHapticTokenValueDeclaration(
+        "default",
+        factory.createHapticLit({ system: "success" }),
+      ),
+    ],
+  );
+  const options = { prefix: "test", selectors: { global: { default: ":root" } } };
+
+  expect(getTokenCss({ tokenCollections, tokens: [dimension, haptic] }, options)).toEqual(
+    getTokenCss({ tokenCollections, tokens: [dimension] }, options),
+  );
+});

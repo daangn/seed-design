@@ -1,4 +1,5 @@
 import { describe, expect, it } from "bun:test";
+import YAML from "yaml";
 import * as factory from "../factory";
 import type * as Document from "./types";
 import { parseValue } from "./value";
@@ -91,5 +92,39 @@ describe("parseValue", () => {
         ),
       ]),
     );
+  });
+
+  it("should parse a haptic primitive value", () => {
+    const hapticValue: Document.Haptic = {
+      type: "haptic",
+      value: { sharpness: 0.9, intensity: 0.3 },
+    };
+    const result = parseValue(hapticValue);
+    expect(result).toEqual(factory.createHapticLit({ sharpness: 0.9, intensity: 0.3 }));
+  });
+
+  it("should parse a haptic primitive value on the bounds of [0, 1]", () => {
+    const hapticValue: Document.Haptic = { type: "haptic", value: { sharpness: 0, intensity: 1 } };
+    const result = parseValue(hapticValue);
+    expect(result).toEqual(factory.createHapticLit({ sharpness: 0, intensity: 1 }));
+  });
+
+  it("should parse a haptic system preset value", () => {
+    const hapticValue: Document.Haptic = { type: "haptic", value: { system: "lightFeedback" } };
+    const result = parseValue(hapticValue);
+    expect(result).toEqual(factory.createHapticLit({ system: "lightFeedback" }));
+  });
+
+  it.each([
+    ["sharpness above 1", "{ sharpness: 1.1, intensity: 0.5 }"],
+    ["intensity below 0", "{ sharpness: 0.5, intensity: -0.1 }"],
+    ["a non-number field", '{ sharpness: "0.5", intensity: 0.5 }'],
+    ["a missing field", "{ sharpness: 0.5 }"],
+    ["an extra field", "{ sharpness: 0.5, intensity: 0.5, duration: 100 }"],
+    ["an unknown system preset", "{ system: warning }"],
+    ["primitive and preset fields mixed", "{ sharpness: 0.5, intensity: 0.5, system: success }"],
+    ["a bare preset name", "success"],
+  ])("should reject a haptic value with %s", (_, value) => {
+    expect(() => parseValue(YAML.parse(`{ type: haptic, value: ${value} }`))).toThrow();
   });
 });

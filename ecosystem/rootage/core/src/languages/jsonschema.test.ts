@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { Authoring } from "../parser";
+import { Authoring, factory } from "../parser";
 import { getJsonSchema } from "./jsonschema";
 
 test("getJsonSchema should generate jsonschema for component spec", () => {
@@ -143,7 +143,7 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
           "properties": {
             "type": {
               "type": "string",
-              "enum": ["color", "dimension", "number", "duration", "enum", "cubicBezier", "shadow", "gradient"]
+              "enum": ["color", "dimension", "number", "duration", "enum", "cubicBezier", "shadow", "gradient", "haptic"]
             },
             "description": {
               "type": "string"
@@ -261,6 +261,9 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
               "$ref": "#/definitions/gradient"
             },
             {
+              "$ref": "#/definitions/haptic"
+            },
+            {
               "$ref": "#/definitions/tokenRef"
             }
           ]
@@ -372,6 +375,41 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
           "required": ["type", "value"],
           "additionalProperties": false
         },
+        "haptic": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "haptic"
+            },
+            "value": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "sharpness": { "type": "number", "minimum": 0, "maximum": 1 },
+                    "intensity": { "type": "number", "minimum": 0, "maximum": 1 }
+                  },
+                  "required": ["sharpness", "intensity"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "system": {
+                      "type": "string",
+                      "enum": ["select", "lightFeedback", "success", "error"]
+                    }
+                  },
+                  "required": ["system"],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "required": ["type", "value"],
+          "additionalProperties": false
+        },
         "tokenRef": {
           "type": "string",
           "anyOf": [
@@ -442,4 +480,29 @@ test("getJsonSchema should generate valid json", () => {
   );
 
   expect(() => JSON.parse(result)).not.toThrow();
+});
+
+test("getJsonSchema should list haptic tokens among the referenceable tokens", () => {
+  const color = factory.createColorTokenDeclaration(
+    "color",
+    factory.createTokenLit("$color.fg.brand"),
+    [factory.createColorTokenValueDeclaration("theme-light", factory.createColorHexLit("#FF6600"))],
+  );
+  const haptic = factory.createHapticTokenDeclaration(
+    "global",
+    factory.createTokenLit("$haptic.preset.success"),
+    [
+      factory.createHapticTokenValueDeclaration(
+        "default",
+        factory.createHapticLit({ system: "success" }),
+      ),
+    ],
+  );
+
+  const tokenRef = JSON.parse(getJsonSchema([color, haptic])).definitions.tokenRef.anyOf;
+
+  expect(tokenRef.map(({ const: id }: { const: string }) => id)).toEqual([
+    "$color.fg.brand",
+    "$haptic.preset.success",
+  ]);
 });

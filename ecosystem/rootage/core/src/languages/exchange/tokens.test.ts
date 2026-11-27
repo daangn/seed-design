@@ -2,7 +2,7 @@ import { describe, expect, it } from "bun:test";
 
 import YAML from "yaml";
 import { getTokensModel } from "./index";
-import { type AST, Authoring } from "../../parser";
+import { type AST, Authoring, Exchange } from "../../parser";
 import { buildContext, getSourceFiles } from "../../analyzer";
 
 const parse = (yaml: string) => getTokensModel(Authoring.parseTokensDocument(YAML.parse(yaml)));
@@ -193,6 +193,63 @@ data:
         ],
       },
     });
+  });
+
+  it("should transform haptic values", () => {
+    const transformed = parse(`
+kind: Tokens
+metadata:
+  id: test
+  name: Test
+data:
+  collection: global
+  tokens:
+    $haptic.primitive.sharp-weak:
+      values:
+        default:
+          type: haptic
+          value: { sharpness: 0.90, intensity: 0.30 }
+    $haptic.preset.success:
+      values:
+        default:
+          type: haptic
+          value: { system: success }
+`);
+
+    expect(transformed.data.tokens).toEqual({
+      "$haptic.primitive.sharp-weak": {
+        values: { default: { type: "haptic", value: { sharpness: 0.9, intensity: 0.3 } } },
+      },
+      "$haptic.preset.success": {
+        values: { default: { type: "haptic", value: { system: "success" } } },
+      },
+    });
+  });
+
+  it("should round-trip haptic tokens through the exchange format", () => {
+    const authored = Authoring.parseTokensDocument(
+      YAML.parse(`
+kind: Tokens
+metadata:
+  id: test
+  name: Test
+data:
+  collection: global
+  tokens:
+    $haptic.primitive.soft-strong:
+      values:
+        default:
+          type: haptic
+          value: { sharpness: 0.15, intensity: 1 }
+    $haptic.preset.light-feedback:
+      values:
+        default:
+          type: haptic
+          value: { system: lightFeedback }
+`),
+    );
+
+    expect(Exchange.parseTokensDocument(getTokensModel(authored))).toEqual(authored);
   });
 
   it("should throw for unresolved token declarations", () => {

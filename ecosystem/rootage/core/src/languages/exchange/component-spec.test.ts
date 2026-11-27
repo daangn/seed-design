@@ -2,7 +2,8 @@ import { describe, expect, it } from "bun:test";
 
 import YAML from "yaml";
 import { getComponentSpecModel } from "./index";
-import { Authoring, type Exchange } from "../../parser";
+import { Authoring, Exchange } from "../../parser";
+import { buildContext, getComponentSpecDeclarations } from "../../analyzer";
 
 describe("getComponentSpecModel", () => {
   it("should transform base only", () => {
@@ -433,6 +434,75 @@ describe("getComponentSpecModel", () => {
     };
 
     expect(parsed).toEqual(expected);
+  });
+
+  it("should round-trip haptic properties through the exchange format", () => {
+    const collections = Authoring.fromObject(
+      YAML.parse(`
+kind: TokenCollections
+metadata:
+  id: collections
+  name: collections
+data:
+  - name: global
+    modes:
+      - id: default
+`),
+    );
+    const tokens = Authoring.fromObject(
+      YAML.parse(`
+kind: Tokens
+metadata:
+  id: haptic
+  name: Haptic
+data:
+  collection: global
+  tokens:
+    $haptic.preset.select:
+      values:
+        default:
+          type: haptic
+          value: { system: select }
+`),
+    );
+    const spec = Authoring.parseComponentSpecDocument(
+      YAML.parse(`
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          pressHaptic:
+            type: haptic
+  definitions:
+    base:
+      pressed:
+        root:
+          pressHaptic: $haptic.preset.select
+    tone=strong:
+      pressed:
+        root:
+          pressHaptic: { type: haptic, value: { sharpness: 0.9, intensity: 1 } }
+`),
+    );
+    const ctx = buildContext([
+      { fileName: "collections", ast: collections },
+      { fileName: "tokens", ast: tokens },
+      { fileName: "spec", ast: spec },
+    ]);
+    const resolved = { ...spec, data: getComponentSpecDeclarations(ctx)[0]! };
+
+    const transformed = getComponentSpecModel(resolved);
+
+    expect(transformed.data.definitions.map(({ definitions }) => definitions[0]!.slots)).toEqual([
+      { root: { pressHaptic: { type: "haptic", value: "$haptic.preset.select" } } },
+      { root: { pressHaptic: { type: "haptic", value: { sharpness: 0.9, intensity: 1 } } } },
+    ]);
+    expect(Exchange.parseComponentSpecDocument(transformed)).toEqual(resolved);
   });
 
   it("should transform external metadata fields", () => {

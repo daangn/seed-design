@@ -468,6 +468,53 @@ describe("getTypeResolvedSourceFile", () => {
     expect(result.data.find((x) => x.kind === "UnresolvedTokenDeclaration")).toBeUndefined();
   });
 
+  it("should resolve a token aliasing a haptic token to a haptic token", () => {
+    const data: SourceFile[] = [
+      {
+        fileName: "collection",
+        ast: Authoring.fromObject({
+          kind: "TokenCollections",
+          metadata: { name: "collection", id: "id" },
+          data: [{ name: "global", modes: [{ id: "default" }] }],
+        }),
+      },
+      {
+        fileName: "tokens",
+        ast: Authoring.fromObject({
+          kind: "Tokens",
+          metadata: { name: "tokens", id: "id" },
+          data: {
+            collection: "global",
+            tokens: {
+              "$haptic.preset.success": {
+                values: { default: { type: "haptic", value: { system: "success" } } },
+              },
+              "$haptic.semantic.confirm": {
+                values: { default: "$haptic.preset.success" },
+              },
+            },
+          },
+        }),
+      },
+    ];
+    const ctx = buildContext(data);
+
+    const result = transformResolvedType(ctx, data[1]!.ast) as AST.TokensDocument;
+
+    expect(result.data[1]).toEqual(
+      factory.createHapticTokenDeclaration(
+        "global",
+        factory.createTokenLit("$haptic.semantic.confirm"),
+        [
+          factory.createHapticTokenValueDeclaration(
+            "default",
+            factory.createTokenLit("$haptic.preset.success"),
+          ),
+        ],
+      ),
+    );
+  });
+
   it("should get type resolved ComponentSpec file", () => {
     const data: SourceFile[] = [
       {

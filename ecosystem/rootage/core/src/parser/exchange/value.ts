@@ -1,12 +1,12 @@
 import type {
   EnumLit,
   ColorHexLit,
-  HapticLit,
   CubicBezierLit,
   DimensionLit,
   DurationLit,
   GradientLit,
   GradientStopLit,
+  HapticLit,
   NumberLit,
   ShadowLayerLit,
   ShadowLit,
@@ -28,17 +28,17 @@ import { isTokenRef } from "./is-token-ref";
  * we call the specialized parse function based on value.type.
  */
 export function parseValue(
-  v: Document.TokenValue | string,
+  v: Document.Value | string,
 ):
   | ColorHexLit
   | DimensionLit
   | DurationLit
   | NumberLit
   | EnumLit
-  | HapticLit
   | CubicBezierLit
   | ShadowLit
   | GradientLit
+  | HapticLit
   | TokenLit {
   if (typeof v === "string") {
     // It's a token reference
@@ -57,16 +57,14 @@ export function parseValue(
       return parseDurationValue(v);
     case "enum":
       return parseEnumValue(v);
-    case "haptic":
-      return isTokenRef(v.value)
-        ? factory.createTokenLit(v.value)
-        : factory.createHapticLit(v.value);
     case "cubicBezier":
       return parseCubicBezierValue(v);
     case "shadow":
       return parseShadowValue(v);
     case "gradient":
       return parseGradientValue(v);
+    case "haptic":
+      return parseHapticValue(v);
   }
 }
 
@@ -183,4 +181,14 @@ export function parseGradientStop(stop: Document.GradientStop): GradientStopLit 
   const colorLit = parseColorValue({ type: "color", value: stop.color });
   const positionLit = parseNumberValue({ type: "number", value: stop.position });
   return factory.createGradientStopLit(colorLit, positionLit as NumberLit);
+}
+
+/* ------------------ Haptic ------------------ */
+
+export function parseHapticValue(hapticVal: Document.Haptic): HapticLit | TokenLit {
+  const h = hapticVal.value;
+  if (isTokenRef(h)) {
+    return factory.createTokenLit(h);
+  }
+  return factory.createHapticLit(h);
 }

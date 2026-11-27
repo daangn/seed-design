@@ -138,8 +138,22 @@ describe("formatTokenValue", () => {
       { type: "color", value: "$fixture-alpha.solid.one" },
       "$fixture-alpha.solid.one",
     ],
-    ["a haptic preset", { type: "haptic", value: { system: "success" } }, '{"system":"success"}'],
     ["an enum", { type: "enum", value: "bold" }, "bold"],
+    [
+      "a haptic primitive as JSON",
+      { type: "haptic", value: { sharpness: 0.9, intensity: 0.3 } },
+      '{"sharpness":0.9,"intensity":0.3}',
+    ],
+    [
+      "a haptic system preset as JSON",
+      { type: "haptic", value: { system: "success" } },
+      '{"system":"success"}',
+    ],
+    [
+      "a haptic token reference",
+      { type: "haptic", value: "$fixture-alpha.cue.one" },
+      "$fixture-alpha.cue.one",
+    ],
   ];
 
   for (const [label, value, expected] of cases) {
@@ -187,29 +201,6 @@ describe("tokenReferenceRule", () => {
 
   // HTML-escaped 짝이 없는 이유: escapeMdxAttributeValue는 `"`만 `&#x22;`로 바꾸는데, 토큰 id를
   // 겨냥한 정규식에 `"`가 들어갈 일이 없다. groups는 배열 리터럴이라 따옴표가 늘 escape된다.
-  it("shows every mode when a regex matches themed and global tokens", () => {
-    const mixed = createTokenReferenceRule([
-      fixtureAlpha,
-      {
-        kind: "Tokens",
-        metadata: { id: "haptic", name: "Haptic" },
-        data: {
-          collection: "global",
-          tokens: {
-            "$haptic.solid.feedback": {
-              values: { default: { type: "haptic", value: { system: "success" } } },
-            },
-          },
-        },
-      },
-    ]);
-    const table = normalizeLLMBodyWithRules(String.raw`<TokenReference regex={/\.solid\./} />`, [
-      mixed,
-    ]);
-    expect(table).toContain("| Token | mode-one | mode-two | default |");
-    expect(table).toContain('| $haptic.solid.feedback |  |  | {"system":"success"} |');
-  });
-
   it("reads a quoted regex attribute", () => {
     expect(render(String.raw`<TokenReference regex="/\.solid\./" />`)).toMatchInlineSnapshot(`
       "| Token | mode-one | mode-two |

@@ -7,34 +7,32 @@ interface ValidationResult {
   message: string;
 }
 
-type ValueType = PropertySchemaDeclaration["type"] | "haptic";
-
 // this might live in ast.ts later but not sure: *Lit["kind"] already shows its type
-const LITERAL_KIND_TO_TYPE: Record<ValueLit["kind"], ValueType> = {
+const LITERAL_KIND_TO_TYPE: Record<ValueLit["kind"], PropertySchemaDeclaration["type"]> = {
   ColorHexLit: "color",
   DimensionLit: "dimension",
   NumberLit: "number",
   EnumLit: "enum",
   DurationLit: "duration",
-  HapticLit: "haptic",
   CubicBezierLit: "cubicBezier",
   ShadowLit: "shadow",
   GradientLit: "gradient",
+  HapticLit: "haptic",
 };
 
 // this might live in ast.ts later but not sure: *PropertyDeclaration["kind"] already shows its type
 const TOKEN_DECL_KIND_TO_TYPE: Omit<
-  Record<TokenDeclaration["kind"], ValueType>,
+  Record<TokenDeclaration["kind"], PropertySchemaDeclaration["type"]>,
   "UnresolvedTokenDeclaration"
 > = {
   ColorTokenDeclaration: "color",
   DimensionTokenDeclaration: "dimension",
   NumberTokenDeclaration: "number",
   DurationTokenDeclaration: "duration",
-  HapticTokenDeclaration: "haptic",
   CubicBezierTokenDeclaration: "cubicBezier",
   ShadowTokenDeclaration: "shadow",
   GradientTokenDeclaration: "gradient",
+  HapticTokenDeclaration: "haptic",
 };
 
 export function validate(ctx: RootageCtx): ValidationResult {
@@ -82,7 +80,7 @@ export function validate(ctx: RootageCtx): ValidationResult {
   const tokenNames = tokens.map((binding) => binding.token.identifier);
   const tokenNameSet = new Set(tokenNames);
 
-  const tokenTypeMap = new Map<string, ValueType>();
+  const tokenTypeMap = new Map<string, PropertySchemaDeclaration["type"]>();
   for (const tokenBinding of tokens) {
     // when tokens like $color.fg.brand is used, just skip
     // TODO: we might resolve -> validate OR resolve in validate but not sure if they're appropriate
@@ -99,6 +97,15 @@ export function validate(ctx: RootageCtx): ValidationResult {
           return {
             valid: false,
             message: `Token "${tokenName}" is not defined but used in "${tokenBinding.token.identifier}"`,
+          };
+        }
+
+        const expectedType = tokenTypeMap.get(tokenBinding.token.identifier);
+        const actualType = tokenTypeMap.get(tokenName);
+        if (expectedType && actualType && actualType !== expectedType) {
+          return {
+            valid: false,
+            message: `Token "${tokenBinding.token.identifier}" expects type "${expectedType}" but references "${tokenName}" of type "${actualType}"`,
           };
         }
       }

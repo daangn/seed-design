@@ -123,7 +123,7 @@ function getRegexFromNode(node: MdxJsxFlowElement): RegExp | null {
   토큰 값을 사람이 읽을 수 있는 문자열로 변환합니다.
 */
 export type ArtifactValue =
-  | Exclude<Exchange.TokenValue, Exchange.Gradient | Exchange.Shadow>
+  | Exclude<Exchange.Value, Exchange.Gradient | Exchange.Shadow>
   | { type: "gradient"; value: readonly Exchange.GradientStop[] | Exchange.TokenRef }
   | { type: "shadow"; value: readonly Exchange.ShadowLayer[] | Exchange.TokenRef };
 
@@ -159,9 +159,7 @@ export function formatTokenValue(entry: ArtifactValue): string {
       .with({ type: P.union("shadow", "gradient"), value: P.array() }, ({ value }) =>
         JSON.stringify(value),
       )
-      .with({ type: "haptic" }, ({ value }) =>
-        typeof value === "string" ? value : JSON.stringify(value),
-      )
+      .with({ type: "haptic", value: P.not(P.string) }, ({ value }) => JSON.stringify(value))
       // 남은 건 전부 문자열 그대로 출력한다 — TokenRef, ColorLit, enum 값.
       .with({ value: P.string }, ({ value }) => value)
       .exhaustive()
@@ -179,18 +177,15 @@ export function generateMarkdownTable(
   const prefix = `$${groups.join(".")}.`;
   const filtered = Object.entries(tokens).filter(([id]) => id.startsWith(prefix));
 
-  return tokenTable(filtered);
-}
+  if (filtered.length === 0) return "";
 
-type TokenRow = [id: string, entry: { values: Record<string, ArtifactValue> }];
+  // 첫 번째 토큰에서 theme(column) 이름 결정
+  const themeNames = Object.keys(filtered[0][1].values);
 
-function tokenTable(entries: TokenRow[]): string {
-  if (entries.length === 0) return "";
-  const themeNames = [...new Set(entries.flatMap(([, entry]) => Object.keys(entry.values)))];
   const headers = ["Token", ...themeNames];
   const separator = headers.map(() => "---");
 
-  const rows = entries.map(([id, entry]) => {
+  const rows = filtered.map(([id, entry]) => {
     const values = themeNames.map((theme) => {
       const val = entry.values[theme];
       return val ? formatTokenValue(val) : "";
@@ -217,16 +212,34 @@ export function createTokenReferenceRule(
       const groups = getGroupsFromNode(node);
 
       if (regex) {
-        const matched: TokenRow[] = [];
+        const matched: { id: string; entry: { values: Record<string, ArtifactValue> } }[] = [];
         for (const data of tokenData) {
           for (const [id, entry] of Object.entries(data.data.tokens)) {
             regex.lastIndex = 0;
-            if (regex.test(id)) matched.push([id, entry]);
+            if (regex.test(id)) matched.push({ id, entry });
           }
         }
 
-        const table = tokenTable(matched);
-        return table ? [{ type: "html", value: table }] : [node];
+        if (matched.length === 0) return [node];
+
+        const themeNames = Object.keys(matched[0].entry.values);
+        const headers = ["Token", ...themeNames];
+        const separator = headers.map(() => "---");
+        const rows = matched.map(({ id, entry }) => {
+          const values = themeNames.map((theme) => {
+            const val = entry.values[theme];
+            return val ? formatTokenValue(val) : "";
+          });
+          return [id, ...values];
+        });
+
+        const tableMarkdown = [
+          markdownRow(headers),
+          markdownRow(separator),
+          ...rows.map(markdownRow),
+        ].join("\n");
+
+        return [{ type: "html", value: tableMarkdown }];
       }
 
       if (groups.length === 0) {

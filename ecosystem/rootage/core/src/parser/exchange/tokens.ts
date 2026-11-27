@@ -1,17 +1,16 @@
 import type {
   ColorHexLit,
-  HapticLit,
   CubicBezierLit,
   DimensionLit,
   DurationLit,
   GradientLit,
+  HapticLit,
   NumberLit,
   ShadowLit,
   TokenDeclaration,
   TokenLit,
   TokensDocument,
 } from "../ast";
-import { getTokenType } from "../token-type";
 import * as factory from "../factory";
 import type * as Document from "./types";
 import { parseMetadataDeclaration } from "./metadata";
@@ -28,13 +27,22 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
   const out: TokenDeclaration[] = [];
   const collectionName = data.collection;
 
+  // Each token entry => a single TokenDeclaration
+  // For each token, we guess the type of token from the first mode's value type.
   for (const [tokenRef, tokenData] of Object.entries(data.tokens)) {
-    const entries = Object.entries(tokenData.values);
-    const baseType = getTokenType(
-      tokenRef,
-      entries.map(([, value]) => value.type),
-    );
-    const modeValues = entries.map(([mode, val]) => ({ mode, value: parseValue(val) }));
+    // get the first mode's value to guess the type
+    const firstMode = Object.keys(tokenData.values)[0]!;
+    const firstValue = tokenData.values[firstMode]!;
+
+    // We'll do a quick check: if it's not a plain object or union with type,
+    // handle that scenario. (Could be a token reference again, etc.)
+    const baseType = firstValue.type;
+
+    // Now gather all "modes" => array of { mode, value: AST literal or token lit }
+    const modeValues = Object.entries(tokenData.values).map(([mode, val]) => ({
+      mode,
+      value: parseValue(val), // parseValue returns the appropriate *Lit or TokenLit
+    }));
 
     // Depending on `baseType`, pick the appropriate TokenDeclaration kind.
     switch (baseType) {
@@ -101,18 +109,6 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
           ),
         );
         break;
-      case "haptic":
-        out.push(
-          factory.createHapticTokenDeclaration(
-            collectionName,
-            factory.createTokenLit(tokenRef),
-            modeValues.map(({ mode, value }) =>
-              factory.createHapticTokenValueDeclaration(mode, value as HapticLit | TokenLit),
-            ),
-            tokenData.description,
-          ),
-        );
-        break;
       case "shadow":
         out.push(
           factory.createShadowTokenDeclaration(
@@ -132,6 +128,18 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
             factory.createTokenLit(tokenRef),
             modeValues.map(({ mode, value }) =>
               factory.createGradientTokenValueDeclaration(mode, value as GradientLit | TokenLit),
+            ),
+            tokenData.description,
+          ),
+        );
+        break;
+      case "haptic":
+        out.push(
+          factory.createHapticTokenDeclaration(
+            collectionName,
+            factory.createTokenLit(tokenRef),
+            modeValues.map(({ mode, value }) =>
+              factory.createHapticTokenValueDeclaration(mode, value as HapticLit | TokenLit),
             ),
             tokenData.description,
           ),

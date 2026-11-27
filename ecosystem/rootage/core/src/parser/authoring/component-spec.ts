@@ -222,6 +222,9 @@ function parsePropertyDeclaration(
 
     case "GradientLit":
       return factory.createGradientPropertyDeclaration(property, valueLit);
+
+    case "HapticLit":
+      return factory.createHapticPropertyDeclaration(property, valueLit);
   }
 }
 

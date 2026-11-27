@@ -106,4 +106,47 @@ describe("parseTokenDeclarations", () => {
       ),
     ]);
   });
+
+  it("should parse token model with haptic values", () => {
+    const input: TokensData = {
+      collection: "global",
+      tokens: {
+        "$haptic.primitive.sharp-weak": {
+          values: {
+            default: { type: "haptic", value: { sharpness: 0.9, intensity: 0.3 } },
+          },
+        },
+        "$haptic.preset.success": {
+          values: {
+            default: { type: "haptic", value: { system: "success" } },
+          },
+        },
+      },
+    };
+
+    const result = parseTokenDeclarations(input);
+
+    expect(result).toEqual([
+      factory.createHapticTokenDeclaration(
+        "global",
+        factory.createTokenLit("$haptic.primitive.sharp-weak"),
+        [
+          factory.createHapticTokenValueDeclaration(
+            "default",
+            factory.createHapticLit({ sharpness: 0.9, intensity: 0.3 }),
+          ),
+        ],
+      ),
+      factory.createHapticTokenDeclaration(
+        "global",
+        factory.createTokenLit("$haptic.preset.success"),
+        [
+          factory.createHapticTokenValueDeclaration(
+            "default",
+            factory.createHapticLit({ system: "success" }),
+          ),
+        ],
+      ),
+    ]);
+  });
 });

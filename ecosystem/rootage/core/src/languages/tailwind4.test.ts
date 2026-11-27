@@ -180,6 +180,35 @@ describe("getTailwind4CompleteThemeCode", () => {
     });
   });
 
+  describe("Haptic tokens", () => {
+    test("should be left out of the theme", () => {
+      const color = factory.createColorTokenDeclaration(
+        "color",
+        factory.createTokenLit("$color.fg.brand"),
+        [
+          factory.createColorTokenValueDeclaration(
+            "theme-light",
+            factory.createColorHexLit("#FF6600"),
+          ),
+        ],
+      );
+      const haptic = factory.createHapticTokenDeclaration(
+        "global",
+        factory.createTokenLit("$haptic.preset.success"),
+        [
+          factory.createHapticTokenValueDeclaration(
+            "default",
+            factory.createHapticLit({ system: "success" }),
+          ),
+        ],
+      );
+
+      expect(getTailwind4CompleteThemeCode([color, haptic], [], { sourcePrefix: "seed" })).toEqual(
+        getTailwind4CompleteThemeCode([color], [], { sourcePrefix: "seed" }),
+      );
+    });
+  });
+
   describe("Breakpoints", () => {
     test("should reset the default breakpoints and declare every breakpoint but the base in px", () => {
       const result = getTailwind4CompleteThemeCode([], [], {

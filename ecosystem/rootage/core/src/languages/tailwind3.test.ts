@@ -163,6 +163,35 @@ describe("getTailwind3PluginCode", () => {
     });
   });
 
+  describe("Haptic tokens", () => {
+    test("should be left out of the plugin", () => {
+      const color = factory.createColorTokenDeclaration(
+        "color",
+        factory.createTokenLit("$color.fg.brand"),
+        [
+          factory.createColorTokenValueDeclaration(
+            "theme-light",
+            factory.createColorHexLit("#FF6600"),
+          ),
+        ],
+      );
+      const haptic = factory.createHapticTokenDeclaration(
+        "global",
+        factory.createTokenLit("$haptic.preset.success"),
+        [
+          factory.createHapticTokenValueDeclaration(
+            "default",
+            factory.createHapticLit({ system: "success" }),
+          ),
+        ],
+      );
+
+      expect(getTailwind3PluginCode([color, haptic], [], { prefix: "seed" })).toEqual(
+        getTailwind3PluginCode([color], [], { prefix: "seed" }),
+      );
+    });
+  });
+
   describe("Scale tokens", () => {
     test("should map scale tokens to the scale theme key", () => {
       const tokens = [

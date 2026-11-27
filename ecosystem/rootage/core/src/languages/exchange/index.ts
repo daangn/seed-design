@@ -31,13 +31,11 @@ export function getTokenCollectionsModel(
 
 export function getTokensModel(ast: AST.TokensDocument): Exchange.TokensModel {
   const collection = ast.data.length ? ast.data[0]!.collection : "";
-  const tokens: Record<
-    string,
-    { values: Record<string, Exchange.TokenValue>; description?: string }
-  > = {};
+  const tokens: Record<string, { values: Record<string, Exchange.Value>; description?: string }> =
+    {};
 
-  function buildValues(decl: AST.TokenDeclaration): Record<string, Exchange.TokenValue> {
-    const valueMap: Record<string, Exchange.TokenValue> = {};
+  function buildValues(decl: AST.TokenDeclaration): Record<string, Exchange.Value> {
+    const valueMap: Record<string, Exchange.Value> = {};
     switch (decl.kind) {
       case "ColorTokenDeclaration":
         for (const { mode, value } of decl.values) {
@@ -85,14 +83,6 @@ export function getTokensModel(ast: AST.TokensDocument): Exchange.TokensModel {
           };
         }
         break;
-      case "HapticTokenDeclaration":
-        for (const { mode, value } of decl.values) {
-          valueMap[mode] = {
-            type: "haptic",
-            value: value.kind === "HapticLit" ? value.value : value.identifier,
-          };
-        }
-        break;
       case "ShadowTokenDeclaration":
         for (const { mode, value } of decl.values) {
           valueMap[mode] = {
@@ -125,6 +115,14 @@ export function getTokensModel(ast: AST.TokensDocument): Exchange.TokensModel {
                     position: stop.position.value,
                   }))
                 : value.identifier,
+          };
+        }
+        break;
+      case "HapticTokenDeclaration":
+        for (const { mode, value } of decl.values) {
+          valueMap[mode] = {
+            type: "haptic",
+            value: value.kind === "HapticLit" ? value.value : value.identifier,
           };
         }
         break;
@@ -218,6 +216,11 @@ export function getComponentSpecModel(ast: AST.ComponentSpecDocument): Exchange.
                   position: stop.position.value,
                 }))
               : prop.value.identifier,
+        };
+      case "HapticPropertyDeclaration":
+        return {
+          type: "haptic",
+          value: prop.value.kind === "HapticLit" ? prop.value.value : prop.value.identifier,
         };
       case "UnresolvedPropertyDeclaration":
         throw new Error(`Unresolved property declaration found: ${prop.property}`);

@@ -1,17 +1,16 @@
 import type {
   ColorHexLit,
-  HapticLit,
   CubicBezierLit,
   DimensionLit,
   DurationLit,
   GradientLit,
+  HapticLit,
   NumberLit,
   ShadowLit,
   TokenDeclaration,
   TokenLit,
   TokensDocument,
 } from "../ast";
-import { getTokenType } from "../token-type";
 import * as factory from "../factory";
 import type * as Document from "./types";
 import { isTokenRef } from "./is-token-ref";
@@ -36,11 +35,10 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
       mode,
       value: isTokenRef(val) ? factory.createTokenLit(val) : parseValue(val),
     }));
-    const literalKinds = modeValues.flatMap(({ value }) =>
-      value.kind === "TokenLit" ? [] : [value.kind],
-    );
-    const baseKind = getTokenType(tokenRef, literalKinds) ?? "TokenLit";
+    const baseKind = modeValues.find(({ value }) => !isTokenRef(value))?.value.kind ?? "TokenLit";
 
+    // Depending on `baseType`, pick the appropriate TokenDeclaration kind.
+    // TODO: We should try to resolve TokenLit types from references.
     switch (baseKind) {
       case "ColorHexLit":
         out.push(
@@ -110,19 +108,6 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
           ),
         );
         break;
-      case "HapticLit":
-        out.push(
-          factory.createHapticTokenDeclaration(
-            collectionName,
-            factory.createTokenLit(tokenRef),
-            modeValues.map(({ mode, value }) =>
-              factory.createHapticTokenValueDeclaration(mode, value as HapticLit | TokenLit),
-            ),
-            tokenData.description,
-            tokenData.excludeFromExchange,
-          ),
-        );
-        break;
       case "ShadowLit":
         out.push(
           factory.createShadowTokenDeclaration(
@@ -143,6 +128,19 @@ export function parseTokenDeclarations(data: Document.TokensData): TokenDeclarat
             factory.createTokenLit(tokenRef),
             modeValues.map(({ mode, value }) =>
               factory.createGradientTokenValueDeclaration(mode, value as GradientLit | TokenLit),
+            ),
+            tokenData.description,
+            tokenData.excludeFromExchange,
+          ),
+        );
+        break;
+      case "HapticLit":
+        out.push(
+          factory.createHapticTokenDeclaration(
+            collectionName,
+            factory.createTokenLit(tokenRef),
+            modeValues.map(({ mode, value }) =>
+              factory.createHapticTokenValueDeclaration(mode, value as HapticLit | TokenLit),
             ),
             tokenData.description,
             tokenData.excludeFromExchange,

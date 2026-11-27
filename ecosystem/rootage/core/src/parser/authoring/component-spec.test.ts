@@ -422,6 +422,36 @@ data:
     );
   });
 
+  it("should parse a haptic literal when the schema declares a haptic property", () => {
+    const yaml = `
+kind: ComponentSpec
+metadata:
+  id: test
+  name: test
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          pressHaptic:
+            type: haptic
+  definitions:
+    base:
+      pressed:
+        root:
+          pressHaptic: { type: haptic, value: { sharpness: 0.5, intensity: 0.6 } }
+`;
+
+    const result = parseComponentSpecDeclaration(YAML.parse(yaml));
+
+    expect(result.body[0]?.body[0]?.body[0]?.body).toEqual([
+      factory.createHapticPropertyDeclaration(
+        "pressHaptic",
+        factory.createHapticLit({ sharpness: 0.5, intensity: 0.6 }),
+      ),
+    ]);
+  });
+
   it("should parse a bare word as an enum when the schema declares one", () => {
     const yaml = `
 kind: ComponentSpec
