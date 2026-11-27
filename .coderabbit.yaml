@@ -5,9 +5,6 @@ reviews:
       - dev
       - minor
       - major
-    # Skips minor/major → dev PRs, labeled by release-branch-merge-guard.yml: their commits were reviewed in the PRs into minor/major.
-    labels:
-      - "!release:train"
 
   path_filters:
     - "!**/package.json"
