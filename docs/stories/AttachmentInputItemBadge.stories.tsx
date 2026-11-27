@@ -18,12 +18,17 @@ const BADGE_LABEL_BY_ID: Record<string, string> = {
   "mock-long": "대표사진으로 설정됨",
 };
 
+const DURATION_BY_ID: Record<string, string> = {
+  "mock-short": "0:05",
+  "mock-long": "10:02:05",
+};
+
 const mockFileEntries: AttachmentInputFileEntry[] = [
   { id: "mock-short", file: createMockImageFile("cover.png"), status: "success" },
   { id: "mock-long", file: createMockImageFile("cover-long-label.png"), status: "success" },
 ];
 
-// Focused on the badge slot's font scaling and ellipsis only.
+// Focused on the badge slots' font scaling and ellipsis only.
 // `type=image` variant is activated via `accept="image/*"`, which is the only
 // condition under which the badge slot receives styles.
 const AttachmentInputItemBadgeForStory = () => (
@@ -35,6 +40,9 @@ const AttachmentInputItemBadgeForStory = () => (
             acceptedFileEntries.map((fileEntry) => (
               <AttachmentInput.Item key={fileEntry.id} fileEntry={fileEntry}>
                 <AttachmentInput.ItemImage />
+                <AttachmentInput.ItemDurationBadge>
+                  {DURATION_BY_ID[fileEntry.id]}
+                </AttachmentInput.ItemDurationBadge>
                 <AttachmentInput.ItemBadge>
                   {BADGE_LABEL_BY_ID[fileEntry.id]}
                 </AttachmentInput.ItemBadge>
