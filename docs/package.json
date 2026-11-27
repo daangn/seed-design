@@ -63,7 +63,7 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@sanity/asset-utils": "^2.3.0",
     "@sanity/client": "^8.0.0",
-    "@sanity/icons": "^3.7.4",
+    "@sanity/icons": "^5.0.0",
     "@sanity/image-url": "^2.0.0",
     "@sanity/table": "^3.0.0",
     "@sanity/vision": "^4.20.3",
