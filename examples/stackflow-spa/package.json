@@ -26,7 +26,7 @@
     "@seed-design/stylesheet": "1.1.2",
     "@stackflow/compat-await-push": "^1.1.13",
     "@stackflow/config": "^1.2.1",
-    "@stackflow/core": "^1.3.0",
+    "@stackflow/core": "^3.0.0",
     "@stackflow/plugin-basic-ui": "^1.17.0",
     "@stackflow/plugin-history-sync": "^1.8.1",
     "@stackflow/plugin-renderer-basic": "^1.1.13",
