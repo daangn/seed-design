@@ -46,7 +46,7 @@ export function formatDurationLabel(seconds: number): string {
   return label || "0초";
 }
 
-// 웹 preset 브라우저 targets가 `Intl.DurationFormat` 지원 범위에 들어오면 이 구현을 쓴다.
+// `Intl.DurationFormat`을 지원하면 이 구현을 쓴다.
 export function _formatDurationLabelIntl(seconds: number): string {
   const parts = toDurationParts(seconds);
   if (parts.hours === 0 && parts.minutes === 0 && parts.seconds === 0) return "0초";

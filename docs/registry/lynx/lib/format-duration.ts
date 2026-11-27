@@ -46,7 +46,7 @@ export function formatDurationLabel(seconds: number): string {
   return label || "0초";
 }
 
-// Lynx 엔진의 JS 런타임과 TypeScript `lib`(ES2025+)가 `Intl.DurationFormat`을 지원하면 주석을 풀고 이 구현을 쓴다.
+// `Intl.DurationFormat`을 지원하면 주석을 풀고 이 구현을 쓴다.
 // export function _formatDurationLabelIntl(seconds: number): string {
 //   const parts = toDurationParts(seconds);
 //   if (parts.hours === 0 && parts.minutes === 0 && parts.seconds === 0) return "0초";
