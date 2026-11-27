@@ -385,7 +385,7 @@
         "@stackflow/config": "^1.2.1",
         "@stackflow/core": "^1.3.0",
         "@stackflow/plugin-basic-ui": "^1.17.0",
-        "@stackflow/plugin-history-sync": "^1.8.1",
+        "@stackflow/plugin-history-sync": "^2.0.0",
         "@stackflow/plugin-renderer-basic": "^1.1.13",
         "@stackflow/react": "^1.9.0",
         "@vanilla-extract/css": "^1.17.1",
@@ -4449,7 +4449,7 @@
 
     "@stackflow/plugin-basic-ui": ["@stackflow/plugin-basic-ui@1.17.0", "", { "dependencies": { "@stackflow/react-ui-core": "^1.3.3", "@vanilla-extract/css": "^1.15.3", "@vanilla-extract/dynamic": "^2.1.1", "@vanilla-extract/private": "^1.0.5", "@vanilla-extract/recipes": "^0.5.3", "clsx": "^2.1.1" }, "peerDependencies": { "@stackflow/core": "^1.1.0-canary.0", "@stackflow/react": "^1.3.2-canary.0", "@types/react": ">=16.8.0", "react": ">=16.8.0" } }, "sha512-fPxfaMRVHqoDlUMWio1vRcs4UjFT2Rf6tMcUGkDL/71Q5ssZrS8XH5exYWEbXu/UeWn2YU/Bf937yfNbzPVv8Q=="],
 
-    "@stackflow/plugin-history-sync": ["@stackflow/plugin-history-sync@1.8.1", "", { "dependencies": { "flatted": "^3.3.1", "history": "^5.3.0", "react18-use": "^0.4.1", "url-pattern": "^1.0.3" }, "peerDependencies": { "@stackflow/config": "^1.0.1-canary.0", "@stackflow/core": "^1.1.0-canary.0", "@stackflow/react": "^1.3.2-canary.0", "@types/react": ">=16.8.0", "react": ">=16.8.0" } }, "sha512-hp/X5TSM5f3rWj0LQmw1yYrvID7wksjL/ml8o5U33t8p8JcUvYThcZ7DEhI0QpDI8taPasV1gWOhW2ns6as5Bg=="],
+    "@stackflow/plugin-history-sync": ["@stackflow/plugin-history-sync@2.1.0", "", { "dependencies": { "flatted": "^3.3.1", "history": "^5.3.0", "react18-use": "^0.4.1", "url-pattern": "^1.0.3" }, "peerDependencies": { "@stackflow/config": "^1.1.0 || ^2.0.0", "@stackflow/core": "^3.0.0", "@stackflow/react": "^1.0.0 || ^2.0.0", "@types/react": ">=16.8.0", "react": ">=16.8.0" } }, "sha512-JwMBHU6EhJcSqGU5xrrLEw1hyLncBqsCikZGON59nyJbkD7FHUUL3to1R6l2ZpYM3xmB0gqOSngPTdNECLHozQ=="],
 
     "@stackflow/plugin-renderer-basic": ["@stackflow/plugin-renderer-basic@1.1.13", "", { "peerDependencies": { "@stackflow/core": "^1.1.0-canary.0", "@stackflow/react": "^1.3.2-canary.0", "@types/react": ">=16.8.0", "react": ">=16.8.0" } }, "sha512-8C5QwFagDycFuBLfQ9ynVfpDeO9qeIeGYS3GkZ1Drv3nlc7lE0q1DAGJHLXGLTdra9mzsHCirrGR6sgYa1OA0w=="],
 
@@ -7872,6 +7872,8 @@
     "@sindresorhus/transliterate/escape-string-regexp": ["escape-string-regexp@5.0.0", "", {}, "sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw=="],
 
     "@so-ric/colorspace/color": ["color@5.0.2", "", { "dependencies": { "color-convert": "^3.0.1", "color-string": "^2.0.0" } }, "sha512-e2hz5BzbUPcYlIRHo8ieAhYgoajrJr+hWoceg6E345TPsATMUKqDgzt8fSXZJJbxfpiPzkWyphz8yn8At7q3fA=="],
+
+    "@stackflow/plugin-history-sync/flatted": ["flatted@3.4.4", "", {}, "sha512-5+ybhBZANEJxaH3X5evAFatUxLfEHSr7n6kYJ+1Qd0mUqr4eu9gIf6GDbWHf8RJijHrjjO8G+la14SlL2SeS1Q=="],
 
     "@storybook/react-vite/magic-string": ["magic-string@1.4.5", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.6.0" } }, "sha512-oLLC2+YvQUfAa+vxoufE/yc1icb87M9iXIRqAoR/2EhE/8cb3SF/+Gi0c2By1B+5Vz2e2vQtUvHiu1+63Znh+w=="],
 
