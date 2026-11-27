@@ -4,14 +4,11 @@
 
 ## 개발 서버
 
-저장소 루트에서 `bun install`로 의존성을 준비한다. `portless --version`이 `0.15.3`인지 확인한 뒤 다음 명령을 실행한다.
+저장소 루트에서 `bun install`로 의존성을 준비한 뒤 다음 명령을 실행한다.
 
 ```bash
-cd examples/lynx-spa
-portless run --name ette bun run dev
+bun lynx:dev
 ```
-
-다른 버전이면 서버를 실행하지 않고 전역 지침에 따라 `portless@0.15.3` 설치를 안내한다. 실행 중인 서버를 재사용할 때는 해당 프로세스가 현재 worktree의 `examples/lynx-spa`를 제공하는지 확인한다.
 
 서버가 출력한 `main.lynx.bundle` 주소를 PlayLynx 같은 호스트 앱에서 연다. 실기기에서는 `localhost`가 아니라 기기에서 접근할 수 있는 LAN 주소를 사용한다. `dev` 명령은 필요한 workspace 준비도 수행한다.
 
