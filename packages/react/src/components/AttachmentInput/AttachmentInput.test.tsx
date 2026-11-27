@@ -6,6 +6,8 @@ import { Field } from "@seed-design/react-field";
 import { AttachmentInputRoot, AttachmentInputHiddenInput } from "./AttachmentInput";
 import {
   AttachmentInputItem,
+  AttachmentInputItemDurationBadge,
+  AttachmentInputItemImage,
   AttachmentInputItemRemoveButton,
   AttachmentInputItemReorderHandle,
 } from "./AttachmentInputItem";
@@ -67,6 +69,73 @@ describe("AttachmentInput", () => {
       );
 
       expect(getByRole("listitem")).not.toHaveAttribute("data-dragging");
+    });
+  });
+
+  describe("AttachmentInputItemImage", () => {
+    const imageEntry = {
+      id: "photo-1",
+      file: new File(["photo"], "photo.png", { type: "image/png" }),
+      status: "success" as const,
+    };
+
+    it("renders the preview for an image-only accept", async () => {
+      const { findByRole } = setUp(
+        <AttachmentInputRoot accept="image/*">
+          <AttachmentInputItem fileEntry={imageEntry}>
+            <AttachmentInputItemImage />
+          </AttachmentInputItem>
+        </AttachmentInputRoot>,
+      );
+
+      expect(await findByRole("img", { name: "photo.png" })).toBeInTheDocument();
+    });
+
+    it("renders the preview for a mixed accept when the item is given type image", async () => {
+      const { findByRole } = setUp(
+        <AttachmentInputRoot accept="image/*,video/*">
+          <AttachmentInputItem fileEntry={imageEntry} type="image">
+            <AttachmentInputItemImage />
+          </AttachmentInputItem>
+        </AttachmentInputRoot>,
+      );
+
+      expect(await findByRole("img", { name: "photo.png" })).toBeInTheDocument();
+    });
+
+    it("skips the preview for a mixed accept without type image", () => {
+      const { queryByRole } = setUp(
+        <AttachmentInputRoot accept="image/*,video/*">
+          <AttachmentInputItem fileEntry={imageEntry}>
+            <AttachmentInputItemImage />
+          </AttachmentInputItem>
+        </AttachmentInputRoot>,
+      );
+
+      expect(queryByRole("img")).toBeNull();
+    });
+  });
+
+  describe("AttachmentInputItemDurationBadge", () => {
+    it("renders its children inside the label", () => {
+      const { getByRole } = setUp(
+        <AttachmentInputRoot>
+          <AttachmentInputItem fileEntry={fileEntry} type="image">
+            <AttachmentInputItemDurationBadge role="img" aria-label="재생시간 1시간 2분 5초">
+              1:02:05
+            </AttachmentInputItemDurationBadge>
+          </AttachmentInputItem>
+        </AttachmentInputRoot>,
+      );
+
+      const badge = getByRole("img", { name: "재생시간 1시간 2분 5초" });
+
+      expect(badge.className).toBe(
+        "seed-attachment-input-item__durationBadge seed-attachment-input-item__durationBadge--type_image",
+      );
+      expect(badge.innerHTML).toBe(
+        '<span class="seed-attachment-input-item__durationBadgeLabel seed-attachment-input-item__durationBadgeLabel--type_image">1:02:05</span>',
+      );
     });
   });
 

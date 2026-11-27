@@ -461,23 +461,32 @@ export function useFileUpload({
 
 export type UseFileUploadItemReturn = ReturnType<typeof useFileUploadItem>;
 
-export function useFileUploadItem(fileEntry: FileEntry) {
+export interface UseFileUploadItemOptions {
+  /**
+   * Whether to create the image preview (`imageProps`).
+   * @default `true` when the Root's `acceptType` is `"image"`
+   */
+  imagePreview?: boolean;
+}
+
+export function useFileUploadItem(fileEntry: FileEntry, options: UseFileUploadItemOptions = {}) {
   const { createFileUrl, removeFileEntry, acceptType, readOnly } = useFileUploadContext();
+  const imagePreview = options.imagePreview ?? acceptType === "image";
 
   // Image blob URL management
   const [imageSrc, setImageSrc] = useState<string>();
 
   useEffect(() => {
-    if (acceptType !== "image") return;
+    if (!imagePreview) return;
     if (!fileEntry.file) return;
 
     return createFileUrl(fileEntry.file, setImageSrc);
-  }, [fileEntry.file, createFileUrl, acceptType]);
+  }, [fileEntry.file, createFileUrl, imagePreview]);
 
   return {
     ...fileEntry,
 
-    ...(acceptType === "image" &&
+    ...(imagePreview &&
       imageSrc && {
         imageProps: {
           src: imageSrc,

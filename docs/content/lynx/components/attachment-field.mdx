@@ -237,6 +237,22 @@ import { AttachmentField, AttachmentInput } from "@/components/ui/attachment-fie
   ```
 </LynxComponentExample>
 
+### Video Duration
+
+`AttachmentInputItemDurationBadge`는 동영상의 재생시간을 이미지 아이템의 왼쪽 위에 표시합니다. `seconds`에 초 단위 재생시간을 넘기면 1시간 미만은 `2:05`, 1시간 이상은 `1:02:05` 형식으로 표시합니다. 초 미만은 버리고, 24시간을 넘어도 시간 단위로 누적합니다.
+
+스크린리더에는 "재생시간 1시간 2분 5초" 같은 문구를 `accessibility-label`로 제공합니다. 다른 문구가 필요하면 `accessibility-label`을 직접 넘기세요. 포맷은 `ui:attachment-field`와 함께 설치되는 `lib:format-duration`이 처리합니다.
+
+`accept`에 `video/*`가 포함되면 아이템이 기본적으로 파일 레이아웃으로 표시되고 미리보기를 만들지 않습니다. 동영상을 썸네일로 보여 주려면 `AttachmentInput.Item`에 `type="image"`를 넘겨 이미지 레이아웃으로 바꾸세요. 이미지 레이아웃에서는 `AttachmentInput.ItemImage`가 `previewUrl`(없으면 `uri`)로 미리보기를 렌더링합니다.
+
+Lynx에서는 JS로 동영상의 재생시간과 썸네일을 구할 수 없습니다. 호스트 파일 선택 adapter가 썸네일을 `previewUrl`로, 재생시간을 별도 값으로 넘겨야 합니다. 아래 예제는 adapter가 이 두 값을 준다고 가정한 고정 데이터입니다.
+
+<LynxComponentExample name="lynx/attachment-field/video-duration">
+  ```json doc-gen:file
+  { "file": "examples/lynx/attachment-field/video-duration.tsx", "codeblock": true }
+  ```
+</LynxComponentExample>
+
 ## Lynx 미지원 기능과 앱 대안
 
 ### Dropzone

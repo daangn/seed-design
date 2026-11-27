@@ -49,12 +49,13 @@ export interface AttachmentInputItemProps
 export const AttachmentInputItem = React.forwardRef<HTMLLIElement, AttachmentInputItemProps>(
   ({ className, fileEntry, ...props }, ref) => {
     const { acceptType, stateProps } = useFileUploadContext();
-    const api = useFileUploadItem(fileEntry);
 
     const [variantProps, otherProps] = attachmentInputItem.splitVariantProps({
       type: acceptType,
       ...props,
     });
+
+    const api = useFileUploadItem(fileEntry, { imagePreview: variantProps.type === "image" });
 
     const classNames = attachmentInputItem(variantProps);
     const { scaleFeedbackRef, scaleFeedbackClassName } = useScaleFeedback();
@@ -188,6 +189,27 @@ export const AttachmentInputItemBadge = React.forwardRef<
   );
 });
 AttachmentInputItemBadge.displayName = "AttachmentInputItemBadge";
+
+////////////////////////////////////////////////////////////////////////////////////
+
+export interface AttachmentInputItemDurationBadgeProps
+  extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+
+export const AttachmentInputItemDurationBadge = React.forwardRef<
+  HTMLDivElement,
+  AttachmentInputItemDurationBadgeProps
+>(({ className, children, ...props }, ref) => {
+  const classNames = useClassNames();
+
+  return (
+    // FIXME: `asChild` slots onto the label span below, not this element, so the caller's element
+    // lands inside the badge without its class or ref. Route `children` through `Slottable`.
+    <Primitive.div ref={ref} className={clsx(classNames.durationBadge, className)} {...props}>
+      <Primitive.span className={classNames.durationBadgeLabel}>{children}</Primitive.span>
+    </Primitive.div>
+  );
+});
+AttachmentInputItemDurationBadge.displayName = "AttachmentInputItemDurationBadge";
 
 ////////////////////////////////////////////////////////////////////////////////////
 

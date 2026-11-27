@@ -293,6 +293,27 @@
     font-weight: var(--seed-font-weight-medium);
     color: var(--seed-color-palette-static-white);
 }
+.seed-attachment-input-item__durationBadge--type_image {
+    position: absolute;
+    top: var(--seed-dimension-x1_5);
+    left: var(--seed-dimension-x1_5);
+    display: flex;
+    align-items: center;
+    padding-inline: var(--seed-dimension-x1_5);
+    padding-block: var(--seed-dimension-x0_5);
+    background-color: var(--seed-color-palette-static-black-alpha-800);
+    border-radius: var(--seed-radius-full);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+}
+.seed-attachment-input-item__durationBadgeLabel--type_image {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    font-size: var(--seed-font-size-t1);
+    line-height: var(--seed-line-height-t1);
+    font-weight: var(--seed-font-weight-medium);
+    color: var(--seed-color-palette-static-white);
+}
 .seed-attachment-input-item__backdrop--type_image {
     background: var(--seed-color-bg-overlay);
 }

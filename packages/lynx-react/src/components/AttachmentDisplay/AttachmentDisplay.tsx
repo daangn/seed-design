@@ -537,6 +537,22 @@ export const AttachmentDisplayItemBadge = React.forwardRef<NodesRef, LynxHostPro
 );
 AttachmentDisplayItemBadge.displayName = "AttachmentDisplayItemBadge";
 
+export const AttachmentDisplayItemDurationBadge = React.forwardRef<NodesRef, LynxHostProps<"view">>(
+  (props, ref) => {
+    const { children, className, ...nativeProps } = props;
+    const classes = useItemClassNames();
+    return (
+      <view
+        {...mergeProps(ref ? { ref } : {}, nativeProps)}
+        className={clsx(classes.durationBadge, className)}
+      >
+        <text className={classes.durationBadgeLabel}>{children}</text>
+      </view>
+    );
+  },
+);
+AttachmentDisplayItemDurationBadge.displayName = "AttachmentDisplayItemDurationBadge";
+
 export interface AttachmentDisplayItemActionButtonProps
   extends Omit<LynxHostProps<"view">, "bindtap" | "main-thread:bindtap">, LynxPressableProps {}
 export const AttachmentDisplayItemActionButton = React.forwardRef<
@@ -707,6 +723,7 @@ export const AttachmentDisplay = {
   ItemThumbnail: AttachmentDisplayItemThumbnail,
   ItemMetadata: AttachmentDisplayItemMetadata,
   ItemBadge: AttachmentDisplayItemBadge,
+  ItemDurationBadge: AttachmentDisplayItemDurationBadge,
   ItemActionButton: AttachmentDisplayItemActionButton,
   ItemBackdrop: AttachmentDisplayItemBackdrop,
   ItemRemoveButton: AttachmentDisplayItemRemoveButton,

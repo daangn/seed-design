@@ -89,6 +89,23 @@ export declare const vars: {
         "fontSize": "var(--seed-font-size-t2)",
         "lineHeight": "var(--seed-line-height-t2)",
         "fontWeight": "var(--seed-font-weight-medium)"
+      },
+      "durationBadge": {
+        "color": "var(--seed-color-palette-static-black-alpha-800)",
+        "cornerRadius": "var(--seed-radius-full)",
+        "paddingX": "var(--seed-dimension-x1_5)",
+        "paddingY": "var(--seed-dimension-x0_5)",
+        "fromTop": "var(--seed-dimension-x1_5)",
+        "fromLeft": "var(--seed-dimension-x1_5)",
+        /** 백드롭 블러의 Gaussian 표준편차입니다. CSS `blur()`와 같은 기준이며, Figma Background blur 값의 절반에 해당합니다. */
+        "backdropBlur": "2px"
+      },
+      /** Unicode CLDR의 `en` 로케일에 정의된 `durationUnit` 패턴을 기준으로, 1시간 미만은 `ms`, 1시간 이상은 `hms`를 사용합니다. 초 미만은 버림 처리하며, 24시간을 초과하더라도 일 단위로 분리하지 않고 시간 단위로 누적하여 표시합니다. */
+      "durationBadgeLabel": {
+        "color": "var(--seed-color-palette-static-white)",
+        "fontSize": "var(--seed-font-size-t1)",
+        "lineHeight": "var(--seed-line-height-t1)",
+        "fontWeight": "var(--seed-font-weight-medium)"
       }
     },
     "readonly": {

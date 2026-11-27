@@ -12,6 +12,7 @@ import {
   useAttachmentInputContext,
 } from "@seed-design/lynx-react";
 import { ProgressCircle } from "./progress-circle";
+import { formatDuration, formatDurationLabel } from "../lib/format-duration";
 import type {
   AttachmentFileEntry,
   AttachmentFileStatusDetails,
@@ -22,6 +23,7 @@ import type {
 const LABEL_SELECT_FILE = "파일 선택";
 const LABEL_RETRY = "재시도";
 const LABEL_REMOVE_FILE = "파일 제거";
+const LABEL_DURATION = "재생시간";
 
 type FieldRootRef = React.ComponentRef<typeof SeedField.Root>;
 type FileEntry = AttachmentFileEntry;
@@ -216,5 +218,36 @@ export const AttachmentInputItem = React.forwardRef<
   );
 });
 AttachmentInputItem.displayName = "AttachmentInputItem";
+
+export interface AttachmentInputItemDurationBadgeProps extends Omit<
+  React.ComponentProps<typeof SeedAttachmentInput.ItemDurationBadge>,
+  "children"
+> {
+  /**
+   * The video's duration in seconds. Shown as `m:ss` below an hour and `h:mm:ss` from an hour
+   * on, and read by screen readers as a phrase such as "재생시간 1분 5초".
+   */
+  seconds: number;
+}
+
+/**
+ * @see https://seed-design.io/lynx/components/attachment-field
+ */
+export const AttachmentInputItemDurationBadge = React.forwardRef<
+  React.ComponentRef<typeof SeedAttachmentInput.ItemDurationBadge>,
+  AttachmentInputItemDurationBadgeProps
+>(({ seconds, ...props }, ref) => {
+  return (
+    <SeedAttachmentInput.ItemDurationBadge
+      ref={ref}
+      accessibility-element
+      accessibility-label={`${LABEL_DURATION} ${formatDurationLabel(seconds)}`}
+      {...props}
+    >
+      {formatDuration(seconds)}
+    </SeedAttachmentInput.ItemDurationBadge>
+  );
+});
+AttachmentInputItemDurationBadge.displayName = "AttachmentInputItemDurationBadge";
 
 export type { NativeFile };
