@@ -182,7 +182,14 @@ export declare const componentAccordionItemPrefixCustom: {
   "key": "99419495e8c42b6aa0ec9ad3ae25d6221254266c",
   "componentPropertyDefinitions": {
     "Slot#19948:2": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     }
   }
 };
@@ -374,7 +381,14 @@ export declare const componentListItemDetailCustom: {
   "key": "d56900622b320739b5ce9dc9b12af1bcd1f6eeb4",
   "componentPropertyDefinitions": {
     "Slot#20032:1": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     }
   }
 };
@@ -402,7 +416,14 @@ export declare const componentListItemPrefixAvatar: {
   "key": "27e33754113178be97e07195528c4ea020b3d3b7",
   "componentPropertyDefinitions": {
     "Avatar#19947:1": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": true
+      }
     }
   }
 };
@@ -418,7 +439,14 @@ export declare const componentListItemPrefixCustom: {
   "key": "b8059f5e0f85e0745fc61ff70f04571177c2cdfc",
   "componentPropertyDefinitions": {
     "Slot#19948:3": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     }
   }
 };
@@ -438,7 +466,14 @@ export declare const componentListItemPrefixImage: {
   "key": "d06216ff143a960844799c0b8f9212628f78c69d",
   "componentPropertyDefinitions": {
     "Image Frame#19947:0": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": true
+      }
     }
   }
 };
@@ -483,7 +518,14 @@ export declare const componentListItemSuffixCustom: {
   "key": "26b86c9f8965d38aa5a1181a5cdc89fa487988d1",
   "componentPropertyDefinitions": {
     "Slot#20033:1": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     }
   }
 };
@@ -587,7 +629,14 @@ export declare const componentResultSectionSlot: {
   "key": "f9070757313913615d4408426a1844f92b253a65",
   "componentPropertyDefinitions": {
     "Slot#20627:3": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     }
   }
 };
@@ -597,7 +646,14 @@ export declare const componentSelectBoxSuffixCustom: {
   "key": "2ba92fc0cd161281686bf04767e8f2322c8a17f4",
   "componentPropertyDefinitions": {
     "Slot#20033:0": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     }
   }
 };
@@ -607,7 +663,14 @@ export declare const componentSelectBoxItemPrefixAvatar: {
   "key": "3d1ea583297f35880d9ec588326d9b82608565cc",
   "componentPropertyDefinitions": {
     "Avatar#20029:0": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": true
+      }
     }
   }
 };
@@ -623,7 +686,14 @@ export declare const componentSelectBoxItemPrefixCustom: {
   "key": "8129b7b7804c8b22cf67d42df2383c1f5152298e",
   "componentPropertyDefinitions": {
     "Slot#20029:2": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": false
+      }
     }
   }
 };
@@ -643,7 +713,14 @@ export declare const componentSelectBoxItemPrefixImage: {
   "key": "d4a3d2da63f6da1552f5d8f947105390248c9018",
   "componentPropertyDefinitions": {
     "Image Frame#20029:1": {
-      "type": "SLOT"
+      "type": "SLOT",
+      "slotSettings": {
+        "stretchChildOnInsert": false,
+        "displayEmptyByDefault": true,
+        "minChildren": null,
+        "maxChildren": null,
+        "allowPreferredValuesOnly": true
+      }
     }
   }
 };
