@@ -21,6 +21,11 @@ export interface PreventScrollOptions {
 
 const visualViewport = typeof document !== "undefined" ? window.visualViewport : null;
 
+// WebKit cancels the synthesized click once any touchmove of the gesture is default-prevented,
+// so movement within this distance (CSS px, per axis) is left alone as tap jitter. Matches the
+// Drawer's touch swipe-start threshold, so anything the Drawer still treats as a tap can click.
+const TAP_SLOP = 10;
+
 // The number of active usePreventScroll calls. Used to determine whether to revert back to the
 // original page style/scroll position. Nested modals share one lock via this refcount.
 let preventScrollCount = 0;
@@ -104,12 +109,18 @@ function preventScrollMobileSafari() {
 
   let scrollable: Element | undefined;
   let allowTouchMove = false;
+  let touchStart: { x: number; y: number } | undefined;
+  let isPastTapSlop = false;
 
   const onTouchStart = (e: TouchEvent) => {
     // Store the nearest scrollable parent element from the element that the user touched.
     const target = getEventTarget(e) as Element;
     scrollable = isScrollable(target) ? target : getScrollParent(target, true);
     allowTouchMove = false;
+
+    const touch = e.touches[0];
+    touchStart = touch ? { x: touch.clientX, y: touch.clientY } : undefined;
+    isPastTapSlop = false;
 
     // If the target is selected, don't preventDefault in touchmove to allow adjusting the selection.
     const selection = target.ownerDocument.defaultView?.getSelection();
@@ -137,6 +148,19 @@ function preventScrollMobileSafari() {
   const onTouchMove = (e: TouchEvent) => {
     // Allow pinch-zooming.
     if (e.touches.length === 2 || allowTouchMove) return;
+
+    if (!isPastTapSlop) {
+      const touch = e.touches[0];
+      if (
+        touchStart &&
+        touch &&
+        Math.abs(touch.clientX - touchStart.x) <= TAP_SLOP &&
+        Math.abs(touch.clientY - touchStart.y) <= TAP_SLOP
+      )
+        return;
+
+      isPastTapSlop = true;
+    }
 
     // Prevent scrolling the window.
     if (!scrollable || scrollable === document.documentElement || scrollable === document.body) {
