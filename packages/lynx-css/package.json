@@ -62,7 +62,7 @@
   "devDependencies": {
     "@seed-design/lynx-qvism-preset": "0.0.0",
     "@seed-design/qvism-cli": "0.0.0",
-    "@seed-design/rootage-artifacts": "3.5.0",
+    "@seed-design/rootage-artifacts": "3.6.0",
     "@seed-design/rootage-cli": "0.0.0",
     "@seed-design/rootage-core": "0.0.0"
   },
