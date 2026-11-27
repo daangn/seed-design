@@ -192,10 +192,6 @@ AttachmentDisplayItemBadge.displayName = "AttachmentDisplayItemBadge";
 export interface AttachmentDisplayItemDurationBadgeProps
   extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-/**
- * Shows a video's duration as a pill at the top-left of an item. Screen readers announce
- * the visible text as-is, so pass `role="img"` with an `aria-label` such as "재생시간 1분 5초".
- */
 export const AttachmentDisplayItemDurationBadge = React.forwardRef<
   HTMLDivElement,
   AttachmentDisplayItemDurationBadgeProps
