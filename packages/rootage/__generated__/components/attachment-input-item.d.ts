@@ -166,9 +166,11 @@ declare const artifact: {
             "paddingY": {
               "type": "dimension";
             };
-            "offset": {
+            "fromTop": {
               "type": "dimension";
-              "description": "항목의 왼쪽 끝과 위 끝에서 떨어진 거리입니다.";
+            };
+            "fromLeft": {
+              "type": "dimension";
             };
             "backdropBlur": {
               "type": "dimension";
@@ -491,7 +493,11 @@ declare const artifact: {
                   "type": "dimension";
                   "value": "$dimension.x0_5";
                 };
-                "offset": {
+                "fromTop": {
+                  "type": "dimension";
+                  "value": "$dimension.x1_5";
+                };
+                "fromLeft": {
                   "type": "dimension";
                   "value": "$dimension.x1_5";
                 };

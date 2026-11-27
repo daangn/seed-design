@@ -104,9 +104,10 @@ data:
             type: dimension
           paddingY:
             type: dimension
-          offset:
+          fromTop:
             type: dimension
-            description: 항목의 왼쪽 끝과 위 끝에서 떨어진 거리입니다.
+          fromLeft:
+            type: dimension
           backdropBlur:
             type: dimension
             description: 백드롭 블러의 Gaussian 표준편차입니다. CSS `blur()`와 같은 기준이며, Figma Background blur 값의 절반에 해당합니다.
@@ -198,7 +199,8 @@ data:
           cornerRadius: $radius.full
           paddingX: $dimension.x1_5
           paddingY: $dimension.x0_5
-          offset: $dimension.x1_5
+          fromTop: $dimension.x1_5
+          fromLeft: $dimension.x1_5
           backdropBlur: 2px
         durationBadgeLabel:
           color: $color.palette.static-white

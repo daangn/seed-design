@@ -31,7 +31,6 @@ export declare const vars: {
       },
       /** dragging 상태에서는 표시되지 않습니다. */
       "removeButtonMask": {
-        /** 항목의 왼쪽 끝과 위 끝에서 떨어진 거리입니다. */
         "offset": "var(--seed-dimension-x1_5)",
         "size": "var(--seed-dimension-x6)"
       }
@@ -94,8 +93,8 @@ export declare const vars: {
         "cornerRadius": "var(--seed-radius-full)",
         "paddingX": "var(--seed-dimension-x1_5)",
         "paddingY": "var(--seed-dimension-x0_5)",
-        /** 항목의 왼쪽 끝과 위 끝에서 떨어진 거리입니다. */
-        "offset": "var(--seed-dimension-x1_5)",
+        "fromTop": "var(--seed-dimension-x1_5)",
+        "fromLeft": "var(--seed-dimension-x1_5)",
         /** 백드롭 블러의 Gaussian 표준편차입니다. CSS `blur()`와 같은 기준이며, Figma Background blur 값의 절반에 해당합니다. */
         "backdropBlur": "2px"
       },

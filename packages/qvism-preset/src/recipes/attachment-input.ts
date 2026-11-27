@@ -492,8 +492,8 @@ const attachmentInputItem = defineSlotRecipe({
         },
         durationBadge: {
           position: "absolute",
-          top: itemVars.typeImage.enabled.durationBadge.offset,
-          left: itemVars.typeImage.enabled.durationBadge.offset,
+          top: itemVars.typeImage.enabled.durationBadge.fromTop,
+          left: itemVars.typeImage.enabled.durationBadge.fromLeft,
 
           display: "flex",
           alignItems: "center",

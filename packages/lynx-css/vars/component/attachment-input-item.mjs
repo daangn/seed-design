@@ -92,7 +92,8 @@ export const vars = {
         "cornerRadius": "var(--seed-radius-full)",
         "paddingX": "var(--seed-dimension-x1_5)",
         "paddingY": "var(--seed-dimension-x0_5)",
-        "offset": "var(--seed-dimension-x1_5)",
+        "fromTop": "var(--seed-dimension-x1_5)",
+        "fromLeft": "var(--seed-dimension-x1_5)",
         "backdropBlur": "2px"
       },
       "durationBadgeLabel": {
