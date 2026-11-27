@@ -112,22 +112,31 @@ Lynx의 전체 설정과 제한사항은 [Lynx Tailwind 가이드](https://seed-
 
 ### 반응형 breakpoint
 
-`breakpoints.css`를 불러오면 SEED breakpoint를 `sm:`, `md:`, `lg:`, `xl:` 변형으로 쓸 수 있습니다. 값은 `@seed-design/css/breakpoints`와 같은 원천에서 생성됩니다. 다음 major 버전부터는 `@seed-design/tailwind4-theme`에 포함해 기본으로 적용할 예정입니다.
-
-```css
-@import "tailwindcss";
-@import "@seed-design/tailwind4-theme";
-@import "@seed-design/tailwind4-theme/breakpoints.css";
-```
-
 ```jsx
 <div className="flex flex-col md:flex-row">md 이상에서 가로 배치</div>
 ```
 
+SEED breakpoint를 `sm:`, `md:`, `lg:`, `xl:` 변형으로 제공합니다. 값은 `@seed-design/css/breakpoints`와 같은 원천에서 생성됩니다.
+
 - Tailwind 기본 `--breakpoint-*`를 초기화하고 SEED 값으로 대체합니다. 그래서 `2xl:` 변형은 없습니다. 접두사 없는 클래스가 `base`에 해당합니다.
-- `breakpoints.css`는 `tailwindcss` 뒤에 불러오세요. 앞에 두면 Tailwind 기본값이 다시 적용됩니다.
 - CSS의 `@theme`에 SEED 값을 복제해 두었다면 지우세요.
-- breakpoint를 추가하려면 `breakpoints.css` 뒤의 `@theme`에 `--breakpoint-*`를 선언하세요. Tailwind는 변형을 값 순서로 정렬하므로 SEED와 같이 `px` 단위를 쓰세요.
+- breakpoint를 추가하려면 `@import "@seed-design/tailwind4-theme";` 뒤의 `@theme`에 `--breakpoint-*`를 선언하세요. Tailwind는 변형을 값 순서로 정렬하므로 SEED와 같이 `px` 단위를 쓰세요.
+- `@seed-design/tailwind4-theme/breakpoints.css`는 이제 빈 파일입니다. 이전 버전에서 opt-in하려고 불러왔다면 지워도 됩니다. 이 경로는 다음 major 버전에서 제거됩니다.
+
+Tailwind 기본 breakpoint를 계속 쓰려면 `@seed-design/tailwind4-theme` 뒤에서 다시 선언하세요.
+
+```css
+@import "tailwindcss";
+@import "@seed-design/tailwind4-theme";
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
+}
+```
 
 ## 지원하는 토큰
 
