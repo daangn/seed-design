@@ -28,7 +28,7 @@
     "cosmiconfig": "^9.0.0"
   },
   "devDependencies": {
-    "@types/node": "^25.0.0",
+    "@types/node": "^26.0.0",
     "typescript": "^6.0.3"
   },
   "publishConfig": {

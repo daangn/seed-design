@@ -145,7 +145,7 @@
         "@types/hast": "^3.0.5",
         "@types/mdast": "^4.0.4",
         "@types/mdx": "^2.0.13",
-        "@types/node": "^25.0.0",
+        "@types/node": "^26.0.0",
         "@types/qrcode": "1.5.6",
         "@types/react": "^19.2.7",
         "@types/react-dom": "^19.2.3",
@@ -188,7 +188,7 @@
       },
       "devDependencies": {
         "@types/fs-extra": "^11.0.4",
-        "@types/node": "^25.0.0",
+        "@types/node": "^26.0.0",
         "esbuild": "^0.28.0",
         "typescript": "^7.0.2",
       },
@@ -228,7 +228,7 @@
         "cosmiconfig": "^9.0.0",
       },
       "devDependencies": {
-        "@types/node": "^25.0.0",
+        "@types/node": "^26.0.0",
         "typescript": "^6.0.3",
       },
     },
@@ -243,7 +243,7 @@
         "postcss-nested": "^7.0.2",
       },
       "devDependencies": {
-        "@types/node": "^25.0.0",
+        "@types/node": "^26.0.0",
         "csstype": "^3.1.3",
         "typescript": "^6.0.3",
       },
@@ -264,7 +264,7 @@
       },
       "devDependencies": {
         "@types/fs-extra": "^11.0.4",
-        "@types/node": "^25.0.0",
+        "@types/node": "^26.0.0",
         "@types/yargs": "^17.0.33",
         "esbuild": "^0.28.0",
         "typescript": "^7.0.2",
@@ -279,7 +279,7 @@
         "yaml": "^2.7.1",
       },
       "devDependencies": {
-        "@types/node": "^25.0.0",
+        "@types/node": "^26.0.0",
         "typescript": "^6.0.3",
       },
     },
@@ -398,7 +398,7 @@
         "@playwright/test": "^1.61.1",
         "@seed-design/cli": "1.7.4",
         "@seed-design/vite-plugin": "^2.1.1",
-        "@types/node": "^25.0.0",
+        "@types/node": "^26.0.0",
         "@types/react": "^19.2.7",
         "@types/react-dom": "^19.2.3",
         "@vanilla-extract/vite-plugin": "^5.1.1",
@@ -441,7 +441,7 @@
         "@types/babel__core": "^7.20.5",
         "@types/findup-sync": "^4.0.5",
         "@types/fs-extra": "^11.0.4",
-        "@types/node": "^25.0.0",
+        "@types/node": "^26.0.0",
         "dotenv": "^17.2.3",
         "esbuild": "^0.28.0",
         "type-fest": "^6.0.0",
@@ -468,7 +468,7 @@
       },
       "devDependencies": {
         "@types/jscodeshift": "^17.3.0",
-        "@types/node": "^25.0.0",
+        "@types/node": "^26.0.0",
         "csv-parse": "^7.0.0",
         "dotenv": "^17.0.0",
         "esbuild": "^0.28.0",
@@ -508,7 +508,7 @@
         "zod": "^4.3.5",
       },
       "devDependencies": {
-        "@types/node": "^25.0.0",
+        "@types/node": "^26.0.0",
         "bunchee": "^7.0.0",
         "typescript": "^6.0.3",
       },
@@ -1364,7 +1364,7 @@
       },
       "devDependencies": {
         "@figma/rest-api-spec": "^0.47.0",
-        "@types/node": "^25.0.0",
+        "@types/node": "^26.0.0",
         "@types/ws": "^8.18.1",
         "@types/yargs": "^17.0.33",
         "typescript": "^6.0.3",
@@ -1439,7 +1439,7 @@
         "unicode-segmenter": "^0.17.3",
       },
       "devDependencies": {
-        "@types/node": "^25.0.0",
+        "@types/node": "^26.0.0",
         "@types/react": "^19.2.2",
         "@types/react-dom": "^19.2.1",
         "@vitejs/plugin-react": "^6.0.0",
@@ -2548,7 +2548,7 @@
       "devDependencies": {
         "@figma/plugin-typings": "^1.130.0",
         "@figma/rest-api-spec": "^0.47.0",
-        "@types/node": "^25.0.0",
+        "@types/node": "^26.0.0",
         "@types/react": "^19.1.6",
         "@types/react-dom": "^19.1.5",
         "@vitejs/plugin-react": "^6.0.0",
@@ -2596,7 +2596,7 @@
       "devDependencies": {
         "@figma/plugin-typings": "^1.130.0",
         "@seed-design/figma-extractor": "^2.0.1",
-        "@types/node": "^25.0.0",
+        "@types/node": "^26.0.0",
         "@types/react": "^19.1.6",
         "@types/react-dom": "^19.1.5",
         "@vitejs/plugin-react": "^6.0.0",
@@ -4647,7 +4647,7 @@
 
     "@types/nlcst": ["@types/nlcst@2.0.3", "", { "dependencies": { "@types/unist": "*" } }, "sha512-vSYNSDe6Ix3q+6Z7ri9lyWqgGhJTmzRjZRqyq15N0Z/1/UnVsno9G/N40NBijoYx2seFDIl0+B2mgAb9mezUCA=="],
 
-    "@types/node": ["@types/node@25.1.0", "", { "dependencies": { "undici-types": "~7.16.0" } }, "sha512-t7frlewr6+cbx+9Ohpl0NOTKXZNV9xHRmNOvql47BFJKcEG1CxtxlPEEe+gR9uhVWM4DwhnvTF110mIL4yP9RA=="],
+    "@types/node": ["@types/node@26.6.10", "", { "dependencies": { "undici-types": "~8.9.0" } }, "sha512-WJuPHoGB8WNQuTksNF7SOQpnH02PXeDYz4iueWbBT6/hTWnShY5F3T/hoJA3fY9+uYReDZ7pyTKKx83jQa7aGg=="],
 
     "@types/normalize-package-data": ["@types/normalize-package-data@2.4.4", "", {}, "sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA=="],
 
@@ -7171,7 +7171,7 @@
 
     "undici": ["undici@8.12.4", "", {}, "sha512-8Mx+uNKKER2bA4AdtedkqRbwUCIJFr2nJckXRe5yrDqzePqwLP7VNcctN8/XdmDSbF7mS+jJKIszlL+vbam1VA=="],
 
-    "undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
+    "undici-types": ["undici-types@8.9.0", "", {}, "sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg=="],
 
     "unenv": ["unenv@2.0.0-rc.21", "", { "dependencies": { "defu": "^6.1.4", "exsolve": "^1.0.7", "ohash": "^2.0.11", "pathe": "^2.0.3", "ufo": "^1.6.1" } }, "sha512-Wj7/AMtE9MRnAXa6Su3Lk0LNCfqDYgfwVjwRFVum9U7wsto1imuHqk4kTm7Jni+5A0Hn7dttL6O/zjvUvoo+8A=="],
 

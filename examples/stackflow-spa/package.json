@@ -41,7 +41,7 @@
     "@playwright/test": "^1.61.1",
     "@seed-design/cli": "1.7.4",
     "@seed-design/vite-plugin": "^2.1.1",
-    "@types/node": "^25.0.0",
+    "@types/node": "^26.0.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vanilla-extract/vite-plugin": "^5.1.1",
