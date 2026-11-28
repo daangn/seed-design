@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
-          node-version: "24"
+          node-version: "26"
       - id: review
         run: npx --yes --registry=https://registry.npmjs.org/ --@kaptures:registry=https://registry.npmjs.org/ "@kaptures/cli@$KAPTURE_CLI_VERSION" github prepare-review --allow-initial-adoption --adapter-package-json docs/package.json --base-branch "$KAPTURE_BASE_BRANCH" --expected-pr-number "$KAPTURE_PR_NUMBER" --output "${{ runner.temp }}/kapture-review" --receipt "${{ runner.temp }}/kapture-receipt.json" --include-storybook
       # 완성된 배포 폴더의 한도만 검사합니다. 별도 API 호출·예약 작업·삭제는 없습니다.
@@ -123,5 +123,5 @@ jobs:
     steps:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         with:
-          node-version: "24"
+          node-version: "26"
       - run: npx --yes --registry=https://registry.npmjs.org/ --@kaptures:registry=https://registry.npmjs.org/ "@kaptures/cli@$KAPTURE_CLI_VERSION" github finalize-run --allow-initial-adoption --adapter-package-json docs/package.json --base-branch "$KAPTURE_BASE_BRANCH" --expected-pr-number "$KAPTURE_PR_NUMBER" --capture-workflow-path .github/workflows/kapture-capture.yml

@@ -35,7 +35,7 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
         if: steps.policy.outputs.supported == 'true'
         with:
-          node-version: "24"
+          node-version: "26"
       - env:
           GITHUB_TOKEN: ${{ github.token }}
         if: steps.policy.outputs.supported == 'true'
